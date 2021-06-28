@@ -1,0 +1,218 @@
+
+.sideBar{
+    width: 100%;
+    max-width: 313px;
+    /* max-height: 100vh;
+    min-height: 100vh; */
+    background: var(--primary-bg-color);
+    background-color: var(--primary-bg-color);
+    color: #fff;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    border-bottom: 1px solid rgb(235, 235, 235);
+    transition: all .3s ease;
+    
+}
+.sidebar_Inner{
+    width: 100%;
+}
+
+.sideTop{
+    min-height: 110px;
+    position: fixed;
+    padding:30px;
+    width: 313px;
+    background: rgb(52 58 64);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.sideTopLogo{
+    width: 100%;
+}
+.navigation{
+    position: fixed;
+    top: 110px;
+    width: 313px;
+    height: calc(100vh - 120px);
+    background: #343A40;
+    overflow: auto;
+}
+.navigation::-webkit-scrollbar {
+    width: 2px;
+  }
+   
+  .navigation::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 2px #FF4F4F;
+  }
+   
+  .navigation::-webkit-scrollbar-thumb {
+    background-color: #FF4F4F;
+    outline: 1px solid #FF4F4F;
+
+  }
+.nav_inner ul{
+    margin: 0;
+    margin: 0
+}
+.nav_inner ul li
+{   
+    margin: 0;
+    margin-bottom: 0;
+}
+
+.nav_inner ul li a
+{
+    display: block;
+    
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 16px 16px 16px 40px;
+    background: transparent;
+    border-radius: 0 100px 100px 0;
+    color: rgb(255 255 255);
+    font-size: 16px;
+    line-height: 18px;
+    margin: 12px 16px 12px 0;
+    transition: all .3s ease;
+    line-height: 20px;
+    font-weight: 500;
+    letter-spacing: .1px;
+    display: flex;
+    align-items: center;
+}
+.nav_inner ul li a.active
+{
+    background: #fff;
+    color:#343A40;
+}
+.nav_inner ul li a:hover
+{
+    background: #fff;
+    color:#343A40;
+}
+
+
+.nav_inner ul li a span{
+    margin-right: 12px;
+    font-size: 14px;
+}
+.nav_inner ul li a span.arrowOpenClosed{
+    margin-left: auto;
+    display: block;
+    transition: all .3s ease;
+}
+.nav_inner ul li a span.arrowOpenClosed.openSubM{
+    transform: rotate(
+        90deg
+        );
+}
+
+.nav_inner ul li ul li a{
+    color: #fff;
+    padding: 16px 16px 16px 64px;
+    margin: 0;
+    align-items: flex-start;
+}
+.nav_inner ul li ul li a:hover{
+    color: #FF4F4F;
+    background: transparent;
+
+}
+.nav_inner ul li ul li a.active{
+    color: #FF4F4F;
+    background: transparent;
+
+}
+.nav_inner ul li ul li a span{
+    margin-right: 10px;
+    font-size: 8px;
+    margin-top: 8px;
+}
+
+.adminiH
+{
+    font-size: 17px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 20px;
+    letter-spacing: 0.10000000149011612px;
+    text-align: left;
+    color: rgb(255 255 255);
+    text-transform: uppercase;
+    padding: 16px 16px 16px 40px;
+    margin: 12px 16px 12px 0;
+}
+
+.subNav {
+    position: fixed;
+    width: 278px;
+    height: 100vh;
+    z-index: 1;
+    left: 17%;
+    top: 09%;
+    background: #fff;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    padding-left: 1%;
+    padding-right: 1%;
+    list-style: none !important;
+    overflow-y: scroll;
+}
+
+::-webkit-scrollbar {
+    width: 3px;
+   
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px black; 
+    border-radius: 10px;
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #FF4F4F; 
+    border-radius: 10px;
+    
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #FF4F4F; 
+  }
+
+.subNav li {
+    border-bottom: 1px solid #dde1e3;
+    color: #343A40;
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 500;
+    display: flex;
+    justify-content: left;
+    padding-left: 5%;
+    align-items: center;
+    height: 60px;
+}
+
+.subNav li a {
+    color: #343A40 !important;
+    padding:0 !important;
+}
+
+.subNav li a  span {
+    font-size: 14px !important;
+    margin-top: 3px !important;
+}
+
+.subTitleUl {
+    font-size: 30px;
+    font-weight: 600;
+    line-height: 20px;
+    padding:0;
+    text-transform: capitalize;
+    
+}

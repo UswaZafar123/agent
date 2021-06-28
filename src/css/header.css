@@ -1,0 +1,153 @@
+.navBar{
+    width: 100%;
+    max-width: calc(100% - 313px);
+    min-height: 83px;
+    background: rgb(255, 255, 255);
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* border-bottom: 1px solid rgb(235, 235, 235); */
+    position: fixed;
+    left: 313px;
+    top: 0;
+    z-index: 999;
+}
+.navBar_Inner{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    width: 100%;
+    padding: 0 24px;
+}
+.lnp{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.profile_wrapper{
+    width: 38px;
+    height: 38px;
+    max-width: 38px;
+    max-height: 38px;
+    min-width: 38px;
+    min-height: 38px;
+    border-radius: 100%;
+    overflow: hidden;
+    background: rgb(42 69 125);
+    position: relative;
+}
+
+
+.profile_wrapper img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.hBell{
+    position: relative;
+    margin-right: 36px;
+}
+
+.mobileLogo{
+    display: none;
+}
+
+
+
+/* for Sara Banking */
+.search_w{
+    width: 42%;
+}
+.search_w input{
+    border: 0px solid transparent;
+    background: rgb(242 242 242);
+    border-radius: 100px;
+    height: 44px;
+    outline: none;
+    padding: 12px;
+    padding-left: 42px; 
+    position: relative;
+    width: 100%;
+
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: 0.10000000149011612px;
+
+}
+.search_w::before{
+    position: absolute;
+    content: "\e922";
+    color: #caccce;
+    font-family: 'icomoon' !important;
+    font-style: normal;
+    font-weight: normal;
+    font-feature-settings: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+
+    left: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+.nameDesig{
+    margin-right: 12px;
+}
+.nameDesig h3{
+    font-style: normal;
+    font-weight: normal;
+    font-size: 14px;
+    line-height: 21px;
+    color: #6E6B7B;
+    margin: 0;
+    text-align: right;
+}
+.nameDesig h4{
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: 0px;
+    color: #B9B9C3;
+    margin: 0;
+    text-align: right;
+}
+.notificationMark{
+    width: 18px;
+    height: 18px;
+    background: #EA5455;
+    position: absolute;
+    border-radius: 9px;
+
+    font-family: 'Montserrat', sans-serif !important;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 18px;
+    letter-spacing: 0px;
+    text-align: center;
+    color: #fff;
+    top: -8px;
+    right: -8px;
+    font-family: 'Roboto', sans-serif !important;
+}
+.langue{
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 21px;
+    letter-spacing: 0px;
+    text-align: right;
+    color: #6E6B7B;
+    margin: 0;
+    margin-right: 12px;
+    font-family: 'Roboto', sans-serif !important;
+}
