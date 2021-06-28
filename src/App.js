@@ -8,7 +8,9 @@ import logoBg from "./Assets/images/bgLogowater.svg";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import AgentRouting from "./Component/Agent/agentRouting";
 import Dashboard from "./Component/Agent/dashboard";
-
+import Transaction from "./Component/Agent/Transaction";
+import AccessHistory from "./Component/AccessHistory/accessHistory";
+import Ticket from "./Component/Agent/Ticket";
 
 export const App=(props) =>{
   return (
@@ -35,6 +37,10 @@ export const App=(props) =>{
           <Switch>
             <Redirect exact from="/agent" to="/agent/dashboard" />
             <Route path="/agent/dashboard" component={Dashboard} />
+            <Route path="/agent/transcations" component={Transaction} />
+            <Route path="/agent/access-history" component={AccessHistory} />
+            <Route path="/agent/tickets" component={Ticket} />
+
           </Switch>
         </div>
       </div>

@@ -1,26 +1,19 @@
-import React, { Component } from "react";
-import "../../css/dashboard.css";
-import Highcharts from "highcharts";
+import React, { Component } from 'react';
+import '../../css/dashboard.css';
+import Highcharts from 'highcharts';
 import variablePie from "highcharts/modules/variable-pie.js";
-import HighchartsReact from "highcharts-react-official";
+import HighchartsReact from 'highcharts-react-official';
 
-import ReactHighcharts from "react-highcharts";
-import HighchartsMore from "highcharts/highcharts-more";
+import ReactHighcharts from 'react-highcharts';
+import HighchartsMore from 'highcharts/highcharts-more';
 
-import highcharts3d from "highcharts/highcharts-3d";
-import CountUp from "react-countup";
-import $ from 'jquery'
-import { connect } from "react-redux";
-import {
-  summary,
-  getCurrency,
-  RevenueMerchant,
-  AmountCollectedLastThirtyDays
-} from "../../services/admin/action";
-import { Select, DatePicker } from "antd";
-import moment from "moment";
+import highcharts3d from 'highcharts/highcharts-3d';
+import ProgressBar from "@ramonak/react-progress-bar";
 
-const dateFormat = "YYYY/MM/DD";
+
+import { Select, DatePicker } from 'antd';
+import moment from 'moment';
+const dateFormat = 'YYYY/MM/DD';
 // const customFormat = value => `custom format: ${value.format(dateFormat)}`;
 const { Option } = Select;
 
@@ -32,79 +25,66 @@ variablePie(Highcharts);
 highcharts3d(Highcharts);
 HighchartsMore(ReactHighcharts.Highcharts);
 
+
+
 function handleChange(value) {
   console.log(`selected ${value}`);
 }
 
+
 class Dashboard extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
       fromDivHeight: null,
-      users: null,
-      clients: null,
-      merchants: null,
-      tickets: null,
-      currency: [],
-      intialdateRevenueMerchant: "",
-      finaldateRevenueMerchant: "",
-      revenueMerchantSelectedCurrency: "XAF",
-      merchantRevenueData: [],
-      merchantRevenueKey: [],
-      toatalRevenueMerchant:null,
-      firstone:"active",
-      secondone:"",
-      thirdone:"",
-      fourthone:"",
-      fifthone:"",
-      amountCollectedKey:[],
-      amountCollectedValue:[],
 
       options: {
         chart: {
-          type: "pie",
+          type: 'pie',
           height: 300,
           options3d: {
             enabled: true,
             alpha: 20,
-            beta: 25,
-          },
+            beta: 25
+          }
         },
         credits: {
-          enabled: false,
+          enabled: false
         },
         title: {
-          text: "",
+          text: '',
+
         },
         accessibility: {
           point: {
-            valueSuffix: "%",
-          },
+            valueSuffix: '%'
+          }
         },
         accessibility: {
           point: {
-            valueSuffix: "%",
-          },
+            valueSuffix: '%'
+          }
         },
         tooltip: {
-          pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>",
+          pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
         },
         plotOptions: {
           pie: {
             allowPointSelect: true,
-            cursor: "pointer",
+            cursor: 'pointer',
             depth: 20,
             showInLegend: true,
             dataLabels: {
               enabled: false,
-              format: "{point.name}",
-            },
-          },
+              format: '{point.name}'
+            }
+          }
         },
         legend: {
-          align: "left",
-          verticalAlign: "bottom",
-          layout: "horizontal",
+          align: 'left',
+          verticalAlign: 'bottom',
+          layout: 'horizontal',
           // x: -50,
           // y: 120,
           symbolPadding: 0,
@@ -114,93 +94,186 @@ class Dashboard extends Component {
           useHTML: true,
           symbolWidth: 0,
           labelFormatter: function () {
-            return (
-              '<div><div class="dsFle"><span class="chartDot" style="border:2px solid ' +
-              this.color +
-              '"></span>' +
-              this.name +
-              " (" +
-              this.y +
-              "%)</div></div>"
-            );
+            return '<div><div class="dsFle"><span class="chartDot" style="border:2px solid ' + this.color + '"></span>' + this.name + ' (' + this.y + '%)</div></div>';
           },
           itemStyle: {
-            color: "#343A40",
-            fontWeight: "bold",
-            fontSize: "14px",
+            color: '#343A40',
+            fontWeight: 'bold',
+            fontSize: '14px',
             lineHeight: "20px",
-            fontFamily: "Lato",
-          },
+            fontFamily: 'Lato'
+          }
         },
-        series: [
-          {
-            type: "pie",
-            name: " ",
-            slicedOffset: 15,
-            borderColor: "white",
-            data: [
-              {
-                name: "AGENT",
-                y: 20,
-                sliced: true,
-                color: "#FF3A2F",
-              },
-              {
-                name: "MERCHANT",
-                y: 80,
-                sliced: true,
-                selected: true,
-                color: "#787878",
-              },
-            ],
+        series: [{
+          type: 'pie',
+          name: ' ',
+          slicedOffset: 15,
+          borderColor: 'white',
+          data: [
+
+            {
+              name: 'AGENT',
+              y: 20,
+              sliced: true,
+              color: "#FF3A2F"
+            },
+            {
+              name: 'MERCHANT',
+              y: 80,
+              sliced: true,
+              selected: true,
+              color: "#787878"
+            },
+
+          ]
+        }]
+      },
+      transectionPerc1: {
+        chart: {
+          type: 'pie',
+          height: 300,
+          options3d: {
+            enabled: true,
+            alpha: 20,
+            beta: 20
+          }
+        },
+        credits: {
+          enabled: false
+        },
+        title: {
+          text: '',
+
+        },
+        accessibility: {
+          point: {
+            valueSuffix: '%'
+          }
+        },
+        accessibility: {
+          point: {
+            valueSuffix: '%'
+          }
+        },
+        tooltip: {
+          pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+          pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            depth: 20,
+            showInLegend: true,
+            dataLabels: {
+              enabled: false,
+              format: '{point.name}'
+            }
+          }
+        },
+        legend: {
+          align: 'left',
+          verticalAlign: 'bottom',
+          layout: 'horizontal',
+          // x: -50,
+          // y: 120,
+          symbolPadding: 0,
+          symbolWidth: 0.1,
+          symbolHeight: 0.1,
+          symbolRadius: 0,
+          useHTML: true,
+          symbolWidth: 0,
+          labelFormatter: function () {
+            return '<div><div class="dsFle"><span class="chartDot" style="border:2px solid ' + this.color + '"></span>' + this.name + ' (' + this.y + '%)</div></div>';
           },
-        ],
+          itemStyle: {
+            color: '#343A40',
+            fontWeight: 'bold',
+            fontSize: '14px',
+            lineHeight: "20px",
+            fontFamily: 'Lato'
+          }
+        },
+        series: [{
+          type: 'pie',
+          name: ' ',
+          slicedOffset: 10,
+          borderColor: 'white',
+          data: [
+
+            {
+              name: 'Shop 1 (40%)',
+              y: 40,
+              sliced: true,
+              color: "#757575"
+            },
+            {
+              name: 'Shop 2 (20%)',
+              y: 40,
+              sliced: true,
+              color: "#ADAEB0"
+            },
+            {
+              name: 'Shop 3 (20%)',
+              y: 70,
+              sliced: true,
+              color: "#FE514E"
+            },
+            {
+              name: 'Shop 4  (20%)',
+              y: 60,
+              sliced: true,
+              color: "#434343"
+            },
+
+          ]
+        }]
       },
       transectionPerc: {
         chart: {
-          type: "pie",
+          type: 'pie',
           height: 300,
           options3d: {
             enabled: true,
             alpha: 20,
-            beta: 20,
-          },
+            beta: 20
+          }
         },
         credits: {
-          enabled: false,
+          enabled: false
         },
         title: {
-          text: "",
+          text: '',
+
         },
         accessibility: {
           point: {
-            valueSuffix: "%",
-          },
+            valueSuffix: '%'
+          }
         },
         accessibility: {
           point: {
-            valueSuffix: "%",
-          },
+            valueSuffix: '%'
+          }
         },
         tooltip: {
-          pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>",
+          pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
         },
         plotOptions: {
           pie: {
             allowPointSelect: true,
-            cursor: "pointer",
+            cursor: 'pointer',
             depth: 20,
             showInLegend: true,
             dataLabels: {
               enabled: false,
-              format: "{point.name}",
-            },
-          },
+              format: '{point.name}'
+            }
+          }
         },
         legend: {
-          align: "left",
-          verticalAlign: "bottom",
-          layout: "horizontal",
+          align: 'left',
+          verticalAlign: 'bottom',
+          layout: 'horizontal',
           // x: -50,
           // y: 120,
           symbolPadding: 0,
@@ -210,219 +283,269 @@ class Dashboard extends Component {
           useHTML: true,
           symbolWidth: 0,
           labelFormatter: function () {
-            return (
-              '<div><div class="dsFle"><span class="chartDot" style="border:2px solid ' +
-              this.color +
-              '"></span>' +
-              this.name +
-              " (" +
-              this.y +
-              "%)</div></div>"
-            );
+            return '<div><div class="dsFle"><span class="chartDot" style="border:2px solid ' + this.color + '"></span>' + this.name + ' (' + this.y + '%)</div></div>';
           },
           itemStyle: {
-            color: "#343A40",
-            fontWeight: "bold",
-            fontSize: "14px",
+            color: '#343A40',
+            fontWeight: 'bold',
+            fontSize: '14px',
             lineHeight: "20px",
-            fontFamily: "Lato",
-          },
+            fontFamily: 'Lato'
+          }
         },
-        series: [
-          {
-            type: "pie",
-            name: " ",
-            slicedOffset: 10,
-            borderColor: "white",
-            data: [
-              {
-                name: "DEPOSIT",
-                y: 20,
-                sliced: true,
-                color: "#757575",
-              },
-              {
-                name: "PAYOUT",
-                y: 20,
-                sliced: true,
-                color: "#ADAEB0",
-              },
-              {
-                name: "TRANSFER",
-                y: 80,
-                sliced: true,
-                color: "#FE514E",
-              },
-              {
-                name: "OTHERS",
-                y: 80,
-                sliced: true,
-                color: "#434343",
-              },
-            ],
-          },
-        ],
+        series: [{
+          type: 'pie',
+          name: ' ',
+          slicedOffset: 10,
+          borderColor: 'white',
+          data: [
+
+            {
+              name: 'DEPOSIT',
+              y: 40,
+              sliced: true,
+              color: "#757575"
+            },
+            {
+              name: 'PAYOUT',
+              y: 40,
+              sliced: true,
+              color: "#ADAEB0"
+            },
+            {
+              name: 'TRANSFER',
+              y: 70,
+              sliced: true,
+              color: "#FE514E"
+            },
+            {
+              name: 'OTHERS',
+              y: 60,
+              sliced: true,
+              color: "#434343"
+            },
+
+          ]
+        }]
       },
       toAmountColl: {
         chart: {
-          type: "line",
+          type: 'line',
           height: 400,
         },
         credits: {
-          enabled: false,
+          enabled: false
         },
         title: {
-          text: "",
+          text: ''
         },
         subtitle: {
-          text: "",
+          text: ''
         },
         xAxis: {
-          categories: [
-            "29 March",
-            "30 March",
-            "31 March",
-            "1 Apr",
-            "2 Apr",
-            "3 Apr",
-            "4 Apr",
-            "5 Apr",
-            "6 Apr",
-            "7 Apr",
-            "8 Apr",
-            "9 Apr",
-            "10 Apr",
-            "11 Apr",
-            "12 Apr",
-            "13 Apr",
-            "14 Apr",
-            "15 Apr",
-            "16 Apr",
-            "17 Apr",
-            "18 Apr",
-            "19 Apr",
-            "20 Apr",
-            "21 Apr",
-            "22 Apr",
-            "23 Apr",
-            "24 Apr",
-          ],
+          categories: ['29 March', '30 March', '31 March', '1 Apr', '2 Apr', '3 Apr', '4 Apr', '5 Apr', '6 Apr', '7 Apr', '8 Apr', '9 Apr', '10 Apr', '11 Apr', '12 Apr', '13 Apr', '14 Apr', '15 Apr', '16 Apr', '17 Apr', '18 Apr', '19 Apr', '20 Apr', '21 Apr', '22 Apr', '23 Apr', '24 Apr'],
           crosshair: true,
           // minorTickLength: 0,
           // tickLength: 0
+
         },
         yAxis: {
           title: {
-            text: "",
+            text: ''
           },
           opposite: false,
-          max: 150000,
+          max: 150000
         },
         plotOptions: {
           line: {
             dataLabels: {
-              enabled: true,
+              enabled: true
             },
-            enableMouseTracking: false,
-          },
+            enableMouseTracking: false
+          }
         },
         legend: {
           labelFormatter: function () {
-            return (
-              '<span class="lineCircleSty"><span class=""></span>' +
-              this.name +
-              "</span>"
-            );
+            return '<span class="lineCircleSty"><span class=""></span>' + this.name + '</span>';
           },
-          layout: "horizontal",
-          align: "left",
-          verticalAlign: "bottom",
+          layout: 'horizontal',
+          align: 'left',
+          verticalAlign: 'bottom',
           // symbolWidth: 20,
           // symbolHeight: 20,
           itemStyle: {
-            color: "red",
-            fontWeight: "bold",
+            color: 'red',
+            fontWeight: 'bold',
             fontSize: "14px",
             lineHeight: "20px",
             fontWeight: "500",
             color: "#343A40",
             textTransform: "uppercase",
           },
-        },
-        series: [
-          {
-            name: "Deposit",
-            color: "#4CBEEF",
-            marker: {
-              enabled: false,
-              radius: 4,
-            },
-            dataLabels: {
-              enabled: false,
-            },
-            data: [
-              5000, 10000, 15000, 1000, 20000, 50000, 80000, 40000, 12000,
-              13000, 18000, 49000,
-            ],
-          },
-          {
-            name: "Payout",
-            color: "#FFBE41",
-            marker: {
-              enabled: false,
-              radius: 4,
-            },
-            dataLabels: {
-              enabled: false,
-            },
-            data: [
-              0, 8000, 80000, 90000, 20000, 35000, 80000, 40000, 12000, 13000,
-              18000, 49000,
-            ],
-          },
-          {
-            name: "Transfer",
-            color: "#93F035",
-            marker: {
-              enabled: false,
-              radius: 4,
-            },
-            dataLabels: {
-              enabled: false,
-            },
-            data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-          },
-        ],
-      },
 
-      chartMerchant: {
+        },
+        series: [{
+          name: 'Quick Ratio',
+          color: "#E64C43",
+          marker: {
+            enabled: false,
+            radius: 4
+          },
+          dataLabels: {
+            enabled: false
+          },
+          data: [90000, 40000, 15000, 1000, 20000, 50000, 80000, 40000, 12000, 13000, 18000, 49000]
+        }, {
+          name: 'Cash ratio',
+          color: "#343A40",
+          marker: {
+            enabled: false,
+            radius: 4
+          },
+          dataLabels: {
+            enabled: false
+          },
+          data: [0, 8000, 80000, 90000, 20000, 35000, 80000, 40000, 12000, 13000, 18000, 49000]
+        },
+          // {
+          //   name: 'Transfer',
+          //   color: "#93F035",
+          //   marker: {
+          //     enabled: false,
+          //     radius: 4
+          //   },
+          //   dataLabels: {
+          //     enabled: false
+          //   },
+          //   data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+          // }
+        ]
+      },
+      toAmountColl1: {
         chart: {
-          type: "column",
-          height: 200,
+          type: 'line',
+          height: 400,
+        },
+        credits: {
+          enabled: false
         },
         title: {
-          text: "",
+          text: ''
+        },
+        subtitle: {
+          text: ''
+        },
+        xAxis: {
+          categories: ['29 March', '30 March', '31 March', '1 Apr', '2 Apr', '3 Apr', '4 Apr', '5 Apr', '6 Apr', '7 Apr', '8 Apr', '9 Apr', '10 Apr', '11 Apr', '12 Apr', '13 Apr', '14 Apr', '15 Apr', '16 Apr', '17 Apr', '18 Apr', '19 Apr', '20 Apr', '21 Apr', '22 Apr', '23 Apr', '24 Apr'],
+          crosshair: true,
+          // minorTickLength: 0,
+          // tickLength: 0
+
         },
         yAxis: {
           title: {
-            text: "",
+            text: ''
+          },
+          opposite: false,
+          max: 150000
+        },
+        plotOptions: {
+          line: {
+            dataLabels: {
+              enabled: true
+            },
+            enableMouseTracking: false
+          }
+        },
+        legend: {
+          labelFormatter: function () {
+            return '<span class="lineCircleSty"><span class=""></span>' + this.name + '</span>';
+          },
+          layout: 'horizontal',
+          align: 'left',
+          verticalAlign: 'bottom',
+          // symbolWidth: 20,
+          // symbolHeight: 20,
+          itemStyle: {
+            color: 'red',
+            fontWeight: 'bold',
+            fontSize: "14px",
+            lineHeight: "20px",
+            fontWeight: "500",
+            color: "#343A40",
+            textTransform: "uppercase",
+          },
+
+        },
+        series: [{
+          name: 'Earned',
+          color: "#DA4139",
+          marker: {
+            enabled: false,
+            radius: 4
+          },
+          dataLabels: {
+            enabled: false
+          },
+          data: [90000, 40000, 15000, 1000, 20000, 50000, 80000, 40000, 12000, 13000, 18000, 49000]
+        },
+        //  {
+        //   name: 'Cash ratio',
+        //   color: "#343A40",
+        //   marker: {
+        //     enabled: false,
+        //     radius: 4
+        //   },
+        //   dataLabels: {
+        //     enabled: false
+        //   },
+        //   data: [0, 8000, 80000, 90000, 20000, 35000, 80000, 40000, 12000, 13000, 18000, 49000]
+        // },
+          // {
+          //   name: 'Transfer',
+          //   color: "#93F035",
+          //   marker: {
+          //     enabled: false,
+          //     radius: 4
+          //   },
+          //   dataLabels: {
+          //     enabled: false
+          //   },
+          //   data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+          // }
+        ]
+      },
+      chartMerchant: {
+
+        chart: {
+          type: 'column',
+          height: 200,
+        },
+        title: {
+          text: ''
+        },
+        yAxis: {
+          title: {
+            text: ''
           },
           // min: 25000,
-          max: 50000,
+          max: 50000
         },
         xAxis: {
           labels: {
-            enabled: false,
+            enabled: false
           },
-          type: "category",
+
+          type: 'category',
           lineWidth: 0,
           minorGridLineWidth: 0,
-          lineColor: "transparent",
+          lineColor: 'transparent',
           minorTickLength: 0,
-          tickLength: 0,
+          tickLength: 0
+
         },
         credits: {
-          enabled: false,
+          enabled: false
         },
         legend: {
           enabled: false,
@@ -430,53 +553,55 @@ class Dashboard extends Component {
         plotOptions: {
           series: {
             groupPadding: 0.15,
-            borderRadius: 8,
+            borderRadius: 8
           },
           column: {
             grouping: true,
             borderRadiusTopLeft: 10,
-            borderRadiusTopRight: 10,
-          },
+            borderRadiusTopRight: 10
+          }
         },
-        series: [
-          {
-            color: "#423939",
-            data: [25000, 35000, 30000, 28000, 26000],
-          },
-          {
-            color: "#716D6C",
-            data: [32000, 35000, 28000, 35000, 31000],
-          },
-        ],
+        series: [{
+          color: "#E65354",
+          data: [26000, 50000, 45000, 28000],
+
+        },
+          //  {
+          //   color: "#716D6C",
+          //   data: [32000, 35000, 28000, 35000, 31000]
+          // }
+        ]
       },
       chartAgent: {
+
         chart: {
-          type: "column",
+          type: 'column',
           height: 200,
         },
         title: {
-          text: "",
+          text: ''
         },
         yAxis: {
           title: {
-            text: "",
+            text: ''
           },
           // min: 25000,
-          max: 50000,
+          max: 50000
         },
         xAxis: {
           labels: {
-            enabled: true,
+            enabled: true
           },
-          type: "category",
+          type: 'category',
           lineWidth: 0,
           minorGridLineWidth: 0,
-          lineColor: "transparent",
+          lineColor: 'transparent',
           minorTickLength: 0,
-          tickLength: 0,
+          tickLength: 0
+
         },
         credits: {
-          enabled: false,
+          enabled: false
         },
         // legend: {
         //   enabled: true,
@@ -484,65 +609,64 @@ class Dashboard extends Component {
         plotOptions: {
           series: {
             groupPadding: 0.15,
-            borderRadius: 8,
+            borderRadius: 8
           },
           column: {
             grouping: true,
-          },
+          }
         },
-        series: [
-          {
-            color: "#423939",
-            data: [25000, 35000, 30000, 28000, 26000],
-          },
-          {
-            color: "#716D6C",
-            data: [32000, 35000, 28000, 35000, 31000],
-          },
-        ],
+        series: [{
+          color: "#423939",
+          data: [25000, 35000, 30000, 28000, 26000]
+        }, {
+          color: "#716D6C",
+          data: [32000, 35000, 28000, 35000, 31000]
+        }
+        ]
       },
+
+
 
       colors: Highcharts.setOptions({
-        colors: ["#fff", "red"],
+        colors: ['#fff', 'red']
       }),
 
+
       chartRevenue: {
         chart: {
-          zoomType: "x",
+          zoomType: 'x',
           height: 200,
-          type: "area",
+          type: 'area'
         },
         credits: {
-          enabled: false,
+          enabled: false
         },
         title: {
-          text: "",
+          text: ''
         },
         subtitle: {
-          text:
-            document.ontouchstart === undefined
-              ? "Click and drag in the plot area to zoom in"
-              : "Pinch the chart to zoom in",
+          text: document.ontouchstart === undefined ?
+            'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
         },
         xAxis: {
           lineWidth: 0,
           minorGridLineWidth: 0,
-          lineColor: "transparent",
+          lineColor: 'transparent',
           minorTickLength: 0,
           tickLength: 0,
           labels: {
-            enabled: false,
+            enabled: false
           },
         },
         yAxis: {
           title: {
-            text: "",
+            text: ''
           },
           // min: 0,
           // max:40
         },
         legend: {
-          enabled: false,
+          enabled: false
         },
 
         plotOptions: {
@@ -552,17 +676,12 @@ class Dashboard extends Component {
                 x1: 0,
                 y1: 0,
                 x2: 0,
-                y2: 1,
+                y2: 1
               },
               stops: [
-                [0, "#FF0000"],
-                [
-                  1,
-                  Highcharts.color(Highcharts.getOptions().colors[0])
-                    .setOpacity(0)
-                    .get("rgba"),
-                ],
-              ],
+                [0, '#FF0000'],
+                [1, Highcharts.color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+              ]
             },
 
             marker: {
@@ -572,745 +691,194 @@ class Dashboard extends Component {
             lineWidth: 1,
             states: {
               hover: {
-                lineWidth: 1,
-              },
+                lineWidth: 1
+              }
             },
-            threshold: null,
-          },
+            threshold: null
+          }
         },
 
-        series: [
-          {
-            type: "area",
-            name: "",
-            data: [
-              null,
-              null,
-              null,
-              null,
-              null,
-              6,
-              11,
-              32,
-              110,
-              235,
-              369,
-              640,
-              1005,
-              1436,
-              2063,
-              3057,
-              4618,
-              6444,
-              9822,
-              15468,
-              20434,
-              24126,
-              27387,
-              29459,
-              31056,
-              31982,
-              32040,
-              31233,
-              29224,
-              27342,
-              26662,
-              26956,
-              27912,
-              28999,
-              28965,
-              27826,
-              25579,
-              25722,
-              24826,
-              24605,
-              24304,
-              23464,
-              23708,
-              24099,
-              24357,
-              24237,
-              24401,
-              24344,
-              23586,
-              22380,
-              21004,
-              17287,
-              14747,
-              13076,
-              12555,
-              12144,
-              11009,
-              10950,
-              10871,
-              10824,
-              10577,
-              10527,
-              10475,
-              10421,
-              10358,
-              10295,
-              10104,
-              9914,
-              9620,
-              9326,
-              5113,
-              5113,
-              4954,
-              4804,
-              4761,
-              4717,
-              4368,
-              4018,
-            ],
-          },
-        ],
-      },
-    };
-  }
+        series: [{
+          type: 'area',
+          name: '',
+          data: [
+            null, null, null, null, null, 6, 11, 32, 110, 235,
+            369, 640, 1005, 1436, 2063, 3057, 4618, 6444, 9822, 15468,
+            20434, 24126, 27387, 29459, 31056, 31982, 32040, 31233, 29224, 27342,
+            26662, 26956, 27912, 28999, 28965, 27826, 25579, 25722, 24826, 24605,
+            24304, 23464, 23708, 24099, 24357, 24237, 24401, 24344, 23586, 22380,
+            21004, 17287, 14747, 13076, 12555, 12144, 11009, 10950, 10871, 10824,
+            10577, 10527, 10475, 10421, 10358, 10295, 10104, 9914, 9620, 9326,
+            5113, 5113, 4954, 4804, 4761, 4717, 4368, 4018
+          ]
+        }]
 
-  sendDates = (e) => {
-    console.log("PrevMonthStartDate");
-    if (e == "5") {
-      var curDateMonth = new Date();
-      var prvDateMonth = new Date(
-        curDateMonth.getFullYear(),
-        curDateMonth.getMonth(),
-        0
-      );
-      //console.log(prvDateMonth,"sajhjh")
-      var PrevMonthEndDate = new Date(
-        prvDateMonth.getTime() - prvDateMonth.getTimezoneOffset() * 60000
-      )
-        .toISOString()
-        .split("T")[0];
 
-      var current;
-      if (curDateMonth.getMonth() == 0) {
-        current = new Date(curDateMonth.getFullYear() - 1, 11, 1);
-      } else {
-        current = new Date(
-          curDateMonth.getFullYear(),
-          curDateMonth.getMonth() - 1,
-          1
-        );
       }
 
-      var dateString = new Date(
-        current.getTime() - current.getTimezoneOffset() * 60000
-      )
-        .toISOString()
-        .split("T")[0];
-      var PrevMonthStartDate = dateString;
-      // this.props.onSelectDate(PrevMonthStartDate, PrevMonthEndDate);
-
-      this.props.RevenueMerchant(
-        sessionStorage.getItem("token"),
-        PrevMonthStartDate,
-        PrevMonthEndDate,
-        this.state.revenueMerchantSelectedCurrency
-      );
-      this.setState({
-        intialdateRevenueMerchant: PrevMonthStartDate,
-        finaldateRevenueMerchant: PrevMonthEndDate,
-      });
-     
-
-      // console.log(PrevMonthStartDate, "PrevMonthStartDate");
-    }this.setState({fifthone:"active",firstone:"",secondone:"",thirdone:"",fourthone:""})
-
-    if (e == "4") {
-      var curDateMonth = new Date();
-      var FirstDayOfCurrentMonth = new Date(
-        curDateMonth.getFullYear(),
-        curDateMonth.getMonth(),
-        1
-      );
-      var FirstDayOfCurrentMonth = new Date(
-        FirstDayOfCurrentMonth.getTime() -
-          FirstDayOfCurrentMonth.getTimezoneOffset() * 60000
-      )
-        .toISOString()
-        .split("T")[0];
-
-      var d = new Date();
-      var Today = new Date(d.getTime() - d.getTimezoneOffset() * 60000)
-        .toISOString()
-        .split("T")[0];
-      // this.props.onSelectDate(FirstDayOfCurrentMonth, Today);
-      this.props.RevenueMerchant(
-        sessionStorage.getItem("token"),
-        FirstDayOfCurrentMonth,
-        Today,
-        this.state.revenueMerchantSelectedCurrency
-      );
-      this.setState({
-        intialdateRevenueMerchant: FirstDayOfCurrentMonth,
-        finaldateRevenueMerchant: Today,
-      });
-
-      this.setState({fifthone:"",firstone:"",secondone:"",thirdone:"",fourthone:"active"})
     }
-   
-
-    
-
-    if (e == "2") {
-      d = new Date();
-      var day = d.getDay(),
-        diff = d.getDate() - day + (day == 0 ? -6 : 1);
-      var start = new Date(d.setDate(diff));
-      var thisWeekFirstDay = new Date(
-        start.getTime() - start.getTimezoneOffset() * 60000
-      )
-        .toISOString()
-        .split("T")[0];
-
-      day = new Date();
-      var thisWeekLastDay = new Date(
-        day.getTime() - day.getTimezoneOffset() * 60000
-      )
-        .toISOString()
-        .split("T")[0];
-
-      //     var curr = new Date; // get current date
-      //    var first = curr.getDate() - curr.getDay(); // First day is the day of the month - the day of the week
-      //    var last = first + 6; // last day is the first day + 6
-
-      //     var firstday = new Date(curr.setDate(first));
-      //     var lastday = new Date(curr.setDate(last));
-      //     var thisWeekFirstDay=new Date(firstday.getTime() - (firstday.getTimezoneOffset() * 60000 ))
-      //     .toISOString()
-      //     .split("T")[0];
-
-      //     var thisWeekLastDay=new Date(lastday.getTime() - (lastday.getTimezoneOffset() * 60000 ))
-      //     .toISOString()
-      //     .split("T")[0];
-
-      // this.props.onSelectDate(thisWeekFirstDay, thisWeekLastDay);
-
-      this.props.RevenueMerchant(
-        sessionStorage.getItem("token"),
-        thisWeekFirstDay,
-        thisWeekLastDay,
-        this.state.revenueMerchantSelectedCurrency
-      );
-      this.setState({
-        intialdateRevenueMerchant: thisWeekFirstDay,
-        finaldateRevenueMerchant: thisWeekLastDay,
-      });
-      this.setState({fifthone:"",firstone:"",secondone:"active",thirdone:"",fourthone:""})
-
-    }
-
-    if (e == "3") {
-      var last7dayStart = this.Last7Days();
-      day = new Date();
-      var last7dayEnd = new Date(
-        day.getTime() - day.getTimezoneOffset() * 60000
-      )
-        .toISOString()
-        .split("T")[0];
-      this.props.RevenueMerchant(
-        sessionStorage.getItem("token"),
-        last7dayStart,
-        last7dayEnd,
-        this.state.revenueMerchantSelectedCurrency
-      );
-      this.setState({
-        intialdateRevenueMerchant: last7dayStart,
-        finaldateRevenueMerchant: last7dayEnd,
-      });
-
-      // this.props.onSelectDate(last7dayStart, last7dayEnd);
-      this.setState({fifthone:"",firstone:"",secondone:"",thirdone:"active",fourthone:""})
-
-    }
-
-    if (e == "1") {
-      day = new Date();
-      var Today = new Date(day.getTime() - day.getTimezoneOffset() * 60000)
-        .toISOString()
-        .split("T")[0];
-      // this.props.onSelectDate(Today, Today);
-      this.props.RevenueMerchant(
-        sessionStorage.getItem("token"),
-        Today,
-        Today,
-        this.state.revenueMerchantSelectedCurrency
-      );
-      this.setState({
-        intialdateRevenueMerchant: Today,
-        finaldateRevenueMerchant: Today,
-      });
-      this.setState({fifthone:"",firstone:"active",secondone:"",thirdone:"",fourthone:""})
-
-    }
-  };
-
-  formatDate = (date) => {
-    var dd = date.getDate();
-    var mm = date.getMonth() + 1;
-    var yyyy = date.getFullYear();
-    if (dd < 10) {
-      dd = "0" + dd;
-    }
-    if (mm < 10) {
-      mm = "0" + mm;
-    }
-    date = yyyy + "-" + mm + "-" + dd;
-    return date;
-  };
-
-  Last7Days = () => {
-    var result = [];
-    for (var i = 0; i < 7; i++) {
-      var d = new Date();
-      d.setDate(d.getDate() - i);
-      result.push(this.formatDate(d));
-    }
-
-    return result[result.length - 1];
-  };
+  }
 
   componentDidMount() {
-    const fromDivHeight = document.querySelector(".getHeight").clientHeight;
-    this.setState(
-      {
-        fromDivHeight: fromDivHeight,
-      },
-      () => {
-        console.log("test001", this.state.fromDivHeight);
-      }
-    );
-
-    var day = new Date();
-    var Today = new Date(day.getTime() - day.getTimezoneOffset() * 60000)
-      .toISOString()
-      .split("T")[0];
-
-    this.props.summary(sessionStorage.getItem("token"));
-    this.props.getCurrency(sessionStorage.getItem("token"));
-    this.props.RevenueMerchant(
-      sessionStorage.getItem("token"),
-      Today,
-      Today,
-      "XAF"
-    );
-
-    this.props.AmountCollectedLastThirtyDays(sessionStorage.getItem("token"),"XAF")
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.summaryStatus) {
-      console.log(nextProps.summaryData, "data123sdas");
-
-      this.setState({
-        users: nextProps.summaryData.numberOfUsers,
-        clients: nextProps.summaryData.numberOfClients,
-        merchants: nextProps.summaryData.numberOfMerchants,
-        tickets: nextProps.summaryData.numberOfTickets,
-      });
-    }
-    if (nextProps.currencyStatus) {
-      this.setState({
-        currency: nextProps.currencyList.currency,
-      });
-    }
-
-    if (nextProps.merchantRevenueStatus) {
-      var getGraphDatamethodValues = [];
-      var getGraphDatamethodLabels = [];
-      var Grosstotal=0
-
-      if (nextProps.merchantRevenueList && Object.keys(nextProps.merchantRevenueList).length !== 0) {
-        getGraphDatamethodValues = Object.values(nextProps.merchantRevenueList);
-
-        getGraphDatamethodValues.map((value)=>{
-
-          Grosstotal=Grosstotal+value
-
-        })
-
-        getGraphDatamethodLabels = Object.keys(nextProps.merchantRevenueList);
-
-        this.setState({
-          merchantRevenueKey: getGraphDatamethodLabels,
-          merchantRevenueData: getGraphDatamethodValues,
-          toatalRevenueMerchant:Grosstotal
-        });
-      } else {
-        this.setState({ merchantRevenueKey: [], merchantRevenueData: [] ,toatalRevenueMerchant:0});
-      }
-    }
-
-    if(nextProps.amountCollectedStatus)
-    {
-
-      var getAmountCollectedValues = [];
-      var getAmountCollectedLabels = [];
-
-      if (nextProps.amountCollectedData.merchantLineChartDTO.transactionsForLastThirtyDays && Object.keys(nextProps.amountCollectedData.merchantLineChartDTO.transactionsForLastThirtyDays).length !== 0) {
-
-        getAmountCollectedValues = Object.values(nextProps.amountCollectedData.merchantLineChartDTO.transactionsForLastThirtyDays);
-        getAmountCollectedLabels = Object.keys(nextProps.amountCollectedData.merchantLineChartDTO.transactionsForLastThirtyDays);
-
-        this.setState({
-          amountCollectedKey: getAmountCollectedLabels,
-          amountCollectedValue: getAmountCollectedValues,
-        });
-      } else {
-        this.setState({ amountCollectedKey: [], amountCollectedValue: [] });
-      }
-
-    }
-  }
-
-  handleChangeRevenueMerchant = (value) => {
-    this.setState({ revenueMerchantSelectedCurrency: value });
-
-    this.props.RevenueMerchant(
-      sessionStorage.getItem("token"),
-      this.state.intialdateRevenueMerchant,
-      this.state.finaldateRevenueMerchant,
-      value
-    );
-  };
-
-  handleChangeAmountCollectedLastThirtyDays=(value)=>{
-
-    this.props.AmountCollectedLastThirtyDays(sessionStorage.getItem("token"),value)
+    const fromDivHeight = document.querySelector('.getHeight').clientHeight
+    this.setState({
+      fromDivHeight: fromDivHeight
+    }, () => {
+      console.log("test001", this.state.fromDivHeight)
+    });
 
   }
+
+
+
 
   render() {
-    const merchantRevenue = {
-      chartRevenue: {
-        chart: {
-          zoomType: "x",
-          height: 200,
-          type: "area",
-        },
-        credits: {
-          enabled: false,
-        },
-        title: {
-          text: "",
-        },
-        subtitle: {
-          text:
-            document.ontouchstart === undefined
-              ? "Click and drag in the plot area to zoom in"
-              : "Pinch the chart to zoom in",
-        },
-        xAxis: {
-          lineWidth: 0,
-          minorGridLineWidth: 0,
-          lineColor: "transparent",
-          minorTickLength: 0,
-          tickLength: 0,
-          labels: {
-            enabled: false,
-          },
-        },
-        yAxis: {
-          title: {
-            text: "",
-          },
-          // min: 0,
-          // max:40
-        },
-        legend: {
-          enabled: false,
-        },
 
-        plotOptions: {
-          area: {
-            fillColor: {
-              linearGradient: {
-                x1: 0,
-                y1: 0,
-                x2: 0,
-                y2: 1,
-              },
-              stops: [
-                [0, "#FF0000"],
-                [
-                  1,
-                  Highcharts.color(Highcharts.getOptions().colors[0])
-                    .setOpacity(0)
-                    .get("rgba"),
-                ],
-              ],
-            },
-
-            marker: {
-              radius: 2,
-              enabled: false,
-            },
-            lineWidth: 1,
-            states: {
-              hover: {
-                lineWidth: 1,
-              },
-            },
-            threshold: null,
-          },
-        },
-
-        series: [
-          {
-            type: "area",
-            name: "",
-            data: this.state.merchantRevenueData,
-          },
-        ],
-      },
-    };
-
-
-
-    const amountCollected={
-      toAmountColl: {
-        chart: {
-          type: "line",
-          height: 400,
-        },
-        credits: {
-          enabled: false,
-        },
-        title: {
-          text: "",
-        },
-        subtitle: {
-          text: "",
-        },
-        xAxis: {
-          categories: this.state.amountCollectedKey,
-          crosshair: true,
-          // minorTickLength: 0,
-          // tickLength: 0
-        },
-        yAxis: {
-          title: {
-            text: "",
-          },
-          opposite: false,
-          max: 150000,
-        },
-        plotOptions: {
-          line: {
-            dataLabels: {
-              enabled: true,
-            },
-            enableMouseTracking: false,
-          },
-        },
-        legend: {
-          labelFormatter: function () {
-            return (
-              '<span class="lineCircleSty"><span class=""></span>' +
-              this.name +
-              "</span>"
-            );
-          },
-          layout: "horizontal",
-          align: "left",
-          verticalAlign: "bottom",
-          // symbolWidth: 20,
-          // symbolHeight: 20,
-          itemStyle: {
-            color: "red",
-            fontWeight: "bold",
-            fontSize: "14px",
-            lineHeight: "20px",
-            fontWeight: "500",
-            color: "#343A40",
-            textTransform: "uppercase",
-          },
-        },
-        series: [
-
-{
-            name: "Transaction amount",
-            color: "red",
-            marker: {
-              enabled: false,
-              radius: 4,
-            },
-            dataLabels: {
-              enabled: false,
-            },
-            data: this.state.amountCollectedValue,
-          },
-
-          {
-            name: "Deposit",
-            color: "#4CBEEF",
-            marker: {
-              enabled: false,
-              radius: 4,
-            },
-            dataLabels: {
-              enabled: false,
-            },
-            data: [
-              5000, 10000, 15000, 1000, 20000, 50000, 80000, 40000, 12000,
-              13000, 18000, 49000,
-            ],
-          },
-          {
-            name: "Payout",
-            color: "#FFBE41",
-            marker: {
-              enabled: false,
-              radius: 4,
-            },
-            dataLabels: {
-              enabled: false,
-            },
-            data: [
-              0, 8000, 80000, 90000, 20000, 35000, 80000, 40000, 12000, 13000,
-              18000, 49000,
-            ],
-          },
-          {
-            name: "Transfer",
-            color: "#93F035",
-            marker: {
-              enabled: false,
-              radius: 4,
-            },
-            dataLabels: {
-              enabled: false,
-            },
-            data: [5000,5000, 0,100, 5000, 20000,200, 0, 20000, 49000, 0, 20000],
-          },
-        ],
-      },
-    }
     return (
       <div className="main_contain">
         <div className="dashboard_wraps">
-          <div className="dashCards section_custom">
-            <div className="custom_row">
-              <div className="custom_col width3">
-                <div className="dcard">
-                  <div className="icNa">
-                    <div className="width50p">
-                      <div className="radiusUsed">
-                        <span className="icon-Asset-2"></span>
+          <div className="customdashboardwholerow">
+
+            <div className="customdashboardrow dashCards section_custom">
+              <div className="custom_row">
+                <div className="custom_col width3">
+                  <div className="dcard">
+                    <div className="icNa">
+
+                      <div className="cardrightVal width50p">
+                        <p>Total Agents</p>
+                        <div className="cardnumber">
+                          213
+                     </div>
                       </div>
                     </div>
-                    <div className="cardrightVal width50p">
-                      <h2>200</h2>
-                      <h6>Total Agents</h6>
-                    </div>
                   </div>
                 </div>
-              </div>
-              <div className="custom_col width3">
-                <div className="dcard">
-                  <div className="icNa">
-                    <div className="width50p">
-                      <div className="radiusUsed">
-                        <span className="icon-Asset-34"></span>
+                <div className="custom_col width3">
+                  <div className="dcard">
+                    <div className="icNa">
+
+                      <div className="cardrightVal width50p">
+                        <p>Total Agent Member</p>
+                        <div className="cardnumber">
+                          213
+                     </div>
                       </div>
                     </div>
-                    <div className="cardrightVal width50p">
-                      <h2>
-                        <CountUp end={this.state.clients} duration={5} />
-                      </h2>
-                      <h6>Total Agent Member</h6>
+                  </div>
+                </div>
+                <div className="custom_col width3">
+                  <div className="dcard">
+                    <div className="icNa">
+
+                      <div className="cardrightVal width50p">
+                        <p>Total Plans</p>
+                        <div className="cardnumber">
+                          213
+                     </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="custom_col width3">
+                  <div className="dcard">
+                    <div className="icNa">
+
+                      <div className="cardrightVal width50p">
+                        <p>Liquidity Balance</p>
+                        <div className="cardnumber">
+                          300
+                     </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="custom_col width3">
+                  <div className="dcard">
+                    <div className="icNa">
+
+                      <div className="cardrightVal width50p">
+                        <p>Total Tickets</p>
+                        <div className="cardnumber">
+                          100
+                     </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="custom_col width3">
+                  <div className="dcard">
+                    <div className="icNa">
+
+                      <div className="cardrightVal width50p">
+                        <p>Total Clients</p>
+                        <div className="cardnumber">
+                          100
+                     </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="custom_col width3">
-                <div className="dcard">
-                  <div className="icNa">
-                    <div className="width50p">
-                      {/* <div className="radiusUsed">
-                        <span className="icon-Asset-4"></span>
-                      </div> */}
-                    </div>
-                    <div className="cardrightVal width50p">
-                      <h2>
-                        <CountUp end={this.state.merchants} duration={5} />
-                      </h2>
-                      <h6>Total Plans</h6>
-                    </div>
-                  </div>
+            </div>
+            <div className="customdashboardrow1">
+              <div className="customdashboardrow1-heading">
+                <h4>Agent Info</h4>
+              </div>
+              <div className="customdashboardrow1-image">
+                <img src="../../propic.jpg" />
+              </div>
+              <div className="customdashboardrow1-image-name">
+                Harry Jane
+
+          </div>
+              <div className="customdashboardrow1-label-whole">
+                <div className="customdashboardrow1-label">
+                  <label>Id Number:</label>
+                  <span>32890233</span>
+                </div>
+                <div className="line-separator"></div>
+                <div className="customdashboardrow1-label">
+                  <label>Phone No: </label>
+                  <span>3333333</span>
+                </div>
+                <div className="line-separator"></div>
+                <div className="customdashboardrow1-label">
+                  <label>Address:     </label>
+                  <span>xyz  </span>
+                </div>
+                <div className="line-separator"></div>
+                <div className="customdashboardrow1-label">
+                  <label>Geo localisation​: </label>
+                  <span>41° N & 28° E.</span>
+                </div>
+                <div className="location-btn">
+                  <button>
+
+                    <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M8 1.67969C5.23969 1.67969 3 3.69563 3 6.17969C3 10.1797 8 15.6797 8 15.6797C8 15.6797 13 10.1797 13 6.17969C13 3.69563 10.7603 1.67969 8 1.67969ZM8 8.67969C7.60444 8.67969 7.21776 8.56239 6.88886 8.34263C6.55996 8.12286 6.30362 7.81051 6.15224 7.44505C6.00087 7.0796 5.96126 6.67747 6.03843 6.28951C6.1156 5.90155 6.30608 5.54518 6.58579 5.26547C6.86549 4.98577 7.22186 4.79529 7.60982 4.71812C7.99778 4.64095 8.39991 4.68055 8.76537 4.83193C9.13082 4.9833 9.44318 5.23965 9.66294 5.56855C9.8827 5.89745 10 6.28412 10 6.67969C9.99942 7.20994 9.78852 7.71831 9.41357 8.09326C9.03863 8.46821 8.53026 8.67911 8 8.67969Z" fill="white" />
+                    </svg>
+                    <span>See Location</span>
+                  </button>
                 </div>
               </div>
-              <div className="custom_col width3">
-                <div className="dcard">
-                  <div className="icNa">
-                    <div className="width50">
-                      {/* <div className="radiusUsed">
-                        <span className="icon-Asset-50"></span>
-                      </div> */}
-                    </div>
-                    <div className="cardrightVal width50p">
-                      <h2>
-                        <CountUp end={this.state.users} duration={5} />
-                      </h2>
-                      <h6>Liquidity Balance</h6>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="custom_col width3">
-                <div className="dcard">
-                  <div className="icNa">
-                    <div className="width50p">
-                      {/* <div className="radiusUsed">
-                        <span className="icon-Asset-26"></span>
-                      </div> */}
-                    </div>
-                    <div className="cardrightVal width50p">
-                      <h2>
-                        <CountUp end={this.state.tickets} duration={5} />
-                      </h2>
-                      <h6>Total Tickets</h6>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="custom_col width3">
-                <div className="dcard">
-                  <div className="icNa">
-                    <div className="width50p">
-                      {/* <div className="radiusUsed">
-                        <span className="icon-Asset-26"></span>
-                      </div> */}
-                    </div>
-                    <div className="cardrightVal width50p">
-                      <h2>
-                        <CountUp end={this.state.tickets} duration={5} />
-                      </h2>
-                      <h6>Total Clients</h6>
-                    </div>
-                  </div>
-                </div>
-              </div>
+
             </div>
           </div>
           <div className="section_custom">
-            <div className="sectionInn chartCardColumn">
-              <div className="chartCard_w width50p m_r24 getHeight"  style={{marginTop:"5%"}}>
-                <div className="chartCardTop">
+            <div className="sectionInn chartCardColumn" style={{height:"400px"}}>
+              <div className="chartCard_w width50p m_r24 getHeight" style={{marginTop:"-8%", height:"-webkit-fill-available"}}>
+                <div className="chartgraycard chartCardTop">
+
                   <div>
-                    <h1 className="commonHeading">Transcations per Agent</h1>
-                    {/* <h6 className="commonHeadingSmall color6E6E70 changeSiz">
-                      Total Amount Collected
-                    </h6> */}
+                    <h1 className="commonHeading">Transactions per Agent</h1>
+                    {/* <h6 className="commonHeadingSmall color6E6E70 changeSiz">Total Amount Collected</h6> */}
                   </div>
                   <div className="hSelect">
                     <div className="antdSelect">
                       <Select
                         defaultValue="XAF"
-                        style={{ width: 114, height: 40 }}
+                        style={{ width: 114, height: 32 }}
                         onChange={handleChange}
                       >
                         <Option value="EN">XAF</Option>
@@ -1329,7 +897,8 @@ class Dashboard extends Component {
                       <li>Last Month</li>
                     </ul>
                   </div>
-                  <div className="hichchartIn0">
+
+                  <div className="custom-top-spacing hichchartIn0">
                     <HighchartsReact
                       highcharts={Highcharts}
                       options={this.state.chartMerchant}
@@ -1337,13 +906,11 @@ class Dashboard extends Component {
                   </div>
                 </div>
               </div>
-              <div className="chartCard_w width50p getHeight"  style={{marginTop:"5%"}}>
-                <div className="chartCardTop">
+              <div className="chartCard_w width50p getHeight">
+                <div className="chartgraycard chartCardTop">
                   <div>
-                    <h1 className="commonHeading"> Transcations per Number</h1>
-                    {/* <h6 className="commonHeadingSmall color6E6E70 changeSiz">
-                      Total Amount Collected
-                    </h6> */}
+                    <h1 className="commonHeading">Transaction per Number</h1>
+                    {/* <h6 className="commonHeadingSmall color6E6E70 changeSiz">Total Amount Collected</h6> */}
                   </div>
 
                   <div className="hSelect">
@@ -1360,7 +927,7 @@ class Dashboard extends Component {
                   </div>
                 </div>
                 <div className="chartCardMiddle">
-                  <div className="chartTabs" style={{ paddingBottom: "24px" }}>
+                <div className="chartTabs">
                     <ul>
                       <li className="active">Today</li>
                       <li>This Week</li>
@@ -1369,98 +936,19 @@ class Dashboard extends Component {
                       <li>Last Month</li>
                     </ul>
                   </div>
-                  <div className="hichchartIn0">
+
+                <div className="custom-top-spacing hichchartIn0">
                     <HighchartsReact
                       highcharts={Highcharts}
                       options={this.state.chartMerchant}
                     />
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-          <div className="section_custom" >
-            <div className="sectionInn chartCardColumn">
-              <div className="chartCard_w width50p m_r24 getHeight">
-                <div className="chartCardTop">
-                  <h1 className="commonHeading">Transcatipn % of Assets</h1>
-                  <div className="hSelect">
-                    <div className="antdSelect">
-                      <Select
-                        defaultValue="XAF"
-                        style={{ width: 114, height: 32 }}
-                        onChange={handleChange}
-                      >
-                        <Option value="EN">XAF</Option>
-                        <Option value="FR">Doller</Option>
-                      </Select>
-                    </div>
-                  </div>
-                </div>
-                <div className="chartCardMiddle">
-                  <div className="chartTabs">
-                    <ul>
-                      <li className="active">Today</li>
-                      <li>This Week</li>
-                      <li>7 Days</li>
-                      <li>This Month</li>
-                      <li>Last Month</li>
-                    </ul>
-                  </div>
-                  <HighchartsReact
-                    highcharts={Highcharts}
-                    options={this.state.options}
-                  />
-                </div>
-                <div className="cardFooter">
-                  <span>Total Amount</span>
-                  <span>$ 00.00</span>
-                  <span>Total Transactions</span>
-                  <span>$ 00</span>
-                </div>
-              </div>
-              <div className="chartCard_w width50p m_r24 getHeight">
-                <div className="chartCardTop">
-                  <h1 className="commonHeading">Transcatipn % of Category</h1>
-                  <div className="hSelect">
-                    <div className="antdSelect">
-                      <Select
-                        defaultValue="XAF"
-                        style={{ width: 114, height: 32 }}
-                        onChange={handleChange}
-                      >
-                        <Option value="EN">XAF</Option>
-                        <Option value="FR">Doller</Option>
-                      </Select>
-                    </div>
-                  </div>
-                </div>
-                <div className="chartCardMiddle">
-                  <div className="chartTabs">
-                    <ul>
-                      <li className="active">Today</li>
-                      <li>This Week</li>
-                      <li>7 Days</li>
-                      <li>This Month</li>
-                      <li>Last Month</li>
-                    </ul>
-                  </div>
-                  <HighchartsReact
-                    highcharts={Highcharts}
-                    options={this.state.options}
-                  />
-                </div>
-                <div className="cardFooter">
-                  <span>Total Amount</span>
-                  <span>$ 00.00</span>
-                  <span>Total Transactions</span>
-                  <span>$ 00</span>
-                </div>
-              </div>
-            </div>
-          </div>
 
-          <div className="section_custom" >
+              </div>
+            </div>
+          </div>
+          {/* <div className="section_custom">
             <div className="sectionInn chartCardColumn">
               <div className="chartCard_w width50p m_r24 getHeight">
                 <div className="chartCardTop">
@@ -1517,45 +1005,34 @@ class Dashboard extends Component {
                       <tr>
                         <td>2020/12/22</td>
                         <td>New Tickets</td>
-                        <td>
-                          Open <span className="icon-Asset-49 stylingTA"></span>
-                        </td>
+                        <td>Open <span className="icon-Asset-49 stylingTA"></span></td>
                       </tr>
                       <tr>
                         <td>2020/12/22</td>
                         <td>New Tickets</td>
-                        <td>
-                          Open <span className="icon-Asset-49 stylingTA"></span>
-                        </td>
+                        <td>Open <span className="icon-Asset-49 stylingTA"></span></td>
                       </tr>
                       <tr>
                         <td>2020/12/22</td>
                         <td>New Tickets</td>
-                        <td>
-                          Open <span className="icon-Asset-49 stylingTA"></span>
-                        </td>
+                        <td>Open <span className="icon-Asset-49 stylingTA"></span></td>
                       </tr>
                       <tr>
                         <td>2020/12/22</td>
                         <td>New Tickets</td>
-                        <td>
-                          Open <span className="icon-Asset-49 stylingTA"></span>
-                        </td>
+                        <td>Open <span className="icon-Asset-49 stylingTA"></span></td>
                       </tr>
                       <tr>
                         <td>2020/12/22</td>
                         <td>New Tickets</td>
-                        <td>
-                          Open <span className="icon-Asset-49 stylingTA"></span>
-                        </td>
+                        <td>Open <span className="icon-Asset-49 stylingTA"></span></td>
                       </tr>
                       <tr>
                         <td>2020/12/22</td>
                         <td>New Tickets</td>
-                        <td>
-                          Open <span className="icon-Asset-49 stylingTA"></span>
-                        </td>
+                        <td>Open <span className="icon-Asset-49 stylingTA"></span></td>
                       </tr>
+
                     </tbody>
                   </table>
                   <div className="cardFooter justify_content_end">
@@ -1566,46 +1043,111 @@ class Dashboard extends Component {
                   </div>
                 </div>
               </div>
+
             </div>
-          </div>
-          
+          </div> */}
+        
           <div className="section_custom">
-            <div className="sectionInn">
-              <div className="chartCard_w m_r24 getHeight">
-                <div className="chartCardTop">
-                  <div className="flCenterColumn">
-                    <h1 className="commonHeading textAlignCenter">
-                      Last 30 Days Transcations
-                    </h1>
-                    {/* <h6 className="commonHeadingSmall color6E6E70">
-                      as of 29 March 2021, 09:41 PM
-                    </h6> */}
-                  </div>
+            <div className="sectionInn chartCardColumn">
+              <div className="amountcollectedcard chartCard_w width50p getHeight">
+                <div className="chartgraycard chartCardTop">
+                  <h1 className="commonHeading">Trasncation % of Assets</h1>
                   <div className="hSelect">
                     <div className="antdSelect">
                       <Select
                         defaultValue="XAF"
                         style={{ width: 114, height: 32 }}
-                        onChange={this.handleChangeAmountCollectedLastThirtyDays}
+                        onChange={handleChange}
                       >
-                        {/* <Option value="EN">XAF</Option>
-                        <Option value="FR">Dollarr</Option> */}
-
-                        {this.state.currency.length > 0
-                          ? this.state.currency.map((curr) => {
-                              return (
-                                <Option value={curr.code}>{curr.name}</Option>
-                              );
-                            })
-                          : ""}
+                        <Option value="EN">XAF</Option>
+                        <Option value="FR">Doller</Option>
                       </Select>
                     </div>
+                  </div>
+                </div>
+                <div className="chartCardMiddle">
+                  <div className="chartTabs">
+                    <ul>
+                      <li className="active">Today</li>
+                      <li>This Week</li>
+                      <li>7 Days</li>
+                      <li>This Month</li>
+                      <li>Last Month</li>
+                    </ul>
+                  </div>
+                  <HighchartsReact
+                    highcharts={Highcharts}
+                    options={this.state.transectionPerc}
+                  />
+                </div>
+              </div>
+              <div className="amountcollectedcard chartCard_w width50p getHeight">
+                <div className="chartgraycard chartCardTop">
+                  <h1 className="commonHeading">Transcation % of Category</h1>
+                  <div className="hSelect">
+                    <div className="antdSelect">
+                      <Select
+                        defaultValue="XAF"
+                        style={{ width: 114, height: 32 }}
+                        onChange={handleChange}
+                      >
+                        <Option value="EN">XAF</Option>
+                        <Option value="FR">Doller</Option>
+                      </Select>
+                    </div>
+                  </div>
+                </div>
+                <div className="chartCardMiddle">
+                  <div className="chartTabs">
+                    <ul>
+                      <li className="active">Today</li>
+                      <li>This Week</li>
+                      <li>7 Days</li>
+                      <li>This Month</li>
+                      <li>Last Month</li>
+                    </ul>
+                  </div>
+                  <HighchartsReact
+                    highcharts={Highcharts}
+                    options={this.state.transectionPerc1}
+                  />
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <div className="section_custom">
+            <div className="sectionInn">
+              <div className="chartCard_w m_r24 getHeight">
+                <div className="chartgraycard chartCardTop">
+                  <div className="flCenterColumn">
+                    <h1 className="commonHeading textAlignCenter">Last 30 Days Transaction</h1>
+                    {/* <h6 className="commonHeadingSmall color6E6E70">as of 29 March 2021, 09:41 PM</h6> */}
                   </div>
                 </div>
                 <div className="chartCardMiddle" style={{ padding: "12px" }}>
                   <HighchartsReact
                     highcharts={Highcharts}
-                    options={amountCollected.toAmountColl}
+                    options={this.state.toAmountColl}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="section_custom">
+            <div className="sectionInn">
+              <div className="chartCard_w m_r24 getHeight">
+                <div className="chartCardTop">
+                  <div className="flCenterColumn">
+                    <h1 className="commonHeading textAlignCenter">Last 12 weeks Fees Earned</h1>
+                    {/* <h6 className="commonHeadingSmall color6E6E70">as of 29 March 2021, 09:41 PM</h6> */}
+                  </div>
+                </div>
+                <div className="chartCardMiddle" style={{ padding: "12px" }}>
+                  <HighchartsReact
+                    highcharts={Highcharts}
+                    options={this.state.toAmountColl1}
                   />
                 </div>
               </div>
@@ -1617,38 +1159,14 @@ class Dashboard extends Component {
               <div className="chartCard_w m_r24 getHeight">
                 <div className="chartCardTop">
                   <div className="flCenterColumn">
-                    <h1 className="commonHeading textAlignCenter">
-                      Last 12 weeks Fees Earned
-                    </h1>
-                    {/* <h6 className="commonHeadingSmall color6E6E70">
-                      as of 29 March 2021, 09:41 PM
-                    </h6> */}
-                  </div>
-                  <div className="hSelect">
-                    <div className="antdSelect">
-                      <Select
-                        defaultValue="XAF"
-                        style={{ width: 114, height: 32 }}
-                        onChange={this.handleChangeAmountCollectedLastThirtyDays}
-                      >
-                        {/* <Option value="EN">XAF</Option>
-                        <Option value="FR">Dollarr</Option> */}
-
-                        {this.state.currency.length > 0
-                          ? this.state.currency.map((curr) => {
-                              return (
-                                <Option value={curr.code}>{curr.name}</Option>
-                              );
-                            })
-                          : ""}
-                      </Select>
-                    </div>
+                    <h1 className="commonHeading textAlignCenter">Last 30 Days Liquidity Balance</h1>
+                    {/* <h6 className="commonHeadingSmall color6E6E70">as of 29 March 2021, 09:41 PM</h6> */}
                   </div>
                 </div>
                 <div className="chartCardMiddle" style={{ padding: "12px" }}>
                   <HighchartsReact
                     highcharts={Highcharts}
-                    options={amountCollected.toAmountColl}
+                    options={this.state.toAmountColl1}
                   />
                 </div>
               </div>
@@ -1656,16 +1174,31 @@ class Dashboard extends Component {
           </div>
 
 
-          
-          
           <div className="section_custom">
             <div className="sectionInn">
               <div className="chartCard_w m_r24 getHeight">
                 <div className="chartCardTop">
                   <div className="flCenterColumn">
-                    <h1 className="commonHeading textAlignCenter">
-                      Recent Transaction
-                    </h1>
+                    <h1 className="commonHeading textAlignCenter">Last 12 weeks Fees Earned</h1>
+                    {/* <h6 className="commonHeadingSmall color6E6E70">as of 29 March 2021, 09:41 PM</h6> */}
+                  </div>
+                </div>
+                <div className="chartCardMiddle" style={{ padding: "12px" }}>
+                  <HighchartsReact
+                    highcharts={Highcharts}
+                    options={this.state.toAmountColl1}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+         
+          <div className="section_custom">
+            <div className="sectionInn">
+              <div className="chartCard_w m_r24 getHeight">
+                <div className="chartCardTop">
+                  <div className="flCenterColumn">
+                    <h1 className="commonHeading textAlignCenter">Recent Transaction</h1>
                   </div>
                 </div>
                 <div className="chartCardMiddle">
@@ -1696,14 +1229,7 @@ class Dashboard extends Component {
                           <td className="amountColor">USD</td>
                           <td className="pending_tr">Kyla watson</td>
                           <td className="pending_tr">Pending</td>
-                          <td className="actionBtn">
-                            <span class="icon-edit">
-                              <span class="path1"></span>
-                              <span class="path2"></span>
-                              <span class="path3"></span>
-                              <span class="path4"></span>
-                            </span>
-                          </td>
+                          <td className="actionBtn"><span class="icon-edit"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></span></td>
                         </tr>
                         <tr>
                           <td>Kyla watson</td>
@@ -1715,14 +1241,7 @@ class Dashboard extends Component {
                           <td className="amountColor">USD</td>
                           <td className="pending_tr">Kyla watson</td>
                           <td className="cancelled_tr">Cancelled</td>
-                          <td className="actionBtn">
-                            <span class="icon-edit">
-                              <span class="path1"></span>
-                              <span class="path2"></span>
-                              <span class="path3"></span>
-                              <span class="path4"></span>
-                            </span>
-                          </td>
+                          <td className="actionBtn"><span class="icon-edit"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></span></td>
                         </tr>
                         <tr>
                           <td>Kyla watson</td>
@@ -1734,14 +1253,7 @@ class Dashboard extends Component {
                           <td className="amountColor">USD</td>
                           <td className="pending_tr">Kyla watson</td>
                           <td className="success_tr">Success</td>
-                          <td className="actionBtn">
-                            <span class="icon-edit">
-                              <span class="path1"></span>
-                              <span class="path2"></span>
-                              <span class="path3"></span>
-                              <span class="path4"></span>
-                            </span>
-                          </td>
+                          <td className="actionBtn"><span class="icon-edit"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></span></td>
                         </tr>
                         <tr>
                           <td>Kyla watson</td>
@@ -1753,14 +1265,7 @@ class Dashboard extends Component {
                           <td className="amountColor">USD</td>
                           <td className="pending_tr">Kyla watson</td>
                           <td className="cancelled_tr">Cancelled</td>
-                          <td className="actionBtn">
-                            <span class="icon-edit">
-                              <span class="path1"></span>
-                              <span class="path2"></span>
-                              <span class="path3"></span>
-                              <span class="path4"></span>
-                            </span>
-                          </td>
+                          <td className="actionBtn"><span class="icon-edit"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></span></td>
                         </tr>
                         <tr>
                           <td>Kyla watson</td>
@@ -1772,15 +1277,9 @@ class Dashboard extends Component {
                           <td className="amountColor">USD</td>
                           <td className="pending_tr">Kyla watson</td>
                           <td className="success_tr">Success</td>
-                          <td className="actionBtn">
-                            <span class="icon-edit">
-                              <span class="path1"></span>
-                              <span class="path2"></span>
-                              <span class="path3"></span>
-                              <span class="path4"></span>
-                            </span>
-                          </td>
+                          <td className="actionBtn"><span class="icon-edit"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></span></td>
                         </tr>
+
                       </tbody>
                     </table>
                   </div>
@@ -1794,37 +1293,11 @@ class Dashboard extends Component {
               </div>
             </div>
           </div>
+
+
         </div>
       </div>
     );
   }
 }
-
-const mapStateToProps = ({ adminReducer }) => {
-  const { summaryStatus, summaryData } = adminReducer;
-  const { currencyStatus, currencyList } = adminReducer;
-  const { merchantRevenueStatus, merchantRevenueList } = adminReducer;
-  const { amountCollectedStatus, amountCollectedData } = adminReducer;
-
-  
-  return {
-    summaryStatus,
-    summaryData,
-    currencyStatus,
-    currencyList,
-    merchantRevenueStatus,
-    merchantRevenueList,
-    amountCollectedStatus,
-    amountCollectedData
-  };
-};
-
-const mapDispatchToProps = (dispatch) => ({
-  summary: (token) => dispatch(summary(token)),
-  getCurrency: (token) => dispatch(getCurrency(token)),
-  RevenueMerchant: (token, fromDate, toData, currency) =>
-    dispatch(RevenueMerchant(token, fromDate, toData, currency)),
-    AmountCollectedLastThirtyDays:(token,currency)=>dispatch(AmountCollectedLastThirtyDays(token,currency))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+export default Dashboard

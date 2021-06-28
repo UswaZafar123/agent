@@ -1,12 +1,12 @@
 export const Side_bar_data = [
     {
         title:"Dashboard",
-        path:"/admin",
+        path:"/agent/dashboard",
         iconClass:"icon-Asset-47",
         id:1
     },
     {
-        title:"Agent management",
+        title:"Customer Registration",
         path:"/admin/agents",
         iconClass:"icon-Asset-2",
         id:2,
@@ -30,7 +30,7 @@ export const Side_bar_data = [
         ]
     },
     {
-        title:"Merchant management",
+        title:"Bank Operation",
         path:"/admin/merchants/all",
         id:3,
         iconClass:"icon-Asset-4",
@@ -54,7 +54,7 @@ export const Side_bar_data = [
         ]
     },
     {
-        title:"Client Management",
+        title:"Wallet Operation",
         path:"/admin/clients/all",
         id:4,
         iconClass:"icon-Asset-3",
@@ -74,8 +74,28 @@ export const Side_bar_data = [
         ]
     },
     {
-        title:"Transaction Management",
-        path:"/admin/transcation/management",
+        title:"Flash Transfer",
+        path:"/admin/clients/all",
+        id:14,
+        iconClass:"icon-Asset-3",
+        subMenu:[
+            {
+                title:"Client Lists",
+                path:"/admin/clients/all",
+            },
+            {
+                title:"Client Pending First Approval",
+                path:"/admin/clients/first-approvals",
+            },
+            {
+                title:"Client Pending Second Approval",
+                path:"/admin/clients/second-approvals",
+            }
+        ]
+    },
+    {
+        title:"Transcation",
+        path:"/agent/transcations",
         id:5,
         iconClass:"icon-Asset-33"
     },
@@ -85,7 +105,7 @@ export const Side_bar_data = [
     //     iconClass:"icon-Asset-32"
     // },
     {
-        title:"Currency Management",
+        title:"Settlements",
         path:"/admin/Currency_Management",
         id:6,
         iconClass:"icon-Asset-31"
@@ -96,13 +116,13 @@ export const Side_bar_data = [
     //     iconClass:"icon-Asset-30"
     // },
     {
-        title:"Revenue Management",
+        title:"Loan Applications",
         path:"/admin/revenue/management",
         id:7,
         iconClass:"icon-Asset-29"
     },
     {
-        title:"User Type Management",
+        title:"Revenue Management",
         path:"/admin/user-type/management",
         id:8,
         iconClass:"icon-Asset-29"
@@ -114,7 +134,7 @@ export const Side_bar_data = [
     // },
     {
         title:"Ticket Management​",
-        path:"/admin/Ticket_Management",
+        path:"/agent/tickets",
         id:9,
         iconClass:"icon-Asset-26"
     },
@@ -130,7 +150,7 @@ export const Side_bar_data = [
     // },
     {
         title:"Access History",
-        path:"/admin/Access_History",
+        path:"/agent/access-history",
         id:10,
         iconClass:"icon-Asset-25"
     },
@@ -280,7 +300,7 @@ export const Side_bar_data = [
         ]
     },
     {
-        title:"User Profile Management​",
+        title:"Account Management​",
         path:"/User_Profile_Management​",
         id:12,
         iconClass:"icon-Asset-22"
