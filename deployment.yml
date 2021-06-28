@@ -1,0 +1,28 @@
+--- 
+apiVersion: apps/v1
+kind: Deployment
+metadata: 
+  labels: 
+    app: saraagentfrontend
+  name: saraagentfrontend
+  namespace: frontend
+spec: 
+  replicas: 2
+  selector: 
+    matchLabels: 
+      app: saraagentfrontend
+  template: 
+    metadata: 
+      labels: 
+        app: saraagentfrontend
+    spec: 
+      containers: 
+        - 
+          image: "registry.gitlab.com/business-intelligence-agency/saraagentfrontend:latest"
+          name: saraagentfrontend
+          ports: 
+            - 
+              containerPort: 3000
+      imagePullSecrets: 
+        - 
+          name: regcred
