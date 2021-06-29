@@ -148,7 +148,7 @@ export const loginMerchant = (payload) => (dispatch) => {
     .then((res) => {
       console.log(res, "resssssssssssss");
       if (res.status === 200) {
-        sessionStorage.setItem("user_type", "merchant");
+        sessionStorage.setItem("user_type", "agent");
         sessionStorage.setItem("token", res.data.access_token);
         sessionStorage.setItem("refresh_token", res.data.refresh_token);
         sessionStorage.setItem("token_expiretime", res.data.expires_in);
@@ -196,7 +196,7 @@ export const getMerchantProfileInfo = (token) => dispatch => {
         sessionStorage.setItem("merchantStatus", res.data.profileInfo.merchantStatus);
         sessionStorage.setItem("phoneNo", res.data.profileInfo.phoneNo);
         sessionStorage.setItem("email", res.data.Email);
-        window.location="/dashboard"
+        window.location="/agent/dashboard"
 
 
 

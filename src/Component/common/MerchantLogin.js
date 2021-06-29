@@ -249,7 +249,7 @@ class Login extends Component {
 
       
       if(this.state.loginType == "business") {
-       this.props.history.push("/dashboard")
+       this.props.history.push("/agent/dashboard")
       }else{
         // this.props.history.push("/dashboard")
       }
