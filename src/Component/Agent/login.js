@@ -248,11 +248,7 @@ class Login extends Component {
       this.setState({showLoginError:false});
 
       
-      if(this.state.loginType == "business") {
-       this.props.history.push("/dashboard")
-      }else{
-        // this.props.history.push("/dashboard")
-      }
+      this.props.history.push("/agent/dashboard");
 
 
     }else{
@@ -300,7 +296,7 @@ class Login extends Component {
 
   setLogin = () => {
     // sessionStorage.setItem("token","testtoken");
-    sessionStorage.setItem("user_type","merchant");
+    sessionStorage.setItem("user_type","agent");
     // window.location = "/dashbaord";
     // this.props.history.push("/dashbaord");
 
