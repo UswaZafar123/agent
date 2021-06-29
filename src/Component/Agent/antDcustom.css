@@ -1,0 +1,56 @@
+
+.tableShowRecordPerPage .ant-select:not(.ant-select-disabled):hover .ant-select-selector{
+    border-color:none !important;
+}
+.tableShowRecordPerPage .ant-select:not(.ant-select-customize-input) .ant-select-selector{
+    border-radius: 10px !important;
+}
+.tableShowRecordPerPage .ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input) .ant-select-selector{
+    box-shadow:none !important;
+    border: 1px solid #DFDADAFC !important; 
+}
+.tableShowRecordPerPage .ant-select-single:not(.ant-select-customize-input) .ant-select-selector{
+    height: 27px;
+}
+.tableShowRecordPerPage .ant-select-single .ant-select-selector .ant-select-selection-item, .ant-select-single .ant-select-selector .ant-select-selection-placeholder{
+    line-height: 27px !important;
+    font-size: 12px !important;
+    font-family: 'Lato', sans-serif !important;
+    font-weight: 600 !important;
+}
+.ant-select-item{
+    font-size: 12px !important;
+    line-height: 16px !important;
+    font-family: 'Lato', sans-serif !important;
+    font-weight: 600 !important;
+    min-height: 24px !important;
+    border-radius: 6px !important;
+}
+
+.ant-select-dropdown{
+    padding: 6px !important;
+    
+}
+.ant-select-dropdown{
+    border-radius: 6px !important;
+    
+}
+.ant-select-item-option-selected:not(.ant-select-item-option-disabled){
+    background-color: #989898 !important;
+}
+.ant-select-item-option{
+    margin: 2px i !important;
+    background: #ECECEC !important;
+    margin-top: 2px !important;
+    margin-bottom: 2px !important;
+}
+.ant-modal-close{
+    display:none !important;
+}
+
+
+.ant-select-arrow{
+    display: none !important;
+}
+
+
