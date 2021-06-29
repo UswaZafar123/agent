@@ -94,7 +94,7 @@ export const Side_bar_data = [
         ]
     },
     {
-        title:"Transcation",
+        title:"Transactions",
         path:"/agent/transcations",
         id:5,
         iconClass:"icon-Asset-33"

@@ -1051,7 +1051,7 @@ class Dashboard extends Component {
             <div className="sectionInn chartCardColumn">
               <div className="amountcollectedcard chartCard_w width50p getHeight">
                 <div className="chartgraycard chartCardTop">
-                  <h1 className="commonHeading">Trasncation % of Assets</h1>
+                  <h1 className="commonHeading">Transactions % of Assets</h1>
                   <div className="hSelect">
                     <div className="antdSelect">
                       <Select
@@ -1083,7 +1083,7 @@ class Dashboard extends Component {
               </div>
               <div className="amountcollectedcard chartCard_w width50p getHeight">
                 <div className="chartgraycard chartCardTop">
-                  <h1 className="commonHeading">Transcation % of Category</h1>
+                  <h1 className="commonHeading">Transactions % of Category</h1>
                   <div className="hSelect">
                     <div className="antdSelect">
                       <Select
