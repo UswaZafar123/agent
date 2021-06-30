@@ -133,7 +133,7 @@ class Transaction extends Component {
 
     componentWillReceiveProps (nextprops) {
        this.setState({rowData:nextprops.transactionResponseList})
-       this.setState({currencies:nextprops.getCurencyListData.currency})
+    //    this.setState({currencies:nextprops.getCurencyListData.currency})
     }
 
     onPaginationChanged = () => {
