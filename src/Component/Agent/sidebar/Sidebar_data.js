@@ -12,64 +12,88 @@ export const Side_bar_data = [
         id:2,
         subMenu:[
             {
-                title:"Agent Lists",
-                path:"/admin/agents/all",
+                title:"Wallet Account Opening",
+                path:"/agent/walletAccountOpening",
+
             },
             {
-                title:"Agent Payments",
-                path:"/admin/agents/payments",
+                title:"Banking Account Opening",
+                path:"/agent/BankingAccountOpening",
+
             },
-            {
-                title:"Agent-Profile First Approval",
-                path:"/admin/agents/first-approvals",
-            },
-            {
-                title:"Agent-Profile Second Approval",
-                path:"/admin/agents/second-approvals",
-            },
+            // {
+            //     title:"Agent Lists",
+            //     path:"/admin/agents/all",
+            // },
+            // {
+            //     title:"Agent Payments",
+            //     path:"/admin/agents/payments",
+            // },
+            // {
+            //     title:"Agent-Profile First Approval",
+            //     path:"/admin/agents/first-approvals",
+            // },
+            // {
+            //     title:"Agent-Profile Second Approval",
+            //     path:"/admin/agents/second-approvals",
+            // },
         ]
     },
     {
-        title:"Bank Operation",
-        path:"/admin/merchants/all",
+        title:"Banking Operation",
+        path:"/admin/banking/transfer",
         id:3,
         iconClass:"icon-Asset-4",
         subMenu:[
             {
-                title:"Merchant Lists",
-                path:"/admin/merchants/all",
+                title:"Transfer",
+                path:"/admin/banking/transfer",
+
+
             },
             {
-                title:"Merchant Payments",
-                path:"/admin/merchants/Merchant_Payments",
+                title:"Account Balance",
+                path:"/admin/banking/account_balance",
             },
             {
-                title:"Merchant-Pending First Approval",
-                path:"/admin/merchants/pending-first-approval",
+                title:"Account Statement",
+                path:"/admin/banking/account_statement",
             },
             {
-                title:"Merchant-Pending_Second Approval",
-                path:"/admin/merchants/pending-second-approval",
+                title:"Cash Deposit In Bank",
+                path:"/admin/banking/cash_deposit_bank",
+            },
+            {
+                title:"Cash Withdrawal From Bank",
+                path:"/admin/banking/cash_withdrawal_bank",
+            },
+            {
+                title:"Service Payments",
+                path:"/admin/banking/service_payments",
             },
         ]
     },
     {
         title:"Wallet Operation",
-        path:"/admin/clients/all",
+        path:"/Agent/walletOperation/",
         id:4,
         iconClass:"icon-Asset-3",
         subMenu:[
             {
-                title:"Client Lists",
-                path:"/admin/clients/all",
+                title:"Transfert",
+                path:"/Agent/walletOperation/transfert", 
             },
             {
-                title:"Client Pending First Approval",
-                path:"/admin/clients/first-approvals",
+                title:"Account Balance",
+                path:"/Agent/walletOperation/AccountBalance", 
             },
             {
-                title:"Client Pending Second Approval",
-                path:"/admin/clients/second-approvals",
+                title:"Account Statement",
+                path:"/Agent/walletOperation/AccountStatement",
+            },
+            {
+                title:"Service Payment",
+                path:"/Agent/walletOperation/ServicePayment",
             }
         ]
     },
@@ -80,17 +104,14 @@ export const Side_bar_data = [
         iconClass:"icon-Asset-3",
         subMenu:[
             {
-                title:"Client Lists",
-                path:"/admin/clients/all",
+                title:"Send Money",
+                path:"/Admin/Transfer",
             },
             {
-                title:"Client Pending First Approval",
-                path:"/admin/clients/first-approvals",
+                title:"Recive Money",
+                path:"/Admin/Transfer0",
             },
-            {
-                title:"Client Pending Second Approval",
-                path:"/admin/clients/second-approvals",
-            }
+           
         ]
     },
     {
@@ -119,7 +140,15 @@ export const Side_bar_data = [
         title:"Loan Applications",
         path:"/admin/revenue/management",
         id:7,
-        iconClass:"icon-Asset-29"
+        iconClass:"icon-Asset-29",
+        subMenu:[
+           
+            {
+                title:"Loan Application ",
+                path:"/Admin/Loan",
+            },
+           
+        ]
     },
     {
         title:"Revenue Management",
@@ -153,6 +182,20 @@ export const Side_bar_data = [
         path:"/agent/access-history",
         id:10,
         iconClass:"icon-Asset-25"
+    },
+    {
+        title:"KYC",
+        path:"/admin/kyc",
+        id:15,
+        iconClass:"icon-Asset-3",
+        subMenu:[
+            {
+                title:"Taxation Proof",
+                path:"/Admin/kfc",
+            },
+          
+           
+        ]
     },
     {
         title:"Settings",
