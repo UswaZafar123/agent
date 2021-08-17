@@ -1,9 +1,9 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import {I18nProvider, LOCALES} from './Component/i18n';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { I18nProvider, LOCALES } from "./Component/i18n";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
@@ -18,12 +18,11 @@ import "react-redux-toastr/lib/css/react-redux-toastr.min.css";
 
 // import Loader from "./Component/common/loader"
 
-
 // import ReduxToastr from 'react-redux-toastr';
-import 'react-redux-toastr/lib/css/react-redux-toastr.min.css'
+import "react-redux-toastr/lib/css/react-redux-toastr.min.css";
 // import rootReducer from "./store/rootReducer";
-import 'react-date-range/dist/styles.css'; // main css file
-import 'react-date-range/dist/theme/default.css'; // theme css file
+import "react-date-range/dist/styles.css"; // main css file
+import "react-date-range/dist/theme/default.css"; // theme css file
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = composeEnhancers(applyMiddleware(thunk))(createStore)(
@@ -33,33 +32,43 @@ const store = composeEnhancers(applyMiddleware(thunk))(createStore)(
 //import {LOCALES} from './locales';
 
 const persistor = persistStore(store);
-const langue = localStorage.setItem("langue", "fr")
-console.log(localStorage.getItem("langue"))
+
+//const lang= localStorage.setItem('lang', 'en-US')
+//console.log(localStorage.getItem("lang"));
+/* if(localStorage.getItem("lang")) {
+  console.log(localStorage.getItem("lang"));
+}
+else {
+  const locale= localStorage.setItem('lang', 'en-US')
+} */
+
+const locale=localStorage.getItem("lang") ? localStorage.getItem("lang") : localStorage.setItem('lang', 'en-US') 
 
 ReactDOM.render(
-  <I18nProvider locale={langue}>
- <Provider store={store}>
-    {/* <Loader /> */}
-    <PersistGate persistor={persistor}>
-      {/* <Loader/> */}
-      <div>
-      <ReduxToastr
-        timeOut={4000}
-        newestOnTop={false}
-        preventDuplicates
-        position="top-right"
-        transitionIn="fadeIn"
-        transitionOut="fadeOut"
-        progressBar
-        closeOnToastrClick/>
-      </div>
-    <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </PersistGate>
-  </Provider>,
+  <I18nProvider locale={locale}>
+    <Provider store={store}>
+      {/* <Loader /> */}
+      <PersistGate persistor={persistor}>
+        {/* <Loader/> */}
+        <div>
+          <ReduxToastr
+            timeOut={4000}
+            newestOnTop={false}
+            preventDuplicates
+            position="top-right"
+            transitionIn="fadeIn"
+            transitionOut="fadeOut"
+            progressBar
+            closeOnToastrClick
+          />
+        </div>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </PersistGate>
+    </Provider>,
   </I18nProvider>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function

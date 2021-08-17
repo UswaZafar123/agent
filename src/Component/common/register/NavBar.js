@@ -17,7 +17,7 @@ class NavBar extends Component {
   }
 
   handleLanguage(e) {
-    alert(localStorage.getItem("langue"))
+    //alert(localStorage.getItem("langue"))
     if (e.target.value == "fr") {
      localStorage.setItem("langue", "fr")
       localStorage.setItem("locale", LOCALES.FRENCH)
