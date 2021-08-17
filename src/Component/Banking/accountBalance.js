@@ -113,7 +113,7 @@ export default function AccountBalance() {
                                         </h1>
                                     </div>
 
-
+                                  <div className="list_top_heading textAlignCenter text-center">
                                     <button className="btn_email"
                                             onClick={(event) => handleListItemClick(event, 1)}>Email
                                     </button>
@@ -122,7 +122,7 @@ export default function AccountBalance() {
                                     <button className="btn_both"
                                             onClick={(event) => handleListItemClick(event, 3)}>Both
                                     </button>
-
+                                    </div>
 
                                 </div> : null}
 

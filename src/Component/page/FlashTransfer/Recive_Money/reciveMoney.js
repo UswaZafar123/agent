@@ -93,15 +93,10 @@ class ReciveMoney extends Component {
         })
     };
 
+    call = () => {
 
-  
-
-   
-
-  
-
-
-
+        this.props.history.push("/Admin/ReciveMoney2");  
+    }
     render() {
         // console.log("jai",this.state.paginationGetCurrentPage)
         return (
@@ -163,7 +158,21 @@ class ReciveMoney extends Component {
                                            </div>
                                       
                                         </div>
-                                        
+                                        <div className="divButton">
+                                      <Button className="btn-cancel-non-afb"style={{borderRadius:20, width:'135px',borderBlockColor:'white'}}  >
+                                            Cancel
+                                        </Button>
+                                      <div style={{marginLeft:300, marginRight:300}}>
+
+                                             </div>
+                                             <Button className="btn-submit-non-afb" 
+                                                      onClick={this.call}
+                                                      style={{borderRadius:20, width:'135px',
+                                                      backgroundColor:'red',borderBlockColor:'white'}} > 
+                                                 Submit
+                                             </Button>
+
+                                             </div> 
                                     </div>
                                 </div>
                                

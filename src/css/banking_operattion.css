@@ -1,6 +1,6 @@
 .btn_email{
     top:47%;
-    left:52%;
+    left:47%;
     position: absolute;
     background: #4F4D4D;
     border: 0.5px ;
@@ -17,7 +17,7 @@
 }
 .btn_sms{
     top:59%;
-    left:52%;
+    left:47%;
     position: absolute;
     background: #4F4D4D;
     border: 0.5px ;
@@ -35,7 +35,7 @@
 }
 .btn_both{
     top:71%;
-    left:52%;
+    left:47%;
     position: absolute;
     background: #4F4D4D;
     border: 0.5px ;
@@ -368,7 +368,7 @@
 
 .btn_cash_deposit{
     top:55%;
-    left:45%;
+    left:49%;
     position: absolute;
     background: #4F4D4D;
     border: 0.5px ;
@@ -380,7 +380,7 @@
     line-height: 18px;
     color: #FFFFFF;
     font-family: 'Lato', sans-serif !important;
-    width: 300px;
+    width: 200px;
     height: 100px;
 }
 
@@ -398,7 +398,7 @@
     line-height: 18px;
     color: #FFFFFF;
     font-family: 'Lato', sans-serif !important;
-    width: 300px;
+    width: 200px;
     height: 100px;
 }
 

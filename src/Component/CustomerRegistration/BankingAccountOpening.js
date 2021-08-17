@@ -319,7 +319,7 @@ class BankingAccountOpening extends Component {
                                                 <label  className="non-afb-label">Expiry Date</label>
                                                 <div   className="inputFlash" >
                                                     <Input type="date" placeholder="expiry Date"name="expiryDate" value={this.state.expiryDate}
-                                                           style={{ width: 100 + "%", height: 52 }}>>
+                                                           style={{ width: 100 + "%", height: 52 }}>
                                                     </Input>
                                                 </div>
                                             </Grid>

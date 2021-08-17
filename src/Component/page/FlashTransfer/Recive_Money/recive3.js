@@ -1,7 +1,7 @@
 import React, {  Component } from 'react';
 import 'antd/dist/antd.css';
 
-import success from '../../../../Assets/images/confirm.svg';
+//import "./src/Component/Agent/antDcustom.css";
 import { AgGridColumn, AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
@@ -26,12 +26,13 @@ import {  Card,
     ModalFooter,
     ModalHeader, } from 'reactstrap';
 
-
+import { BiLink } from "react-icons/bi";
 
 // import { opacity } from 'html2canvas/dist/types/css/property-descriptors/opacity';
 import Select from 'react-select';
 import { MdFingerprint } from "react-icons/md";
 import { AiOutlineClose } from "react-icons/ai";
+import { Alert } from 'bootstrap';
 import { useHistory } from 'react-router-dom';
 
 
@@ -48,7 +49,8 @@ function handleChange(value) {
  
   
 
-class SendMoney extends Component {
+
+class ReciveMoney3 extends Component {
 
   
 
@@ -93,20 +95,10 @@ class SendMoney extends Component {
 
 
   
-    state = {
-        modal1: false,
-        code :null,
-        modal2:false,
-    
-    
-    }
 
    
 
-    toggle2 = () => {
-        this.setState({ modal2: !this.state.modal2 });
-        this.setState({modal1: false})
-      };
+  
 
 
 
@@ -122,106 +114,54 @@ class SendMoney extends Component {
                                     <div className="chartCardTop">
                                         <div className="kyccustomformheading">
                                             <h1 className="list_top_heading textAlignCenter text-center">
-                                              Flash Tranfer - Send Money
+                                              Recive Money
                                             </h1>
                                             {/* <button className="addposbtn c_first_pending_BTN" onClick={this.addChange}>Add a new Point of Sale</button> */}
                                         </div>
                                     </div>
-
                                     <div className=" chartCardMiddle" style={{ padding: "24px" }}>
                                       
                                         <div
                                             className="ag-theme-alpine agGridCustomize"
-                                            style={{ height: 1000, width: 100 + "%" }}
+                                            style={{ height: 600, width: 100 + "%" }}
                                         >
+                                          <div className="divStory2">
+                                          <div className="marginList1" >  
+                                             <Label className="marginList"style={{marginTop:20}}> 
+                                            Amount :
+                                             </Label >
+                                            
+                                     </div>
+                                     <Divider style={{marginTop:30}} />
 
-                                                <div style={{height:130}} > 
-                                                    <img src={success} alt="success" />
-                                                    <Label style={{marginTop:30, fontSize:30, 
-                                                        marginLeft:350,
-
-                                                        }}> 
-                                                     Money Send Successful !
-                                                </Label >
-                                                </div > 
-                                               
-                                           
-                                     <div className="divStory" > 
                                      <div className="marginList1" >  
-                                     <Label className="marginList"style={{marginTop:10}}> 
-                                    Mobile Number :
-                                     </Label >
+                                             <Label className="marginList"style={{marginTop:20}}> 
+                                                Name :
+                                             </Label >
+                                            
                                      </div>
-                                     <Divider />
-                                     <div className="marginList1">
-                                     <Label className="marginList"> 
-                                        Amount :
-                                     </Label >
-                                     </div>
-                                     <Divider />
-                                     <div className="marginList1">
-                                     <Label className="marginList"> 
-                                       Fees :
-                                     </Label >
-                                     </div>
-                                     <Divider />
-                                     <div  className="marginList1">
-                                     <Label className="marginList"> 
-                                        Date :
-                                     </Label >
-                                     </div>
-                                     <Divider />
-                                     <div className="marginList1">
-                                     <Label className="marginList"> 
-                                         Time :
-                                     </Label >
-                                     </div>
-                                     <Divider />
-                                     <div className="marginList1">
-                                     <Label className="marginList"> 
-                                 Sender's Account :
-                                     </Label >
-                                     </div>
-                                     <Divider />
-                                     <div className="marginList1">
-                                     <Label className="marginList"> 
-                                 Receiver's Account :
-                                     </Label >
-                                     </div>
-                                     <Divider />
-                                     <div className="marginList1">
-                                     <Label className="marginList"> 
-                                         Reason :
-                                     </Label >
-                                     </div>
-                                     <Divider />
-                                     <div className="marginList1">
-                                     <Label className="marginList"> 
-                                         Currency :
-                                     </Label >
-                                     </div>
-                                     <Divider />
+                                     <Divider style={{marginTop:30}} />
 
-                                     <div className="divButton">
-                                         <Button className="buttonDisable"style={{borderRadius:20, width:'170px',borderBlockColor:'white'}}  > 
-                                                 Print Summary
-                                             </Button>
-                                      <div style={{marginLeft:200, marginRight:300}}>
-
-                                             </div>
-                                             <Button className="buttonDisable" 
-                                                      onClick={this.toggle1}
-                                                     style={{borderRadius:20, width:'170px',
-                                                             backgroundColor:'red',borderBlockColor:'white'}}  > 
-                                                 Done
-                                             </Button>
-
-                                             </div> 
-
-                                              
-                                              
-
+                                     <div className="marginList1" >  
+                                             <Label className="marginList"style={{marginTop:20}}> 
+                                            E-MAIL: 
+                                             </Label >
+                                            
                                      </div>
+                                     <Divider style={{marginTop:30}} />
+
+
+
+                                          </div>
+
+                                          <Label className=""style={{marginTop:50 ,fontSize:25, marginLeft:100}}> 
+                                               Your Link has been generated
+                                             </Label >
+                                             <div  style={{width:600, marginLeft:100, marginTop:20}}  >
+                                             <BiLink style={{ width: 30,height:40, color : 'blue'}}/>
+                                               <Input  style={{height:60}} > </Input>
+                                           </div>
+                                      
                                         </div>
                                         
                                     </div>
@@ -244,7 +184,7 @@ class SendMoney extends Component {
 
   
   
-export default  SendMoney;
+export default  ReciveMoney3;
 
 
 

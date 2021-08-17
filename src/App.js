@@ -51,6 +51,13 @@ import NonAfbCustomer from"./Component/CustomerRegistration/nonAfbCustomer";
 import BankingOpeningAccount from "./Component/CustomerRegistration/BankingAccountOpening";
 import nonAfbCustomer from "./Component/CustomerRegistration/nonAfbCustomer";
 import walletAccountOpening from "./Component/CustomerRegistration/walletAccountOpening";
+import SendMoney1 from "./Component/page/FlashTransfer/Send_Money/sendMoney1";
+import ReciveMoney1 from "./Component/page/FlashTransfer/Recive_Money/reciveMoney1";
+import ReciveMoney2 from "./Component/page/FlashTransfer/Recive_Money/reciveMoney2";
+import CashDeposit1 from "./Component/page/FlashTransfer/Send_Money/cashDeposit";
+import sendMoney from "./Component/page/FlashTransfer/Send_Money/sendMoney";
+import succesSendMoney from "./Component/page/FlashTransfer/Send_Money/succesSendMoney";
+import ReciveMoney from "./Component/page/FlashTransfer/Recive_Money/reciveMoney";
 
 
 export const App=(props) =>{
@@ -113,11 +120,17 @@ export const App=(props) =>{
                     <Route path="/agent/nonAfbCustomer" component={nonAfbCustomer} />
                     <Route path="/agent/BankingAccountOpening" component={BankingOpeningAccount} />
                     <Route path="/agent/AccountBalance" component={AccountBalance} />
-                    <Route path="/Admin/Transfer" component={SendMoney} />
-                    <Route path="/Admin/Transfer0" component={ReceiveMoney} />
+
+                    <Route path="/Admin/Transfer" component={SendMoney1} />
+                    <Route path="/Admin/Transfer0" component={ReciveMoney1} />
+                    <Route path="/Admin/ReciveMoney2" component={ReciveMoney2} />
+                    <Route path="/Admin/ReciveMoney" component={ReciveMoney} />
                     <Route path="/Admin/Transfer" component={SendFeels} />
                     <Route path="/Admin/kfc" component={TaxationProof} />
                     <Route path="/Admin/Loan" component={LoanApplication} />
+                    <Route path="/Admin/CashDeposit" component={CashDeposit1} />
+                    <Route path="/Admin/sendMoney" component={sendMoney} />
+                    <Route path="/Admin/succesSendMoney" component={succesSendMoney} />
 
                     <Route path="/admin/banking/transfer" component={Transfer} />
                       <Route path="/admin/banking/account_balance" component={AccountBalance} />

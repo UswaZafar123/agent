@@ -142,6 +142,7 @@ class AfbCustomer2 extends Component {
 
                                                 </div>
                                             </Grid>
+
                                             <Grid item xs={12} sm={6}>
                                                 <label  className="non-afb-label">  </label>
                                                 <div   className="inputFlash" >
@@ -156,6 +157,7 @@ class AfbCustomer2 extends Component {
                                                     </Input>
                                                 </div>
                                             </Grid>
+
                                             <Grid item xs={12} sm={6}>
                                                 <label  className="non-afb-label"> Zip Code </label>
                                                 <div   className="inputFlash" >
@@ -163,18 +165,21 @@ class AfbCustomer2 extends Component {
                                                     </Input>
                                                 </div>
                                             </Grid>
+
                                             <Grid item xs={12} sm={6}>
                                                 <label  className="non-afb-label"> Email Id </label>
                                                 <div   className="inputFlash" >
-                                                    <Input type="text" placeholder="Email"name="email" value={this.state.email}
+                                                    <Input type="text" placeholder="Email" name="email" value={this.state.email}
                                                            style={{ width: 100 + "%", height: 52 }}>
                                                     </Input>
                                                 </div>
                                             </Grid>
+
                                             <Grid item xs={12} sm={6}>
-                                                <label  className="non-afb-label">Account Number </label>
+                                                <label  className="non-afb-label"> Account Number </label>
                                                 <div   className="inputFlash" >
-                                                    <Input type="text" placeholder="Account Number"name="accountNumber" value={this.state.accountNumber}>
+                                                    <Input type="text" placeholder="Account Number" name="accountNumber" value={this.state.accountNumber}
+                                                        style={{ width: 100 + "%", height: 52 }}>
                                                     </Input>
                                                 </div>
                                             </Grid>
@@ -189,6 +194,7 @@ class AfbCustomer2 extends Component {
                                             <Grid item xs={12} sm={6}>
                                                 <label> </label>
                                             </Grid>
+                                            
                                             <Grid item xs={12} sm={6}>
 
                                                 <button className="btn_1_view_proof_banking_opening"> View Proof</button>
@@ -211,7 +217,7 @@ class AfbCustomer2 extends Component {
                                             </Grid>
                                             <Grid item xs={12} sm={6}>
 
-                                                <button className="btn-submit-non-afb "  onClick={() => this.openModal()}> Submit
+                                                <button className="btn-submit-non-afb "  onClick={() => this.toggle1()}> Submit
                                                 </button>
 
 

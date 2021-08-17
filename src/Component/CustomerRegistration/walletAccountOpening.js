@@ -54,57 +54,56 @@ class walletAccountOpening extends Component {
         return (
 
 <div>
-            {
+{
 
-                                                this.state.currentView ===1?
-                                                     <div>
-                                                         <div className="main_contain">
-                                                             <div className="merch_m_list_w">
-                                                                 <div className="merch_list_card" id="merch_list_card">
-                                                                     <div className="section_custom">
-                                                                         <div className="sectionInn">
-                                                                             <div className="chartCard_w">
-                                                                                 <div className="chartCardTop">
-                                                                                     <div className="kyccustomformheading">
-                                                                                         <h1 className="list_top_heading textAlignCenter text-center">
-                                                                                             Wallet Account Opening
-                                                                                         </h1>
-                                                                                         {/* <button className="addposbtn c_first_pending_BTN" onClick={this.addChange}>Add a new Point of Sale</button> */}
-                                                                                     </div>
-                                                                                 </div>
-                                                                                 <div className=" chartCardMiddle" style={{ padding: "24px" }}>
-                                                                                     <div className="transactioncardmiddle" style={{ height: "270px" }}>
-                                                                                         <div className="kyccustomformheading">
-                                                                                             <h1 className="list_top_heading textAlignCenter text-center">
-                                                                                                 Choose customer
-                                                                                             </h1>
-                                                                                         </div>
-
-
-                                                         <button className="btn_afb_customer"onClick={() => this.setCurrentView(2)}> AFB Customer</button>
-
-                                                         <button className="btn_non_afb_customer" onClick={() => this.setCurrentView(3)}>Non-AFB Customer</button>
-
-                                                                                     </div>
-                                                                                 </div>
-                                                                             </div>
-                                                                         </div>
-                                                                     </div>
-                                                                 </div>
-                                                             </div>
-                                                         </div>
-                                                     </div>
+                this.state.currentView ===1?
+                        <div>
+                            <div className="main_contain">
+                                <div className="merch_m_list_w">
+                                    <div className="merch_list_card" id="merch_list_card">
+                                        <div className="section_custom">
+                                            <div className="sectionInn">
+                                                <div className="chartCard_w">
+                                                    <div className="chartCardTop">
+                                                        <div className="kyccustomformheading">
+                                                            <h1 className="list_top_heading textAlignCenter text-center">
+                                                                Wallet Account Opening
+                                                            </h1>
+                                                            {/* <button className="addposbtn c_first_pending_BTN" onClick={this.addChange}>Add a new Point of Sale</button> */}
+                                                        </div>
+                                                    </div>
+                                                    <div className=" chartCardMiddle" style={{ padding: "24px" }}>
+                                                        <div className="transactioncardmiddle" style={{ height: "270px" }}>
+                                                            <div className="kyccustomformheading">
+                                                                <h1 className="list_top_heading textAlignCenter text-center">
+                                                                    Choose customer
+                                                                </h1>
+                                                            </div>
 
 
-                                                         :
-                                                this.state.currentView === 2?
-                                                     <AfbCustomer/>
-                                                    :
-                                                    this.state.currentView === 3? <NonAfbCustomer/>
+                            <button className="btn_afb_customer"onClick={() => this.setCurrentView(2)}> AFB Customer</button>
+
+                            <button className="btn_non_afb_customer" onClick={() => this.setCurrentView(3)}>Non-AFB Customer</button>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
 
-                :null
-                                            }
+                            :
+                this.state.currentView === 2?
+                        <AfbCustomer/>
+                    :
+                    this.state.currentView === 3? <NonAfbCustomer/>
+
+                 :null
+            }
 
 
 

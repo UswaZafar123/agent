@@ -1,12 +1,11 @@
-import React, {  Component } from 'react';
+import React, { Component } from 'react';
 import 'antd/dist/antd.css';
-
-//import "./src/Component/Agent/antDcustom.css";
 import { AgGridColumn, AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
-import OtpInput from 'react-otp-input';
-
+import DatePicker from "react-datepicker";
+import Select from 'react-select';
+import { connect } from "react-redux";
 import {  Card,
     CardBody,
     CardHeader,
@@ -21,29 +20,17 @@ import {  Card,
     ModalBody,
     ModalFooter,
     ModalHeader, } from 'reactstrap';
-// import { opacity } from 'html2canvas/dist/types/css/property-descriptors/opacity';
-import Select from 'react-select';
-import { MdFingerprint } from "react-icons/md";
-import { AiOutlineClose } from "react-icons/ai";
-import SendFeels from './sendFeels';
-import { Alert } from 'bootstrap';
-import { useHistory } from 'react-router-dom';
+    import OtpInput from 'react-otp-input';
+//import { getCurrencies, getMerchantTransactionList } from "./src/Component/Agent/services/actions";
 
-
-
-
-const label =""
-const value =""
-
-  
+const { Option } = Select;
 
 function handleChange(value) {
     console.log(`selected ${value}`);
   } 
- 
-  
 
-class SendMoney extends Component {
+
+class CashDeposit extends Component {
 
   
 
@@ -86,8 +73,6 @@ class SendMoney extends Component {
         })
     };
 
-
-  
     state = {
         modal1: false,
         code :null,
@@ -95,17 +80,17 @@ class SendMoney extends Component {
     
     
     }
-
    
-
-    toggle2 = () => {
+    toggle1 = () => {
+        this.setState({ modal1: !this.state.modal1 });
+      };
+      toggle2 = () => {
         this.setState({ modal2: !this.state.modal2 });
         this.setState({modal1: false})
       };
-
       call = () => {
 
-        this.props.history.push("/Admin/sendMoney");  
+        this.props.history.push("/Admin/succesSendMoney");  
     }
 
     render() {
@@ -120,7 +105,7 @@ class SendMoney extends Component {
                                     <div className="chartCardTop">
                                         <div className="kyccustomformheading">
                                             <h1 className="list_top_heading textAlignCenter text-center">
-                                              Send Money
+                                              Cash Deposit in Bank Account 
                                             </h1>
                                             {/* <button className="addposbtn c_first_pending_BTN" onClick={this.addChange}>Add a new Point of Sale</button> */}
                                         </div>
@@ -129,98 +114,62 @@ class SendMoney extends Component {
                                       
                                         <div
                                             className="ag-theme-alpine agGridCustomize"
-                                            style={{ height: 700, width: 100 + "%" }} >
-                                                <div className="eltAlign" style={{fontSize:40}}> 
-                                         <h2 className="title2" >Transactions Fee is : </h2> 
-                                       </div>
-                                       <div className="eltAlign2" >
-                                              <div className="labelMargin"> 
-                                                <Label  className="formColLabel2"style={{marginLeft:"69px"}} >Mobile Number</Label>
-                                               </div>
-                                           <div  className="inputFlash2"   style={{marginLeft:"29px"}}>
-                                               <Input placeholder="Enter Number"  > </Input>
-                                           </div>
-                                         </div>
-
-
-                                         <div className="eltAlign2" >
-                                             <div  className="labelMargin">
-                                               <Label  className="formColLabel2" style={{marginLeft:"69px"}}>Sender'S Account</Label>
+                                            style={{ height: 600, width: 100 + "%" }}
+                                        >   
+                                          
+                                          <div className="eltAlign" >
+                                               <Label  className="formColLabel1">Mobile Number</Label>
+                                            <div  className="inputFlash"  >
+                                               <Input placeholder="Enter Mobile Number" > </Input>
                                             </div>
-
-
-                                           <div  className="inputFlash2"   style={{marginLeft:"15px"}}>
-                                               <Input> </Input>
+                                         </div>
+                                         <div className="eltAlign" >
+                                               <Label  className="formColLabel1" style={{marginLeft:"69px"}}>Amount</Label>
+                                           <div  className="inputFlash"   >
+                                               <Input placeholder="Enter Amount"  > </Input>
                                            </div>
                                          </div>
-                                        
-                                         <div className="eltAlign2" >
-
-                                            <div className="labelMargin">
-                                               <Label  className="formColLabel2" style={{marginLeft:"69px"}}>Receiver's Account</Label>
-                                             </div>
-                                           <div  className="inputFlash2"   style={{marginLeft:"15px"}}>
-                                               <Input > </Input>
-                                           </div>
-                                         </div>
-
-                                         <div className="eltAlign2" >
-                                           <div  className="labelMargin" style={{width:250}}>
-                                               <Label  className="formColLabel2" style={{marginLeft:"70px"}}>Amount</Label>
-                                               </div>
-                                           <div  className="inputFlash2"  >
-                                               <Input placeholder="Enter Number"  > </Input>
-                                           </div>
-                                         </div>
-
-                                         <div className="eltAlign2">
-                                         <div className="labelMargin" style={{width:385}}>
-                                               <Label  className="formColLabel1" style={{marginLeft:"76px"}}>Contry</Label>
-                                         </div>
-                                        <div  >x
-                                             <Select className="selectWeidth"
-                                                   onChange={handleChange} />
+                                         <div className="eltAlign">
+                                               <Label  className="formColLabel1" style={{marginLeft:"69px"}}>Reason</Label>
+                                         <div  className="inputFlash" >
+                                               <Input className="input_height"
+                                               placeholder="Add Raison" 
+                                               style={{ border: "2px solid black" }}
+                                               > </Input>
+                                          </div>
                                         </div>
-                                      </div>
-
-                                      <div className="eltAlign2">
-                                      <div className="labelMargin"  style={{width:395}}>
-                                               <Label  className="formColLabel1"style={{marginLeft:60}} >Currency</Label>
-                                         </div>
+                                        <div className="eltAlign">
+                                               <Label  className="formColLabel1" style={{marginLeft:"69px"}}>Contry</Label>
                                         <div  >
                                              <Select className="selectWeidth"
                                                    onChange={handleChange}
                                                       />
                                         </div>
                                       </div>
-
-
-                                        </div>
-
-                                       
-
-
-                                        <div className="customAgFooter">
-                                        <div className="divButton" style={{marginLeft:80}}>
-                                         <Button  className="btn-cancel-non-afb"style={{borderRadius:20, width:'135px',borderBlockColor:'white'}}  > 
-                                                 Refuse
+                                      <div className="eltAlign">
+                                               <Label  className="formColLabel1" style={{marginLeft:"50px"}}>currency</Label>
+                                         <div  >
+                                             <Select className="selectWeidth"
+                                                   onChange={handleChange}  />
+                                         </div>
+                                      </div>
+                                      <div className="divButton">
+                                         <Button className="btn-cancel-non-afb"style={{borderRadius:20, width:'135px',borderBlockColor:'white'}}  > 
+                                                 Cancel
                                              </Button>
-                                             <div style={{marginLeft:300, marginRight:300}}>
+                                      <div style={{marginLeft:300, marginRight:300}}> 
 
-                                            </div>
-                                             <Button  className="btn-submit-non-afb" 
+                                             </div>
+                                             <Button className="btn-submit-non-afb"
                                                       onClick={this.toggle2}
                                                       style={{borderRadius:20, width:'135px',
-                                                      backgroundColor:'red',borderBlockColor:'white'}}   > 
+                                                      backgroundColor:'red',borderBlockColor:'white'}}  > 
                                                  Submit
                                              </Button>
-
-                                             </div> 
-
                                              <Modal  
                                                isOpen={this.state.modal2}
                                                className={this.props.className}
-                                               style={{width:600}}> 
+                                               style={{width:600,   }}> 
                                             <ModalHeader  
                                                           className="modalHeader" style={{
                                                           backgroundColor:"#E25D56",
@@ -228,41 +177,41 @@ class SendMoney extends Component {
                                                          alignItems:'center',
                                                          
                                                          width:600,}}>
-                                                             <Label className="titleModal">Confirmation Message</Label>
+                                                             <Label className="titleModal">Vérification</Label>
                                             </ModalHeader>
                                             <ModalBody   className="modalBody"style={{width:600,}} >
                                           
-                                           
-                                            <Label style={{marginTop:20, marginLeft:40, fontSize:30}}>Agent's Password</Label>
+                                            <Label style={{fontSize:30,fontWeight:'bold' , marginTop:20, marginLeft:100}}>Enter Pin To Continue</Label>
+                                            <Label className="formColLabel1" style={{marginTop:20, marginLeft:100}}>Please Enter Your PIN Number</Label>
                            
-                                                                        
-                                         <FormGroup row>
-                                         <div  className="" >
-                                               <Input style={{marginLeft:60, width:400}}> </Input>
-                                           </div>                         
-                                                                        
-                                                                        
-                                         </FormGroup>
+                                        
+                            <FormGroup row>
+                          
+                                   
+                            <OtpInput  className="otpSize"
+                                      value={this.state.otp}
+                                      onChange={this.handleChange}
+                                      numInputs={4}
+                                      />
+
+                             
+                            </FormGroup>
                             {/* <a href  ="SendFeels"> */}
-                                         <Button className="btnOk"  
-                                               style={{backgroundColor:"#cc5f59",
-                                                       borderRadius:20,
-                                                       borderBlockColor:'white' }}
-                                                       onClick={this.call}
-                                                       >Submit
-                                         </Button> 
-                              {/* onClick={()=>{ SendFeells(); 
-                                alert("Page d'envoi"); }} */}
-                             {/* </a>   */}
+                              <Button className="btnOk"  
+                                    style={{backgroundColor:"#cc5f59",
+                                            borderRadius:20,
+                                            borderBlockColor:'white' }}
+                                            onClick={this.call}
+                                            >OK
+                              </Button> 
+                             
                          </ModalBody>
                                            
                      </Modal>
-                                         
-                                             <div className="NextPrevW">
-                                               
-                                               </div>
+                                             </div> 
 
                                         </div>
+                                       
                                     </div>
                                 </div>
                                
@@ -283,7 +232,7 @@ class SendMoney extends Component {
 
   
   
-export default  SendMoney;
+export default  CashDeposit;
 
 
 

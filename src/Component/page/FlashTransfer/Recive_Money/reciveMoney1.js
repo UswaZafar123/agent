@@ -112,6 +112,10 @@ class ReciveMoney1 extends Component {
         this.setState({ modal2: !this.state.modal2 });
         this.setState({modal1: false})
       };
+      call = () => {
+
+        this.props.history.push("/Admin/ReciveMoney");  
+    }
     //   openSendFeels = () => {
     //     this.isModalVisible({ SendFeels });
     //     this.setState({modal2: false})
@@ -158,7 +162,7 @@ class ReciveMoney1 extends Component {
 
 
                                            <div  className="inputFlash2"   style={{marginLeft:"15px"}}>
-                                               <Input placeholder="Amount" name ="amount"> </Input>
+                                               <Input placeholder="Enter Amount" name ="amount"> </Input>
                                            </div>
                                          </div>
                                         
@@ -168,7 +172,7 @@ class ReciveMoney1 extends Component {
                                                <Label  className="formColLabel2" >Mobile Number</Label>
                                              </div>
                                            <div  className="inputFlash2"   style={{marginLeft:"15px"}}>
-                                               <Input > </Input>
+                                               <Input placeholder="Enter Mobile Number" name ="MobileNumber"> </Input>
                                            </div>
                                          </div>
 
@@ -181,25 +185,21 @@ class ReciveMoney1 extends Component {
                                            </div>
                                          </div>
 
-                                         <div className="divButton" style={{marginLeft:130}}>
-                                         <Button className="buttonDisable"style={{borderRadius:20,
-                                                         width:'170px',borderBlockColor:'white',
-                                                         backgroundColor:'#464646'}}  > 
-                                                 Cancel
-                                             </Button>
-                                      <div style={{marginLeft:200, marginRight:300}}>
+                                         <div className="divButton">
+                                      <Button className="btn-cancel-non-afb"style={{borderRadius:20, width:'135px',borderBlockColor:'white'}}  >
+                                            Cancel
+                                        </Button>
+                                      <div style={{marginLeft:300, marginRight:300}}>
 
                                              </div>
-                                             <Button className="buttonDisable" 
-                                                      onClick={this.toggle1}
-                                                     style={{borderRadius:20, width:'170px',
-                                                             backgroundColor:'red',borderBlockColor:'white'}}  > 
-                                                Submit
+                                             <Button className="btn-submit-non-afb" 
+                                                      onClick={this.call}
+                                                      style={{borderRadius:20, width:'135px',
+                                                      backgroundColor:'red',borderBlockColor:'white'}} > 
+                                                 Submit
                                              </Button>
 
-                                     </div>
-
-                                            
+                                             </div> 
                                       
                                         </div>
                                         

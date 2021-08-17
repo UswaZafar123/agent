@@ -256,7 +256,7 @@ class AfbCustomer extends Component {
                                                         </Grid>
                                                         <Grid item xs={12} sm={6}>
 
-                                                            <button className="btn-submit-non-afb "  onClick={() => this.openModal()}> Submit
+                                                            <button className="btn-submit-non-afb "  onClick={() => this.showModal()}> Submit
                                                             </button>
 
 
