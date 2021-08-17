@@ -29,10 +29,15 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = composeEnhancers(applyMiddleware(thunk))(createStore)(
   rootReducer
 );
+
+//import {LOCALES} from './locales';
+
 const persistor = persistStore(store);
+const langue = localStorage.setItem("langue", "fr")
+console.log(localStorage.getItem("langue"))
 
 ReactDOM.render(
-  <I18nProvider locale="en-US">
+  <I18nProvider locale={langue}>
  <Provider store={store}>
     {/* <Loader /> */}
     <PersistGate persistor={persistor}>

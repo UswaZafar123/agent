@@ -3,12 +3,12 @@ import { IntlProvider } from 'react-intl';
 
 import {LOCALES} from './locales';
 import messages from './messages';
-
+console.log(localStorage.getItem("langue"))
 const Provider =({children,locale = LOCALES.ENGLISH}) => (
     <IntlProvider
-    locale= {locale}
+    locale= {localStorage.getItem("locale")}
     textComponent = {Fragment}
-    messages = {messages[locale]}
+    messages = {messages[localStorage.getItem("locale")]}
     >
         {children}
     </IntlProvider>
