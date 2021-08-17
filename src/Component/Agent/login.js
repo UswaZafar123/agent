@@ -14,7 +14,7 @@ class Login extends Component {
     this.state = {
       latitude: "",
       longitude: "",
-      browser: "",
+      browser: "", 
       os: "",
       ipAddress: "",
       email: "",
