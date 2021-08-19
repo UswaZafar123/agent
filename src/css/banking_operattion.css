@@ -1,0 +1,500 @@
+.btn_email{
+    top:47%;
+    left:47%;
+    position: absolute;
+    background: #4F4D4D;
+    border: 0.5px ;
+    border-radius: 10px;
+    text-align: center;
+    letter-spacing: 0.1px;
+    font-weight: 500;
+    font-size: 25px;
+    line-height: 18px;
+    color: #FFFFFF;
+    font-family: 'Lato', sans-serif !important;
+    width: 300px;
+    height: 52px;
+}
+.btn_sms{
+    top:59%;
+    left:47%;
+    position: absolute;
+    background: #4F4D4D;
+    border: 0.5px ;
+    border-radius: 10px;
+    text-align: center;
+    letter-spacing: 0.1px;
+    font-weight: 500;
+    font-size: 25px;
+    line-height: 18px;
+    color: #FFFFFF;
+    font-family: 'Lato', sans-serif !important;
+    width: 300px;
+    height: 52px;
+
+}
+.btn_both{
+    top:71%;
+    left:47%;
+    position: absolute;
+    background: #4F4D4D;
+    border: 0.5px ;
+    border-radius: 10px;
+    text-align: center;
+    letter-spacing: 0.1px;
+    font-weight: 500;
+    font-size: 25px;
+    line-height: 18px;
+    color: #FFFFFF;
+    font-family: 'Lato', sans-serif !important;
+    width: 300px;
+    height: 52px;
+
+}
+
+.btn_afb_customer{
+    top:55%;
+    left:35%;
+    position: absolute;
+    background: #4F4D4D;
+    border: 0.5px ;
+    border-radius: 10px;
+    text-align: center;
+    letter-spacing: 0.1px;
+    font-weight: 500;
+    font-size: 25px;
+    line-height: 18px;
+    color: #FFFFFF;
+    font-family: 'Lato', sans-serif !important;
+    width: 300px;
+    height: 100px;
+}
+.btn_non_afb_customer{
+    top:55%;
+    right:10%;
+    position: absolute;
+    background: #4F4D4D;
+    border: 0.5px ;
+    border-radius: 10px;
+    text-align: center;
+    letter-spacing: 0.1px;
+    font-weight: 500;
+    font-size: 25px;
+    line-height: 18px;
+    color: #FFFFFF;
+    font-family: 'Lato', sans-serif !important;
+    width: 300px;
+    height: 100px;
+
+}
+.afb_card_middle{
+    display: flex;
+    margin-bottom: 42px;
+}
+
+.afb_card_formcol{
+
+}
+.formCol{
+    padding: 12px;
+
+}
+.afb-label{
+    top:35%;
+    left:30%;
+    width: 70%;
+    display: flex;
+    position: absolute;
+    align-items: center;
+    justify-content: space-between;
+
+}
+.afb_formCol_input{
+    /*left: 5%;*/
+    /*width: 200px;*/
+    /*height: 50px;*/
+    /*color: #4C4D4E;*/
+    /*font-style: normal;*/
+    /*font-weight: normal;*/
+    /*font-size: 16px;*/
+    /*line-height: 20px;*/
+    /*letter-spacing: 0.1px;*/
+    /*background: #F3F3F3;*/
+    /*box-shadow: 4px 4px 12px rgba(204, 204, 204, 0.51);*/
+    /*border-radius: 10px;*/
+    /*border: none;*/
+    /*outline: none;*/
+    /*display: flex;*/
+    /*align-items: center;*/
+    /*justify-content: flex-start;*/
+    /*flex-direction: row;*/
+    padding: 6px;
+    font-size:14px;
+    border-radius:10px;
+}
+
+.afb_formColLabel{
+    /*left: 25%;*/
+    /*display: block;*/
+    /*color: #343A40;*/
+    /*font-size: 20px;*/
+    /*font-style: normal;*/
+    /*font-weight: 600;*/
+    /*line-height: 20px;*/
+    /*letter-spacing: 0.10000000149011612px;*/
+    /*text-align: center;*/
+    width:240px;
+    display: inline-block;
+    text-align: right;
+
+}
+.afb_account
+{
+    top:70%;
+    left:15%;
+    position: absolute;
+
+}
+
+.inputFlash{
+    width:400px;
+
+
+}
+.formColLabel1{
+    display: block;
+    color: #343A40;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    margin-right: 30px;
+
+
+
+
+}
+.eltAlign{
+    display: block;
+    margin-top: 40px;
+    margin-left: 70px;
+    width: 800px;
+    margin: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-bottom: 40px;
+    margin-top: 40px;
+}
+.non-afb-label-input {
+
+    width: 100%;
+    height: 50px;
+    padding-left: 16px;
+    padding-right: 16px;
+    color: #4C4D4E;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: 0.1px;
+    background: #F3F3F3;
+    box-shadow: 4px 4px 12px rgba(204, 204, 204, 0.51);
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: row;
+
+}
+.non-afb-text-field
+{
+    border-radius: 15px;
+    border: 0px solid transparent;
+    background: rgb(242 242 242);
+    border-radius: 15px;
+    letter-spacing: 0.10000000149011612px;
+}
+.btn_1_view_proof_non_afb_customer{
+
+    position: absolute;
+    background: #DD1B1B;
+    border: 0.5px ;
+    border-radius: 10px;
+    text-align: center;
+    letter-spacing: 0.1px;
+    font-weight: 500;
+    font-size: 25px;
+    line-height: 18px;
+    color: #FFFFFF;
+    font-family: 'Lato', sans-serif !important;
+    width: 100px;
+    height: 40px;
+
+}
+.btn_2_view_proof_non_afb_customer{
+
+    position: absolute;
+    background: #DD1B1B;
+    border: 0.5px ;
+    border-radius: 10px;
+    text-align: center;
+    letter-spacing: 0.1px;
+    font-weight: 300;
+    font-size: 5px;
+    line-height: 10px;
+    color: #FFFFFF;
+    font-family: 'Lato', sans-serif !important;
+    width: 100px;
+    height: 40px;
+
+}
+.btn-cancel-non-afb{
+    background: #4F4D4D;
+    border: 0.5px ;
+    border-radius: 40px;
+    text-align: center;
+    letter-spacing: 0.1px;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 20px;
+    color: #FFFFFF;
+    font-family: 'Lato', sans-serif !important;
+    width: 130px;
+    height: 50px;
+    left:5%;
+    /*position: absolute;*/
+
+}
+.btn-submit-non-afb{
+    background: #DD1B1B;
+    border: 0.5px ;
+    border-radius: 40px;
+    text-align: center;
+    letter-spacing: 0.1px;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 20px;
+    color: #FFFFFF;
+    font-family: 'Lato', sans-serif !important;
+    width: 130px;
+    height: 50px;
+    right:5%;
+    position: absolute;
+}
+.divButton{
+    display: block;
+    margin-top: 40px;
+    margin-left: 70px;
+    width: 800px;
+    margin: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-bottom: 40px;
+    margin-top: 40px;
+
+}
+.non-afb-label{
+    color: #343A40;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    margin-right: 30px;
+}
+.btn_1_view_proof_banking_opening
+{
+    position: absolute;
+    background: #DD1B1B;
+    border: 0.5px ;
+    border-radius: 8px;
+    text-align: center;
+    letter-spacing: 0.1px;
+    font-weight: 200;
+    font-size: 18px;
+    line-height: 14px;
+    color: #FFFFFF;
+    font-family: 'Lato', sans-serif !important;
+    width: 130px;
+    height: 42px;
+    box-shadow: 4px 4px 12px rgba(204, 204, 204, 0.51);
+    border: 1px solid #ABA1A1;
+    margin-right: 10px;
+    font-style: normal;
+}
+.btn_2_view_proof_banking_opening
+{
+    position: absolute;
+    background: #DD1B1B;
+    border: 0.5px ;
+    border-radius: 8px;
+    text-align: center;
+    letter-spacing: 0.1px;
+    font-weight: 200;
+    font-size: 18px;
+    line-height: 14px;
+    color: #FFFFFF;
+    font-family: 'Lato', sans-serif !important;
+    width: 130px;
+    height: 42px;
+    box-shadow: 4px 4px 12px rgba(204, 204, 204, 0.51);
+    border: 1px solid #ABA1A1;
+    margin-right: 10px;
+    font-style: normal;
+}
+.btn_3_view_proof_banking_opening
+{
+    position: absolute;
+    background: #DD1B1B;
+    border: 0.5px ;
+    border-radius: 8px;
+    text-align: center;
+    letter-spacing: 0.1px;
+    font-weight: 200;
+    font-size: 18px;
+    line-height: 14px;
+    color: #FFFFFF;
+    font-family: 'Lato', sans-serif !important;
+    width: 130px;
+    height: 42px;
+    box-shadow: 4px 4px 12px rgba(204, 204, 204, 0.51);
+    border: 1px solid #ABA1A1;
+    margin-right: 10px;
+    font-style: normal;
+}
+
+.btn_cash_deposit{
+    top:55%;
+    left:49%;
+    position: absolute;
+    background: #4F4D4D;
+    border: 0.5px ;
+    border-radius: 10px;
+    text-align: center;
+    letter-spacing: 0.1px;
+    font-weight: 500;
+    font-size: 25px;
+    line-height: 18px;
+    color: #FFFFFF;
+    font-family: 'Lato', sans-serif !important;
+    width: 200px;
+    height: 100px;
+}
+
+.btn_transfer_account{
+    top:55%;
+    right:10%;
+    position: absolute;
+    background: #4F4D4D;
+    border: 0.5px ;
+    border-radius: 10px;
+    text-align: center;
+    letter-spacing: 0.1px;
+    font-weight: 500;
+    font-size: 25px;
+    line-height: 18px;
+    color: #FFFFFF;
+    font-family: 'Lato', sans-serif !important;
+    width: 200px;
+    height: 100px;
+}
+
+.success_pic{
+    top:35%;
+    left:60%;
+    text-align: center;
+   position:absolute;
+    align-items: center;
+
+}
+.success_header{
+    top:60%;
+    left:57%;
+    text-align: center;
+    position:absolute;
+    align-items: center;
+    font-size: 26px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 31px;
+    letter-spacing: 0em;
+    padding: 0;
+    margin: 0;
+    color: #343A40;
+}
+.success_card
+{
+    top:70%;
+    left:47%;
+    text-align: center;
+    position:absolute;
+    align-items: center;
+    width:400px;
+    border-radius:15px;
+    color:#343A40;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    box-shadow: 4px 4px 12px ;
+    border: 1px solid #ABA1A1;
+    background-color: lightgrey;
+    width:600px;
+    spacing:3px;
+
+}
+.success_card ListItemText
+{
+    color: #343A40;
+    font-size: 50px;
+    font-style: normal;
+    font-weight: 700;
+}
+.btn_print
+{
+    bottom:5%;
+    left:15%;
+    position: absolute;
+    background: #DD1B1B;
+    border: 0.5px ;
+    border-radius: 15px;
+    text-align: center;
+    letter-spacing: 0.1px;
+    font-weight: 200;
+    font-size: 18px;
+    line-height: 14px;
+    color: #FFFFFF;
+    font-family: 'Lato', sans-serif !important;
+    width: 130px;
+    height: 42px;
+    box-shadow: 4px 4px 12px rgba(204, 204, 204, 0.51);
+    border: 1px solid #ABA1A1;
+    margin-right: 10px;
+    font-style: normal;
+
+}
+.btn_done
+{
+    bottom:5%;
+    right:15%;
+    position: absolute;
+    background: #DD1B1B;
+    border: 0.5px ;
+    border-radius: 15px;
+    text-align: center;
+    letter-spacing: 0.1px;
+    font-weight: 200;
+    font-size: 18px;
+    line-height: 14px;
+    color: #FFFFFF;
+    font-family: 'Lato', sans-serif !important;
+    width: 130px;
+    height: 42px;
+    box-shadow: 4px 4px 12px rgba(204, 204, 204, 0.51);
+    border: 1px solid #ABA1A1;
+    margin-right: 10px;
+    font-style: normal;
+
+}

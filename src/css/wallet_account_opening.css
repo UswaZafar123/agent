@@ -1,0 +1,147 @@
+
+.btn_afb_customer{
+    top:55%;
+    left:35%;
+    position: absolute;
+    background: #4F4D4D;
+    border: 0.5px ;
+    border-radius: 10px;
+    text-align: center;
+    letter-spacing: 0.1px;
+    font-weight: 500;
+    font-size: 25px;
+    line-height: 18px;
+    color: #FFFFFF;
+    font-family: 'Lato', sans-serif !important;
+    width: 300px;
+    height: 100px;
+}
+.btn_non_afb_customer{
+    top:55%;
+    right:10%;
+    position: absolute;
+    background: #4F4D4D;
+    border: 0.5px ;
+    border-radius: 10px;
+    text-align: center;
+    letter-spacing: 0.1px;
+    font-weight: 500;
+    font-size: 25px;
+    line-height: 18px;
+    color: #FFFFFF;
+    font-family: 'Lato', sans-serif !important;
+    width: 300px;
+    height: 100px;
+
+}
+.afb_card_middle{
+    display: flex;
+    margin-bottom: 42px;
+}
+
+.afb_card_formcol{
+
+}
+.formCol{
+    padding: 12px;
+
+}
+.afb-label{
+    top:35%;
+    left:30%;
+    width: 70%;
+    display: flex;
+    position: absolute;
+    align-items: center;
+    justify-content: space-between;
+
+}
+.afb_formCol_input{
+    /*left: 5%;*/
+    /*width: 200px;*/
+    /*height: 50px;*/
+    /*color: #4C4D4E;*/
+    /*font-style: normal;*/
+    /*font-weight: normal;*/
+    /*font-size: 16px;*/
+    /*line-height: 20px;*/
+    /*letter-spacing: 0.1px;*/
+    /*background: #F3F3F3;*/
+    /*box-shadow: 4px 4px 12px rgba(204, 204, 204, 0.51);*/
+    /*border-radius: 10px;*/
+    /*border: none;*/
+    /*outline: none;*/
+    /*display: flex;*/
+    /*align-items: center;*/
+    /*justify-content: flex-start;*/
+    /*flex-direction: row;*/
+    padding: 6px;
+    font-size:14px;
+    border-radius:10px;
+}
+
+.afb_formColLabel{
+     /*left: 25%;*/
+    /*display: block;*/
+    /*color: #343A40;*/
+    /*font-size: 20px;*/
+    /*font-style: normal;*/
+    /*font-weight: 600;*/
+    /*line-height: 20px;*/
+    /*letter-spacing: 0.10000000149011612px;*/
+    /*text-align: center;*/
+    width:240px;
+    display: inline-block;
+    text-align: right;
+
+}
+.afb_account
+{
+    top:70%;
+    left:15%;
+    position: absolute;
+
+}
+.inputFlash{
+    width:533px;
+
+
+}
+.formColLabel1{
+    left:25%;
+    /*display: block;*/
+    color: #343A40;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    margin-right: 50px;
+    width:100%;
+    display: block;
+    /*color: #343A40;*/
+    /*font-size: 20px;*/
+    /*font-style: normal;*/
+    /*font-weight: 600;*/
+    /*line-height: 20px;*/
+    /*letter-spacing: 0.10000000149011612px;*/
+    /*text-align: center;*/
+
+
+
+
+
+
+}
+.eltAlign{
+    display: block;
+    margin-top: 40px;
+    margin-left: 70px;
+    padding: 12px;
+    width: 55%;
+    margin: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-bottom: 40px;
+    margin-top: 40px;
+}
