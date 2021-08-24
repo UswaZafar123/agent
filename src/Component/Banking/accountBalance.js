@@ -179,9 +179,14 @@ export default function AccountBalance() {
                                     </Grid>
 
                                     <Grid item xs={22} sm={6} container justify={"center"}>
-
-                                        <Button variant="contained" color="secondary"> Continue</Button>
-                                    </Grid>
+                                    <Button className="btn-submit-non-afb" 
+                                                     /*  onClick={this.toggle1} */
+                                                      style={{borderRadius:20, width:'135px',
+                                                      backgroundColor:'red',borderBlockColor:'white'}} > 
+                                                 Continue
+                                             </Button>
+                                       {/*  <Button variant="contained" color="secondary"> Continue</Button>
+                                    */} </Grid>
 
                                 </Grid> : null}
                             </div>

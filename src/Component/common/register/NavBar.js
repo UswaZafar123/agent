@@ -21,10 +21,12 @@ class NavBar extends Component {
     if (e.target.value == "fr") {
      localStorage.setItem("langue", "fr")
       localStorage.setItem("locale", LOCALES.FRENCH)
+      window.location.reload()
     }
     else if (e.target.value == "en") {
       localStorage.setItem("langue", "en-US")
       localStorage.setItem("locale", LOCALES.ENGLISH)
+      window.location.reload()
     }
     else alert('Veuillez choisir une langue valide')
   }
@@ -44,6 +46,7 @@ class NavBar extends Component {
         />
         <select className="langOption" name='langue' onChange={(e) => this.handleLanguage(e)}
         >
+          <option value=''>Choisir la langue</option>
           <option value='en'>English</option>
           <option value='fr'>French</option>
         </select>

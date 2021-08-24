@@ -2,6 +2,11 @@ import React, {Component} from 'react';
 import '../../css/transfer.css';
 import '../../css/banking_operattion.css';
 
+import 'antd/dist/antd.css';
+import { AgGridColumn, AgGridReact } from 'ag-grid-react';
+import 'ag-grid-community/dist/styles/ag-grid.css';
+import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
+
 import Highcharts from 'highcharts';
 import variablePie from "highcharts/modules/variable-pie.js";
 import HighchartsReact from 'highcharts-react-official';
@@ -288,13 +293,20 @@ export default function Transfer() {
                                             />
                                         </Grid>
                                         <Grid item xs={12} sm={6} container justify={"flex-start"}>
-
-                                            <Button variant="contained" color="secondary"> Back</Button>
+                                        <Button className="btn-cancel-non-afb"style={{borderRadius:20, width:'135px',borderBlockColor:'white'}}  >
+                                        Back
+                                        </Button>
+                                       {/* <Button variant="contained" color="secondary"> Back</Button> */}
                                         </Grid>
                                         <Grid item xs={12} sm={6} container justify={"flex-end"}>
-
-                                            <Button variant="contained" color="primary" onClick={(event) => handleListItemClick(event, 2)}> Submit</Button>
-                                        </Grid>
+                                        <Button className="btn-submit-non-afb" 
+                                                      onClick={(event) => handleListItemClick(event, 2)}
+                                                      style={{borderRadius:20, width:'135px',
+                                                      backgroundColor:'red',borderBlockColor:'white'}} > 
+                                                 Submit
+                                             </Button>
+                                           {/*  <Button variant="contained" color="primary" onClick={(event) => handleListItemClick(event, 2)}> Submit</Button>
+                                        */} </Grid>
                                     </Grid>
                                 </div>
                             </div>
@@ -380,14 +392,21 @@ export default function Transfer() {
                                         </Grid>
 
                                         <Grid item xs={12} sm={6} container justify={"flex-start"}>
-
-                                            <Button variant="contained" color="secondary"> Back</Button>
+                                        <Button className="btn-cancel-non-afb"style={{borderRadius:20, width:'135px',borderBlockColor:'white'}}  >
+                                        Back
+                                        </Button>
+                                           {/*  <Button variant="contained" color="secondary"> Back</Button> */}
                                         </Grid>
 
                                         <Grid item xs={12} sm={6} container justify={"flex-end"}>
-
-                                            <Button variant="contained" color="primary" onClick={(event) => handleListItemClick(event, 2)}> Submit</Button>
-                                        </Grid>
+                                        <Button className="btn-submit-non-afb" 
+                                                     onClick={(event) => handleListItemClick(event, 2)}
+                                                      style={{borderRadius:20, width:'135px',
+                                                      backgroundColor:'red',borderBlockColor:'white'}} > 
+                                                 Submit
+                                             </Button>
+                                           {/*  <Button variant="contained" color="primary" onClick={(event) => handleListItemClick(event, 2)}> Submit</Button>
+                                        */} </Grid>
 
 
                                     </Grid>

@@ -18,6 +18,7 @@ export default {
                 'login.forogtpassword': "Forgot password?",
                 'login.user.title': "Let's Get Start to Login",
                 'login.button': "Login",
+                'login.username': "Agent Name",
                 'login.donthaveanaccount': "Don’t have an account? ",
                 'login.register.private': "... as Private individual",
                 'login.register.bussiness': "... as Business",

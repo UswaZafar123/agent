@@ -18,6 +18,7 @@ export default {
                 'login.forogtpassword': "Mot de passe oublié ?",
                 'login.user.title' : "Commençons à vous connecter",
                 'login.button': "Connexion",
+                'login.username': "Nom de l'Agent",
                 'login.donthaveanaccount': "Vous n’avez pas de compte ? ",
                 'login.register.private': "... comme particulier",
                 'login.register.bussiness': "... comme entreprise",
