@@ -251,18 +251,30 @@ export default function ServicePayment(props) {
                                         </Grid>
 
                                         <Grid item xs={12} sm={10} container justify={"center"}>
-
-                                            <Button variant="contained" color="secondary"> View Bill</Button>
+                                        <Button className="btn-submit-non-afb" 
+                                                      /* onClick={this.toggle1} */
+                                                      style={{borderRadius:20, width:'135px',
+                                                      backgroundColor:'red',borderBlockColor:'white'}} > 
+                                                 View Bill
+                                             </Button>
+                                           {/*  <Button variant="contained" color="secondary"> View Bill</Button> */}
                                         </Grid>
 
                                         <Grid item xs={12} sm={6} container justify={"flex-start"}>
 
-                                            <Button variant="contained" color="secondary"> Back</Button>
+                                        <Button className="btn-cancel-non-afb"style={{borderRadius:20, width:'135px',borderBlockColor:'white'}}  >
+                                            Back
+                                        </Button>
                                         </Grid>
                                         <Grid item xs={12} sm={6} container justify={"flex-end"}>
-
-                                            <Button variant="contained" color="primary" onClick={(event) => handleListItemClick(event, 5)}> Submit</Button>
-                                        </Grid>
+                                        <Button className="btn-submit-non-afb" 
+                                                      onClick={(event) => handleListItemClick(event, 5)}
+                                                      style={{borderRadius:20, width:'135px',
+                                                      backgroundColor:'red',borderBlockColor:'white'}} > 
+                                                 Submit
+                                             </Button>
+                                            {/* <Button variant="contained" color="primary" onClick={(event) => handleListItemClick(event, 5)}> Submit</Button>
+                                      */}   </Grid>
 
 
                                     </Grid>
@@ -332,19 +344,31 @@ export default function ServicePayment(props) {
                                         </Grid>
 
                                         <Grid item xs={12} sm={10} container justify={"center"}>
-
-                                            <Button variant="contained" color="secondary"> View Bill</Button>
-                                        </Grid>
+                                        <Button className="btn-submit-non-afb" 
+                                                      /* onClick={this.toggle1} */
+                                                      style={{borderRadius:20, width:'135px',
+                                                      backgroundColor:'red',borderBlockColor:'white'}} > 
+                                                 View Bill
+                                             </Button>
+                                           {/*  <Button variant="contained" color="secondary"> View Bill</Button>
+                                        */} </Grid>
 
                                         <Grid item xs={12} sm={6} container justify={"flex-start"}>
-
-                                            <Button variant="contained" color="secondary"> Back</Button>
+                                        <Button className="btn-cancel-non-afb"style={{borderRadius:20, width:'135px',borderBlockColor:'white'}}  >
+                                            Back
+                                        </Button>
+                                           {/*  <Button variant="contained" color="secondary"> Back</Button> */}
                                         </Grid>
                                         <Grid item xs={12} sm={6} container justify={"flex-end"}>
-
-                                            <Button variant="contained" color="primary"
+                                        <Button className="btn-submit-non-afb" 
+                                                      onClick={(event) => handleListItemClick(event, 5)}
+                                                      style={{borderRadius:20, width:'135px',
+                                                      backgroundColor:'red',borderBlockColor:'white'}} > 
+                                                 Submit 
+                                             </Button>
+                                           {/*  <Button variant="contained" color="primary"
                                                     onClick={(event) => handleListItemClick(event, 5)}> Submit</Button>
-
+ */}
                                         </Grid>
 
                                     </Grid>
@@ -467,13 +491,20 @@ export default function ServicePayment(props) {
                             <div className="cardFooter justify_content_end">
                                 {/*<div className="allTic">*/}
                                 <Grid item xs={12} sm={6} container justify={"flex-start"}>
-
-                                    <Button variant="contained" color="secondary"> Back</Button>
+                                <Button className="btn-cancel-non-afb"style={{borderRadius:20, width:'135px',borderBlockColor:'white'}}  >
+                                            Back
+                                        </Button>
+                                   {/*  <Button variant="contained" color="secondary"> Back</Button> */}
                                 </Grid>
                                 <Grid item xs={12} sm={6} container justify={"flex-end"}>
-
-                                    <Button variant="contained" color="primary" onClick={(event) => handleListItemClick(event, 5)}> Submit</Button>
-                                </Grid>
+                                <Button className="btn-submit-non-afb" 
+                                                      onClick={(event) => handleListItemClick(event, 5)}
+                                                      style={{borderRadius:20, width:'135px',
+                                                      backgroundColor:'red',borderBlockColor:'white'}} > 
+                                                 Submit 
+                                             </Button>
+                                   {/*  <Button variant="contained" color="primary" onClick={(event) => handleListItemClick(event, 5)}> Submit</Button>
+                              */}   </Grid>
                             </div>
                         </div>
                     </div>
@@ -569,13 +600,20 @@ export default function ServicePayment(props) {
                             <div className="cardFooter justify_content_end">
                                 {/*<div className="allTic">*/}
                                 <Grid item xs={12} sm={6} container justify={"flex-start"}>
-
-                                    <Button variant="contained" color="secondary"> Back</Button>
+                                <Button className="btn-cancel-non-afb"style={{borderRadius:20, width:'135px',borderBlockColor:'white'}}  >
+                                            Back
+                                        </Button>
+                                    {/* <Button variant="contained" color="secondary"> Back</Button> */}
                                 </Grid>
                                 <Grid item xs={12} sm={6} container justify={"flex-end"}>
-
-                                    <Button variant="contained" color="primary" onClick={(event) => handleListItemClick(event, 5)}> Submit</Button>
-                                </Grid>
+                                <Button className="btn-submit-non-afb" 
+                                                     onClick={(event) => handleListItemClick(event, 5)}
+                                                      style={{borderRadius:20, width:'135px',
+                                                      backgroundColor:'red',borderBlockColor:'white'}} > 
+                                                 Submit 
+                                             </Button>
+                                   {/*  <Button variant="contained" color="primary" onClick={(event) => handleListItemClick(event, 5)}> Submit</Button>
+                             */}    </Grid>
                             </div>
                         </div>
                     </div>

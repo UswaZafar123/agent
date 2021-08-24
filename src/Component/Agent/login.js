@@ -364,8 +364,8 @@ class Login extends Component {
                 {!twoFactorblock && (
                   <>
                     <div className="form-group">
-                      <label>
-                      Agent Name
+                    <label>
+                        <FormattedMessage id="login.username" />{" "}
                       </label>
                       <input
                         type="text"

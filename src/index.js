@@ -28,7 +28,11 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = composeEnhancers(applyMiddleware(thunk))(createStore)(
   rootReducer
 );
+
+//import {LOCALES} from './locales';
+
 const persistor = persistStore(store);
+
 //const lang= localStorage.setItem('lang', 'en-US')
 //console.log(localStorage.getItem("lang"));
 /* if(localStorage.getItem("lang")) {
@@ -62,8 +66,7 @@ ReactDOM.render(
           <App />
         </BrowserRouter>
       </PersistGate>
-    </Provider>
-    ,
+    </Provider>,
   </I18nProvider>,
   document.getElementById("root")
 );

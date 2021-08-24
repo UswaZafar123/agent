@@ -272,12 +272,19 @@ export default function CashWithdrawal () {
                         <div className="cardFooter justify_content_end">
                             {/*<div className="allTic">*/}
                                 <Grid item xs={12} sm={6} container justify={"flex-start"}>
-
-                                    <Button variant="contained" color="secondary"> Back</Button>
+                                <Button className="btn-cancel-non-afb"style={{borderRadius:20, width:'135px',borderBlockColor:'white'}}  >
+                                            Cancel
+                                        </Button>
+                                   {/*  <Button variant="contained" color="secondary"> Back</Button> */}
                                 </Grid>
                                 <Grid item xs={12} sm={6} container justify={"flex-end"}>
-
-                                    <Button variant="contained" color="primary"> Submit</Button>
+                                <Button className="btn-submit-non-afb" 
+                                                      /* onClick={this.toggle1} */
+                                                      style={{borderRadius:20, width:'135px',
+                                                      backgroundColor:'red',borderBlockColor:'white'}} > 
+                                                 Submit
+                                             </Button>
+                                   {/*  <Button variant="contained" color="primary"> Submit</Button> */}
                                 </Grid>
                             {/*</div>*/}
                         </div>
