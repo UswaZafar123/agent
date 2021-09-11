@@ -1,7 +1,6 @@
 import { LOCALES } from '../locales';
 
-export default {
-        [LOCALES.ENGLISH]: {
+ const en= {
                 "biapay.slogan":"… and it's easy to pay!",
                 "biapay.welcome":"Welcome to BIAPAY!",
                 "biapay.welcome2":"Please select the type of account you want to open.",
@@ -406,4 +405,5 @@ export default {
 
 
         }
-}
+
+        export default en;

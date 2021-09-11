@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { NavLink,Redirect } from "react-router-dom";
 import validate from "./resources/validation";
 import axios from "axios";
-import { FormattedMessage, useIntl, injectIntl } from "react-intl";
+import { FormattedMessage, IntlProvider, injectIntl } from "react-intl";
 import Logo from "./../../Assets/images/logo.png";
 import NavBar from "./../common/register/NavBar";
 import {loginMerchant} from "../../services/actions";
@@ -31,11 +31,40 @@ class Login extends Component {
       storage: "",
       type: "password",
       showLoginError:false,
-      loginType:""
+      loginType:"",
+      messages:"",
     };
   }
 
-  componentDidMount() {
+
+
+  loadLocaleData = (locale) => {
+    switch (locale) {
+      case "fr":
+        return import("../i18n/messages/fr.js");
+      default:
+        return import("../i18n/messages/en.js");
+    }
+  };
+
+  language = async (value) => {
+    // this.setState({ language: value });
+
+    console.log(value,"valueee")
+
+    const messages = await this.loadLocaleData(value);
+    console.log(messages, "messages");
+    this.setState({ messages });
+  };
+
+
+
+  async componentDidMount() {
+
+
+    const messages = await this.loadLocaleData(localStorage.getItem("langu"));
+    this.setState({ messages });
+
     /**
      * JavaScript Client Detection
      * (C) viazenetti GmbH (Christian Ludwig)
@@ -332,8 +361,8 @@ class Login extends Component {
       //By using Fragment as parent div will not create an extra dom element //
       <Fragment>
         <section className="loginWrapper accountWrapper">
-         <NavBar/>
-
+         <NavBar language={this.language}/>
+         <IntlProvider messages={this.state.messages.default}>
 
         <div className="col-md-12 loginContainer">
           <div className="loginInner" >
@@ -456,6 +485,7 @@ class Login extends Component {
             </div>
           </div>
         </div>
+       </IntlProvider>
         </section>
       </Fragment>
     );

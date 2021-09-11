@@ -17,18 +17,21 @@ class NavBar extends Component {
   }
 
   handleLanguage(e) {
-    //alert(localStorage.getItem("langue"))
-    if (e.target.value == "fr") {
-     localStorage.setItem("langue", "fr")
-      localStorage.setItem("locale", LOCALES.FRENCH)
-      window.location.reload()
-    }
-    else if (e.target.value == "en") {
-      localStorage.setItem("langue", "en-US")
-      localStorage.setItem("locale", LOCALES.ENGLISH)
-      window.location.reload()
-    }
-    else alert('Veuillez choisir une langue valide')
+    // //alert(localStorage.getItem("langue"))
+    // if (e.target.value == "fr") {
+    //  localStorage.setItem("langue", "fr")
+    //   localStorage.setItem("locale", LOCALES.FRENCH)
+    //   // window.location.reload()
+    // }
+    // else if (e.target.value == "en") {
+    //   localStorage.setItem("langue", "en-US")
+    //   localStorage.setItem("locale", LOCALES.ENGLISH)
+    //   // window.location.reload()
+    // }
+    // else alert('Veuillez choisir une langue valide')
+
+    localStorage.setItem("langue", e.target.value)
+    this.props.language(e.target.value)
   }
 
   render() {
