@@ -9,6 +9,8 @@ const userManagementHost = "https://app.digitalbanking.groupebia.com/user-manage
 const adminAPI = "https://app.digitalbanking.groupebia.com/";
 const API = "https://backoffice.digitalbanking.groupebia.com/";
 const MerchantAPI = "https://merchant.digitalbanking.groupebia.com/";
+const AgentApi = "https://app.digitalbanking.groupebia.com/agentms/";
+
 const configUrl = {
     common: {
       //LOGIN: `${API}common/Login`,
@@ -258,6 +260,11 @@ const configUrl = {
     },
     paymentGateWay: {
       TRANSACTION_RESPONCE: `${API}merchant/transaction/updateTransaction`,
+      ACCOUNT_BALANCE_EU_MOMO: `${API}eumomo/getAccountBalance`,
+      PAY_EU_MOMO: `${API}eumomo/sendPaymentRequest`
+    },
+    agent: {
+      NON_EXISTING_BANK_CUSTOMER: `${AgentApi}api-public/registration/agentRegistration`,
       ACCOUNT_BALANCE_EU_MOMO: `${API}eumomo/getAccountBalance`,
       PAY_EU_MOMO: `${API}eumomo/sendPaymentRequest`
     }
