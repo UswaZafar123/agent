@@ -3047,3 +3047,9 @@ footer {
     font-weight: bold !important;
     float: left !important;
 }
+
+.button-container {
+    width: 95% !important;
+    margin: auto;
+    margin-bottom: 2%;
+}

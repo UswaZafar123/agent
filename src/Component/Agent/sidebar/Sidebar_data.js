@@ -6,6 +6,41 @@ export const Side_bar_data = [
         id:1
     },
     {
+        title:"Cash Opertaions",
+        path:"/agent/cash-operations",
+        iconClass:"icon-Asset-47",
+        id:1
+    },
+    {
+        title:"Send / Request Money",
+        path:"/agent/send-request-money",
+        iconClass:"icon-Asset-47",
+        id:1,
+        subMenu: [
+            {
+                title: "Send",
+                path: "/agent/send/money",
+            },
+            {
+                title: "Request",
+                path: "/agent/request/money",
+            },
+
+        ]
+    },
+    {
+        title:"Cash in Cash Out",
+        path:"/agent/cash-in-cash-out",
+        iconClass:"icon-Asset-47",
+        id:1
+    },
+    {
+        title:"Pricing List",
+        path:"/agent/pricing-list",
+        iconClass:"icon-Asset-47",
+        id:1
+    },
+    {
         title:"Customer Registration",
         path:"/admin/agents",
         iconClass:"icon-Asset-2",
@@ -125,31 +160,31 @@ export const Side_bar_data = [
     //     path:"/Assets_Management",
     //     iconClass:"icon-Asset-32"
     // },
-    {
-        title:"Settlements",
-        path:"/admin/Currency_Management",
-        id:6,
-        iconClass:"icon-Asset-31"
-    },
+    // {
+    //     title:"Settlements",
+    //     path:"/admin/Currency_Management",
+    //     id:6,
+    //     iconClass:"icon-Asset-31"
+    // },
     // {
     //     title:"Settlements",
     //     path:"/Settlements",
     //     iconClass:"icon-Asset-30"
     // },
-    {
-        title:"Loan Applications",
-        path:"/admin/revenue/management",
-        id:7,
-        iconClass:"icon-Asset-29",
-        subMenu:[
+    // {
+    //     title:"Loan Applications",
+    //     path:"/admin/revenue/management",
+    //     id:7,
+    //     iconClass:"icon-Asset-29",
+    //     subMenu:[
            
-            {
-                title:"Loan Application ",
-                path:"/Admin/Loan",
-            },
+    //         {
+    //             title:"Loan Application ",
+    //             path:"/Admin/Loan",
+    //         },
            
-        ]
-    },
+    //     ]
+    // },
     {
         title:"Revenue Management",
         path:"/admin/user-type/management",
@@ -197,6 +232,7 @@ export const Side_bar_data = [
            
         ]
     },
+    
     {
         title:"Settings",
         path:"/admin/Settings",
@@ -207,58 +243,59 @@ export const Side_bar_data = [
                 title:"General",
                 path:"/Settings/General",
                 subMenu:[
+                    // {
+                    //     title:"Agent Packages",
+                    //     path:"/admin/settings/general",
+                    //     iconClass:"icon-Asset-2"
+                    // },
+                    // {
+                    //     title:"Crypto Curriences Settings",
+                    //     path:"/admin/settings/general/manage/crypto-currencies",
+                    //     iconClass:"icon-Asset-3"
+                    // },
+                    // {
+                    //     title:"Social Links",
+                    //     path:"/admin/settings/general/manage/social-links",
+                    //     iconClass:"icon-Asset-9"
+                    // },
+                    // {
+                    //     title:"Google reCaptcha",
+                    //     path:"/admin/settings/general/manage/re-captcha",
+                    //     iconClass:"icon-Asset-9"
+                    // },
+                    // {
+                    //     title:"App Store Credentials",
+                    //     path:"/admin/settings/general/playstore",
+                    //     iconClass:"icon-Asset-15"
+                    // },
+                    // {
+                    //     title:"Email Settings",
+                    //     path:"/admin/settings/general/email-settings",
+                    //     iconClass:"icon-Asset-18"
+                    // },
+                    // {
+                    //     title:"SMS Settings",
+                    //     path:"/admin/settings/general/sms-settings",
+                    //     iconClass:"icon-Asset-15"
+                    // },
+                    // {
+                    //     title:"Notification Settings",
+                    //     path:"/Merchant-Pending_Second_Approval/Merchant-Pending_Second_Approval",
+                    //     iconClass:"icon-Asset-14"
+                    // },
+                    // {
+                    //     title:"Countries",
+                    //     path:"/admin/settings/general/countries",
+                    //     iconClass:"icon-Asset-7"
+                    // },
+                    // {
+                    //     title:"Languages",
+                    //     path:"/admin/settings/general/manage/languages",
+                    //     iconClass:"icon-Asset-11"
+                    // },
+               
                     {
-                        title:"Agent Packages",
-                        path:"/admin/settings/general",
-                        iconClass:"icon-Asset-2"
-                    },
-                    {
-                        title:"Crypto Curriences Settings",
-                        path:"/admin/settings/general/manage/crypto-currencies",
-                        iconClass:"icon-Asset-3"
-                    },
-                    {
-                        title:"Social Links",
-                        path:"/admin/settings/general/manage/social-links",
-                        iconClass:"icon-Asset-9"
-                    },
-                    {
-                        title:"Google reCaptcha",
-                        path:"/admin/settings/general/manage/re-captcha",
-                        iconClass:"icon-Asset-9"
-                    },
-                    {
-                        title:"App Store Credentials",
-                        path:"/admin/settings/general/playstore",
-                        iconClass:"icon-Asset-15"
-                    },
-                    {
-                        title:"Email Settings",
-                        path:"/admin/settings/general/email-settings",
-                        iconClass:"icon-Asset-18"
-                    },
-                    {
-                        title:"SMS Settings",
-                        path:"/admin/settings/general/sms-settings",
-                        iconClass:"icon-Asset-15"
-                    },
-                    {
-                        title:"Notification Settings",
-                        path:"/Merchant-Pending_Second_Approval/Merchant-Pending_Second_Approval",
-                        iconClass:"icon-Asset-14"
-                    },
-                    {
-                        title:"Countries",
-                        path:"/admin/settings/general/countries",
-                        iconClass:"icon-Asset-7"
-                    },
-                    {
-                        title:"Languages",
-                        path:"/admin/settings/general/manage/languages",
-                        iconClass:"icon-Asset-11"
-                    },
-                    {
-                        title:"Merchant Packages",
+                        title:"Packages",
                         path:"/admin/settings/general/merchant-packages",
                         iconClass:"icon-Asset-35"
                     },
@@ -267,32 +304,37 @@ export const Side_bar_data = [
                         path:"/admin/settings/general/manage/user-group",
                         iconClass:"icon-Asset-19"
                     },
-                    {
-                        title:"Roles & Permissions",
-                        path:"/admin/settings/general/manage/roles",
-                        iconClass:"icon-Asset-9"
-                    },
-                    {
-                        title:"Datebase Backup",
-                        path:"/admin/settings/general/manage/databases",
-                        iconClass:"icon-Asset-6"
-                    },
-                    {
-                        title:"Metas",
-                        path:"/admin/Merchant-Pending_Second_Approval/Merchant-Pending_Second_Approval",
-                        iconClass:"icon-Asset-8"
-                    },
-                    {
-                        title:"Pages",
-                        path:"/admin/settings/general/pages",
-                        iconClass:"icon-Asset-5"
-                    },
-                    {
-                        title:"Preferences",
-                        path:"/admin/settings/general/manage/preference",
-                        iconClass:"icon-Asset-17"
-                    },
+                    // {
+                    //     title:"Roles & Permissions",
+                    //     path:"/admin/settings/general/manage/roles",
+                    //     iconClass:"icon-Asset-9"
+                    // },
+                    // {
+                    //     title:"Datebase Backup",
+                    //     path:"/admin/settings/general/manage/databases",
+                    //     iconClass:"icon-Asset-6"
+                    // },
+                    // {
+                    //     title:"Metas",
+                    //     path:"/admin/Merchant-Pending_Second_Approval/Merchant-Pending_Second_Approval",
+                    //     iconClass:"icon-Asset-8"
+                    // },
+                    // {
+                    //     title:"Pages",
+                    //     path:"/admin/settings/general/pages",
+                    //     iconClass:"icon-Asset-5"
+                    // },
+                    // {
+                    //     title:"Preferences",
+                    //     path:"/admin/settings/general/manage/preference",
+                    //     iconClass:"icon-Asset-17"
+                    // },
                 ]
+            },
+            {
+                title:"Agent Member",
+                path:"/admin/settings/general/agent-member",
+                iconClass:"icon-Asset-35"
             },
             {
                 title:"Limit Type Management",
@@ -312,26 +354,26 @@ export const Side_bar_data = [
                 path:"/admin/payment-methods",
             },
             
-            {
-                title:"Liquidity Management",
-                path:"/Settings/Liquidity_Management",
-            },
-            {
-                title:"Event Management",
-                path:"/Settings/Event_Management",
-            },
-            {
-                title:"Electronic ticket Management",
-                path:"/Settings/Electronic_ticket_Management",
-            },
-            {
-                title:"Online Fraud Risk Management",
-                path:"/Settings/Online_Fraud_Risk_Management",
-            },
-            {
-                title:"Loan Management ",
-                path:"/Settings/Loan_Management",
-            },
+            // {
+            //     title:"Liquidity Management",
+            //     path:"/Settings/Liquidity_Management",
+            // },
+            // {
+            //     title:"Event Management",
+            //     path:"/Settings/Event_Management",
+            // },
+            // {
+            //     title:"Electronic ticket Management",
+            //     path:"/Settings/Electronic_ticket_Management",
+            // },
+            // {
+            //     title:"Online Fraud Risk Management",
+            //     path:"/Settings/Online_Fraud_Risk_Management",
+            // },
+            // {
+            //     title:"Loan Management ",
+            //     path:"/Settings/Loan_Management",
+            // },
             {
                 title:"Commissions management",
                 path:"/Settings/Commissions_management",
@@ -340,12 +382,22 @@ export const Side_bar_data = [
                 title:"Loyalty Management",
                 path:"/Settings/Loyalty_Management",
             },
-        ]
+        ],
     },
     {
-        title:"Account Management​",
+        title:"Profile​",
         path:"/User_Profile_Management​",
         id:12,
-        iconClass:"icon-Asset-22"
+        iconClass:"icon-Asset-22",
+        subMenu:[
+            {
+                title:"Link to Bank Account",
+                path:"/Settings/link/bank-account",
+            },
+            {
+                title:"Link to Agent Banker",
+                path:"/Settings/link/agent-banker",
+            }
+        ]
     },
 ]

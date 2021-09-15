@@ -15,7 +15,8 @@ import NavBar from "./NavBar";
 import "react-datepicker/dist/react-datepicker.css";
 import 'react-phone-input-2/lib/style.css'
 import validate from "./../../Agent/resources/validation";
-
+import moment from "moment";
+import {RegisterService} from "../../../services/actions";
 
 class Register extends Component {
   constructor() {
@@ -23,7 +24,29 @@ class Register extends Component {
     this.state = {
       accountType: "",
       setExpirationDate:new Date(),
-      dob : new Date()
+      dob : new Date(),
+      bankcustomerType: "",
+      firstName: "",
+      lastName: "",
+      address1: "",
+      bankcustomerType: "",
+      mobileNumber: "",
+      email: "",
+      agentType: "",
+      city: "",
+      businessType: "",
+      country: "",
+      currency: "",
+      gender: "",
+      phonecode: "",
+      documentName: "",
+      documetType: "",
+      idNumber: "",
+      idExpiry: null,
+      idImages: null,
+      photo: null,
+      bankCustomerId: "",
+      locale: "",
     };
   }
 
@@ -88,29 +111,69 @@ class Register extends Component {
   }
 
   submitForm() {
-    let data = {
-      RegistrationType : 'NON_EXISTING_BANK_CUSTOMER',
-      firstName : this.state.firstName,
-      lastName : this.state.lastName,
-      registrationChannel : 'AGENCY_BANKING_APP',
-      registrationSubChannel : 'AGENCY_BANKING_APP',
-      agentBusinessName : "HYPERSTAR_AGENCY",
-      busincessType : "INDIVIDUAL",
-      countryCode: this.state.countryCode,
-      phoneNo : this.state.mobile,
-      phoneNumberCountryCode : this.state.countryCode,
-      locale: sessionStorage.getItem("locale"),
-      idDocumentName : this.state.idDocumentType,
-      idDocumentType : this.state.idDocumentType,
-      idDocumentIdNumber : this.state.idDocumentIdNumber,
-      agentEmailAddress : this.state.agentEmailAddress,
-      agentDOB : this.state.countryCode,
-      agentBusinessAddress : this.state.address1,
-      idDocumentImages : this.state.frontImage,
-      agentType : "AGENT",
+    var formData = new FormData();
 
-    }
-    // this.props.RegisterService(data);
+    formData.append("RegistrationType", "NON_EXISTING_BANK_CUSTOMER");
+    formData.append("firstName", this.state.firstName);
+    formData.append("lastName", this.state.lastName);
+    formData.append("registrationChannel", "AGENCY_BANKING_APP");
+    formData.append("registrationSubChannel", "AGENCY_BANKING_APP");
+    formData.append("agentBusinessName", "HYPERSTAR_AGENCY");
+    formData.append("busincessType", this.state.businessType);
+    formData.append("countryCode", this.state.country);
+    formData.append("phoneNo", this.state.mobileNumber);
+    formData.append("phoneNumberCountryCode", this.state.phonecode);
+    formData.append("locale", this.state.locale);
+    formData.append("mobileOperator", "UNINOR");
+
+    formData.append("idDocumentName", this.state.documentName);
+    formData.append("idDocumentType", this.state.idDocumentType);
+
+    formData.append("idDocumentIdNumber", this.state.idDocumentIdNumber);
+    formData.append(
+      "idExpiryDate",
+      moment(new Date(this.state.idExpiry)).format("YYYY-MM-DD")
+    );
+
+    formData.append("agentEmailAddress", this.state.agentEmailAddress);
+    formData.append("currency", this.state.currency);
+    formData.append("gender", this.state.gender);
+
+    formData.append("tcName", "TERMS_CONDITIONS");
+
+    formData.append("tcStatus", "ACTIVE");
+
+    formData.append("tcContentTitle", "CONTENT_TITLE");
+
+    formData.append("tcContentPlainText", "PLAIN_TEXT_CONTENT");
+
+    formData.append("tcContentWebUrl", "www.sampleURL.com");
+    formData.append("tcType", "MANDATORY");
+
+    formData.append("tcOrder", 1);
+    formData.append("tcEffectiveDateTime", "2022-05-08T12:00:00");
+    formData.append("tcExpiryDateTime",  moment(new Date(this.state.setExpirationDate)).format("YYYY-MM-DD"));
+    formData.append("registrationAppDateTime", new Date().toISOString());
+    formData.append("agentRegisteredBy", "AGENT321");
+    formData.append(
+      "agentDOB",
+      moment(new Date(this.state.dob)).format("YYYY-MM-DD")
+    );
+
+    formData.append("agentBusinessAddress", this.state.address1);
+
+    formData.append("agentBusinessCity", this.state.city);
+    formData.append("appliedForRegistrationAt", "City center");
+    formData.append("idDocumentImages", this.state.idImages);
+    formData.append("agentPhoto", this.state.frontImage);
+
+    formData.append("agentType", this.state.agentType);
+
+    formData.append("bankCustomerId", this.state.bankCustomerId);
+
+
+    
+    this.props.RegisterService(formData);
 
   }
 
@@ -286,6 +349,18 @@ class Register extends Component {
                           </div>
                   </div>
 
+                  <div className="form-group" style={{marginTop:"5%", marginBottom:"5%"}}>
+                        <label>
+                         Gender
+                        </label>
+                        <div style={{ position: "relative", display: "flex" }}>
+                          <select className="FrmSelect" name="gender" onChange={this.handleChange}>
+                              <option value="Male">Male</option>
+                              <option value="Female">Female</option>
+                          </select>
+                        </div>
+                </div>
+
                 <div className="form-group" style={{marginTop:"5%", marginBottom:"5%"}}>
                         <label>
                          ID Type
@@ -324,7 +399,37 @@ class Register extends Component {
                       </div>
               </div> */}
 
+                <div className="form-group" style={{marginTop:"5%", marginBottom:"5%"}}>
+                      <label>
+                      Business address
+                      </label>
+                      <div style={{ position: "relative", display: "flex" }}>
+                        <input
+                          className="form-control" 
+                          type="text"
+                          name="agentBusinessAddress"
+                          value={this.state.agentBusinessAddress}
+                          placeholder="Enter Address"
+                          onChange={this.handleChange}
+                        />
+                      </div>
+              </div>
 
+              <div className="form-group" style={{marginTop:"5%", marginBottom:"5%"}}>
+                      <label>
+                      Business City
+                      </label>
+                      <div style={{ position: "relative", display: "flex" }}>
+                        <input
+                          className="form-control" 
+                          type="text"
+                          name="agentBusinessCity"
+                          value={this.state.agentBusinessCity}
+                          placeholder="Enter City"
+                          onChange={this.handleChange}
+                        />
+                      </div>
+              </div>
 
                 <div className="col-md-12" style={{display:"flex", justifyContent:"space-between"}}>
                 <div className="col-md-6 float-left" style={{float:"left", marginRight:"5px"}}>
@@ -536,22 +641,17 @@ class Register extends Component {
                                 <div className="row mt-4">
                                     <p style={{color:"#066FD0", fontSize:"28px"}}><FormattedMessage id="register.privateAccount.resendCode" /></p>
                                 </div>
-
                                 <div class="row mt-3" style={{display:"flex", justifyContent:"center"}}>
                                     <FormattedMessage id="register.verify">
                                         {
                                             (value) => <input type="button" disabled={this.state.otp1 && this.state.otp2 && this.state.otp3 && this.state.otp4 && this.state.otp5 && this.state.otp6 ? false : true} className="btn text-white btn-default" value={value} onClick={this.verifyOTP}  />
                                         }
                                     </FormattedMessage>
-
                                 </div>
                             </div>
             </div>
         </div>
-
         </div>
-
-        
         </section>
       </Fragment>
     );
@@ -559,19 +659,16 @@ class Register extends Component {
 }
 
 // // function for mapping redux state values with props //
-// const mapStateToProps = ({ commonReducer, adminReducer }) => {
+const mapStateToProps = ({ commonReducer, adminReducer }) => {
+  return {
+    checkLogin: commonReducer.checkLogin,
+  };
+};
 
+const mapDispatchToProps = (dispatch) => ({
+  RegisterService: (payLoad, accessPayload) =>
+    dispatch(RegisterService(payLoad, accessPayload)),
+});
 
+export default connect(mapStateToProps, mapDispatchToProps) (Register);
 
-//   return {
-//     checkLogin: commonReducer.checkLogin,
-//   };
-// };
-
-// const mapDispatchToProps = (dispatch) => ({
-//   RegisterService: (payLoad, accessPayload) =>
-//     dispatch(RegisterService(payLoad, accessPayload)),
-// });
-
-//connect method is used for connecting react and redux //
-export default Register;

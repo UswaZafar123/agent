@@ -12,28 +12,22 @@ export const RegisterService = (payload) => (dispatch) => {
     url: URL.agent.NON_EXISTING_BANK_CUSTOMER,
     data: payload,
     headers: {
-      "content-type": "multipart/form-data",
+      "Content-Type": "mulitpart/form-data",
     },
   };
-
   axios(config)
     .then((res) => {
       if (res.status === 200) {
-        toastr.success("Customer created successfully!");
+        toastr.success("success");
         dispatch({
-          type: actionType.CUSTOMER_REGISTER_SUCCESS,
-        });
-      } else if (res.status === 206) {
-        toastr.warning(res.data.message);
-        dispatch({
-          type: actionType.CUSTOMER_REGISTER_FAIL,
+          type: actionType.CREATE_AGENT_BANKER_SUCCESS,
         });
       }
     })
     .catch((error) => {
-      toastr.error("Server Error");
+      toastr.warning("error");
       dispatch({
-        type: actionType.CUSTOMER_REGISTER_FAIL,
+        type: actionType.CREATE_AGENT_BANKER_FAILURE,
       });
     });
 };
