@@ -6,7 +6,7 @@ import axios from "axios";
 import { FormattedMessage, IntlProvider, injectIntl } from "react-intl";
 import Logo from "./../../Assets/images/logo.png";
 import NavBar from "./../common/register/NavBar";
-import {loginMerchant} from "../../services/actions";
+import {loginAgent} from "../../services/agent/action.js";
 
 class Login extends Component {
   constructor() {
@@ -270,14 +270,14 @@ class Login extends Component {
     let userType;
 
 
-    if (nextProps.merchantLoginStatus) {
+    if (nextProps.agentLoginstatus) {
 
       
       this.setState({loginPasswordError:null})
       this.setState({showLoginError:false});
 
       
-      this.props.history.push("/agent/dashboard");
+      window.location="/agent"
 
 
     }else{
@@ -332,11 +332,11 @@ class Login extends Component {
     let data = {
       "client_id":"PUBLIC_CLIENT" ,
       "grant_type":"password" ,
-      "username": this.state.email,
+      "username": "a_" + this.state.email,
       "password":this.state.loginPassword
     }
 
-  this.props.loginMerchant(data);
+  this.props.loginAgent(data);
 
   }
 
@@ -394,7 +394,8 @@ class Login extends Component {
                   <>
                     <div className="form-group">
                     <label>
-                        <FormattedMessage id="login.username" />{" "}
+                        {/* <FormattedMessage id="login.username" />{" "} */}
+                        Agent Phone Number
                       </label>
                       <input
                         type="text"
@@ -493,16 +494,16 @@ class Login extends Component {
 }
 
 // function for mapping redux state values with props //
-const mapStateToProps = ({ merchantReducer }) => {
-  const { merchantLoginStatus } = merchantReducer;
+const mapStateToProps = ({ agentReducer }) => {
+  const { agentLoginstatus } = agentReducer;
   return {
-    merchantLoginStatus:merchantLoginStatus
+    agentLoginstatus
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    loginMerchant: (data) => dispatch(loginMerchant(data)),
+    loginAgent: (data) => dispatch(loginAgent(data)),
   }
 }
 

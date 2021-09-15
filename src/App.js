@@ -68,7 +68,7 @@ export const App=(props) =>{
     <Route path="/agent/login" component={Login} />
   </Switch>
   {
-        (sessionStorage.getItem("token") && sessionStorage.getItem("user_type") == "agent") && (
+        (sessionStorage.getItem("token") && window.location.pathname!=="/agent/login") && (
             <div className="app_wrapper">
         
             <div className="left_wrapper">

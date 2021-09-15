@@ -6,6 +6,7 @@ import merchantReducer from './reducer';
 import adminReducer from "../services/admin/reducer"
 import commoReducer from "../services/common/reducer"
 import clientReducer from "../services/client/reducer";
+import agentReducer from "../services/agent/reducer.js"
 const rootPersistConfig = {
   key: 'root',
   storage: storage,
@@ -23,7 +24,8 @@ const appReducer = combineReducers({
   commonReducer:commoReducer,
   adminReducer:adminReducer,
   clientReducer:clientReducer,
-  toastr: toastrReducer
+  toastr: toastrReducer,
+  agentReducer:agentReducer
 
 })
 
