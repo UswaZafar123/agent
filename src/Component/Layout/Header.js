@@ -21,7 +21,7 @@ const { Option } = Select;
 
         this.interval = setInterval(() => {
             this.props.getRefreshToken(data);
-          }, 180000);
+          }, 18000);
     }
 
     componentWillUnmount() {

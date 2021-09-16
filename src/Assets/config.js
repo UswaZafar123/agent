@@ -261,6 +261,10 @@ const configUrl = {
     ACCOUNT_BALANCE_EU_MOMO: `${API}eumomo/getAccountBalance`,
     PAY_EU_MOMO: `${API}eumomo/sendPaymentRequest`,
     AGENT_LOGIN: `${keyClock}auth/realms/AFB_SARA/protocol/openid-connect/token`,
+    AGENT_LINKING_REQUEST:`${AgentApi}api-public/AgentRegistration/agentLinkingRequest`,
+    AGENT_LINKING_REQUEST_VERIFY:`${AgentApi}api-public/AgentRegistration/validateMFALinkingToken`
+
+    
   },
 };
 
