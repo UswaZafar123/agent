@@ -129,7 +129,7 @@ export const App=(props) =>{
                     <Route path="/Admin/ReciveMoney2" component={ReciveMoney2} />
                     <Route path="/Admin/ReciveMoney" component={ReciveMoney} />
                     <Route path="/Admin/Transfer" component={SendFeels} />
-                    <Route path="/Admin/kfc" component={TaxationProof} />
+                    <Route path="/agent/kyc" component={TaxationProof} />
                     <Route path="/Admin/Loan" component={LoanApplication} />
                     <Route path="/Admin/CashDeposit" component={CashDeposit1} />
                     <Route path="/Admin/sendMoney" component={sendMoney} />

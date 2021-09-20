@@ -220,13 +220,13 @@ export const Side_bar_data = [
     },
     {
         title:"KYC",
-        path:"/admin/kyc",
+        path:"/agent/kyc",
         id:15,
         iconClass:"icon-Asset-3",
         subMenu:[
             {
-                title:"Taxation Proof",
-                path:"/Admin/kfc",
+                title:"KYC",
+                path:"/agent/kyc",
             },
           
            

@@ -113,6 +113,6 @@ export const linkingVerification = (token, data) => (dispatch) => {
       }
     })
     .catch((error) => {
-      toastr.success("error")
+      toastr.error("error")
     });
 };
