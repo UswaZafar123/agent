@@ -60,10 +60,37 @@ this.props.linkingFalse()
                     </div>
                   </div>
                   <div
-                    className="kyccustomform chartCardMiddle"
-                    style={{ padding: "24px" }}
+                    className="kyccustomform chartCardMiddle p_d_all_24"
                   >
-                    <div style={{ margin: "0 auto", display: "table" }}>
+                  <div className="fornContainer_a">
+
+                    <div className="row_a">
+                      <label>Bank Account Number</label>
+                      <div className="input_wrapper_a">
+                        <input 
+                        type="text" 
+                        placeholder="Enter Bank Account Number" 
+                        name="accountNumber" 
+                        value={this.state.accountNumber}
+                        onChange={this.handleChange}
+                        />
+                      </div>
+                    </div>
+                    <div className="row_a">
+                      <label>Bank Customer ID</label>
+                      <div className="input_wrapper_a">
+                        <input 
+                        type="text" 
+                        placeholder="Enter Bank Customer ID" 
+                        value={this.state.customerId}
+                        onChange={this.handleChange}
+                        name="customerId"
+                        />
+                      </div>
+                    </div>
+
+                  </div>
+                    {/* <div style={{ margin: "0 auto", display: "table" }}>
                       <table className="table table-responsive table-borderless">
                         <tbody>
                           <tr>
@@ -92,7 +119,7 @@ this.props.linkingFalse()
                           </tr>
                         </tbody>
                       </table>
-                    </div>
+                    </div> */}
 
                     <div>
                       <div class="custom-d-flex confirm_p_w mTB00 button-container">

@@ -51,19 +51,98 @@ class Linking extends Component {
                     </div>
                   </div>
                   <div
-                    className="kyccustomform chartCardMiddle"
+                    className="kyccustomform chartCardMiddle p_d_all_24"
                     style={{ padding: "24px" }}
                   >
+                    <div className="fornContainer_a">
+                    <div className="row_a">
+                    <label>MFA code has been sent to</label>
+                    <div className="input_wrapper_a">
+                    <span className="MFAResultText">
+                    {this.state.data
+                            ? this.state.data.customerBankPhone
+                            : ""}
+                    </span>
+                    </div>
+                  </div>
+                  <div className="row_a">
+                    <label>Bank Account Name</label>
+                    <div className="input_wrapper_a">
+                    <input
+                    type="text"
+                    name="accountNumber"
+                    value={
+                    this.state.data
+                    ? this.state.data.customerBankName
+                    : ""
+                    }
+                    />
+                    </div>
+                  </div>
+                  <div className="row_a">
+                    <label>Customer Phone Number</label>
+                    <div className="input_wrapper_a">
+                    <input
+                                type="text"
+                                value={
+                                  this.state.data
+                                    ? this.state.data.customerBankPhone
+                                    : ""
+                                }
+                                name="customerId"
+                              />
+                    </div>
+                  </div>
+                  <div className="row_a">
+                    <label>Customer Email</label>
+                    <div className="input_wrapper_a">
+                    <input
+                                type="text"
+                                value={
+                                  this.state.data
+                                    ? this.state.data.customerBankEmail
+                                    : ""
+                                }
+                                name="customerId"
+                              />
+                    </div>
+                  </div>
+                  <div className="row_a">
+                    <label>MFA Code</label>
+                    <div className="input_wrapper_a">
+                    <input
+                                type="text"
+                                value={this.state.mfa}
+                                name="mfa"
+                                onChange={this.handleChange}
+                              />
+                    </div>
+                  </div>
+                  <div className="row_a">
+                    <label>Account Number</label>
+                    <div className="input_wrapper_a">
+                    <input
+                                type="text"
+                                value={this.state.accountNumber}
+                                name="accountNumber"
+                                onChange={this.handleChange}
+                              />
+                    </div>
+                  </div>
+
+                  </div>
+
+
                     <div style={{ margin: "0 auto", display: "table" }}>
-                      <h4>
+                      {/* <h4>
                         MFA code has been sent to &ensp;
                         <strong>
                           {this.state.data
                             ? this.state.data.customerBankPhone
                             : ""}
                         </strong>
-                      </h4>
-                      <table className="table table-responsive table-borderless">
+                      </h4> */}
+                      {/* <table className="table table-responsive table-borderless">
                         <tbody>
                           <tr>
                             <td>BankAccountName</td>
@@ -134,7 +213,7 @@ class Linking extends Component {
                             </td>
                           </tr>{" "}
                         </tbody>
-                      </table>
+                      </table> */}
                     </div>
 
                     <div>
