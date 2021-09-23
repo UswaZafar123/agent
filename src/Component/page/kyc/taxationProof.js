@@ -104,9 +104,123 @@ class ReciveMoney extends Component {
                       {/* <button className="addposbtn c_first_pending_BTN" onClick={this.addChange}>Add a new Point of Sale</button> */}
                     </div>
                   </div>
-                  <div className=" chartCardMiddle" style={{ padding: "50px" }}>
-                    <Grid container spacing={6}>
-                      <Grid item xs={12} sm={6}>
+                  <div className=" chartCardMiddle p_d_all_24">
+                    <div className="fornContainer_a_1">
+                      <div className="row_a_1">
+                        <div className="col_a_1">
+                          <label>Date of Birth</label>
+                          <div className="input_wrapper_a_1">
+                            <MuiPickersUtilsProvider utils={MomentUtils}>
+                            <KeyboardDatePicker
+                              disableToolbar
+                              variant="inline"
+                              format="yyyy-MM-DD"
+                              margin="normal"
+                              placeholder="Select Date"
+                              style={{ width: "100%" }}
+                              id="date-picker-inline"
+                              value={this.state.dob}
+                              onChange={(date) =>
+                                this.handleDateChange(date, "dob")
+                              }
+                              KeyboardButtonProps={{
+                                "aria-label": "change date",
+                              }}
+                            />
+                          </MuiPickersUtilsProvider>
+                          </div>
+                        </div>
+                        <div className="col_a_1">
+                          <label>ID Documet Type</label>
+                          <div className="input_wrapper_a_1">
+                            <NativeSelect
+                            value={this.state.gender}
+                            name="gender"
+                            onChange={this.handleChange}
+                            input={<BootstrapInput />}
+                            className="SelectMUI"
+                          >
+                            <option value="">Select document type</option>
+                            <option value={"ID_DOCUMENT"}>ID Document</option>
+                          </NativeSelect>
+                          </div>
+                        </div>
+                        <div className="col_a_1">
+                          <label>ID Documet Name</label>
+                          <div className="input_wrapper_a_1">
+                          <Input
+                          type="text"
+                          placeholder="ID Document Name"
+                          name="ID Document Name"
+                          onChange={this.handleChangeText}
+                          value={this.state.idNumber}
+                        ></Input>
+                          </div>
+                        </div>
+                        <div className="col_a_1">
+                          <label>ID Documet Number</label>
+                          <div className="input_wrapper_a_1">
+                          <Input
+                          type="text"
+                          placeholder="ID Document number"
+                          name="ID Document Name"
+                          onChange={this.handleChangeText}
+                          value={this.state.idNumber}
+                        ></Input>
+                          </div>
+                        </div>
+                        <div className="col_a_1">
+                          <label>ID Documet Expiry Date</label>
+                          <div className="input_wrapper_a_1">
+                          <MuiPickersUtilsProvider utils={MomentUtils}>
+                          <KeyboardDatePicker
+                            disableToolbar
+                            variant="inline"
+                            format="yyyy-MM-DD"
+                            placeholder="Select Date"
+                            margin="normal"
+                            style={{ width: "100%" }}
+                            id="date-picker-inline"
+                            value={this.state.dob}
+                            onChange={(date) =>
+                              this.handleDateChange(date, "dob")
+                            }
+                            KeyboardButtonProps={{
+                              "aria-label": "change date",
+                            }}
+                          />
+                        </MuiPickersUtilsProvider>
+                          </div>
+                        </div>
+                        <div className="col_a_1">
+                          <label>Email</label>
+                          <div className="input_wrapper_a_1">
+                            <Input
+                            type="text"
+                            placeholder="Email"
+                            name="ID Document Name"
+                            onChange={this.handleChangeText}
+                            value={this.state.idNumber}
+                          ></Input>
+                          </div>
+                        </div>
+                        <div className="col_a_1">
+                          <label>ID Document File</label>
+                          <div className="input_wrapper_a_1">
+                          <Input
+                          type="file"
+                          name="addressProof"
+                          name="idImages"
+                          onChange={this.handleFile}
+                        ></Input>
+                          </div>
+                        </div>
+                        
+                      </div>
+                      
+                    </div>
+                    {/* <Grid container spacing={6}> */}
+                      {/* <Grid item xs={12} sm={6}>
                         <label className="non-afb-label"> Date of Birth </label>
 
                         <MuiPickersUtilsProvider utils={MomentUtils}>
@@ -126,9 +240,9 @@ class ReciveMoney extends Component {
                             }}
                           />
                         </MuiPickersUtilsProvider>
-                      </Grid>
+                      </Grid> */}
 
-                      <Grid item xs={12} sm={6}>
+                      {/* <Grid item xs={12} sm={6}>
                         <label className="non-afb-label">
                           ID Documet Type{" "}
                         </label>
@@ -142,8 +256,8 @@ class ReciveMoney extends Component {
                           <option value="">Select document type</option>
                           <option value={"ID_DOCUMENT"}>ID Document</option>
                         </NativeSelect>
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
+                      </Grid> */}
+                      {/* <Grid item xs={12} sm={6}>
                         <label className="non-afb-label">
                           {" "}
                           ID Document Name{" "}
@@ -155,9 +269,9 @@ class ReciveMoney extends Component {
                           onChange={this.handleChangeText}
                           value={this.state.idNumber}
                         ></Input>
-                      </Grid>
+                      </Grid> */}
 
-                      <Grid item xs={12} sm={6}>
+                      {/* <Grid item xs={12} sm={6}>
                         <label className="non-afb-label">
                           {" "}
                           ID Document Number{" "}
@@ -169,9 +283,9 @@ class ReciveMoney extends Component {
                           onChange={this.handleChangeText}
                           value={this.state.idNumber}
                         ></Input>
-                      </Grid>
+                      </Grid> */}
 
-                      <Grid item xs={12} sm={6}>
+                      {/* <Grid item xs={12} sm={6}>
                         <label className="non-afb-label">
                           ID Document Expiry Date{" "}
                         </label>
@@ -193,9 +307,9 @@ class ReciveMoney extends Component {
                             }}
                           />
                         </MuiPickersUtilsProvider>
-                      </Grid>
+                      </Grid> */}
 
-                      <Grid item xs={12} sm={6}>
+                      {/* <Grid item xs={12} sm={6}>
                         <label className="non-afb-label"> Email </label>
                         <Input
                           type="text"
@@ -204,9 +318,9 @@ class ReciveMoney extends Component {
                           onChange={this.handleChangeText}
                           value={this.state.idNumber}
                         ></Input>
-                      </Grid>
+                      </Grid> */}
 
-                      <Grid item xs={12} sm={12}>
+                      {/* <Grid item xs={12} sm={12}>
                         <label className="non-afb-label">
                           ID Document File
                         </label>
@@ -217,11 +331,11 @@ class ReciveMoney extends Component {
                           name="idImages"
                           onChange={this.handleFile}
                         ></Input>
-                      </Grid>
-                    </Grid>
+                      </Grid> */}
+                    {/* </Grid> */}
 
-                    <div>
-                      <div class="custom-d-flex confirm_p_w mTB00 button-container">
+                    <div style={{width:"100%",float:"left"}}>
+                      <div class="custom-d-flex confirm_p_w mTB00 button-container"> 
                         <button class="blackbtn aryousureBTN confirmBtnR">
                           Clear
                         </button>

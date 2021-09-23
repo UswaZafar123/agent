@@ -1130,7 +1130,7 @@ input[type="text"], input[type="email"], input[type="password"], input[type="fil
 
 
 
-/* Common CodeByPP NEW*/
+/* Common CodeByPP For Agent Panel NEW*/
 .custom-d-flex{
   justify-content: center !important;
 }
@@ -1178,7 +1178,7 @@ input[type="text"], input[type="email"], input[type="password"], input[type="fil
   border: none;
   min-height: 52px;
   padding: 12px;
-  padding-left: 16px;
+  padding-left: 24px;
   padding-right: 16px;
   box-sizing: border-box;
 
@@ -1197,6 +1197,174 @@ input[type="text"], input[type="email"], input[type="password"], input[type="fil
     font-size: 21px;
     line-height: 24px;
 }
+
+
+.fornContainer_a_1{
+  float: left;
+  width: 100%;
+}
+.fornContainer_a_1 .row_a_1 label{
+  margin-bottom: 10px;
+  display: block;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 21px;
+  line-height: 24px;
+  letter-spacing: 0.1px;
+  color: #343A40;
+  text-align: left;
+}
+.fornContainer_a_1 .row_a_1{
+  display: block;
+  margin-left: -12px;
+  margin-right: -12px;
+  float: left;
+  width: calc(100% + 24px);
+}
+.fornContainer_a_1 .row_a_1 .col_a_1{
+  display: block;
+  flex-direction: column;
+  padding: 12px;
+  flex: 1;
+  width: 50%;
+  float: left;
+  margin-bottom: 12px;
+}
+
+
+.fornContainer_a_1 .row_a_1 .input_wrapper_a input{
+  background: #F3F3F3;
+  box-shadow: 4px 4px 12px rgba(204, 204, 204, 0.51);
+  border-radius: 10px;
+  outline: none;
+  border: none;
+  min-height: 52px;
+  padding: 12px;
+  padding-left: 24px;
+  padding-right: 16px;
+  box-sizing: border-box;
+
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 20px;
+}
+input[type="text"], input[type="email"], input[type="password"], input[type="file"], .react-tel-input .form-control{
+  padding-left: 24px;
+
+  background: #F3F3F3;
+  box-shadow: 4px 4px 12px rgba(204, 204, 204, 0.51);
+  border-radius: 10px;
+  outline: none;
+  border: none;
+  min-height: 52px;
+  padding: 12px;
+  padding-left: 24px;
+  padding-right: 16px;
+  box-sizing: border-box;
+
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 20px;
+}
+
+
+
+/* Form Plugin Overwriting */
+.MuiFormControl-marginNormal{
+  margin: 0px !important;
+  margin-top: 0px !important;
+}
+.MuiInputBase-formControl{
+    background: rgb(243 243 243);
+    box-shadow: 4px 4px 12px rgb(204 204 204 / 51%);
+    border-radius: 10px;
+    outline: none;
+    border: none;
+    min-height: 52px;
+    padding: 12px;
+    padding-left: 24px;
+    padding-right: 16px;
+    box-sizing: border-box;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 20px;
+    
+}
+.MuiInputBase-formControl:before{
+  border-bottom: 0px solid rgb(0 0 0 / 42%) !important;
+}
+.MuiInputBase-formControl input{
+  box-shadow: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  height: initial !important;
+  min-height: initial;
+}
+.MuiInputBase-root{
+  width: 100% !important;
+}
+.SelectMUI{
+  min-height: 52px !important;
+  background: rgb(243 243 243) !important;
+  overflow: hidden !important;
+    border-radius: 8px !important;
+}
+.MuiNativeSelect-select.MuiNativeSelect-select{
+  padding-right: 0px !important;
+
+  background: #F3F3F3;
+  box-shadow: 4px 4px 12px rgba(204, 204, 204, 0.51);
+  border-radius: 10px;
+  outline: none;
+  border: none;
+  min-height: 52px;
+  padding: 12px;
+  padding-left: 24px;
+  padding-right: 16px;
+  box-sizing: border-box;
+
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 20px;
+}
+.MuiNativeSelect-icon{
+  font-size: 28px !important;
+  right: 12px !important;
+  top: calc(50% - 14px) !important;
+}
+.MuiInputBase-input:focus{
+  outline: none !important;
+  border: 0px solid green !important;
+}
+.MuiInput-underline:after{
+  border-bottom : 0px solid rgb(63 81 181) !important;
+}
+.MuiFormHelperText-root.Mui-error{
+  position: absolute !important;
+    top: 100% !important;
+    margin-top: 6px;
+}
+::-webkit-file-upload-button{
+  border-radius: 12px !important;
+    border: 1px solid rgb(76 77 78) !important;
+    padding: 3px 10px !important;
+    font-size: 16px !important;
+    margin-left: -12px !important;
+    margin-right: 12px !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1244,7 +1412,7 @@ input[type="text"], input[type="email"], input[type="password"], input[type="fil
     margin-right: 0px;
     margin-bottom: 12px;
   }
-  .fornContainer_a .row_a .input_wrapper_a input{
+  .fornContainer_a .row_a .input_wrapper_a input,.fornContainer_a_1 .row_a_1 .input_wrapper_a_1 input{
     min-height: 38px;
   }
   .confirm_p_w button.aryousureBTN{
@@ -1252,11 +1420,11 @@ input[type="text"], input[type="email"], input[type="password"], input[type="fil
     font-size: 18px;
     line-height: 20px;
   }
-  .fornContainer_a .row_a .input_wrapper_a input{
+  .fornContainer_a .row_a .input_wrapper_a input,.fornContainer_a_1 .row_a_1 .input_wrapper_a_1 input{
     font-size: 16px;
     line-height: 20px;
   }
-  .fornContainer_a .row_a .input_wrapper_a input::placeholder{
+  .fornContainer_a .row_a .input_wrapper_a input::placeholder,.fornContainer_a_1 .row_a_1 .input_wrapper_a_1 input::placeholder{
     font-size: 16px;
     line-height: 20px;
   }
@@ -1264,4 +1432,38 @@ input[type="text"], input[type="email"], input[type="password"], input[type="fil
     font-size: 16px;
     line-height: 20px;
   }
+  
+  .fornContainer_a_1 .row_a_1 .col_a_1{
+    width: 100%;
+  }
+  .fornContainer_a_1 .row_a_1 label{
+    width: 100%;
+    text-align: left;
+    padding: 0;
+    padding-bottom: 8px;
+    font-size: 16px;
+    line-height: 20px;
+    margin-bottom: 0px;
+  }
+  .MuiInputBase-formControl{
+    min-height: 38px !important;
+    height: 38px !important;
+  }
+  .MuiNativeSelect-select.MuiNativeSelect-select{
+    min-height: 38px !important;
+    height: 38px !important;
+    font-size: 16px !important;
+  }
+  .MuiIconButton-label svg{
+    width: 18px !important;
+  }
+  .SelectMUI{
+    height: 38px !important;
+    min-height: 38px !important;
+  }
+  .MuiNativeSelect-select.MuiNativeSelect-select{
+    padding: 0 !important;
+    padding-left: 24px !important;
+  }
+
 }
