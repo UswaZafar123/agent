@@ -84,6 +84,7 @@ class ReciveMoney extends Component {
   }
 
   handleDateChange = (date, name) => {
+    //hello
     this.setState({ [name]: date });
   };
 
@@ -145,6 +146,7 @@ class ReciveMoney extends Component {
                           </NativeSelect>
                           </div>
                         </div>
+                        
                         <div className="col_a_1">
                           <label>ID Documet Name</label>
                           <div className="input_wrapper_a_1">
