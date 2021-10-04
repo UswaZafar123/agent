@@ -84,7 +84,7 @@ class ReciveMoney extends Component {
   }
 
   handleDateChange = (date, name) => {
-    //hello
+    //hello checking
     this.setState({ [name]: date });
   };
 
