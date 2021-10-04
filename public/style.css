@@ -2472,7 +2472,9 @@ footer {
     justify-content: space-between;
     margin-top: 8%;
     margin-bottom: 8%;
-    width: 100%;
+    width: 75%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 
@@ -3044,4 +3046,10 @@ footer {
     font-size: 30px !important;
     font-weight: bold !important;
     float: left !important;
+}
+
+.button-container {
+    width: 95% !important;
+    margin: auto;
+    margin-bottom: 2%;
 }

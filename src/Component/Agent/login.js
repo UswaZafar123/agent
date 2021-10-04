@@ -3,10 +3,10 @@ import { connect } from "react-redux";
 import { NavLink,Redirect } from "react-router-dom";
 import validate from "./resources/validation";
 import axios from "axios";
-import { FormattedMessage, useIntl, injectIntl } from "react-intl";
+import { FormattedMessage, IntlProvider, injectIntl } from "react-intl";
 import Logo from "./../../Assets/images/logo.png";
 import NavBar from "./../common/register/NavBar";
-import {loginMerchant} from "../../services/actions";
+import {loginAgent} from "../../services/agent/action.js";
 
 class Login extends Component {
   constructor() {
@@ -31,11 +31,40 @@ class Login extends Component {
       storage: "",
       type: "password",
       showLoginError:false,
-      loginType:""
+      loginType:"",
+      messages:"",
     };
   }
 
-  componentDidMount() {
+
+
+  loadLocaleData = (locale) => {
+    switch (locale) {
+      case "fr":
+        return import("../i18n/messages/fr.js");
+      default:
+        return import("../i18n/messages/en.js");
+    }
+  };
+
+  language = async (value) => {
+    // this.setState({ language: value });
+
+    console.log(value,"valueee")
+
+    const messages = await this.loadLocaleData(value);
+    console.log(messages, "messages");
+    this.setState({ messages });
+  };
+
+
+
+  async componentDidMount() {
+
+
+    const messages = await this.loadLocaleData(localStorage.getItem("langu"));
+    this.setState({ messages });
+
     /**
      * JavaScript Client Detection
      * (C) viazenetti GmbH (Christian Ludwig)
@@ -241,14 +270,14 @@ class Login extends Component {
     let userType;
 
 
-    if (nextProps.merchantLoginStatus) {
+    if (nextProps.agentLoginstatus) {
 
       
       this.setState({loginPasswordError:null})
       this.setState({showLoginError:false});
 
       
-      this.props.history.push("/agent/dashboard");
+      window.location="/agent"
 
 
     }else{
@@ -303,11 +332,11 @@ class Login extends Component {
     let data = {
       "client_id":"PUBLIC_CLIENT" ,
       "grant_type":"password" ,
-      "username": this.state.email,
+      "username": "a_" + this.state.email,
       "password":this.state.loginPassword
     }
 
-  this.props.loginMerchant(data);
+  this.props.loginAgent(data);
 
   }
 
@@ -332,8 +361,8 @@ class Login extends Component {
       //By using Fragment as parent div will not create an extra dom element //
       <Fragment>
         <section className="loginWrapper accountWrapper">
-         <NavBar/>
-
+         <NavBar language={this.language}/>
+         <IntlProvider messages={this.state.messages.default}>
 
         <div className="col-md-12 loginContainer">
           <div className="loginInner" >
@@ -365,7 +394,8 @@ class Login extends Component {
                   <>
                     <div className="form-group">
                     <label>
-                        <FormattedMessage id="login.username" />{" "}
+                        {/* <FormattedMessage id="login.username" />{" "} */}
+                        Agent Phone Number
                       </label>
                       <input
                         type="text"
@@ -456,6 +486,7 @@ class Login extends Component {
             </div>
           </div>
         </div>
+       </IntlProvider>
         </section>
       </Fragment>
     );
@@ -463,16 +494,16 @@ class Login extends Component {
 }
 
 // function for mapping redux state values with props //
-const mapStateToProps = ({ merchantReducer }) => {
-  const { merchantLoginStatus } = merchantReducer;
+const mapStateToProps = ({ agentReducer }) => {
+  const { agentLoginstatus } = agentReducer;
   return {
-    merchantLoginStatus:merchantLoginStatus
+    agentLoginstatus
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    loginMerchant: (data) => dispatch(loginMerchant(data)),
+    loginAgent: (data) => dispatch(loginAgent(data)),
   }
 }
 

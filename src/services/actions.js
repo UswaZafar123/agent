@@ -9,55 +9,26 @@ var fileDownload = require("js-file-download");
 export const RegisterService = (payload) => (dispatch) => {
   const config = {
     method: "POST",
-    url: "https://app.digitalbanking.groupebia.com/user-management/api-public/registration/customer",
+    url: URL.agent.NON_EXISTING_BANK_CUSTOMER,
     data: payload,
     headers: {
-      "content-type": "multipart/form-data",
+      "Content-Type": "mulitpart/form-data",
     },
   };
-
   axios(config)
     .then((res) => {
-      // dispatch(hideIsLoading());
-
-      // verifyPin(payload,res);
       if (res.status === 200) {
-        toastr.success("Customer created successfully!");
-
-        //      sessionStorage.setItem("token", res.data.token);
-
-        //      if(jwt(res.data.token).profileInfo.status===false)
-        //      {
-        //        sessionStorage.setItem("reload","true")
-        //      }else{
-        //        sessionStorage.setItem("reload","false")
-
-        //      }
-
-        //      // history.push('/user/dashboard')
-
+        toastr.success("success");
         dispatch({
-          type: actionType.CUSTOMER_REGISTER_SUCCESS,
-        });
-        //        //
-      } else if (res.status === 206) {
-        toastr.warning(res.data.message);
-        dispatch({
-          type: actionType.CUSTOMER_REGISTER_FAIL,
+          type: actionType.CREATE_AGENT_BANKER_SUCCESS,
         });
       }
     })
     .catch((error) => {
-      toastr.error("Server Error");
+      toastr.warning("error");
       dispatch({
-        type: actionType.CUSTOMER_REGISTER_FAIL,
+        type: actionType.CREATE_AGENT_BANKER_FAILURE,
       });
-      //  dispatch(hideIsLoading());
-      //    sessionStorage.setItem("Usererror","Invlaid Credentials");
-      //    dispatch({
-      //        type: actionType.USER_LOGIN_FAILURE,
-      //        payload:error.response.data.message
-      //    });
     });
 };
 

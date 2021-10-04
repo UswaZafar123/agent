@@ -1,7 +1,6 @@
 import { LOCALES } from '../locales';
 
-export default {
-        [LOCALES.FRENCH]: {
+      const fr ={
                 "biapay.slogan":"... et payer, c'est facile !",
                 "biapay.welcome":"Bienvenue chez BIAPAY!",
                 "biapay.welcome2":"Prière de sélectionner le type de compte que vous souhaitez ouvrir.",
@@ -383,4 +382,8 @@ export default {
                 'forgotPassword.changePassword' : "Veuillez changer votre mot de passe tout de suite après votre connexion !",
                 'btn.continue' : "Suivant"
         }
-}
+
+
+
+
+        export default fr

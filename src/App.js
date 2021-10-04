@@ -30,7 +30,8 @@ import BillPaymentResum from "./Component/Agent/walletOperation/BillPaymentResum
 import SchoolFeesMethod from "./Component/Agent/walletOperation/schoolFeesMethod";
 import SchoolFeesCashDeposit from "./Component/Agent/walletOperation/SchoolFeesCashDeposit";
 import SchoolFeesTransferAccountWallet from "./Component/Agent/walletOperation/SchoolFeesTransferAccountWallet";
-
+import AccountLinking from "./Component/Agent/linking/linkAccount.js"
+import AccountVerification from "./Component/Agent/linking/linkingVerification.js"
 
 import SendMoney from './Component/page/FlashTransfer/Send_Money/sendMoney';
 import ReceiveMoney from './Component/page/FlashTransfer/Recive_Money/reciveMoney';
@@ -68,7 +69,7 @@ export const App=(props) =>{
     <Route path="/agent/login" component={Login} />
   </Switch>
   {
-        (sessionStorage.getItem("token") && sessionStorage.getItem("user_type") == "agent") && (
+        (sessionStorage.getItem("token") && window.location.pathname!=="/agent/login") && (
             <div className="app_wrapper">
         
             <div className="left_wrapper">
@@ -114,7 +115,9 @@ export const App=(props) =>{
                     <Route path="/agent/walletOperation/SchoolFeesMethod" component={SchoolFeesMethod} />
                     <Route path="/agent/walletOperation/SchoolFeesCashDeposit" component={SchoolFeesCashDeposit} />
                     <Route path="/agent/walletOperation/SchoolFeesTransferAccountWallet" component={SchoolFeesTransferAccountWallet} />
+                    <Route path="/Settings/link/bank-account" component={AccountLinking}/>
 
+                    <Route path="/Settings/linkingAccount/verification"  component={AccountVerification}/>
                     <Route path="/agent/walletAccountOpening" component={walletAccountOpening} />
                     <Route path="/agent/afbCustomer" component={AfbCustomer} />
                     <Route path="/agent/nonAfbCustomer" component={nonAfbCustomer} />
@@ -126,7 +129,7 @@ export const App=(props) =>{
                     <Route path="/Admin/ReciveMoney2" component={ReciveMoney2} />
                     <Route path="/Admin/ReciveMoney" component={ReciveMoney} />
                     <Route path="/Admin/Transfer" component={SendFeels} />
-                    <Route path="/Admin/kfc" component={TaxationProof} />
+                    <Route path="/agent/kyc" component={TaxationProof} />
                     <Route path="/Admin/Loan" component={LoanApplication} />
                     <Route path="/Admin/CashDeposit" component={CashDeposit1} />
                     <Route path="/Admin/sendMoney" component={sendMoney} />
