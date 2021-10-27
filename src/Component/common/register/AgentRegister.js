@@ -387,11 +387,6 @@ class Register extends Component {
 
 
                 <ul className="account-type-options">
-                  {/* <li >
-                        <img src={Image1} style={{width:"50%", height:"50%", marginTop:"22%"}} onClick={() => { this.setState({accountType:"client"}) }}/>
-                        <input type="radio" id="client" name="account_type_login" value="client" className="mr-3" onChange={this.selectAccountType}/>
-                        <label for="client" style={{position: "absolute",fontSize: "18px",marginTop: "24%"}}><b > Client</b></label>
-                    </li> */}
                   <li>
                     <img src={Image2} style={{ width: "40%", height: "50%", marginTop: "22%" }} />
                     <input type="radio" id="agent" name="account_type_login" value="agent" className="mr-3" onChange={this.selectAccountType} />
@@ -418,55 +413,9 @@ class Register extends Component {
                 </div>
               </div>
 
-              {/* <div className="row"  style={{display:"none"}} >
-
-                <h1 className="sub-title2">Please select the Account type you want to Open</h1>
-
-
-                <ul className="account-type-options-2">
-                    <li>
-                          <input type="radio" id="individual" name="account" value="individual" className="mr-3" onChange={this.selectAccountType}/>
-                          <label for="individual" style={{width:'100%', textAlign:'center', color:"#343A40"}}><b > Individual</b></label>
-                    </li>
-                    <li>
-                          <input type="radio" id="ets" name="account" value="ets" className="mr-3" onChange={this.selectAccountType}/>
-                          <label for="ets" style={{width:'100%', textAlign:'center', color:"#343A40"}}><b > ETS</b></label>                    
-                    </li>
-                    <li>
-                          <input type="radio" id="sa" name="account" value="sa" className="mr-3" onChange={this.selectAccountType}/>
-                          <label for="sa" style={{width:'100%', textAlign:'center', color:"#343A40"}}><b > SA</b></label> 
-                    </li>
-                    <li>
-                         <input type="radio" id="sarl" name="account" value="sarl" className="mr-3" onChange={this.selectAccountType}/>
-                          <label for="sarl" style={{width:'100%', textAlign:'center', color:"#343A40"}}><b > SARL</b></label> 
-                    </li>
-                    <li>
-                         <input type="radio" id="sas" name="account" value="sas" className="mr-3" onChange={this.selectAccountType}/>
-                          <label for="sas" style={{width:'100%', textAlign:'center', color:"#343A40"}}><b > SAS</b></label> 
-                    </li>
-                </ul>
-
-
-                    <div className="col-md-12 text-center" style={{justifyContent:"center", display:"flex", marginTop:"5%"}}>
-                        <button className="btn btn-default text-white" onClick={ () => {alert(this.state.accountType)}}>Next</button>
-                    </div>
-
-
-                  <div className="col-md-12 text-center" style={{justifyContent:"center", display:"flex", marginTop:"5%"}}>
-                      <p>Already have an account? <a>Login</a></p>
-                  </div>
-            </div> */}
-
               <div className="row" style={{ display: "block" }}>
-
                 <h1 className="sub-title">Individual Account</h1>
-
-
-
-
                 <div className="col-md-12 float-left" style={{ float: "left" }}>
-
-
                   <div className="form-group " style={{ marginTop: "5%", marginBottom: "5%" }}>
                     <label>
                       First Name
@@ -584,15 +533,6 @@ class Register extends Component {
                     </div>
                   </div>
 
-                  {/* <div className="form-group" style={{marginTop:"5%", marginBottom:"5%"}}>
-                      <label>
-                        Date Of Birth
-                      </label>
-                      <div style={{ position: "relative", display: "flex" }}>
-                        <DatePicker selected={this.state.startdate} dateFormat="dd-MM-yyyy" isClearable />
-                      </div>
-              </div> */}
-
                   <div className="form-group" style={{ marginTop: "5%", marginBottom: "5%" }}>
                     <label>
                       Business address
@@ -654,19 +594,6 @@ class Register extends Component {
                         <p style={{ color: 'darkgray' }}>Upload Front Image of <br></br>
                           ID Card / Other Identity Card</p>
                       </div>
-
-
-                      {/* <Dropzone onDrop={acceptedFiles => this.uploadDocuments(acceptedFiles)}>
-                        {({ getRootProps, getInputProps }) => (
-                          <section className="dropzone">
-                            <div {...getRootProps()} style={{ display: "flex", justifyContent: "center" }}>
-                              <input {...getInputProps()} />
-                              <p>Upload front image of ID cart/other Identity card  <button className="btn">Choose File</button>
-                              </p>
-                            </div>
-                          </section>
-                        )}
-                      </Dropzone> */}
                     </div>
                     <div className="col-md-6 float-right" style={{ float: "right", marginLeft: "5px" }} >
 
@@ -697,17 +624,6 @@ class Register extends Component {
                         <p style={{ color: 'darkgray' }}>Upload Back Image of <br></br>
                           ID Card / Other Identity Card</p>
                       </div>
-
-                      {/* <Dropzone onDrop={acceptedFiles => this.uploadBackSideOfID(acceptedFiles)}>
-                        {({ getRootProps, getInputProps }) => (
-                          <section className="dropzone">
-                            <div {...getRootProps()}>
-                              <input {...getInputProps()} />
-                              <p>Upload back image of ID cart/other Identity card <button className="btn">Choose File</button></p>
-                            </div>
-                          </section>
-                        )}
-                      </Dropzone> */}
                     </div>
                   </div>
 
@@ -879,33 +795,6 @@ class Register extends Component {
                       </div>
                     </div>
 
-                    {/* <div className="col-md-12" style={{ display: "flex", justifyContent: "space-between" }}>
-                      <div className="col-md-6 float-left" style={{ float: "left", marginRight: "5px" }}>
-                        <Dropzone onDrop={acceptedFiles => this.uploadDocuments(acceptedFiles)}>
-                          {({ getRootProps, getInputProps }) => (
-                            <section className="dropzone">
-                              <div {...getRootProps()} style={{ display: "flex", justifyContent: "center" }}>
-                                <input {...getInputProps()} />
-                                <p>Upload front Image of ID card <button className="btn">Choose File</button>
-                                </p>
-                              </div>
-                            </section>
-                          )}
-                        </Dropzone>
-                      </div>
-                      <div className="col-md-6 float-left" style={{ float: "left", display: "flex", justifyContent: "center", marginLeft: "5px" }}>
-                        <Dropzone onDrop={acceptedFiles => this.uploadBackSideOfID(acceptedFiles)}>
-                          {({ getRootProps, getInputProps }) => (
-                            <section className="dropzone">
-                              <div {...getRootProps()}>
-                                <input {...getInputProps()} />
-                                <p>Upload address proof images<button className="btn">Choose File</button></p>
-                              </div>
-                            </section>
-                          )}
-                        </Dropzone>
-                      </div>
-                    </div> */}
                     <div className="row">
                       <div className="col-md-12 text-center" style={{ justifyContent: "center", display: "flex", marginTop: "5%" }}>
                         <label className="privacy_policy">
