@@ -60,6 +60,8 @@ import sendMoney from "./Component/page/FlashTransfer/Send_Money/sendMoney";
 import succesSendMoney from "./Component/page/FlashTransfer/Send_Money/succesSendMoney";
 import ReciveMoney from "./Component/page/FlashTransfer/Recive_Money/reciveMoney";
 
+import AgentRegister from "./Component/common/register/AgentRegister";
+
 
 export const App=(props) =>{
   return (
@@ -67,6 +69,7 @@ export const App=(props) =>{
     <Switch>
     <Redirect exact from="/" to="/agent/login" />
     <Route path="/agent/login" component={Login} />
+    <Route path="/agent/register" component={AgentRegister} />
   </Switch>
   {
         (sessionStorage.getItem("token") && window.location.pathname!=="/agent/login") && (

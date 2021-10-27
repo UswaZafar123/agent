@@ -481,7 +481,7 @@ class Login extends Component {
               {/* <GoogleRecaptcha rechaptchaEnable={this.rechaptchaEnable} /> */}
               <p>
                 <FormattedMessage id="login.donthaveanaccount" /> 
-               <NavLink to="/merchant/register"> <FormattedMessage id="register"/></NavLink>
+               <NavLink to="/agent/register"> <FormattedMessage id="register"/></NavLink>
               </p>
             </div>
           </div>
