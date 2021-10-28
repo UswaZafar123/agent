@@ -58,7 +58,7 @@ class AddTicket extends Component {
   };
 
   Cancel = () => {
-    this.props.history.push("/tickets");
+    this.props.history.push("/agent/tickets");
   };
 
   showModal = () => {
@@ -90,7 +90,7 @@ class AddTicket extends Component {
     this.props.history.push("/taxationOffice");
   };
   back = () => {
-    this.props.history.push("/tickets");
+    this.props.history.push("/agent/tickets");
   };
 
   handleChange = (e) => {
