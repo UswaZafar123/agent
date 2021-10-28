@@ -954,3 +954,297 @@ export const verifyRegister = email => dispatch => {
           });
       });
 };
+
+
+export const getTickets = (token, payload) => (dispatch) => {
+  const config = {
+    method: "get",
+    data: payload,
+    url: URL.merchant.GET_TICKETS,
+    headers: {
+      "content-type": "appication/json",
+      Authorization: "Bearer " + token,
+    },
+  };
+
+  axios(config)
+    .then((res) => {
+      if (res.status === 200) {
+        toastr.success(res.data.message);
+
+        dispatch({
+          type: actionType.GET_TICKETS_SUCCESS,
+          payload: res.data,
+        });
+      }
+    })
+    .catch((error) => {
+      dispatch({
+        type: actionType.GET_TICKETS_FAILURE,
+      });
+    });
+};
+
+
+export const ticketStatus = (token) => (dispatch) => {
+  const config = {
+    method: "GET",
+    url: URL.merchant.GET_TICKETS_STATUS,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  };
+
+  axios(config)
+    .then((res) => {
+      console.log(res, "res kyc");
+
+      if (res.status === 200) {
+        toastr.success(res.data.message);
+
+        dispatch({
+          type: actionType.GET_TICKETS_STATUS_SUCCESS,
+          payload: res.data,
+        });
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      // toastr.error(error.response.data.message);
+      dispatch({
+        type: actionType.GET_TICKETS_STATUS_FAILURE,
+      });
+    });
+};
+
+export const ticketsPriorities = (token) => (dispatch) => {
+  dispatch(viewAttachmentFileFalse());
+  const config = {
+    method: "GET",
+    url: URL.merchant.GET_TICKETS_PRIORITIES,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  };
+
+  axios(config)
+    .then((res) => {
+      console.log(res, "res kyc");
+
+      if (res.status === 200) {
+        toastr.success(res.data.message);
+
+        dispatch({
+          type: actionType.GET_TICKETS_PRIORITIES_SUCCESS,
+          payload: res.data,
+        });
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      // toastr.error(error.response.data.message);
+      dispatch({
+        type: actionType.GET_TICKETS_PRIORITIES_FAILURE,
+      });
+    });
+};
+
+export const ticketsSummary = (token) => (dispatch) => {
+  const config = {
+    method: "GET",
+    url: URL.merchant.GET_TICKETS_SUMMARY,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  };
+
+  axios(config)
+    .then((res) => {
+      console.log(res, "res kyc");
+
+      if (res.status === 200) {
+        toastr.success(res.data.message);
+
+        dispatch({
+          type: actionType.GET_TICKETS_SUMMARY_SUCCESS,
+          payload: res.data,
+        });
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      // toastr.error(error.response.data.message);
+      dispatch({
+        type: actionType.GET_TICKETS_SUMMARY_FAILURE,
+      });
+    });
+};
+
+
+export const uploadAttachment = (token, payload) => (dispatch) => {
+  const config = {
+    method: "POST",
+    data: payload,
+    url: URL.merchant.UPLOAD_TICKETS_ATTACHMENT,
+    headers: {
+      "content-type": "multipart/form-data",
+      Authorization: "Bearer " + token,
+    },
+  };
+
+  axios(config)
+    .then((res) => {
+      if (res.status === 200) {
+        toastr.success(res.data.message);
+
+        dispatch({
+          type: actionType.TICKETS_UPLOAD_ATTACHMENT_SUCCESS,
+          payload: res.data,
+        });
+      }
+    })
+    .catch((error) => {
+      dispatch({
+        type: actionType.TICKETS_UPLOAD_ATTACHMENT_FAILURE,
+      });
+    });
+};
+export const viewAttachmentFile = (token, uuid) => (dispatch) => {
+  const config = {
+    method: "get",
+    url: URL.merchant.GET_UPLOADED_FILE + "/" + uuid,
+    headers: {
+      "Content-Type": "multipart/form-data",
+      Authorization: "Bearer " + token,
+    },
+    responseType: "blob",
+  };
+  axios(config)
+    .then((res) => {
+      if (res.status === 200) {
+        toastr.success(res.data.message);
+        dispatch({
+          type: actionType.GET_TICKET_UPLOADED_FILE_SUCCESS,
+          payload: res.data,
+        });
+      } else if (res.status === 206) {
+        toastr.warning(res.data.message);
+      }
+    })
+    .catch((error) => {
+      dispatch({
+        type: actionType.GET_TICKET_UPLOADED_FILE_FAILURE,
+      });
+    });
+};
+export const uploadAttachmentFalse = () => (dispatch) => {
+  dispatch({
+    type: actionType.TICKETS_UPLOAD_ATTACHMENT_FAILURE,
+  });
+};
+export const addTicket = (token, payload) => (dispatch) => {
+  dispatch(uploadAttachmentFalse());
+  dispatch(viewAttachmentFileFalse());
+  const config = {
+    method: "POST",
+    data: payload,
+    url: URL.merchant.ADD_TICKET,
+    headers: {
+      "content-type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  };
+
+  axios(config)
+    .then((res) => {
+      if (res.status === 200) {
+        toastr.success(res.data.message);
+        window.location = "/tickets";
+      }
+    })
+    .catch((error) => {});
+};
+export const UpdateTicket = (token, payload, ticketNo) => (dispatch) => {
+  dispatch(uploadAttachmentFalse());
+  dispatch(viewAttachmentFileFalse());
+  const config = {
+    method: "put",
+    data: payload,
+    url: URL.merchant.ADD_TICKET + "/" + ticketNo,
+    headers: {
+      "content-type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  };
+
+  axios(config)
+    .then((res) => {
+      if (res.status === 200) {
+        toastr.success(res.data.message);
+        dispatch(getTickets(token));
+      }
+    })
+    .catch((error) => {});
+};
+export const addAreply = (token, data, ticketNo) => (dispatch) => {
+  dispatch(uploadAttachmentFalse());
+  dispatch(viewAttachmentFileFalse());
+
+  const config = {
+    method: "post",
+    url: URL.merchant.TICKET_REPLY,
+    data: data,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  };
+  axios(config)
+    .then((res) => {
+      if (res.status === 200) {
+        dispatch(getATicket(token, ticketNo));
+      }
+    })
+    .catch((error) => {});
+};
+
+export const viewAttachmentFileFalse = () => (dispatch) => {
+  dispatch({
+    type: actionType.GET_TICKET_UPLOADED_FILE_FAILURE,
+  });
+};
+export const getATicket = (token, ticketNO) => (dispatch) => {
+  dispatch(viewAttachmentFileFalse());
+  const config = {
+    method: "get",
+    url: URL.merchant.GET_A_TICKET + "/" + ticketNO,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  };
+  axios(config)
+    .then((res) => {
+      dispatch({
+        type: actionType.GET_A_TICKET_SUCCESS,
+        payload: res.data,
+      });
+    })
+    .catch((error) => {
+      dispatch({
+        type: actionType.GET_A_TICKET_FAILURE,
+      });
+    });
+};
+
+
+
+
+
+
+
+
+

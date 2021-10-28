@@ -62,6 +62,9 @@ import ReciveMoney from "./Component/page/FlashTransfer/Recive_Money/reciveMoney
 
 import AgentRegister from "./Component/common/register/AgentRegister";
 
+import AddTicket from "./Component/Agent/AddTicket"
+// import Ticket from "./Component/Agent/Ticket";
+
 
 export const App=(props) =>{
   return (
@@ -148,6 +151,7 @@ export const App=(props) =>{
                     <Route path="/agent/transcations" component={Transaction} />
                     <Route path="/agent/access-history" component={AccessHistory} />
                     <Route path="/agent/tickets" component={Ticket} />
+                    <Route path="/agent/tickets/add-ticket" component={AddTicket} />
 
                   </Switch>
                 </div>
