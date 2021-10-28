@@ -1,14 +1,8 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
-import { NavLink } from "react-router-dom";
-import axios from "axios";
 import { FormattedMessage, useIntl, injectIntl } from "react-intl";
-import Image1 from "../../../Assets/images/manager 1.png";
 import Image2 from "../../../Assets/images/Group.png";
 import Image3 from "../../../Assets/images/Group (1).png";
-import ImageBackground from "../../../Assets/images/BG-2.png";
-import Logo from "../../../Assets/images/logo.png";
-import Dropzone from 'react-dropzone'
 import PhoneInput from 'react-phone-input-2'
 import DatePicker from "react-datepicker";
 import NavBar from "./NavBar";
@@ -53,6 +47,10 @@ class Register extends Component {
       locale: "en",
       agentBusinessAddress: "",
       agentBusinessCity: "",
+      Organization: "",
+      website: "",
+      tradeRegister: "",
+      taxPayer: "",
 
       previewFrontVisible: false,
       previewFrontImage: '',
@@ -73,6 +71,8 @@ class Register extends Component {
       previewAddressImage: '',
       idAddressFile: [],
       previewAddressTitle: '',
+
+      viewSummaryVisible: false
     };
   }
 
@@ -142,6 +142,15 @@ class Register extends Component {
   handleCancelAddressImage = () => this.setState({ previewAddressVisible: false });
 
   handleCancelBackImage = () => this.setState({ previewBackVisible: false });
+
+  handleSummaryCancel = () => this.setState({ viewSummaryVisible: false });
+
+  viewSummaryModal = () => {
+    console.log(this.state.idFrontImageFile.thumbUrl)
+    this.setState({
+      viewSummaryVisible: true
+    });
+  }
 
   handlePreviewFrontImage = async file => {
     if (!file.url && !file.preview) {
@@ -803,9 +812,112 @@ class Register extends Component {
 
                       </div>
                     </div>
+                    <Modal
+                      visible={this.state.viewSummaryVisible}
+                      footer={null}
+                      onCancel={this.handleSummaryCancel}
+                      width="75%"
+                      style={{
+                        top: '30px'
+                      }}
+                    >
+                      <div>
+                        <h1 style={{ fontSize: "25px", fontWeight: "600", marginTop: '20px', textAlign: 'center', marginBottom: '30px' }}>Registration Summary</h1>
+
+                        <table className="table" style={{ width: '100%' }}>
+                          <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                          </tr>
+                          <tr className="summaryRow">
+                            <td className="summaryLabel">Firstname : </td>
+                            <td className="summaryValue">{this.state.firstName}</td>
+                            <td className="summaryLabel">Lastname : </td>
+                            <td className="summaryValue">{this.state.lastName}</td>
+                          </tr>
+                          <tr className="summaryRow">
+                            <td className="summaryLabel">Email : </td>
+                            <td className="summaryValue">{this.state.email}</td>
+                            <td className="summaryLabel">Phone Number : </td>
+                            <td className="summaryValue">{this.state.mobileNumber}</td>
+                          </tr>
+                          <tr className="summaryRow">
+                            <td className="summaryLabel">Date of Birth : </td>
+                            <td className="summaryValue">{moment(new Date(this.state.dob)).format("YYYY-MM-DD")}</td>
+                            <td className="summaryLabel">Gender : </td>
+                            <td className="summaryValue">{this.state.gender}</td>
+                          </tr>
+                          <tr className="summaryRow">
+                            <td className="summaryLabel">ID Type : </td>
+                            <td className="summaryValue">{this.state.documentName}</td>
+                            <td className="summaryLabel">{this.state.documentType === "ID_DOCUMENT" ? "ID Card Number" : "Passport Number"}</td>
+                            <td className="summaryValue">{this.state.idDocumentIdNumber}</td>
+                          </tr>
+                          <tr className="summaryRow">
+                            <td className="summaryLabel">Business Address :</td>
+                            <td className="summaryValue">{this.state.agentBusinessAddress}</td>
+                            <td className="summaryLabel">Business City : </td>
+                            <td className="summaryValue">{this.state.agentBusinessCity}</td>
+                          </tr>
+                          <tr className="summaryRow">
+                            <td className="summaryLabel">ID Card Front Image : </td>
+                            <td className="summaryValue"><img style={{ width: "30%", height: '30%' }} src={this.state.idFrontImageFile.thumbUrl} /></td>
+                            <td className="summaryLabel">ID Card Back Image :</td>
+                            <td className="summaryValue"><img style={{ width: "30%", height: '30%' }} src={this.state.idBackImageFile.thumbUrl} /></td>
+                          </tr>
+                          <tr className="summaryRow">
+                            <td className="summaryLabel">Expiration Date :</td>
+                            <td className="summaryValue">{moment(new Date(this.state.setExpirationDate)).format("YYYY-MM-DD")}</td>
+                            <td className="summaryLabel">Address : </td>
+                            <td className="summaryValue">{this.state.address1}</td>
+                          </tr>
+                        </table>
+                        <hr style={{ width: '30%', borderTop: '3px solid darkgray', marginTop: '20px', borderRadius: '10px' }} />
+                        <h1 style={{ fontSize: "20px", fontWeight: "600", marginTop: '20px', marginBottom: '20px', textAlign: 'center' }}>Business Details</h1>
+
+                        <table className="table" style={{ width: '100%' }}>
+                          <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                          </tr>
+                          <tr className="summaryRow">
+                            <td className="summaryLabel">Name of Organization : </td>
+                            <td className="summaryValue">{this.state.Organization}</td>
+                            <td className="summaryLabel">Registered Date : </td>
+                            <td className="summaryValue">{moment(new Date(this.state.registeredDate)).format("YYYY-MM-DD")}</td>
+                          </tr>
+                          <tr className="summaryRow">
+                            <td className="summaryLabel">Website Link : </td>
+                            <td className="summaryValue">{this.state.website}</td>
+                            <td className="summaryLabel">Trade Register Number : </td>
+                            <td className="summaryValue">{this.state.tradeRegister}</td>
+                          </tr>
+                          <tr className="summaryRow">
+                            <td className="summaryLabel">Taxpayer Number : </td>
+                            <td className="summaryValue">{this.state.taxPayer}</td>
+                            <td></td>
+                            <td></td>
+                          </tr>
+                          <tr className="summaryRow">
+                            <td className="summaryLabel">ID Card Front Image : </td>
+                            <td className="summaryValue"><img style={{ width: "30%", height: '30%' }} src={this.state.idFrontBusinessImageFile.thumbUrl} /></td>
+                            <td className="summaryLabel">Proof of Address :</td>
+                            <td className="summaryValue"><img style={{ width: "30%", height: '30%' }} src={this.state.idAddressFile.thumbUrl} /></td>
+                          </tr>
+                        </table>
+
+                        <div className="col-md-12 text-center" style={{ justifyContent: "center", display: "flex", marginTop: "5%" }}>
+                          <button className="btn btn-default text-white" style={{ padding: '0px' }} onClick={() => this.submitForm()}>Register</button>
+                        </div>
+                      </div>
+                    </Modal>
                     <div className="row">
                       <div className="col-md-12 text-center" style={{ justifyContent: "center", display: "flex", marginTop: "5%" }}>
-                        <button className="btn btn-default text-white" onClick={() => this.submitForm()}>Next</button>
+                        <button className="btn btn-default text-white" onClick={() => this.viewSummaryModal()}>Next</button>
                       </div>
                     </div>
 

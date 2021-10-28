@@ -3053,3 +3053,16 @@ footer {
     margin: auto;
     margin-bottom: 2%;
 }
+
+.summaryRow {
+    height: 30px;
+}
+
+.summaryLabel {
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.summaryValue {
+    color: rgb(128, 128, 128);
+}
