@@ -46,9 +46,9 @@ import CashDeposit from "./Component/Banking/cashDeposit";
 import CashWithdrawal from "./Component/Banking/cashWithdrawal";
 import ServicePayment from "./Component/Banking/servicePayment";
 
-import WalletAccountOpening  from "./Component/CustomerRegistration/walletAccountOpening";
+import WalletAccountOpening from "./Component/CustomerRegistration/walletAccountOpening";
 import AfbCustomer from "./Component/CustomerRegistration/AfbCustomer";
-import NonAfbCustomer from"./Component/CustomerRegistration/nonAfbCustomer";
+import NonAfbCustomer from "./Component/CustomerRegistration/nonAfbCustomer";
 import BankingOpeningAccount from "./Component/CustomerRegistration/BankingAccountOpening";
 import nonAfbCustomer from "./Component/CustomerRegistration/nonAfbCustomer";
 import walletAccountOpening from "./Component/CustomerRegistration/walletAccountOpening";
@@ -62,19 +62,26 @@ import ReciveMoney from "./Component/page/FlashTransfer/Recive_Money/reciveMoney
 
 import AgentRegister from "./Component/common/register/AgentRegister";
 
+import Registration from "./Component/Agent/AgentRegistration/AgentRegistration";
+import AgentOTP from "./Component/Agent/AgentRegistration/AgentOTPScreen";
+import ChooseRegistrationAccount from "./Component/ChooseRegistrationAccount";
 
-export const App=(props) =>{
+
+export const App = (props) => {
   return (
     <>
-    <Switch>
-    <Redirect exact from="/" to="/agent/login" />
-    <Route path="/agent/login" component={Login} />
-    <Route path="/agent/register" component={AgentRegister} />
-  </Switch>
-  {
-        (sessionStorage.getItem("token") && window.location.pathname!=="/agent/login") && (
-            <div className="app_wrapper">
-        
+      <Switch>
+        <Redirect exact from="/" to="/agent/login" />
+        <Route path="/agent/login" component={Login} />
+        <Route path="/agent/individual" component={AgentRegister} />
+        <Route path="/agent/registration" component={Registration} />
+        <Route exact path="/agent/otp-verification" component={AgentOTP} />
+        <Route path="/registration" component={ChooseRegistrationAccount} />
+      </Switch>
+      {
+        (sessionStorage.getItem("token") && window.location.pathname !== "/agent/login") && (
+          <div className="app_wrapper">
+
             <div className="left_wrapper">
               <Sidebar />
             </div>
@@ -104,7 +111,7 @@ export const App=(props) =>{
                     <Route path="/agent/walletOperation/WalletToAccount3" component={WalletToAccount3} />
                     <Route path="/agent/walletOperation/WalletToWallet" component={WalletToWallet} />
                     <Route path="/agent/walletOperation/WalletToWallet2" component={WalletToWallet2} />
-                    
+
                     <Route path="/agent/walletOperation/AccountBalance" component={AccountBalance} />
                     <Route path="/agent/walletOperation/AccountStatement" component={AccountStatement} />
 
@@ -118,9 +125,9 @@ export const App=(props) =>{
                     <Route path="/agent/walletOperation/SchoolFeesMethod" component={SchoolFeesMethod} />
                     <Route path="/agent/walletOperation/SchoolFeesCashDeposit" component={SchoolFeesCashDeposit} />
                     <Route path="/agent/walletOperation/SchoolFeesTransferAccountWallet" component={SchoolFeesTransferAccountWallet} />
-                    <Route path="/Settings/link/bank-account" component={AccountLinking}/>
+                    <Route path="/Settings/link/bank-account" component={AccountLinking} />
 
-                    <Route path="/Settings/linkingAccount/verification"  component={AccountVerification}/>
+                    <Route path="/Settings/linkingAccount/verification" component={AccountVerification} />
                     <Route path="/agent/walletAccountOpening" component={walletAccountOpening} />
                     <Route path="/agent/afbCustomer" component={AfbCustomer} />
                     <Route path="/agent/nonAfbCustomer" component={nonAfbCustomer} />
@@ -139,11 +146,11 @@ export const App=(props) =>{
                     <Route path="/Admin/succesSendMoney" component={succesSendMoney} />
 
                     <Route path="/admin/banking/transfer" component={Transfer} />
-                      <Route path="/admin/banking/account_balance" component={AccountBalance} />
-                      <Route path="/admin/banking/account_statement" component={AccountStatement} />
-                      <Route path="/admin/banking/cash_deposit_bank" component={CashDeposit} />
-                      <Route path="/admin/banking/cash_withdrawal_bank" component={CashWithdrawal} />
-                      <Route path="/admin/banking/service_payments" component={ServicePayment} />
+                    <Route path="/admin/banking/account_balance" component={AccountBalance} />
+                    <Route path="/admin/banking/account_statement" component={AccountStatement} />
+                    <Route path="/admin/banking/cash_deposit_bank" component={CashDeposit} />
+                    <Route path="/admin/banking/cash_withdrawal_bank" component={CashWithdrawal} />
+                    <Route path="/admin/banking/service_payments" component={ServicePayment} />
 
                     <Route path="/agent/transcations" component={Transaction} />
                     <Route path="/agent/access-history" component={AccessHistory} />

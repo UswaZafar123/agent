@@ -18,16 +18,18 @@ export const RegisterService = (payload) => (dispatch) => {
   axios(config)
     .then((res) => {
       if (res.status === 200) {
-        toastr.success("success");
+        toastr.success("Registration Successful");
         dispatch({
           type: actionType.CREATE_AGENT_BANKER_SUCCESS,
+          payload: res.data
         });
       }
     })
     .catch((error) => {
-      toastr.warning("error");
+      toastr.warning("Registration Error");
       dispatch({
         type: actionType.CREATE_AGENT_BANKER_FAILURE,
+        payload: error
       });
     });
 };
@@ -62,17 +64,17 @@ export const verifyMerchantAccount = (data) => (dispatch) => {
 
   axios(config)
     .then((res) => {
-      console.log(res,'res')
-      if(res.status == 200) {
+      console.log(res, 'res')
+      if (res.status == 200) {
         dispatch({
           type: actionType.ACCOUNT_VERIFIED,
         });
-      }else{
+      } else {
         dispatch({
           type: actionType.ACCOUNT_VERIFIED_FAIL,
         });
       }
-      
+
     })
     .catch((error) => {
       toastr.error("Sorry, Something went wrong");
@@ -123,7 +125,7 @@ export const loginMerchant = (payload) => (dispatch) => {
         sessionStorage.setItem("token", res.data.access_token);
         sessionStorage.setItem("refresh_token", res.data.refresh_token);
         sessionStorage.setItem("token_expiretime", res.data.expires_in);
-        sessionStorage.setItem("refresh_token_expiretime", res.data.refresh_expires_in); 
+        sessionStorage.setItem("refresh_token_expiretime", res.data.refresh_expires_in);
 
         dispatch(getMerchantProfileInfo(res.data.access_token))
       } else if (res.status === 206) {
@@ -159,7 +161,7 @@ export const getMerchantProfileInfo = (token) => dispatch => {
   };
   axios(config)
     .then(res => {
-      console.log(res,'merchantDetails')
+      console.log(res, 'merchantDetails')
       if (res.status === 200) {
 
         sessionStorage.setItem("id", res.data.profileInfo.id);
@@ -167,7 +169,7 @@ export const getMerchantProfileInfo = (token) => dispatch => {
         sessionStorage.setItem("merchantStatus", res.data.profileInfo.merchantStatus);
         sessionStorage.setItem("phoneNo", res.data.profileInfo.phoneNo);
         sessionStorage.setItem("email", res.data.Email);
-        window.location="/agent/dashboard"
+        window.location = "/agent/dashboard"
 
 
 
@@ -176,15 +178,15 @@ export const getMerchantProfileInfo = (token) => dispatch => {
           payload: token,
         });
 
-     
-   
-       
+
+
+
       } else if (res.status === 206) {
-       
+
       }
     })
     .catch(error => {
-     
+
     });
 };
 // const loginDispatcher = (res, accessPayload) => dispatch => {
@@ -927,30 +929,30 @@ export const getPaymentCategories = (token) => (dispatch) => {
 
 export const verifyRegister = email => dispatch => {
   const config = {
-      method: "post",
-      url: URL.user.VERIFY_REGISTER,
-      data: email,
-      headers: {
-          "Content-Type": "application/json"
-      }
+    method: "post",
+    url: URL.user.VERIFY_REGISTER,
+    data: email,
+    headers: {
+      "Content-Type": "application/json"
+    }
   };
   axios(config)
-      .then(res => {
-          if (res.status === 200) {
-              dispatch({
-                  type: actionType.VERIFY_USER_REGISTER_SUCCESS,
-                  message: res.data
-              });
-          } else if (res.status === 206) {
-              dispatch({
-                  type: actionType.VERIFY_USER_REGISTER_FAILURE,
-                  message: []
-              });
-          }
-      })
-      .catch(error => {
-          dispatch({
-              type: actionType.VERIFY_USER_REGISTER_FAILURE,
-          });
+    .then(res => {
+      if (res.status === 200) {
+        dispatch({
+          type: actionType.VERIFY_USER_REGISTER_SUCCESS,
+          message: res.data
+        });
+      } else if (res.status === 206) {
+        dispatch({
+          type: actionType.VERIFY_USER_REGISTER_FAILURE,
+          message: []
+        });
+      }
+    })
+    .catch(error => {
+      dispatch({
+        type: actionType.VERIFY_USER_REGISTER_FAILURE,
       });
+    });
 };

@@ -293,7 +293,7 @@ class Register extends Component {
     formData.append("mobileOperator", "UNINOR");
 
     formData.append("idDocumentName", this.state.documentName);
-    formData.append("idDocumentType", this.state.documentType);
+    formData.append("idDocumentType", "ID_DOCUMENT");
 
     formData.append("idDocumentIdNumber", this.state.idDocumentIdNumber);
     formData.append(
@@ -330,8 +330,8 @@ class Register extends Component {
 
     formData.append("agentBusinessCity", this.state.agentBusinessCity);
     formData.append("appliedForRegistrationAt", "City center");
-    formData.append("idDocumentImages", this.state.idAddressFile);
-    formData.append("agentPhoto", this.state.idBackImageFile);
+    formData.append("idDocumentImages", this.state.idAddressFile.originFileObj);
+    formData.append("agentPhoto", this.state.idBackImageFile.originFileObj);
 
     formData.append("agentType", this.state.agentType);
 
@@ -339,18 +339,44 @@ class Register extends Component {
 
 
     // Display the key/value pairs
-    for (var pair of formData.entries()) {
-      console.log(pair[0] + ', ' + pair[1]);
-    }
+    // for (var pair of formData.entries()) {
+    //   console.log(pair[0] + ', ' + pair[1]);
+    // }
 
-    // this.props.RegisterService(formData);
+    // console.log(this.state.idBackImageFile.originFileObj,"XXX")
 
+    this.setState({
+      viewSummaryVisible: false
+    }, () => {
+
+      localStorage.setItem("OTP_PhoneNumber", this.state.mobileNumber);
+      localStorage.setItem("Firstname", this.state.firstName);
+      localStorage.setItem("Email", this.state.email);
+
+      this.props.RegisterService(formData);
+    });
   }
 
   dummyRequest = ({ fileList, onSuccess }) => {
     setTimeout(() => {
       onSuccess("ok");
     }, 0);
+  }
+
+  componentDidMount() {
+    console.log(this.props, "THIS PROPS");
+  }
+
+  componentWillReceiveProps(nextprops) {
+    console.log(nextprops, "NEXT PROPS");
+
+    if (nextprops.agentIndividualRegStatus && nextprops.agentIndividualRegData.iamId) {
+      this.props.history.push("/agent/otp-verification");
+
+      // console.log(nextprops.agentIndividualRegData.iamId, "iamId");
+    } else {
+      console.log(nextprops.agentIndividualRegData, "agentIndividualRegData");
+    }
   }
 
   render() {
@@ -482,7 +508,7 @@ class Register extends Component {
                         country='cm'
                         enableSearch={true}
                         countryCodeEditable={false}
-                        disableSearchIcon={true}
+                        enableLongNumbers={false}
                         searchPlaceholder="Search for countries.."
                         inputStyle={{ width: '100%' }}
                         value={this.state.mobileNumber}
@@ -971,9 +997,11 @@ class Register extends Component {
 }
 
 // // function for mapping redux state values with props //
-const mapStateToProps = ({ commonReducer, adminReducer }) => {
+const mapStateToProps = ({ commonReducer, adminReducer, agentReducer }) => {
   return {
     checkLogin: commonReducer.checkLogin,
+    agentIndividualRegData: agentReducer.agentIndividualRegData,
+    agentIndividualRegStatus: agentReducer.agentIndividualRegStatus
   };
 };
 
