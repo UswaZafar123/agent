@@ -436,7 +436,7 @@ class Login extends Component {
                   <div className="form-group">
                     <span>
                       <input type="checkbox" />
-                      <label> Remeber me</label>
+                      <label> Remember me</label>
                     </span>
                     <span>
                       <NavLink to="/ForgotPassword" className="forgetPass">

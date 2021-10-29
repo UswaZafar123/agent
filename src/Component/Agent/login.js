@@ -1,12 +1,12 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
-import { NavLink,Redirect } from "react-router-dom";
+import { NavLink, Redirect } from "react-router-dom";
 import validate from "./resources/validation";
 import axios from "axios";
 import { FormattedMessage, IntlProvider, injectIntl } from "react-intl";
 import Logo from "./../../Assets/images/logo.png";
 import NavBar from "./../common/register/NavBar";
-import {loginAgent} from "../../services/agent/action.js";
+import { loginAgent } from "../../services/agent/action.js";
 
 class Login extends Component {
   constructor() {
@@ -14,7 +14,7 @@ class Login extends Component {
     this.state = {
       latitude: "",
       longitude: "",
-      browser: "", 
+      browser: "",
       os: "",
       ipAddress: "",
       email: "",
@@ -30,9 +30,9 @@ class Login extends Component {
       loginFailed: "",
       storage: "",
       type: "password",
-      showLoginError:false,
-      loginType:"",
-      messages:"",
+      showLoginError: false,
+      loginType: "",
+      messages: "",
     };
   }
 
@@ -50,7 +50,7 @@ class Login extends Component {
   language = async (value) => {
     // this.setState({ language: value });
 
-    console.log(value,"valueee")
+    console.log(value, "valueee")
 
     const messages = await this.loadLocaleData(value);
     console.log(messages, "messages");
@@ -70,9 +70,9 @@ class Login extends Component {
      * (C) viazenetti GmbH (Christian Ludwig)
      */
     // this.props.getGeneralInfo(document.title,sessionStorage.getItem("token"));
-  sessionStorage.setItem("error","");
-  this.setState({loginType:new URLSearchParams(this.props.location.search).get('type')})
-  
+    sessionStorage.setItem("error", "");
+    this.setState({ loginType: new URLSearchParams(this.props.location.search).get('type') })
+
     // this.setState({loginFailed:""})
 
     var unknown = "-";
@@ -260,7 +260,7 @@ class Login extends Component {
       this.props.twoFactAuth(payloadAuth, accessPayload);
     } else {
       localStorage.setItem("email", this.state.email);
-    //   this.props.LoginService(payload, accessPayload);
+      //   this.props.LoginService(payload, accessPayload);
     }
     localStorage.setItem("email", email);
   };
@@ -272,18 +272,18 @@ class Login extends Component {
 
     if (nextProps.agentLoginstatus) {
 
-      
-      this.setState({loginPasswordError:null})
-      this.setState({showLoginError:false});
 
-      
-      window.location="/agent"
+      this.setState({ loginPasswordError: null })
+      this.setState({ showLoginError: false });
 
 
-    }else{
-      this.setState({showLoginError:true});
+      window.location = "/agent"
 
-      this.setState({loginPasswordError:"Incorrect email address or password"})
+
+    } else {
+      this.setState({ showLoginError: true });
+
+      this.setState({ loginPasswordError: "Incorrect email address or password" })
     }
 
     if (nextProps.twoFactorVerifyOpen) {
@@ -316,27 +316,26 @@ class Login extends Component {
       }
     }
 
-    if(!nextProps.loginStatus)
-    {
-      this.setState({loginFailed:"Incorrect email address or password"})
+    if (!nextProps.loginStatus) {
+      this.setState({ loginFailed: "Incorrect email address or password" })
     }
   };
 
 
   setLogin = () => {
     // sessionStorage.setItem("token","testtoken");
-    sessionStorage.setItem("user_type","agent");
+    sessionStorage.setItem("user_type", "agent");
     // window.location = "/dashbaord";
     // this.props.history.push("/dashbaord");
 
     let data = {
-      "client_id":"PUBLIC_CLIENT" ,
-      "grant_type":"password" ,
+      "client_id": "PUBLIC_CLIENT",
+      "grant_type": "password",
       "username": "a_" + this.state.email,
-      "password":this.state.loginPassword
+      "password": this.state.loginPassword
     }
 
-  this.props.loginAgent(data);
+    this.props.loginAgent(data);
 
   }
 
@@ -355,138 +354,138 @@ class Login extends Component {
 
     // const { loginFailed } = this.props.loginStatus;
 
-    console.log(4586,this.props.merchantLoginStatus);
+    console.log(4586, this.props.merchantLoginStatus);
 
     return (
       //By using Fragment as parent div will not create an extra dom element //
       <Fragment>
         <section className="loginWrapper accountWrapper">
-         <NavBar language={this.language}/>
-         <IntlProvider messages={this.state.messages.default}>
+          <NavBar language={this.language} />
+          <IntlProvider messages={this.state.messages.default}>
+            <div className="col-md-12 loginContainer">
+              <div className="loginInner" >
 
-        <div className="col-md-12 loginContainer">
-          <div className="loginInner" >
+                <div className="loginInform">
+                  <h4 aria-label="vinod is working">
+                    Agent Login
+                  </h4>
 
-            <div className="loginInform">
-              <h4 aria-label="vinod is working">
-               Agent Login
-              </h4>
+                  <div style={{ color: "red" }}>{this.props.login}</div>
+                  <div style={{ color: "red" }}></div>
 
-              <div style={{ color: "red" }}>{this.props.login}</div>
-              <div style={{ color: "red" }}></div>
-
-              <form onSubmit={this.handleSubmit}>
-                {twoFactorblock && (
-                  <div className="form-group">
-                    <label>Two Factor Authentication Code </label>
-                    <input
-                      type="text"
-                      name="code"
-                      value={code}
-                      maxLength="4"
-                      onChange={this.handleChange}
-                      className="form-control"
-                      placeholder="Two Factor Code"
-                    />
-                  </div>
-                )}
-                {!twoFactorblock && (
-                  <>
-                    <div className="form-group">
-                    <label>
-                        {/* <FormattedMessage id="login.username" />{" "} */}
-                        Agent Phone Number
-                      </label>
-                      <input
-                        type="text"
-                        name="email"
-                        autoComplete="off"
-                        value={email}
-                        onChange={this.handleChange}
-                        className="form-control"
-                        placeholder="Username"
-                      />
-                    </div>
-                    {/* <div style={{ color: "red" }}>{emailError}</div> */}
-
-                    <div className="form-group" style={{marginTop:"5%", marginBottom:"5%"}}>
-                      <label>
-                        <FormattedMessage id="login.password" />{" "}
-                      </label>
-                      <div style={{ position: "relative", display: "flex" }}>
+                  <form onSubmit={this.handleSubmit}>
+                    {twoFactorblock && (
+                      <div className="form-group">
+                        <label>Two Factor Authentication Code </label>
                         <input
-                          className="form-control" 
-                          type={this.state.type}
-                          name="loginPassword"
-                          value={loginPassword}
-                          placeholder="Password"
+                          type="text"
+                          name="code"
+                          value={code}
+                          maxLength="4"
                           onChange={this.handleChange}
+                          className="form-control"
+                          placeholder="Two Factor Code"
                         />
-                        <div class="input-group-append" onClick={this.showHide}>
-                          {this.state.type === "input" && loginPassword != "" && (
-                            <div style={{ cursor: "pointer" }}>
-                              <i
-                                style={{
-                                  position: "absolute",
-                                  top: "32%",
-                                  right: "2%",
-                                }}
-                                className="fa fa-eye"
-                              ></i>
-                            </div>
-                          )}
-
-                          {this.state.type === "password" &&
-                            loginPassword != "" && (
-                              <div style={{ cursor: "pointer" }}>
-                                <i
-                                  style={{
-                                    position: "absolute",
-                                    top: "32%",
-                                    right: "2%",
-                                  }}
-                                  className="fa fa-eye-slash"
-                                ></i>
-                              </div>
-                            )}
-                        </div>
                       </div>
+                    )}
+                    {!twoFactorblock && (
+                      <>
+                        <div className="form-group">
+                          <label>
+                            {/* <FormattedMessage id="login.username" />{" "} */}
+                            Agent Phone Number
+                          </label>
+                          <input
+                            type="text"
+                            name="email"
+                            autoComplete="off"
+                            value={email}
+                            onChange={this.handleChange}
+                            className="form-control"
+                            placeholder="Username"
+                          />
+                        </div>
+                        {/* <div style={{ color: "red" }}>{emailError}</div> */}
+
+                        <div className="form-group" style={{ marginTop: "5%", marginBottom: "5%" }}>
+                          <label>
+                            <FormattedMessage id="login.password" />{" "}
+                          </label>
+                          <div style={{ position: "relative", display: "flex" }}>
+                            <input
+                              className="form-control"
+                              type={this.state.type}
+                              name="loginPassword"
+                              value={loginPassword}
+                              placeholder="Password"
+                              onChange={this.handleChange}
+                            />
+                            <div class="input-group-append" onClick={this.showHide}>
+                              {this.state.type === "input" && loginPassword != "" && (
+                                <div style={{ cursor: "pointer" }}>
+                                  <i
+                                    style={{
+                                      position: "absolute",
+                                      top: "32%",
+                                      right: "2%",
+                                    }}
+                                    className="fa fa-eye"
+                                  ></i>
+                                </div>
+                              )}
+
+                              {this.state.type === "password" &&
+                                loginPassword != "" && (
+                                  <div style={{ cursor: "pointer" }}>
+                                    <i
+                                      style={{
+                                        position: "absolute",
+                                        top: "32%",
+                                        right: "2%",
+                                      }}
+                                      className="fa fa-eye-slash"
+                                    ></i>
+                                  </div>
+                                )}
+                            </div>
+                          </div>
+                        </div>
+                      </>
+                    )}
+                    {
+                      this.state.showLoginError &&
+                      <div style={{ color: "red" }}>{this.props.loginError}</div>
+                    }
+
+                    <div className="form-group">
+
+                      <span>
+                        <input type="checkbox" />
+                        <label> Remember me</label>
+                      </span>
+                      <span>
+                        <NavLink to="/ForgotPassword" className="forgetPass">
+                          <FormattedMessage id="login.forogtpassword" />
+                        </NavLink>
+                      </span>
                     </div>
-                  </>
-                )}
-                {
-                  this.state.showLoginError && 
-                    <div style={{ color: "red" }}>{this.props.loginError}</div>
-                }
+                    <div className="form-group" style={{ marginTop: "8%", marginBottom: '8%', display: 'flex', justifyContent: "center" }}>
+                      <button type="submit" className="btn-default btn" style={{ width: "50%" }} onClick={() => { this.setLogin() }}>
+                        <FormattedMessage id="login.button" />
+                      </button>
+                    </div>
+                  </form>
 
-                <div className="form-group">
-
-                    <span>
-                        <input type="checkbox"/>
-                     <label> Remeber me</label>
-                    </span>
-                    <span>
-                    <NavLink to="/ForgotPassword" className="forgetPass">
-                    <FormattedMessage id="login.forogtpassword" />
-                  </NavLink>
-                    </span>
+                  {/* <GoogleRecaptcha rechaptchaEnable={this.rechaptchaEnable} /> */}
+                  <p>
+                    <FormattedMessage id="login.donthaveanaccount" />
+                    <NavLink to="/registration"> <FormattedMessage id="register" /></NavLink>
+                    {/* <NavLink to="/agent/register"> <FormattedMessage id="register" /></NavLink> */}
+                  </p>
                 </div>
-                <div className="form-group" style={{marginTop:"8%", marginBottom:'8%',display:'flex', justifyContent:"center"}}>
-                  <button type="submit" className="btn-default btn" style={{width:"50%"}} onClick={() => {this.setLogin()}}>
-                    <FormattedMessage id="login.button" />
-                  </button>
-                </div>
-              </form>
-
-              {/* <GoogleRecaptcha rechaptchaEnable={this.rechaptchaEnable} /> */}
-              <p>
-                <FormattedMessage id="login.donthaveanaccount" /> 
-               <NavLink to="/agent/register"> <FormattedMessage id="register"/></NavLink>
-              </p>
+              </div>
             </div>
-          </div>
-        </div>
-       </IntlProvider>
+          </IntlProvider>
         </section>
       </Fragment>
     );
@@ -508,4 +507,4 @@ const mapDispatchToProps = dispatch => {
 }
 
 //connect method is used for connecting react and redux //
-export default connect(mapStateToProps,mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

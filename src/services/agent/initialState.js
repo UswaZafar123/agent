@@ -1,7 +1,9 @@
 const initialState = {
     agentLoginstatus : false,
     linkingStatus: false,
-    linkingList:null
+    linkingList:null,
+    agentIndividualRegData : [],
+    agentIndividualRegStatus : false
     
   //   viewProPicStatus: false
 };
