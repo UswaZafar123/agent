@@ -2405,7 +2405,7 @@ footer {
     }
 
     .btn-default {
-        background: #DA4139 !important;
+        background: #DA4139;
         border-radius: 10px;
         padding: 2%;
         min-width:282px !important ;

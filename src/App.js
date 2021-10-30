@@ -65,6 +65,7 @@ import AgentRegister from "./Component/common/register/AgentRegister";
 import Registration from "./Component/Agent/AgentRegistration/AgentRegistration";
 import AgentOTP from "./Component/Agent/AgentRegistration/AgentOTPScreen";
 import ChooseRegistrationAccount from "./Component/ChooseRegistrationAccount";
+import AgentRegSuccess from "./Component/Agent/AgentRegistration/AgentRegSuccess";
 
 
 export const App = (props) => {
@@ -77,6 +78,7 @@ export const App = (props) => {
         <Route path="/agent/registration" component={Registration} />
         <Route exact path="/agent/otp-verification" component={AgentOTP} />
         <Route path="/registration" component={ChooseRegistrationAccount} />
+        <Route path="/agent/registrationSuccess" component={AgentRegSuccess} />
       </Switch>
       {
         (sessionStorage.getItem("token") && window.location.pathname !== "/agent/login") && (

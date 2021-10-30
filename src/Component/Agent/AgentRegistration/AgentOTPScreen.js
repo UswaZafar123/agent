@@ -1,23 +1,98 @@
-import React, { Component, Fragment, useState } from "react";
+import React, { Component, Fragment, useState, useEffect } from "react";
 import NavBar from "./../../common/register/NavBar";
 import styled from "styled-components";
 import { LeftOutlined } from '@ant-design/icons'
 import OtpInput from "react-otp-input";
 import { Button } from "antd";
-import successImage from "../../../Assets/images/RegistrationSuccessImage.JPG"
+import successImage from "../../../Assets/images/RegistrationSuccessImage.JPG";
+import { useSelector, useDispatch } from 'react-redux';
+import { sendAgentOTP, checkOTPValid, setAgentPassword } from "../../../services/actions";
+
 
 function AgentOTP(props) {
 
     const [otp, setOtp] = useState("");
-    const [firstname, setFirstName] = useState(localStorage.getItem("Firstname"));
-    const [email, setEmail] = useState(localStorage.getItem("Email"));
-    const [OTP_PHONENUMBER, setOTP_PHONENUMBER] = useState(localStorage.getItem("OTP_PhoneNumber"));
-    const [loadRegistrationSuccess, setLoadRegistrationSuccess] = useState(false);
+    const [firstname, setFirstName] = useState(sessionStorage.getItem("Firstname"));
+    const [email, setEmail] = useState(sessionStorage.getItem("Email"));
+    const [OTP_PHONENUMBER, setOTP_PHONENUMBER] = useState(sessionStorage.getItem("OTP_PhoneNumber"));
+    const [loadingComponent, setLoadingComponent] = useState("OTP");
+
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [isPasswordsMatching, setIsPasswordsMatching] = useState(false);
+
+    const [isResendOTPDisabled, setisResendOTPDisabled] = useState(true);
+    const [seconds, setSeconds] = useState(10);
+
+    // const agentOTPStatus = useSelector((state) => state.agentReducer.agentOTPStatus);
+    const agentOTPValidStatus = useSelector((state) => state.agentReducer.agentOTPValidStatus);
+    const agentSetPasswordStatus = useSelector((state) => state.agentReducer.agentSetPasswordStatus);
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+
+        if (seconds > 0) {
+            setTimeout(() => {
+                setSeconds(seconds - 1)
+            }, 1000);
+        } else {
+            setSeconds(0);
+            setisResendOTPDisabled(false);
+        }
+
+    });
+
+    function resendOtp() {
+
+        const data = {
+            "phoneNumber": sessionStorage.getItem("phoneNo"),
+        }
+
+        dispatch(sendAgentOTP(data));
+
+        setisResendOTPDisabled(true);
+        setSeconds(10);
+
+    }
+
+    function checkOTPValidity() {
+
+        const data = {
+            "phoneNumber": sessionStorage.getItem("phoneNo"),
+            "mfaCode": otp
+        }
+
+        dispatch(checkOTPValid(data));
+
+    }
+
+    useEffect(() => {
+        if (agentOTPValidStatus) {
+            setLoadingComponent("SET_PASSWORD");
+        }
+    });
+
+    useEffect(() => {
+        if (password === confirmPassword && password.length > 2 && confirmPassword.length > 2) {
+            setIsPasswordsMatching(true);
+        }
+        else {
+            setIsPasswordsMatching(false);
+        }
+    })
+
+    useEffect(() => {
+        if (agentSetPasswordStatus) {
+            props.history.push("/agent/registrationSuccess");
+        }
+    })
+
 
     return (
         <Fragment>
             <NavBar />
-            {!loadRegistrationSuccess &&
+            {loadingComponent === "OTP" &&
                 <InnerWrapper className="agent-registration-container">
                     <div className="agent-cat-box">
                         <div style={{ textAlign: 'left' }}>
@@ -30,6 +105,7 @@ function AgentOTP(props) {
 
                             <OtpInput
                                 value={otp}
+                                shouldAutoFocus={true}
                                 onChange={(e) => setOtp(e)}
                                 numInputs={6}
                                 seperator={<span></span>}
@@ -54,10 +130,12 @@ function AgentOTP(props) {
 
                             <div style={{ textAlign: 'left', marginTop: '10px' }}>
 
-                                <Button type="link" style={{ color: '#066FD0', paddingLeft: '0px', fontWeight: '550' }}>Resend Code</Button>
+                                <Button type="link" disabled={isResendOTPDisabled} style={{ color: isResendOTPDisabled ? 'darkgray' : '#066FD0', paddingLeft: '0px', fontWeight: '550' }} onClick={() => resendOtp()}>Resend Code {seconds > 0 ? "(" + seconds + ")" : ""}</Button>
 
                             </div>
-                            <button disabled={otp.length < 6 ? true : false} onClick={() => setLoadRegistrationSuccess(true)} className="btn-default btn" >
+                            <button disabled={otp.length < 6 ? true : false} onClick={() => {
+                                checkOTPValidity()
+                            }} className="btn-default btn" >
                                 Next
                             </button>
                         </div>
@@ -65,27 +143,69 @@ function AgentOTP(props) {
                 </InnerWrapper>
             }
 
-            {loadRegistrationSuccess &&
+            {loadingComponent === "SET_PASSWORD" &&
                 <InnerWrapper className="agent-registration-container">
                     <div className="agent-cat-box">
-                        <div style={{ textAlign: 'center' }}>
-                            <img src={successImage} style={{ height: "80%", width: "80%", paddingLeft: "23px" }} />
-                        </div>
-                        <div style={{ textAlign: 'center', fontWeight: 'bold', fontSize: '15px' }}>
-                            {firstname}
-                        </div>
                         <div className="display-linebreak">
-                            <h2 style={{ fontSize: '20px', fontWeight: 'bold', marginTop: '10px' }}>Your account Registered as an Agent-SA {"\n"} Successfully!</h2>
+                            <h2 style={{ fontSize: '20px', fontWeight: 'bold', marginTop: '10px' }}>Set a Password for your Account !</h2>
 
-                            <p style={{ fontWeight: 'bold', fontSize: '15px', color: '#6C6C6C' }}>{email}</p>
-                            <button className="btn-default okayBtn" onClick={() => props.history.push("/")}>
-                                Okay
+                            <div className="row" style={{ display: "block" }}>
+
+                                <div className="form-group" style={{ marginTop: "5%", float: 'left' }}>
+                                    <label>
+                                        Password
+                                    </label>
+                                </div>
+                                <br /> <br />
+                                <div className="form-group" style={{ marginBottom: "5%" }}>
+                                    <div style={{ position: "relative", display: "flex" }}>
+                                        <input
+                                            className="form-control"
+                                            type="password"
+                                            name="password"
+                                            value={password}
+                                            placeholder="Password"
+                                            onChange={(e) => setPassword(e.target.value)}
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="form-group" style={{ marginTop: "5%", float: 'left' }}>
+                                    <label>
+                                        Confirm Password
+                                    </label>
+                                </div>
+                                <br /> <br />
+                                <div className="form-group" style={{ marginBottom: "10%" }}>
+                                    <div style={{ position: "relative", display: "flex" }}>
+                                        <input
+                                            className="form-control"
+                                            type="password"
+                                            name="confirmpassword"
+                                            value={confirmPassword}
+                                            placeholder="Confirm Password"
+                                            onChange={(e) => setConfirmPassword(e.target.value)}
+                                        />
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <button disabled={!isPasswordsMatching} style={{ background: isPasswordsMatching ? "#DA4139" : "darkgrey", borderColor: isPasswordsMatching ? "#DA4139" : "darkgrey" }} className="btn-default okayBtn" onClick={() => {
+                                const data = {
+                                    "phoneNumber": sessionStorage.getItem("phoneNo"),
+                                    "password": password,
+                                    "confirmPassword": confirmPassword
+                                }
+
+                                dispatch(setAgentPassword(data));
+                            }}>
+                                Set Password
                             </button>
                         </div>
                     </div>
                 </InnerWrapper>
             }
-
         </Fragment>
     );
 }

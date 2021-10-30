@@ -18,7 +18,7 @@ export const RegisterService = (payload) => (dispatch) => {
   axios(config)
     .then((res) => {
       if (res.status === 200) {
-        toastr.success("Registration Successful");
+        // toastr.success("Registration Successful");
         dispatch({
           type: actionType.CREATE_AGENT_BANKER_SUCCESS,
           payload: res.data
@@ -32,6 +32,90 @@ export const RegisterService = (payload) => (dispatch) => {
         payload: error
       });
     });
+};
+
+export const sendAgentOTP = (payload) => (dispatch) => {
+  const config = {
+    method: "POST",
+    url: URL.agent.AGENT_SEND_OTP,
+    data: payload
+  };
+  axios(config).then((res) => {
+
+    if (res.status === 200) {
+      toastr.success("OTP Resent");
+      dispatch({
+        type: actionType.AGENT_BANKER_OTP_SUCCESS
+      });
+    }
+    else {
+      toastr.warning("Something's Wrong !");
+      dispatch({
+        type: actionType.AGENT_BANKER_OTP_FAILURE
+      });
+    }
+  }).catch((error) => {
+    toastr.error("OTP Resend Error");
+    dispatch({
+      type: actionType.AGENT_BANKER_OTP_FAILURE,
+    });
+  })
+};
+
+export const checkOTPValid = (payload) => (dispatch) => {
+  const config = {
+    method: "POST",
+    url: URL.agent.AGENT_VERIFY_OTP,
+    data: payload
+  };
+  axios(config).then((res) => {
+
+    if (res.status === 200) {
+      toastr.success("OTP Verification Success");
+      dispatch({
+        type: actionType.AGENT_BANKER_OTP_VALID
+      });
+    }
+    else {
+      toastr.warning("Something's Wrong !");
+      dispatch({
+        type: actionType.AGENT_BANKER_OTP_INVALID
+      });
+    }
+  }).catch((error) => {
+    toastr.error("OTP Error!");
+    dispatch({
+      type: actionType.AGENT_BANKER_OTP_INVALID,
+    });
+  })
+};
+
+export const setAgentPassword = (payload) => (dispatch) => {
+  const config = {
+    method: "POST",
+    url: URL.agent.AGENT_SET_PASSWORD,
+    data: payload
+  };
+  axios(config).then((res) => {
+
+    if (res.status === 200) {
+      toastr.success("Password Set");
+      dispatch({
+        type: actionType.AGENT_SET_PASSWORD_SUCCESS
+      });
+    }
+    else {
+      toastr.warning("Something's Wrong !");
+      dispatch({
+        type: actionType.AGENT_SET_PASSWORD_FAILED
+      });
+    }
+  }).catch((error) => {
+    toastr.error("Password Set Error!");
+    dispatch({
+      type: actionType.AGENT_SET_PASSWORD_FAILED,
+    });
+  })
 };
 
 export const verifyAccount = (data) => (dispatch) => {

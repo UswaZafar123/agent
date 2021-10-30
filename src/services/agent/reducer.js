@@ -30,13 +30,49 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         agentIndividualRegData: action.payload,
-        agentIndividualRegStatus: true
+        agentIndividualRegStatus: true,
+        agentOTPStatus: false,
+        agentOTPValidStatus: false,
+        agentSetPasswordStatus: false
       };
     case mainActionType.CREATE_AGENT_BANKER_FAILURE:
       return {
         ...state,
         agentIndividualRegData: action.payload,
-        agentIndividualRegStatus: false
+        agentIndividualRegStatus: false,
+        agentOTPStatus: false,
+        agentOTPValidStatus: false,
+        agentSetPasswordStatus: false
+      };
+    case mainActionType.AGENT_BANKER_OTP_SUCCESS:
+      return {
+        ...state,
+        agentOTPStatus: true
+      };
+    case mainActionType.AGENT_BANKER_OTP_FAILURE:
+      return {
+        ...state,
+        agentOTPStatus: false
+      };
+    case mainActionType.AGENT_BANKER_OTP_VALID:
+      return {
+        ...state,
+        agentOTPValidStatus: true
+      };
+    case mainActionType.AGENT_BANKER_OTP_INVALID:
+      return {
+        ...state,
+        agentOTPValidStatus: false
+      };
+    case mainActionType.AGENT_SET_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        agentSetPasswordStatus: true
+      };
+    case mainActionType.AGENT_SET_PASSWORD_FAILED:
+      return {
+        ...state,
+        agentSetPasswordStatus: false
       };
     default:
       return state;
