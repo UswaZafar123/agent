@@ -12,7 +12,6 @@ function ChooseRegistrationAccount(props) {
     const [selectedAccount, setSelectedAccount] = useState("");
     const [hoverAccount, setHoverAccount] = useState("");
 
-
     return (
         <Fragment>
             <NavBar />

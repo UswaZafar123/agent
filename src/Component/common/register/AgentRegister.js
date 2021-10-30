@@ -349,9 +349,10 @@ class Register extends Component {
       viewSummaryVisible: false
     }, () => {
 
-      localStorage.setItem("OTP_PhoneNumber", this.state.mobileNumber);
-      localStorage.setItem("Firstname", this.state.firstName);
-      localStorage.setItem("Email", this.state.email);
+      sessionStorage.setItem("OTP_PhoneNumber", this.state.mobileNumber);
+      sessionStorage.setItem("Firstname", this.state.firstName);
+      sessionStorage.setItem("Email", this.state.email);
+      sessionStorage.setItem("phoneNo", phoneNumberSplit.join(''));
 
       this.props.RegisterService(formData);
     });
@@ -373,7 +374,6 @@ class Register extends Component {
     if (nextprops.agentIndividualRegStatus && nextprops.agentIndividualRegData.iamId) {
       this.props.history.push("/agent/otp-verification");
 
-      // console.log(nextprops.agentIndividualRegData.iamId, "iamId");
     } else {
       console.log(nextprops.agentIndividualRegData, "agentIndividualRegData");
     }

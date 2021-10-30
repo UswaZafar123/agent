@@ -1,9 +1,12 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import NavBar from "./../../common/register/NavBar";
 import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 
 function AgentRegistration(props) {
+
+    const [selectedAccount, setSelectedAccount] = useState("");
+
     return (
         <Fragment>
             <NavBar />
@@ -11,19 +14,22 @@ function AgentRegistration(props) {
                 <div className="agent-cat-box">
                     <h2>Please select the type of Account you want to Open </h2>
                     <ul>
-                        <li><NavLink to="/agent/individual"> Individual</NavLink> </li>
-                        <li>ETS</li>
-                        <li>SA</li>
-                        <li>SARL</li>
-                        <li>SAS</li>
+                        <li onClick={() => setSelectedAccount("IND")} style={{ background: selectedAccount === "IND" ? "#DA4139" : "", color: selectedAccount === "IND" ? "white" : "" }}>Individual</li>
+                        <li onClick={() => setSelectedAccount("ETS")} style={{ background: selectedAccount === "ETS" ? "#DA4139" : "", color: selectedAccount === "ETS" ? "white" : "" }}>ETS</li>
+                        <li onClick={() => setSelectedAccount("SA")} style={{ background: selectedAccount === "SA" ? "#DA4139" : "", color: selectedAccount === "SA" ? "white" : "" }}>SA</li>
+                        <li onClick={() => setSelectedAccount("SARL")} style={{ background: selectedAccount === "SARL" ? "#DA4139" : "", color: selectedAccount === "SARL" ? "white" : "" }}>SARL</li>
+                        <li onClick={() => setSelectedAccount("SAS")} style={{ background: selectedAccount === "SAS" ? "#DA4139" : "", color: selectedAccount === "SAS" ? "white" : "" }}>SAS</li>
                     </ul>
-                    <button type="submit" className="btn-default btn" >
-                        Next
-                    </button>
+                    <NavLink to="/agent/individual">
+                        <button type="submit" className="btn-default btn" >
+                            Next
+                        </button>
+                    </NavLink>
+
                     <p>
-                        Already have an account?  
+                        Already have an account?
                         {/* <FormattedMessage id="login.donthaveanaccount" /> */}
-                        <NavLink to="/agent/login"> Login</NavLink> 
+                        <NavLink to="/agent/login"> Login</NavLink>
                     </p>
                 </div>
             </InnerWrapper>
@@ -67,6 +73,8 @@ const InnerWrapper = styled.div`
                 
                 &:hover {
                     border: 1px solid #DA4139;
+                    background : #DA4139;
+                    color : white;
                 }
                 a {
                     color: #343A40;    

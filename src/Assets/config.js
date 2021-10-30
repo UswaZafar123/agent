@@ -262,9 +262,10 @@ const configUrl = {
     PAY_EU_MOMO: `${API}eumomo/sendPaymentRequest`,
     AGENT_LOGIN: `${keyClock}auth/realms/AFB_SARA/protocol/openid-connect/token`,
     AGENT_LINKING_REQUEST:`${AgentApi}api-public/AgentRegistration/agentLinkingRequest`,
-    AGENT_LINKING_REQUEST_VERIFY:`${AgentApi}api-public/AgentRegistration/validateMFALinkingToken`
-
-    
+    AGENT_LINKING_REQUEST_VERIFY:`${AgentApi}api-public/AgentRegistration/validateMFALinkingToken`,
+    AGENT_SEND_OTP : `${AgentApi}api-public/registration/resendPin`,
+    AGENT_VERIFY_OTP : `${AgentApi}api-public/registration/validatePin`,
+    AGENT_SET_PASSWORD : `${AgentApi}api-public/registration/setPassword`
   },
 };
 
