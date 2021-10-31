@@ -194,6 +194,7 @@ class Ticket extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    console.log("hello next", nextProps);
     if (nextProps.ticketsStatus) {
       this.setState({ rowData: nextProps.ticketsData });
     }
@@ -238,6 +239,8 @@ class Ticket extends Component {
   };
 
   render() {
+
+    console.log("show summary", this.state.summary);
     // console.log("jai",this.state.paginationGetCurrentPage)
     return (
          <>
@@ -262,21 +265,20 @@ class Ticket extends Component {
                     </div>
                   </div>
                   <div className="chartCardMiddle" style={{ padding: "24px" }}>
-                  <div className="formRow statusBox">
-                            {this.state.summary.length > 0
-                              ? this.state.summary.map((data) => {
+                          <div className="formRow statusBox">
+                            { this.state.summary.map((data) => {
                                   return (
                                     <div className="formCol">
                                       <div className="statusBoxIn">
-                                        <h3>{data.value}</h3>
+                                        <h3>{data.value} value 11</h3>
                                         <h2 className="openColor">
-                                          {data.status} 
+                                          {data.status}  test box
                                         </h2>
                                       </div>
                                     </div>
                                   );
                                 })
-                              : ""}
+                              }
                           </div>
                     <div className="tableTop_wrapper">
                       <div className="disFl">

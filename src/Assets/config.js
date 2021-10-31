@@ -114,6 +114,13 @@ const configUrl = {
     VIEW_PROFILE_PICTURE: `${API}merchant/profile/image`,
     PROFILE_INFO: `${API}merchant/profile/profileInfo`,
     SEND_OTP: `${API}public/merchant/mfa/send`,
+
+    TICKET_REPLY: `${API}merchant/user/ticket/reply`,
+    GET_A_TICKET: `${API}merchant/user/ticket`,
+    GET_TICKETS_SUMMARY: `${API}merchant/user/ticket/summary`,
+    GET_TICKETS_STATUS: `${API}merchant/user/ticket/status`,
+    GET_TICKETS: `${API}merchant/user/ticket`,
+    ADD_TICKET: `${API}merchant/user/ticket`,
   },
 
   payment: {
