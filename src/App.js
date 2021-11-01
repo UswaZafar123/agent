@@ -66,6 +66,7 @@ import AgentRegister from "./Component/common/register/AgentRegister";
 import Packages from "./Component/page/Settings/General/Packages";
 import RoleManagement from "./Component/page/Settings/General/RoleManagement";
 import AgentMember from "./Component/page/Settings/AgentMember";
+import CommissionsManagement from "./Component/page/Settings/CommissionsManagement";
 
 
 export const App=(props) =>{
@@ -157,7 +158,8 @@ export const App=(props) =>{
                     {/* Setting Routing */}
                     <Route path="/settings/general/package-management" component={Packages} />
                     <Route path="/settings/general/roles-management" component={RoleManagement} />
-                    <Route path="/settings/general/agent-member" component={AgentMember} />
+                    <Route path="/settings/agent-member" component={AgentMember} />
+                    <Route path="/settings/Commissions-management" component={CommissionsManagement} />
 
                   </Switch>
                 </div>

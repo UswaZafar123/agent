@@ -176,3 +176,79 @@
     transition: all .005s ease-in-out !important;
     border: none !important;
 }
+.colagentfilter{
+    margin-bottom: 24px;
+    width: 100%;
+}
+.colagentfilter + .colagentfilter{
+    margin-left: 24px;
+}
+.filter_wrapper_agent{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 24px;
+}
+.labelStyleagent{
+    display: block;
+    color: #343A40;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px;
+    letter-spacing: 0.10000000149011612px;
+    text-align: left;
+    margin-bottom: 12px;
+}
+.disFlrow
+{
+    display: flex;
+    align-items: center;
+
+}
+.confirm_p_w button.aryousureBTN.confirmBtnR.reset{
+    background-color: #333 !important;
+}   
+.confirm_p_w button.aryousureBTN.confirmBtnR.reset:hover{
+    background-color: #000 !important;
+} 
+.mTnN{
+    margin-top: 0px !important;
+}
+
+.ml4px{
+    margin-left: 2px;
+}
+.ac-view .edit{
+    background-color: #ffc107 !important;
+    color: #333 !important;
+}
+.ac-view button.delete{
+    background-color: #EA5455 !important;
+}
+.ac-view button.delete{
+    background-color: #EA5455 !important;
+    color: #fff !important;
+}
+.ac-view button.clone{
+    background-color: #20B508 !important;
+    color: #fff !important;
+}
+
+.agentformCenter .containerBiaN_f_row{
+    align-items: center !important;
+}
+.newone.custom-d-flex button:last-child{
+    min-width: 152px !important;
+}
+.newone.custom-d-flex button{
+    margin: 0px !important ;
+}
+
+.subNav{
+    left: 320px;
+    top: 100px;
+    overflow: auto;
+    box-shadow: 0px 1px 4px rgb(37 51 66 / 15%);
+    /* border-radius: 10px; */
+}

@@ -12,6 +12,7 @@ import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 import './settingcss.css'
 
 import { Select, DatePicker, Modal, Switch, Upload, message,Dropdown,Checkbox,Tabs} from "antd";
+import { FolderViewOutlined} from '@ant-design/icons';
 
 import { Radio } from "antd";
 import moment from "moment";
@@ -50,7 +51,7 @@ class RoleManagement extends Component {
                 {
                     headerName: "Action", field: "Action",
                     cellRendererFramework: (params) => <div className="ac-view">
-                        <span className="icon-edit-2" style={{cursor: "pointer"}} onClick={this.viewNewRole}></span>
+                        <span className="" style={{cursor: "pointer",fontSize:"17px"}} onClick={this.viewNewRole}><FolderViewOutlined /></span>
                         <span className="icon-edit-2" style={{cursor: "pointer"}} style={{marginLeft: "5%"}} onClick={this.editNewRole}></span>
                         <span className="icon-Group-357" style={{marginLeft: "5%"}}></span>
                     </div>,

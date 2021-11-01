@@ -333,7 +333,7 @@ export const Side_bar_data = [
             },
             {
                 title:"Agent Member",
-                path:"/settings/general/agent-member",
+                path:"/settings/agent-member",
                 iconClass:"icon-Asset-35"
             },
             // {
@@ -376,7 +376,7 @@ export const Side_bar_data = [
             // },
             {
                 title:"Commissions management",
-                path:"/Settings/Commissions_management",
+                path:"/settings/Commissions-management",
             },
             // {
             //     title:"Loyalty Management",
