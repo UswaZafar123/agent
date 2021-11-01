@@ -26,6 +26,7 @@
     "bootstrap": "^4.6.0",
     "connected-react-router": "^6.9.1",
     "country-flag-icons": "^1.2.9",
+    "country-state-picker": "^1.1.5",
     "date-fns": "^2.24.0",
     "highcharts-react-official": "^3.0.0",
     "html2canvas": "^1.0.0-rc.7",

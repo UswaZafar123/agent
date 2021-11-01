@@ -62,6 +62,11 @@ import ReciveMoney from "./Component/page/FlashTransfer/Recive_Money/reciveMoney
 
 import AgentRegister from "./Component/common/register/AgentRegister";
 
+// Setting Component Import
+import Packages from "./Component/page/Settings/General/Packages";
+import RoleManagement from "./Component/page/Settings/General/RoleManagement";
+import AgentMember from "./Component/page/Settings/AgentMember";
+
 
 export const App=(props) =>{
   return (
@@ -148,6 +153,11 @@ export const App=(props) =>{
                     <Route path="/agent/transcations" component={Transaction} />
                     <Route path="/agent/access-history" component={AccessHistory} />
                     <Route path="/agent/tickets" component={Ticket} />
+
+                    {/* Setting Routing */}
+                    <Route path="/settings/general/package-management" component={Packages} />
+                    <Route path="/settings/general/roles-management" component={RoleManagement} />
+                    <Route path="/settings/general/agent-member" component={AgentMember} />
 
                   </Switch>
                 </div>
