@@ -386,18 +386,31 @@ export const Side_bar_data = [
     },
     {
         title:"Profile​",
-        path:"/User_Profile_Management​",
+        path:"/Profile/Profile​",
         id:12,
         iconClass:"icon-Asset-22",
         subMenu:[
             {
-                title:"Link to Bank Account",
-                path:"/Settings/link/bank-account",
+                title:"Profile",
+                path:"/Profile/Profile",
             },
             {
-                title:"Link to Agent Banker",
-                path:"/Settings/link/agent-banker",
-            }
+                title:"Accounts",
+                path:"/Profile/Accounts",
+            },
+            {
+                title:"QR Code",
+                path:"/Profile/qr-code",
+            },
+            {
+                title:"Change Password",
+                path:"/Profile/change-password",
+            },
+            {
+                title:"Link to Bank Account",
+                path:"/profile/link/bank-account",
+            },
+           
         ]
     },
 ]

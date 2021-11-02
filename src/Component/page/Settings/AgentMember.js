@@ -30,6 +30,25 @@ function onChange(e) {
     console.log(`checked = ${e.target.checked}`);
   }
 
+  const dummyRequest = ({ file, onSuccess }) => {
+    setTimeout(() => {
+      onSuccess("ok");
+    }, 0);
+  };
+  
+  function beforeUpload(file) {
+    const isJpgOrPng = file.type === "image/jpeg" || file.type === "image/png";
+    if (!isJpgOrPng) {
+      message.error("You can only upload JPG/PNG file!");
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      message.error("Image must smaller than 2MB!");
+    }
+    return isJpgOrPng && isLt2M;
+  }
+
+
   function callback(key) {
     console.log(key);
   }
@@ -48,6 +67,7 @@ class AgentMember extends Component {
             viewNewMember:false,
             activeStatus:true,
             value:1,
+            imageUrl: "",
             columnDefs: [
                 { headerName: "Name", field: "Name", width: 250 },
                 { headerName: "Email", field: "Email" },
@@ -196,10 +216,22 @@ class AgentMember extends Component {
             value:e.target.value
         })
       };
+      
+      onChangeDate = (date, dateString) => {
+        console.log(date, dateString);
+      };
+      
+    
 
     render() {
 
-        const isfeatured = this.state.isfeatured
+        const { loading, imageUrl } = this.state;
+        const uploadButton = (
+        <div>
+            {/* {loading ? <LoadingOutlined /> : <PlusOutlined />} */}
+            <div style={{ marginTop: 8 }}>Upload</div>
+        </div>
+        );
         return (
     <>
         {!this.state.addNewMember && !this.state.editNewMember && 
@@ -373,7 +405,7 @@ class AgentMember extends Component {
     }
 
 {this.state.addNewMember && 
-            <div className="main_contain">
+            <div className="main_contain agentformCenter">
                 <div className="merch_m_list_w">
                     <div className="merch_list_card" id="merch_list_card">
                         <div className="section_custom">
@@ -395,6 +427,15 @@ class AgentMember extends Component {
                                                 </div>
                                                 <div className="containerBiaN_f_col width70percent">
                                                     <input type="text" placeholder="Enter Name" />
+                                                </div>
+                                            </div>
+                                            <div className="containerBiaN_f_row">
+                                                <div className="containerBiaN_f_col width30percent textAlignRight">
+                                                    <label>Date of Birth</label>
+                                                </div>
+                                                <div className="containerBiaN_f_col width70percent">
+                                                <DatePicker onChange={this.onChangeDate} className="form-control" style={{width:100+"%"}} />
+                                                
                                                 </div>
                                             </div>
                                             <div className="containerBiaN_f_row">
@@ -472,6 +513,146 @@ class AgentMember extends Component {
                                                         </div>
                                                 </div>
                                             </div>
+                                            <div className="containerBiaN_f_row">
+                                                <div className="containerBiaN_f_col width30percent textAlignRight">
+                                                    <label>Upload Photo or Selfi</label>
+                                                </div>
+                                                <div className="containerBiaN_f_col width70percent">
+                                                    <Upload
+                                                        name="avatar"
+                                                        listType="picture-card"
+                                                        className="avatar-uploader"
+                                                        showUploadList={true}
+                                                        fileList={this.state.fileList}
+                                                        customRequest={dummyRequest}
+                                                        onChange={this.handleChangeUpload}
+                                                        >
+                                                        {imageUrl ? (
+                                                            <img
+                                                            src={imageUrl}
+                                                            alt="avatar"
+                                                            style={{ width: "100%" }}
+                                                            />
+                                                        ) : (
+                                                            uploadButton
+                                                        )}
+                                                        </Upload>
+                                                </div>
+                                            </div>
+                                            <div className="containerBiaN_f_row">
+                                                <div className="containerBiaN_f_col width30percent textAlignRight">
+                                                    <label>Id Type</label>
+                                                </div>
+                                                <div className="containerBiaN_f_col width70percent">
+                                                    <div className="categorySelect">
+                                                            <Select
+                                                                defaultValue="Identity card"
+                                                                style={{ width: 100+"%", height: 52 }}
+                                                                onChange={this.handleChangeSelect}
+                                                                id={'page-size'}
+                                                            >
+                                                                <Option value="Identity card">Identity card</Option>
+                                                                <Option value="Passport">Passport</Option>
+                                                            </Select>
+                                                        </div>
+                                                </div>
+                                            </div>
+
+                                            <div className="containerBiaN_f_row">
+                                                <div className="containerBiaN_f_col width30percent textAlignRight">
+                                                    <label>Id Number</label>
+                                                </div>
+                                                <div className="containerBiaN_f_col width70percent">
+                                                    <input type="text" placeholder="Enter ID Number"  />
+                                                </div>
+                                            </div>
+                                            <div className="containerBiaN_f_row">
+                                                <div className="containerBiaN_f_col width30percent textAlignRight">
+                                                    <label>Upload Id Image (front and back)</label>
+                                                </div>
+                                                <div className="containerBiaN_f_col width70percent">
+                                                    <Upload
+                                                        name="avatar"
+                                                        listType="picture-card"
+                                                        className="avatar-uploader"
+                                                        showUploadList={true}
+                                                        fileList={this.state.fileList}
+                                                        customRequest={dummyRequest}
+                                                        onChange={this.handleChangeUpload}
+                                                        >
+                                                        {imageUrl ? (
+                                                            <img
+                                                            src={imageUrl}
+                                                            alt="avatar"
+                                                            style={{ width: "100%" }}
+                                                            />
+                                                        ) : (
+                                                            uploadButton
+                                                        )}
+                                                        </Upload>
+                                                </div>
+                                            </div>
+                                            <div className="containerBiaN_f_row">
+                                                <div className="containerBiaN_f_col width30percent textAlignRight">
+                                                    <label>Id expired date</label>
+                                                </div>
+                                                <div className="containerBiaN_f_col width70percent">
+                                                <DatePicker onChange={this.onChangeDate} className="form-control" style={{width:100+"%"}} />
+                                                
+                                                </div>
+                                            </div>
+                                            <div className="containerBiaN_f_row">
+                                                <div className="containerBiaN_f_col width30percent textAlignRight">
+                                                    <label>Unique Identification number</label>
+                                                </div>
+                                                <div className="containerBiaN_f_col width70percent">
+                                                    <input type="text" placeholder="Enter UIN"  />
+                                                </div>
+                                            </div>
+                                            <div className="containerBiaN_f_row">
+                                                <div className="containerBiaN_f_col width30percent textAlignRight">
+                                                    <label>Business Name (Optional)</label>
+                                                </div>
+                                                <div className="containerBiaN_f_col width70percent">
+                                                    <input type="text" placeholder="Enter Business Name"  />
+                                                </div>
+                                            </div>
+                                            <div className="containerBiaN_f_row">
+                                                <div className="containerBiaN_f_col width30percent textAlignRight">
+                                                    <label>City</label>
+                                                </div>
+                                                <div className="containerBiaN_f_col width70percent">
+                                                    <input type="text" placeholder="Enter City"  />
+                                                </div>
+                                            </div>
+                                            <div className="containerBiaN_f_row">
+                                                <div className="containerBiaN_f_col width30percent textAlignRight">
+                                                    <label>Address</label>
+                                                </div>
+                                                <div className="containerBiaN_f_col width70percent">
+                                                    <input type="text" placeholder="Enter Address"  />
+                                                </div>
+                                            </div>
+                                            <div className="containerBiaN_f_row">
+                                                <div className="containerBiaN_f_col width30percent textAlignRight">
+                                                    <label>Address Proof</label>
+                                                </div>
+                                                <div className="containerBiaN_f_col width70percent">
+                                                    <input type="text" placeholder="Enter Address Proof"  />
+                                                </div>
+                                            </div>
+                                            <div className="containerBiaN_f_row">
+                                                <div className="containerBiaN_f_col width30percent textAlignRight">
+                                                    <label>Geolocation</label>
+                                                </div>
+                                                <div className="containerBiaN_f_col width70percent">
+                                                    <input type="text" placeholder="fetch Longitude,Latitude"  />
+                                                </div>
+                                            </div>
+                                            
+                                            
+                                            
+
                                             <div className="containerBiaN_f_row">
                                                 <div className="containerBiaN_f_col width30percent textAlignRight">
                                                     <label>Send Emai with Credentials</label>
@@ -507,137 +688,286 @@ class AgentMember extends Component {
 
     }
 {this.state.editNewMember &&
-    <div className="main_contain">
-                <div className="merch_m_list_w">
-                    <div className="merch_list_card" id="merch_list_card">
-                        <div className="section_custom">
-                            <div className="sectionInn">
-                                <div className="chartCard_w">
-                                    <div className="chartCardTop">
-                                        <div className="kyccustomformheading">
-                                            <h1 className="list_top_heading textAlignCenter text-center">
-                                                Edit Member
-                                            </h1>
-                                        </div>
-                                    </div>
-                                    <div className="chartCardMiddle" style={{ padding: "24px" }}>
+     <div className="main_contain agentformCenter">
+     <div className="merch_m_list_w">
+         <div className="merch_list_card" id="merch_list_card">
+             <div className="section_custom">
+                 <div className="sectionInn">
+                     <div className="chartCard_w">
+                         <div className="chartCardTop">
+                             <div className="kyccustomformheading">
+                                 <h1 className="list_top_heading textAlignCenter text-center">
+                                     Add New Member
+                                 </h1>
+                             </div>
+                         </div>
+                         <div className="chartCardMiddle" style={{ padding: "24px" }}>
 
-                                        <div className="containerBiaN_form">
-                                            <div className="containerBiaN_f_row">
-                                                <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                    <label>Name</label>
-                                                </div>
-                                                <div className="containerBiaN_f_col width70percent">
-                                                    <input type="text" placeholder="Enter Name" />
-                                                </div>
-                                            </div>
-                                            <div className="containerBiaN_f_row">
-                                                <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                    <label>Email</label>
-                                                </div>
-                                                <div className="containerBiaN_f_col width70percent">
-                                                    <input type="text" placeholder="Enter Email"  />
-                                                </div>
-                                            </div>
-                                            <div className="containerBiaN_f_row">
-                                                <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                    <label>Mobile</label>
-                                                </div>
-                                                <div className="containerBiaN_f_col width70percent">
-                                                <div className="inputSt">
-                                                <PhoneInput
-                                                    country={'us'}
-                                                    value={this.state.phone}
-                                                    onChange={phone => this.setState({ phone })}
-                                                    />
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="containerBiaN_f_row">
-                                                <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                    <label>Password</label>
-                                                </div>
-                                                <div className="containerBiaN_f_col width70percent">
-                                                    <input type="text" placeholder="Enter Password"  />
-                                                </div>
-                                            </div>
-                                            <div className="containerBiaN_f_row">
-                                                <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                    <label>Confirm Password</label>
-                                                </div>
-                                                <div className="containerBiaN_f_col width70percent">
-                                                    <input type="text" placeholder="Confirm Password"  />
-                                                </div>
-                                            </div>
-                                            <div className="containerBiaN_f_row">
-                                                <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                    <label>Status</label>
-                                                </div>
-                                                <div className="containerBiaN_f_col width70percent">
-                                                    <div className="categorySelect">
-                                                        <Select
-                                                            defaultValue="Active"
-                                                            style={{ width: 100+"%", height: 52 }}
-                                                            onChange={this.handleChangeSelect}
-                                                            id={'page-size'}
-                                                        >
-                                                            <Option value="Active">Active</Option>
-                                                            <Option value="Deactive">Deactive</Option>
-                                                        </Select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="containerBiaN_f_row">
-                                                <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                    <label>Packages</label>
-                                                </div>
-                                                <div className="containerBiaN_f_col width70percent">
-                                                    <div className="categorySelect">
-                                                            <Select
-                                                                defaultValue="Active"
-                                                                mode="multiple"
-                                                                style={{ width: 100+"%", height: 52 }}
-                                                                onChange={this.handleChangeSelect}
-                                                                id={'page-size'}
-                                                            >
-                                                                <Option value="Active">Package1</Option>
-                                                                <Option value="Deactive">Package2</Option>
-                                                            </Select>
-                                                        </div>
-                                                </div>
-                                            </div>
-                                            <div className="containerBiaN_f_row">
-                                                <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                    <label>Send Emai with Credentials</label>
-                                                </div>
-                                                <div className="containerBiaN_f_col width70percent antdRadioCustom">
-                                                <Radio.Group onChange={this.onChangeRadio} value={this.state.value}>
-                                                    <Radio value={1}>Yes</Radio>
-                                                    <Radio value={2}>No</Radio>
-                                                </Radio.Group>
-                                                </div>
-                                            </div>
-                                        </div>
+                             <div className="containerBiaN_form">
+                                 <div className="containerBiaN_f_row">
+                                     <div className="containerBiaN_f_col width30percent textAlignRight">
+                                         <label>Name</label>
+                                     </div>
+                                     <div className="containerBiaN_f_col width70percent">
+                                         <input type="text" placeholder="Enter Name" />
+                                     </div>
+                                 </div>
+                                 <div className="containerBiaN_f_row">
+                                     <div className="containerBiaN_f_col width30percent textAlignRight">
+                                         <label>Date of Birth</label>
+                                     </div>
+                                     <div className="containerBiaN_f_col width70percent">
+                                     <DatePicker onChange={this.onChangeDate} className="form-control" style={{width:100+"%"}} />
+                                     
+                                     </div>
+                                 </div>
+                                 <div className="containerBiaN_f_row">
+                                     <div className="containerBiaN_f_col width30percent textAlignRight">
+                                         <label>Email</label>
+                                     </div>
+                                     <div className="containerBiaN_f_col width70percent">
+                                         <input type="text" placeholder="Enter Email"  />
+                                     </div>
+                                 </div>
+                                 <div className="containerBiaN_f_row">
+                                     <div className="containerBiaN_f_col width30percent textAlignRight">
+                                         <label>Mobile</label>
+                                     </div>
+                                     <div className="containerBiaN_f_col width70percent">
+                                     <div className="inputSt">
+                                     <PhoneInput
+                                         country={'us'}
+                                         value={this.state.phone}
+                                         onChange={phone => this.setState({ phone })}
+                                         />
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <div className="containerBiaN_f_row">
+                                     <div className="containerBiaN_f_col width30percent textAlignRight">
+                                         <label>Password</label>
+                                     </div>
+                                     <div className="containerBiaN_f_col width70percent">
+                                         <input type="text" placeholder="Enter Password"  />
+                                     </div>
+                                 </div>
+                                 <div className="containerBiaN_f_row">
+                                     <div className="containerBiaN_f_col width30percent textAlignRight">
+                                         <label>Confirm Password</label>
+                                     </div>
+                                     <div className="containerBiaN_f_col width70percent">
+                                         <input type="text" placeholder="Confirm Password"  />
+                                     </div>
+                                 </div>
+                                 <div className="containerBiaN_f_row">
+                                     <div className="containerBiaN_f_col width30percent textAlignRight">
+                                         <label>Status</label>
+                                     </div>
+                                     <div className="containerBiaN_f_col width70percent">
+                                         <div className="categorySelect">
+                                             <Select
+                                                 defaultValue="Active"
+                                                 style={{ width: 100+"%", height: 52 }}
+                                                 onChange={this.handleChangeSelect}
+                                                 id={'page-size'}
+                                             >
+                                                 <Option value="Active">Active</Option>
+                                                 <Option value="Deactive">Deactive</Option>
+                                             </Select>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <div className="containerBiaN_f_row">
+                                     <div className="containerBiaN_f_col width30percent textAlignRight">
+                                         <label>Packages</label>
+                                     </div>
+                                     <div className="containerBiaN_f_col width70percent">
+                                         <div className="categorySelect">
+                                                 <Select
+                                                     defaultValue="Active"
+                                                     mode="multiple"
+                                                     style={{ width: 100+"%", height: 52 }}
+                                                     onChange={this.handleChangeSelect}
+                                                     id={'page-size'}
+                                                 >
+                                                     <Option value="Active">Package1</Option>
+                                                     <Option value="Deactive">Package2</Option>
+                                                 </Select>
+                                             </div>
+                                     </div>
+                                 </div>
+                                 <div className="containerBiaN_f_row">
+                                     <div className="containerBiaN_f_col width30percent textAlignRight">
+                                         <label>Upload Photo or Selfi</label>
+                                     </div>
+                                     <div className="containerBiaN_f_col width70percent">
+                                         <Upload
+                                             name="avatar"
+                                             listType="picture-card"
+                                             className="avatar-uploader"
+                                             showUploadList={true}
+                                             fileList={this.state.fileList}
+                                             customRequest={dummyRequest}
+                                             onChange={this.handleChangeUpload}
+                                             >
+                                             {imageUrl ? (
+                                                 <img
+                                                 src={imageUrl}
+                                                 alt="avatar"
+                                                 style={{ width: "100%" }}
+                                                 />
+                                             ) : (
+                                                 uploadButton
+                                             )}
+                                             </Upload>
+                                     </div>
+                                 </div>
+                                 <div className="containerBiaN_f_row">
+                                     <div className="containerBiaN_f_col width30percent textAlignRight">
+                                         <label>Id Type</label>
+                                     </div>
+                                     <div className="containerBiaN_f_col width70percent">
+                                         <div className="categorySelect">
+                                                 <Select
+                                                     defaultValue="Identity card"
+                                                     style={{ width: 100+"%", height: 52 }}
+                                                     onChange={this.handleChangeSelect}
+                                                     id={'page-size'}
+                                                 >
+                                                     <Option value="Identity card">Identity card</Option>
+                                                     <Option value="Passport">Passport</Option>
+                                                 </Select>
+                                             </div>
+                                     </div>
+                                 </div>
 
-                                       <div style={{width: "100%", float: "left"}}>
-                                           <div className="custom-d-flex confirm_p_w mTB00 button-container rspacing">
-                                               <button className="blackbtn aryousureBTN confirmBtnR" onClick={this.back5}>Cancel</button>
-                                               <button className="aryousureBTN confirmBtnR">Submit</button>
-                                            </div>
-                                        </div>
-                                       
-                                        
-                                    </div>
-                                </div>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                                 <div className="containerBiaN_f_row">
+                                     <div className="containerBiaN_f_col width30percent textAlignRight">
+                                         <label>Id Number</label>
+                                     </div>
+                                     <div className="containerBiaN_f_col width70percent">
+                                         <input type="text" placeholder="Enter ID Number"  />
+                                     </div>
+                                 </div>
+                                 <div className="containerBiaN_f_row">
+                                     <div className="containerBiaN_f_col width30percent textAlignRight">
+                                         <label>Upload Id Image (front and back)</label>
+                                     </div>
+                                     <div className="containerBiaN_f_col width70percent">
+                                         <Upload
+                                             name="avatar"
+                                             listType="picture-card"
+                                             className="avatar-uploader"
+                                             showUploadList={true}
+                                             fileList={this.state.fileList}
+                                             customRequest={dummyRequest}
+                                             onChange={this.handleChangeUpload}
+                                             >
+                                             {imageUrl ? (
+                                                 <img
+                                                 src={imageUrl}
+                                                 alt="avatar"
+                                                 style={{ width: "100%" }}
+                                                 />
+                                             ) : (
+                                                 uploadButton
+                                             )}
+                                             </Upload>
+                                     </div>
+                                 </div>
+                                 <div className="containerBiaN_f_row">
+                                     <div className="containerBiaN_f_col width30percent textAlignRight">
+                                         <label>Id expired date</label>
+                                     </div>
+                                     <div className="containerBiaN_f_col width70percent">
+                                     <DatePicker onChange={this.onChangeDate} className="form-control" style={{width:100+"%"}} />
+                                     
+                                     </div>
+                                 </div>
+                                 <div className="containerBiaN_f_row">
+                                     <div className="containerBiaN_f_col width30percent textAlignRight">
+                                         <label>Unique Identification number</label>
+                                     </div>
+                                     <div className="containerBiaN_f_col width70percent">
+                                         <input type="text" placeholder="Enter UIN"  />
+                                     </div>
+                                 </div>
+                                 <div className="containerBiaN_f_row">
+                                     <div className="containerBiaN_f_col width30percent textAlignRight">
+                                         <label>Business Name (Optional)</label>
+                                     </div>
+                                     <div className="containerBiaN_f_col width70percent">
+                                         <input type="text" placeholder="Enter Business Name"  />
+                                     </div>
+                                 </div>
+                                 <div className="containerBiaN_f_row">
+                                     <div className="containerBiaN_f_col width30percent textAlignRight">
+                                         <label>City</label>
+                                     </div>
+                                     <div className="containerBiaN_f_col width70percent">
+                                         <input type="text" placeholder="Enter City"  />
+                                     </div>
+                                 </div>
+                                 <div className="containerBiaN_f_row">
+                                     <div className="containerBiaN_f_col width30percent textAlignRight">
+                                         <label>Address</label>
+                                     </div>
+                                     <div className="containerBiaN_f_col width70percent">
+                                         <input type="text" placeholder="Enter Address"  />
+                                     </div>
+                                 </div>
+                                 <div className="containerBiaN_f_row">
+                                     <div className="containerBiaN_f_col width30percent textAlignRight">
+                                         <label>Address Proof</label>
+                                     </div>
+                                     <div className="containerBiaN_f_col width70percent">
+                                         <input type="text" placeholder="Enter Address Proof"  />
+                                     </div>
+                                 </div>
+                                 <div className="containerBiaN_f_row">
+                                     <div className="containerBiaN_f_col width30percent textAlignRight">
+                                         <label>Geolocation</label>
+                                     </div>
+                                     <div className="containerBiaN_f_col width70percent">
+                                         <input type="text" placeholder="fetch Longitude,Latitude"  />
+                                     </div>
+                                 </div>
+                                 
+                                 
+                                 
+
+                                 <div className="containerBiaN_f_row">
+                                     <div className="containerBiaN_f_col width30percent textAlignRight">
+                                         <label>Send Emai with Credentials</label>
+                                     </div>
+                                     <div className="containerBiaN_f_col width70percent antdRadioCustom">
+                                     <Radio.Group onChange={this.onChangeRadio} value={this.state.value}>
+                                         <Radio value={1}>Yes</Radio>
+                                         <Radio value={2}>No</Radio>
+                                     </Radio.Group>
+                                     </div>
+                                 </div>
+                             </div>
+
+                            <div style={{width: "100%", float: "left"}}>
+                                <div className="custom-d-flex confirm_p_w mTB00 button-container rspacing">
+                                    <button className="blackbtn aryousureBTN confirmBtnR" onClick={this.back5}>Cancel</button>
+                                    <button className="aryousureBTN confirmBtnR">Submit</button>
+                                 </div>
+                             </div>
+                            
+                             
+                         </div>
+                     </div>
+                     
+                 </div>
+             </div>
+         </div>
+     </div>
 
 
 
-            </div>
+ </div>
             }
 
   

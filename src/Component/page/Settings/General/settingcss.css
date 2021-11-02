@@ -252,3 +252,14 @@
     box-shadow: 0px 1px 4px rgb(37 51 66 / 15%);
     /* border-radius: 10px; */
 }
+.ant-picker-input input:focus, .ant-picker-input_col textarea:focus{
+    outline: none !important;
+    width: 100%;
+}
+.uploadPText {
+    margin-top: 12px;
+    width: 210px;
+    padding: 5px10px;
+    border-radius: 4px;
+    color: #333;
+}

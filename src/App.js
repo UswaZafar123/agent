@@ -68,6 +68,14 @@ import RoleManagement from "./Component/page/Settings/General/RoleManagement";
 import AgentMember from "./Component/page/Settings/AgentMember";
 import CommissionsManagement from "./Component/page/Settings/CommissionsManagement";
 
+// Profile Component Import
+import Profile from "./Component/page/Profile/Profile";
+import Accounts from "./Component/page/Profile/Accounts";
+import qrCode from "./Component/page/Profile/QRCode";
+import ChangePassword from "./Component/page/Profile/ChangePassword";
+import LinkToBankAccount from "./Component/Agent/linking/linkAccount";
+
+
 
 export const App=(props) =>{
   return (
@@ -160,6 +168,12 @@ export const App=(props) =>{
                     <Route path="/settings/general/roles-management" component={RoleManagement} />
                     <Route path="/settings/agent-member" component={AgentMember} />
                     <Route path="/settings/Commissions-management" component={CommissionsManagement} />
+                    {/* Profile Routing */}
+                    <Route path="/Profile/Profile" component={Profile} />
+                    <Route path="/Profile/Accounts" component={Accounts} />
+                    <Route path="/Profile/qr-code" component={qrCode} />
+                    <Route path="/Profile/change-password" component={ChangePassword} />
+                    <Route path="/profile/link/bank-account" component={LinkToBankAccount} />
 
                   </Switch>
                 </div>
