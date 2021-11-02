@@ -960,7 +960,7 @@ export const getTickets = (token, payload) => (dispatch) => {
   const config = {
     method: "get",
     data: payload,
-    url: URL.merchant.GET_TICKETS,
+    url: URL.agent.GET_TICKETS,
     headers: {
       "content-type": "appication/json",
       Authorization: "Bearer " + token,
@@ -989,7 +989,7 @@ export const getTickets = (token, payload) => (dispatch) => {
 export const ticketStatus = (token) => (dispatch) => {
   const config = {
     method: "GET",
-    url: URL.merchant.GET_TICKETS_STATUS,
+    url: URL.agent.GET_TICKETS_STATUS,
     headers: {
       "Content-Type": "application/json",
       Authorization: "Bearer " + token,
@@ -1022,7 +1022,7 @@ export const ticketsPriorities = (token) => (dispatch) => {
   dispatch(viewAttachmentFileFalse());
   const config = {
     method: "GET",
-    url: URL.merchant.GET_TICKETS_PRIORITIES,
+    url: URL.agent.GET_TICKETS_PRIORITIES,
     headers: {
       "Content-Type": "application/json",
       Authorization: "Bearer " + token,
@@ -1054,7 +1054,7 @@ export const ticketsPriorities = (token) => (dispatch) => {
 export const ticketsSummary = (token) => (dispatch) => {
   const config = {
     method: "GET",
-    url: URL.merchant.GET_TICKETS_SUMMARY,
+    url: URL.agent.GET_TICKETS_SUMMARY,
     headers: {
       "Content-Type": "application/json",
       Authorization: "Bearer " + token,
@@ -1088,13 +1088,13 @@ export const uploadAttachment = (token, payload) => (dispatch) => {
   const config = {
     method: "POST",
     data: payload,
-    url: URL.merchant.UPLOAD_TICKETS_ATTACHMENT,
+    url: URL.agent.UPLOAD_TICKETS_ATTACHMENT,
     headers: {
       "content-type": "multipart/form-data",
       Authorization: "Bearer " + token,
     },
   };
-
+console.log("config test", config);
   axios(config)
     .then((res) => {
       if (res.status === 200) {
@@ -1115,7 +1115,7 @@ export const uploadAttachment = (token, payload) => (dispatch) => {
 export const viewAttachmentFile = (token, uuid) => (dispatch) => {
   const config = {
     method: "get",
-    url: URL.merchant.GET_UPLOADED_FILE + "/" + uuid,
+    url: URL.agent.GET_UPLOADED_FILE + "/" + uuid,
     headers: {
       "Content-Type": "multipart/form-data",
       Authorization: "Bearer " + token,
@@ -1151,7 +1151,7 @@ export const addTicket = (token, payload) => (dispatch) => {
   const config = {
     method: "POST",
     data: payload,
-    url: URL.merchant.ADD_TICKET,
+    url: URL.agent.ADD_TICKET,
     headers: {
       "content-type": "application/json",
       Authorization: "Bearer " + token,
@@ -1173,7 +1173,7 @@ export const UpdateTicket = (token, payload, ticketNo) => (dispatch) => {
   const config = {
     method: "put",
     data: payload,
-    url: URL.merchant.ADD_TICKET + "/" + ticketNo,
+    url: URL.agent.ADD_TICKET + "/" + ticketNo,
     headers: {
       "content-type": "application/json",
       Authorization: "Bearer " + token,
@@ -1195,7 +1195,7 @@ export const addAreply = (token, data, ticketNo) => (dispatch) => {
 
   const config = {
     method: "post",
-    url: URL.merchant.TICKET_REPLY,
+    url: URL.agent.TICKET_REPLY,
     data: data,
     headers: {
       "Content-Type": "application/json",
@@ -1220,7 +1220,7 @@ export const getATicket = (token, ticketNO) => (dispatch) => {
   dispatch(viewAttachmentFileFalse());
   const config = {
     method: "get",
-    url: URL.merchant.GET_A_TICKET + "/" + ticketNO,
+    url: URL.agent.GET_A_TICKET + "/" + ticketNO,
     headers: {
       "Content-Type": "application/json",
       Authorization: "Bearer " + token,

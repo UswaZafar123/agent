@@ -114,13 +114,6 @@ const configUrl = {
     VIEW_PROFILE_PICTURE: `${API}merchant/profile/image`,
     PROFILE_INFO: `${API}merchant/profile/profileInfo`,
     SEND_OTP: `${API}public/merchant/mfa/send`,
-
-    TICKET_REPLY: `${API}merchant/user/ticket/reply`,
-    GET_A_TICKET: `${API}merchant/user/ticket`,
-    GET_TICKETS_SUMMARY: `${API}merchant/user/ticket/summary`,
-    GET_TICKETS_STATUS: `${API}merchant/user/ticket/status`,
-    GET_TICKETS: `${API}merchant/user/ticket`,
-    ADD_TICKET: `${API}merchant/user/ticket`,
   },
 
   payment: {
@@ -269,9 +262,16 @@ const configUrl = {
     PAY_EU_MOMO: `${API}eumomo/sendPaymentRequest`,
     AGENT_LOGIN: `${keyClock}auth/realms/AFB_SARA/protocol/openid-connect/token`,
     AGENT_LINKING_REQUEST:`${AgentApi}api-public/AgentRegistration/agentLinkingRequest`,
-    AGENT_LINKING_REQUEST_VERIFY:`${AgentApi}api-public/AgentRegistration/validateMFALinkingToken`
+    AGENT_LINKING_REQUEST_VERIFY:`${AgentApi}api-public/AgentRegistration/validateMFALinkingToken`,
 
-    
+    TICKET_REPLY: `${API}agent/user/ticket/reply`,
+    GET_A_TICKET: `${API}agent/user/ticket`,
+    GET_TICKETS_SUMMARY: `${API}agent/user/ticket/summary`,
+    GET_TICKETS_STATUS: `${API}agent/user/ticket/status`,
+    GET_TICKETS: `${API}agent/user/ticket`,
+    ADD_TICKET: `${API}agent/user/ticket`,
+    GET_TICKETS_PRIORITIES: `${API}agent/user/ticket/priority`,
+    UPLOAD_TICKETS_ATTACHMENT: `${API}agent/user/upload`,
   },
 };
 
