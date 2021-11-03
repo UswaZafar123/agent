@@ -645,7 +645,7 @@ class Packages extends Component {
                                        </div>
 
                                        <div style={{width: "100%", float: "left"}}>
-                                           <div className="custom-d-flex confirm_p_w mTB00 button-container rspacing">
+                                           <div className="confirm_p_w mTB00 button-container rspacing">
                                                <button className="blackbtn aryousureBTN confirmBtnR" onClick={this.back5}>Cancel</button>
                                                <button className="aryousureBTN confirmBtnR">Submit</button>
                                             </div>
@@ -1020,7 +1020,7 @@ class Packages extends Component {
                                        </div>
 
                                        <div style={{width: "100%", float: "left"}}>
-                                           <div className="custom-d-flex confirm_p_w mTB00 button-container rspacing">
+                                           <div className="confirm_p_w mTB00 button-container rspacing">
                                                <button className="blackbtn aryousureBTN confirmBtnR" onClick={this.back5}>Cancel</button>
                                                <button className="aryousureBTN confirmBtnR">Submit</button>
                                             </div>

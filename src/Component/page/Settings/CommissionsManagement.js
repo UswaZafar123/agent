@@ -262,11 +262,11 @@ class CommissionsManagement extends Component {
                                             </div>
                                             <div className="colagentfilter">
                                                 <label className="labelStyleagent" style={{opacity:0}}>Reset</label>
-                                                <div className="disFlrow mTnN">
-                                                    <div class="custom-d-flex confirm_p_w mTn mTnN newone">
+                                                <div className="disFlrow">
+                                                    <div class="confirm_p_w newone">
                                                         <button class="aryousureBTN confirmBtnR newBtnTra reset">Reset</button>
                                                     </div>
-                                                    <div class="custom-d-flex confirm_p_w mTn mTnN">
+                                                    <div class="confirm_p_w">
                                                         <button class="aryousureBTN confirmBtnR newBtnTra">Filter</button>
                                                     </div>
                                                 </div>
@@ -538,7 +538,7 @@ class CommissionsManagement extends Component {
                                         </div>
 
                                        <div style={{width: "100%", float: "left"}}>
-                                           <div className="custom-d-flex confirm_p_w mTB00 button-container rspacing">
+                                           <div className="confirm_p_w mTB00 button-container rspacing">
                                                <button className="blackbtn aryousureBTN confirmBtnR" onClick={this.back5}>Cancel</button>
                                                <button className="aryousureBTN confirmBtnR">Submit</button>
                                             </div>

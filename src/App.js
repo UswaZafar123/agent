@@ -75,6 +75,9 @@ import qrCode from "./Component/page/Profile/QRCode";
 import ChangePassword from "./Component/page/Profile/ChangePassword";
 import LinkToBankAccount from "./Component/Agent/linking/linkAccount";
 
+// Cash Operations Component Import
+import CashOperations from "./Component/page/Cash Operations/CashOperations";
+
 
 
 export const App=(props) =>{
@@ -174,6 +177,8 @@ export const App=(props) =>{
                     <Route path="/Profile/qr-code" component={qrCode} />
                     <Route path="/Profile/change-password" component={ChangePassword} />
                     <Route path="/profile/link/bank-account" component={LinkToBankAccount} />
+                    {/* Cash Operations Routing */}
+                    <Route path="/agent/cash-operations" component={CashOperations} />
 
                   </Switch>
                 </div>

@@ -212,9 +212,9 @@
 .confirm_p_w button.aryousureBTN.confirmBtnR.reset:hover{
     background-color: #000 !important;
 } 
-.mTnN{
+/* .mTnN{
     margin-top: 0px !important;
-}
+} */
 
 .ml4px{
     margin-left: 2px;
@@ -262,4 +262,21 @@
     padding: 5px10px;
     border-radius: 4px;
     color: #333;
+}
+.blackbtn{
+    margin-right: 12px;
+}
+.confirm_p_w button.aryousureBTN.confirmBtnR.reset{
+    margin-right: 12px;
+}
+.successMessage h2{
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: 16px;
+}
+.successMessage{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 }
