@@ -235,7 +235,7 @@ export const Side_bar_data = [
     
     {
         title:"Settings",
-        path:"/admin/Settings",
+        path:"/agents/Settings",
         iconClass:"icon-Asset-23",
         id:11,
         subMenu:[
@@ -295,14 +295,14 @@ export const Side_bar_data = [
                     // },
                
                     {
-                        title:"Packages",
-                        path:"/admin/settings/general/merchant-packages",
-                        iconClass:"icon-Asset-35"
+                        title:"Package Management",
+                        path:"/settings/general/package-management",
+                        iconClass:"icon-Asset-4"
                     },
                     {
-                        title:"User Groups",
-                        path:"/admin/settings/general/manage/user-group",
-                        iconClass:"icon-Asset-19"
+                        title:"Roles Management",
+                        path:"/settings/general/roles-management",
+                        iconClass:"icon-Asset-9"
                     },
                     // {
                     //     title:"Roles & Permissions",
@@ -333,26 +333,26 @@ export const Side_bar_data = [
             },
             {
                 title:"Agent Member",
-                path:"/admin/settings/general/agent-member",
+                path:"/settings/agent-member",
                 iconClass:"icon-Asset-35"
             },
-            {
-                title:"Limit Type Management",
-                path:"/admin/settings/limit-type",
+            // {
+            //     title:"Limit Type Management",
+            //     path:"/admin/settings/limit-type",
                 
-            },
-            {
-                title:"Fees Management",
-                path:"/admin/settings/fees",
-            },
-            {
-                title:"Payment Categories",
-                path:"/admin/payment-categories",
-            },
-            {
-                title:"Payment Methods",
-                path:"/admin/payment-methods",
-            },
+            // },
+            // {
+            //     title:"Fees Management",
+            //     path:"/admin/settings/fees",
+            // },
+            // {
+            //     title:"Payment Categories",
+            //     path:"/admin/payment-categories",
+            // },
+            // {
+            //     title:"Payment Methods",
+            //     path:"/admin/payment-methods",
+            // },
             
             // {
             //     title:"Liquidity Management",
@@ -376,28 +376,41 @@ export const Side_bar_data = [
             // },
             {
                 title:"Commissions management",
-                path:"/Settings/Commissions_management",
+                path:"/settings/Commissions-management",
             },
-            {
-                title:"Loyalty Management",
-                path:"/Settings/Loyalty_Management",
-            },
+            // {
+            //     title:"Loyalty Management",
+            //     path:"/Settings/Loyalty_Management",
+            // },
         ],
     },
     {
         title:"Profile​",
-        path:"/User_Profile_Management​",
+        path:"/Profile/Profile​",
         id:12,
         iconClass:"icon-Asset-22",
         subMenu:[
             {
-                title:"Link to Bank Account",
-                path:"/Settings/link/bank-account",
+                title:"Profile",
+                path:"/Profile/Profile",
             },
             {
-                title:"Link to Agent Banker",
-                path:"/Settings/link/agent-banker",
-            }
+                title:"Accounts",
+                path:"/Profile/Accounts",
+            },
+            {
+                title:"QR Code",
+                path:"/Profile/qr-code",
+            },
+            {
+                title:"Change Password",
+                path:"/Profile/change-password",
+            },
+            {
+                title:"Link to Bank Account",
+                path:"/profile/link/bank-account",
+            },
+           
         ]
     },
 ]
