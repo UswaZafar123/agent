@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: saraagentfrontend
+  namespace: frontend
+  annotations:
+    kubernetes.io/tls-acme: "true"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    kubernetes.io/ingress.class: "kong"
+    konghq.com/https-redirect-status-code: "301"
+    konghq.com/protocols: "https"
+spec:
+  rules:
+  - host: agent.digitalbanking.groupebia.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: saraagentfrontend
+            port:
+              number: 3000
+  tls: 
+    - 
+      hosts: 
+        - agent.digitalbanking.groupebia.com
+      secretName: agent.digitalbanking.groupebia.com

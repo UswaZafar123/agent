@@ -66,6 +66,23 @@ import Registration from "./Component/Agent/AgentRegistration/AgentRegistration"
 import AgentOTP from "./Component/Agent/AgentRegistration/AgentOTPScreen";
 import ChooseRegistrationAccount from "./Component/ChooseRegistrationAccount";
 import AgentRegSuccess from "./Component/Agent/AgentRegistration/AgentRegSuccess";
+// Setting Component Import
+import Packages from "./Component/page/Settings/General/Packages";
+import RoleManagement from "./Component/page/Settings/General/RoleManagement";
+import AgentMember from "./Component/page/Settings/AgentMember";
+import CommissionsManagement from "./Component/page/Settings/CommissionsManagement";
+
+// Profile Component Import
+import Profile from "./Component/page/Profile/Profile";
+import Accounts from "./Component/page/Profile/Accounts";
+import qrCode from "./Component/page/Profile/QRCode";
+import ChangePassword from "./Component/page/Profile/ChangePassword";
+import LinkToBankAccount from "./Component/Agent/linking/linkAccount";
+
+// Cash Operations Component Import
+import CashOperations from "./Component/page/Cash Operations/CashOperations";
+
+
 
 
 export const App = (props) => {
@@ -157,6 +174,20 @@ export const App = (props) => {
                     <Route path="/agent/transcations" component={Transaction} />
                     <Route path="/agent/access-history" component={AccessHistory} />
                     <Route path="/agent/tickets" component={Ticket} />
+
+                    {/* Setting Routing */}
+                    <Route path="/settings/general/package-management" component={Packages} />
+                    <Route path="/settings/general/roles-management" component={RoleManagement} />
+                    <Route path="/settings/agent-member" component={AgentMember} />
+                    <Route path="/settings/Commissions-management" component={CommissionsManagement} />
+                    {/* Profile Routing */}
+                    <Route path="/Profile/Profile" component={Profile} />
+                    <Route path="/Profile/Accounts" component={Accounts} />
+                    <Route path="/Profile/qr-code" component={qrCode} />
+                    <Route path="/Profile/change-password" component={ChangePassword} />
+                    <Route path="/profile/link/bank-account" component={LinkToBankAccount} />
+                    {/* Cash Operations Routing */}
+                    <Route path="/agent/cash-operations" component={CashOperations} />
 
                   </Switch>
                 </div>
