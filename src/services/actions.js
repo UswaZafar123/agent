@@ -416,36 +416,37 @@ export const getMerchantViewAccessHistoryList = (token) => (dispatch) => {
     });
 };
 
-export const addKYCdetails = (token, payload, status, emailid) => (
-  dispatch
-) => {
-  const config = {
-    method: "post",
-    url: status ? URL.merchant.UPDATE_KYC : URL.merchant.UPDATE_KYC,
-    data: payload,
-    headers: {
-      "Content-Type": "multipart/form-data",
-      Authorization: "Bearer " + token,
-    },
+export const addKYCdetails =
+  (token, payload, status, emailid) => (dispatch) => {
+    const config = {
+      method: "post",
+      url: status ? URL.agent.UPDATE_KYC : URL.agent.UPDATE_KYC,
+      data: payload,
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: "Bearer " + token,
+      },
+    };
+    axios(config)
+      .then((res) => {
+        if (res.status === 200) {
+          toastr.success(res.data.message);
+          dispatch(getKYCdetails(token, emailid));
+        } else if (res.status === 206) {
+          toastr.warning(res.data.message);
+        }
+      })
+      .catch((error) => {
+        // toastr.error(error.response.data.message);
+      });
   };
-  axios(config)
-    .then((res) => {
-      if (res.status === 200) {
-        toastr.success(res.data.message);
-        dispatch(getKYCdetails(token, emailid));
-      } else if (res.status === 206) {
-        toastr.warning(res.data.message);
-      }
-    })
-    .catch((error) => {
-      // toastr.error(error.response.data.message);
-    });
-};
+  
+
 
 export const getKYCdetails = (token, id) => (dispatch) => {
   const config = {
     method: "GET",
-    url: URL.merchant.UPDATE_KYC,
+    url: URL.agent.UPDATE_KYC,
     headers: {
       "Content-Type": "application/form-data",
       Authorization: "Bearer " + token,
@@ -1179,7 +1180,7 @@ export const uploadAttachment = (token, payload) => (dispatch) => {
       Authorization: "Bearer " + token,
     },
   };
-
+console.log("config test", config);
   axios(config)
     .then((res) => {
       if (res.status === 200) {

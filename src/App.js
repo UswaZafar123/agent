@@ -31,8 +31,10 @@ import BillPaymentResum from "./Component/Agent/walletOperation/BillPaymentResum
 import SchoolFeesMethod from "./Component/Agent/walletOperation/schoolFeesMethod";
 import SchoolFeesCashDeposit from "./Component/Agent/walletOperation/SchoolFeesCashDeposit";
 import SchoolFeesTransferAccountWallet from "./Component/Agent/walletOperation/SchoolFeesTransferAccountWallet";
-import AccountLinking from "./Component/Agent/linking/linkAccount.js";
-import AccountVerification from "./Component/Agent/linking/linkingVerification.js";
+import AccountLinking from "./Component/Agent/linking/linkAccount.js"
+import AccountVerification from "./Component/Agent/linking/linkingVerification.js"
+import "bootstrap/dist/css/bootstrap.min.css";
+import "react-datepicker/dist/react-datepicker.css";
 
 import SendMoney from "./Component/page/FlashTransfer/Send_Money/sendMoney";
 import ReceiveMoney from "./Component/page/FlashTransfer/Recive_Money/reciveMoney";

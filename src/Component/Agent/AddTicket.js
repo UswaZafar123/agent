@@ -5,7 +5,7 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { withRouter } from "react-router-dom";
 import { toastr } from "react-redux-toastr";
-
+import "./ticketM.css";
 import Dropzone from "react-dropzone";
 import {
   ticketsPriorities,
@@ -184,6 +184,7 @@ class AddTicket extends Component {
   };
 
   uploadDocuments(file) {
+    // console.log("for test", file);
     if (
       file[0].type == "image/jpeg" ||file[0].type == "image/jpg"||
       file[0].type == "image/png" ||
@@ -269,7 +270,7 @@ class AddTicket extends Component {
                     <div className="addTInW">
                       <div className="row" style={{ marginBottom: "24px" }}>
                         <div className="col-md-3">
-                          <label className="formColLabel formCladdT">
+                          <label className="formColLabel formCladdT text-right">
                             {" "}
                             Subject<span className="mendot">*</span>
                           </label>
@@ -295,7 +296,7 @@ class AddTicket extends Component {
                       </div>
                       <div className="row" style={{ marginBottom: "24px" }}>
                         <div className="col-md-3">
-                          <label className="formColLabel formCladdT">
+                          <label className="formColLabel formCladdT text-right">
                             Message<span className="mendot">*</span>
                           </label>
                         </div>
@@ -325,7 +326,7 @@ class AddTicket extends Component {
 
                       <div className="row" style={{ marginBottom: "24px" }}>
                         <div className="col-md-3">
-                          <label className="formColLabel formCladdT">
+                          <label className="formColLabel formCladdT text-right">
                             {" "}
                             Priority<span className="mendot">*</span>
                           </label>
@@ -350,7 +351,7 @@ class AddTicket extends Component {
 
                       <div className="row" style={{ marginBottom: "24px" }}>
                         <div className="col-md-3">
-                          <label className="formColLabel formCladdT">
+                          <label className="formColLabel formCladdT  text-right">
                             {" "}
                             Attachment
                           </label>
