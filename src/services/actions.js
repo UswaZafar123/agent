@@ -337,7 +337,7 @@ export const addKYCdetails =
   (token, payload, status, emailid) => (dispatch) => {
     const config = {
       method: "post",
-      url: status ? URL.merchant.UPDATE_KYC : URL.merchant.UPDATE_KYC,
+      url: status ? URL.agent.UPDATE_KYC : URL.agent.UPDATE_KYC,
       data: payload,
       headers: {
         "Content-Type": "multipart/form-data",
@@ -361,7 +361,7 @@ export const addKYCdetails =
 export const getKYCdetails = (token, id) => (dispatch) => {
   const config = {
     method: "GET",
-    url: URL.merchant.UPDATE_KYC,
+    url: URL.agent.UPDATE_KYC,
     headers: {
       "Content-Type": "application/form-data",
       Authorization: "Bearer " + token,

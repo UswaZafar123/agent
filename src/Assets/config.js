@@ -264,6 +264,9 @@ const configUrl = {
     AGENT_LINKING_REQUEST:`${AgentApi}api-public/AgentRegistration/agentLinkingRequest`,
     AGENT_LINKING_REQUEST_VERIFY:`${AgentApi}api-public/AgentRegistration/validateMFALinkingToken`,
 
+    UPDATE_KYC:`${AgentApi}api-public/AgentRegistration/agentKYC`,
+    
+
     TICKET_REPLY: `${API}agent/user/ticket/reply`,
     GET_A_TICKET: `${API}agent/user/ticket`,
     GET_TICKETS_SUMMARY: `${API}agent/user/ticket/summary`,
