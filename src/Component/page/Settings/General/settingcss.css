@@ -1,0 +1,282 @@
+.setAsFeaturedDiv{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.setAsFeaturedDiv .yesF{
+    color: #EA5455;
+    margin-right: 6px;
+    font-weight: bold;
+}
+.setAsFeaturedDiv .setas{
+    background: #4C4D4E !important;
+    color: #fff;
+    min-width: 61px;
+    height: 26px;
+    border-radius: 4px;
+    font-size: 12px;
+    line-height: 14.4px;
+    font-weight: 600;
+    border: none;
+    display: block;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    white-space: break-spaces;
+    line-height: 10px;
+    cursor: pointer;
+}
+.yesColorF{
+    color: #20B508 !important;
+    
+}
+.noColorF{
+    color: #EA5455 !important;
+}
+.mantdat{
+    color: red !important;
+}
+
+.antdCheckBCustom .ant-checkbox-wrapper .ant-checkbox-input{
+    height: initial !important;
+}
+.antdCheckBCustom .ant-checkbox-wrapper .ant-checkbox-checked .ant-checkbox-inner{
+    background-color: #242424 !important;
+    border-color: #242424 !important;
+}
+.antdCheckBCustom .ant-checkbox-inner{
+    width: 16px !important;
+    height: 16px !important;
+}
+.antdCheckBCustom .ant-checkbox-checked::after{
+    border: none !important;
+}
+.antdCheckBCustom .ant-checkbox-wrapper:first-child{
+    margin-left: 8px !important;
+}
+.smallTextLabel{
+    font-size: 11px;
+}
+
+.tabAntdCustom .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn{
+    color: #ea5455 !important;
+    text-shadow: 0 0 0.25px currentColor !important;
+    font-weight: 600 !important;
+}
+.tabAntdCustom .ant-tabs-tab-btn:focus, .ant-tabs-tab-remove:focus, .ant-tabs-tab-btn:active, .ant-tabs-tab-remove:active{
+    color: #ea5455 !important;
+}
+.tabAntdCustom .ant-tabs-tab:hover{
+    color: #ea5455 !important;
+}
+
+.sectionSepr{
+    margin: 16px;
+    float: left;
+    width: 100%;
+}
+.tabAntdCustom .ant-tabs-card > .ant-tabs-nav .ant-tabs-tab, .ant-tabs-card > div > .ant-tabs-nav .ant-tabs-tab{
+    padding: 16 24px !important;
+}
+.rspacing{
+    margin-top: 16px !important;
+    margin-bottom: 24px !important;
+}
+
+.antdCheckBCustom.antdCheckBCustomSub{
+    border: 1px solid #bcbcbc;
+    padding: 16px;
+    border-radius: 4px;
+}
+.antdCheckBCustom.antdCheckBCustomSub .ant-checkbox-wrapper{
+    margin-left: 8px !important;
+}
+.checkBoxSubHeading{
+    color: #333;
+    font-size: 16px;
+    font-weight: 600;
+    border-bottom: 1px solid #ebebeb
+}
+.antdCheckBCustom .ant-checkbox + span{
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+.antdCheckBCustom.tablecheckinput input[type=checkbox], input[type=radio]{
+    display: block !important;
+}
+
+.roleTable table{
+    width: 100%;
+}
+.roleTable table th{
+    text-align: center;
+    font-weight: 600;
+    font-size: 17px;
+    line-height: 20px;
+    padding: 10px;
+    background-color: #F5F5F5;
+    box-shadow: inset 0px -1px 0px rgba(0, 0, 0, 0.25);
+    letter-spacing: 0.1px;
+
+    color: #343A40;
+}
+.roleTable table th:first-child{
+    text-align: left;
+}
+.roleTable table td{
+    text-align: center;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 20px;
+    padding: 10px;
+    box-shadow: inset 0px -1px 0px rgba(0, 0, 0, 0.25);
+    letter-spacing: 0.1px;
+
+    color: #565758;
+}
+.roleTable table td:first-child{
+    text-align: left;
+}
+.mT24{
+    margin-top: 24px;
+}
+.roleTable.roleViewTable{
+    width: 70%;
+    max-width: 600px;
+    margin: 0 auto;
+    margin-top: 36px;
+    background: #f2f2f2;
+    padding: 24px;
+    border-radius: 10px;
+    overflow: auto;
+    max-height: 500px;
+}
+.ac-inactiveBTN .inactive{
+    background-color: #EA5455 !important;
+}
+.antdRadioCustom input{
+    min-height: 0 !important;
+    padding-top: 0px !important;
+    padding-bottom: 0 !important;
+    max-height: 0 !important;
+
+}
+.antdRadioCustom .containerBiaN_f_col label{
+    margin-top: 0 !important;
+}
+.categorySelect .ant-select-selector{
+    width: 100%;
+    background: #F3F3F3 !important;
+    box-shadow: 4px 4px 12px rgb(204 204 204 / 51%) !important;
+    border-radius: 10px !important;
+    transition: all .005s ease-in-out !important;
+    border: none !important;
+}
+.colagentfilter{
+    margin-bottom: 24px;
+    width: 100%;
+}
+.colagentfilter + .colagentfilter{
+    margin-left: 24px;
+}
+.filter_wrapper_agent{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 24px;
+}
+.labelStyleagent{
+    display: block;
+    color: #343A40;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 20px;
+    letter-spacing: 0.10000000149011612px;
+    text-align: left;
+    margin-bottom: 12px;
+}
+.disFlrow
+{
+    display: flex;
+    align-items: center;
+
+}
+.confirm_p_w button.aryousureBTN.confirmBtnR.reset{
+    background-color: #333 !important;
+}   
+.confirm_p_w button.aryousureBTN.confirmBtnR.reset:hover{
+    background-color: #000 !important;
+} 
+/* .mTnN{
+    margin-top: 0px !important;
+} */
+
+.ml4px{
+    margin-left: 2px;
+}
+.ac-view .edit{
+    background-color: #ffc107 !important;
+    color: #333 !important;
+}
+.ac-view button.delete{
+    background-color: #EA5455 !important;
+}
+.ac-view button.delete{
+    background-color: #EA5455 !important;
+    color: #fff !important;
+}
+.ac-view button.clone{
+    background-color: #20B508 !important;
+    color: #fff !important;
+}
+
+.agentformCenter .containerBiaN_f_row{
+    align-items: center !important;
+}
+.newone.custom-d-flex button:last-child{
+    min-width: 152px !important;
+}
+.newone.custom-d-flex button{
+    margin: 0px !important ;
+}
+
+.subNav{
+    left: 320px;
+    top: 100px;
+    overflow: auto;
+    box-shadow: 0px 1px 4px rgb(37 51 66 / 15%);
+    /* border-radius: 10px; */
+}
+.ant-picker-input input:focus, .ant-picker-input_col textarea:focus{
+    outline: none !important;
+    width: 100%;
+}
+.uploadPText {
+    margin-top: 12px;
+    width: 210px;
+    padding: 5px10px;
+    border-radius: 4px;
+    color: #333;
+}
+.blackbtn{
+    margin-right: 12px;
+}
+.confirm_p_w button.aryousureBTN.confirmBtnR.reset{
+    margin-right: 12px;
+}
+.successMessage h2{
+    font-size: 22px;
+    font-weight: 600;
+    margin-top: 16px;
+}
+.successMessage{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}

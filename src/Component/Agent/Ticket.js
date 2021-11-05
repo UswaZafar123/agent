@@ -202,7 +202,7 @@ class Ticket extends Component {
     if (nextProps.ticketSummaryStatus) {
       var summary = [];
       var chek =
-        nextProps.ticketStatusData.length > 0
+      nextProps.ticketStatusData &&nextProps.ticketStatusData.length > 0
           ? nextProps.ticketStatusData.map((val) => {
               summary.push({
                 status: val,
@@ -270,9 +270,9 @@ class Ticket extends Component {
                                   return (
                                     <div className="formCol">
                                       <div className="statusBoxIn">
-                                        <h3>{data.value} value 11</h3>
+                                        <h3>{data.value}</h3>
                                         <h2 className="openColor">
-                                          {data.status}  test box
+                                          {data.status} 
                                         </h2>
                                       </div>
                                     </div>

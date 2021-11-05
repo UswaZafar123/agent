@@ -18,16 +18,102 @@ export const RegisterService = (payload) => (dispatch) => {
   axios(config)
     .then((res) => {
       if (res.status === 200) {
-        toastr.success("success");
+        // toastr.success("Registration Successful");
         dispatch({
           type: actionType.CREATE_AGENT_BANKER_SUCCESS,
+          payload: res.data,
         });
       }
     })
     .catch((error) => {
-      toastr.warning("error");
+      toastr.warning("Registration Error");
       dispatch({
         type: actionType.CREATE_AGENT_BANKER_FAILURE,
+        payload: error,
+      });
+    });
+};
+
+export const sendAgentOTP = (payload) => (dispatch) => {
+  const config = {
+    method: "POST",
+    url: URL.agent.AGENT_SEND_OTP,
+    data: payload,
+  };
+  axios(config)
+    .then((res) => {
+      if (res.status === 200) {
+        toastr.success("OTP Resent");
+        dispatch({
+          type: actionType.AGENT_BANKER_OTP_SUCCESS,
+        });
+      } else {
+        toastr.warning("Something's Wrong !");
+        dispatch({
+          type: actionType.AGENT_BANKER_OTP_FAILURE,
+        });
+      }
+    })
+    .catch((error) => {
+      toastr.error("OTP Resend Error");
+      dispatch({
+        type: actionType.AGENT_BANKER_OTP_FAILURE,
+      });
+    });
+};
+
+export const checkOTPValid = (payload) => (dispatch) => {
+  const config = {
+    method: "POST",
+    url: URL.agent.AGENT_VERIFY_OTP,
+    data: payload,
+  };
+  axios(config)
+    .then((res) => {
+      if (res.status === 200) {
+        toastr.success("OTP Verification Success");
+        dispatch({
+          type: actionType.AGENT_BANKER_OTP_VALID,
+        });
+      } else {
+        toastr.warning("Something's Wrong !");
+        dispatch({
+          type: actionType.AGENT_BANKER_OTP_INVALID,
+        });
+      }
+    })
+    .catch((error) => {
+      toastr.error("OTP Error!");
+      dispatch({
+        type: actionType.AGENT_BANKER_OTP_INVALID,
+      });
+    });
+};
+
+export const setAgentPassword = (payload) => (dispatch) => {
+  const config = {
+    method: "POST",
+    url: URL.agent.AGENT_SET_PASSWORD,
+    data: payload,
+  };
+  axios(config)
+    .then((res) => {
+      if (res.status === 200) {
+        toastr.success("Password Set");
+        dispatch({
+          type: actionType.AGENT_SET_PASSWORD_SUCCESS,
+        });
+      } else {
+        toastr.warning("Something's Wrong !");
+        dispatch({
+          type: actionType.AGENT_SET_PASSWORD_FAILED,
+        });
+      }
+    })
+    .catch((error) => {
+      toastr.error("Password Set Error!");
+      dispatch({
+        type: actionType.AGENT_SET_PASSWORD_FAILED,
       });
     });
 };
@@ -35,7 +121,8 @@ export const RegisterService = (payload) => (dispatch) => {
 export const verifyAccount = (data) => (dispatch) => {
   const config = {
     method: "post",
-    url: "https://app.digitalbanking.groupebia.com/user-management/api-public/registration/customer/verifyPIN",
+    url:
+      "https://app.digitalbanking.groupebia.com/user-management/api-public/registration/customer/verifyPIN",
     data: data,
   };
 
@@ -56,23 +143,23 @@ export const verifyAccount = (data) => (dispatch) => {
 export const verifyMerchantAccount = (data) => (dispatch) => {
   const config = {
     method: "post",
-    url: "https://app.digitalbanking.groupebia.com/public/merchant/mfa/validate",
+    url:
+      "https://app.digitalbanking.groupebia.com/public/merchant/mfa/validate",
     data: data,
   };
 
   axios(config)
     .then((res) => {
-      console.log(res,'res')
-      if(res.status == 200) {
+      console.log(res, "res");
+      if (res.status == 200) {
         dispatch({
           type: actionType.ACCOUNT_VERIFIED,
         });
-      }else{
+      } else {
         dispatch({
           type: actionType.ACCOUNT_VERIFIED_FAIL,
         });
       }
-      
     })
     .catch((error) => {
       toastr.error("Sorry, Something went wrong");
@@ -82,13 +169,11 @@ export const verifyMerchantAccount = (data) => (dispatch) => {
     });
 };
 
-
-
-
 export const setPassword = (data) => (dispatch) => {
   const config = {
     method: "post",
-    url: "https://app.digitalbanking.groupebia.com/user-management/api-public/registration/customer/setPassword",
+    url:
+      "https://app.digitalbanking.groupebia.com/user-management/api-public/registration/customer/setPassword",
     data: data,
   };
 
@@ -123,9 +208,12 @@ export const loginMerchant = (payload) => (dispatch) => {
         sessionStorage.setItem("token", res.data.access_token);
         sessionStorage.setItem("refresh_token", res.data.refresh_token);
         sessionStorage.setItem("token_expiretime", res.data.expires_in);
-        sessionStorage.setItem("refresh_token_expiretime", res.data.refresh_expires_in); 
+        sessionStorage.setItem(
+          "refresh_token_expiretime",
+          res.data.refresh_expires_in
+        );
 
-        dispatch(getMerchantProfileInfo(res.data.access_token))
+        dispatch(getMerchantProfileInfo(res.data.access_token));
       } else if (res.status === 206) {
         localStorage.setItem("statusCode", res.data.message);
         toastr.warning(res.data.message);
@@ -147,45 +235,40 @@ export const loginMerchant = (payload) => (dispatch) => {
     });
 };
 
-
-export const getMerchantProfileInfo = (token) => dispatch => {
+export const getMerchantProfileInfo = (token) => (dispatch) => {
   const config = {
     method: "GET",
     url: URL.merchant.PROFILE_INFO,
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token
-    }
+      Authorization: "Bearer " + token,
+    },
   };
   axios(config)
-    .then(res => {
-      console.log(res,'merchantDetails')
+    .then((res) => {
+      console.log(res, "merchantDetails");
       if (res.status === 200) {
-
         sessionStorage.setItem("id", res.data.profileInfo.id);
-        sessionStorage.setItem("merchantName", res.data.profileInfo.merchantName);
-        sessionStorage.setItem("merchantStatus", res.data.profileInfo.merchantStatus);
+        sessionStorage.setItem(
+          "merchantName",
+          res.data.profileInfo.merchantName
+        );
+        sessionStorage.setItem(
+          "merchantStatus",
+          res.data.profileInfo.merchantStatus
+        );
         sessionStorage.setItem("phoneNo", res.data.profileInfo.phoneNo);
         sessionStorage.setItem("email", res.data.Email);
-        window.location="/agent/dashboard"
-
-
+        window.location = "/agent/dashboard";
 
         dispatch({
           type: actionType.MERCHANT_LOGIN_SUCCESS,
           payload: token,
         });
-
-     
-   
-       
       } else if (res.status === 206) {
-       
       }
     })
-    .catch(error => {
-     
-    });
+    .catch((error) => {});
 };
 // const loginDispatcher = (res, accessPayload) => dispatch => {
 
@@ -333,30 +416,31 @@ export const getMerchantViewAccessHistoryList = (token) => (dispatch) => {
     });
 };
 
-export const addKYCdetails =
-  (token, payload, status, emailid) => (dispatch) => {
-    const config = {
-      method: "post",
-      url: status ? URL.merchant.UPDATE_KYC : URL.merchant.UPDATE_KYC,
-      data: payload,
-      headers: {
-        "Content-Type": "multipart/form-data",
-        Authorization: "Bearer " + token,
-      },
-    };
-    axios(config)
-      .then((res) => {
-        if (res.status === 200) {
-          toastr.success(res.data.message);
-          dispatch(getKYCdetails(token, emailid));
-        } else if (res.status === 206) {
-          toastr.warning(res.data.message);
-        }
-      })
-      .catch((error) => {
-        // toastr.error(error.response.data.message);
-      });
+export const addKYCdetails = (token, payload, status, emailid) => (
+  dispatch
+) => {
+  const config = {
+    method: "post",
+    url: status ? URL.merchant.UPDATE_KYC : URL.merchant.UPDATE_KYC,
+    data: payload,
+    headers: {
+      "Content-Type": "multipart/form-data",
+      Authorization: "Bearer " + token,
+    },
   };
+  axios(config)
+    .then((res) => {
+      if (res.status === 200) {
+        toastr.success(res.data.message);
+        dispatch(getKYCdetails(token, emailid));
+      } else if (res.status === 206) {
+        toastr.warning(res.data.message);
+      }
+    })
+    .catch((error) => {
+      // toastr.error(error.response.data.message);
+    });
+};
 
 export const getKYCdetails = (token, id) => (dispatch) => {
   const config = {
@@ -393,43 +477,47 @@ export const getKYCdetails = (token, id) => (dispatch) => {
     });
 };
 
-export const getMerchantTransactionList =
-  (token, startDate, endDate, currency) => (dispatch) => {
-    const config = {
-      method: "GET",
-      url: URL.merchant.TRANSACTION_LIST,
-      params: {
-        fromDate: startDate,
-        toDate: endDate,
-        currency: currency,
-      },
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    };
-    axios(config)
-      .then((res) => {
-        if (res.status === 200) {
-          console.log(res, "resssssssssss");
-          toastr.success(res.data.message);
-          dispatch({
-            type: actionType.TRANSACTION_LIST_SUCCESS,
-            payload: res.data,
-          });
-        } else if (res.status === 206) {
-          toastr.warning(res.data.message);
-          dispatch({
-            type: actionType.TRANSACTION_LIST_FAILURE,
-          });
-        }
-      })
-      .catch((error) => {
-        // toastr.error(error.response.data.message);
+export const getMerchantTransactionList = (
+  token,
+  startDate,
+  endDate,
+  currency
+) => (dispatch) => {
+  const config = {
+    method: "GET",
+    url: URL.merchant.TRANSACTION_LIST,
+    params: {
+      fromDate: startDate,
+      toDate: endDate,
+      currency: currency,
+    },
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  };
+  axios(config)
+    .then((res) => {
+      if (res.status === 200) {
+        console.log(res, "resssssssssss");
+        toastr.success(res.data.message);
+        dispatch({
+          type: actionType.TRANSACTION_LIST_SUCCESS,
+          payload: res.data,
+        });
+      } else if (res.status === 206) {
+        toastr.warning(res.data.message);
         dispatch({
           type: actionType.TRANSACTION_LIST_FAILURE,
         });
+      }
+    })
+    .catch((error) => {
+      // toastr.error(error.response.data.message);
+      dispatch({
+        type: actionType.TRANSACTION_LIST_FAILURE,
       });
-  };
+    });
+};
 
 export const getCurrencies = (token) => (dispatch) => {
   const config = {
@@ -838,39 +926,40 @@ export const createPosManager = (token, payload) => (dispatch) => {
     });
 };
 
-export const getMerchantChartData =
-  (token, startDate, endDate, currency) => (dispatch) => {
-    const config = {
-      method: "get",
-      url: URL.merchant.MERCHANT_CHART_DATA,
-      params: {
-        fromDate: "2020-12-12",
-        toDate: "2020-12-12",
-      },
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
-    };
-    axios(config)
-      .then((res) => {
-        if (res.status === 200) {
-          dispatch({
-            type: actionType.GET_CHART_DATA_SUCCESS,
-            payload: res.data,
-          });
-        } else if (res.status === 206) {
-          dispatch({
-            type: actionType.GET_CHART_DATA_FAILURE,
-          });
-        }
-      })
-      .catch((error) => {
+export const getMerchantChartData = (token, startDate, endDate, currency) => (
+  dispatch
+) => {
+  const config = {
+    method: "get",
+    url: URL.merchant.MERCHANT_CHART_DATA,
+    params: {
+      fromDate: "2020-12-12",
+      toDate: "2020-12-12",
+    },
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  };
+  axios(config)
+    .then((res) => {
+      if (res.status === 200) {
+        dispatch({
+          type: actionType.GET_CHART_DATA_SUCCESS,
+          payload: res.data,
+        });
+      } else if (res.status === 206) {
         dispatch({
           type: actionType.GET_CHART_DATA_FAILURE,
         });
+      }
+    })
+    .catch((error) => {
+      dispatch({
+        type: actionType.GET_CHART_DATA_FAILURE,
       });
-  };
+    });
+};
 
 //  export const showIsLoading = () => {
 //     return {
@@ -924,43 +1013,41 @@ export const getPaymentCategories = (token) => (dispatch) => {
     });
 };
 
-
-export const verifyRegister = email => dispatch => {
+export const verifyRegister = (email) => (dispatch) => {
   const config = {
-      method: "post",
-      url: URL.user.VERIFY_REGISTER,
-      data: email,
-      headers: {
-          "Content-Type": "application/json"
-      }
+    method: "post",
+    url: URL.user.VERIFY_REGISTER,
+    data: email,
+    headers: {
+      "Content-Type": "application/json",
+    },
   };
   axios(config)
-      .then(res => {
-          if (res.status === 200) {
-              dispatch({
-                  type: actionType.VERIFY_USER_REGISTER_SUCCESS,
-                  message: res.data
-              });
-          } else if (res.status === 206) {
-              dispatch({
-                  type: actionType.VERIFY_USER_REGISTER_FAILURE,
-                  message: []
-              });
-          }
-      })
-      .catch(error => {
-          dispatch({
-              type: actionType.VERIFY_USER_REGISTER_FAILURE,
-          });
+    .then((res) => {
+      if (res.status === 200) {
+        dispatch({
+          type: actionType.VERIFY_USER_REGISTER_SUCCESS,
+          message: res.data,
+        });
+      } else if (res.status === 206) {
+        dispatch({
+          type: actionType.VERIFY_USER_REGISTER_FAILURE,
+          message: [],
+        });
+      }
+    })
+    .catch((error) => {
+      dispatch({
+        type: actionType.VERIFY_USER_REGISTER_FAILURE,
       });
+    });
 };
-
 
 export const getTickets = (token, payload) => (dispatch) => {
   const config = {
     method: "get",
     data: payload,
-    url: URL.merchant.GET_TICKETS,
+    url: URL.agent.GET_TICKETS,
     headers: {
       "content-type": "appication/json",
       Authorization: "Bearer " + token,
@@ -985,11 +1072,10 @@ export const getTickets = (token, payload) => (dispatch) => {
     });
 };
 
-
 export const ticketStatus = (token) => (dispatch) => {
   const config = {
     method: "GET",
-    url: URL.merchant.GET_TICKETS_STATUS,
+    url: URL.agent.GET_TICKETS_STATUS,
     headers: {
       "Content-Type": "application/json",
       Authorization: "Bearer " + token,
@@ -1022,7 +1108,7 @@ export const ticketsPriorities = (token) => (dispatch) => {
   dispatch(viewAttachmentFileFalse());
   const config = {
     method: "GET",
-    url: URL.merchant.GET_TICKETS_PRIORITIES,
+    url: URL.agent.GET_TICKETS_PRIORITIES,
     headers: {
       "Content-Type": "application/json",
       Authorization: "Bearer " + token,
@@ -1054,7 +1140,7 @@ export const ticketsPriorities = (token) => (dispatch) => {
 export const ticketsSummary = (token) => (dispatch) => {
   const config = {
     method: "GET",
-    url: URL.merchant.GET_TICKETS_SUMMARY,
+    url: URL.agent.GET_TICKETS_SUMMARY,
     headers: {
       "Content-Type": "application/json",
       Authorization: "Bearer " + token,
@@ -1083,12 +1169,11 @@ export const ticketsSummary = (token) => (dispatch) => {
     });
 };
 
-
 export const uploadAttachment = (token, payload) => (dispatch) => {
   const config = {
     method: "POST",
     data: payload,
-    url: URL.merchant.UPLOAD_TICKETS_ATTACHMENT,
+    url: URL.agent.UPLOAD_TICKETS_ATTACHMENT,
     headers: {
       "content-type": "multipart/form-data",
       Authorization: "Bearer " + token,
@@ -1115,7 +1200,7 @@ export const uploadAttachment = (token, payload) => (dispatch) => {
 export const viewAttachmentFile = (token, uuid) => (dispatch) => {
   const config = {
     method: "get",
-    url: URL.merchant.GET_UPLOADED_FILE + "/" + uuid,
+    url: URL.agent.GET_UPLOADED_FILE + "/" + uuid,
     headers: {
       "Content-Type": "multipart/form-data",
       Authorization: "Bearer " + token,
@@ -1151,7 +1236,7 @@ export const addTicket = (token, payload) => (dispatch) => {
   const config = {
     method: "POST",
     data: payload,
-    url: URL.merchant.ADD_TICKET,
+    url: URL.agent.ADD_TICKET,
     headers: {
       "content-type": "application/json",
       Authorization: "Bearer " + token,
@@ -1173,7 +1258,7 @@ export const UpdateTicket = (token, payload, ticketNo) => (dispatch) => {
   const config = {
     method: "put",
     data: payload,
-    url: URL.merchant.ADD_TICKET + "/" + ticketNo,
+    url: URL.agent.ADD_TICKET + "/" + ticketNo,
     headers: {
       "content-type": "application/json",
       Authorization: "Bearer " + token,
@@ -1195,7 +1280,7 @@ export const addAreply = (token, data, ticketNo) => (dispatch) => {
 
   const config = {
     method: "post",
-    url: URL.merchant.TICKET_REPLY,
+    url: URL.agent.TICKET_REPLY,
     data: data,
     headers: {
       "Content-Type": "application/json",
@@ -1220,7 +1305,7 @@ export const getATicket = (token, ticketNO) => (dispatch) => {
   dispatch(viewAttachmentFileFalse());
   const config = {
     method: "get",
-    url: URL.merchant.GET_A_TICKET + "/" + ticketNO,
+    url: URL.agent.GET_A_TICKET + "/" + ticketNO,
     headers: {
       "Content-Type": "application/json",
       Authorization: "Bearer " + token,
@@ -1239,12 +1324,3 @@ export const getATicket = (token, ticketNO) => (dispatch) => {
       });
     });
 };
-
-
-
-
-
-
-
-
-

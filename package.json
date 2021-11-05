@@ -26,6 +26,7 @@
     "bootstrap": "^4.6.0",
     "connected-react-router": "^6.9.1",
     "country-flag-icons": "^1.2.9",
+    "country-state-picker": "^1.1.5",
     "date-fns": "^2.24.0",
     "highcharts-react-official": "^3.0.0",
     "html2canvas": "^1.0.0-rc.7",
@@ -47,7 +48,7 @@
     "react-dropzone": "^11.3.2",
     "react-flags-select": "^2.1.2",
     "react-highcharts": "^16.1.0",
-    "react-icons": "^4.2.0",
+    "react-icons": "^4.3.1",
     "react-intl": "^5.18.1",
     "react-loader-spinner": "^4.0.0",
     "react-native-vector-icons": "^8.1.0",
@@ -67,7 +68,8 @@
     "redux-persist": "^6.0.0",
     "redux-refresh-token": "^0.1.0",
     "redux-thunk": "^2.3.0",
-    "web-vitals": "^1.1.1"
+    "web-vitals": "^1.1.1",
+    "styled-components": "^5.3.3"
   },
   "scripts": {
     "start": "react-scripts start",
