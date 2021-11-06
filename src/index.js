@@ -42,7 +42,7 @@ else {
   const locale= localStorage.setItem('lang', 'en-US')
 } */
 
-const locale=localStorage.getItem("lang") ? localStorage.getItem("lang") : localStorage.setItem('lang', 'en-US') 
+const locale = localStorage.getItem("lang") ? localStorage.getItem("lang") : localStorage.setItem('lang', 'en-US')
 
 ReactDOM.render(
   <I18nProvider locale={locale}>
@@ -66,7 +66,7 @@ ReactDOM.render(
           <App />
         </BrowserRouter>
       </PersistGate>
-    </Provider>,
+    </Provider>
   </I18nProvider>,
   document.getElementById("root")
 );

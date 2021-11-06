@@ -28,7 +28,6 @@ function AgentRegistration(props) {
 
                     <p>
                         Already have an account?
-                        {/* <FormattedMessage id="login.donthaveanaccount" /> */}
                         <NavLink to="/agent/login"> Login</NavLink>
                     </p>
                 </div>
