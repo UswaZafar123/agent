@@ -1,0 +1,225 @@
+.middleCWC{
+    background: #FFFFFF;
+    box-shadow: -4px -4px 12px rgba(196, 196, 196, 0.33), 4px 4px 12px rgba(196, 196, 196, 0.28);
+    border-radius: 16px;
+    margin: 24px;
+}
+.filter_wrapper{
+    padding: 24px;
+}
+.forCurrencyM .formCol{
+    width: 25% !important;
+}
+.filterBTN{
+    min-width: 137px;
+    height: 42px;
+    background: #DA4139;
+    border: 0.5px solid #B61108;
+    box-sizing: border-box;
+    border-radius: 6px;
+
+
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+    text-align: center;
+    letter-spacing: 0.1px;
+
+    color: #FFFFFF;
+    transition: all .3s ease;
+    opacity: 0.9;
+}
+.filterBTN:hover{
+    background: #c02a22;
+}
+.forBTNCenter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    padding-bottom: 0px;
+}
+.datepforCu.formCol input{
+    box-shadow:none !important;
+    border-radius: 0px !important;
+    height: 44px !important;
+}
+.datepforCu .ant-picker{
+    background: rgb(242 242 242);
+    border: 0px solid rgb(242 242 242);
+    border-radius: 6px;
+    border-right: 0px;
+    box-shadow: 4px 4px 12px rgb(204 204 204 / 51%);
+    width: 100%;
+}
+.datepforCu .ant-picker:hover, .datepforCu .ant-picker-focused{
+    background: rgb(242 242 242);
+    border: 0px solid rgb(242 242 242);
+    border-radius: 6px;
+    border-right: 0px;
+    box-shadow: 4px 4px 12px rgb(204 204 204 / 51%);
+    
+}
+.datepforCu .ant-picker-suffix{
+    color: #333 !important;
+}
+.datepforCu .anticon svg{
+   
+    width: 20px;
+    height: 16px;
+
+}
+
+.ant-select-item{
+    font-size: 14px !important;
+    line-height: 20px !important;
+    font-family: 'Lato', sans-serif !important;
+    font-weight: 600 !important;
+    min-height: 30px !important;
+    border-radius: 0px !important
+}
+.ant-select-dropdown{
+    border-radius: 6px !important;
+    padding: 0px !important;
+}
+.ant-select-item-option{
+    margin-top: 0px !important;
+    margin-bottom: 0px !important;
+}
+.ant-select-item-option-selected:not(.ant-select-item-option-disabled){
+    color: #fff !important;
+}
+
+.formRow.statusBox{
+    flex-wrap: unset;
+}
+.formRow.statusBox .formCol{
+    width: initial;
+    flex: 1;
+}
+
+.statusBoxIn{
+    border: 1px solid #000000;
+    box-sizing: border-box;
+    border-radius: 8px;
+    padding: 12px;
+    text-align: center;
+
+    font-weight: normal;
+    font-size: 22px;
+    line-height: 20px;
+    /* identical to box height, or 91% */
+    color: #343A40;
+    letter-spacing: 0.1px;
+
+}
+.statusBoxIn h2,.statusBoxIn h3{
+    padding: 0;
+    margin:0 ;
+    font-size: 22px;
+    line-height: 28px;
+}
+.statusBoxIn{
+    margin-top: 24px;
+}
+.statusBoxIn h3{
+    margin-bottom: 8px;
+}
+.statusBoxIn h2{
+   font-weight: bold;
+    
+}
+.openColor{
+    color: #31B502 !important;
+}
+.inprogressColor{
+    color: #0A80ED !important;
+}
+.holdColor{
+    color: #FF9A3E !important;
+}
+.closedColor{
+    color: #DA4139 !important;
+}
+
+.formColLabel.formCladdT{
+    text-align: right;
+    margin-bottom: 0;
+    line-height: 50px;
+}
+.confirm_p_w button.aryousureBTN.can{
+    background: rgba(52, 58, 64, 1);
+    color: #fff;
+}
+.mendot{
+    color: red;
+}
+.ql-toolbar.ql-snow{
+    background: rgb(243 243 243);
+    border-radius: 6px 6px 0px 0px;
+}
+
+.ticket {
+    width: 100%;
+    height: 250px;
+    background: #f1f1f1;
+}
+.ticket-header {
+    background-color: rgb(247, 140, 140);
+    display: flex;
+    padding: 12px;
+    border-radius: 4px;
+    align-items: center;
+}
+
+.ticket-header h3 {
+    color: #fff;
+    margin:0;
+    font-size: 20px;
+}
+
+.ticket-content {
+    padding: 2%;
+}
+
+.reply {
+    height: 500px;
+}
+
+
+.reply-list li{
+    margin-top: 24px;
+    margin-bottom:24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.marginLeftAuto{
+    margin-right: auto;
+}
+
+.name {
+    width: 60px;
+    height: 60px;
+    background: #f58b8c;
+    border-radius: 55px;
+    color: #fff;
+    float: left;
+    margin-right: 2%;
+    font-size: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+
+.css-b8ldur-Input input[type="text"]{
+    display: none !important;
+}
+
+.badge_custom{
+    height: auto;
+    margin-left: 12px;
+}

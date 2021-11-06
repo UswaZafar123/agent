@@ -21,7 +21,7 @@ export const RegisterService = (payload) => (dispatch) => {
         // toastr.success("Registration Successful");
         dispatch({
           type: actionType.CREATE_AGENT_BANKER_SUCCESS,
-          payload: res.data
+          payload: res.data,
         });
       }
     })
@@ -29,7 +29,7 @@ export const RegisterService = (payload) => (dispatch) => {
       toastr.warning("Registration Error");
       dispatch({
         type: actionType.CREATE_AGENT_BANKER_FAILURE,
-        payload: error
+        payload: error,
       });
     });
 };
@@ -38,90 +38,91 @@ export const sendAgentOTP = (payload) => (dispatch) => {
   const config = {
     method: "POST",
     url: URL.agent.AGENT_SEND_OTP,
-    data: payload
+    data: payload,
   };
-  axios(config).then((res) => {
-
-    if (res.status === 200) {
-      toastr.success("OTP Resent");
+  axios(config)
+    .then((res) => {
+      if (res.status === 200) {
+        toastr.success("OTP Resent");
+        dispatch({
+          type: actionType.AGENT_BANKER_OTP_SUCCESS,
+        });
+      } else {
+        toastr.warning("Something's Wrong !");
+        dispatch({
+          type: actionType.AGENT_BANKER_OTP_FAILURE,
+        });
+      }
+    })
+    .catch((error) => {
+      toastr.error("OTP Resend Error");
       dispatch({
-        type: actionType.AGENT_BANKER_OTP_SUCCESS
+        type: actionType.AGENT_BANKER_OTP_FAILURE,
       });
-    }
-    else {
-      toastr.warning("Something's Wrong !");
-      dispatch({
-        type: actionType.AGENT_BANKER_OTP_FAILURE
-      });
-    }
-  }).catch((error) => {
-    toastr.error("OTP Resend Error");
-    dispatch({
-      type: actionType.AGENT_BANKER_OTP_FAILURE,
     });
-  })
 };
 
 export const checkOTPValid = (payload) => (dispatch) => {
   const config = {
     method: "POST",
     url: URL.agent.AGENT_VERIFY_OTP,
-    data: payload
+    data: payload,
   };
-  axios(config).then((res) => {
-
-    if (res.status === 200) {
-      toastr.success("OTP Verification Success");
+  axios(config)
+    .then((res) => {
+      if (res.status === 200) {
+        toastr.success("OTP Verification Success");
+        dispatch({
+          type: actionType.AGENT_BANKER_OTP_VALID,
+        });
+      } else {
+        toastr.warning("Something's Wrong !");
+        dispatch({
+          type: actionType.AGENT_BANKER_OTP_INVALID,
+        });
+      }
+    })
+    .catch((error) => {
+      toastr.error("OTP Error!");
       dispatch({
-        type: actionType.AGENT_BANKER_OTP_VALID
+        type: actionType.AGENT_BANKER_OTP_INVALID,
       });
-    }
-    else {
-      toastr.warning("Something's Wrong !");
-      dispatch({
-        type: actionType.AGENT_BANKER_OTP_INVALID
-      });
-    }
-  }).catch((error) => {
-    toastr.error("OTP Error!");
-    dispatch({
-      type: actionType.AGENT_BANKER_OTP_INVALID,
     });
-  })
 };
 
 export const setAgentPassword = (payload) => (dispatch) => {
   const config = {
     method: "POST",
     url: URL.agent.AGENT_SET_PASSWORD,
-    data: payload
+    data: payload,
   };
-  axios(config).then((res) => {
-
-    if (res.status === 200) {
-      toastr.success("Password Set");
+  axios(config)
+    .then((res) => {
+      if (res.status === 200) {
+        toastr.success("Password Set");
+        dispatch({
+          type: actionType.AGENT_SET_PASSWORD_SUCCESS,
+        });
+      } else {
+        toastr.warning("Something's Wrong !");
+        dispatch({
+          type: actionType.AGENT_SET_PASSWORD_FAILED,
+        });
+      }
+    })
+    .catch((error) => {
+      toastr.error("Password Set Error!");
       dispatch({
-        type: actionType.AGENT_SET_PASSWORD_SUCCESS
+        type: actionType.AGENT_SET_PASSWORD_FAILED,
       });
-    }
-    else {
-      toastr.warning("Something's Wrong !");
-      dispatch({
-        type: actionType.AGENT_SET_PASSWORD_FAILED
-      });
-    }
-  }).catch((error) => {
-    toastr.error("Password Set Error!");
-    dispatch({
-      type: actionType.AGENT_SET_PASSWORD_FAILED,
     });
-  })
 };
 
 export const verifyAccount = (data) => (dispatch) => {
   const config = {
     method: "post",
-    url: "https://app.digitalbanking.groupebia.com/user-management/api-public/registration/customer/verifyPIN",
+    url:
+      "https://app.digitalbanking.groupebia.com/user-management/api-public/registration/customer/verifyPIN",
     data: data,
   };
 
@@ -142,13 +143,14 @@ export const verifyAccount = (data) => (dispatch) => {
 export const verifyMerchantAccount = (data) => (dispatch) => {
   const config = {
     method: "post",
-    url: "https://app.digitalbanking.groupebia.com/public/merchant/mfa/validate",
+    url:
+      "https://app.digitalbanking.groupebia.com/public/merchant/mfa/validate",
     data: data,
   };
 
   axios(config)
     .then((res) => {
-      console.log(res, 'res')
+      console.log(res, "res");
       if (res.status == 200) {
         dispatch({
           type: actionType.ACCOUNT_VERIFIED,
@@ -158,7 +160,6 @@ export const verifyMerchantAccount = (data) => (dispatch) => {
           type: actionType.ACCOUNT_VERIFIED_FAIL,
         });
       }
-
     })
     .catch((error) => {
       toastr.error("Sorry, Something went wrong");
@@ -168,13 +169,11 @@ export const verifyMerchantAccount = (data) => (dispatch) => {
     });
 };
 
-
-
-
 export const setPassword = (data) => (dispatch) => {
   const config = {
     method: "post",
-    url: "https://app.digitalbanking.groupebia.com/user-management/api-public/registration/customer/setPassword",
+    url:
+      "https://app.digitalbanking.groupebia.com/user-management/api-public/registration/customer/setPassword",
     data: data,
   };
 
@@ -209,9 +208,12 @@ export const loginMerchant = (payload) => (dispatch) => {
         sessionStorage.setItem("token", res.data.access_token);
         sessionStorage.setItem("refresh_token", res.data.refresh_token);
         sessionStorage.setItem("token_expiretime", res.data.expires_in);
-        sessionStorage.setItem("refresh_token_expiretime", res.data.refresh_expires_in);
+        sessionStorage.setItem(
+          "refresh_token_expiretime",
+          res.data.refresh_expires_in
+        );
 
-        dispatch(getMerchantProfileInfo(res.data.access_token))
+        dispatch(getMerchantProfileInfo(res.data.access_token));
       } else if (res.status === 206) {
         localStorage.setItem("statusCode", res.data.message);
         toastr.warning(res.data.message);
@@ -233,45 +235,40 @@ export const loginMerchant = (payload) => (dispatch) => {
     });
 };
 
-
-export const getMerchantProfileInfo = (token) => dispatch => {
+export const getMerchantProfileInfo = (token) => (dispatch) => {
   const config = {
     method: "GET",
     url: URL.merchant.PROFILE_INFO,
     headers: {
       "Content-Type": "application/json",
-      Authorization: "Bearer " + token
-    }
+      Authorization: "Bearer " + token,
+    },
   };
   axios(config)
-    .then(res => {
-      console.log(res, 'merchantDetails')
+    .then((res) => {
+      console.log(res, "merchantDetails");
       if (res.status === 200) {
-
         sessionStorage.setItem("id", res.data.profileInfo.id);
-        sessionStorage.setItem("merchantName", res.data.profileInfo.merchantName);
-        sessionStorage.setItem("merchantStatus", res.data.profileInfo.merchantStatus);
+        sessionStorage.setItem(
+          "merchantName",
+          res.data.profileInfo.merchantName
+        );
+        sessionStorage.setItem(
+          "merchantStatus",
+          res.data.profileInfo.merchantStatus
+        );
         sessionStorage.setItem("phoneNo", res.data.profileInfo.phoneNo);
         sessionStorage.setItem("email", res.data.Email);
-        window.location = "/agent/dashboard"
-
-
+        window.location = "/agent/dashboard";
 
         dispatch({
           type: actionType.MERCHANT_LOGIN_SUCCESS,
           payload: token,
         });
-
-
-
-
       } else if (res.status === 206) {
-
       }
     })
-    .catch(error => {
-
-    });
+    .catch((error) => {});
 };
 // const loginDispatcher = (res, accessPayload) => dispatch => {
 
@@ -419,35 +416,36 @@ export const getMerchantViewAccessHistoryList = (token) => (dispatch) => {
     });
 };
 
-export const addKYCdetails =
-  (token, payload, status, emailid) => (dispatch) => {
-    const config = {
-      method: "post",
-      url: status ? URL.merchant.UPDATE_KYC : URL.merchant.UPDATE_KYC,
-      data: payload,
-      headers: {
-        "Content-Type": "multipart/form-data",
-        Authorization: "Bearer " + token,
-      },
-    };
-    axios(config)
-      .then((res) => {
-        if (res.status === 200) {
-          toastr.success(res.data.message);
-          dispatch(getKYCdetails(token, emailid));
-        } else if (res.status === 206) {
-          toastr.warning(res.data.message);
-        }
-      })
-      .catch((error) => {
-        // toastr.error(error.response.data.message);
-      });
+export const addKYCdetails = (token, payload, status, emailid) => (
+  dispatch
+) => {
+  const config = {
+    method: "post",
+    url: status ? URL.agent.UPDATE_KYC : URL.agent.UPDATE_KYC,
+    data: payload,
+    headers: {
+      "Content-Type": "multipart/form-data",
+      Authorization: "Bearer " + token,
+    },
   };
+  axios(config)
+    .then((res) => {
+      if (res.status === 200) {
+        toastr.success(res.data.message);
+        dispatch(getKYCdetails(token, emailid));
+      } else if (res.status === 206) {
+        toastr.warning(res.data.message);
+      }
+    })
+    .catch((error) => {
+      // toastr.error(error.response.data.message);
+    });
+};
 
 export const getKYCdetails = (token, id) => (dispatch) => {
   const config = {
     method: "GET",
-    url: URL.merchant.UPDATE_KYC,
+    url: URL.agent.UPDATE_KYC,
     headers: {
       "Content-Type": "application/form-data",
       Authorization: "Bearer " + token,
@@ -479,43 +477,47 @@ export const getKYCdetails = (token, id) => (dispatch) => {
     });
 };
 
-export const getMerchantTransactionList =
-  (token, startDate, endDate, currency) => (dispatch) => {
-    const config = {
-      method: "GET",
-      url: URL.merchant.TRANSACTION_LIST,
-      params: {
-        fromDate: startDate,
-        toDate: endDate,
-        currency: currency,
-      },
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    };
-    axios(config)
-      .then((res) => {
-        if (res.status === 200) {
-          console.log(res, "resssssssssss");
-          toastr.success(res.data.message);
-          dispatch({
-            type: actionType.TRANSACTION_LIST_SUCCESS,
-            payload: res.data,
-          });
-        } else if (res.status === 206) {
-          toastr.warning(res.data.message);
-          dispatch({
-            type: actionType.TRANSACTION_LIST_FAILURE,
-          });
-        }
-      })
-      .catch((error) => {
-        // toastr.error(error.response.data.message);
+export const getMerchantTransactionList = (
+  token,
+  startDate,
+  endDate,
+  currency
+) => (dispatch) => {
+  const config = {
+    method: "GET",
+    url: URL.merchant.TRANSACTION_LIST,
+    params: {
+      fromDate: startDate,
+      toDate: endDate,
+      currency: currency,
+    },
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  };
+  axios(config)
+    .then((res) => {
+      if (res.status === 200) {
+        console.log(res, "resssssssssss");
+        toastr.success(res.data.message);
+        dispatch({
+          type: actionType.TRANSACTION_LIST_SUCCESS,
+          payload: res.data,
+        });
+      } else if (res.status === 206) {
+        toastr.warning(res.data.message);
         dispatch({
           type: actionType.TRANSACTION_LIST_FAILURE,
         });
+      }
+    })
+    .catch((error) => {
+      // toastr.error(error.response.data.message);
+      dispatch({
+        type: actionType.TRANSACTION_LIST_FAILURE,
       });
-  };
+    });
+};
 
 export const getCurrencies = (token) => (dispatch) => {
   const config = {
@@ -924,39 +926,40 @@ export const createPosManager = (token, payload) => (dispatch) => {
     });
 };
 
-export const getMerchantChartData =
-  (token, startDate, endDate, currency) => (dispatch) => {
-    const config = {
-      method: "get",
-      url: URL.merchant.MERCHANT_CHART_DATA,
-      params: {
-        fromDate: "2020-12-12",
-        toDate: "2020-12-12",
-      },
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: "Bearer " + token,
-      },
-    };
-    axios(config)
-      .then((res) => {
-        if (res.status === 200) {
-          dispatch({
-            type: actionType.GET_CHART_DATA_SUCCESS,
-            payload: res.data,
-          });
-        } else if (res.status === 206) {
-          dispatch({
-            type: actionType.GET_CHART_DATA_FAILURE,
-          });
-        }
-      })
-      .catch((error) => {
+export const getMerchantChartData = (token, startDate, endDate, currency) => (
+  dispatch
+) => {
+  const config = {
+    method: "get",
+    url: URL.merchant.MERCHANT_CHART_DATA,
+    params: {
+      fromDate: "2020-12-12",
+      toDate: "2020-12-12",
+    },
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  };
+  axios(config)
+    .then((res) => {
+      if (res.status === 200) {
+        dispatch({
+          type: actionType.GET_CHART_DATA_SUCCESS,
+          payload: res.data,
+        });
+      } else if (res.status === 206) {
         dispatch({
           type: actionType.GET_CHART_DATA_FAILURE,
         });
+      }
+    })
+    .catch((error) => {
+      dispatch({
+        type: actionType.GET_CHART_DATA_FAILURE,
       });
-  };
+    });
+};
 
 //  export const showIsLoading = () => {
 //     return {
@@ -1010,33 +1013,318 @@ export const getPaymentCategories = (token) => (dispatch) => {
     });
 };
 
-
-export const verifyRegister = email => dispatch => {
+export const verifyRegister = (email) => (dispatch) => {
   const config = {
     method: "post",
     url: URL.user.VERIFY_REGISTER,
     data: email,
     headers: {
-      "Content-Type": "application/json"
-    }
+      "Content-Type": "application/json",
+    },
   };
   axios(config)
-    .then(res => {
+    .then((res) => {
       if (res.status === 200) {
         dispatch({
           type: actionType.VERIFY_USER_REGISTER_SUCCESS,
-          message: res.data
+          message: res.data,
         });
       } else if (res.status === 206) {
         dispatch({
           type: actionType.VERIFY_USER_REGISTER_FAILURE,
-          message: []
+          message: [],
         });
       }
     })
-    .catch(error => {
+    .catch((error) => {
       dispatch({
         type: actionType.VERIFY_USER_REGISTER_FAILURE,
+      });
+    });
+};
+
+export const getTickets = (token, payload) => (dispatch) => {
+  const config = {
+    method: "get",
+    data: payload,
+    url: URL.agent.GET_TICKETS,
+    headers: {
+      "content-type": "appication/json",
+      Authorization: "Bearer " + token,
+    },
+  };
+
+  axios(config)
+    .then((res) => {
+      if (res.status === 200) {
+        toastr.success(res.data.message);
+
+        dispatch({
+          type: actionType.GET_TICKETS_SUCCESS,
+          payload: res.data,
+        });
+      }
+    })
+    .catch((error) => {
+      dispatch({
+        type: actionType.GET_TICKETS_FAILURE,
+      });
+    });
+};
+
+export const ticketStatus = (token) => (dispatch) => {
+  const config = {
+    method: "GET",
+    url: URL.agent.GET_TICKETS_STATUS,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  };
+
+  axios(config)
+    .then((res) => {
+      console.log(res, "res kyc");
+
+      if (res.status === 200) {
+        toastr.success(res.data.message);
+
+        dispatch({
+          type: actionType.GET_TICKETS_STATUS_SUCCESS,
+          payload: res.data,
+        });
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      // toastr.error(error.response.data.message);
+      dispatch({
+        type: actionType.GET_TICKETS_STATUS_FAILURE,
+      });
+    });
+};
+
+export const ticketsPriorities = (token) => (dispatch) => {
+  dispatch(viewAttachmentFileFalse());
+  const config = {
+    method: "GET",
+    url: URL.agent.GET_TICKETS_PRIORITIES,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  };
+
+  axios(config)
+    .then((res) => {
+      console.log(res, "res kyc");
+
+      if (res.status === 200) {
+        toastr.success(res.data.message);
+
+        dispatch({
+          type: actionType.GET_TICKETS_PRIORITIES_SUCCESS,
+          payload: res.data,
+        });
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      // toastr.error(error.response.data.message);
+      dispatch({
+        type: actionType.GET_TICKETS_PRIORITIES_FAILURE,
+      });
+    });
+};
+
+export const ticketsSummary = (token) => (dispatch) => {
+  const config = {
+    method: "GET",
+    url: URL.agent.GET_TICKETS_SUMMARY,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  };
+
+  axios(config)
+    .then((res) => {
+      console.log(res, "res kyc");
+
+      if (res.status === 200) {
+        toastr.success(res.data.message);
+
+        dispatch({
+          type: actionType.GET_TICKETS_SUMMARY_SUCCESS,
+          payload: res.data,
+        });
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      // toastr.error(error.response.data.message);
+      dispatch({
+        type: actionType.GET_TICKETS_SUMMARY_FAILURE,
+      });
+    });
+};
+
+export const uploadAttachment = (token, payload) => (dispatch) => {
+  const config = {
+    method: "POST",
+    data: payload,
+    url: URL.agent.UPLOAD_TICKETS_ATTACHMENT,
+    headers: {
+      "content-type": "multipart/form-data",
+      Authorization: "Bearer " + token,
+    },
+  };
+  console.log("config test", config);
+  axios(config)
+    .then((res) => {
+      if (res.status === 200) {
+        toastr.success(res.data.message);
+
+        dispatch({
+          type: actionType.TICKETS_UPLOAD_ATTACHMENT_SUCCESS,
+          payload: res.data,
+        });
+      }
+    })
+    .catch((error) => {
+      dispatch({
+        type: actionType.TICKETS_UPLOAD_ATTACHMENT_FAILURE,
+      });
+    });
+};
+export const viewAttachmentFile = (token, uuid) => (dispatch) => {
+  const config = {
+    method: "get",
+    url: URL.agent.GET_UPLOADED_FILE + "/" + uuid,
+    headers: {
+      "Content-Type": "multipart/form-data",
+      Authorization: "Bearer " + token,
+    },
+    responseType: "blob",
+  };
+  axios(config)
+    .then((res) => {
+      if (res.status === 200) {
+        toastr.success(res.data.message);
+        dispatch({
+          type: actionType.GET_TICKET_UPLOADED_FILE_SUCCESS,
+          payload: res.data,
+        });
+      } else if (res.status === 206) {
+        toastr.warning(res.data.message);
+      }
+    })
+    .catch((error) => {
+      dispatch({
+        type: actionType.GET_TICKET_UPLOADED_FILE_FAILURE,
+      });
+    });
+};
+export const uploadAttachmentFalse = () => (dispatch) => {
+  dispatch({
+    type: actionType.TICKETS_UPLOAD_ATTACHMENT_FAILURE,
+  });
+};
+export const addTicket = (token, payload, history) => (dispatch) => {
+  dispatch(uploadAttachmentFalse());
+  dispatch(viewAttachmentFileFalse());
+  const config = {
+    method: "POST",
+    data: payload,
+    url: URL.agent.ADD_TICKET,
+    headers: {
+      "content-type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  };
+
+  axios(config)
+    .then((res) => {
+      if (res.status === 200) {
+        toastr.success(res.data.message);
+        // window.location = "/tickets";
+        history.push({ pathname: "/agent/tickets" });
+      }
+    })
+    .catch((error) => {});
+};
+export const UpdateTicket = (token, payload, ticketNo, history) => (
+  dispatch
+) => {
+  dispatch(uploadAttachmentFalse());
+  dispatch(viewAttachmentFileFalse());
+  const config = {
+    method: "put",
+    data: payload,
+    url: URL.agent.ADD_TICKET + "/" + ticketNo,
+    headers: {
+      "content-type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  };
+
+  axios(config)
+    .then((res) => {
+      if (res.status === 200) {
+        toastr.success(res.data.message);
+        history.push({ pathname: "/agent/tickets" });
+        dispatch(getTickets(token));
+      }
+    })
+    .catch((error) => {});
+};
+export const addAreply = (token, data, ticketNo) => (dispatch) => {
+  dispatch(uploadAttachmentFalse());
+  dispatch(viewAttachmentFileFalse());
+
+  const config = {
+    method: "post",
+    url: URL.agent.TICKET_REPLY,
+    data: data,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  };
+  axios(config)
+    .then((res) => {
+      if (res.status === 200) {
+        dispatch(getATicket(token, ticketNo));
+      }
+    })
+    .catch((error) => {});
+};
+
+export const viewAttachmentFileFalse = () => (dispatch) => {
+  dispatch({
+    type: actionType.GET_TICKET_UPLOADED_FILE_FAILURE,
+  });
+};
+export const getATicket = (token, ticketNO) => (dispatch) => {
+  dispatch(viewAttachmentFileFalse());
+  const config = {
+    method: "get",
+    url: URL.agent.GET_A_TICKET + "/" + ticketNO,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  };
+  axios(config)
+    .then((res) => {
+      dispatch({
+        type: actionType.GET_A_TICKET_SUCCESS,
+        payload: res.data,
+      });
+    })
+    .catch((error) => {
+      dispatch({
+        type: actionType.GET_A_TICKET_FAILURE,
       });
     });
 };
