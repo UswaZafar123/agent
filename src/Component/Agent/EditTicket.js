@@ -109,11 +109,9 @@ class AddTicket extends Component {
   handleProcedureContentChange = (content, delta, source, editor) => {
     this.setState({ text: content });
     if (editor.getText().trim().length == 0) {
-      this.setState(
-        {
-          textError: "please type the message",
-        },
-      );
+      this.setState({
+        textError: "please type the message",
+      });
     } else {
       this.setState({
         textError: "",
@@ -139,7 +137,8 @@ class AddTicket extends Component {
       this.props.UpdateTicket(
         sessionStorage.getItem("token"),
         payload,
-        this.props.editData.ticketNo
+        this.props.editData.ticketNo,
+        this.props.history
       );
 
       this.setState({
@@ -156,7 +155,8 @@ class AddTicket extends Component {
 
   uploadDocuments(file) {
     if (
-      file[0].type == "image/jpeg" ||file[0].type == "image/jpg"||
+      file[0].type == "image/jpeg" ||
+      file[0].type == "image/jpg" ||
       file[0].type == "image/png" ||
       file[0].type == "application/pdf"
     ) {
@@ -458,8 +458,8 @@ const mapStateToProps = ({ merchantReducer }) => {
 const mapDispatchToProps = (dispatch) => ({
   ticketsPriorities: (token) => dispatch(ticketsPriorities(token)),
   uploadAttachment: (token, data) => dispatch(uploadAttachment(token, data)),
-  UpdateTicket: (token, payload, ticketNo) =>
-    dispatch(UpdateTicket(token, payload, ticketNo)),
+  UpdateTicket: (token, payload, ticketNo, history) =>
+    dispatch(UpdateTicket(token, payload, ticketNo, history)),
   viewAttachmentFile: (token, uuid) =>
     dispatch(viewAttachmentFile(token, uuid)),
 });

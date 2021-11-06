@@ -1559,7 +1559,7 @@ input[type="text"], input[type="email"], input[type="password"], input[type="fil
     margin-bottom: 0px !important;
 }
 .ant-select-item-option-selected:not(.ant-select-item-option-disabled){
-    color: #fff !important;
+   color: #fff !important;
 }
 
 .formRow.statusBox{

@@ -31,8 +31,8 @@ import BillPaymentResum from "./Component/Agent/walletOperation/BillPaymentResum
 import SchoolFeesMethod from "./Component/Agent/walletOperation/schoolFeesMethod";
 import SchoolFeesCashDeposit from "./Component/Agent/walletOperation/SchoolFeesCashDeposit";
 import SchoolFeesTransferAccountWallet from "./Component/Agent/walletOperation/SchoolFeesTransferAccountWallet";
-import AccountLinking from "./Component/Agent/linking/linkAccount.js"
-import AccountVerification from "./Component/Agent/linking/linkingVerification.js"
+import AccountLinking from "./Component/Agent/linking/linkAccount.js";
+import AccountVerification from "./Component/Agent/linking/linkingVerification.js";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -84,6 +84,7 @@ import LinkToBankAccount from "./Component/Agent/linking/linkAccount";
 
 // Cash Operations Component Import
 import CashOperations from "./Component/page/Cash Operations/CashOperations";
+import ticketReply from "./Component/Agent/ticketReply";
 
 export const App = (props) => {
   return (
@@ -131,6 +132,9 @@ export const App = (props) => {
                       path="/agent/walletOperation/WalletToAccount1"
                       component={WalletToAccount1}
                     />
+
+                    <Route path="/tickets/reply" component={ticketReply} />
+
                     <Route
                       path="/agent/walletOperation/WalletToAccount2"
                       component={WalletToAccount2}

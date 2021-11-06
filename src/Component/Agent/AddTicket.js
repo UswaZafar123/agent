@@ -166,7 +166,7 @@ class AddTicket extends Component {
         attachments: this.state.uploads,
       };
 
-      this.props.addTicket(sessionStorage.getItem("token"), payload);
+      this.props.addTicket(sessionStorage.getItem("token"), payload,this.props.history);
 
       this.setState({
         uploads: [],
@@ -429,7 +429,7 @@ const mapStateToProps = ({ merchantReducer }) => {
 const mapDispatchToProps = (dispatch) => ({
   ticketsPriorities: (token) => dispatch(ticketsPriorities(token)),
   uploadAttachment: (token, data) => dispatch(uploadAttachment(token, data)),
-  addTicket: (token, payload) => dispatch(addTicket(token, payload)),
+  addTicket: (token, payload,history) => dispatch(addTicket(token, payload,history)),
 });
 
 export default withRouter(
