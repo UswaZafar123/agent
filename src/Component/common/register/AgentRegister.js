@@ -408,9 +408,7 @@ class Register extends Component {
       <Fragment>
         <section className="loginWrapper accountWrapper">
           <NavBar />
-
-
-          <div className="col-md-12 loginContainer">
+          <div className="col-md-12 indAccountRegContainer">
 
             <div className="loginInner" >
               <div className="row" style={{ display: "none" }}>
@@ -467,7 +465,7 @@ class Register extends Component {
                     </div>
                   </div>
 
-                  <div className="form-group col-md-6" style={{ marginTop: "5%", marginBottom: "5%" }}>
+                  <div className="form-group" style={{ marginTop: "5%", marginBottom: "5%" }}>
                     <label>
                       Last Name
                     </label>
@@ -483,7 +481,7 @@ class Register extends Component {
                     </div>
                   </div>
 
-                  <div className="form-group col-md-6" style={{ marginTop: "5%", marginBottom: "5%" }}>
+                  <div className="form-group" style={{ marginTop: "5%", marginBottom: "5%" }}>
                     <label>
                       E-mail Address
                     </label>
@@ -552,7 +550,7 @@ class Register extends Component {
                   </div>
 
 
-                  <div className="form-group col-md-6" style={{ marginTop: "5%", marginBottom: "5%" }}>
+                  <div className="form-group" style={{ marginTop: "5%", marginBottom: "5%" }}>
                     <label>
                       {this.state.documentType === "ID_DOCUMENT" ? "ID Card Number" : "Passport Number"}
                     </label>
@@ -663,7 +661,7 @@ class Register extends Component {
                   </div>
 
 
-                  <div className="row">
+                  <div className="row" style={{ display: "block" }}>
                     <div className="form-group" style={{ marginTop: "5%", marginBottom: "5%" }}>
                       <label>
                         Expiration Date
@@ -672,8 +670,6 @@ class Register extends Component {
                         <DatePicker selected={this.state.setExpirationDate} dateFormat="dd-MM-yyyy" isClearable onChange={(date) => this.setExpirationDate(date)} />
                       </div>
                     </div>
-
-
 
                     <div className="form-group" style={{ marginTop: "5%", marginBottom: "5%" }}>
                       <label>
@@ -831,7 +827,7 @@ class Register extends Component {
                     </div>
 
                     <div className="row">
-                      <div className="col-md-12 text-center" style={{ justifyContent: "center", display: "flex", marginTop: "5%" }}>
+                      <div className="col-md-12 text-center" style={{ justifyContent: "center", display: "flex" }}>
                         <label className="privacy_policy">
                           i agree to the <a>terms & conditions </a> and  <a>privacy policy of sara banking</a>
                         </label>
@@ -949,7 +945,7 @@ class Register extends Component {
 
                     <div className="row">
                       <div className="col-md-12 text-center" style={{ justifyContent: "center", display: "flex", marginTop: "5%" }}>
-                        <p>Already have an account? <a>Login</a></p>
+                        <p>Already have an account? <a style={{ color: "rgb(0, 81, 255)" }}>Login</a></p>
                       </div>
                     </div>
                   </div>

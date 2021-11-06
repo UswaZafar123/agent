@@ -11,7 +11,6 @@ function AgentRegSuccess(props) {
     return (
         <Fragment>
             <NavBar />
-
             <InnerWrapper className="agent-registration-container">
                 <div className="agent-cat-box">
                     <div style={{ textAlign: 'center' }}>
@@ -30,8 +29,6 @@ function AgentRegSuccess(props) {
                     </div>
                 </div>
             </InnerWrapper>
-
-
         </Fragment>
     );
 }

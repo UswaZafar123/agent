@@ -45,8 +45,21 @@ body {
 .loginContainer {
     /* background: linear-gradient(90deg, rgba(42, 69, 125, 0.9), rgba(150, 201, 57, 0.9)), url(../images/wallet-2125548_1920.jpg) !important; */
     width: 100%;
-    min-height: 100vh;
-    height: 2800px;
+    min-height: 120vh;
+    /* height: 1%; */
+    background-image: url(./images/BG-2.png) !important;
+    background-position:center ;
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+}
+
+.indAccountRegContainer {
+    /* background: linear-gradient(90deg, rgba(42, 69, 125, 0.9), rgba(150, 201, 57, 0.9)), url(../images/wallet-2125548_1920.jpg) !important; */
+    width: 100%;
+    min-height: 520vh;
+    /* height: 100%; */
     background-image: url(./images/BG-2.png) !important;
     background-position:center ;
     background-repeat: no-repeat;
@@ -59,8 +72,8 @@ body {
 .agent-registration-container {
     /* background: linear-gradient(90deg, rgba(42, 69, 125, 0.9), rgba(150, 201, 57, 0.9)), url(../images/wallet-2125548_1920.jpg) !important; */
     width: 100%;
-    min-height: 550px;
-    height: 100%;
+    min-height: 100vh;
+    /* height: 100%; */
     background-image: url(./images/BG-2.png) !important;
     background-position:center ;
     background-repeat: no-repeat;
@@ -91,7 +104,7 @@ body {
     /* display: flex; */
     align-items: center;
     /* justify-content: center; */
-    padding-top: 6%;
+    padding-top: 8%;
     overflow-x: hidden;
 }
 
@@ -105,7 +118,7 @@ body {
     width: 700px;
     padding: 4.25rem;
     position: absolute;
-    top: 20%;
+    top: 1%;
     margin: auto;
 }
 
@@ -2405,7 +2418,7 @@ footer {
     }
 
     .btn-default {
-        background: #DA4139;
+        background: #DA4139 !important;
         border-radius: 10px;
         padding: 2%;
         min-width:282px !important ;
@@ -2575,6 +2588,7 @@ footer {
 
 .privacy_policy {
     text-transform: uppercase;
+    color: rgb(0, 81, 255);
 }
 
 .optional {
