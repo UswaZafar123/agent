@@ -14,11 +14,26 @@ function AgentRegistration(props) {
                 <div className="agent-cat-box">
                     <h2>Please select the type of Account you want to Open </h2>
                     <ul>
-                        <li onClick={() => setSelectedAccount("IND")} style={{ background: selectedAccount === "IND" ? "#DA4139" : "", color: selectedAccount === "IND" ? "white" : "" }}>Individual</li>
-                        <li onClick={() => setSelectedAccount("ETS")} style={{ background: selectedAccount === "ETS" ? "#DA4139" : "", color: selectedAccount === "ETS" ? "white" : "" }}>ETS</li>
-                        <li onClick={() => setSelectedAccount("SA")} style={{ background: selectedAccount === "SA" ? "#DA4139" : "", color: selectedAccount === "SA" ? "white" : "" }}>SA</li>
-                        <li onClick={() => setSelectedAccount("SARL")} style={{ background: selectedAccount === "SARL" ? "#DA4139" : "", color: selectedAccount === "SARL" ? "white" : "" }}>SARL</li>
-                        <li onClick={() => setSelectedAccount("SAS")} style={{ background: selectedAccount === "SAS" ? "#DA4139" : "", color: selectedAccount === "SAS" ? "white" : "" }}>SAS</li>
+                        <li onClick={() => {
+                            sessionStorage.setItem("accountType", "Individual");
+                            setSelectedAccount("IND")
+                        }} style={{ background: selectedAccount === "IND" ? "#DA4139" : "", color: selectedAccount === "IND" ? "white" : "" }}>Individual</li>
+                        <li onClick={() => {
+                            sessionStorage.setItem("accountType", "ETS");
+                            setSelectedAccount("ETS")
+                        }} style={{ background: selectedAccount === "ETS" ? "#DA4139" : "", color: selectedAccount === "ETS" ? "white" : "" }}>ETS</li>
+                        <li onClick={() => {
+                            sessionStorage.setItem("accountType", "SA");
+                            setSelectedAccount("SA")
+                        }} style={{ background: selectedAccount === "SA" ? "#DA4139" : "", color: selectedAccount === "SA" ? "white" : "" }}>SA</li>
+                        <li onClick={() => {
+                            sessionStorage.setItem("accountType", "SARL")
+                            setSelectedAccount("SARL")
+                        }} style={{ background: selectedAccount === "SARL" ? "#DA4139" : "", color: selectedAccount === "SARL" ? "white" : "" }}>SARL</li>
+                        <li onClick={() => {
+                            sessionStorage.setItem("accountType", "SAS")
+                            setSelectedAccount("SAS")
+                        }} style={{ background: selectedAccount === "SAS" ? "#DA4139" : "", color: selectedAccount === "SAS" ? "white" : "" }}>SAS</li>
                     </ul>
                     <NavLink to="/agent/individual">
                         <button type="submit" className="btn-default btn" >

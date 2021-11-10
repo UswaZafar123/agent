@@ -149,7 +149,7 @@ function AgentOTP(props) {
                         <div className="display-linebreak">
                             <h2 style={{ fontSize: '20px', fontWeight: 'bold', marginTop: '10px' }}>Set a Password for your Account !</h2>
 
-                            <div className="row" style={{ display: "block" }}>
+                            <div className="row" style={{ display: "block", paddingLeft: "15px", paddingRight: "15px" }}>
 
                                 <div className="form-group" style={{ marginTop: "5%", float: 'left' }}>
                                     <label>
@@ -158,7 +158,7 @@ function AgentOTP(props) {
                                 </div>
                                 <br /> <br />
                                 <div className="form-group" style={{ marginBottom: "5%" }}>
-                                    <div style={{ position: "relative", display: "flex" }}>
+                                    <div>
                                         <input
                                             className="form-control"
                                             type="password"
@@ -177,7 +177,7 @@ function AgentOTP(props) {
                                 </div>
                                 <br /> <br />
                                 <div className="form-group" style={{ marginBottom: "10%" }}>
-                                    <div style={{ position: "relative", display: "flex" }}>
+                                    <div>
                                         <input
                                             className="form-control"
                                             type="password"
