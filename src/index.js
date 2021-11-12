@@ -16,7 +16,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import ReduxToastr from "react-redux-toastr";
 import "react-redux-toastr/lib/css/react-redux-toastr.min.css";
 
-// import Loader from "./Component/common/loader"
+import Loader from "./Component/common/loader"
 
 // import ReduxToastr from 'react-redux-toastr';
 import "react-redux-toastr/lib/css/react-redux-toastr.min.css";
@@ -49,7 +49,7 @@ ReactDOM.render(
     <Provider store={store}>
       {/* <Loader /> */}
       <PersistGate persistor={persistor}>
-        {/* <Loader/> */}
+        <Loader/>
         <div>
           <ReduxToastr
             timeOut={4000}
