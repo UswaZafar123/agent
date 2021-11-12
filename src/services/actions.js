@@ -4,6 +4,8 @@ import URL from "../Assets/config";
 import { toastr } from "react-redux-toastr";
 import jwt from "jwt-decode";
 import qs from "qs";
+import { ShowLoading, HideLoading } from '../services/common/action';
+
 var fileDownload = require("js-file-download");
 
 export const RegisterService = (payload) => (dispatch) => {
@@ -268,7 +270,7 @@ export const getMerchantProfileInfo = (token) => (dispatch) => {
       } else if (res.status === 206) {
       }
     })
-    .catch((error) => {});
+    .catch((error) => { });
 };
 // const loginDispatcher = (res, accessPayload) => dispatch => {
 
@@ -1170,6 +1172,11 @@ export const ticketsSummary = (token) => (dispatch) => {
 };
 
 export const uploadAttachment = (token, payload) => (dispatch) => {
+
+  dispatch(viewAttachmentFileFalse());
+
+  dispatch(ShowLoading());
+
   const config = {
     method: "POST",
     data: payload,
@@ -1183,6 +1190,8 @@ export const uploadAttachment = (token, payload) => (dispatch) => {
   axios(config)
     .then((res) => {
       if (res.status === 200) {
+        dispatch(HideLoading());
+
         toastr.success(res.data.message);
 
         dispatch({
@@ -1192,6 +1201,7 @@ export const uploadAttachment = (token, payload) => (dispatch) => {
       }
     })
     .catch((error) => {
+      dispatch(HideLoading());
       dispatch({
         type: actionType.TICKETS_UPLOAD_ATTACHMENT_FAILURE,
       });
@@ -1251,7 +1261,7 @@ export const addTicket = (token, payload, history) => (dispatch) => {
         history.push({ pathname: "/agent/tickets" });
       }
     })
-    .catch((error) => {});
+    .catch((error) => { });
 };
 export const UpdateTicket = (token, payload, ticketNo, history) => (
   dispatch
@@ -1276,7 +1286,7 @@ export const UpdateTicket = (token, payload, ticketNo, history) => (
         dispatch(getTickets(token));
       }
     })
-    .catch((error) => {});
+    .catch((error) => { });
 };
 export const addAreply = (token, data, ticketNo) => (dispatch) => {
   dispatch(uploadAttachmentFalse());
@@ -1297,7 +1307,7 @@ export const addAreply = (token, data, ticketNo) => (dispatch) => {
         dispatch(getATicket(token, ticketNo));
       }
     })
-    .catch((error) => {});
+    .catch((error) => { });
 };
 
 export const viewAttachmentFileFalse = () => (dispatch) => {
