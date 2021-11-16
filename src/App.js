@@ -8,6 +8,11 @@ import logoBg from "./Assets/images/bgLogowater.svg";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import AgentRouting from "./Component/Agent/agentRouting";
 import Dashboard from "./Component/Agent/dashboard";
+//Screens imports
+import WalletCashDeposit from "./Component/page/CashDeposit/WalletCashDeposit";
+import BankCashDeposit from "./Component/page/CashDeposit/BankCashDeposit";
+//End Screens imports
+
 import Transaction from "./Component/Agent/Transaction";
 import AccessHistory from "./Component/AccessHistory/accessHistory";
 import Ticket from "./Component/Agent/Ticket";
@@ -123,6 +128,8 @@ export const App = (props) => {
                   <Switch>
                     <Redirect exact from="/agent" to="/agent/dashboard" />
                     <Route path="/agent/dashboard" component={Dashboard} />
+                    <Route path="/agent/cash_deposit/wallet" component={WalletCashDeposit} />
+                    <Route path="/agent/cash_deposit/bank" component={BankCashDeposit} />
 
                     <Route
                       path="/agent/walletOperation/transfert"

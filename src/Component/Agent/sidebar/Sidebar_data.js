@@ -6,11 +6,45 @@ export const Side_bar_data = [
         id:1
     },
     {
-        title:"Cash Opertaions",
+        title:"Cash Deposit",
+        path:"/agent/cash_deposit/wallet",
+        iconClass:"icon-Asset-47",
+        id:1,
+        subMenu: [
+            {
+                title: "Cash Deposit To Wallet",
+                path: "/agent/cash_deposit/wallet",
+            },
+            {
+                title: "Cash Deposit To Bank",
+                path: "/agent/cash_deposit/bank",
+            },
+
+        ]
+    },
+    {
+        title:"Cash Withdraw",
         path:"/agent/cash-operations",
         iconClass:"icon-Asset-47",
-        id:1
+        id:1,
+        subMenu: [
+            {
+                title: "Cash Withdraw To Wallet",
+                path: "/agent/send/money",
+            },
+            {
+                title: "Cash Withdraw To Bank",
+                path: "/agent/request/money",
+            },
+
+        ]
     },
+    // {
+    //     title:"Cash Opertaions",
+    //     path:"/agent/cash-operations",
+    //     iconClass:"icon-Asset-47",
+    //     id:1
+    // },
     {
         title:"Send / Request Money",
         path:"/agent/send-request-money",
@@ -34,121 +68,105 @@ export const Side_bar_data = [
         iconClass:"icon-Asset-47",
         id:1
     },
-    {
-        title:"Pricing List",
-        path:"/agent/pricing-list",
-        iconClass:"icon-Asset-47",
-        id:1
-    },
+    // {
+    //     title:"Pricing List",
+    //     path:"/agent/pricing-list",
+    //     iconClass:"icon-Asset-47",
+    //     id:1
+    // },
     {
         title:"Customer Registration",
         path:"/admin/agents",
         iconClass:"icon-Asset-2",
         id:2,
-        subMenu:[
-            {
-                title:"Wallet Account Opening",
-                path:"/agent/walletAccountOpening",
+        // subMenu:[
+        //     {
+        //         title:"Wallet Account Opening",
+        //         path:"/agent/walletAccountOpening",
 
-            },
-            {
-                title:"Banking Account Opening",
-                path:"/agent/BankingAccountOpening",
+        //     },
+        //     {
+        //         title:"Banking Account Opening",
+        //         path:"/agent/BankingAccountOpening",
 
-            },
-            // {
-            //     title:"Agent Lists",
-            //     path:"/admin/agents/all",
-            // },
-            // {
-            //     title:"Agent Payments",
-            //     path:"/admin/agents/payments",
-            // },
-            // {
-            //     title:"Agent-Profile First Approval",
-            //     path:"/admin/agents/first-approvals",
-            // },
-            // {
-            //     title:"Agent-Profile Second Approval",
-            //     path:"/admin/agents/second-approvals",
-            // },
-        ]
+        //     },
+        // ]
     },
-    {
-        title:"Banking Operation",
-        path:"/admin/banking/transfer",
-        id:3,
-        iconClass:"icon-Asset-4",
-        subMenu:[
-            {
-                title:"Transfer",
-                path:"/admin/banking/transfer",
+    // {
+    //     title:"Banking Operation",
+    //     path:"/admin/banking/transfer",
+    //     id:3,
+    //     iconClass:"icon-Asset-4",
+    //     subMenu:[
+    //         {
+    //             title:"Transfer",
+    //             path:"/admin/banking/transfer",
 
 
-            },
-            {
-                title:"Account Balance",
-                path:"/admin/banking/account_balance",
-            },
-            {
-                title:"Account Statement",
-                path:"/admin/banking/account_statement",
-            },
-            {
-                title:"Cash Deposit In Bank",
-                path:"/admin/banking/cash_deposit_bank",
-            },
-            {
-                title:"Cash Withdrawal From Bank",
-                path:"/admin/banking/cash_withdrawal_bank",
-            },
-            {
-                title:"Service Payments",
-                path:"/admin/banking/service_payments",
-            },
-        ]
-    },
-    {
-        title:"Wallet Operation",
-        path:"/Agent/walletOperation/",
-        id:4,
-        iconClass:"icon-Asset-3",
-        subMenu:[
-            {
-                title:"Transfert",
-                path:"/Agent/walletOperation/transfert", 
-            },
-            {
-                title:"Account Balance",
-                path:"/Agent/walletOperation/AccountBalance", 
-            },
-            {
-                title:"Account Statement",
-                path:"/Agent/walletOperation/AccountStatement",
-            },
-            {
-                title:"Service Payment",
-                path:"/Agent/walletOperation/ServicePayment",
-            }
-        ]
-    },
-    {
-        title:"Flash Transfer",
-        path:"/admin/clients/all",
-        id:14,
-        iconClass:"icon-Asset-3",
-        subMenu:[
-            {
-                title:"Send Money",
-                path:"/Admin/Transfer",
-            },
-            {
-                title:"Recive Money",
-                path:"/Admin/Transfer0",
-            },
+    //         },
+    //         {
+    //             title:"Account Balance",
+    //             path:"/admin/banking/account_balance",
+    //         },
+    //         {
+    //             title:"Account Statement",
+    //             path:"/admin/banking/account_statement",
+    //         },
+    //         {
+    //             title:"Cash Deposit In Bank",
+    //             path:"/admin/banking/cash_deposit_bank",
+    //         },
+    //         {
+    //             title:"Cash Withdrawal From Bank",
+    //             path:"/admin/banking/cash_withdrawal_bank",
+    //         },
+    //         {
+    //             title:"Service Payments",
+    //             path:"/admin/banking/service_payments",
+    //         },
+    //     ]
+    // },
+    // {
+    //     title:"Wallet Operation",
+    //     path:"/Agent/walletOperation/",
+    //     id:4,
+    //     iconClass:"icon-Asset-3",
+    //     subMenu:[
+    //         {
+    //             title:"Transfert",
+    //             path:"/Agent/walletOperation/transfert", 
+    //         },
+    //         {
+    //             title:"Account Balance",
+    //             path:"/Agent/walletOperation/AccountBalance", 
+    //         },
+    //         {
+    //             title:"Account Statement",
+    //             path:"/Agent/walletOperation/AccountStatement",
+    //         },
+    //         {
+    //             title:"Service Payment",
+    //             path:"/Agent/walletOperation/ServicePayment",
+    //         }
+    //     ]
+    // },
+    // {
+    //     title:"Flash Transfer",
+    //     path:"/admin/clients/all",
+    //     id:14,
+    //     iconClass:"icon-Asset-3",
+    //     subMenu:[
+    //         {
+    //             title:"Send Money",
+    //             path:"/Admin/Transfer",
+    //         },
+    //         {
+    //             title:"Recive Money",
+    //             path:"/Admin/Transfer0",
+    //         },
            
-        ]
-    },
+    //     ]
+    // },
     {
         title:"Transactions",
         path:"/agent/transcations",

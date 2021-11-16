@@ -68,8 +68,9 @@
     "redux-persist": "^6.0.0",
     "redux-refresh-token": "^0.1.0",
     "redux-thunk": "^2.3.0",
-    "web-vitals": "^1.1.1",
-    "styled-components": "^5.3.3"
+    "styled-components": "^5.3.3",
+    "validator": "^13.7.0",
+    "web-vitals": "^1.1.1"
   },
   "scripts": {
     "start": "react-scripts start",
