@@ -9,6 +9,11 @@ import HighchartsMore from 'highcharts/highcharts-more';
 
 import highcharts3d from 'highcharts/highcharts-3d';
 import ProgressBar from "@ramonak/react-progress-bar";
+import { connect } from "react-redux";
+
+import {
+  fetchAgentProfile
+} from "../../../src/services/agent/action";
 
 
 import { Select, DatePicker } from 'antd';
@@ -726,11 +731,13 @@ class Dashboard extends Component {
     }, () => {
       console.log("test001", this.state.fromDivHeight)
     });
-
+    this.props.fetchProfile(sessionStorage.getItem("token"));
   }
 
-
-
+  componentWillReceiveProps(nextProps) {
+    console.log("hello next");
+    console.log(nextProps.ticketsData);
+  }
 
   render() {
 
@@ -1300,4 +1307,29 @@ class Dashboard extends Component {
     );
   }
 }
-export default Dashboard
+
+const mapStateToProps = ({ merchantReducer }) => {
+  const {
+    ticketsData,
+    ticketsStatus,
+    ticketSummaryData,
+    ticketSummaryStatus,
+    ticketStatusData,
+    ticketDataStatus,
+  } = merchantReducer;
+
+  return {
+    ticketsData,
+    ticketsStatus,
+    ticketSummaryData,
+    ticketSummaryStatus,
+    ticketStatusData,
+    ticketDataStatus,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  fetchProfile: (token) => dispatch(fetchAgentProfile(token)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

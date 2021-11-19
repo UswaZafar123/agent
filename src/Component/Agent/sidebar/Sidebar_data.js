@@ -9,7 +9,7 @@ export const Side_bar_data = [
         title:"Cash Deposit",
         path:"/agent/cash_deposit/wallet",
         iconClass:"icon-Asset-47",
-        id:1,
+        id:2,
         subMenu: [
             {
                 title: "Cash Deposit To Wallet",
@@ -24,17 +24,17 @@ export const Side_bar_data = [
     },
     {
         title:"Cash Withdraw",
-        path:"/agent/cash-operations",
+        path:"/agent/cash_withdraw/wallet",
         iconClass:"icon-Asset-47",
-        id:1,
+        id:3,
         subMenu: [
             {
-                title: "Cash Withdraw To Wallet",
-                path: "/agent/send/money",
+                title: "Cash Withdraw From Wallet",
+                path: "/agent/cash_withdraw/wallet",
             },
             {
-                title: "Cash Withdraw To Bank",
-                path: "/agent/request/money",
+                title: "Cash Withdraw From Bank",
+                path: "/agent/cash_withdraw/bank",
             },
 
         ]
@@ -49,7 +49,7 @@ export const Side_bar_data = [
         title:"Send / Request Money",
         path:"/agent/send-request-money",
         iconClass:"icon-Asset-47",
-        id:1,
+        id:4,
         subMenu: [
             {
                 title: "Send",
@@ -66,7 +66,7 @@ export const Side_bar_data = [
         title:"Cash in Cash Out",
         path:"/agent/cash-in-cash-out",
         iconClass:"icon-Asset-47",
-        id:1
+        id:5
     },
     // {
     //     title:"Pricing List",
@@ -78,7 +78,7 @@ export const Side_bar_data = [
         title:"Customer Registration",
         path:"/admin/agents",
         iconClass:"icon-Asset-2",
-        id:2,
+        id:6,
         // subMenu:[
         //     {
         //         title:"Wallet Account Opening",
@@ -170,7 +170,7 @@ export const Side_bar_data = [
     {
         title:"Transactions",
         path:"/agent/transcations",
-        id:5,
+        id:7,
         iconClass:"icon-Asset-33"
     },
     // {

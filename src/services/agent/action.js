@@ -2,8 +2,10 @@ import axios from "axios";
 import actionType from "./actionType.js";
 import URL from "../../Assets/config";
 import { toastr } from "react-redux-toastr";
-import jwt from "jwt-decode";
+// import jwt from "jwt-decode";
 import qs from "qs";
+export * from './customer_verification_actions.js';
+export * from './profile_actions.js';
 
 export const loginAgent = (payload) => (dispatch) => {
   const config = {
@@ -78,7 +80,6 @@ export const linking = (token, data) => (dispatch) => {
     });
 };
 
-
 export const linkingFalse = () => (dispatch) => {
   
       dispatch({
@@ -86,14 +87,6 @@ export const linkingFalse = () => (dispatch) => {
       });
 
 };
-
-
-
-
-
-
-
-
 
 export const linkingVerification = (token, data) => (dispatch) => {
   const config = {

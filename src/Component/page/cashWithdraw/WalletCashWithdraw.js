@@ -11,21 +11,9 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import OtpInput from "react-otp-input";
 import { Select } from 'antd';
-import { useSelector, useDispatch } from 'react-redux'
-import { verifyCustomer } from "../../../services/agent/action.js";
-
-/**
- * Redux states imports
- */
-
-// import initialState from "../../../services/agent/initialState"
-
-/**
- * Redux states imports End
- */
-
 const { Option } = Select;
-const WalletCashDeposit = () => {
+
+const WalletCashWithdraw = () => {
   
   const [step, setstep] = useState(1);
   const idDocumentTypes = [
@@ -45,13 +33,8 @@ const WalletCashDeposit = () => {
   const [selectedOtpType, setSelectedOtpType] = useState(otpTypes[0].value);
   const [otp, setOtp] = useState('');
 
-  const dispatch = useDispatch();
-  const loadingCustomerValidation = useSelector(state => state.agentReducer.customerValidation.loading);
-  const loadingCustomerSuccess = useSelector(state => state.agentReducer.customerValidation.success);
-  const loadingCustomerError = useSelector(state => state.agentReducer.customerValidation.error);
-
   const stepOneValidated = () => {
-    return !(validator.isEmpty(phoneNumber) || validator.isEmpty(selectedDocumentType) || validator.isEmpty(idDocumentNumber) || loadingCustomerValidation);
+    return !(validator.isEmpty(phoneNumber) || validator.isEmpty(selectedDocumentType) || validator.isEmpty(idDocumentNumber));
   };
 
   const stepTwoValidated = () => {
@@ -65,7 +48,6 @@ const WalletCashDeposit = () => {
   const stepFourValidated = () => {
     return !(validator.isEmpty(otp) || otp.length !== 6);
   };
-
 
   const isFormValidated = () => {
     switch(step) {
@@ -83,37 +65,12 @@ const WalletCashDeposit = () => {
   }
 
   const nextStep = () => {
-    console.log(step);
-    if(step === 1) {
-      verifyCustomerSubmit();
-      if(loadingCustomerSuccess) {
-        setstep(step + 1);
-      }
-    } else if(step === 2) {
-      setstep(step + 1);
-
-    } else if(step === 3) {
-      // Send OTP to customer
-      setstep(step + 1);
-    } else {
-      //Submit the deposit form
-    }
+    setstep(step + 1);
   };
 
   const prevStep = () => {
     setstep(step - 1);
   };
-
-  const verifyCustomerSubmit = () => {
-    var requestObj = {
-      "type": "WALLET",
-      "phoneNumber": phoneNumber,
-      "idDocumentType": selectedDocumentType,
-      "idDocumentNumber": idDocumentNumber
-    };
-    dispatch(verifyCustomer(sessionStorage.getItem("token"), requestObj));
-
-  }
 
   const walletVerificationForm = () => {
     return (
@@ -288,4 +245,4 @@ const WalletCashDeposit = () => {
 
 
  
-export default WalletCashDeposit;
+export default WalletCashWithdraw;

@@ -275,6 +275,17 @@ const configUrl = {
     GET_TICKETS_SUMMARY:`${API}agent/user/ticket/summary`,
     GET_TICKETS_STATUS:`${API}agent/user/ticket/status`,
     UPDATE_KYC:`${AgentApi}api-public/AgentRegistration/agentKYC`,
+
+    /**
+     * 
+     */
+
+    FETCH_PROFILE: `${AgentApi}api-public/Agent/profile`,
+    CUSTOMER_VERIFICATION: `${AgentApi}api/walletTransfers/validateCustomer`
+
+    /**
+     * 
+     */
   },
 };
 

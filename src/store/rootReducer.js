@@ -13,12 +13,6 @@ const rootPersistConfig = {
   whitelist:['clientReducer','merchantReducer','commonReducer'],
   blacklist:  ['toastrReducer']
 };
-
- 
-
-
- 
-
 const appReducer = combineReducers({
   merchantReducer: merchantReducer,
   commonReducer:commoReducer,
@@ -29,7 +23,7 @@ const appReducer = combineReducers({
 
 })
 
- const initialState = appReducer({}, {})
+const initialState = appReducer({}, {})
 
 const rootReducer = (state, action) => {
   if (action.type === 'LOG_OUT') {
@@ -38,9 +32,6 @@ const rootReducer = (state, action) => {
 
   return appReducer(state, action)
 }
-
-
-
   
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer);
 

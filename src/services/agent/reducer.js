@@ -74,6 +74,80 @@ const agentReducer = (state = initialState, action) => {
         ...state,
         agentSetPasswordStatus: false
       };
+    /**
+     * Customer Validation Reducer State Update
+     */
+    case actionType.CUSTOMER_VALIDATION_FETCH:
+      return {
+        ...state,
+        customerValidation: {
+          loading: true
+        }
+      };
+    case actionType.CUSTOMER_VALIDATION_SUCCESS:
+      return {
+        ...state,
+        customerValidation: {
+          loading: false,
+          success: true
+        },
+      }
+    case actionType.CUSTOMER_VALIDATION_ERROR:
+      return {
+        ...state,
+        customerValidation: {
+          loading: false,
+          success: false,
+          error: true
+        },
+      }
+     /**
+     * Customer Validation Reducer State Update End
+     */
+
+     /**
+     * Agent Profile Reducer State Update
+     */
+    case actionType.AGENT_PROFILE_FETCH:
+      return {
+        ...state,
+        profile: {
+          loading: true
+        }
+    }
+    case actionType.AGENT_PROFILE_DATA:
+      return {
+        ...state,
+        profile: {
+          loading: false,
+          data: action.payload
+        }
+    }
+     /**
+     * Agent Profile Reducer State Update
+     */
+
+     /**
+     * Agent Wallet Account State Update
+     */
+    case actionType.AGENT_WALLET_ACCOUNT_FETCH:
+      return {
+        ...state,
+        walletAccount: {
+          loading: true
+        }
+    }
+    case actionType.AGENT_WALLET_ACCOUNT_DATA:
+      return {
+        ...state,
+        walletAccount: {
+          loading: false,
+          data: action.payload
+        }
+    }
+     /**
+     * Agent Wallet Account State Update
+     */
     default:
       return state;
   }

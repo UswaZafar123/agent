@@ -11,21 +11,9 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import OtpInput from "react-otp-input";
 import { Select } from 'antd';
-import { useSelector, useDispatch } from 'react-redux'
-import { verifyCustomer } from "../../../services/agent/action.js";
-
-/**
- * Redux states imports
- */
-
-// import initialState from "../../../services/agent/initialState"
-
-/**
- * Redux states imports End
- */
-
 const { Option } = Select;
-const WalletCashDeposit = () => {
+
+const BankCashWithdraw = () => {
   
   const [step, setstep] = useState(1);
   const idDocumentTypes = [
@@ -37,6 +25,7 @@ const WalletCashDeposit = () => {
     {name: "SMS", value: "SMS"}
   ];
   
+  const [bankCustomerId, setBankCustomerId] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [selectedDocumentType, setSelectedDocumentType] = useState(idDocumentTypes[0].value);
   const [idDocumentNumber, setIdDocumentNumber] = useState('');
@@ -45,13 +34,8 @@ const WalletCashDeposit = () => {
   const [selectedOtpType, setSelectedOtpType] = useState(otpTypes[0].value);
   const [otp, setOtp] = useState('');
 
-  const dispatch = useDispatch();
-  const loadingCustomerValidation = useSelector(state => state.agentReducer.customerValidation.loading);
-  const loadingCustomerSuccess = useSelector(state => state.agentReducer.customerValidation.success);
-  const loadingCustomerError = useSelector(state => state.agentReducer.customerValidation.error);
-
   const stepOneValidated = () => {
-    return !(validator.isEmpty(phoneNumber) || validator.isEmpty(selectedDocumentType) || validator.isEmpty(idDocumentNumber) || loadingCustomerValidation);
+    return !(validator.isEmpty(phoneNumber) || validator.isEmpty(selectedDocumentType) || validator.isEmpty(idDocumentNumber) || validator.isEmpty(bankCustomerId));
   };
 
   const stepTwoValidated = () => {
@@ -65,7 +49,6 @@ const WalletCashDeposit = () => {
   const stepFourValidated = () => {
     return !(validator.isEmpty(otp) || otp.length !== 6);
   };
-
 
   const isFormValidated = () => {
     switch(step) {
@@ -83,42 +66,25 @@ const WalletCashDeposit = () => {
   }
 
   const nextStep = () => {
-    console.log(step);
-    if(step === 1) {
-      verifyCustomerSubmit();
-      if(loadingCustomerSuccess) {
-        setstep(step + 1);
-      }
-    } else if(step === 2) {
-      setstep(step + 1);
-
-    } else if(step === 3) {
-      // Send OTP to customer
-      setstep(step + 1);
-    } else {
-      //Submit the deposit form
-    }
+    setstep(step + 1);
   };
 
   const prevStep = () => {
     setstep(step - 1);
   };
 
-  const verifyCustomerSubmit = () => {
-    var requestObj = {
-      "type": "WALLET",
-      "phoneNumber": phoneNumber,
-      "idDocumentType": selectedDocumentType,
-      "idDocumentNumber": idDocumentNumber
-    };
-    dispatch(verifyCustomer(sessionStorage.getItem("token"), requestObj));
-
-  }
-
-  const walletVerificationForm = () => {
+  const bankVerificationForm = () => {
     return (
       <>
         <div className="containerBiaN_form">
+            <div className="containerBiaN_f_row">
+                <div className="containerBiaN_f_col width30percent textAlignRight">
+                    <label>Bank Customer ID <span className="mantdat">*</span></label>
+                </div>
+                <div className="containerBiaN_f_col width70percent">
+                    <input placeholder="Enter Bank Customer ID" type="number" value={bankCustomerId} onChange={(e) => setBankCustomerId(e.target.value)}/>
+                </div>
+            </div>
             <div className="containerBiaN_f_row">
                 <div className="containerBiaN_f_col width30percent textAlignRight">
                     <label>Phone number <span className="mantdat">*</span></label>
@@ -256,7 +222,7 @@ const WalletCashDeposit = () => {
                           <div className="chartCardMiddle" style={{ padding: "24px" }}>
                               {(() => {
                                 switch(step) {
-                                  case 1: return walletVerificationForm();
+                                  case 1: return bankVerificationForm();
                                   case 2: return transactionDetails();
                                   case 3: return customerOTPType();
                                   case 4: return customerOTP();
@@ -288,4 +254,4 @@ const WalletCashDeposit = () => {
 
 
  
-export default WalletCashDeposit;
+export default BankCashWithdraw;
