@@ -22,7 +22,6 @@ import { Select } from 'antd';
 
 import { connect } from "react-redux";
 
-import { getCurrencies, getMerchantTransactionList } from "../../services/actions";
 const { Option } = Select;
 
 

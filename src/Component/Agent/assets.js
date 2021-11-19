@@ -9,12 +9,7 @@ import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import EditTicket from "./EditTicket";
 import activeUser from "../../Assets/images/confirm.svg";
-import {
-    getAllAssets,
-  getTickets,
-  ticketStatus,
-  ticketsSummary,
-} from "../../../src/services/actions";
+
 import { connect } from "react-redux";
 import { Select, Menu, Dropdown, Modal } from "antd";
 import { DownOutlined } from "@ant-design/icons";
@@ -193,7 +188,7 @@ class Ticket extends Component {
   };
 
   componentDidMount() {
-      this.props.getAllAssets(sessionStorage.getItem("token"))
+    // this.props.getAllAssets(sessionStorage.getItem("token"));
   }
 
   componentWillReceiveProps(nextProps) {
@@ -404,16 +399,12 @@ class Ticket extends Component {
     );
   }
 }
-const mapStateToProps = ({ merchantReducer }) => {
-  const {} = merchantReducer;
-
-  return {};
+const mapStateToProps = ({ }) => {
+ 
 };
 
 const mapDispatchToProps = (dispatch) => ({
-    getAllAssets:()=>dispatch(getAllAssets())
-
-
+  // getAllAssets: () => dispatch(getAllAssets()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Ticket);

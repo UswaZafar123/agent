@@ -1,19 +1,13 @@
 import React, { Component } from "react";
 import { Select } from "antd";
 // import './merchantNewStyle.css';
-import {
-  getSubscribedPlan,
-  getFeatured,
-  getMerchantShops,
-  addSubscription,
-} from "./../../../services/actions";
+
 import jwt_decode from "jwt-decode";
 import { connect } from "react-redux";
 import URL from "./../../../Assets/config";
 import axios from "axios";
 import { toastr } from "react-redux-toastr";
 const { Option } = Select;
-
 
 class Pricing extends Component {
   constructor(props) {
@@ -45,34 +39,34 @@ class Pricing extends Component {
     this.props.getMerchantShops(merchant_id, token);
   }
 
-//   componentWillReceiveProps(nextprops) {
-//     if (nextprops.getFeaturedStatus) {
-//       var final = [];
-//       nextprops.getFeaturedListData.SubscriptionPlanList.length > 0 &&
-//         nextprops.getFeaturedListData.SubscriptionPlanList.map((data) => {
-//           if (data.feeUserType.name == "Merchant") {
-//             final.push(data);
-//           }
-//         });
+  //   componentWillReceiveProps(nextprops) {
+  //     if (nextprops.getFeaturedStatus) {
+  //       var final = [];
+  //       nextprops.getFeaturedListData.SubscriptionPlanList.length > 0 &&
+  //         nextprops.getFeaturedListData.SubscriptionPlanList.map((data) => {
+  //           if (data.feeUserType.name == "Merchant") {
+  //             final.push(data);
+  //           }
+  //         });
 
-//       this.setState({ featuredList: final });
-//     }
+  //       this.setState({ featuredList: final });
+  //     }
 
-//     if (
-//       nextprops.getMerchantShopDetails &&
-//       nextprops.getMerchantShopDetails.shops
-//     ) {
-//       this.setState({ shops: nextprops.getMerchantShopDetails.shops });
-//     }
+  //     if (
+  //       nextprops.getMerchantShopDetails &&
+  //       nextprops.getMerchantShopDetails.shops
+  //     ) {
+  //       this.setState({ shops: nextprops.getMerchantShopDetails.shops });
+  //     }
 
-//     if (nextprops.subscribedPlanStatus) {
-//       let getSubscriptionListData =
-//         nextprops.subscribedPlanDetails.merchantSubscriptionList;
-//       this.setState({
-//         getSubscriptionListData,
-//       });
-//     }
-//   }
+  //     if (nextprops.subscribedPlanStatus) {
+  //       let getSubscriptionListData =
+  //         nextprops.subscribedPlanDetails.merchantSubscriptionList;
+  //       this.setState({
+  //         getSubscriptionListData,
+  //       });
+  //     }
+  //   }
 
   save = (e, id) => {
     this.setState({
@@ -121,12 +115,11 @@ class Pricing extends Component {
     // })
     this.props.history.push("/taxationOffice");
   };
-  onClose=()=>{
-
+  onClose = () => {
     this.setState({
-      popup:false
-    })
-  }
+      popup: false,
+    });
+  };
   back = () => {
     this.props.history.push("/Shops_Points_Sales");
   };
@@ -200,71 +193,71 @@ class Pricing extends Component {
                     </div>
                   </div>
                   <div className="pricingcardsection">
-                  <div className="rpd_container">
-                    <h4 className="rplan_heading">Requested Plan Details</h4>
-                    {this.state.getSubscriptionListData.length > 0 &&
-                      this.state.getSubscriptionListData.map((plan) => {
-                        return (
-                          
-                          <div className="row" style={{width:"initiate"}}>
-                            <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                              <div className="card mb-3 card-body-up">
-                                <div className="card-body">
-                                  <div className="currentPlan">
-                                    <div className="row">
-                                      <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                        <div className="infoDiv">
-                                          <label>Requested Plan Name :</label>
-                                          <span>
-                                            {
-                                              plan.subscriptionPlanid
-                                                .subscriptionName
-                                            }
-                                          </span>
+                    <div className="rpd_container">
+                      <h4 className="rplan_heading">Requested Plan Details</h4>
+                      {this.state.getSubscriptionListData.length > 0 &&
+                        this.state.getSubscriptionListData.map((plan) => {
+                          return (
+                            <div className="row" style={{ width: "initiate" }}>
+                              <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                                <div className="card mb-3 card-body-up">
+                                  <div className="card-body">
+                                    <div className="currentPlan">
+                                      <div className="row">
+                                        <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                          <div className="infoDiv">
+                                            <label>Requested Plan Name :</label>
+                                            <span>
+                                              {
+                                                plan.subscriptionPlanid
+                                                  .subscriptionName
+                                              }
+                                            </span>
+                                          </div>
                                         </div>
-                                      </div>
-                                      <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                        <div className="infoDiv">
-                                          <label>Requested Date :</label>
-                                          <span>
-                                            {plan.subscriptionStartdate}
-                                          </span>
+                                        <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                          <div className="infoDiv">
+                                            <label>Requested Date :</label>
+                                            <span>
+                                              {plan.subscriptionStartdate}
+                                            </span>
+                                          </div>
                                         </div>
-                                      </div>
-                                      <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                        <div className="infoDiv">
-                                          <label>POS :</label>
-                                          <span>{plan.merchantPOS.name}</span>
+                                        <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                          <div className="infoDiv">
+                                            <label>POS :</label>
+                                            <span>{plan.merchantPOS.name}</span>
+                                          </div>
                                         </div>
-                                      </div>
 
-                                      <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                        <div className="infoDiv">
-                                          <label>End Date :</label>
-                                          <span>
-                                            {plan.subscriptionEnddate}
-                                          </span>
+                                        <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                          <div className="infoDiv">
+                                            <label>End Date :</label>
+                                            <span>
+                                              {plan.subscriptionEnddate}
+                                            </span>
+                                          </div>
                                         </div>
-                                      </div>
-                                      <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
-                                        <div className="infoDiv">
-                                          <label>Status</label>
-                                          {new Date() <
-                                            new Date(
-                                              plan.subscriptionEnddate
-                                            ) && (
-                                            <span className="badge badge-pill badge-success">
-                                              Active
-                                            </span>
-                                          )}
-                                          {new Date() >
-                                            new Date(
-                                              plan.subscriptionEnddate
-                                            ) && (
-                                            <span className="badge badge-pill badge-danger">
-                                              Expired
-                                            </span>
-                                          )}
+                                        <div className="col-xl-6 col-lg-6 col-md-6 col-sm-6 col-12">
+                                          <div className="infoDiv">
+                                            <label>Status</label>
+                                            {new Date() <
+                                              new Date(
+                                                plan.subscriptionEnddate
+                                              ) && (
+                                              <span className="badge badge-pill badge-success">
+                                                Active
+                                              </span>
+                                            )}
+                                            {new Date() >
+                                              new Date(
+                                                plan.subscriptionEnddate
+                                              ) && (
+                                              <span className="badge badge-pill badge-danger">
+                                                Expired
+                                              </span>
+                                            )}
+                                          </div>
                                         </div>
                                       </div>
                                     </div>
@@ -272,12 +265,10 @@ class Pricing extends Component {
                                 </div>
                               </div>
                             </div>
-                          </div>
-                          
-                        );
-                      })}
-                      </div>
-                      <div className="pricingCardcontainer"></div>
+                          );
+                        })}
+                    </div>
+                    <div className="pricingCardcontainer"></div>
                     {this.state.featuredList != null &&
                       this.state.featuredList.map((list) => {
                         return (
@@ -470,7 +461,12 @@ class Pricing extends Component {
                             </svg>
                           </div>
                           <div className="custommodal-footer-pricing-row">
-                            <button className="pos-close-btn" onClick={this.onClose}>Close</button>
+                            <button
+                              className="pos-close-btn"
+                              onClick={this.onClose}
+                            >
+                              Close
+                            </button>
                             <button
                               className="pos-buy-btn"
                               onClick={this.buyPlan}
