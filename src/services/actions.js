@@ -1328,3 +1328,31 @@ export const getATicket = (token, ticketNO) => (dispatch) => {
       });
     });
 };
+
+
+// export const getAllAssets = (token) => (dispatch) => {
+//   const config = {
+//     method: "get",
+//     url: URL.agent.GET_ALL_ASSETS + "/" + ticketNO,
+//     headers: {
+//       "Content-Type": "application/json",
+//       Authorization: "Bearer " + token,
+//     },
+//   };
+//   axios(config)
+//     .then((res) => {
+//       dispatch({
+//         type: actionType.GET_A_TICKET_SUCCESS,
+//         payload: res.data,
+//       });
+//     })
+//     .catch((error) => {
+//       dispatch({
+//         type: actionType.GET_A_TICKET_FAILURE,
+//       });
+//     });
+// };
+
+
+
+

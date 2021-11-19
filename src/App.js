@@ -85,6 +85,7 @@ import LinkToBankAccount from "./Component/Agent/linking/linkAccount";
 // Cash Operations Component Import
 import CashOperations from "./Component/page/Cash Operations/CashOperations";
 import ticketReply from "./Component/Agent/ticketReply";
+import Assets from "./Component/Agent/assets";
 
 export const App = (props) => {
   return (
@@ -128,6 +129,9 @@ export const App = (props) => {
                       path="/agent/walletOperation/transfert"
                       component={transfert}
                     />
+
+                    <Route path="/agent/assets" component={Assets} />
+
                     <Route
                       path="/agent/walletOperation/WalletToAccount1"
                       component={WalletToAccount1}
