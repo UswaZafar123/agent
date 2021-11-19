@@ -30,7 +30,7 @@ class Register extends Component {
       email: "",
       agentType: "AGENT",
       city: "",
-      businessType: "INDIVIDUAL",
+      businessType: sessionStorage.getItem("accountType") === "Individual" ? "INDIVIDUAL" : sessionStorage.getItem("accountType"),
       countryCode: "",
       currency: "USD",
       documentType: "ID_DOCUMENT",
@@ -273,77 +273,133 @@ class Register extends Component {
   submitForm() {
     var formData = new FormData();
 
-    formData.append("RegistrationType", "NON_EXISTING_BANK_CUSTOMER");
-    formData.append("firstName", this.state.firstName);
-    formData.append("lastName", this.state.lastName);
-    formData.append("registrationChannel", "AGENCY_BANKING_APP");
-    formData.append("registrationSubChannel", "AGENCY_BANKING_APP");
-    formData.append("agentBusinessName", "HYPERSTAR_AGENCY");
-    formData.append("busincessType", this.state.businessType);
+    if (sessionStorage.getItem("accountType") == "Individual") {
+      formData.append("firstName", this.state.firstName);
+      formData.append("lastName", this.state.lastName);
+      formData.append("registrationChannel", "AGENCY_BANKING_APP");
+      formData.append("registrationSubChannel", "AGENCY_BANKING_APP");
+      formData.append("busincessType", this.state.businessType);
 
-    var phoneNumberSplit = this.state.mobileNumber.split(" ");
+      var phoneNumberSplit = this.state.mobileNumber.split(" ");
 
-    formData.append("countryCode", phoneNumberSplit[0].replace("+", ""));
-    formData.append("phoneNumberCountryCode", "00" + phoneNumberSplit[0].replace("+", ""));
+      formData.append("countryCode", phoneNumberSplit[0].replace("+", ""));
+      formData.append("phoneNumberCountryCode", "00" + phoneNumberSplit[0].replace("+", ""));
 
-    phoneNumberSplit.shift();
+      phoneNumberSplit.shift();
 
-    formData.append("phoneNo", phoneNumberSplit.join(''));
-    formData.append("locale", this.state.locale);
-    formData.append("mobileOperator", "UNINOR");
+      formData.append("phoneNo", phoneNumberSplit.join(''));
+      formData.append("locale", this.state.locale);
+      formData.append("mobileOperator", "UNINOR");
 
-    formData.append("idDocumentName", this.state.documentName);
-    formData.append("idDocumentType", "ID_DOCUMENT");
+      formData.append("idDocumentName", this.state.documentName);
+      formData.append("idDocumentType", "ID_DOCUMENT");
 
-    formData.append("idDocumentIdNumber", this.state.idDocumentIdNumber);
-    formData.append(
-      "idExpiryDate",
-      moment(new Date(this.state.setExpirationDate)).format("YYYY-MM-DD")
-    );
+      formData.append("idDocumentIdNumber", this.state.idDocumentIdNumber);
+      formData.append(
+        "idExpiryDate",
+        moment(new Date(this.state.setExpirationDate)).format("YYYY-MM-DD")
+      );
 
-    formData.append("agentEmailAddress", this.state.email);
-    formData.append("currency", this.state.currency);
-    formData.append("gender", this.state.gender);
-
-    // formData.append("tcName", "TERMS_CONDITIONS");
-
-    // formData.append("tcStatus", "ACTIVE");
-
-    // formData.append("tcContentTitle", "CONTENT_TITLE");
-
-    // formData.append("tcContentPlainText", "PLAIN_TEXT_CONTENT");
-
-    // formData.append("tcContentWebUrl", "www.sampleURL.com");
-    // formData.append("tcType", "MANDATORY");
-
-    // formData.append("tcOrder", 1);
-    // formData.append("tcEffectiveDateTime", "2022-05-08T12:00:00");
-    // formData.append("tcExpiryDateTime", moment(new Date(this.state.setExpirationDate)).format("YYYY-MM-DD"));
-    formData.append("registrationAppDateTime", new Date().toISOString());
-    formData.append("agentRegisteredBy", "AGENT321");
-    formData.append(
-      "agentDOB",
-      moment(new Date(this.state.dob)).format("YYYY-MM-DD")
-    );
-
-    formData.append("agentBusinessAddress", this.state.agentBusinessAddress);
-
-    formData.append("agentBusinessCity", this.state.agentBusinessCity);
-    formData.append("appliedForRegistrationAt", "City center");
-    formData.append("idDocumentImages", this.state.idAddressFile.originFileObj);
-    formData.append("agentPhoto", this.state.idBackImageFile.originFileObj);
-
-    formData.append("agentType", this.state.agentType);
-
-    // formData.append("bankCustomerId", this.state.bankCustomerId);
+      formData.append("agentEmailAddress", this.state.email);
+      formData.append("currency", this.state.currency);
+      formData.append("gender", this.state.gender);
+      formData.append("registrationAppDateTime", new Date().toISOString());
+      formData.append(
+        "agentDOB",
+        moment(new Date(this.state.dob)).format("YYYY-MM-DD")
+      );
+      formData.append("city", this.state.city);
+      formData.append("address", this.state.address1);
 
 
-    // Display the key/value pairs
-    // for (var pair of formData.entries()) {
-    //   console.log(pair[0] + ', ' + pair[1]);
-    // }
+      formData.append("idDocumentImages", this.state.idFrontImageFile.originFileObj);
+      formData.append("agentPhoto", this.state.idBackImageFile.originFileObj);
+      formData.append("proofOfAddress", this.state.idAddressFile.originFileObj);
 
-    // console.log(this.state.idBackImageFile.originFileObj,"XXX")
+
+      formData.append("agentType", this.state.agentType);
+    } else {
+
+      // formData.append("RegistrationType", "NON_EXISTING_BANK_CUSTOMER");
+      formData.append("firstName", this.state.firstName);
+      formData.append("lastName", this.state.lastName);
+      formData.append("registrationChannel", "AGENCY_BANKING_APP");
+      formData.append("registrationSubChannel", "AGENCY_BANKING_APP");
+
+      formData.append("agentBusinessName", "HYPERSTAR_AGENCY");
+      formData.append("busincessType", this.state.businessType);
+
+      var phoneNumberSplit = this.state.mobileNumber.split(" ");
+
+      formData.append("countryCode", phoneNumberSplit[0].replace("+", ""));
+      formData.append("phoneNumberCountryCode", "00" + phoneNumberSplit[0].replace("+", ""));
+
+      phoneNumberSplit.shift();
+
+      formData.append("phoneNo", phoneNumberSplit.join(''));
+      formData.append("locale", this.state.locale);
+      formData.append("mobileOperator", "UNINOR");
+
+      formData.append("idDocumentName", this.state.documentName);
+      formData.append("idDocumentType", "ID_DOCUMENT");
+
+      formData.append("idDocumentIdNumber", this.state.idDocumentIdNumber);
+      formData.append(
+        "idExpiryDate",
+        moment(new Date(this.state.setExpirationDate)).format("YYYY-MM-DD")
+      );
+
+      formData.append("agentEmailAddress", this.state.email);
+      formData.append("currency", this.state.currency);
+      formData.append("gender", this.state.gender);
+
+      // formData.append("tcName", "TERMS_CONDITIONS");
+
+      // formData.append("tcStatus", "ACTIVE");
+
+      // formData.append("tcContentTitle", "CONTENT_TITLE");
+
+      // formData.append("tcContentPlainText", "PLAIN_TEXT_CONTENT");
+
+      // formData.append("tcContentWebUrl", "www.sampleURL.com");
+      // formData.append("tcType", "MANDATORY");
+
+      // formData.append("tcOrder", 1);
+      // formData.append("tcEffectiveDateTime", "2022-05-08T12:00:00");
+      // formData.append("tcExpiryDateTime", moment(new Date(this.state.setExpirationDate)).format("YYYY-MM-DD"));
+      formData.append("registrationAppDateTime", new Date().toISOString());
+      formData.append("agentRegisteredBy", "AGENT321");
+      formData.append(
+        "agentDOB",
+        moment(new Date(this.state.dob)).format("YYYY-MM-DD")
+      );
+
+      formData.append("agentBusinessAddress", this.state.agentBusinessAddress);
+
+      formData.append("agentBusinessCity", this.state.agentBusinessCity);
+      formData.append("appliedForRegistrationAt", "City center");
+      formData.append("city", this.state.city);
+      formData.append("address", this.state.address1);
+
+
+      formData.append("idDocumentImages", this.state.idFrontImageFile.originFileObj);
+      formData.append("agentPhoto", this.state.idBackImageFile.originFileObj);
+      formData.append("proofOfAddress", this.state.idAddressFile.originFileObj);
+
+
+      formData.append("agentType", this.state.agentType);
+
+      // formData.append("bankCustomerId", this.state.bankCustomerId);
+
+
+      // Display the key/value pairs
+      // for (var pair of formData.entries()) {
+      //   console.log(pair[0] + ', ' + pair[1]);
+      // }
+
+      // console.log(this.state.idBackImageFile.originFileObj,"XXX")
+
+    }
 
     this.setState({
       viewSummaryVisible: false
@@ -408,9 +464,7 @@ class Register extends Component {
       <Fragment>
         <section className="loginWrapper accountWrapper">
           <NavBar />
-
-
-          <div className="col-md-12 loginContainer">
+          <div className="col-md-12 indAccountRegContainer">
 
             <div className="loginInner" >
               <div className="row" style={{ display: "none" }}>
@@ -449,7 +503,7 @@ class Register extends Component {
               </div>
 
               <div className="row" style={{ display: "block" }}>
-                <h1 className="sub-title">Individual Account</h1>
+                <h1 className="sub-title">{sessionStorage.getItem("accountType")} Account</h1>
                 <div className="col-md-12 float-left" style={{ float: "left" }}>
                   <div className="form-group " style={{ marginTop: "5%", marginBottom: "5%" }}>
                     <label>
@@ -467,7 +521,7 @@ class Register extends Component {
                     </div>
                   </div>
 
-                  <div className="form-group col-md-6" style={{ marginTop: "5%", marginBottom: "5%" }}>
+                  <div className="form-group" style={{ marginTop: "5%", marginBottom: "5%" }}>
                     <label>
                       Last Name
                     </label>
@@ -483,7 +537,7 @@ class Register extends Component {
                     </div>
                   </div>
 
-                  <div className="form-group col-md-6" style={{ marginTop: "5%", marginBottom: "5%" }}>
+                  <div className="form-group" style={{ marginTop: "5%", marginBottom: "5%" }}>
                     <label>
                       E-mail Address
                     </label>
@@ -516,7 +570,6 @@ class Register extends Component {
                       />
                     </div>
                   </div>
-
 
                   <div className="form-group" style={{ marginTop: "5%", marginBottom: "5%" }}>
                     <label>
@@ -552,7 +605,7 @@ class Register extends Component {
                   </div>
 
 
-                  <div className="form-group col-md-6" style={{ marginTop: "5%", marginBottom: "5%" }}>
+                  <div className="form-group" style={{ marginTop: "5%", marginBottom: "5%" }}>
                     <label>
                       {this.state.documentType === "ID_DOCUMENT" ? "ID Card Number" : "Passport Number"}
                     </label>
@@ -568,37 +621,41 @@ class Register extends Component {
                     </div>
                   </div>
 
-                  <div className="form-group" style={{ marginTop: "5%", marginBottom: "5%" }}>
-                    <label>
-                      Business address
-                    </label>
-                    <div style={{ position: "relative", display: "flex" }}>
-                      <input
-                        className="form-control"
-                        type="text"
-                        name="agentBusinessAddress"
-                        value={this.state.agentBusinessAddress}
-                        placeholder="Enter Address"
-                        onChange={this.handleChange}
-                      />
+                  {sessionStorage.getItem("accountType") !== "Individual" && <>
+                    <div className="form-group" style={{ marginTop: "5%", marginBottom: "5%" }}>
+                      <label>
+                        Business address
+                      </label>
+                      <div style={{ position: "relative", display: "flex" }}>
+                        <input
+                          className="form-control"
+                          type="text"
+                          name="agentBusinessAddress"
+                          value={this.state.agentBusinessAddress}
+                          placeholder="Enter Address"
+                          onChange={this.handleChange}
+                        />
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="form-group" style={{ marginTop: "5%", marginBottom: "5%" }}>
-                    <label>
-                      Business City
-                    </label>
-                    <div style={{ position: "relative", display: "flex" }}>
-                      <input
-                        className="form-control"
-                        type="text"
-                        name="agentBusinessCity"
-                        value={this.state.agentBusinessCity}
-                        placeholder="Enter City"
-                        onChange={this.handleChange}
-                      />
+                    <div className="form-group" style={{ marginTop: "5%", marginBottom: "5%" }}>
+                      <label>
+                        Business City
+                      </label>
+                      <div style={{ position: "relative", display: "flex" }}>
+                        <input
+                          className="form-control"
+                          type="text"
+                          name="agentBusinessCity"
+                          value={this.state.agentBusinessCity}
+                          placeholder="Enter City"
+                          onChange={this.handleChange}
+                        />
+                      </div>
                     </div>
-                  </div>
+
+                  </>}
+
 
                   <div className="col-md-12" style={{ display: "flex", justifyContent: "space-around", marginTop: '70px', marginBottom: '70px' }}>
                     <div className="col-md-6 float-left" style={{ float: "left", marginRight: "5px" }}>
@@ -663,7 +720,7 @@ class Register extends Component {
                   </div>
 
 
-                  <div className="row">
+                  <div className="row" style={{ display: "block" }}>
                     <div className="form-group" style={{ marginTop: "5%", marginBottom: "5%" }}>
                       <label>
                         Expiration Date
@@ -673,11 +730,27 @@ class Register extends Component {
                       </div>
                     </div>
 
+                    <div className="form-group" style={{ marginTop: "5%", marginBottom: "5%" }}>
+                      <label>
+                        City
+                      </label>
+                      <div style={{ position: "relative", display: "flex" }}>
+                        <input
+                          className="form-control"
+                          type="text"
+                          name="city"
+                          value={this.state.city}
+                          placeholder="Enter City"
+                          onChange={this.handleChange}
+                        />
+                      </div>
+                    </div>
+
 
 
                     <div className="form-group" style={{ marginTop: "5%", marginBottom: "5%" }}>
                       <label>
-                        Address 1
+                        Address
                       </label>
                       <div style={{ position: "relative", display: "flex" }}>
                         <input
@@ -691,83 +764,87 @@ class Register extends Component {
                       </div>
                     </div>
 
+                    {sessionStorage.getItem("accountType") !== "Individual" && <>
+                      <h1 style={{ fontSize: "36px", lineHeight: "20px", fontWeight: "600", marginTop: '70px' }}>Business Details</h1>
 
-                    <h1 style={{ fontSize: "36px", lineHeight: "20px", fontWeight: "600", marginTop: '70px' }}>Business Details</h1>
 
-
-                    <div className="form-group" style={{ marginTop: "7%", marginBottom: "5%" }}>
-                      <label>
-                        Name of Organization
-                      </label>
-                      <div style={{ position: "relative", display: "flex" }}>
-                        <input
-                          className="form-control"
-                          type="text"
-                          name="Organization"
-                          value={this.state.Organization}
-                          placeholder="Enter Name of Organization"
-                          onChange={this.handleChange}
-                        />
+                      <div className="form-group" style={{ marginTop: "7%", marginBottom: "5%" }}>
+                        <label>
+                          Name of Organization
+                        </label>
+                        <div style={{ position: "relative", display: "flex" }}>
+                          <input
+                            className="form-control"
+                            type="text"
+                            name="Organization"
+                            value={this.state.Organization}
+                            placeholder="Enter Name of Organization"
+                            onChange={this.handleChange}
+                          />
+                        </div>
                       </div>
-                    </div>
 
-                    <div className="form-group" style={{ marginTop: "5%", marginBottom: "5%" }}>
-                      <label>
-                        Registered Date
-                      </label>
-                      <div style={{ position: "relative", display: "flex" }}>
-                        <DatePicker selected={this.state.registeredDate} dateFormat="dd-MM-yyyy" isClearable onChange={(date) => this.registeredDate(date)} />
+                      <div className="form-group" style={{ marginTop: "5%", marginBottom: "5%" }}>
+                        <label>
+                          Registered Date
+                        </label>
+                        <div style={{ position: "relative", display: "flex" }}>
+                          <DatePicker selected={this.state.registeredDate} dateFormat="dd-MM-yyyy" isClearable onChange={(date) => this.registeredDate(date)} />
+                        </div>
                       </div>
-                    </div>
 
 
-                    <div className="form-group" style={{ marginTop: "5%", marginBottom: "5%" }}>
-                      <label>
-                        Website Link
-                      </label>
-                      <div style={{ position: "relative", display: "flex" }}>
-                        <input
-                          className="form-control"
-                          type="text"
-                          name="website"
-                          value={this.state.website}
-                          placeholder="Enter  Website Link"
-                          onChange={this.handleChange}
-                        />
+                      <div className="form-group" style={{ marginTop: "5%", marginBottom: "5%" }}>
+                        <label>
+                          Website Link
+                        </label>
+                        <div style={{ position: "relative", display: "flex" }}>
+                          <input
+                            className="form-control"
+                            type="text"
+                            name="website"
+                            value={this.state.website}
+                            placeholder="Enter  Website Link"
+                            onChange={this.handleChange}
+                          />
+                        </div>
                       </div>
-                    </div>
 
-                    <div className="form-group" style={{ marginTop: "5%", marginBottom: "5%" }}>
-                      <label>
-                        Trade Register Number
-                      </label>
-                      <div style={{ position: "relative", display: "flex" }}>
-                        <input
-                          className="form-control"
-                          type="text"
-                          name="tradeRegister"
-                          value={this.state.tradeRegister}
-                          placeholder="Enter Trade Register Number"
-                          onChange={this.handleChange}
-                        />
+                      <div className="form-group" style={{ marginTop: "5%", marginBottom: "5%" }}>
+                        <label>
+                          Trade Register Number
+                        </label>
+                        <div style={{ position: "relative", display: "flex" }}>
+                          <input
+                            className="form-control"
+                            type="text"
+                            name="tradeRegister"
+                            value={this.state.tradeRegister}
+                            placeholder="Enter Trade Register Number"
+                            onChange={this.handleChange}
+                          />
+                        </div>
                       </div>
-                    </div>
 
-                    <div className="form-group" style={{ marginTop: "5%", marginBottom: "5%" }}>
-                      <label>
-                        Taxpayer Number
-                      </label>
-                      <div style={{ position: "relative", display: "flex" }}>
-                        <input
-                          className="form-control"
-                          type="text"
-                          name="taxPayer"
-                          value={this.state.taxPayer}
-                          placeholder="Enter Taxpayer Number"
-                          onChange={this.handleChange}
-                        />
+                      <div className="form-group" style={{ marginTop: "5%", marginBottom: "5%" }}>
+                        <label>
+                          Taxpayer Number
+                        </label>
+                        <div style={{ position: "relative", display: "flex" }}>
+                          <input
+                            className="form-control"
+                            type="text"
+                            name="taxPayer"
+                            value={this.state.taxPayer}
+                            placeholder="Enter Taxpayer Number"
+                            onChange={this.handleChange}
+                          />
+                        </div>
                       </div>
-                    </div>
+
+                    </>}
+
+
 
                     <div className="col-md-12" style={{ display: "flex", justifyContent: "space-around", marginTop: '70px', marginBottom: '70px' }}>
                       <div className="col-md-6 float-left" style={{ float: "left", marginRight: "5px" }}>
@@ -831,7 +908,7 @@ class Register extends Component {
                     </div>
 
                     <div className="row">
-                      <div className="col-md-12 text-center" style={{ justifyContent: "center", display: "flex", marginTop: "5%" }}>
+                      <div className="col-md-12 text-center" style={{ justifyContent: "center", display: "flex" }}>
                         <label className="privacy_policy">
                           i agree to the <a>terms & conditions </a> and  <a>privacy policy of sara banking</a>
                         </label>
@@ -881,12 +958,15 @@ class Register extends Component {
                             <td className="summaryLabel">{this.state.documentType === "ID_DOCUMENT" ? "ID Card Number" : "Passport Number"}</td>
                             <td className="summaryValue">{this.state.idDocumentIdNumber}</td>
                           </tr>
-                          <tr className="summaryRow">
-                            <td className="summaryLabel">Business Address :</td>
-                            <td className="summaryValue">{this.state.agentBusinessAddress}</td>
-                            <td className="summaryLabel">Business City : </td>
-                            <td className="summaryValue">{this.state.agentBusinessCity}</td>
-                          </tr>
+                          {sessionStorage.getItem("accountType") !== "Individual" && <>
+                            <tr className="summaryRow">
+                              <td className="summaryLabel">Business Address :</td>
+                              <td className="summaryValue">{this.state.agentBusinessAddress}</td>
+                              <td className="summaryLabel">Business City : </td>
+                              <td className="summaryValue">{this.state.agentBusinessCity}</td>
+                            </tr>
+                          </>}
+
                           <tr className="summaryRow">
                             <td className="summaryLabel">ID Card Front Image : </td>
                             <td className="summaryValue"><img style={{ width: "30%", height: '30%' }} src={this.state.idFrontImageFile.thumbUrl} /></td>
@@ -896,45 +976,63 @@ class Register extends Component {
                           <tr className="summaryRow">
                             <td className="summaryLabel">Expiration Date :</td>
                             <td className="summaryValue">{moment(new Date(this.state.setExpirationDate)).format("YYYY-MM-DD")}</td>
+                            <td className="summaryLabel">City : </td>
+                            <td className="summaryValue">{this.state.city}</td>
+                          </tr>
+                          <tr className="summaryRow">
                             <td className="summaryLabel">Address : </td>
                             <td className="summaryValue">{this.state.address1}</td>
+                            <td className="summaryLabel"></td>
+                            <td className="summaryValue"></td>
                           </tr>
-                        </table>
-                        <hr style={{ width: '30%', borderTop: '3px solid darkgray', marginTop: '20px', borderRadius: '10px' }} />
-                        <h1 style={{ fontSize: "20px", fontWeight: "600", marginTop: '20px', marginBottom: '20px', textAlign: 'center' }}>Business Details</h1>
+                          {sessionStorage.getItem("accountType") == "Individual" && <>
+                            <tr className="summaryRow">
+                              <td className="summaryLabel">ID Card Front Image : </td>
+                              <td className="summaryValue"><img style={{ width: "30%", height: '30%' }} src={this.state.idFrontBusinessImageFile.thumbUrl} /></td>
+                              <td className="summaryLabel">Proof of Address :</td>
+                              <td className="summaryValue"><img style={{ width: "30%", height: '30%' }} src={this.state.idAddressFile.thumbUrl} /></td>
+                            </tr>
+                          </>}
 
-                        <table className="table" style={{ width: '100%' }}>
-                          <tr>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                          </tr>
-                          <tr className="summaryRow">
-                            <td className="summaryLabel">Name of Organization : </td>
-                            <td className="summaryValue">{this.state.Organization}</td>
-                            <td className="summaryLabel">Registered Date : </td>
-                            <td className="summaryValue">{moment(new Date(this.state.registeredDate)).format("YYYY-MM-DD")}</td>
-                          </tr>
-                          <tr className="summaryRow">
-                            <td className="summaryLabel">Website Link : </td>
-                            <td className="summaryValue">{this.state.website}</td>
-                            <td className="summaryLabel">Trade Register Number : </td>
-                            <td className="summaryValue">{this.state.tradeRegister}</td>
-                          </tr>
-                          <tr className="summaryRow">
-                            <td className="summaryLabel">Taxpayer Number : </td>
-                            <td className="summaryValue">{this.state.taxPayer}</td>
-                            <td></td>
-                            <td></td>
-                          </tr>
-                          <tr className="summaryRow">
-                            <td className="summaryLabel">ID Card Front Image : </td>
-                            <td className="summaryValue"><img style={{ width: "30%", height: '30%' }} src={this.state.idFrontBusinessImageFile.thumbUrl} /></td>
-                            <td className="summaryLabel">Proof of Address :</td>
-                            <td className="summaryValue"><img style={{ width: "30%", height: '30%' }} src={this.state.idAddressFile.thumbUrl} /></td>
-                          </tr>
                         </table>
+
+                        {sessionStorage.getItem("accountType") !== "Individual" && <>
+                          <hr style={{ width: '30%', borderTop: '3px solid darkgray', marginTop: '20px', borderRadius: '10px' }} />
+                          <h1 style={{ fontSize: "20px", fontWeight: "600", marginTop: '20px', marginBottom: '20px', textAlign: 'center' }}>Business Details</h1>
+
+                          <table className="table" style={{ width: '100%' }}>
+                            <tr>
+                              <th></th>
+                              <th></th>
+                              <th></th>
+                              <th></th>
+                            </tr>
+                            <tr className="summaryRow">
+                              <td className="summaryLabel">Name of Organization : </td>
+                              <td className="summaryValue">{this.state.Organization}</td>
+                              <td className="summaryLabel">Registered Date : </td>
+                              <td className="summaryValue">{moment(new Date(this.state.registeredDate)).format("YYYY-MM-DD")}</td>
+                            </tr>
+                            <tr className="summaryRow">
+                              <td className="summaryLabel">Website Link : </td>
+                              <td className="summaryValue">{this.state.website}</td>
+                              <td className="summaryLabel">Trade Register Number : </td>
+                              <td className="summaryValue">{this.state.tradeRegister}</td>
+                            </tr>
+                            <tr className="summaryRow">
+                              <td className="summaryLabel">Taxpayer Number : </td>
+                              <td className="summaryValue">{this.state.taxPayer}</td>
+                              <td></td>
+                              <td></td>
+                            </tr>
+                            <tr className="summaryRow">
+                              <td className="summaryLabel">ID Card Front Image : </td>
+                              <td className="summaryValue"><img style={{ width: "30%", height: '30%' }} src={this.state.idFrontBusinessImageFile.thumbUrl} /></td>
+                              <td className="summaryLabel">Proof of Address :</td>
+                              <td className="summaryValue"><img style={{ width: "30%", height: '30%' }} src={this.state.idAddressFile.thumbUrl} /></td>
+                            </tr>
+                          </table>
+                        </>}
 
                         <div className="col-md-12 text-center" style={{ justifyContent: "center", display: "flex", marginTop: "5%" }}>
                           <button className="btn btn-default text-white" style={{ padding: '0px' }} onClick={() => this.submitForm()}>Register</button>
@@ -949,7 +1047,7 @@ class Register extends Component {
 
                     <div className="row">
                       <div className="col-md-12 text-center" style={{ justifyContent: "center", display: "flex", marginTop: "5%" }}>
-                        <p>Already have an account? <a>Login</a></p>
+                        <p>Already have an account? <a style={{ color: "rgb(0, 81, 255)" }}>Login</a></p>
                       </div>
                     </div>
                   </div>

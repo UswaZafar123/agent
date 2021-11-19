@@ -17,19 +17,6 @@ class NavBar extends Component {
   }
 
   handleLanguage(e) {
-    // //alert(localStorage.getItem("langue"))
-    // if (e.target.value == "fr") {
-    //  localStorage.setItem("langue", "fr")
-    //   localStorage.setItem("locale", LOCALES.FRENCH)
-    //   // window.location.reload()
-    // }
-    // else if (e.target.value == "en") {
-    //   localStorage.setItem("langue", "en-US")
-    //   localStorage.setItem("locale", LOCALES.ENGLISH)
-    //   // window.location.reload()
-    // }
-    // else alert('Veuillez choisir une langue valide')
-
     localStorage.setItem("langue", e.target.value)
     this.props.language(e.target.value)
   }
@@ -40,7 +27,7 @@ class NavBar extends Component {
 
       <div className="nav nav-default" style={{ position: "fixed !important" }}>
         <div style={{ marginBottom: "auto", marginTop: "auto", marginLeft: "2%" }}>
-          <img alt="logo" src={Logo} style={{ height: "90px", width: "300px", }} />
+          <img alt="logo" src={Logo} style={{ height: "90px", width: "300px" }} />
         </div>
 
         <ReactFlagsSelect
@@ -59,32 +46,6 @@ class NavBar extends Component {
     );
   }
 }
-
-// function for mapping redux state values with props //
-// const mapStateToProps = ({ commonReducer, adminReducer }) => {
-
-
-
-//   return {
-//     checkLogin: commonReducer.checkLogin,
-//     merchantLoginStatus: commonReducer.merchantLoginStatus,
-//     userDetails: commonReducer.userDetails,
-//     getGeneralInfoData: adminReducer.getGeneralInfoData,
-//     getGeneralInfoStatus: adminReducer.getGeneralInfoStatus,
-//     twoFactorVerifyOpen: commonReducer.twoFactorVerifyOpen,
-//     twoFactorVerifySuccess: commonReducer.twoFactorVerifySuccess,
-//     loginError: sessionStorage.getItem("error")
-//   };
-// };
-
-//function for maping with dispatched actions with props //
-// const mapDispatchToProps = (dispatch) => ({
-//   LoginService: (payLoad, accessPayload) =>
-//     dispatch(LoginService(payLoad, accessPayload)),
-//   getGeneralInfo: (title,token) => dispatch(getGeneralInfo(title,token)),
-//   twoFactAuth: (payLoad, accessPayload) =>
-//     dispatch(twoFactAuth(payLoad, accessPayload)),
-// });
 
 //connect method is used for connecting react and redux //
 export default NavBar;
