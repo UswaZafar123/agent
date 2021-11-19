@@ -85,6 +85,7 @@ import LinkToBankAccount from "./Component/Agent/linking/linkAccount";
 // Cash Operations Component Import
 import CashOperations from "./Component/page/Cash Operations/CashOperations";
 import ticketReply from "./Component/Agent/ticketReply";
+import Assets from "./Component/Agent/assets";
 
 export const App = (props) => {
   return (
@@ -92,7 +93,7 @@ export const App = (props) => {
       <Switch>
         <Redirect exact from="/" to="/agent/login" />
         <Route path="/agent/login" component={Login} />
-        <Route path="/agent/individual" component={AgentRegister} />
+        {/* <Route path="/agent/individual" component={AgentRegister} /> */}
         <Route path="/agent/registration" component={Registration} />
         <Route exact path="/agent/otp-verification" component={AgentOTP} />
         <Route path="/registration" component={ChooseRegistrationAccount} />
@@ -128,6 +129,9 @@ export const App = (props) => {
                       path="/agent/walletOperation/transfert"
                       component={transfert}
                     />
+
+                    <Route path="/agent/assets" component={Assets} />
+
                     <Route
                       path="/agent/walletOperation/WalletToAccount1"
                       component={WalletToAccount1}

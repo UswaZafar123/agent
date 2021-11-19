@@ -14,7 +14,6 @@ import NonAfbCustomer from '../CustomerRegistration/nonAfbCustomer';
 import { Select, Menu, Dropdown, Modal } from 'antd';
 
 import { connect } from "react-redux";
-import { getCurrencies, getMerchantTransactionList } from "../../services/actions";
 import {Button, Col, FormGroup, Input, Label, ModalBody, ModalFooter, ModalHeader,Pagination, PaginationItem, PaginationLink} from "reactstrap";
 import Grid from "@material-ui/core/Grid";
 import FormControlLabel from "@material-ui/core/FormControlLabel";

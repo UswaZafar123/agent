@@ -11,7 +11,7 @@ import {
   addAreply,
   uploadAttachment,
   viewAttachmentFile,
-} from "../../../src/services/actions";
+} from "../../services/agent/action";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { Select, Menu, Dropdown, Modal, DatePicker } from "antd";
@@ -500,7 +500,7 @@ class Reply extends Component {
   }
 }
 
-const mapStateToProps = ({ merchantReducer }) => {
+const mapStateToProps = ({ agentReducer }) => {
   const {
     getATicketData,
     getATicketStatus,
@@ -508,7 +508,7 @@ const mapStateToProps = ({ merchantReducer }) => {
     ticketsUploadAttcahmentStatus,
     uploadedFileStatus,
     uploadedFileData,
-  } = merchantReducer;
+  } = agentReducer;
 
   return {
     getATicketData,

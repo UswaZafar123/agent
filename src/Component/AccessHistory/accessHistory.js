@@ -13,7 +13,6 @@ import { Select, Menu, Dropdown, Modal } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import Approved from "../Alerts/Approved";
 import Reject from "../Alerts/Reject";
-import { AccessHistory } from "../../services/admin/action";
 import { connect } from "react-redux";
 const { Option } = Select;
 
@@ -186,7 +185,6 @@ class AccessHistoryAdmin extends Component {
 
   componentDidMount=()=>{
 
-    this.props.AccessHistory(sessionStorage.getItem("token"))
   }
 
   componentWillReceiveProps = (nextProps) => {
@@ -400,17 +398,12 @@ class AccessHistoryAdmin extends Component {
     );
   }
 }
-const mapStateToProps = ({ adminReducer }) => {
-  const { accessHistoryStatus, accessHistoryData } = adminReducer;
-
-  return {
-    accessHistoryStatus,
-    accessHistoryData,
-  };
+const mapStateToProps = ({  }) => {
+  
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  AccessHistory: (token) => dispatch(AccessHistory(token)),
+
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccessHistoryAdmin);

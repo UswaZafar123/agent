@@ -11,7 +11,7 @@ import {
   ticketsPriorities,
   uploadAttachment,
   addTicket,
-} from "../../../src/services/actions";
+} from "../../services/agent/action";
 
 import { connect } from "react-redux";
 
@@ -166,7 +166,11 @@ class AddTicket extends Component {
         attachments: this.state.uploads,
       };
 
-      this.props.addTicket(sessionStorage.getItem("token"), payload,this.props.history);
+      this.props.addTicket(
+        sessionStorage.getItem("token"),
+        payload,
+        this.props.history
+      );
 
       this.setState({
         uploads: [],
@@ -186,7 +190,8 @@ class AddTicket extends Component {
   uploadDocuments(file) {
     // console.log("for test", file);
     if (
-      file[0].type == "image/jpeg" ||file[0].type == "image/jpg"||
+      file[0].type == "image/jpeg" ||
+      file[0].type == "image/jpg" ||
       file[0].type == "image/png" ||
       file[0].type == "application/pdf"
     ) {
@@ -410,13 +415,13 @@ class AddTicket extends Component {
     );
   }
 }
-const mapStateToProps = ({ merchantReducer }) => {
+const mapStateToProps = ({ agentReducer }) => {
   const {
     ticketsPriorityData,
     ticketsPriorityStatus,
     ticketsUploadAttcahmentData,
     ticketsUploadAttcahmentStatus,
-  } = merchantReducer;
+  } = agentReducer;
 
   return {
     ticketsPriorityData,
@@ -429,7 +434,8 @@ const mapStateToProps = ({ merchantReducer }) => {
 const mapDispatchToProps = (dispatch) => ({
   ticketsPriorities: (token) => dispatch(ticketsPriorities(token)),
   uploadAttachment: (token, data) => dispatch(uploadAttachment(token, data)),
-  addTicket: (token, payload,history) => dispatch(addTicket(token, payload,history)),
+  addTicket: (token, payload, history) =>
+    dispatch(addTicket(token, payload, history)),
 });
 
 export default withRouter(

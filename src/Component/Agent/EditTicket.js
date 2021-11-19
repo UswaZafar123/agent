@@ -11,7 +11,7 @@ import {
   uploadAttachment,
   UpdateTicket,
   viewAttachmentFile,
-} from "../../../src/services/actions";
+} from "../../../src/services/agent/action";
 import { toastr } from "react-redux-toastr";
 
 import { connect } from "react-redux";
@@ -435,7 +435,7 @@ class AddTicket extends Component {
     );
   }
 }
-const mapStateToProps = ({ merchantReducer }) => {
+const mapStateToProps = ({ agentReducer }) => {
   const {
     ticketsPriorityData,
     ticketsPriorityStatus,
@@ -443,7 +443,7 @@ const mapStateToProps = ({ merchantReducer }) => {
     ticketsUploadAttcahmentStatus,
     uploadedFileStatus,
     uploadedFileData,
-  } = merchantReducer;
+  } = agentReducer;
 
   return {
     ticketsPriorityData,

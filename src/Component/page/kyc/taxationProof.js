@@ -4,7 +4,6 @@ import validate from "./../resources/validation";
 import moment from "moment";
 import DatePicker from "react-datepicker";
 import { connect } from "react-redux";
-import { addKYCdetails, getKYCdetails } from "../../../services/actions";
 import { toastr } from "react-redux-toastr";
 
 const { Option } = Select;
@@ -122,15 +121,7 @@ class KYC extends Component {
   }
 
   componentDidMount() {
-    this.setState({ token: sessionStorage.getItem("token") });
-    this.setState({ email: sessionStorage.getItem("email") });
-    this.setState({ emailid: sessionStorage.getItem("email") });
-    this.setState({ mobileno: sessionStorage.getItem("phoneNo") });
-    this.setState({ name: sessionStorage.getItem("merchantName") });
-    this.props.getKYCdetails(
-      sessionStorage.getItem("token"),
-      sessionStorage.getItem("email")
-    );
+   
   }
 
   handleChangeSelect = (e) => {
@@ -571,117 +562,114 @@ class KYC extends Component {
           this.props.addKYCdetails(token, formData, false, submitionEmail);
         }
       }
-    }else if(this.state.kycMerchantCategory!=="Individual")
-
-
-    if (
-      this.state.addressproof == null ||
-      this.state.uploadproof == null ||
-      this.state.registereddate == "" ||this.state.taxpayernumber==""
-      
-    ) {
-      toastr.error("please fillout all the Mandatory fields marked in Red");
-    } else {
-      let id = this.state.id;
-
-      let token = sessionStorage.getItem("token");
-      let submitionEmail = localStorage.getItem("email");
-      let mobileno = parseInt(this.state.mobileno);
-      let longitude = parseInt(this.state.longitude);
-      let latitude = parseInt(this.state.latitude);
-      let dateofbirth = moment(this.state.dateOfBirthValue).format(
-        "YYYY-MM-DD"
-      );
-      let registereddate = moment(this.state.registereddate).format(
-        "YYYY-MM-DD"
-      );
-      let dateofdelivery = moment(this.state.dateofdelivery).format(
-        "YYYY-MM-DD"
-      );
-      let endofvaliditydate = moment(this.state.endofvaliditydate).format(
-        "YYYY-MM-DD"
-      );
-      let zipcode = parseInt(this.state.zipcode);
-
-      let businessClient = {
-        // "id": id,
-        client: "BusinessClient",
-        name: this.state.name,
-        dateofbirth: dateofbirth,
-        emailid: this.state.email,
-        mobileno: this.state.mobileno,
-        addressone: this.state.addressone,
-        addresstwo: this.state.addresstwo,
-        city: this.state.city,
-        state: "",
-        country: "",
-        zipcode: zipcode,
-        longitude: longitude,
-        latitude: latitude,
-
-        businessdetails: {
-          // "id": this.state.businessId,
-          nameoforganization: this.state.nameoforganization,
-          registereddate: registereddate,
-          categories: "",
-          websitelink: this.state.websitelink,
-          traderegisternumber: this.state.traderegisternumber,
-          taxpayernumber: this.state.taxpayernumber,
-        },
-        kycApprovalStatus: "PENDING_FIRST_APPROVAL",
-      };
-      let privateClient = {
-        // "id": id,
-        email: this.state.email,
-        client: "PrivateClient",
-        name: this.state.name,
-        dateofbirth: dateofbirth,
-        emailid: this.state.email,
-        mobileno: this.state.mobileno,
-        addressone: this.state.addressone,
-        addresstwo: this.state.addresstwo,
-        city: this.state.city,
-        state: "",
-        country: "",
-        zipcode: zipcode,
-        longitude: longitude,
-        latitude: latitude,
-        identityInformation: {
-          identification: this.state.identification,
-          number: this.state.number,
-          dateofdelivery: moment(new Date()).format("YYYY-MM-DD"),
-          stateofdelivery: "state",
-          endofvaliditydate: moment(new Date()).format("YYYY-MM-DD"),
-        },
-        kycApprovalStatus: "PENDING_FIRST_APPROVAL",
-      };
-
-      let formData = new FormData();
-      if (this.state.kycMerchantCategory !== "Individual") {
-        formData.append("json", JSON.stringify(businessClient));
-        formData.append("companyregistrationproof", this.state.uploadproof);
-        formData.append("taxaddressproof", this.state.addressproof);
-        formData.append("uploadproof", this.state.uploadproof);
-        formData.append("addressproof", this.state.addressproof);
-      }
-
-      if (this.state.kycMerchantCategory === "Individual") {
-        formData.append("json", JSON.stringify(privateClient));
-        formData.append("uploadproof", this.state.uploadproof);
-        formData.append("addressproof", this.state.addressproof);
-      }
-
-      console.log(this.state.addressproof, "thisstateuploadproof");
-      console.log(this.state.uploadproof, "thisstateuploadproof");
-      console.log(dateofbirth, "thisstateuploadproof");
-
-      if (id !== "") {
-        this.props.addKYCdetails(token, formData, true, submitionEmail);
+    } else if (this.state.kycMerchantCategory !== "Individual")
+      if (
+        this.state.addressproof == null ||
+        this.state.uploadproof == null ||
+        this.state.registereddate == "" ||
+        this.state.taxpayernumber == ""
+      ) {
+        toastr.error("please fillout all the Mandatory fields marked in Red");
       } else {
-        this.props.addKYCdetails(token, formData, false, submitionEmail);
-      }
+        let id = this.state.id;
 
-    }
+        let token = sessionStorage.getItem("token");
+        let submitionEmail = localStorage.getItem("email");
+        let mobileno = parseInt(this.state.mobileno);
+        let longitude = parseInt(this.state.longitude);
+        let latitude = parseInt(this.state.latitude);
+        let dateofbirth = moment(this.state.dateOfBirthValue).format(
+          "YYYY-MM-DD"
+        );
+        let registereddate = moment(this.state.registereddate).format(
+          "YYYY-MM-DD"
+        );
+        let dateofdelivery = moment(this.state.dateofdelivery).format(
+          "YYYY-MM-DD"
+        );
+        let endofvaliditydate = moment(this.state.endofvaliditydate).format(
+          "YYYY-MM-DD"
+        );
+        let zipcode = parseInt(this.state.zipcode);
+
+        let businessClient = {
+          // "id": id,
+          client: "BusinessClient",
+          name: this.state.name,
+          dateofbirth: dateofbirth,
+          emailid: this.state.email,
+          mobileno: this.state.mobileno,
+          addressone: this.state.addressone,
+          addresstwo: this.state.addresstwo,
+          city: this.state.city,
+          state: "",
+          country: "",
+          zipcode: zipcode,
+          longitude: longitude,
+          latitude: latitude,
+
+          businessdetails: {
+            // "id": this.state.businessId,
+            nameoforganization: this.state.nameoforganization,
+            registereddate: registereddate,
+            categories: "",
+            websitelink: this.state.websitelink,
+            traderegisternumber: this.state.traderegisternumber,
+            taxpayernumber: this.state.taxpayernumber,
+          },
+          kycApprovalStatus: "PENDING_FIRST_APPROVAL",
+        };
+        let privateClient = {
+          // "id": id,
+          email: this.state.email,
+          client: "PrivateClient",
+          name: this.state.name,
+          dateofbirth: dateofbirth,
+          emailid: this.state.email,
+          mobileno: this.state.mobileno,
+          addressone: this.state.addressone,
+          addresstwo: this.state.addresstwo,
+          city: this.state.city,
+          state: "",
+          country: "",
+          zipcode: zipcode,
+          longitude: longitude,
+          latitude: latitude,
+          identityInformation: {
+            identification: this.state.identification,
+            number: this.state.number,
+            dateofdelivery: moment(new Date()).format("YYYY-MM-DD"),
+            stateofdelivery: "state",
+            endofvaliditydate: moment(new Date()).format("YYYY-MM-DD"),
+          },
+          kycApprovalStatus: "PENDING_FIRST_APPROVAL",
+        };
+
+        let formData = new FormData();
+        if (this.state.kycMerchantCategory !== "Individual") {
+          formData.append("json", JSON.stringify(businessClient));
+          formData.append("companyregistrationproof", this.state.uploadproof);
+          formData.append("taxaddressproof", this.state.addressproof);
+          formData.append("uploadproof", this.state.uploadproof);
+          formData.append("addressproof", this.state.addressproof);
+        }
+
+        if (this.state.kycMerchantCategory === "Individual") {
+          formData.append("json", JSON.stringify(privateClient));
+          formData.append("uploadproof", this.state.uploadproof);
+          formData.append("addressproof", this.state.addressproof);
+        }
+
+        console.log(this.state.addressproof, "thisstateuploadproof");
+        console.log(this.state.uploadproof, "thisstateuploadproof");
+        console.log(dateofbirth, "thisstateuploadproof");
+
+        if (id !== "") {
+          this.props.addKYCdetails(token, formData, true, submitionEmail);
+        } else {
+          this.props.addKYCdetails(token, formData, false, submitionEmail);
+        }
+      }
   };
 
   dob = (date) => {
@@ -709,7 +697,7 @@ class KYC extends Component {
       <div className="main_contain kyc_parent_m">
         <div className="merch_m_list_w">
           <h1 className="m_listHeading textAlignCenter pd_t_b24">
-           Agent Management{" "}
+            Agent Management{" "}
           </h1>
           <div className="merch_list_card">
             <div className="section_custom">
@@ -1312,20 +1300,9 @@ class KYC extends Component {
 }
 
 // function for mapping redux state values with props //
-const mapStateToProps = ({ merchantReducer }) => {
-  const { addKYCStatus, getKYCDetailsStatus, getKYCDetails } = merchantReducer;
-  return {
-    addKYCStatus: addKYCStatus,
-    getKYCDetailsStatus: getKYCDetailsStatus,
-    getKYCDetails: getKYCDetails,
-  };
-};
+const mapStateToProps = ({}) => {};
 
 //function for maping with dispatched actions with props //
-const mapDispatchToProps = (dispatch) => ({
-  getKYCdetails: (token, payLoad) => dispatch(getKYCdetails(token, payLoad)),
-  addKYCdetails: (token, payLoad, status, emailid) =>
-    dispatch(addKYCdetails(token, payLoad, status, emailid)),
-});
+const mapDispatchToProps = (dispatch) => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(KYC);
