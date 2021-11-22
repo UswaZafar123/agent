@@ -91,14 +91,7 @@ class nonAfbCustomer extends Component {
     }
 
     componentDidMount () {
-        var date = new Date();
-
-        var firstDayFormat = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().split("T")[0];
-        var todayDateFormat = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString().split("T")[0];
-
-
-        this.props.getMerchantTransactionList(sessionStorage.getItem("token"), firstDayFormat,todayDateFormat,"XAF");
-        this.props.getCurrencies(sessionStorage.getItem("token"));
+        
     }
     handleChange = (value) => {
         this.state.gridApi.paginationSetPageSize(Number(value))
@@ -399,20 +392,11 @@ class nonAfbCustomer extends Component {
 }
 
 const mapStateToProps = ({ merchantReducer }) => {
-    const { getTransactionListStatus,getTransactionListData,getCurencyListData,getCurencyListDataStatus } = merchantReducer;
-    return {
-        getTransactionListData: getTransactionListData,
-        getTransactionListStatus: getTransactionListStatus,
-        getCurencyListData ,
-        getCurencyListDataStatus,
-    }
+   
 };
 
 const mapDispatchToProps = dispatch => {
-    return {
-        getMerchantTransactionList: (token, firstDayFormat,todayDateFormat,currency) => dispatch(getMerchantTransactionList(token, firstDayFormat,todayDateFormat,currency)),
-        getCurrencies: (token) => dispatch(getCurrencies(token)),
-    }
+    
 }
 
 
