@@ -1,5 +1,4 @@
 import actionType from "./actionType";
-import mainActionType from "../actionTypes";
 import initialState from "./initialState.js";
 
 const agentReducer = (state = initialState, action) => {
@@ -26,53 +25,145 @@ const agentReducer = (state = initialState, action) => {
         linkingStatus: false,
         linkingList: [],
       };
-    case mainActionType.CREATE_AGENT_BANKER_SUCCESS:
+    case actionType.CREATE_AGENT_BANKER_SUCCESS:
       return {
         ...state,
         agentIndividualRegData: action.payload,
         agentIndividualRegStatus: true,
         agentOTPStatus: false,
         agentOTPValidStatus: false,
-        agentSetPasswordStatus: false
+        agentSetPasswordStatus: false,
       };
-    case mainActionType.CREATE_AGENT_BANKER_FAILURE:
+    case actionType.CREATE_AGENT_BANKER_FAILURE:
       return {
         ...state,
         agentIndividualRegData: action.payload,
         agentIndividualRegStatus: false,
         agentOTPStatus: false,
         agentOTPValidStatus: false,
-        agentSetPasswordStatus: false
+        agentSetPasswordStatus: false,
       };
-    case mainActionType.AGENT_BANKER_OTP_SUCCESS:
+    case actionType.AGENT_BANKER_OTP_SUCCESS:
       return {
         ...state,
-        agentOTPStatus: true
+        agentOTPStatus: true,
       };
-    case mainActionType.AGENT_BANKER_OTP_FAILURE:
+    case actionType.AGENT_BANKER_OTP_FAILURE:
       return {
         ...state,
-        agentOTPStatus: false
+        agentOTPStatus: false,
       };
-    case mainActionType.AGENT_BANKER_OTP_VALID:
+    case actionType.AGENT_BANKER_OTP_VALID:
       return {
         ...state,
-        agentOTPValidStatus: true
+        agentOTPValidStatus: true,
       };
-    case mainActionType.AGENT_BANKER_OTP_INVALID:
+    case actionType.AGENT_BANKER_OTP_INVALID:
       return {
         ...state,
-        agentOTPValidStatus: false
+        agentOTPValidStatus: false,
       };
-    case mainActionType.AGENT_SET_PASSWORD_SUCCESS:
+    case actionType.AGENT_SET_PASSWORD_SUCCESS:
       return {
         ...state,
-        agentSetPasswordStatus: true
+        agentSetPasswordStatus: true,
       };
-    case mainActionType.AGENT_SET_PASSWORD_FAILED:
+    case actionType.AGENT_SET_PASSWORD_FAILED:
       return {
         ...state,
-        agentSetPasswordStatus: false
+        agentSetPasswordStatus: false,
+      };
+
+    case actionType.GET_TICKETS_PRIORITIES_SUCCESS:
+      return {
+        ...state,
+        ticketsPriorityData: action.payload,
+        ticketsPriorityStatus: true,
+      };
+
+    case actionType.GET_TICKETS_PRIORITIES_FAILURE:
+      return {
+        ...state,
+        ticketsPriorityStatus: false,
+      };
+
+    case actionType.TICKETS_UPLOAD_ATTACHMENT_SUCCESS:
+      return {
+        ...state,
+        ticketsUploadAttcahmentData: action.payload,
+        ticketsUploadAttcahmentStatus: true,
+      };
+
+    case actionType.TICKETS_UPLOAD_ATTACHMENT_FAILURE:
+      return {
+        ...state,
+        ticketsUploadAttcahmentStatus: false,
+      };
+
+    case actionType.GET_TICKETS_SUCCESS:
+      return {
+        ...state,
+        ticketsData: action.payload,
+        ticketsStatus: true,
+      };
+
+    case actionType.GET_TICKETS_FAILURE:
+      return {
+        ...state,
+        ticketsStatus: false,
+      };
+
+    case actionType.GET_TICKETS_STATUS_SUCCESS:
+      return {
+        ...state,
+        ticketStatusData: action.payload,
+        ticketDataStatus: true,
+      };
+
+    case actionType.GET_TICKETS_STATUS_DAILURE:
+      return {
+        ...state,
+        ticketDataStatus: false,
+      };
+
+    case actionType.GET_TICKETS_SUMMARY_SUCCESS:
+      return {
+        ...state,
+        ticketSummaryData: action.payload,
+        ticketSummaryStatus: true,
+      };
+
+    case actionType.GET_TICKETS_SUMMARY_FAILURE:
+      return {
+        ...state,
+        ticketSummaryStatus: false,
+      };
+
+    case actionType.GET_A_TICKET_SUCCESS:
+      return {
+        ...state,
+        getATicketData: action.payload,
+        getATicketStatus: true,
+      };
+
+    case actionType.GET_A_TICKET_FAILURE:
+      return {
+        ...state,
+        getATicketStatus: false,
+      };
+
+    case actionType.GET_TICKET_UPLOADED_FILE_SUCCESS:
+      return {
+        ...state,
+        uploadedFileStatus: true,
+        uploadedFileData: action.payload,
+      };
+
+    case actionType.GET_TICKET_UPLOADED_FILE_FAILURE:
+      return {
+        ...state,
+        uploadedFileStatus: false,
+        uploadedFileData: null,
       };
     /**
      * Customer Validation Reducer State Update

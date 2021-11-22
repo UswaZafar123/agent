@@ -19,7 +19,6 @@ import Back from  "../../../Assets/images/back.png";
 import { ReactCountryDropdown } from 'react-country-dropdown'
 import 'react-country-dropdown/dist/index.css'
 import validate from "../../resources/validation";
-import {verifyAccount} from "../../../services/actions";
 import { Row, Col, Tabs, Tab } from 'react-bootstrap';
 import { toastr } from 'react-redux-toastr';
 

@@ -15,24 +15,32 @@ const customerValidationState = {
 };
 
 const initialState = {
-  agentLoginstatus : false,
+  agentLoginstatus: false,
   linkingStatus: false,
-  linkingList:null,
-  agentIndividualRegData : [],
-  agentIndividualRegStatus : false,
-  agentOTPStatus : false,
-  agentOTPValidStatus : false,
-  agentSetPasswordStatus : false,
-  //viewProPicStatus: false
-  
-  /**
-   * 
-  */
+  linkingList: null,
+  agentIndividualRegData: [],
+  agentIndividualRegStatus: false,
+  agentOTPStatus: false,
+  agentOTPValidStatus: false,
+  agentSetPasswordStatus: false,
+  getATicketStatus: false,
+  ticketsPriorityData: null,
+  ticketsPriorityStatus: false,
+  ticketsUploadAttcahmentData: null,
+  ticketsUploadAttcahmentStatus: false,
+  ticketsData: null,
+  ticketsStatus: false,
+  ticketStatusData: null,
+  ticketDataStatus: false,
+  ticketSummaryData: null,
+  ticketSummaryStatus: false,
+  getATicketData: null,
+  getATicketStatus: false,
+  uploadedFileStatus: false,
+  uploadedFileData: null,
+  //   viewProPicStatus: false
   profile: profileState,
   walletAccount: walletAccountState,
   customerValidation: customerValidationState
-  /**
-   * 
-  */
 };
 export default initialState;

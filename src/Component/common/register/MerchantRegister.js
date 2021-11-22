@@ -14,7 +14,6 @@ import DatePicker from "react-datepicker";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import NavBar from "./NavBar";
-import { sendVerification,registration,verifyMerchantAccount } from "../../../services/actions";
 import {toastr} from 'react-redux-toastr'
 class MerchantRegister extends Component {
   constructor() {

@@ -21,7 +21,6 @@ import { Select, Menu, Dropdown, Modal } from 'antd';
 import { connect } from "react-redux";
 import success from '../../Assets/images/confirm.svg';
 
-import { getCurrencies, getMerchantTransactionList } from "../../services/actions";
 import AfbCustomer from "../CustomerRegistration/AfbCustomer";
 import {Button, Input, Label, ModalBody, ModalFooter, ModalHeader,Pagination, PaginationItem, PaginationLink} from "reactstrap";
 import Grid from "@material-ui/core/Grid";
