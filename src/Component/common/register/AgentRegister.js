@@ -19,8 +19,8 @@ class Register extends Component {
     super();
     this.state = {
       accountType: "",
-      setExpirationDate: new Date(),
-      dob: new Date(),
+      setExpirationDate: "",
+      dob: "",
       bankcustomerType: "",
       firstName: "",
       lastName: "",
@@ -676,6 +676,7 @@ class Register extends Component {
                     <div style={{ position: "relative", display: "flex" }}>
                       <DatePicker
                         selected={this.state.dob}
+                        placeholderText="Date Of Birth"
                         dateFormat="dd-MM-yyyy"
                         isClearable
                         onChange={(date) => this.dateofbirth(date)}
@@ -867,6 +868,7 @@ class Register extends Component {
                       <div style={{ position: "relative", display: "flex" }}>
                         <DatePicker
                           selected={this.state.setExpirationDate}
+                          placeholderText="Expiration Date"
                           dateFormat="dd-MM-yyyy"
                           isClearable
                           onChange={(date) => this.setExpirationDate(date)}

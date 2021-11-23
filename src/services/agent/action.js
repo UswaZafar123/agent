@@ -15,10 +15,12 @@ export const RegisterService = (payload) => (dispatch) => {
       "Content-Type": "mulitpart/form-data",
     },
   };
+  dispatch(ShowLoading());
   axios(config)
     .then((res) => {
       if (res.status === 200) {
         // toastr.success("Registration Successful");
+        dispatch(HideLoading());
         dispatch({
           type: actionType.CREATE_AGENT_BANKER_SUCCESS,
           payload: res.data,
@@ -26,9 +28,73 @@ export const RegisterService = (payload) => (dispatch) => {
       }
     })
     .catch((error) => {
+      dispatch(HideLoading());
       toastr.warning("Registration Error");
       dispatch({
         type: actionType.CREATE_AGENT_BANKER_FAILURE,
+        payload: error,
+      });
+    });
+};
+
+export const sendAgentKYC = (token, payload) => (dispatch) => {
+  const config = {
+    method: "POST",
+    url: URL.agent.UPDATE_KYC,
+    data: payload,
+    headers: {
+      "Content-Type": "multipart/form-data",
+      Authorization: "Bearer " + token,
+    },
+  };
+  dispatch(ShowLoading());
+  axios(config)
+    .then((res) => {
+      if (res.status === 200) {
+        toastr.success("KYC Send Successful");
+        dispatch(HideLoading());
+        dispatch(getAgentKYC(token));
+        dispatch({
+          type: actionType.SEND_KYC_SUCCESS,
+          payload: res.data,
+        });
+      }
+    })
+    .catch((error) => {
+      toastr.warning("KYC Send Error!");
+      dispatch(HideLoading());
+      dispatch({
+        type: actionType.SEND_KYC_FAILURE,
+        payload: error,
+      });
+    });
+};
+
+export const getAgentKYC = (token) => (dispatch) => {
+  const config = {
+    method: "GET",
+    url: URL.agent.GET_KYC,
+    headers: {
+      Authorization: "Bearer " + token,
+    },
+  };
+  dispatch(ShowLoading());
+  axios(config)
+    .then((res) => {
+      if (res.status === 200) {
+        dispatch(HideLoading());
+        toastr.success("KYC Get Successful");
+        dispatch({
+          type: actionType.GET_KYC_SUCCESS,
+          payload: res.data,
+        });
+      }
+    })
+    .catch((error) => {
+      dispatch(HideLoading());
+      toastr.warning("KYC Get Error!");
+      dispatch({
+        type: actionType.GET_KYC_FAILURE,
         payload: error,
       });
     });
@@ -469,7 +535,7 @@ export const addTicket = (token, payload, history) => (dispatch) => {
         history.push({ pathname: "/agent/tickets" });
       }
     })
-    .catch((error) => {});
+    .catch((error) => { });
 };
 export const UpdateTicket = (token, payload, ticketNo, history) => (
   dispatch
@@ -494,7 +560,7 @@ export const UpdateTicket = (token, payload, ticketNo, history) => (
         dispatch(getTickets(token));
       }
     })
-    .catch((error) => {});
+    .catch((error) => { });
 };
 export const addAreply = (token, data, ticketNo) => (dispatch) => {
   dispatch(uploadAttachmentFalse());
@@ -515,7 +581,7 @@ export const addAreply = (token, data, ticketNo) => (dispatch) => {
         dispatch(getATicket(token, ticketNo));
       }
     })
-    .catch((error) => {});
+    .catch((error) => { });
 };
 
 export const viewAttachmentFileFalse = () => (dispatch) => {

@@ -165,6 +165,32 @@ const agentReducer = (state = initialState, action) => {
         uploadedFileStatus: false,
         uploadedFileData: null,
       };
+    case actionType.SEND_KYC_SUCCESS:
+      return {
+        ...state,
+        kycSendStatus: true,
+        kycSendData: action.payload,
+      };
+    case actionType.SEND_KYC_FAILURE:
+      return {
+        ...state,
+        kycSendStatus: false,
+        kycSendData: action.payload,
+      };
+    case actionType.GET_KYC_SUCCESS:
+      return {
+        ...state,
+        kycGetStatus: true,
+        kycGetData: action.payload,
+        kycSendStatus: false,
+        kycSendData: null,
+      };
+    case actionType.GET_KYC_FAILURE:
+      return {
+        ...state,
+        kycGetStatus: false,
+        kycGetData: action.payload,
+      };
     default:
       return state;
   }

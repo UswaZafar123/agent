@@ -274,6 +274,8 @@ const configUrl = {
     GET_TICKETS:`${API}agent/user/ticket`,
     GET_TICKETS_SUMMARY:`${API}agent/user/ticket/summary`,
     GET_TICKETS_STATUS:`${API}agent/user/ticket/status`,
+
+    GET_KYC : `${AgentApi}api/agencyBanking/getKYC`,
     UPDATE_KYC:`${AgentApi}api-public/AgentRegistration/agentKYC`,
   },
 };

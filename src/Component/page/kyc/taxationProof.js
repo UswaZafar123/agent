@@ -1,10 +1,13 @@
 import React, { Component } from "react";
-import { Select, Upload } from "antd";
+import { Select, Upload, Modal, Button } from "antd";
 import validate from "./../resources/validation";
 import moment from "moment";
 import DatePicker from "react-datepicker";
 import { connect } from "react-redux";
 import { toastr } from "react-redux-toastr";
+import { getAgentKYC, sendAgentKYC, sendAgentOTP } from "../../../services/agent/action";
+import OtpInput from "react-otp-input";
+
 
 const { Option } = Select;
 
@@ -25,7 +28,7 @@ class KYC extends Component {
       uploadFile: null,
       gridApi: null,
       isModalVisible: false,
-      kycMerchantCategory: null,
+      kycMerchantCategory: "Individual",
       view: false,
       uploadproof: null,
       addressproof: null,
@@ -117,11 +120,75 @@ class KYC extends Component {
       uploadproofContentType: "",
       addressproofContentType: "",
       record: null,
+
+      uploadProofVisible: false,
+      previewUploadProof: "",
+      previewUploadTitle: "",
+
+      addressProofVisible: false,
+      previewAddressProof: "",
+      previewAddressTitle: "",
+
+      otp: "",
+      isOTPSent: false,
+      OTPModalVisible: false,
+      isResendOTPDisabled: true,
     };
   }
 
+  getBase64UploadProof(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  }
+
+  getBase64AddressProof(file) {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+    });
+  }
+
+  handleCancelUploadImage = () => this.setState({ uploadProofVisible: false });
+
+  handleCancelAddressImage = () => this.setState({ addressProofVisible: false });
+
+
+  handlePreviewUploadProof = async (file) => {
+    if (!file.url && !file.preview) {
+      file.preview = await this.getBase64UploadProof(file.originFileObj);
+    }
+
+    this.setState({
+      previewUploadProof: file.url || file.preview,
+      uploadProofVisible: true,
+      previewUploadTitle:
+        file.name || file.url.substring(file.url.lastIndexOf("/") + 1),
+    });
+  };
+
+  handlePreviewAddressProof = async (file) => {
+    if (!file.url && !file.preview) {
+      file.preview = await this.getBase64AddressProof(file.originFileObj);
+    }
+
+    this.setState({
+      previewAddressProof: file.url || file.preview,
+      addressProofVisible: true,
+      previewAddressTitle:
+        file.name || file.url.substring(file.url.lastIndexOf("/") + 1),
+    });
+  };
+
   componentDidMount() {
-   
+
+    this.props.getAgentKYC(sessionStorage.getItem("token"));
+
   }
 
   handleChangeSelect = (e) => {
@@ -134,144 +201,172 @@ class KYC extends Component {
 
   componentWillReceiveProps = (nextprops) => {
     if (this.state.refreshtokenState == 0) {
-      if (nextprops.getKYCDetailsStatus) {
-        // this.setState({
-        // 	refreshtokenState: this.state.refreshtokenState+1
-        // });
 
-        let record = nextprops.getKYCDetails.kyc;
-
-        //let dateOfBirthValue = new Date();
-
-        if (record) {
-          this.setState({ record: nextprops.getKYCDetails.kyc });
-
-          if (record.dateofbirth != "Invalid date" && record.dateofbirth) {
-            var dateOfBirthValue = new Date(
-              record.dateofbirth
-                .toString()
-                .replace(/(\d{2})-(\d{2})-(\d{4})/, "$3/$1/$2")
-            );
-            console.log(record.dateofbirth, "dateOfbirth");
-          } else {
-            var dateOfBirthValue = null;
-          }
-        }
-
-        //console.log(dateOfBirthValue,"date obj")
-        if (record) {
-          this.setState(
-            {
-              kycMerchantCategory: record.client,
-              id: record.id ? record.id : "",
-              client: record.client,
-              merchantType: record.client,
-              name: record.name,
-              dateOfBirthValue: dateOfBirthValue,
-              emailid: record.emailid,
-              mobileno: record.mobileno,
-              addressone: record.addressone,
-              addresstwo: record.addresstwo,
-              city: record.city,
-              //	merchantType: record.merchantType,
-              state: record.state,
-              country: record.country,
-              zipcode: record.zipcode,
-              longitude: record.longitude,
-              latitude: record.latitude,
-              getGeneralInfoStatus: true,
-              formValid: true,
-              businessId: record.businessdetails
-                ? record.businessdetails.id
-                : null,
-            },
-            () => {
-              console.log(this.state.merchantType, "callbackvaluetype");
-              if (this.state.client === "BusinessClient") {
-                if (record.businessdetails) {
-                  if (
-                    new Date(record.businessdetails.registereddate) !==
-                      "Invalid Date" &&
-                    !isNaN(new Date(record.businessdetails.registereddate))
-                  ) {
-                    var registereddate = new Date(
-                      record.businessdetails.registereddate
-                        .toString()
-                        .replace(/(\d{2})-(\d{2})-(\d{4})/, "$3/$1/$2")
-                    );
-                  } else {
-                    registereddate = null;
-                  }
-                }
-                if (record.businessdetails) {
-                  this.setState(
-                    {
-                      nameoforganization:
-                        record.businessdetails.nameoforganization,
-                      registereddate,
-                      categories: record.businessdetails,
-                      websitelink: record.businessdetails.websitelink,
-                      traderegisternumber:
-                        record.businessdetails.traderegisternumber,
-                      taxpayernumber: record.businessdetails.taxpayernumber,
-                      uploadproof: record.businessdetails.companyregisterproof,
-                      showuploadproof:
-                        record.businessdetails.companyregisterproof,
-                      showaddressproof:
-                        record.businessdetails.taxationofficeaddressproof,
-                      comRegProofContentType:
-                        record.businessdetails.companyRegProofContentType,
-                      taxProofContentType:
-                        record.businessdetails.taxOfficeAddressProofContentType,
-                      addressproof:
-                        record.businessdetails.taxationofficeaddressproof,
-                      edit: true,
-                      uploadproofValid: true,
-                      traderegisternumberValid: true,
-                      taxpayernumberValid: true,
-                      addressproofValid: true,
-                      registereddateValid: true,
-                      nameoforganizationValid: true,
-                      merchantTypeValid: true,
-                    },
-                    () => {
-                      //this.validateForm()
-                    }
-                  );
-                }
-              }
-              if (this.state.client == "PrivateClient") {
-                let dateofdelivery = new Date(
-                  record.identityInformation.dateofdelivery
-                );
-                let endofvaliditydate = new Date(
-                  record.identityInformation.endofvaliditydate
-                );
-                this.setState({
-                  kycMerchantCategory: "Individual",
-                  identification: record.identityInformation.identification,
-                  number: record.identityInformation.number,
-                  dateofdelivery,
-                  stateofdelivery: record.identityInformation.stateofdelivery,
-                  endofvaliditydate,
-                  comRegProofContentType:
-                    record.identityInformation.uploadProofContentType,
-                  taxProofContentType:
-                    record.identityInformation.addressProofContentType,
-                  addressproof: record.identityInformation.addressproof,
-                  formValid: true,
-                });
-              }
-            }
-          );
-        }
-      } else {
-        this.setState({
-          sampleState: true,
-        });
+      if (nextprops.kycSendStatus) {
+        window.location.reload(false);
       }
+
+      if (nextprops.kycGetStatus) {
+        console.log(nextprops.kycGetData, "KYC GET DATA");
+        this.setGetKYCDataToFields(nextprops.kycGetData)
+      }
+
+      // if (nextprops.getKYCDetailsStatus) {
+      //   // this.setState({
+      //   // 	refreshtokenState: this.state.refreshtokenState+1
+      //   // });
+
+      //   let record = nextprops.getKYCDetails.kyc;
+
+      //   //let dateOfBirthValue = new Date();
+
+      //   if (record) {
+      //     this.setState({ record: nextprops.getKYCDetails.kyc });
+
+      //     if (record.dateofbirth != "Invalid date" && record.dateofbirth) {
+      //       var dateOfBirthValue = new Date(
+      //         record.dateofbirth
+      //           .toString()
+      //           .replace(/(\d{2})-(\d{2})-(\d{4})/, "$3/$1/$2")
+      //       );
+      //       console.log(record.dateofbirth, "dateOfbirth");
+      //     } else {
+      //       var dateOfBirthValue = null;
+      //     }
+      //   }
+
+      //   //console.log(dateOfBirthValue,"date obj")
+      //   if (record) {
+      //     this.setState(
+      //       {
+      //         kycMerchantCategory: record.client,
+      //         id: record.id ? record.id : "",
+      //         client: record.client,
+      //         merchantType: record.client,
+      //         name: record.name,
+      //         dateOfBirthValue: dateOfBirthValue,
+      //         emailid: record.emailid,
+      //         mobileno: record.mobileno,
+      //         addressone: record.addressone,
+      //         addresstwo: record.addresstwo,
+      //         city: record.city,
+      //         //	merchantType: record.merchantType,
+      //         state: record.state,
+      //         country: record.country,
+      //         zipcode: record.zipcode,
+      //         longitude: record.longitude,
+      //         latitude: record.latitude,
+      //         getGeneralInfoStatus: true,
+      //         formValid: true,
+      //         businessId: record.businessdetails
+      //           ? record.businessdetails.id
+      //           : null,
+      //       },
+      //       () => {
+      //         console.log(this.state.merchantType, "callbackvaluetype");
+      //         if (this.state.client === "BusinessClient") {
+      //           if (record.businessdetails) {
+      //             if (
+      //               new Date(record.businessdetails.registereddate) !==
+      //               "Invalid Date" &&
+      //               !isNaN(new Date(record.businessdetails.registereddate))
+      //             ) {
+      //               var registereddate = new Date(
+      //                 record.businessdetails.registereddate
+      //                   .toString()
+      //                   .replace(/(\d{2})-(\d{2})-(\d{4})/, "$3/$1/$2")
+      //               );
+      //             } else {
+      //               registereddate = null;
+      //             }
+      //           }
+      //           if (record.businessdetails) {
+      //             this.setState(
+      //               {
+      //                 nameoforganization:
+      //                   record.businessdetails.nameoforganization,
+      //                 registereddate,
+      //                 categories: record.businessdetails,
+      //                 websitelink: record.businessdetails.websitelink,
+      //                 traderegisternumber:
+      //                   record.businessdetails.traderegisternumber,
+      //                 taxpayernumber: record.businessdetails.taxpayernumber,
+      //                 uploadproof: record.businessdetails.companyregisterproof,
+      //                 showuploadproof:
+      //                   record.businessdetails.companyregisterproof,
+      //                 showaddressproof:
+      //                   record.businessdetails.taxationofficeaddressproof,
+      //                 comRegProofContentType:
+      //                   record.businessdetails.companyRegProofContentType,
+      //                 taxProofContentType:
+      //                   record.businessdetails.taxOfficeAddressProofContentType,
+      //                 addressproof:
+      //                   record.businessdetails.taxationofficeaddressproof,
+      //                 edit: true,
+      //                 uploadproofValid: true,
+      //                 traderegisternumberValid: true,
+      //                 taxpayernumberValid: true,
+      //                 addressproofValid: true,
+      //                 registereddateValid: true,
+      //                 nameoforganizationValid: true,
+      //                 merchantTypeValid: true,
+      //               },
+      //               () => {
+      //                 //this.validateForm()
+      //               }
+      //             );
+      //           }
+      //         }
+      //         if (this.state.client == "PrivateClient") {
+      //           let dateofdelivery = new Date(
+      //             record.identityInformation.dateofdelivery
+      //           );
+      //           let endofvaliditydate = new Date(
+      //             record.identityInformation.endofvaliditydate
+      //           );
+      //           this.setState({
+      //             kycMerchantCategory: "Individual",
+      //             identification: record.identityInformation.identification,
+      //             number: record.identityInformation.number,
+      //             dateofdelivery,
+      //             stateofdelivery: record.identityInformation.stateofdelivery,
+      //             endofvaliditydate,
+      //             comRegProofContentType:
+      //               record.identityInformation.uploadProofContentType,
+      //             taxProofContentType:
+      //               record.identityInformation.addressProofContentType,
+      //             addressproof: record.identityInformation.addressproof,
+      //             formValid: true,
+      //           });
+      //         }
+      //       }
+      //     );
+      //   }
+      // } else {
+      //   this.setState({
+      //     sampleState: true,
+      //   });
+      // }
     }
   };
+
+  setGetKYCDataToFields = (data) => {
+
+    // console.log(new Date(data.dateOfBirth),"NEW SEt")
+
+    this.setState({
+      addressone: data.address,
+      city: data.city,
+      email: data.emailAddress,
+      latitude: data.latitude,
+      longitude: data.longitude,
+      mobileno: data.phoneNo,
+      dateOfBirthValue: new Date(data.dateOfBirth),
+      number: data.idDocuments[0].documentIdNumber,
+      endofvaliditydate: new Date(data.idDocuments[0].documentExpiryDate)
+    });
+
+  }
 
   getGeo = () => {
     if (navigator.geolocation) {
@@ -290,7 +385,7 @@ class KYC extends Component {
 
   handleChange = (e) => {
     localStorage.setItem("statusCode", "");
-    console.log(e.target.value, "valueeeee");
+    // console.log(e.target.value, "valueeeee");
     let name = e.target.name;
     let value = e.target.value;
     this.setState(
@@ -404,8 +499,8 @@ class KYC extends Component {
         } else {
           toastr.error(
             "unsupported file size please select less than 10 Mb and your file size is " +
-              size +
-              "Mb"
+            size +
+            "Mb"
           );
         }
       } else {
@@ -425,7 +520,7 @@ class KYC extends Component {
       }
     }
 
-    console.log(fileList, "fileList");
+    // console.log(fileList, "fileList");
 
     // if (
     //   e.target.files[0].type == "application/pdf" ||
@@ -453,6 +548,65 @@ class KYC extends Component {
     // console.log(this.state.addressproof.name, "states");
   };
 
+  showOTPModal = () => {
+
+    if (!this.state.isOTPSent) {
+      this.sendOTP();
+      this.startResendTimeout();
+    }
+
+    this.setState({
+      OTPModalVisible: true
+    });
+  }
+
+  startResendTimeout = () => {
+
+    this.setState({
+      isResendOTPDisabled: true
+    });
+
+    setTimeout(() => {
+
+      this.setState({
+        isResendOTPDisabled: false
+      });
+
+    }, 10000);
+  }
+
+  sendOTP = () => {
+    const data = {
+      phoneNumber: this.state.mobileno,
+    };
+
+    this.props.sendAgentOTP(data);
+    console.log("SENDING OTP..");
+
+    this.setState({
+      isOTPSent: true,
+      isResendOTPDisabled: true
+    });
+
+  }
+
+  resendOTP = () => {
+    this.sendOTP();
+    this.startResendTimeout();
+  }
+
+  handleCancelOTPModal = () => {
+    this.setState({
+      OTPModalVisible: false
+    });
+  }
+
+  setOtp = (e) => {
+    this.setState({
+      otp: e
+    });
+  }
+
   SubmitForm = () => {
     if (this.state.kycMerchantCategory == "Individual") {
       if (
@@ -463,11 +617,11 @@ class KYC extends Component {
       ) {
         toastr.error("please fillout all the Mandatory fields marked in Red");
       } else {
-        let id = this.state.id;
+        // let id = this.state.id;
 
         let token = sessionStorage.getItem("token");
-        let submitionEmail = localStorage.getItem("email");
-        let mobileno = parseInt(this.state.mobileno);
+        // let submitionEmail = localStorage.getItem("email");
+        // let mobileno = parseInt(this.state.mobileno);
         let longitude = parseInt(this.state.longitude);
         let latitude = parseInt(this.state.latitude);
         let dateofbirth = moment(this.state.dateOfBirthValue).format(
@@ -511,31 +665,38 @@ class KYC extends Component {
           },
           kycApprovalStatus: "PENDING_FIRST_APPROVAL",
         };
-        let privateClient = {
-          // "id": id,
-          email: this.state.email,
-          client: "PrivateClient",
-          name: this.state.name,
-          dateofbirth: dateofbirth,
-          emailid: this.state.email,
-          mobileno: this.state.mobileno,
-          addressone: this.state.addressone,
-          addresstwo: this.state.addresstwo,
-          city: this.state.city,
-          state: "",
-          country: "",
-          zipcode: zipcode,
-          longitude: longitude,
-          latitude: latitude,
-          identityInformation: {
-            identification: this.state.identification,
-            number: this.state.number,
-            dateofdelivery: moment(new Date()).format("YYYY-MM-DD"),
-            stateofdelivery: "state",
-            endofvaliditydate: moment(new Date()).format("YYYY-MM-DD"),
-          },
-          kycApprovalStatus: "PENDING_FIRST_APPROVAL",
-        };
+        // let privateClient = {
+        //   // "id": id,
+        //   email: this.state.email,
+        //   // client: "PrivateClient",
+        //   // name: this.state.name,
+        //   dateOfBirth: dateofbirth,
+        //   // email: this.state.email,
+        //   mobileNumber: this.state.mobileno,
+        //   address: this.state.addressone,
+        //   // addresstwo: this.state.addresstwo,
+        //   city: this.state.city,
+        //   // state: "",
+        //   // country: "",
+        //   // zipcode: zipcode,
+        //   longitude: longitude,
+        //   latitude: latitude,
+        //   IdDocumentFile: this.state.uploadproof,
+        //   addressproof: this.state.addressproof,
+        //   idDocumentType: "ID_DOCUMENT",
+        //   idDocumentNumber: this.state.number,
+        //   idDocumentExpiryDate: this.state.endofvaliditydate
+        //   // agentDOB : dateofbirth,
+        //   // mfaToken : "909106"
+        //   // identityInformation: {
+        //   //   identification: this.state.identification,
+        //   //   number: this.state.number,
+        //   //   dateofdelivery: moment(new Date()).format("YYYY-MM-DD"),
+        //   //   stateofdelivery: "state",
+        //   //   endofvaliditydate: moment(new Date()).format("YYYY-MM-DD"),
+        //   // },
+        //   // kycApprovalStatus: "PENDING_FIRST_APPROVAL",
+        // };
 
         let formData = new FormData();
         if (this.state.kycMerchantCategory !== "Individual") {
@@ -547,20 +708,45 @@ class KYC extends Component {
         }
 
         if (this.state.kycMerchantCategory === "Individual") {
-          formData.append("json", JSON.stringify(privateClient));
-          formData.append("uploadproof", this.state.uploadproof);
+          formData.append("email", this.state.email);
+          formData.append("dateOfBirth", moment(new Date(this.state.dateOfBirthValue)).format("YYYY-MM-DD"));
+          formData.append("mobileNumber", this.state.mobileno);
+          formData.append("address", this.state.addressone);
+          formData.append("city", this.state.city);
+          formData.append("longitude", longitude);
+          formData.append("mfaToken", this.state.otp);
+          formData.append("latitude", latitude);
+          formData.append("IdDocumentFile", this.state.uploadproof);
           formData.append("addressproof", this.state.addressproof);
+          formData.append("idDocumentType", "ID_DOCUMENT");
+          formData.append("idDocumentNumber", this.state.number);
+          formData.append("idDocumentExpiryDate", moment(new Date(this.state.endofvaliditydate)).format("YYYY-MM-DD"));
+
+          // formData.append("json", JSON.stringify(privateClient));
+          // formData.append("uploadproof", this.state.uploadproof);
+          // formData.append("addressproof", this.state.addressproof);
         }
 
-        console.log(this.state.addressproof, "thisstateuploadproof");
-        console.log(this.state.uploadproof, "thisstateuploadproof");
-        console.log(dateofbirth, "thisstateuploadproof");
+        // console.log(this.state.addressproof, "thisstateuploadproof");
+        // console.log(this.state.uploadproof, "thisstateuploadproof");
+        // console.log(dateofbirth, "thisstateuploadproof");
 
-        if (id !== "") {
-          this.props.addKYCdetails(token, formData, true, submitionEmail);
-        } else {
-          this.props.addKYCdetails(token, formData, false, submitionEmail);
-        }
+        // if (id !== "") {
+        //   this.props.addKYCdetails(token, formData, true, submitionEmail);
+        // } else {
+        //   this.props.addKYCdetails(token, formData, false, submitionEmail);
+        // }
+        // console.log("INDIVIDUAL FORMDATA");
+        // for (var pair of formData.entries()) {
+
+        //   console.log(pair[0] + ', ' + pair[1]);
+        // }
+
+        this.props.sendAgentKYC(token, formData);
+
+        this.setState({
+          OTPModalVisible: false
+        });
       }
     } else if (this.state.kycMerchantCategory !== "Individual")
       if (
@@ -660,21 +846,34 @@ class KYC extends Component {
           formData.append("addressproof", this.state.addressproof);
         }
 
-        console.log(this.state.addressproof, "thisstateuploadproof");
-        console.log(this.state.uploadproof, "thisstateuploadproof");
-        console.log(dateofbirth, "thisstateuploadproof");
+        // console.log(this.state.addressproof, "thisstateuploadproof");
+        // console.log(this.state.uploadproof, "thisstateuploadproof");
+        // console.log(dateofbirth, "thisstateuploadproof");
 
-        if (id !== "") {
-          this.props.addKYCdetails(token, formData, true, submitionEmail);
-        } else {
-          this.props.addKYCdetails(token, formData, false, submitionEmail);
-        }
+        // if (id !== "") {
+        //   this.props.addKYCdetails(token, formData, true, submitionEmail);
+        // } else {
+        //   this.props.addKYCdetails(token, formData, false, submitionEmail);
+        // }
+
+        // Display the key/value pairs
+        // for (var pair of formData.entries()) {
+        //   console.log("OTHER FORMDATA");
+        //   console.log(pair[0] + ', ' + pair[1]);
+        // }
       }
   };
 
   dob = (date) => {
+    // console.log(date);
     this.setState({
       dateOfBirthValue: date,
+    });
+  };
+
+  identityExpiry = (date) => {
+    this.setState({
+      endofvaliditydate: date,
     });
   };
 
@@ -685,7 +884,7 @@ class KYC extends Component {
   };
 
   render() {
-    console.log(this.state);
+    // console.log(this.state);
 
     const uploadButton = (
       <div>
@@ -771,12 +970,12 @@ class KYC extends Component {
                             />
                           </div>
                           <div className="formCol">
-                            <label className="formColLabel">Email Id</label>
+                            <label className="formColLabel">Email</label>
                             <input
                               type="text"
-                              name="emailid"
+                              name="email"
                               placeholder="abc@gmail.com"
-                              value={this.state.emailid}
+                              value={this.state.email}
                               onChange={this.handleChange}
                             />
                           </div>
@@ -835,7 +1034,7 @@ class KYC extends Component {
                         </div>
                         <div className="mapformrow formRow">
                           <div className="formCol">
-                            <label className="formColLabel">Longitutde</label>
+                            <label className="formColLabel">Longitude</label>
                             <input
                               type="text"
                               placeholder="55.3781° N"
@@ -865,7 +1064,121 @@ class KYC extends Component {
                     </div>
                     {this.state.kycMerchantCategory == "Individual" && (
                       <>
-                        <div className="formCol selectedfilew">
+
+                        <div
+                          className="col-md-12"
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-around",
+                            marginTop: "70px",
+                            marginBottom: "70px",
+                          }}
+                        >
+
+                          <div
+                            className="col-md-6 float-left"
+                            style={{ float: "left", marginRight: "5px" }}
+                          >
+                            <div style={{ textAlign: "center" }}>
+                              <Upload
+                                listType="picture-card"
+                                maxCount={1}
+                                customRequest={dummyRequest}
+                                onPreview={this.handlePreviewUploadProof}
+                                onChange={(file) =>
+                                  this.handleChangeFile(file, "uploadproof")
+                                }
+                                fileList={this.state.uploadFile}
+                              >
+                                {uploadButton}
+                              </Upload>
+                              <Modal
+                                visible={this.state.uploadProofVisible}
+                                title={this.state.previewUploadTitle}
+                                footer={null}
+                                onCancel={this.handleCancelUploadImage}
+                              >
+                                <img
+                                  style={{ width: "100%" }}
+                                  src={this.state.previewUploadProof}
+                                />
+                              </Modal>
+                              <p style={{ color: "darkgray", paddingRight: '10px' }}>
+                                Upload Proof
+                              </p>
+                            </div>
+                          </div>
+                          <div
+                            className="col-md-6 float-left"
+                            style={{ float: "left", marginRight: "5px" }}
+                          >
+                            <div style={{ textAlign: "center" }}>
+
+                              <Upload
+                                listType="picture-card"
+                                customRequest={dummyRequest}
+                                maxCount={1}
+                                onPreview={this.handlePreviewAddressProof}
+                                onChange={(file) =>
+                                  this.handleChangeFile(file, "addressproof")
+                                }
+                                fileList={this.state.addressFile}
+                              >
+                                {uploadButton}
+                              </Upload>
+                              <Modal
+                                visible={this.state.addressProofVisible}
+                                title={this.state.previewAddressTitle}
+                                footer={null}
+                                onCancel={this.handleCancelAddressImage}
+                              >
+                                <img
+                                  style={{ width: "100%" }}
+                                  src={this.state.previewAddressProof}
+                                />
+                              </Modal>
+                              <p style={{ color: "darkgray", paddingRight: '10px' }}>
+                                Address Proof
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                        {/* <div className="formCol">
+                          <label className="formColLabel">
+                            Upload Proof
+                          </label>
+                          <Upload
+                            listType="picture-card"
+                            customRequest={dummyRequest}
+                            onChange={(file) =>
+                              this.handleChangeFile(file, "uploadproof")
+                            }
+                            fileList={this.state.uploadFile}
+                          >
+                            {uploadButton}
+                          </Upload>
+                        </div>
+
+                        <div className="formCol">
+                          <label
+                            className="formColLabel"
+                            style={{ marginBottom: "0px" }}
+                          >
+                            Address Proof
+                          </label>
+                          <Upload
+                            listType="picture-card"
+                            customRequest={dummyRequest}
+                            onChange={(file) =>
+                              this.handleChangeFile(file, "addressproof")
+                            }
+                            fileList={this.state.addressFile}
+                            onPreview={true}
+                          >
+                            {uploadButton}
+                          </Upload>
+                        </div> */}
+                        {/* <div className="formCol selectedfilew">
                           <div>
                             <label
                               className="formColLabel"
@@ -873,43 +1186,10 @@ class KYC extends Component {
                             >
                               Upload Proof * :{" "}
                             </label>
-                            {/* <label
-                                  className="formColLabel colorfileSele"
-                                  style={{ marginBottom: "0px" }}
-                                >
-                                  {this.state.uploadproof && (
-                                    <>
-                                      <span>File Selected </span> <br />
-                                      <span>{this.state.uploadproofName}</span>
-                                    </>
-                                  )}
-                                </label> */}
                           </div>
-
-                          {this.state.id !== "" && (
-                            <button
-                              className="c_first_pending_BTN"
-                              style={{ marginLeft: "12px" }}
-                              onClick={this.uploadProofPrivate}
-                            >
-                              View
-                            </button>
-                          )}
                         </div>
                         <div className="formCol">
-                          {/* <div
-                                class="file-upload-wrapper"
-                                data-text="No file Selected"
-                              > */}
-                          {/* <input
-                                  type="file"
-                                  name="uploadproof"
-                                  onChange={this.handleChangeFile}
-                                  class="file-upload-field"
-                                /> */}
-
                           <Upload
-                            // fileList={this.state.selectedFileList}
                             listType="picture-card"
                             customRequest={dummyRequest}
                             onChange={(file) =>
@@ -928,40 +1208,10 @@ class KYC extends Component {
                             >
                               Address Proof * :{" "}
                             </label>
-                            {/* <label
-                                  className="formColLabel colorfileSele"
-                                  style={{ marginBottom: "0px" }}
-                                >
-                                  {this.state.addressproof && (
-                                    <>
-                                      <span>File Selected </span> <br />
-                                      <span>{this.state.addressproofName}</span>
-                                    </>
-                                  )}
-                                </label> */}
                           </div>
-
-                          {this.state.id !== "" && (
-                            <button
-                              className="c_first_pending_BTN"
-                              style={{ marginLeft: "12px" }}
-                              onClick={this.onTaxPrivate}
-                            >
-                              View
-                            </button>
-                          )}
                         </div>
-
                         <div className="formCol">
-                          {/* <input
-                                  type="file"
-                                  name="addressproof"
-                                  onChange={this.handleChangeFile}
-                                  class="file-upload-field"
-                                /> */}
-
                           <Upload
-                            // fileList={this.state.selectedFileList}
                             listType="picture-card"
                             customRequest={dummyRequest}
                             onChange={(file) =>
@@ -972,11 +1222,11 @@ class KYC extends Component {
                           >
                             {uploadButton}
                           </Upload>
-                        </div>
+                        </div> */}
                       </>
                     )}
 
-                    {this.state.kycMerchantCategory !== "Individual" && (
+                    {this.state.kycMerchantCategory !== "Individual" && this.state.kycMerchantCategory !== "Select Category" && (
                       <>
                         <div className="formCol">
                           <label className="formColLabel">
@@ -1010,10 +1260,10 @@ class KYC extends Component {
                       </>
                     )}
 
-                    {this.state.kycMerchantCategory !== "Individual" && (
+                    {this.state.kycMerchantCategory !== "Individual" && this.state.kycMerchantCategory !== "Select Category" && (
                       <div className="kycDetailsBox">
                         <h1 className="kycDetails textAlignCenter">
-                          Bussiness Details
+                          Business Details
                         </h1>
                         <div className="kycformBox">
                           <div className="formRow">
@@ -1031,22 +1281,22 @@ class KYC extends Component {
                             </div>
 
                             {this.state.kycMerchantCategory !==
-                              "Individual" && (
-                              <>
-                                <div className="formCol">
-                                  <label className="formColLabel">
-                                    Trade Register Number
-                                  </label>
-                                  <input
-                                    type="text"
-                                    placeholder="237132321312"
-                                    name="traderegisternumber"
-                                    value={this.state.traderegisternumber}
-                                    onChange={this.handleChange}
-                                  />
-                                </div>
-                              </>
-                            )}
+                              "Individual" && this.state.kycMerchantCategory !== "Select Category" && (
+                                <>
+                                  <div className="formCol">
+                                    <label className="formColLabel">
+                                      Trade Register Number
+                                    </label>
+                                    <input
+                                      type="text"
+                                      placeholder="237132321312"
+                                      name="traderegisternumber"
+                                      value={this.state.traderegisternumber}
+                                      onChange={this.handleChange}
+                                    />
+                                  </div>
+                                </>
+                              )}
 
                             <div className="formCol">
                               <label className="formColLabel">
@@ -1194,7 +1444,7 @@ class KYC extends Component {
                                   onChange={this.handleChangeSelect}
                                 >
                                   <Option value="">
-                                    select identification type
+                                    Select Identification Type
                                   </Option>
                                   <Option value="password">Passport</Option>
                                   <Option value="identity_card">
@@ -1234,18 +1484,30 @@ class KYC extends Component {
                                 placeholder="Enter State of Delivery"
                                 onChange={this.handleChange}
                               />
-                            </div>
+                            </div> */}
                             <div className="formCol">
                               <label className="formColLabel">
-                                End of validity Date
+                                Expiry Date
                               </label>
-                              <input
+                              {/* <input
                                 type="text"
                                 name="endofvaliditydate"
                                 placeholder="YYYY-MM-DD"
                                 onChange={this.handleChange}
+                              /> */}
+                              <DatePicker
+                                selected={this.state.endofvaliditydate}
+                                minDate={new Date()}
+                                className="form-control"
+                                name="endofvaliditydate"
+                                onChange={this.identityExpiry}
+                                peekNextMont
+                                showMonthDropdown
+                                showYearDropdown
+                                dropdownMode="select"
+                                autoComplete="off"
                               />
-                            </div> */}
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -1259,11 +1521,82 @@ class KYC extends Component {
                         </button>
                         <button
                           class="aryousureBTN confirmBtnR"
-                          onClick={this.SubmitForm}
+                          onClick={this.showOTPModal}
                         >
                           Save & Submit
                         </button>
                       </div>
+                      <Modal
+                        visible={this.state.OTPModalVisible}
+                        onCancel={this.handleCancelOTPModal}
+                        footer={null}
+                      >
+                        <div style={{ textAlign: "center" }}>
+                          <h2 style={{ fontSize: '15px' }}>
+                            Please enter the verification code you received on <br /> {this.state.mobileno}
+                          </h2>
+
+                          <OtpInput
+                            value={this.state.otp}
+                            shouldAutoFocus={true}
+                            onChange={(e) => this.setOtp(e)}
+                            numInputs={6}
+                            seperator={<span></span>}
+                            isInputNum={true}
+                            inputStyle={{
+                              width: "50px",
+                              padding: "0px",
+                              marginRight: "10px",
+                              marginLeft: "10px",
+                              fontWeight: "600",
+                              fontSize: "16px",
+                              lineHeight: "20px",
+                              padding: "15px 20px",
+                              borderRadius: "5px",
+                              border: "1px solid transparent",
+                              color: "#DA4139",
+                              background: "#F2F2F2",
+                              display: "inline-block",
+                              boxShadow: "0px 8px 8px rgba(37, 51, 66, 0.15)",
+                            }}
+                            containerStyle={{
+                              paddingLeft: "25px",
+                              marginTop: "20px"
+                            }}
+                          />
+
+                          <div style={{ textAlign: "left", marginTop: "10px", paddingLeft: "25px" }}>
+                            <Button
+                              type="link"
+                              disabled={this.state.isResendOTPDisabled}
+                              style={{
+                                color: this.state.isResendOTPDisabled ? "darkgray" : "#066FD0",
+                                paddingLeft: "0px",
+                                fontWeight: "550",
+                              }}
+                              onClick={() => this.resendOTP()}
+                            >
+                              Resend Code
+                            </Button>
+                          </div>
+
+                          <button
+                            style={{
+                              marginTop: "20px",
+                              height: "40px",
+                              color: "white"
+                            }}
+                            disabled={this.state.otp.length < 6 ? true : false}
+                            onClick={() => {
+                              // checkOTPValidity();
+                              this.SubmitForm()
+                            }}
+                            className="btn-default btn"
+                          >
+                            Submit KYC
+                          </button>
+                        </div>
+                      </Modal>
                     </div>
                   </div>
                 </div>
@@ -1300,9 +1633,28 @@ class KYC extends Component {
 }
 
 // function for mapping redux state values with props //
-const mapStateToProps = ({}) => {};
+const mapStateToProps = ({ agentReducer }) => {
+
+  return {
+    kycSendStatus: agentReducer.kycSendStatus,
+    kycSendData: agentReducer.kycSendData,
+    kycGetStatus: agentReducer.kycGetStatus,
+    kycGetData: agentReducer.kycGetData,
+    agentOTPStatus: agentReducer.agentOTPStatus,
+  }
+
+};
 
 //function for maping with dispatched actions with props //
-const mapDispatchToProps = (dispatch) => ({});
+const mapDispatchToProps = (dispatch) => ({
+
+  sendAgentKYC: (token, payload) =>
+    dispatch(sendAgentKYC(token, payload)),
+  getAgentKYC: (token) =>
+    dispatch(getAgentKYC(token)),
+  sendAgentOTP: (payload) =>
+    dispatch(sendAgentOTP(payload)),
+
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(KYC);
