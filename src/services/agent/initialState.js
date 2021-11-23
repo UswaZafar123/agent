@@ -22,6 +22,12 @@ const initialState = {
   getATicketStatus: false,
   uploadedFileStatus: false,
   uploadedFileData: null,
+
+  kycSendStatus: false,
+  kycSendData: null,
+
+  kycGetStatus: false,
+  kycGetData: null,
   //   viewProPicStatus: false
 };
 export default initialState;

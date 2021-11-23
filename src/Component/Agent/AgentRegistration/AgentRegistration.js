@@ -74,7 +74,7 @@ function AgentRegistration(props) {
               SAS
             </li>
           </ul>
-          <NavLink to="/agent/individual">
+          <NavLink to="/agent/register">
             <button type="submit" className="btn-default btn">
               Next
             </button>
