@@ -12,19 +12,11 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import OtpInput from "react-otp-input";
 import { Select } from 'antd';
 import { useSelector, useDispatch } from 'react-redux'
-import { verifyCustomer } from "../../../services/agent/action.js";
-
-/**
- * Redux states imports
- */
-
-// import initialState from "../../../services/agent/initialState"
-
-/**
- * Redux states imports End
- */
+import { verifyCustomer, sendOtpToCustomer, initiateWalletCashDeposit } from "../../../services/agent/action.js";
 
 const { Option } = Select;
+const resendTime = 30;
+
 const WalletCashDeposit = () => {
   
   const [step, setstep] = useState(1);
@@ -43,12 +35,25 @@ const WalletCashDeposit = () => {
   const [amount, setAmount] = useState('');
   const [reason, setReason] = useState('');
   const [selectedOtpType, setSelectedOtpType] = useState(otpTypes[0].value);
+  const [otpTimer, setOtpTimer] = React.useState(resendTime);
   const [otp, setOtp] = useState('');
 
   const dispatch = useDispatch();
+  const agentProfile = useSelector(state => state.agentReducer.profile.data);
   const loadingCustomerValidation = useSelector(state => state.agentReducer.customerValidation.loading);
-  const loadingCustomerSuccess = useSelector(state => state.agentReducer.customerValidation.success);
-  const loadingCustomerError = useSelector(state => state.agentReducer.customerValidation.error);
+  const customerSuccess = useSelector(state => state.agentReducer.customerValidation.success);
+  const loadingCustomerOtp = useSelector(state => state.agentReducer.customerOtpSend.loading);
+  const customerOtpSuccess = useSelector(state => state.agentReducer.customerOtpSend.success);
+  const loadingCustomerCashDeposit = useSelector(state => state.agentReducer.customerWalletCashDeposit.loading);
+  const customerCashDepositSuccess = useSelector(state => state.agentReducer.customerWalletCashDeposit.success);
+
+  React.useEffect(() => {
+    if(step === 4) {
+      if (otpTimer > 0) {
+        setTimeout(() => setOtpTimer(otpTimer - 1), 1000);
+      }
+    }
+  }, [otpTimer, step]);
 
   const stepOneValidated = () => {
     return !(validator.isEmpty(phoneNumber) || validator.isEmpty(selectedDocumentType) || validator.isEmpty(idDocumentNumber) || loadingCustomerValidation);
@@ -59,11 +64,11 @@ const WalletCashDeposit = () => {
   };
 
   const stepThreeValidated = () => {
-    return !validator.isEmpty(selectedOtpType);
+    return !(validator.isEmpty(selectedOtpType) || loadingCustomerOtp);
   };
 
   const stepFourValidated = () => {
-    return !(validator.isEmpty(otp) || otp.length !== 6);
+    return !(validator.isEmpty(otp) || otp.length !== 6 || loadingCustomerCashDeposit);
   };
 
 
@@ -83,20 +88,25 @@ const WalletCashDeposit = () => {
   }
 
   const nextStep = () => {
-    console.log(step);
     if(step === 1) {
       verifyCustomerSubmit();
-      if(loadingCustomerSuccess) {
-        setstep(step + 1);
+      if(customerSuccess) {
       }
+      setstep(step + 1);
     } else if(step === 2) {
       setstep(step + 1);
 
     } else if(step === 3) {
-      // Send OTP to customer
+      sendCustomerOTP();
+      if(customerOtpSuccess) {
+      }
       setstep(step + 1);
     } else {
-      //Submit the deposit form
+      sendDepositRequest();
+      resetForm();
+      setstep(1);
+      if(customerCashDepositSuccess) {
+      }
     }
   };
 
@@ -104,6 +114,15 @@ const WalletCashDeposit = () => {
     setstep(step - 1);
   };
 
+  const resetForm = () => {
+    setPhoneNumber('');
+    setIdDocumentNumber('');
+    setAmount('');
+    setReason('');
+    setOtp('');
+  }
+
+  
   const verifyCustomerSubmit = () => {
     var requestObj = {
       "type": "WALLET",
@@ -112,7 +131,37 @@ const WalletCashDeposit = () => {
       "idDocumentNumber": idDocumentNumber
     };
     dispatch(verifyCustomer(sessionStorage.getItem("token"), requestObj));
+  }
 
+  const sendCustomerOTP = () => {
+    var requestObj = {
+      "customerMobile": phoneNumber,
+      "customerType": "WALLET",
+      "mfaChannel" : selectedOtpType
+    };
+    dispatch(sendOtpToCustomer(sessionStorage.getItem("token"), requestObj));
+  }
+
+  const resendCustomerOtp = () => {
+    setOtpTimer(resendTime);
+    sendCustomerOTP();
+  }
+
+  const sendDepositRequest = () => {
+    var requestObj = {
+      "debtorUserType": "AGENT",
+      "debtorUserId": agentProfile.phoneNo,
+      "currencyCode": 'xaf',
+      "amount": amount,
+      "reason": reason,
+      "creditorUserType": "CUSTOMER",
+      "creditorUserId": phoneNumber,
+      // "fee": transactionFee.value,
+      // "feeId": feeId.value,
+      "type": "WALLET_FUND_TRANSFER",
+      "mfaToken": otp
+    };
+    dispatch(initiateWalletCashDeposit(sessionStorage.getItem("token"), requestObj));
   }
 
   const walletVerificationForm = () => {
@@ -232,6 +281,17 @@ const WalletCashDeposit = () => {
                 />
                 </div>
             
+            </div>
+
+            <div className="containerBiaN_f_row">
+                <div className="containerBiaN_f_col width30percent textAlignRight">
+                </div>
+                <div className="containerBiaN_f_col width70percent" style={{padding: '0px 0px 0px 20px'}}>
+                    <div style={{ display: 'flex' }}>
+                      {otpTimer !== 0 ? <p>Resend OTP in {otpTimer}</p> : <p>Didn't receive OTP <span onClick={() => resendCustomerOtp()} style={{ color: 'rgb(191 21 21)', cursor: 'pointer', textDecoration: 'underline' }}>resend</span></p>}
+                      
+                    </div>
+                </div>
             </div>
            
         </div>

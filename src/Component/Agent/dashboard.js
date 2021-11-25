@@ -12,7 +12,9 @@ import ProgressBar from "@ramonak/react-progress-bar";
 import { connect } from "react-redux";
 
 import {
-  fetchAgentProfile
+  fetchAgentProfile,
+  fetchAgentWallet,
+  fetchAgentBankAccounts
 } from "../../../src/services/agent/action";
 
 
@@ -735,8 +737,12 @@ class Dashboard extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log("hello next");
-    console.log(nextProps.ticketsData);
+    if(nextProps.profile.data) {
+      this.props.fetchAgentWallet(sessionStorage.getItem("token"));
+      if(nextProps.profile.data.registrationType === 'EXISTING_BANK_CUSTOMER') {
+        this.props.fetchAgentBankAccounts(sessionStorage.getItem("token"), nextProps.profile.data.bankCustomerId);
+      }
+    }
   }
 
   render() {
@@ -1308,28 +1314,20 @@ class Dashboard extends Component {
   }
 }
 
-const mapStateToProps = ({ merchantReducer }) => {
+const mapStateToProps = ({ agentReducer }) => {
   const {
-    ticketsData,
-    ticketsStatus,
-    ticketSummaryData,
-    ticketSummaryStatus,
-    ticketStatusData,
-    ticketDataStatus,
-  } = merchantReducer;
+    profile
+  } = agentReducer;
 
   return {
-    ticketsData,
-    ticketsStatus,
-    ticketSummaryData,
-    ticketSummaryStatus,
-    ticketStatusData,
-    ticketDataStatus,
+    profile
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
   fetchProfile: (token) => dispatch(fetchAgentProfile(token)),
+  fetchAgentWallet: (token) => dispatch(fetchAgentWallet(token)),
+  fetchAgentBankAccounts: (token, bankCustomerId) => dispatch(fetchAgentBankAccounts(token, bankCustomerId)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

@@ -280,8 +280,16 @@ const configUrl = {
      * 
      */
 
-    FETCH_PROFILE: `${AgentApi}api-public/Agent/profile`,
-    CUSTOMER_VERIFICATION: `${AgentApi}api/walletTransfers/validateCustomer`
+    FETCH_AGENT_PROFILE: `${AgentApi}api-public/Agent/profile`,
+    FETCH_AGENT_WALLET_ACCOUNT: `${AgentApi}api/agencyBanking/agentWalletBalance`,
+    FETCH_AGENT_BANK_ACCOUNT: `${AgentApi}api/agencyBanking/customerAccounts`,
+    CUSTOMER_VERIFICATION: `${AgentApi}api/walletTransfers/validateCustomer`,
+    CUSTOMER_OTP_SEND: `${AgentApi}api-public/AgencyBanking/MFAGenerationForTransaction`,
+    CUSTOMER_WALLET_CASH_DEPOSIT: `${AgentApi}api/walletTransfers/walletToWallet`,
+    CUSTOMER_WALLET_CASH_WITHDRAW: `${AgentApi}api/walletTransfers/walletToWallet`,
+    FETCH_CUSTOMER_BANK_ACCOUNTS: `${AgentApi}api/agencyBanking/customerAccounts`,
+    CUSTOMER_BANK_CASH_DEPOSIT: `${AgentApi}api/walletTransfers/walletCashOut`,
+    CUSTOMER_BANK_CASH_WITHDRAW: `${AgentApi}api/walletTransfers/walletCashIn`,
 
     /**
      * 

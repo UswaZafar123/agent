@@ -165,7 +165,97 @@ const agentReducer = (state = initialState, action) => {
         uploadedFileStatus: false,
         uploadedFileData: null,
       };
-    /**
+    
+
+     /**
+     * Agent Profile Reducer State Update
+     */
+    case actionType.AGENT_PROFILE_FETCH:
+      return {
+        ...state,
+        profile: {
+          loading: true
+        }
+    }
+    case actionType.AGENT_PROFILE_DATA:
+      return {
+        ...state,
+        profile: {
+          loading: false,
+          data: action.payload
+        }
+    }
+    case actionType.AGENT_PROFILE_ERROR:
+      return {
+        ...state,
+        profile: {
+          loading: false,
+        }
+    }
+     /**
+     * Agent Profile Reducer State Update
+     */
+
+     /**
+     * Agent Wallet Account State Update
+     */
+    case actionType.AGENT_WALLET_ACCOUNT_FETCH:
+      return {
+        ...state,
+        walletAccount: {
+          loading: true
+        }
+    }
+    case actionType.AGENT_WALLET_ACCOUNT_DATA:
+      return {
+        ...state,
+        walletAccount: {
+          loading: false,
+          data: action.payload
+        }
+      }
+    case actionType.AGENT_WALLET_ACCOUNT_ERROR:
+      return {
+        ...state,
+        walletAccount: {
+          loading: false,
+        }
+      }
+     /**
+     * Agent Wallet Account State Update
+     */
+
+     /**
+     * Agent Bank Accounts State Update
+     */
+    case actionType.AGENT_BANK_ACCOUNT_FETCH:
+      return {
+        ...state,
+        bankAccounts: {
+          loading: true
+        }
+    }
+    case actionType.AGENT_BANK_ACCOUNT_DATA:
+      return {
+        ...state,
+        bankAccounts: {
+          loading: false,
+          list: action.payload
+        }
+      }
+    case actionType.AGENT_BANK_ACCOUNT_ERROR:
+      return {
+        ...state,
+        bankAccounts: {
+          loading: false,
+        }
+      }
+     /**
+     * Agent Bank Accounts State Update
+     */
+
+
+     /**
      * Customer Validation Reducer State Update
      */
     case actionType.CUSTOMER_VALIDATION_FETCH:
@@ -196,49 +286,169 @@ const agentReducer = (state = initialState, action) => {
      * Customer Validation Reducer State Update End
      */
 
-     /**
-     * Agent Profile Reducer State Update
-     */
-    case actionType.AGENT_PROFILE_FETCH:
-      return {
-        ...state,
-        profile: {
-          loading: true
-        }
-    }
-    case actionType.AGENT_PROFILE_DATA:
-      return {
-        ...state,
-        profile: {
-          loading: false,
-          data: action.payload
-        }
-    }
-     /**
-     * Agent Profile Reducer State Update
-     */
 
      /**
-     * Agent Wallet Account State Update
+     * Customer OTP send Reducer State Update
      */
-    case actionType.AGENT_WALLET_ACCOUNT_FETCH:
+    case actionType.CUSTOMER_OTP_SEND_FETCH:
       return {
         ...state,
-        walletAccount: {
+        customerOtpSend: {
+          loading: true
+        }
+      };
+    case actionType.CUSTOMER_OTP_SEND_SUCCESS:
+      return {
+        ...state,
+        customerOtpSend: {
+          loading: false,
+          success: true
+        },
+      }
+    case actionType.CUSTOMER_OTP_SEND_ERROR:
+      return {
+        ...state,
+        customerOtpSend: {
+          loading: false,
+          success: false,
+          error: true
+        },
+      }
+     /**
+     * Customer OTP send Reducer State Update End
+     */
+
+
+    case actionType.CUSTOMER_WALLET_CASH_DEPOSIT_FETCH:
+      return {
+        ...state,
+        customerWalletCashDeposit: {
+          loading: true
+        }
+      };
+    case actionType.CUSTOMER_WALLET_CASH_DEPOSIT_SUCCESS:
+      return {
+        ...state,
+        customerWalletCashDeposit: {
+          loading: false,
+          success: true
+        },
+      }
+    case actionType.CUSTOMER_WALLET_CASH_DEPOSIT_ERROR:
+      return {
+        ...state,
+        customerWalletCashDeposit: {
+          loading: false,
+          success: false,
+          error: true
+        },
+      }
+
+    case actionType.CUSTOMER_WALLET_CASH_WITHDRAW_FETCH:
+      return {
+        ...state,
+        customerWalletCashWithdraw: {
+          loading: true
+        }
+      };
+    case actionType.CUSTOMER_WALLET_CASH_WITHDRAW_SUCCESS:
+      return {
+        ...state,
+        customerWalletCashWithdraw: {
+          loading: false,
+          success: true
+        },
+      }
+    case actionType.CUSTOMER_WALLET_CASH_WITHDRAW_ERROR:
+      return {
+        ...state,
+        customerWalletCashWithdraw: {
+          loading: false,
+          success: false,
+          error: true
+        },
+      }
+    
+    case actionType.CUSTOMER_BANK_ACCOUNTS_FETCH:
+      return {
+        ...state,
+        customerBankAccounts: {
           loading: true
         }
     }
-    case actionType.AGENT_WALLET_ACCOUNT_DATA:
+    case actionType.CUSTOMER_BANK_ACCOUNTS_DATA:
       return {
         ...state,
-        walletAccount: {
+        customerBankAccounts: {
           loading: false,
-          data: action.payload
+          list: action.payload
         }
     }
-     /**
-     * Agent Wallet Account State Update
-     */
+    case actionType.CUSTOMER_BANK_ACCOUNTS_ERROR:
+      return {
+        ...state,
+        customerBankAccounts: {
+          loading: false,
+        }
+    }
+    case actionType.CUSTOMER_BANK_ACCOUNTS_RESET:
+      return {
+        ...state,
+        customerBankAccounts: {
+          loading: false,
+          list: []
+        }
+    }
+
+    case actionType.CUSTOMER_BANK_CASH_DEPOSIT_FETCH:
+      return {
+        ...state,
+        customerBankCashDeposit: {
+          loading: true
+        }
+      };
+    case actionType.CUSTOMER_BANK_CASH_DEPOSIT_SUCCESS:
+      return {
+        ...state,
+        customerBankCashDeposit: {
+          loading: false,
+          success: true
+        },
+      }
+    case actionType.CUSTOMER_BANK_CASH_DEPOSIT_ERROR:
+      return {
+        ...state,
+        customerBankCashDeposit: {
+          loading: false,
+          success: false,
+          error: true
+        },
+      }
+
+    case actionType.CUSTOMER_BANK_CASH_WITHDRAW_FETCH:
+      return {
+        ...state,
+        customerBankCashWithdraw: {
+          loading: true
+        }
+      };
+    case actionType.CUSTOMER_BANK_CASH_WITHDRAW_SUCCESS:
+      return {
+        ...state,
+        customerBankCashWithdraw: {
+          loading: false,
+          success: true
+        },
+      }
+    case actionType.CUSTOMER_BANK_CASH_WITHDRAW_ERROR:
+      return {
+        ...state,
+        customerBankCashWithdraw: {
+          loading: false,
+          success: false,
+          error: true
+        },
+      }
     default:
       return state;
   }

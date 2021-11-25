@@ -6,7 +6,7 @@ import { toastr } from "react-redux-toastr";
 export const fetchAgentProfile = (token) => (dispatch) => {
   const config = {
     method: "get",
-    url: URL.agent.FETCH_PROFILE,
+    url: URL.agent.FETCH_AGENT_PROFILE,
     headers: {
       "Content-Type": "application/json",
       Authorization: "Bearer " + token,

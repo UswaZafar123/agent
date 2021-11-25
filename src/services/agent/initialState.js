@@ -8,7 +8,47 @@ const walletAccountState = {
   data: {},
 }
 
+const bankAccountState = {
+  loading: false,
+  list: [],
+}
+
 const customerValidationState = {
+  loading: false,
+  success: false,
+  error: false,
+};
+
+const customerOtpSendState = {
+  loading: false,
+  success: false,
+  error: false,
+};
+
+const customerWalletCashDepositState = {
+  loading: false,
+  success: false,
+  error: false,
+};
+
+const customerWalletCashWithdrawState = {
+  loading: false,
+  success: false,
+  error: false,
+};
+
+const customerBankAccountsState = {
+  loading: false,
+  list: [],
+}
+
+const customerBankCashDepositState = {
+  loading: false,
+  success: false,
+  error: false,
+};
+
+const customerBankCashWithdrawState = {
   loading: false,
   success: false,
   error: false,
@@ -35,12 +75,18 @@ const initialState = {
   ticketSummaryData: null,
   ticketSummaryStatus: false,
   getATicketData: null,
-  getATicketStatus: false,
   uploadedFileStatus: false,
   uploadedFileData: null,
   //   viewProPicStatus: false
   profile: profileState,
   walletAccount: walletAccountState,
-  customerValidation: customerValidationState
+  bankAccounts: bankAccountState,
+  customerValidation: customerValidationState,
+  customerOtpSend: customerOtpSendState,
+  customerWalletCashDeposit: customerWalletCashDepositState,
+  customerWalletCashWithdraw: customerWalletCashWithdrawState,
+  customerBankAccounts: customerBankAccountsState,
+  customerBankCashDeposit: customerBankCashDepositState,
+  customerBankCashWithdraw: customerBankCashWithdrawState
 };
 export default initialState;
