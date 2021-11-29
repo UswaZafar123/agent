@@ -26,8 +26,8 @@ class NavBar extends Component {
     return (
 
       <div className="nav nav-default" style={{ position: "fixed !important" }}>
-        <div style={{ marginBottom: "auto", marginTop: "auto", marginLeft: "2%" }}>
-          <img alt="logo" src={Logo} style={{ height: "90px", width: "300px" }} />
+        <div className="navDefaultLogoHeader">
+          <img alt="logo" src={Logo} className="navDefaultLogo" />
         </div>
 
         <ReactFlagsSelect

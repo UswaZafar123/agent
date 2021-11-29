@@ -151,8 +151,8 @@ body {
     object-fit: contain;
 }
 
-.loginInform {
-}
+/* .loginInform {
+} */
 
 .loginInform h4 {
     font-weight: 600;
@@ -3101,4 +3101,64 @@ footer {
 
 .summaryValue {
     color: rgb(128, 128, 128);
+}
+
+.navDefaultLogoHeader{
+    margin-bottom: auto;
+    margin-top: auto;
+    margin-left: 2%;
+}
+
+.navDefaultLogo{
+    height: 90px;
+    width: 300px;
+}
+
+@media  screen and (max-width: 600px) {
+    .nav-default{
+        width: 100%;
+        height: 2em;
+
+    }
+
+    .navDefaultLogo{
+        height: 60px;
+        width: 200px;
+    }
+
+    .loginWrapper {
+        width: 100%;
+        top: 0;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        overflow-y: auto;
+        right: 0;
+        margin: auto;
+        /* display: flex; */
+        align-items: center;
+        /* justify-content: center; */
+        padding-top: 15%;
+        overflow-x: hidden;
+    }
+    
+}
+
+@media screen and (min-width: 600px) and (max-width: 1080px) {
+    .loginWrapper {
+        width: 100%;
+        top: 0;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        overflow-y: auto;
+        right: 0;
+        margin: auto;
+        /* display: flex; */
+        align-items: center;
+        /* justify-content: center; */
+        padding-top: 13%;
+        overflow-x: hidden;
+    }
+
 }
