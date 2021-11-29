@@ -100,6 +100,111 @@ export const getAgentKYC = (token) => (dispatch) => {
     });
 };
 
+
+export const getProfile = () => (dispatch) => {
+  const config = {
+    method: "GET",
+    url: URL.agent.GET_PROFILE,
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+ 
+  axios(config)
+    .then((res) => {
+      if (res.status === 200) {
+       
+        toastr.success("profile Retrieved Successfully");
+        dispatch({
+          type: actionType.GET_PROFILE_SUCCESS,
+          payload: res.data,
+        });
+        dispatch(getProfileImage(res.data.selfieDocument.documentFileName))
+      }
+    })
+    .catch((error) => {
+      
+      toastr.warning("failed to retrieve profile");
+      dispatch({
+        type: actionType.GET_PROFILE_FAILURE,
+      });
+    });
+};
+
+export const getAllAgentMemberPackages = () => (dispatch) => {
+  dispatch({
+    type:actionType.PACKAGES_NULLABLE
+  })
+  const config = {
+    method: "GET",
+    url: URL.agent.GET_PACKAGES,
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+ 
+  axios(config)
+    .then((res) => {
+      if (res.status === 200) {
+       
+        toastr.success("packages Retrieved Successfully");
+        dispatch({
+          type: actionType.GET_PACKAGES_SUCCESS,
+          payload: res.data,
+        });
+       
+      }
+    })
+    .catch((error) => {
+      
+      toastr.warning("failed to retrieve packages");
+      dispatch({
+        type: actionType.GET_PACKAGES_FAILURE,
+      });
+    });
+};
+
+
+
+export const getProfileImage = (filename) => (dispatch) => {
+  dispatch({
+    type:actionType.PROFILE_IMAGE_NULLABLE
+  })
+  const config = {
+    method: "GET",
+    url: URL.agent.GET_PROFILE_IMAGE+"/"+filename,
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+    responseType:"blob"
+  };
+ 
+  axios(config)
+    .then((res) => {
+
+      console.log(typeof(res.data),"resssss")
+      if (res.status === 200) {
+       
+        toastr.success("profile image retrieved Successfully");
+        dispatch({
+          type: actionType.GET_PROFILE_IMAGE_SUCCESS,
+          payload: res.data,
+        });
+      }
+    })
+    .catch((error) => {
+      
+      toastr.warning("failed to retrieve profile image");
+      dispatch({
+        type: actionType.GET_PROFILE_IMAGE_FAILURE,
+      });
+    });
+};
+
+
+
+
+
 export const sendAgentOTP = (payload) => (dispatch) => {
   const config = {
     method: "POST",

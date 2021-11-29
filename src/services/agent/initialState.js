@@ -25,9 +25,13 @@ const initialState = {
 
   kycSendStatus: false,
   kycSendData: null,
-
+  profileDetails:null,
   kycGetStatus: false,
   kycGetData: null,
+  profileImage:null,
+  profileImageStatus:"null",
+  packagesDetails:null,
+  packagesStatus:"nullable"
   //   viewProPicStatus: false
 };
 export default initialState;
