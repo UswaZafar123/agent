@@ -3141,6 +3141,21 @@ footer {
         padding-top: 15%;
         overflow-x: hidden;
     }
+
+    .langOption {
+        position: absolute;
+        right: 3%;
+        top: 50%;
+        background: #DFDFDF;
+        border: 1px solid rgba(189, 189, 189, 0.2);
+        box-sizing: border-box;
+        border-radius: 50px;
+        width: 130px;
+        display: flex;
+        text-align: center;
+        height: 25px;
+        text-align-last: center;
+    }
     
 }
 
@@ -3159,6 +3174,21 @@ footer {
         /* justify-content: center; */
         padding-top: 13%;
         overflow-x: hidden;
+    }
+
+    .langOption {
+        position: absolute;
+        right: 3%;
+        top: 50%;
+        background: #DFDFDF;
+        border: 1px solid rgba(189, 189, 189, 0.2);
+        box-sizing: border-box;
+        border-radius: 50px;
+        width: 130px;
+        display: flex;
+        text-align: center;
+        height: 25px;
+        text-align-last: center;
     }
 
 }
