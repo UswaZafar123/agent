@@ -191,6 +191,90 @@ const agentReducer = (state = initialState, action) => {
         kycGetStatus: false,
         kycGetData: action.payload,
       };
+    case actionType.GET_SCREEN_PERMISSIONS_BY_ROLE_SUCCESS:
+      return {
+        ...state,
+        getScreenPermissionsByRoleStatus: true,
+        getScreenPermissionsByRoleData: action.payload
+      };
+    case actionType.GET_SCREEN_PERMISSIONS_BY_ROLE_FAILURE:
+      return {
+        ...state,
+        getScreenPermissionsByRoleStatus: false,
+        getScreenPermissionsByRoleData: action.payload
+      };
+    case actionType.GET_USER_ROLES_SUCCESS:
+      return {
+        ...state,
+        addUserRoleStatus: false,
+        addUserRoleData: null,
+        deleteUserRoleStatus: false,
+        deleteUserRoleData: null,
+        getUserRoleStatus: true,
+        getUserRoleData: action.payload,
+        updateUserRoleStatus: false,
+        updateUserRoleData: null,
+      };
+    case actionType.GET_USER_ROLES_FAILURE:
+      return {
+        ...state,
+        addUserRoleStatus: false,
+        addUserRoleData: null,
+        deleteUserRoleStatus: false,
+        deleteUserRoleData: null,
+        getUserRoleStatus: false,
+        getUserRoleData: null,
+        updateUserRoleStatus: false,
+        updateUserRoleData: null,
+      };
+    case actionType.ADD_USER_ROLE_SUCCESS:
+      return {
+        ...state,
+        addUserRoleStatus: true,
+        addUserRoleData: action.payload
+      };
+    case actionType.ADD_USER_ROLE_FAILURE:
+      return {
+        ...state,
+        addUserRoleStatus: false,
+        addUserRoleData: action.payload
+      };
+    case actionType.DELETE_USER_ROLE_SUCCESS:
+      return {
+        ...state,
+        deleteUserRoleStatus: true,
+        deleteUserRoleData: action.payload,
+        addUserRoleStatus: false,
+        addUserRoleData: null
+      };
+    case actionType.DELETE_USER_ROLE_FAILURE:
+      return {
+        ...state,
+        deleteUserRoleStatus: false,
+        deleteUserRoleData: action.payload,
+        addUserRoleStatus: false,
+        addUserRoleData: null
+      };
+    case actionType.UPDATE_USER_ROLE_SUCCESS:
+      return {
+        ...state,
+        updateUserRoleStatus: true,
+        updateUserRoleData: action.payload,
+        addUserRoleStatus: false,
+        addUserRoleData: null,
+        deleteUserRoleStatus: false,
+        deleteUserRoleData: null,
+      };
+    case actionType.UPDATE_USER_ROLE_SUCCESS:
+      return {
+        ...state,
+        updateUserRoleStatus: false,
+        updateUserRoleData: action.payload,
+        addUserRoleStatus: false,
+        addUserRoleData: null,
+        deleteUserRoleStatus: false,
+        deleteUserRoleData: null,
+      };
     default:
       return state;
   }

@@ -28,6 +28,21 @@ const initialState = {
 
   kycGetStatus: false,
   kycGetData: null,
+
+  getScreenPermissionsByRoleStatus: false,
+  getScreenPermissionsByRoleData: null,
+
+  getUserRoleStatus : false,
+  getUserRoleData : null,
+
+  addUserRoleStatus : false,
+  addUserRoleData : null,
+
+  deleteUserRoleStatus : false,
+  deleteUserRoleData : null,
+
+  updateUserRoleStatus : false,
+  updateUserRoleData : null
   //   viewProPicStatus: false
 };
 export default initialState;

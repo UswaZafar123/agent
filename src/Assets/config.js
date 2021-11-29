@@ -277,6 +277,8 @@ const configUrl = {
 
     GET_KYC : `${AgentApi}api/agencyBanking/getKYC`,
     UPDATE_KYC:`${AgentApi}api-public/AgentRegistration/agentKYC`,
+    GET_SCREEN_PERMISSIONS_BY_ROLE : `${AgentApi}api-internal/roleScreenPermissions`,
+    GET_ALL_USER_ROLES : `${AgentApi}api-internal/userRoles`,
   },
 };
 

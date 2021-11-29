@@ -612,3 +612,142 @@ export const getATicket = (token, ticketNO) => (dispatch) => {
       });
     });
 };
+
+export const getScreenPermissionsByRole = (token) => (dispatch) => {
+  dispatch(ShowLoading());
+  const config = {
+    method: "get",
+    url: URL.agent.GET_SCREEN_PERMISSIONS_BY_ROLE,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  };
+
+  axios(config).then((res) => {
+    dispatch(HideLoading());
+    dispatch({
+      type: actionType.GET_SCREEN_PERMISSIONS_BY_ROLE_SUCCESS,
+      payload: res.data
+    });
+  }).catch((err) => {
+    dispatch(HideLoading());
+    dispatch({
+      type: actionType.GET_SCREEN_PERMISSIONS_BY_ROLE_SUCCESS,
+      payload: null
+    });
+  });
+};
+
+export const getAllUserRoles = (token) => (dispatch) => {
+  dispatch(ShowLoading());
+  const config = {
+    method: "get",
+    url: URL.agent.GET_ALL_USER_ROLES,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  };
+
+  axios(config).then((res) => {
+    dispatch(HideLoading());
+    toastr.success("Roles Fetched Successfully..");
+
+    dispatch({
+      type: actionType.GET_USER_ROLES_SUCCESS,
+      payload: res.data
+    });
+  }).catch((err) => {
+    dispatch(HideLoading());
+    toastr.error("Roles Fetch Error..");
+
+    dispatch({
+      type: actionType.GET_USER_ROLES_FAILURE,
+      payload: null
+    });
+  });
+}
+
+export const addUserRole = (token, payload) => (dispatch) => {
+  dispatch(ShowLoading());
+  const config = {
+    method: "POST",
+    url: URL.agent.GET_ALL_USER_ROLES,
+    data: payload,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  };
+  axios(config).then((res) => {
+    dispatch(HideLoading());
+    toastr.success("Role Added..");
+    dispatch({
+      type: actionType.ADD_USER_ROLE_SUCCESS,
+      payload: res.data
+    });
+  }).catch((err) => {
+    dispatch(HideLoading());
+    toastr.error("ERROR ADDING ROLE..");
+    dispatch({
+      type: actionType.ADD_USER_ROLE_FAILURE,
+      payload: null
+    });
+  });
+}
+
+export const deleteUserRole = (token, roleId) => (dispatch) => {
+  dispatch(ShowLoading());
+  const config = {
+    method: "DELETE",
+    url: URL.agent.GET_ALL_USER_ROLES + "/" + roleId,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  };
+  axios(config).then((res) => {
+    dispatch(HideLoading());
+    toastr.success("Role Deleted..");
+    dispatch({
+      type: actionType.DELETE_USER_ROLE_SUCCESS,
+      payload: res.data
+    });
+  }).catch((err) => {
+    dispatch(HideLoading());
+    toastr.error("ERROR DELETING ROLE..");
+    dispatch({
+      type: actionType.DELETE_USER_ROLE_FAILURE,
+      payload: null
+    });
+  });
+}
+
+export const updateUserRole = (token, roleId, payload) => (dispatch) => {
+  dispatch(ShowLoading());
+  const config = {
+    method: "PUT",
+    data: payload,
+    url: URL.agent.GET_ALL_USER_ROLES + "/" + roleId,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  };
+  axios(config).then((res) => {
+    dispatch(HideLoading());
+    toastr.success("Role Updated..");
+    dispatch({
+      type: actionType.UPDATE_USER_ROLE_SUCCESS,
+      payload: res.data
+    });
+  }).catch((err) => {
+    dispatch(HideLoading());
+    toastr.error("ERROR UPDATING ROLE..");
+    dispatch({
+      type: actionType.UPDATE_USER_ROLE_FAILURE,
+      payload: null
+    });
+  });
+}
