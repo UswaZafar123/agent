@@ -5,11 +5,19 @@ import mobileLogo from "../../Assets/images/biapay_logo_mobile.png";
 import { Logout } from "../../services/common/action";
 import { Select, Menu, Dropdown } from "antd";
 import { connect } from "react-redux";
-import { getRefreshToken } from "../../services/agent/action";
+import { getRefreshToken, getProfile } from "../../services/agent/action";
 
 const { Option } = Select;
 
 class Header extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      profileImage: null,
+    };
+  }
+
   componentDidMount() {
     let data = {
       client_id: "PUBLIC_CLIENT",
@@ -20,10 +28,36 @@ class Header extends Component {
     this.interval = setInterval(() => {
       this.props.getRefreshToken(data);
     }, 18000);
+
+    this.props.getProfile();
   }
 
   componentWillUnmount() {
     clearInterval(this.interval);
+  }
+
+ 
+
+  // blobToBase64 = (blob) => {
+  //   const reader = new FileReader();
+  //   reader.readAsDataURL(blob);
+  //   return new Promise((resolve) => {
+  //     reader.onloadend = () => {
+  //       resolve(reader.result);
+  //     };
+  //   });
+  // };
+
+   async componentWillReceiveProps(nextProps) {
+    if (nextProps.profileImageStatus) {
+      
+      var blob = new Blob([nextProps.profileImage], { type: "application/octet-stream" });
+
+      const value = URL.createObjectURL(blob)
+      this.setState({
+        profileImage:value
+      })
+    }
   }
 
   render() {
@@ -69,7 +103,9 @@ class Header extends Component {
                   placement="topLeft"
                   trigger={["click"]}
                 >
-                  <img src={prifilePics} alt="profile pic" />
+
+
+                  {this.state.profileImage?<img src={this.state.profileImage} alt="profile pic" />:<img src={prifilePics} alt="profile pic" />}
                 </Dropdown>
               </div>
             </div>
@@ -80,9 +116,21 @@ class Header extends Component {
   }
 }
 
+const mapStateToProps = ({ agentReducer }) => {
+  const { profileImage, profileImageStatus } = agentReducer;
+
+  console.log(agentReducer, "profileImage");
+
+  return {
+    profileImage,
+    profileImageStatus,
+  };
+};
+
 const mapDispatchToProps = (dispatch) => ({
   getRefreshToken: (data) => dispatch(getRefreshToken(data)),
   Logout: () => dispatch(Logout()),
+  getProfile: () => dispatch(getProfile()),
 });
 
-export default connect(null, mapDispatchToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

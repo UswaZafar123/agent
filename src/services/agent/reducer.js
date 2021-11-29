@@ -191,6 +191,57 @@ const agentReducer = (state = initialState, action) => {
         kycGetStatus: false,
         kycGetData: action.payload,
       };
+
+    case actionType.GET_PROFILE_SUCCESS:
+      return {
+        ...state,
+        profileDetails: action.payload,
+      };
+    case actionType.GET_PROFILE_SUCCESS:
+      return {
+        ...state,
+        profileDetails: null,
+      };
+
+    case actionType.GET_PROFILE_IMAGE_SUCCESS:
+      return {
+        ...state,
+        profileImageStatus: 1,
+        profileImage: action.payload,
+      };
+    case actionType.GET_PROFILE_IMAGE_FAILURE:
+      return {
+        ...state,
+        profileImageStatus: false,
+
+        profileImage: null,
+      };
+
+    case actionType.PROFILE_IMAGE_NULLABLE:
+      return {
+        ...state,
+        profileImageStatus: "nullable",
+      };
+
+    case actionType.GET_PACKAGES_SUCCESS:
+      return {
+        ...state,
+        packagesStatus:true,
+        packagesDetails: action.payload,
+      };
+
+    case actionType.GET_PACKAGES_FAILURE:
+      return {
+        ...state,
+        packagesStatus:false,
+
+        packagesDetails: false,
+      };
+      case actionType.PACKAGES_NULLABLE:
+        return{
+          ...state,
+          packagesStatus:"nullable"
+        }
     default:
       return state;
   }

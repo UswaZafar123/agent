@@ -256,6 +256,9 @@ const configUrl = {
     PAY_EU_MOMO: `${API}eumomo/sendPaymentRequest`,
   },
   agent: {
+    GET_PACKAGES:`${AgentApi}api-internal/agentPackages`,
+    GET_PROFILE_IMAGE:`${AgentApi}api/agencyBanking/documents`,
+    GET_PROFILE:`${AgentApi}api-public/Agent/profile` ,
     NON_EXISTING_BANK_CUSTOMER: `${AgentApi}api-public/registration/agentRegistration`,
     ACCOUNT_BALANCE_EU_MOMO: `${API}eumomo/getAccountBalance`,
     PAY_EU_MOMO: `${API}eumomo/sendPaymentRequest`,
