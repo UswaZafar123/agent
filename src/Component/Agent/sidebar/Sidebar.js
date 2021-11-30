@@ -95,7 +95,7 @@ class Sidebar extends Component{
             this.showStatusDialog('Account Suspended',
                 'Your account has been suspended please contanct bank administration for more details.');
             break;
-          case 'ACTIVE':
+          case 'AGENT_LINKING_PENDING':
             this.showStatusDialog(
                 'Account Linking',
                 agentType === 'AGENT_BANKER'
