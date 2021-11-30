@@ -25,30 +25,42 @@ const initialState = {
 
   kycSendStatus: false,
   kycSendData: null,
-
+  profileDetails: null,
   kycGetStatus: false,
   kycGetData: null,
 
   getScreenPermissionsByRoleStatus: false,
   getScreenPermissionsByRoleData: null,
 
-  getUserRoleStatus : false,
-  getUserRoleData : null,
+  getUserRoleStatus: false,
+  getUserRoleData: null,
 
-  addUserRoleStatus : false,
-  addUserRoleData : null,
+  addUserRoleStatus: false,
+  addUserRoleData: null,
 
-  deleteUserRoleStatus : false,
-  deleteUserRoleData : null,
+  deleteUserRoleStatus: false,
+  deleteUserRoleData: null,
 
-  updateUserRoleStatus : false,
-  updateUserRoleData : null,
+  updateUserRoleStatus: false,
+  updateUserRoleData: null,
 
-  getAllScreensStatus : false,
-  getAllScreensData : null,
+  getAllScreensStatus: false,
+  getAllScreensData: null,
 
-  addAllPermissionStatus : false,
-  addAllPermissionData : null
+  addAllPermissionStatus: false,
+  addAllPermissionData: null,
+  profileImage: null,
+  profileImageStatus: "null",
+  packagesDetails: null,
+  packagesStatus: "nullable",
+  currencyDetails: null,
+  currencyStatus: "nullable",
+  assetStatus: "nullable",
+  assetDetails: null,
+  operationStatus: "nullable",
+  operationDetails: null,
+  a_package_status: "nullable",
+  a_package_details: null,
   //   viewProPicStatus: false
 };
 export default initialState;

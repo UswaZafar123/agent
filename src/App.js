@@ -71,6 +71,8 @@ import ChooseRegistrationAccount from "./Component/ChooseRegistrationAccount";
 import AgentRegSuccess from "./Component/Agent/AgentRegistration/AgentRegSuccess";
 // Setting Component Import
 import Packages from "./Component/page/Settings/General/Packages";
+import addPackages from "./Component/page/Settings/General/addPackages";
+import editPackages from "./Component/page/Settings/General/editPackages";
 import RoleManagement from "./Component/page/Settings/General/RoleManagement";
 import AgentMember from "./Component/page/Settings/AgentMember";
 import CommissionsManagement from "./Component/page/Settings/CommissionsManagement";
@@ -290,6 +292,16 @@ export const App = (props) => {
                       path="/settings/general/package-management"
                       component={Packages}
                     />
+
+                    <Route
+                      path="/settings/general/addpackages"
+                      component={addPackages}
+                    />
+                    <Route
+                      path="/settings/editpackages"
+                      component={editPackages}
+                    />
+
                     <Route
                       path="/settings/general/roles-management"
                       component={RoleManagement}
