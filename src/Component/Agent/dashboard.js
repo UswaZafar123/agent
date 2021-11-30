@@ -843,7 +843,7 @@ class Dashboard extends Component {
               </div>
               <div className="customdashboardrow1-image">
                 {/* <img src="../../propic.jpg" /> */}
-                {this.state.profileImage?<img src={this.state.profileImage} alt="profile pic" />:<img src="../../propic.jpg" />}
+                {this.props.profileImageStatus?<img src={this.state.profileImage} alt="profile pic" />:<img src="../../propic.jpg" />}
 
               </div>
               <div className="customdashboardrow1-image-name">

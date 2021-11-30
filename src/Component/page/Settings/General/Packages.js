@@ -66,7 +66,11 @@ class Packages extends Component {
                 {params.data.isFeatured ? "Yes" : "No"}
               </span>
               <span
-                style={{ textDecoration: "underline", color: "blue",cursor:"pointer" }}
+                style={{
+                  textDecoration: "underline",
+                  color: "blue",
+                  cursor: "pointer",
+                }}
                 onClick={(e) => {
                   this.setAsFeaturedHandler(e, params.data);
                 }}
@@ -77,30 +81,34 @@ class Packages extends Component {
             </div>
           ),
         },
-       {
-        headerName: "Default",
-        cellRendererFramework: (params) => (
-          <div className="setAsFeaturedDiv">
-            <span
-              className={
-                params.data.isFeatured ? "yesF yesColorF" : "yesF noColorF"
-              }
-            >
-              {params.data.isDefault ? "Yes" : "No"}
-            </span>
-            <span
-              style={{ textDecoration: "underline", color: "blue",cursor:"pointer" }}
-              onClick={(e) => {
-                this.setAsFeaturedHandler(e, params.data);
-              }}
-            >
-              {" "}
-              {!params.data.isDefault ? "Set As Default":""}
-            </span>
-          </div>
-        ),
-      },
-        
+        {
+          headerName: "Default",
+          cellRendererFramework: (params) => (
+            <div className="setAsFeaturedDiv">
+              <span
+                className={
+                  params.data.isFeatured ? "yesF yesColorF" : "yesF noColorF"
+                }
+              >
+                {params.data.isDefault ? "Yes" : "No"}
+              </span>
+              <span
+                style={{
+                  textDecoration: "underline",
+                  color: "blue",
+                  cursor: "pointer",
+                }}
+                onClick={(e) => {
+                  this.setAsFeaturedHandler(e, params.data);
+                }}
+              >
+                {" "}
+                {!params.data.isDefault ? "Set As Default" : ""}
+              </span>
+            </div>
+          ),
+        },
+
         {
           headerName: "Action",
           field: "Action",
@@ -109,7 +117,7 @@ class Packages extends Component {
               <span
                 className="icon-edit-2"
                 style={{ cursor: "pointer" }}
-                onClick={this.editNewPackage}
+                onClick={(e) => this.editNewPackage(e, params.data)}
               ></span>
               <span
                 className="icon-Group-357"
@@ -201,7 +209,13 @@ class Packages extends Component {
     this.props.history.push({ pathname: "/settings/general/addpackages" });
   };
 
-  editNewPackage = () => {};
+  editNewPackage = (e, data) => {
+    console.log(data,"dataaaaaa")
+    this.props.history.push({
+      pathname: "/settings/editpackages",
+      state: data.packageId,
+    });
+  };
 
   setAsFeaturedHandler = (e, data) => {
     this.setState({

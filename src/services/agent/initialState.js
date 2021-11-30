@@ -25,13 +25,21 @@ const initialState = {
 
   kycSendStatus: false,
   kycSendData: null,
-  profileDetails:null,
+  profileDetails: null,
   kycGetStatus: false,
   kycGetData: null,
-  profileImage:null,
-  profileImageStatus:"null",
-  packagesDetails:null,
-  packagesStatus:"nullable"
+  profileImage: null,
+  profileImageStatus: "null",
+  packagesDetails: null,
+  packagesStatus: "nullable",
+  currencyDetails: null,
+  currencyStatus: "nullable",
+  assetStatus: "nullable",
+  assetDetails: null,
+  operationStatus: "nullable",
+  operationDetails: null,
+  a_package_status: "nullable",
+  a_package_details: null,
   //   viewProPicStatus: false
 };
 export default initialState;

@@ -100,7 +100,6 @@ export const getAgentKYC = (token) => (dispatch) => {
     });
 };
 
-
 export const getProfile = () => (dispatch) => {
   const config = {
     method: "GET",
@@ -109,21 +108,19 @@ export const getProfile = () => (dispatch) => {
       Authorization: "Bearer " + sessionStorage.getItem("token"),
     },
   };
- 
+
   axios(config)
     .then((res) => {
       if (res.status === 200) {
-       
         toastr.success("profile Retrieved Successfully");
         dispatch({
           type: actionType.GET_PROFILE_SUCCESS,
           payload: res.data,
         });
-        dispatch(getProfileImage(res.data.selfieDocument.documentFileName))
+        dispatch(getProfileImage(res.data.selfieDocument.documentFileName));
       }
     })
     .catch((error) => {
-      
       toastr.warning("failed to retrieve profile");
       dispatch({
         type: actionType.GET_PROFILE_FAILURE,
@@ -131,10 +128,210 @@ export const getProfile = () => (dispatch) => {
     });
 };
 
+export const getAllCurrencies = () => (dispatch) => {
+  dispatch({
+    type: actionType.CURRENCY_NULLABLE,
+  });
+  const config = {
+    method: "GET",
+    url: URL.agent.GET_CURRENCIES,
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+
+  axios(config)
+    .then((res) => {
+      if (res.status === 200) {
+        toastr.success("currencies Retrieved Successfully");
+        dispatch({
+          type: actionType.GET_CURRENCY_SUCCESS,
+          payload: res.data,
+        });
+      }
+    })
+    .catch((error) => {
+      toastr.warning("failed to retrieve currencies");
+      dispatch({
+        type: actionType.GET_CURRENCY_FAILURE,
+      });
+    });
+};
+
+export const getAllAssets = () => (dispatch) => {
+  dispatch({
+    type: actionType.ASSETS_NULLABLE,
+  });
+  const config = {
+    method: "GET",
+    url: URL.agent.GET_ASSETS,
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+
+  axios(config)
+    .then((res) => {
+      if (res.status === 200) {
+        toastr.success("assets Retrieved Successfully");
+        dispatch({
+          type: actionType.GET_ASSETS_SUCCESS,
+          payload: res.data,
+        });
+      }
+    })
+    .catch((error) => {
+      toastr.warning("failed to retrieve assets");
+      dispatch({
+        type: actionType.GET_ASSETS_FAILURE,
+      });
+    });
+};
+
+export const getAllOperations = () => (dispatch) => {
+  dispatch({
+    type: actionType.OPERATIONS_NULLABLE,
+  });
+  const config = {
+    method: "GET",
+    url: URL.agent.GET_OPERATIONS,
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+
+  axios(config)
+    .then((res) => {
+      if (res.status === 200) {
+        toastr.success("operation Retrieved Successfully");
+        dispatch({
+          type: actionType.GET_OPERATIONS_SUCCESS,
+          payload: res.data,
+        });
+      }
+    })
+    .catch((error) => {
+      toastr.warning("failed to retrieve operation");
+      dispatch({
+        type: actionType.GET_OPERATIONS_FAILURE,
+      });
+    });
+};
+
+export const getAllOperationsEdit = (id) => (dispatch) => {
+  dispatch({
+    type: actionType.OPERATIONS_NULLABLE,
+  });
+  const config = {
+    method: "GET",
+    url: URL.agent.GET_OPERATIONS,
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+
+  axios(config)
+    .then((res) => {
+      if (res.status === 200) {
+        toastr.success("operation Retrieved Successfully");
+
+        dispatch({
+          type: actionType.GET_OPERATIONS_SUCCESS,
+          payload: res.data,
+        });
+        dispatch(getAPackage(id));
+      }
+    })
+    .catch((error) => {
+      toastr.warning("failed to retrieve operation");
+      dispatch({
+        type: actionType.GET_OPERATIONS_FAILURE,
+      });
+    });
+};
+
+export const getAPackage = (id) => (dispatch) => {
+  dispatch({
+    type: actionType.GET_PACKAGE_NULLABLE,
+  });
+  const config = {
+    method: "GET",
+    url: URL.agent.CREATE_PACKAGE + "/" + id,
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+
+  axios(config)
+    .then((res) => {
+      if (res.status === 200) {
+        toastr.success("Package Retrieved Successfully");
+        dispatch({
+          type: actionType.GET_A_PACKAGE_SUCCESS,
+          payload: res.data,
+        });
+      }
+    })
+    .catch((error) => {
+      toastr.warning("failed to retrieve package");
+      dispatch({
+        type: actionType.GET_A_PACKAGE_FAILURE,
+      });
+    });
+};
+
+export const createPackage = (payload, history) => (dispatch) => {
+  const config = {
+    method: "post",
+    url: URL.agent.CREATE_PACKAGE,
+    data: payload,
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+
+  axios(config)
+    .then((res) => {
+      if (res.status === 201) {
+        toastr.success("package created Successfully");
+        history.push({
+          pathname: "/settings/general/package-management",
+        });
+      }
+    })
+    .catch((error) => {
+      toastr.warning("failed to create Package");
+    });
+};
+
+export const updatePackage = (payload, history, id) => (dispatch) => {
+  const config = {
+    method: "put",
+    url: URL.agent.CREATE_PACKAGE + "/" + id,
+    data: payload,
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+
+  axios(config)
+    .then((res) => {
+      if (res.status === 201) {
+        toastr.success("package updated Successfully");
+        history.push({
+          pathname: "/settings/general/package-management",
+        });
+      }
+    })
+    .catch((error) => {
+      toastr.warning("failed to update Package");
+    });
+};
+
 export const getAllAgentMemberPackages = () => (dispatch) => {
   dispatch({
-    type:actionType.PACKAGES_NULLABLE
-  })
+    type: actionType.PACKAGES_NULLABLE,
+  });
   const config = {
     method: "GET",
     url: URL.agent.GET_PACKAGES,
@@ -142,21 +339,18 @@ export const getAllAgentMemberPackages = () => (dispatch) => {
       Authorization: "Bearer " + sessionStorage.getItem("token"),
     },
   };
- 
+
   axios(config)
     .then((res) => {
       if (res.status === 200) {
-       
         toastr.success("packages Retrieved Successfully");
         dispatch({
           type: actionType.GET_PACKAGES_SUCCESS,
           payload: res.data,
         });
-       
       }
     })
     .catch((error) => {
-      
       toastr.warning("failed to retrieve packages");
       dispatch({
         type: actionType.GET_PACKAGES_FAILURE,
@@ -164,27 +358,23 @@ export const getAllAgentMemberPackages = () => (dispatch) => {
     });
 };
 
-
-
 export const getProfileImage = (filename) => (dispatch) => {
   dispatch({
-    type:actionType.PROFILE_IMAGE_NULLABLE
-  })
+    type: actionType.PROFILE_IMAGE_NULLABLE,
+  });
   const config = {
     method: "GET",
-    url: URL.agent.GET_PROFILE_IMAGE+"/"+filename,
+    url: URL.agent.GET_PROFILE_IMAGE + "/" + filename,
     headers: {
       Authorization: "Bearer " + sessionStorage.getItem("token"),
     },
-    responseType:"blob"
+    responseType: "blob",
   };
- 
+
   axios(config)
     .then((res) => {
-
-      console.log(typeof(res.data),"resssss")
+      console.log(typeof res.data, "resssss");
       if (res.status === 200) {
-       
         toastr.success("profile image retrieved Successfully");
         dispatch({
           type: actionType.GET_PROFILE_IMAGE_SUCCESS,
@@ -193,17 +383,12 @@ export const getProfileImage = (filename) => (dispatch) => {
       }
     })
     .catch((error) => {
-      
       toastr.warning("failed to retrieve profile image");
       dispatch({
         type: actionType.GET_PROFILE_IMAGE_FAILURE,
       });
     });
 };
-
-
-
-
 
 export const sendAgentOTP = (payload) => (dispatch) => {
   const config = {
@@ -640,7 +825,7 @@ export const addTicket = (token, payload, history) => (dispatch) => {
         history.push({ pathname: "/agent/tickets" });
       }
     })
-    .catch((error) => { });
+    .catch((error) => {});
 };
 export const UpdateTicket = (token, payload, ticketNo, history) => (
   dispatch
@@ -665,7 +850,7 @@ export const UpdateTicket = (token, payload, ticketNo, history) => (
         dispatch(getTickets(token));
       }
     })
-    .catch((error) => { });
+    .catch((error) => {});
 };
 export const addAreply = (token, data, ticketNo) => (dispatch) => {
   dispatch(uploadAttachmentFalse());
@@ -686,7 +871,7 @@ export const addAreply = (token, data, ticketNo) => (dispatch) => {
         dispatch(getATicket(token, ticketNo));
       }
     })
-    .catch((error) => { });
+    .catch((error) => {});
 };
 
 export const viewAttachmentFileFalse = () => (dispatch) => {
