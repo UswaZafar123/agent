@@ -134,8 +134,6 @@ class RoleManagement extends Component {
 
     componentDidMount = () => {
 
-        // this.props.getScreenPermissionsByRole(sessionStorage.getItem("token"));
-
         this.props.getAllUserRoles(sessionStorage.getItem("token"));
 
         this.props.getAllScreens(sessionStorage.getItem("token"));
