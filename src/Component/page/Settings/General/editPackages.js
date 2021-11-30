@@ -9,8 +9,8 @@ import { connect } from "react-redux";
 import {
   getAllCurrencies,
   getAllAssets,
-  getAllOperations,
-  createPackage,
+  getAllOperationsEdit,
+  updatePackage,
 } from "../../../../services/agent/action";
 
 import "./settingcss.css";
@@ -59,13 +59,15 @@ class Packages extends Component {
       planAmount: null,
       planName: "",
       channel: "",
+      checkedAssets: [],
+      limitProfileValues: [],
     };
   }
 
   componentDidMount() {
     this.props.getAllCurrencies();
     this.props.getAllAssets();
-    this.props.getAllOperations();
+    this.props.getAllOperationsEdit(this.props.location.state);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -73,22 +75,14 @@ class Packages extends Component {
       this.setState({
         currency: nextProps.currencyDetails._embedded.currencyDtoList,
       });
-      var inputs = [];
-      nextProps.currencyDetails._embedded.currencyDtoList.map((data) => {
-        inputs.push({
-          dailyTransactionCount: 0,
-          weeklyTransactionCount: 0,
-          monthlyTransactionCount: 0,
-          dailyTransactionAmount: 0,
-          weeklyTransactionAmount: 0,
-          monthlyTransactionAmount: 0,
-          currencyName: data.code,
-        });
-      });
+      // var inputs = [];
+      // nextProps.currencyDetails._embedded.currencyDtoList.map((data) => {
 
-      this.setState({
-        currencyLimitProfiles: inputs,
-      });
+      // });
+
+      // this.setState({
+      //   currencyLimitProfiles: inputs,
+      // });
     }
 
     if (nextProps.assetStatus === true) {
@@ -101,8 +95,80 @@ class Packages extends Component {
       this.setState({
         operations: nextProps.operationDetails._embedded.operationDtoList,
       });
+    }
 
-      console.log("checkerrr");
+    if (nextProps.a_package_status === true) {
+      //assets
+      var checkedOperations = [];
+      var assets = [];
+      var datass = [];
+      var displayOperations = [];
+      nextProps.a_package_details &&
+        nextProps.a_package_details.operationPermissionProfiles.length > 0 &&
+        nextProps.a_package_details.operationPermissionProfiles.map((data) => {
+          var checker = [];
+          assets.push(data.assetName);
+          data.operationPermissions.map((val) => {
+            checker.push(val.operationName);
+          });
+          datass.push({
+            assetsName: data.assetName,
+            operations: checker,
+          });
+        });
+      this.props.operationDetails._embedded.operationDtoList.map((data) => {
+        datass.map((val) => {
+          if (val.assetsName == data.asset.name) {
+            if (val.operations.includes(data.name)) {
+              checkedOperations.push(data.operationId);
+            }
+          }
+        });
+      });
+
+      var limits = [];
+
+      nextProps.a_package_details.currencyLimitProfiles.map((data) => {
+        limits.push({
+          dailyTransactionCount: data.dailyTransactionCount,
+          weeklyTransactionCount: data.weeklyTransactionCount,
+          monthlyTransactionCount: data.monthlyTransactionCount,
+          dailyTransactionAmount: data.dailyTransactionAmount,
+          weeklyTransactionAmount: data.weeklyTransactionAmount,
+          monthlyTransactionAmount: data.monthlyTransactionAmount,
+          currencyName: data.currencyName,
+        });
+      });
+
+      assets.map((data) => {
+        var inputsss = [];
+        this.props.operationDetails._embedded.operationDtoList.map((val) => {
+          if (data.includes(val.asset.name)) {
+            inputsss.push(val);
+          }
+        });
+
+        displayOperations.push({
+          operations: {
+            name: data,
+            values: inputsss,
+          },
+        });
+      });
+
+      this.setState({
+        displayOperations,
+        checkedOperations,
+        checkedAssets: assets,
+        planName: nextProps.a_package_details.name,
+        isdefault: nextProps.a_package_details.isDefault ? "true" : "false",
+        isfeatured: nextProps.a_package_details.isFeatured ? "true" : "false",
+        channel: nextProps.a_package_details.channel,
+        settlementPeriod: nextProps.a_package_details.settlementPeriod,
+        planAmount: nextProps.a_package_details.planPrice,
+        planStatus: nextProps.a_package_details.active ? "true" : "false",
+        currencyLimitProfiles: limits,
+      });
     }
   }
 
@@ -120,7 +186,9 @@ class Packages extends Component {
           values: filteredValue,
         },
       });
-      this.setState({ displayOperations: value });
+      var assetpush = this.state.checkedAssets;
+      assetpush.push(name);
+      this.setState({ displayOperations: value, checkedAssets: assetpush });
     } else {
       var filtered = this.state.displayOperations.filter(function (el) {
         return el.operations.name != name;
@@ -136,7 +204,10 @@ class Packages extends Component {
         return !removal_array.includes(el);
       });
 
+      var removesset = this.state.checkedAssets.filter((data) => data != name);
+
       this.setState({
+        checkedAssets: removesset,
         displayOperations: filtered,
         checkedOperations: myArray,
       });
@@ -194,11 +265,11 @@ class Packages extends Component {
   handleChangeSelectFeatured = (e) => {
     if (e == "true") {
       this.setState({
-        isfeatured: true,
+        isfeatured: "true",
       });
     } else {
       this.setState({
-        isfeatured: false,
+        isfeatured: "false",
       });
     }
   };
@@ -206,11 +277,11 @@ class Packages extends Component {
   handleChangeSelectDefault = (e) => {
     if (e == "true") {
       this.setState({
-        isdefault: true,
+        isdefault: "true",
       });
     } else {
       this.setState({
-        isdefault: false,
+        isdefault: "false",
       });
     }
   };
@@ -218,18 +289,18 @@ class Packages extends Component {
   handleChangeSelectStatus = (e) => {
     if (e == "true") {
       this.setState({
-        planStatus: true,
+        planStatus: "true",
       });
     } else {
       this.setState({
-        planStatus: false,
+        planStatus: "false",
       });
     }
   };
 
   handleChangeSelectPeriod = (e) => {
     this.setState({
-      planSettlementPeriod: e,
+      settlementPeriod: e,
     });
   };
 
@@ -299,20 +370,22 @@ class Packages extends Component {
     );
 
     var payload = {
+      packageId: this.props.location.state,
+
       name: this.state.planName,
       packageType: "STANDARD",
       agentType: "AGENT_MEMBER",
-      isDefault: this.state.isdefault,
-      isFeatured: this.state.isfeatured,
+      isDefault: this.state.isdefault == "true" ? true : false,
+      isFeatured: this.state.isfeatured == "true" ? true : false,
       channel: this.state.channel,
       settlementPeriod: this.state.settlementPeriod,
       planPrice: this.state.planAmount,
-      active: this.state.planStatus,
+      active: this.state.planStatus == "true" ? true : false,
       currencyLimitProfiles: this.state.currencyLimitProfiles,
       operationPermissionProfiles: filtered,
     };
 
-    this.props.createPackage(payload, this.props.history);
+    this.props.updatePackage(payload, this.props.history,this.props.location.state);
   };
 
   render() {
@@ -346,6 +419,7 @@ class Packages extends Component {
                             Subscription Amount{" "}
                           </label>
                           <input
+                            value={this.state.planAmount}
                             onChange={this.handleAmount}
                             type="text"
                             placeholder="Subscription Amount"
@@ -356,6 +430,7 @@ class Packages extends Component {
                             Plan Name <span className="mantdat">*</span>
                           </label>
                           <input
+                            value={this.state.planName}
                             type="text"
                             placeholder="Enter Name"
                             onChange={this.handlePlanName}
@@ -387,6 +462,7 @@ class Packages extends Component {
                                 width: 100 + "%",
                                 height: 52,
                               }}
+                              value={this.state.settlementPeriod}
                               onChange={(e) => this.handleChangeSelectPeriod(e)}
                             >
                               <Option value="DAILY">DAILY</Option>
@@ -404,6 +480,7 @@ class Packages extends Component {
                                 width: 100 + "%",
                                 height: 52,
                               }}
+                              value={this.state.isfeatured}
                               onChange={(e) =>
                                 this.handleChangeSelectFeatured(e)
                               }
@@ -422,6 +499,7 @@ class Packages extends Component {
                                 width: 100 + "%",
                                 height: 52,
                               }}
+                              value={this.state.isdefault}
                               onChange={(e) =>
                                 this.handleChangeSelectDefault(e)
                               }
@@ -442,6 +520,7 @@ class Packages extends Component {
                                 width: 100 + "%",
                                 height: 52,
                               }}
+                              value={this.state.channel}
                               onChange={(e) =>
                                 this.handleChangeSelectChannels(e)
                               }
@@ -465,6 +544,9 @@ class Packages extends Component {
                               this.state.assets.map((data) => {
                                 return (
                                   <Checkbox
+                                    checked={this.state.checkedAssets.includes(
+                                      data.name
+                                    )}
                                     value={data.assetId}
                                     onChange={(e) =>
                                       this.handleAssets(e, data.name)
@@ -532,7 +614,7 @@ class Packages extends Component {
                           </label>
                           <div className="categorySelect">
                             <Select
-                              defaultValue="Select..."
+                              value={this.state.planStatus}
                               style={{
                                 width: 100 + "%",
                                 height: 52,
@@ -673,6 +755,11 @@ class Packages extends Component {
                                           </label>
                                           <input
                                             type="text"
+                                            value={
+                                              this.state.currencyLimitProfiles[
+                                                index
+                                              ].dailyTransactionCount
+                                            }
                                             onChange={(e) =>
                                               this.limits(
                                                 e,
@@ -690,6 +777,11 @@ class Packages extends Component {
                                             <span className="mantdat">*</span>
                                           </label>
                                           <input
+                                            value={
+                                              this.state.currencyLimitProfiles[
+                                                index
+                                              ].dailyTransactionAmount
+                                            }
                                             onChange={(e) =>
                                               this.limits(
                                                 e,
@@ -709,6 +801,11 @@ class Packages extends Component {
                                             <span className="mantdat">*</span>
                                           </label>
                                           <input
+                                            value={
+                                              this.state.currencyLimitProfiles[
+                                                index
+                                              ].weeklyTransactionCount
+                                            }
                                             onChange={(e) =>
                                               this.limits(
                                                 e,
@@ -735,6 +832,11 @@ class Packages extends Component {
                                                 "amount"
                                               )
                                             }
+                                            value={
+                                              this.state.currencyLimitProfiles[
+                                                index
+                                              ].weeklyTransactionAmount
+                                            }
                                             type="text"
                                             placeholder="Amount of Transcation"
                                           />
@@ -753,6 +855,11 @@ class Packages extends Component {
                                                 "number"
                                               )
                                             }
+                                            value={
+                                              this.state.currencyLimitProfiles[
+                                                index
+                                              ].monthlyTransactionCount
+                                            }
                                             type="text"
                                             placeholder="Number of transcations"
                                           />
@@ -763,6 +870,11 @@ class Packages extends Component {
                                             <span className="mantdat">*</span>
                                           </label>
                                           <input
+                                            value={
+                                              this.state.currencyLimitProfiles[
+                                                index
+                                              ].monthlyTransactionAmount
+                                            }
                                             onChange={(e) =>
                                               this.limits(
                                                 e,
@@ -826,6 +938,8 @@ class Packages extends Component {
 
 const mapStateToProps = ({ agentReducer }) => {
   const {
+    a_package_details,
+    a_package_status,
     currencyStatus,
     currencyDetails,
     assetStatus,
@@ -841,6 +955,8 @@ const mapStateToProps = ({ agentReducer }) => {
     assetDetails,
     operationStatus,
     operationDetails,
+    a_package_details,
+    a_package_status,
   };
 };
 
@@ -848,9 +964,10 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getAllCurrencies: () => dispatch(getAllCurrencies()),
     getAllAssets: () => dispatch(getAllAssets()),
-    getAllOperations: () => dispatch(getAllOperations()),
-    createPackage: (payload, history) =>
-      dispatch(createPackage(payload, history)),
+    getAllOperationsEdit: (id) => dispatch(getAllOperationsEdit(id)),
+
+    updatePackage: (payload, history,id) =>
+      dispatch(updatePackage(payload, history,id)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Packages);

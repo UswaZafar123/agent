@@ -226,22 +226,102 @@ const agentReducer = (state = initialState, action) => {
     case actionType.GET_PACKAGES_SUCCESS:
       return {
         ...state,
-        packagesStatus:true,
+        packagesStatus: true,
         packagesDetails: action.payload,
       };
 
     case actionType.GET_PACKAGES_FAILURE:
       return {
         ...state,
-        packagesStatus:false,
+        packagesStatus: false,
 
         packagesDetails: false,
       };
-      case actionType.PACKAGES_NULLABLE:
-        return{
-          ...state,
-          packagesStatus:"nullable"
-        }
+    case actionType.PACKAGES_NULLABLE:
+      return {
+        ...state,
+        packagesStatus: "nullable",
+      };
+
+    case actionType.GET_CURRENCY_SUCCESS:
+      return {
+        ...state,
+        currencyStatus: true,
+        currencyDetails: action.payload,
+      };
+
+    case actionType.GET_CURRENCY_FAILURE:
+      return {
+        ...state,
+        currencyStatus: false,
+
+        currencyDetails: null,
+      };
+    case actionType.CURRENCY_NULLABLE:
+      return {
+        ...state,
+        currencyStatus: "nullable",
+      };
+
+    case actionType.GET_ASSETS_SUCCESS:
+      return {
+        ...state,
+        assetStatus: true,
+        assetDetails: action.payload,
+      };
+
+    case actionType.GET_ASSETS_FAILURE:
+      return {
+        ...state,
+        assetStatus: false,
+
+        assetDetails: null,
+      };
+    case actionType.ASSETS_NULLABLE:
+      return {
+        ...state,
+        assetStatus: "nullable",
+      };
+
+    case actionType.GET_OPERATIONS_SUCCESS:
+      return {
+        ...state,
+        operationStatus: true,
+        operationDetails: action.payload,
+      };
+
+    case actionType.GET_OPERATIONS_FAILURE:
+      return {
+        ...state,
+        operationStatus: false,
+
+        operationDetails: null,
+      };
+    case actionType.OPERATIONS_NULLABLE:
+      return {
+        ...state,
+        operationStatus: "nullable",
+      };
+
+    case actionType.GET_A_PACKAGE_SUCCESS:
+      return {
+        ...state,
+        a_package_status: true,
+        a_package_details: action.payload,
+      };
+
+    case actionType.GET_A_PACKAGE_FAILURE:
+      return {
+        ...state,
+        a_package_status: false,
+
+        a_package_details: null,
+      };
+    case actionType.GET_PACKAGE_NULLABLE:
+      return {
+        ...state,
+        a_package_status: "nullable",
+      };
     default:
       return state;
   }
