@@ -30,10 +30,10 @@ class NavBar extends Component {
           <img alt="logo" src={Logo} className="navDefaultLogo" />
         </div>
 
-        <ReactFlagsSelect
+        {/* <ReactFlagsSelect
           selected={this.state.selected} className="langOption navCountrySelect"
           onSelect={code => this.setSelected(code)}
-        />
+        /> */}
         <select className="langOption" name='langue' onChange={(e) => this.handleLanguage(e)}
         >
           <option value=''>Choisir la langue</option>

@@ -81,6 +81,7 @@ body {
     display: flex;
     justify-content: center;    
     align-items: center;
+    overflow-x: hidden;
 }
 
 .agent-bg {
@@ -3113,6 +3114,12 @@ footer {
     height: 90px;
     width: 300px;
 }
+.h1ForBusinessDetails{
+    font-size: 36px;
+    line-height: 20px;
+    font-weight: 600;
+    margin-top: 70px;
+}
 
 @media  screen and (max-width: 600px) {
     .nav-default{
@@ -3156,6 +3163,29 @@ footer {
         height: 25px;
         text-align-last: center;
     }
+
+    .agent-registration-container {
+        /* background: linear-gradient(90deg, rgba(42, 69, 125, 0.9), rgba(150, 201, 57, 0.9)), url(../images/wallet-2125548_1920.jpg) !important; */
+        width: 100%;
+        min-height: 100vh;
+        /* height: 100%; */
+        background-image: url(./images/BG-2.png) !important;
+        background-position:center ;
+        background-repeat: no-repeat;
+        background-size: cover;
+        display: flex;
+        justify-content: center;    
+        align-items: center;
+    }
+    
+    .sub-title{
+        font-size: 22px;
+        font-weight: 500;
+    }
+
+    .form-control::placeholder {
+        font-size: 15px;
+    }
     
 }
 
@@ -3196,11 +3226,10 @@ footer {
     .nav-default{
         width: 100%;
         height: 2em;
-
     }
 
     .navDefaultLogo{
-        height: 40px;
+        height: 50px;
         width: 150px;
     }
 
@@ -3232,5 +3261,16 @@ footer {
         height: 25px;
         text-align-last: center;
     }
-    
+
+    .h1ForBusinessDetails{
+        font-size: 22px;
+        line-height: 20px;
+        font-weight: 600;
+        margin-top: 70px;
+    }
+
+    .sub-title{
+        font-size: 22px;
+        font-weight: 500;
+    }
 }

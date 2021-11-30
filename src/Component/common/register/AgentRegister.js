@@ -500,7 +500,7 @@ class Register extends Component {
       <Fragment>
         <section className="loginWrapper accountWrapper">
           <NavBar />
-          <div className="col-md-12 indAccountRegContainer">
+          <div className="col-sm-12 indAccountRegContainer">
             <div className="loginInner">
               <div className="row" style={{ display: "none" }}>
                 <h1 className="title">Welcome to Afriland Bank!</h1>
@@ -560,9 +560,9 @@ class Register extends Component {
                   </li>
                 </ul>
 
-                <div className="col-md-12">
+                <div className="col-sm-12">
                   <div
-                    className="col-md-12 text-center"
+                    className="col-sm-12 text-center"
                     style={{
                       justifyContent: "center",
                       display: "flex",
@@ -582,7 +582,7 @@ class Register extends Component {
 
                 <div className="row">
                   <div
-                    className="col-md-12 text-center"
+                    className="col-sm-12 text-center"
                     style={{
                       justifyContent: "center",
                       display: "flex",
@@ -600,9 +600,9 @@ class Register extends Component {
                 <h1 className="sub-title">
                   {sessionStorage.getItem("accountType")} Account
                 </h1>
-                <div className="col-md-12 float-left" style={{ float: "left" }}>
+                <div className="col-sm-12 float-left" style={{ float: "left" }}>
                   <div
-                    className="form-group "
+                    className="form-group"
                     style={{ marginTop: "5%", marginBottom: "5%" }}
                   >
                     <label>First Name</label>
@@ -779,7 +779,7 @@ class Register extends Component {
                   )}
 
                   <div
-                    className="col-md-12"
+                    className="col-sm-12"
                     style={{
                       display: "flex",
                       justifyContent: "space-around",
@@ -788,7 +788,7 @@ class Register extends Component {
                     }}
                   >
                     <div
-                      className="col-md-6 float-left"
+                      className="col-sm-6 float-left"
                       style={{ float: "left", marginRight: "5px" }}
                     >
                       <div style={{ textAlign: "center" }}>
@@ -823,7 +823,7 @@ class Register extends Component {
                       </div>
                     </div>
                     <div
-                      className="col-md-6 float-right"
+                      className="col-sm-6 float-right"
                       style={{ float: "right", marginLeft: "5px" }}
                     >
                       <div style={{ textAlign: "center" }}>
@@ -913,12 +913,7 @@ class Register extends Component {
                     {sessionStorage.getItem("accountType") !== "Individual" && (
                       <>
                         <h1
-                          style={{
-                            fontSize: "36px",
-                            lineHeight: "20px",
-                            fontWeight: "600",
-                            marginTop: "70px",
-                          }}
+                          className="h1ForBusinessDetails"
                         >
                           Business Details
                         </h1>
@@ -1019,7 +1014,7 @@ class Register extends Component {
                     )}
 
                     <div
-                      className="col-md-12"
+                      className="col-sm-12"
                       style={{
                         display: "flex",
                         justifyContent: "space-around",
@@ -1387,7 +1382,7 @@ class Register extends Component {
                     </Modal>
                     <div className="row">
                       <div
-                        className="col-md-12 text-center"
+                        className="col-sm-12 text-center"
                         style={{
                           justifyContent: "center",
                           display: "flex",
