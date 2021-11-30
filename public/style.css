@@ -3190,7 +3190,6 @@ footer {
         height: 25px;
         text-align-last: center;
     }
-
 }
 
 @media screen and (min-width: 320px) and (max-width: 568px) {
@@ -3214,9 +3213,7 @@ footer {
         overflow-y: auto;
         right: 0;
         margin: auto;
-        /* display: flex; */
         align-items: center;
-        /* justify-content: center; */
         padding-top: 15%;
         overflow-x: hidden;
     }
