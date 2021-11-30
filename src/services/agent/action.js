@@ -613,11 +613,11 @@ export const getATicket = (token, ticketNO) => (dispatch) => {
     });
 };
 
-export const getScreenPermissionsByRole = (token) => (dispatch) => {
+export const getScreenPermissionsByRole = (token, roleId) => (dispatch) => {
   dispatch(ShowLoading());
   const config = {
     method: "get",
-    url: URL.agent.GET_SCREEN_PERMISSIONS_BY_ROLE,
+    url: URL.agent.GET_SCREEN_PERMISSIONS_BY_ROLE + "?userRoleId=" + roleId,
     headers: {
       "Content-Type": "application/json",
       Authorization: "Bearer " + token,
@@ -634,6 +634,35 @@ export const getScreenPermissionsByRole = (token) => (dispatch) => {
     dispatch(HideLoading());
     dispatch({
       type: actionType.GET_SCREEN_PERMISSIONS_BY_ROLE_SUCCESS,
+      payload: null
+    });
+  });
+};
+
+export const addScreenPermissionsByRole = (token, payload) => (dispatch) => {
+  dispatch(ShowLoading());
+  const config = {
+    method: "POST",
+    url: URL.agent.GET_SCREEN_PERMISSIONS_BY_ROLE,
+    data: payload,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  };
+
+  axios(config).then((res) => {
+    dispatch(HideLoading());
+    toastr.success("Role Permissions Added..");
+    dispatch({
+      type: actionType.ADD_ALL_PERMISSION_SUCCESS,
+      payload: res.data
+    });
+  }).catch((err) => {
+    dispatch(HideLoading());
+    toastr.error("Role Permissions Failed to Add..");
+    dispatch({
+      type: actionType.ADD_ALL_PERMISSION_FAILURE,
       payload: null
     });
   });
@@ -669,7 +698,7 @@ export const getAllUserRoles = (token) => (dispatch) => {
   });
 }
 
-export const addUserRole = (token, payload) => (dispatch) => {
+export const addUserRole = (token, payload, permissionsPayload) => (dispatch) => {
   dispatch(ShowLoading());
   const config = {
     method: "POST",
@@ -687,6 +716,21 @@ export const addUserRole = (token, payload) => (dispatch) => {
       type: actionType.ADD_USER_ROLE_SUCCESS,
       payload: res.data
     });
+
+    if (res.data.userRoleId) {
+
+      const userRoleId = res.data.userRoleId
+
+      const permissionsBody = {
+        "userRoleId": userRoleId,
+        "screenPermissions": permissionsPayload
+      }
+
+      console.log(permissionsBody, "PERMISSIONS BODY")
+
+      dispatch(addScreenPermissionsByRole(token, permissionsBody));
+
+    }
   }).catch((err) => {
     dispatch(HideLoading());
     toastr.error("ERROR ADDING ROLE..");
@@ -747,6 +791,36 @@ export const updateUserRole = (token, roleId, payload) => (dispatch) => {
     toastr.error("ERROR UPDATING ROLE..");
     dispatch({
       type: actionType.UPDATE_USER_ROLE_FAILURE,
+      payload: null
+    });
+  });
+}
+
+export const getAllScreens = (token) => (dispatch) => {
+  dispatch(ShowLoading());
+  const config = {
+    method: "get",
+    url: URL.agent.GET_ALL_SCREENS,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  };
+
+  axios(config).then((res) => {
+    dispatch(HideLoading());
+    toastr.success("Screens Fetched Successfully..");
+
+    dispatch({
+      type: actionType.GET_ALL_SCREEN_SUCCESS,
+      payload: res.data
+    });
+  }).catch((err) => {
+    dispatch(HideLoading());
+    toastr.error("Screens Fetch Error..");
+
+    dispatch({
+      type: actionType.GET_ALL_SCREEN_FAILURE,
       payload: null
     });
   });

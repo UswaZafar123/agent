@@ -214,6 +214,7 @@ const agentReducer = (state = initialState, action) => {
         getUserRoleData: action.payload,
         updateUserRoleStatus: false,
         updateUserRoleData: null,
+        getAllScreensStatus: false,
       };
     case actionType.GET_USER_ROLES_FAILURE:
       return {
@@ -226,6 +227,7 @@ const agentReducer = (state = initialState, action) => {
         getUserRoleData: null,
         updateUserRoleStatus: false,
         updateUserRoleData: null,
+        getAllScreensStatus: false,
       };
     case actionType.ADD_USER_ROLE_SUCCESS:
       return {
@@ -265,7 +267,7 @@ const agentReducer = (state = initialState, action) => {
         deleteUserRoleStatus: false,
         deleteUserRoleData: null,
       };
-    case actionType.UPDATE_USER_ROLE_SUCCESS:
+    case actionType.UPDATE_USER_ROLE_FAILURE:
       return {
         ...state,
         updateUserRoleStatus: false,
@@ -274,6 +276,30 @@ const agentReducer = (state = initialState, action) => {
         addUserRoleData: null,
         deleteUserRoleStatus: false,
         deleteUserRoleData: null,
+      };
+    case actionType.GET_ALL_SCREEN_SUCCESS:
+      return {
+        ...state,
+        getAllScreensStatus: true,
+        getAllScreensData: action.payload
+      };
+    case actionType.GET_ALL_SCREEN_FAILURE:
+      return {
+        ...state,
+        getAllScreensStatus: false,
+        getAllScreensData: action.payload
+      };
+    case actionType.ADD_ALL_PERMISSION_SUCCESS:
+      return {
+        ...state,
+        addAllPermissionStatus: true,
+        addAllPermissionData: action.payload
+      };
+    case actionType.ADD_ALL_PERMISSION_FAILURE:
+      return {
+        ...state,
+        addAllPermissionStatus: false,
+        addAllPermissionData: action.payload
       };
     default:
       return state;

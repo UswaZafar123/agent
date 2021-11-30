@@ -42,7 +42,13 @@ const initialState = {
   deleteUserRoleData : null,
 
   updateUserRoleStatus : false,
-  updateUserRoleData : null
+  updateUserRoleData : null,
+
+  getAllScreensStatus : false,
+  getAllScreensData : null,
+
+  addAllPermissionStatus : false,
+  addAllPermissionData : null
   //   viewProPicStatus: false
 };
 export default initialState;
