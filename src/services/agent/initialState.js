@@ -28,6 +28,27 @@ const initialState = {
   profileDetails: null,
   kycGetStatus: false,
   kycGetData: null,
+
+  getScreenPermissionsByRoleStatus: false,
+  getScreenPermissionsByRoleData: null,
+
+  getUserRoleStatus: false,
+  getUserRoleData: null,
+
+  addUserRoleStatus: false,
+  addUserRoleData: null,
+
+  deleteUserRoleStatus: false,
+  deleteUserRoleData: null,
+
+  updateUserRoleStatus: false,
+  updateUserRoleData: null,
+
+  getAllScreensStatus: false,
+  getAllScreensData: null,
+
+  addAllPermissionStatus: false,
+  addAllPermissionData: null,
   profileImage: null,
   profileImageStatus: "null",
   packagesDetails: null,

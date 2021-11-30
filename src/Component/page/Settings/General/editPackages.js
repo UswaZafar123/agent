@@ -140,6 +140,7 @@ class Packages extends Component {
         });
       });
 
+      // console.log(limits, "Limits check")
       assets.map((data) => {
         var inputsss = [];
         this.props.operationDetails._embedded.operationDtoList.map((val) => {
@@ -385,7 +386,7 @@ class Packages extends Component {
       operationPermissionProfiles: filtered,
     };
 
-    this.props.updatePackage(payload, this.props.history,this.props.location.state);
+    this.props.updatePackage(payload, this.props.history, this.props.location.state);
   };
 
   render() {
@@ -758,7 +759,12 @@ class Packages extends Component {
                                             value={
                                               this.state.currencyLimitProfiles[
                                                 index
-                                              ].dailyTransactionCount
+                                              ] ?
+                                                this.state.currencyLimitProfiles[
+                                                  index
+                                                ].dailyTransactionCount
+                                                :
+                                                ""
                                             }
                                             onChange={(e) =>
                                               this.limits(
@@ -780,7 +786,12 @@ class Packages extends Component {
                                             value={
                                               this.state.currencyLimitProfiles[
                                                 index
-                                              ].dailyTransactionAmount
+                                              ] ?
+                                                this.state.currencyLimitProfiles[
+                                                  index
+                                                ].dailyTransactionAmount
+                                                :
+                                                ""
                                             }
                                             onChange={(e) =>
                                               this.limits(
@@ -804,7 +815,12 @@ class Packages extends Component {
                                             value={
                                               this.state.currencyLimitProfiles[
                                                 index
-                                              ].weeklyTransactionCount
+                                              ] ?
+                                                this.state.currencyLimitProfiles[
+                                                  index
+                                                ].weeklyTransactionCount
+                                                :
+                                                ""
                                             }
                                             onChange={(e) =>
                                               this.limits(
@@ -835,7 +851,12 @@ class Packages extends Component {
                                             value={
                                               this.state.currencyLimitProfiles[
                                                 index
-                                              ].weeklyTransactionAmount
+                                              ] ?
+                                                this.state.currencyLimitProfiles[
+                                                  index
+                                                ].weeklyTransactionAmount
+                                                :
+                                                ""
                                             }
                                             type="text"
                                             placeholder="Amount of Transcation"
@@ -858,7 +879,12 @@ class Packages extends Component {
                                             value={
                                               this.state.currencyLimitProfiles[
                                                 index
-                                              ].monthlyTransactionCount
+                                              ] ?
+                                                this.state.currencyLimitProfiles[
+                                                  index
+                                                ].monthlyTransactionCount
+                                                :
+                                                ""
                                             }
                                             type="text"
                                             placeholder="Number of transcations"
@@ -873,7 +899,12 @@ class Packages extends Component {
                                             value={
                                               this.state.currencyLimitProfiles[
                                                 index
-                                              ].monthlyTransactionAmount
+                                              ] ?
+                                                this.state.currencyLimitProfiles[
+                                                  index
+                                                ].monthlyTransactionAmount
+                                                :
+                                                ""
                                             }
                                             onChange={(e) =>
                                               this.limits(
@@ -966,8 +997,8 @@ const mapDispatchToProps = (dispatch) => {
     getAllAssets: () => dispatch(getAllAssets()),
     getAllOperationsEdit: (id) => dispatch(getAllOperationsEdit(id)),
 
-    updatePackage: (payload, history,id) =>
-      dispatch(updatePackage(payload, history,id)),
+    updatePackage: (payload, history, id) =>
+      dispatch(updatePackage(payload, history, id)),
   };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Packages);

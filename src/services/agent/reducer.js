@@ -191,7 +191,116 @@ const agentReducer = (state = initialState, action) => {
         kycGetStatus: false,
         kycGetData: action.payload,
       };
-
+    case actionType.GET_SCREEN_PERMISSIONS_BY_ROLE_SUCCESS:
+      return {
+        ...state,
+        getScreenPermissionsByRoleStatus: true,
+        getScreenPermissionsByRoleData: action.payload
+      };
+    case actionType.GET_SCREEN_PERMISSIONS_BY_ROLE_FAILURE:
+      return {
+        ...state,
+        getScreenPermissionsByRoleStatus: false,
+        getScreenPermissionsByRoleData: action.payload
+      };
+    case actionType.GET_USER_ROLES_SUCCESS:
+      return {
+        ...state,
+        addUserRoleStatus: false,
+        addUserRoleData: null,
+        deleteUserRoleStatus: false,
+        deleteUserRoleData: null,
+        getUserRoleStatus: true,
+        getUserRoleData: action.payload,
+        updateUserRoleStatus: false,
+        updateUserRoleData: null,
+        getAllScreensStatus: false,
+      };
+    case actionType.GET_USER_ROLES_FAILURE:
+      return {
+        ...state,
+        addUserRoleStatus: false,
+        addUserRoleData: null,
+        deleteUserRoleStatus: false,
+        deleteUserRoleData: null,
+        getUserRoleStatus: false,
+        getUserRoleData: null,
+        updateUserRoleStatus: false,
+        updateUserRoleData: null,
+        getAllScreensStatus: false,
+      };
+    case actionType.ADD_USER_ROLE_SUCCESS:
+      return {
+        ...state,
+        addUserRoleStatus: true,
+        addUserRoleData: action.payload
+      };
+    case actionType.ADD_USER_ROLE_FAILURE:
+      return {
+        ...state,
+        addUserRoleStatus: false,
+        addUserRoleData: action.payload
+      };
+    case actionType.DELETE_USER_ROLE_SUCCESS:
+      return {
+        ...state,
+        deleteUserRoleStatus: true,
+        deleteUserRoleData: action.payload,
+        addUserRoleStatus: false,
+        addUserRoleData: null
+      };
+    case actionType.DELETE_USER_ROLE_FAILURE:
+      return {
+        ...state,
+        deleteUserRoleStatus: false,
+        deleteUserRoleData: action.payload,
+        addUserRoleStatus: false,
+        addUserRoleData: null
+      };
+    case actionType.UPDATE_USER_ROLE_SUCCESS:
+      return {
+        ...state,
+        updateUserRoleStatus: true,
+        updateUserRoleData: action.payload,
+        addUserRoleStatus: false,
+        addUserRoleData: null,
+        deleteUserRoleStatus: false,
+        deleteUserRoleData: null,
+      };
+    case actionType.UPDATE_USER_ROLE_FAILURE:
+      return {
+        ...state,
+        updateUserRoleStatus: false,
+        updateUserRoleData: action.payload,
+        addUserRoleStatus: false,
+        addUserRoleData: null,
+        deleteUserRoleStatus: false,
+        deleteUserRoleData: null,
+      };
+    case actionType.GET_ALL_SCREEN_SUCCESS:
+      return {
+        ...state,
+        getAllScreensStatus: true,
+        getAllScreensData: action.payload
+      };
+    case actionType.GET_ALL_SCREEN_FAILURE:
+      return {
+        ...state,
+        getAllScreensStatus: false,
+        getAllScreensData: action.payload
+      };
+    case actionType.ADD_ALL_PERMISSION_SUCCESS:
+      return {
+        ...state,
+        addAllPermissionStatus: true,
+        addAllPermissionData: action.payload
+      };
+    case actionType.ADD_ALL_PERMISSION_FAILURE:
+      return {
+        ...state,
+        addAllPermissionStatus: false,
+        addAllPermissionData: action.payload
+      };
     case actionType.GET_PROFILE_SUCCESS:
       return {
         ...state,
