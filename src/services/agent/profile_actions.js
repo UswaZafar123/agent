@@ -25,10 +25,9 @@ export const fetchAgentProfile = (token) => (dispatch) => {
       }
     })
     .catch((error) => {
-      console.log(error.response.status);
-      toastr.error("error", error.response.status)
-    //   dispatch({
-    //     type: actionType.AGENT_PROFILE_ERROR,
-    //   });
+      toastr.error("Error", error.response.data.detail)
+      dispatch({
+        type: actionType.AGENT_PROFILE_ERROR,
+      });
     });
 };

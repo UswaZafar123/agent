@@ -10,6 +10,11 @@ import HighchartsMore from 'highcharts/highcharts-more';
 import highcharts3d from 'highcharts/highcharts-3d';
 import ProgressBar from "@ramonak/react-progress-bar";
 import { connect } from "react-redux";
+import Skeleton from '@material-ui/lab/Skeleton';
+import {
+  ListItem,
+  ListItemText
+} from '@material-ui/core';
 
 import {
   fetchAgentProfile,
@@ -733,16 +738,20 @@ class Dashboard extends Component {
     }, () => {
       console.log("test001", this.state.fromDivHeight)
     });
-    this.props.fetchProfile(sessionStorage.getItem("token"));
+  }
+
+  componentDidUpdate(prevProps, nextProps) {
   }
 
   componentWillReceiveProps(nextProps) {
-    if(nextProps.profile.data) {
-      this.props.fetchAgentWallet(sessionStorage.getItem("token"));
-      if(nextProps.profile.data.registrationType === 'EXISTING_BANK_CUSTOMER') {
-        this.props.fetchAgentBankAccounts(sessionStorage.getItem("token"), nextProps.profile.data.bankCustomerId);
-      }
-    }
+  }
+
+  loadingProfileName = () => {
+    return (
+        <React.Fragment>
+          <Skeleton variant="text" width={100} style={{ margin: 'auto' }}/>
+        </React.Fragment>
+    );
   }
 
   render() {
@@ -842,9 +851,8 @@ class Dashboard extends Component {
                 <img src="../../propic.jpg" />
               </div>
               <div className="customdashboardrow1-image-name">
-                Harry Jane
-
-          </div>
+                {this.props.profile.loading ? this.loadingProfileName() : this.props.profile.data.firstName + " " + this.props.profile.data.lastName}
+              </div>
               <div className="customdashboardrow1-label-whole">
                 <div className="customdashboardrow1-label">
                   <label>Id Number:</label>

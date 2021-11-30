@@ -105,16 +105,16 @@ const BankCashWithdraw = () => {
       verifyCustomerSubmit();
       fetchCustomerAccounts();
       if(customerSuccess) {
+        setstep(step + 1);
       }
-      setstep(step + 1);
     } else if(step === 2) {
       setstep(step + 1);
 
     } else if(step === 3) {
       sendCustomerOTP();
       if(customerOtpSuccess) {
+        setstep(step + 1);
       }
-      setstep(step + 1);
     } else {
       sendWithdrawRequest();
       if(customerCashWithdrawSuccess) {

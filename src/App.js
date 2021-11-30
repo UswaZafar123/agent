@@ -130,11 +130,11 @@ export const App = (props) => {
                 >
                   <Switch>
                     <Redirect exact from="/agent" to="/agent/dashboard" />
-                    <Route path="/agent/dashboard" component={Dashboard} />
-                    <Route path="/agent/cash_deposit/wallet" component={WalletCashDeposit} />
-                    <Route path="/agent/cash_deposit/bank" component={BankCashDeposit} />
-                    <Route path="/agent/cash_withdraw/wallet" component={WalletCashWithdraw} />
-                    <Route path="/agent/cash_withdraw/bank" component={BankCashWithdraw} />
+                    <Route exact path="/agent/dashboard" component={Dashboard} />
+                    <Route exact path="/agent/cash_deposit/wallet" component={WalletCashDeposit} />
+                    <Route exact path="/agent/cash_deposit/bank" component={BankCashDeposit} />
+                    <Route exact path="/agent/cash_withdraw/wallet" component={WalletCashWithdraw} />
+                    <Route exact path="/agent/cash_withdraw/bank" component={BankCashWithdraw} />
 
                     <Route
                       path="/agent/walletOperation/transfert"

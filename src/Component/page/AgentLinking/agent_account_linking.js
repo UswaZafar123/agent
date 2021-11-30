@@ -12,26 +12,20 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import OtpInput from "react-otp-input";
 import { Select } from 'antd';
 import { useSelector, useDispatch } from 'react-redux'
-import { verifyCustomer, sendOtpToCustomer, initiateWalletCashWithdraw } from "../../../services/agent/action.js";
+import { fetchAgentProfile, verifyCustomer, sendOtpToCustomer, initiateWalletCashDeposit } from "../../../services/agent/action.js";
 
 const { Option } = Select;
 const resendTime = 30;
 
-const WalletCashWithdraw = () => {
+const AgentAccountLinking = () => {
   
   const [step, setstep] = useState(1);
-  const idDocumentTypes = [
-    {name: "ID Card", value: "ID_CARD"},
-    {name: "Passport", value: "PASSPORT"}
-  ];
   const otpTypes = [
     {name: "Email", value: "EMAIL"},
     {name: "SMS", value: "SMS"}
   ];
   
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [selectedDocumentType, setSelectedDocumentType] = useState(idDocumentTypes[0].value);
-  const [idDocumentNumber, setIdDocumentNumber] = useState('');
   const [amount, setAmount] = useState('');
   const [reason, setReason] = useState('');
   const [selectedOtpType, setSelectedOtpType] = useState(otpTypes[0].value);
@@ -44,8 +38,14 @@ const WalletCashWithdraw = () => {
   const customerSuccess = useSelector(state => state.agentReducer.customerValidation.success);
   const loadingCustomerOtp = useSelector(state => state.agentReducer.customerOtpSend.loading);
   const customerOtpSuccess = useSelector(state => state.agentReducer.customerOtpSend.success);
-  const loadingCustomerCashWithdraw = useSelector(state => state.agentReducer.customerWalletCashWithdraw.loading);
-  const customerCashWithdrawSuccess = useSelector(state => state.agentReducer.customerWalletCashWithdraw.success);
+  const loadingCustomerCashDeposit = useSelector(state => state.agentReducer.customerWalletCashDeposit.loading);
+  const customerCashDepositSuccess = useSelector(state => state.agentReducer.customerWalletCashDeposit.success);
+
+  React.useEffect(() => {
+    if(!agentProfile) {
+      dispatch(fetchAgentProfile(sessionStorage.getItem("token")));
+    }
+  }, [agentProfile, dispatch]);
 
   React.useEffect(() => {
     if(step === 4) {
@@ -56,7 +56,7 @@ const WalletCashWithdraw = () => {
   }, [otpTimer, step]);
 
   const stepOneValidated = () => {
-    return !(validator.isEmpty(phoneNumber) || validator.isEmpty(selectedDocumentType) || validator.isEmpty(idDocumentNumber) || loadingCustomerValidation);
+    return !validator.isEmpty(phoneNumber);
   };
 
   const stepTwoValidated = () => {
@@ -68,7 +68,7 @@ const WalletCashWithdraw = () => {
   };
 
   const stepFourValidated = () => {
-    return !(validator.isEmpty(otp) || otp.length !== 6 || loadingCustomerCashWithdraw);
+    return !(validator.isEmpty(otp) || otp.length !== 6 || loadingCustomerCashDeposit);
   };
 
 
@@ -102,8 +102,8 @@ const WalletCashWithdraw = () => {
         setstep(step + 1);
       }
     } else {
-      sendWithdrawRequest();
-      if(customerCashWithdrawSuccess) {
+      sendDepositRequest();
+      if(customerCashDepositSuccess) {
         resetForm();
         setstep(1);
       }
@@ -116,7 +116,6 @@ const WalletCashWithdraw = () => {
 
   const resetForm = () => {
     setPhoneNumber('');
-    setIdDocumentNumber('');
     setAmount('');
     setReason('');
     setOtp('');
@@ -127,11 +126,10 @@ const WalletCashWithdraw = () => {
     var requestObj = {
       "type": "WALLET",
       "phoneNumber": phoneNumber,
-      "idDocumentType": selectedDocumentType,
-      "idDocumentNumber": idDocumentNumber
     };
     dispatch(verifyCustomer(sessionStorage.getItem("token"), requestObj));
   }
+
   const sendCustomerOTP = () => {
     var requestObj = {
       "customerMobile": phoneNumber,
@@ -146,21 +144,21 @@ const WalletCashWithdraw = () => {
     sendCustomerOTP();
   }
 
-  const sendWithdrawRequest = () => {
+  const sendDepositRequest = () => {
     var requestObj = {
-      "debtorUserType": "CUSTOMER",
-      "debtorUserId": phoneNumber,
+      "debtorUserType": "AGENT",
+      "debtorUserId": agentProfile.phoneNo,
       "currencyCode": 'xaf',
       "amount": amount,
       "reason": reason,
-      "creditorUserType": "AGENT",
-      "creditorUserId": agentProfile.phoneNo,
+      "creditorUserType": "CUSTOMER",
+      "creditorUserId": phoneNumber,
       // "fee": transactionFee.value,
       // "feeId": feeId.value,
       "type": "WALLET_FUND_TRANSFER",
       "mfaToken": otp
     };
-    dispatch(initiateWalletCashWithdraw(sessionStorage.getItem("token"), requestObj));
+    dispatch(initiateWalletCashDeposit(sessionStorage.getItem("token"), requestObj));
   }
 
   const walletVerificationForm = () => {
@@ -169,33 +167,10 @@ const WalletCashWithdraw = () => {
         <div className="containerBiaN_form">
             <div className="containerBiaN_f_row">
                 <div className="containerBiaN_f_col width30percent textAlignRight">
-                    <label>Phone number <span className="mantdat">*</span></label>
+                    <label>Super Agent Id(Phone number without country code) <span className="mantdat">*</span></label>
                 </div>
                 <div className="containerBiaN_f_col width70percent">
                     <input placeholder="Enter Phone number" type="number" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)}/>
-                </div>
-            </div>
-            <div className="containerBiaN_f_row">
-                <div className="containerBiaN_f_col width30percent textAlignRight">
-                    <label>Document Type <span className="mantdat">*</span></label>
-                </div>
-                <div className="containerBiaN_f_col width70percent">
-                    <div className="categorySelect" >
-                    <Select
-                      style={{ width: 100 + "%", height: 52 }} value={selectedDocumentType} onChange={(value) => setSelectedDocumentType(value)}>
-                      {idDocumentTypes.map((type) => {
-                        return <Option value={type.value}>{type.name}</Option>
-                      })}
-                    </Select>
-                </div>
-                </div>
-            </div>
-            <div className="containerBiaN_f_row">
-                <div className="containerBiaN_f_col width30percent textAlignRight">
-                    <label>ID Document Number <span className="mantdat">*</span></label>
-                </div>
-                <div className="containerBiaN_f_col width70percent">
-                    <input placeholder="Enter ID document number" value={idDocumentNumber} onChange={(e) => setIdDocumentNumber(e.target.value)}/>
                 </div>
             </div>
         </div>
@@ -203,7 +178,7 @@ const WalletCashWithdraw = () => {
     );
   }
   
-  const transactionDetails = () => {
+  const superAgentDetails = () => {
     return (
       <>
         <div className="containerBiaN_form">
@@ -255,41 +230,44 @@ const WalletCashWithdraw = () => {
                     <label>Enter OTP <span className="mantdat">*</span></label>
                 </div>
                 <div className="containerBiaN_f_col width70percent">
-                  <OtpInput
-                    value={otp}
-                    shouldAutoFocus={true}
-                    onChange={(value) => setOtp(value)}
-                    numInputs={6}
-                    seperator={<span></span>}
-                    isInputNum={true}
-                    inputStyle={{
-                        width: "50px",
-                        marginRight: "10px",
-                        marginLeft: "10px",
-                        fontWeight: '600',
-                        fontSize: '16px',
-                        lineHeight: '20px',
-                        padding: '15px 20px',
-                        borderRadius: '5px',
-                        border: '1px solid transparent',
-                        color: '#00000',
-                        background: '#F2F2F2',
-                        display: 'inline-block',
-                        boxShadow: "0px 8px 8px rgba(37, 51, 66, 0.15)"
-                    }}
-                  />
+                <OtpInput
+                  value={otp}
+                  shouldAutoFocus={true}
+                  onChange={(value) => setOtp(value)}
+                  numInputs={6}
+                  seperator={<span></span>}
+                  isInputNum={true}
+                  inputStyle={{
+                      width: "50px",
+                      marginRight: "10px",
+                      marginLeft: "10px",
+                      fontWeight: '600',
+                      fontSize: '16px',
+                      lineHeight: '20px',
+                      padding: '15px 20px',
+                      borderRadius: '5px',
+                      border: '1px solid transparent',
+                      color: '#00000',
+                      background: '#F2F2F2',
+                      display: 'inline-block',
+                      boxShadow: "0px 8px 8px rgba(37, 51, 66, 0.15)"
+                  }}
+                />
                 </div>
-              </div>
-              <div className="containerBiaN_f_row">
-                  <div className="containerBiaN_f_col width30percent textAlignRight">
-                  </div>
-                  <div className="containerBiaN_f_col width70percent" style={{padding: '0px 0px 0px 20px'}}>
-                      <div style={{ display: 'flex' }}>
-                        {otpTimer !== 0 ? <p>Resend OTP in {otpTimer}</p> : <p>Didn't receive OTP <span onClick={() => resendCustomerOtp()} style={{ color: 'rgb(191 21 21)', cursor: 'pointer', textDecoration: 'underline' }}>resend</span></p>}
-                        
-                      </div>
-                  </div>
-              </div>
+            
+            </div>
+
+            <div className="containerBiaN_f_row">
+                <div className="containerBiaN_f_col width30percent textAlignRight">
+                </div>
+                <div className="containerBiaN_f_col width70percent" style={{padding: '0px 0px 0px 20px'}}>
+                    <div style={{ display: 'flex' }}>
+                      {otpTimer !== 0 ? <p>Resend OTP in {otpTimer}</p> : <p>Didn't receive OTP <span onClick={() => resendCustomerOtp()} style={{ color: 'rgb(191 21 21)', cursor: 'pointer', textDecoration: 'underline' }}>resend</span></p>}
+                      
+                    </div>
+                </div>
+            </div>
+           
         </div>
       </>
     );
@@ -305,7 +283,7 @@ const WalletCashWithdraw = () => {
                           <div className="chartCardTop">
                               <div className="kyccustomformheading">
                                   <h1 className="list_top_heading textAlignCenter text-center" style={{paddingLeft:"0px"}}>
-                                    Wallet Cash Withdraw
+                                    Wallet Cash Deposit
                                   </h1>
                               </div>
                           </div>
@@ -313,7 +291,7 @@ const WalletCashWithdraw = () => {
                               {(() => {
                                 switch(step) {
                                   case 1: return walletVerificationForm();
-                                  case 2: return transactionDetails();
+                                  case 2: return superAgentDetails();
                                   case 3: return customerOTPType();
                                   case 4: return customerOTP();
                                   default: return <div></div>
@@ -341,7 +319,5 @@ const WalletCashWithdraw = () => {
   </div>
   );
 };
-
-
  
-export default WalletCashWithdraw;
+export default AgentAccountLinking;

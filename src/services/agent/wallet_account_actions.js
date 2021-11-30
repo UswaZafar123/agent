@@ -21,7 +21,6 @@ export const fetchAgentWallet = (token) => (dispatch) => {
         var walletData = res.data.find((wallet) => {
           return wallet.currencyCode.toLowerCase() === 'xaf'
         });
-        console.log(walletData);
         dispatch({
           type: actionType.AGENT_WALLET_ACCOUNT_DATA,
           payload:walletData

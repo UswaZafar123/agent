@@ -12,7 +12,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import OtpInput from "react-otp-input";
 import { Select } from 'antd';
 import { useSelector, useDispatch } from 'react-redux'
-import { verifyCustomer, sendOtpToCustomer, initiateWalletCashDeposit } from "../../../services/agent/action.js";
+import { fetchAgentProfile, verifyCustomer, sendOtpToCustomer, initiateWalletCashDeposit } from "../../../services/agent/action.js";
 
 const { Option } = Select;
 const resendTime = 30;
@@ -46,6 +46,12 @@ const WalletCashDeposit = () => {
   const customerOtpSuccess = useSelector(state => state.agentReducer.customerOtpSend.success);
   const loadingCustomerCashDeposit = useSelector(state => state.agentReducer.customerWalletCashDeposit.loading);
   const customerCashDepositSuccess = useSelector(state => state.agentReducer.customerWalletCashDeposit.success);
+
+  React.useEffect(() => {
+    if(!agentProfile) {
+      dispatch(fetchAgentProfile(sessionStorage.getItem("token")));
+    }
+  }, [agentProfile, dispatch]);
 
   React.useEffect(() => {
     if(step === 4) {
@@ -91,21 +97,21 @@ const WalletCashDeposit = () => {
     if(step === 1) {
       verifyCustomerSubmit();
       if(customerSuccess) {
+        setstep(step + 1);
       }
-      setstep(step + 1);
     } else if(step === 2) {
       setstep(step + 1);
 
     } else if(step === 3) {
       sendCustomerOTP();
       if(customerOtpSuccess) {
+        setstep(step + 1);
       }
-      setstep(step + 1);
     } else {
       sendDepositRequest();
-      resetForm();
-      setstep(1);
       if(customerCashDepositSuccess) {
+        resetForm();
+        setstep(1);
       }
     }
   };
@@ -345,7 +351,5 @@ const WalletCashDeposit = () => {
   </div>
   );
 };
-
-
  
 export default WalletCashDeposit;

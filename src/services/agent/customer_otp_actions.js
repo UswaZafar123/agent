@@ -27,7 +27,7 @@ export const sendOtpToCustomer = (token, payload) => (dispatch) => {
         }
       })
       .catch((error) => {
-        toastr.error("Unable to send otp");
+        toastr.error("Error", error.response.data.detail);
         dispatch({
           type: actionType.CUSTOMER_OTP_SEND_ERROR,
           payload: error,

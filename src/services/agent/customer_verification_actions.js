@@ -26,8 +26,7 @@ export const verifyCustomer = (token, data) => (dispatch) => {
       }
     })
     .catch((error) => {
-      console.log(error.response.status);
-      toastr.error("error", error.response.status)
+      toastr.error("Error", error.response.data.detail)
       dispatch({
         type: actionType.CUSTOMER_VALIDATION_ERROR,
       });
