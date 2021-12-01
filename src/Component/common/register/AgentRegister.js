@@ -1199,7 +1199,7 @@ class Register extends Component {
                             </td>
                             <td className="summaryValue">
                               <img
-                                style={{ width: "30%", height: "30%" }}
+                                className="imgThumbnailStyle"
                                 src={this.state.idFrontImageFile.thumbUrl}
                               />
                             </td>
@@ -1208,7 +1208,7 @@ class Register extends Component {
                             </td>
                             <td className="summaryValue">
                               <img
-                                style={{ width: "30%", height: "30%" }}
+                                className="imgThumbnailStyle"
                                 src={this.state.idBackImageFile.thumbUrl}
                               />
                             </td>
@@ -1240,7 +1240,7 @@ class Register extends Component {
                                 </td>
                                 <td className="summaryValue">
                                   <img
-                                    style={{ width: "30%", height: "30%" }}
+                                    className="imgThumbnailStyle"
                                     src={
                                       this.state.idFrontBusinessImageFile
                                         .thumbUrl
@@ -1252,7 +1252,7 @@ class Register extends Component {
                                 </td>
                                 <td className="summaryValue">
                                   <img
-                                    style={{ width: "30%", height: "30%" }}
+                                    className="imgThumbnailStyle"
                                     src={this.state.idAddressFile.thumbUrl}
                                   />
                                 </td>
@@ -1338,7 +1338,7 @@ class Register extends Component {
                                 </td>
                                 <td className="summaryValue">
                                   <img
-                                    style={{ width: "30%", height: "30%" }}
+                                    className="imgThumbnailStyle"
                                     src={
                                       this.state.idFrontBusinessImageFile
                                         .thumbUrl
@@ -1350,7 +1350,7 @@ class Register extends Component {
                                 </td>
                                 <td className="summaryValue">
                                   <img
-                                    style={{ width: "30%", height: "30%" }}
+                                    className="imgThumbnailStyle"
                                     src={this.state.idAddressFile.thumbUrl}
                                   />
                                 </td>

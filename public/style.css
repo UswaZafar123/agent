@@ -3129,6 +3129,11 @@ footer {
     margin-bottom: 30px;
 }
 
+.imgThumbnailStyle{
+    width: 40%;
+    height: 40%;
+}
+
 @media  screen and (max-width: 600px) {
     .nav-default{
         width: 100%;
@@ -3250,6 +3255,11 @@ footer {
         height: 25px;
         text-align-last: center;
     }
+
+    .imgThumbnailStyle{
+        width: 70px;
+        height: 70px;
+    }
 }
 
 @media screen and (min-width: 320px) and (max-width: 568px) {
@@ -3338,6 +3348,11 @@ footer {
         border: 1px solid #DA4139;
         height: 40px;
         cursor: pointer;
+    }
+
+    .imgThumbnailStyle{
+        width: 70px;
+        height: 70px;
     }
 
 }
