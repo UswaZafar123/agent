@@ -76,6 +76,7 @@ class Register extends Component {
       previewAddressTitle: "",
 
       viewSummaryVisible: false,
+      isMobile: false,
     };
   }
 
@@ -1108,24 +1109,19 @@ class Register extends Component {
                       visible={this.state.viewSummaryVisible}
                       footer={null}
                       onCancel={this.handleSummaryCancel}
-                      width="75%"
+                      width="80%"
                       style={{
                         top: "30px",
                       }}
                     >
                       <div>
                         <h1
-                          style={{
-                            fontSize: "25px",
-                            fontWeight: "600",
-                            marginTop: "20px",
-                            textAlign: "center",
-                            marginBottom: "30px",
-                          }}
+                          className="h1ForSummaryModal"
                         >
                           Registration Summary
                         </h1>
 
+                        <div style={{"overflow-x":"auto"}}>
                         <table className="table" style={{ width: "100%" }}>
                           <tr>
                             <th></th>
@@ -1264,6 +1260,7 @@ class Register extends Component {
                             </>
                           )}
                         </table>
+                        </div>
 
                         {sessionStorage.getItem("accountType") !==
                           "Individual" && (
@@ -1287,7 +1284,7 @@ class Register extends Component {
                             >
                               Business Details
                             </h1>
-
+                            <div style={{"overflow-x":"auto"}}>
                             <table className="table" style={{ width: "100%" }}>
                               <tr>
                                 <th></th>
@@ -1359,11 +1356,12 @@ class Register extends Component {
                                 </td>
                               </tr>
                             </table>
+                            </div>
                           </>
                         )}
-
+                    
                         <div
-                          className="col-md-12 text-center"
+                          className="col-sm-12 text-center"
                           style={{
                             justifyContent: "center",
                             display: "flex",

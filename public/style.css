@@ -3121,6 +3121,14 @@ footer {
     margin-top: 70px;
 }
 
+.h1ForSummaryModal{
+    font-size: 30px;
+    font-weight: 600;
+    margin-top: 20px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
 @media  screen and (max-width: 600px) {
     .nav-default{
         width: 100%;
@@ -3184,6 +3192,28 @@ footer {
     }
 
     .form-control::placeholder {
+        font-size: 20px;
+    }
+
+    .h1ForSummaryModal{
+        font-size: 20px;
+        font-weight: 600;
+        margin-top: 20px;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .summaryRow {
+        height: 30px;
+    }
+
+    .summaryLabel {
+        font-weight: bold;
+        font-size: 15px;
+    }
+
+    .summaryValue {
+        color: rgb(128, 128, 128);
         font-size: 15px;
     }
     
@@ -3273,4 +3303,41 @@ footer {
         font-size: 22px;
         font-weight: 500;
     }
+
+    .h1ForSummaryModal{
+        font-size: 15px;
+        font-weight: 600;
+        margin-top: 20px;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    
+    .summaryRow {
+        height: 30px;
+    }
+
+    .summaryLabel {
+        font-weight: bold;
+        font-size: 10px;
+    }
+
+    .summaryValue {
+        color: rgb(128, 128, 128);
+        font-size: 12px;
+    }
+
+    .form-control::placeholder {
+        font-size: 15px;
+    }
+
+    .btn-default {
+        background: #DA4139 !important;
+        border-radius: 10px;
+        padding: 2%;
+        min-width:200px !important ;
+        border: 1px solid #DA4139;
+        height: 40px;
+        cursor: pointer;
+    }
+
 }
