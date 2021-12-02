@@ -9,8 +9,8 @@ import HighchartsMore from 'highcharts/highcharts-more';
 
 import highcharts3d from 'highcharts/highcharts-3d';
 import ProgressBar from "@ramonak/react-progress-bar";
-
-
+import {connect} from "react-redux"
+import {   getProfile} from "../../services/agent/action"
 import { Select, DatePicker } from 'antd';
 import moment from 'moment';
 const dateFormat = 'YYYY/MM/DD';
@@ -38,6 +38,7 @@ class Dashboard extends Component {
     super(props);
     this.state = {
       fromDivHeight: null,
+      profileImage:null,
 
       options: {
         chart: {
@@ -727,10 +728,25 @@ class Dashboard extends Component {
       console.log("test001", this.state.fromDivHeight)
     });
 
+    this.props.getProfile();
+
+
   }
 
 
+  async componentWillReceiveProps(nextProps) {
+    if (nextProps.profileImageStatus) {
+      
+      var blob = new Blob([nextProps.profileImage], { type: "application/octet-stream" });
 
+      const value = URL.createObjectURL(blob)
+      this.setState({
+        profileImage:value
+      })
+    }
+  }
+
+  
 
   render() {
 
@@ -826,7 +842,9 @@ class Dashboard extends Component {
                 <h4>Agent Info</h4>
               </div>
               <div className="customdashboardrow1-image">
-                <img src="../../propic.jpg" />
+                {/* <img src="../../propic.jpg" /> */}
+                {this.props.profileImageStatus?<img src={this.state.profileImage} alt="profile pic" />:<img src="../../propic.jpg" />}
+
               </div>
               <div className="customdashboardrow1-image-name">
                 Harry Jane
@@ -1300,4 +1318,24 @@ class Dashboard extends Component {
     );
   }
 }
-export default Dashboard
+
+
+const mapStateToProps = ({ agentReducer }) => {
+  const { profileImage, profileImageStatus } = agentReducer;
+
+  console.log(agentReducer, "profileImage");
+
+  return {
+    profileImage,
+    profileImageStatus,
+  };
+};
+
+const mapDispatchToProps=(dispatch)=>{
+  return{
+    getProfile:()=>dispatch(getProfile())
+
+  }
+  
+}
+export default connect(mapStateToProps,mapDispatchToProps) (Dashboard)

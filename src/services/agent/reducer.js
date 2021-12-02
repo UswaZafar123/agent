@@ -191,6 +191,246 @@ const agentReducer = (state = initialState, action) => {
         kycGetStatus: false,
         kycGetData: action.payload,
       };
+    case actionType.GET_SCREEN_PERMISSIONS_BY_ROLE_SUCCESS:
+      return {
+        ...state,
+        getScreenPermissionsByRoleStatus: true,
+        getScreenPermissionsByRoleData: action.payload
+      };
+    case actionType.GET_SCREEN_PERMISSIONS_BY_ROLE_FAILURE:
+      return {
+        ...state,
+        getScreenPermissionsByRoleStatus: false,
+        getScreenPermissionsByRoleData: action.payload
+      };
+    case actionType.GET_USER_ROLES_SUCCESS:
+      return {
+        ...state,
+        addUserRoleStatus: false,
+        addUserRoleData: null,
+        deleteUserRoleStatus: false,
+        deleteUserRoleData: null,
+        getUserRoleStatus: true,
+        getUserRoleData: action.payload,
+        updateUserRoleStatus: false,
+        updateUserRoleData: null,
+        getAllScreensStatus: false,
+      };
+    case actionType.GET_USER_ROLES_FAILURE:
+      return {
+        ...state,
+        addUserRoleStatus: false,
+        addUserRoleData: null,
+        deleteUserRoleStatus: false,
+        deleteUserRoleData: null,
+        getUserRoleStatus: false,
+        getUserRoleData: null,
+        updateUserRoleStatus: false,
+        updateUserRoleData: null,
+        getAllScreensStatus: false,
+      };
+    case actionType.ADD_USER_ROLE_SUCCESS:
+      return {
+        ...state,
+        addUserRoleStatus: true,
+        addUserRoleData: action.payload
+      };
+    case actionType.ADD_USER_ROLE_FAILURE:
+      return {
+        ...state,
+        addUserRoleStatus: false,
+        addUserRoleData: action.payload
+      };
+    case actionType.DELETE_USER_ROLE_SUCCESS:
+      return {
+        ...state,
+        deleteUserRoleStatus: true,
+        deleteUserRoleData: action.payload,
+        addUserRoleStatus: false,
+        addUserRoleData: null
+      };
+    case actionType.DELETE_USER_ROLE_FAILURE:
+      return {
+        ...state,
+        deleteUserRoleStatus: false,
+        deleteUserRoleData: action.payload,
+        addUserRoleStatus: false,
+        addUserRoleData: null
+      };
+    case actionType.UPDATE_USER_ROLE_SUCCESS:
+      return {
+        ...state,
+        updateUserRoleStatus: true,
+        updateUserRoleData: action.payload,
+        addUserRoleStatus: false,
+        addUserRoleData: null,
+        deleteUserRoleStatus: false,
+        deleteUserRoleData: null,
+      };
+    case actionType.UPDATE_USER_ROLE_FAILURE:
+      return {
+        ...state,
+        updateUserRoleStatus: false,
+        updateUserRoleData: action.payload,
+        addUserRoleStatus: false,
+        addUserRoleData: null,
+        deleteUserRoleStatus: false,
+        deleteUserRoleData: null,
+      };
+    case actionType.GET_ALL_SCREEN_SUCCESS:
+      return {
+        ...state,
+        getAllScreensStatus: true,
+        getAllScreensData: action.payload
+      };
+    case actionType.GET_ALL_SCREEN_FAILURE:
+      return {
+        ...state,
+        getAllScreensStatus: false,
+        getAllScreensData: action.payload
+      };
+    case actionType.ADD_ALL_PERMISSION_SUCCESS:
+      return {
+        ...state,
+        addAllPermissionStatus: true,
+        addAllPermissionData: action.payload
+      };
+    case actionType.ADD_ALL_PERMISSION_FAILURE:
+      return {
+        ...state,
+        addAllPermissionStatus: false,
+        addAllPermissionData: action.payload
+      };
+    case actionType.GET_PROFILE_SUCCESS:
+      return {
+        ...state,
+        profileDetails: action.payload,
+      };
+    case actionType.GET_PROFILE_SUCCESS:
+      return {
+        ...state,
+        profileDetails: null,
+      };
+
+    case actionType.GET_PROFILE_IMAGE_SUCCESS:
+      return {
+        ...state,
+        profileImageStatus: 1,
+        profileImage: action.payload,
+      };
+    case actionType.GET_PROFILE_IMAGE_FAILURE:
+      return {
+        ...state,
+        profileImageStatus: false,
+
+        profileImage: null,
+      };
+
+    case actionType.PROFILE_IMAGE_NULLABLE:
+      return {
+        ...state,
+        profileImageStatus: "nullable",
+      };
+
+    case actionType.GET_PACKAGES_SUCCESS:
+      return {
+        ...state,
+        packagesStatus: true,
+        packagesDetails: action.payload,
+      };
+
+    case actionType.GET_PACKAGES_FAILURE:
+      return {
+        ...state,
+        packagesStatus: false,
+
+        packagesDetails: false,
+      };
+    case actionType.PACKAGES_NULLABLE:
+      return {
+        ...state,
+        packagesStatus: "nullable",
+      };
+
+    case actionType.GET_CURRENCY_SUCCESS:
+      return {
+        ...state,
+        currencyStatus: true,
+        currencyDetails: action.payload,
+      };
+
+    case actionType.GET_CURRENCY_FAILURE:
+      return {
+        ...state,
+        currencyStatus: false,
+
+        currencyDetails: null,
+      };
+    case actionType.CURRENCY_NULLABLE:
+      return {
+        ...state,
+        currencyStatus: "nullable",
+      };
+
+    case actionType.GET_ASSETS_SUCCESS:
+      return {
+        ...state,
+        assetStatus: true,
+        assetDetails: action.payload,
+      };
+
+    case actionType.GET_ASSETS_FAILURE:
+      return {
+        ...state,
+        assetStatus: false,
+
+        assetDetails: null,
+      };
+    case actionType.ASSETS_NULLABLE:
+      return {
+        ...state,
+        assetStatus: "nullable",
+      };
+
+    case actionType.GET_OPERATIONS_SUCCESS:
+      return {
+        ...state,
+        operationStatus: true,
+        operationDetails: action.payload,
+      };
+
+    case actionType.GET_OPERATIONS_FAILURE:
+      return {
+        ...state,
+        operationStatus: false,
+
+        operationDetails: null,
+      };
+    case actionType.OPERATIONS_NULLABLE:
+      return {
+        ...state,
+        operationStatus: "nullable",
+      };
+
+    case actionType.GET_A_PACKAGE_SUCCESS:
+      return {
+        ...state,
+        a_package_status: true,
+        a_package_details: action.payload,
+      };
+
+    case actionType.GET_A_PACKAGE_FAILURE:
+      return {
+        ...state,
+        a_package_status: false,
+
+        a_package_details: null,
+      };
+    case actionType.GET_PACKAGE_NULLABLE:
+      return {
+        ...state,
+        a_package_status: "nullable",
+      };
     default:
       return state;
   }
