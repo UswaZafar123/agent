@@ -5,7 +5,7 @@ import moment from "moment";
 import DatePicker from "react-datepicker";
 import { connect } from "react-redux";
 import { toastr } from "react-redux-toastr";
-import { getAgentKYC, sendAgentKYC, sendAgentOTP } from "../../../services/agent/action";
+import { getAgentKYC, getProfile, sendAgentKYC, sendAgentOTP } from "../../../services/agent/action";
 import OtpInput from "react-otp-input";
 
 
@@ -133,6 +133,7 @@ class KYC extends Component {
       isOTPSent: false,
       OTPModalVisible: false,
       isResendOTPDisabled: true,
+      profileDetails: {}
     };
   }
 
@@ -188,6 +189,7 @@ class KYC extends Component {
   componentDidMount() {
 
     this.props.getAgentKYC(sessionStorage.getItem("token"));
+    this.props.getProfile();
 
   }
 
@@ -209,6 +211,14 @@ class KYC extends Component {
       if (nextprops.kycGetStatus) {
         console.log(nextprops.kycGetData, "KYC GET DATA");
         this.setGetKYCDataToFields(nextprops.kycGetData)
+      }
+
+      if (nextprops.profileDetails) {
+
+        this.setState({
+          profileDetails: nextprops.profileDetails
+        });
+
       }
 
       // if (nextprops.getKYCDetailsStatus) {
@@ -922,7 +932,7 @@ class KYC extends Component {
                       <div className="kycformBox">
                         <div className="formRow">
                           <div className="formCol">
-                            <label className="formColLabel">Category </label>
+                            <label className="formColLabel">Category<span style={{ color: 'red' }}>*</span></label>
                             <div className="categorySelect">
                               <Select
                                 value={this.state.kycMerchantCategory}
@@ -943,13 +953,15 @@ class KYC extends Component {
                           </div>
                           <div className="formCol"></div>
                           <div className="formCol">
-                            <label className="formColLabel">Name</label>
+                            <label className="formColLabel">Name<span style={{ color: 'red' }}>*</span></label>
                             <input
                               type="text"
-                              name="name"
+                              name="clientName"
                               placeholder="Enter Name"
-                              value={this.state.name}
+                              readOnly={true}
+                              value={this.props.profileDetails.firstName + " " + this.props.profileDetails.lastName}
                               onChange={this.handleChange}
+                              style={{color:"#808080"}}
                             />
                           </div>
                           <div className="formCol">
@@ -970,25 +982,31 @@ class KYC extends Component {
                             />
                           </div>
                           <div className="formCol">
-                            <label className="formColLabel">Email</label>
+                            <label className="formColLabel">Email<span style={{ color: 'red' }}>*</span></label>
                             <input
                               type="text"
                               name="email"
+                              readOnly={true}
                               placeholder="abc@gmail.com"
                               value={this.state.email}
                               onChange={this.handleChange}
+                              style={{color:"#808080"}}
+
                             />
                           </div>
                           <div className="formCol">
                             <label className="formColLabel">
-                              Mobile Number
+                              Mobile Number <span style={{ color: 'red' }}>*</span>
                             </label>
                             <input
                               type="text"
                               name="mobileno"
                               placeholder="237132321312"
+                              readOnly={true}
                               value={this.state.mobileno}
                               onChange={this.handleChange}
+                              style={{color:"#808080"}}
+
                             />
                           </div>
                           <div className="formCol">
@@ -1433,7 +1451,7 @@ class KYC extends Component {
                           <div className="formRow">
                             <div className="formCol">
                               <label className="formColLabel">
-                                Identification
+                                Identification<span style={{ color: 'red' }}>*</span>
                               </label>
                               <div className="categorySelect">
                                 <Select
@@ -1454,7 +1472,7 @@ class KYC extends Component {
                               </div>
                             </div>
                             <div className="formCol">
-                              <label className="formColLabel">Number</label>
+                              <label className="formColLabel">Number<span style={{ color: 'red' }}>*</span></label>
                               <input
                                 type="text"
                                 name="number"
@@ -1487,7 +1505,7 @@ class KYC extends Component {
                             </div> */}
                             <div className="formCol">
                               <label className="formColLabel">
-                                Expiry Date
+                                Expiry Date<span style={{ color: 'red' }}>*</span>
                               </label>
                               {/* <input
                                 type="text"
@@ -1641,6 +1659,7 @@ const mapStateToProps = ({ agentReducer }) => {
     kycGetStatus: agentReducer.kycGetStatus,
     kycGetData: agentReducer.kycGetData,
     agentOTPStatus: agentReducer.agentOTPStatus,
+    profileDetails: agentReducer.profileDetails
   }
 
 };
@@ -1654,6 +1673,8 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(getAgentKYC(token)),
   sendAgentOTP: (payload) =>
     dispatch(sendAgentOTP(payload)),
+  getProfile: () =>
+    dispatch(getProfile()),
 
 });
 
