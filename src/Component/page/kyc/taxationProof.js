@@ -731,27 +731,7 @@ class KYC extends Component {
           formData.append("idDocumentType", "ID_DOCUMENT");
           formData.append("idDocumentNumber", this.state.number);
           formData.append("idDocumentExpiryDate", moment(new Date(this.state.endofvaliditydate)).format("YYYY-MM-DD"));
-
-          // formData.append("json", JSON.stringify(privateClient));
-          // formData.append("uploadproof", this.state.uploadproof);
-          // formData.append("addressproof", this.state.addressproof);
         }
-
-        // console.log(this.state.addressproof, "thisstateuploadproof");
-        // console.log(this.state.uploadproof, "thisstateuploadproof");
-        // console.log(dateofbirth, "thisstateuploadproof");
-
-        // if (id !== "") {
-        //   this.props.addKYCdetails(token, formData, true, submitionEmail);
-        // } else {
-        //   this.props.addKYCdetails(token, formData, false, submitionEmail);
-        // }
-        // console.log("INDIVIDUAL FORMDATA");
-        // for (var pair of formData.entries()) {
-
-        //   console.log(pair[0] + ', ' + pair[1]);
-        // }
-
         this.props.sendAgentKYC(token, formData);
 
         this.setState({
@@ -789,7 +769,6 @@ class KYC extends Component {
         let zipcode = parseInt(this.state.zipcode);
 
         let businessClient = {
-          // "id": id,
           client: "BusinessClient",
           name: this.state.name,
           dateofbirth: dateofbirth,
@@ -805,7 +784,6 @@ class KYC extends Component {
           latitude: latitude,
 
           businessdetails: {
-            // "id": this.state.businessId,
             nameoforganization: this.state.nameoforganization,
             registereddate: registereddate,
             categories: "",
@@ -855,22 +833,6 @@ class KYC extends Component {
           formData.append("uploadproof", this.state.uploadproof);
           formData.append("addressproof", this.state.addressproof);
         }
-
-        // console.log(this.state.addressproof, "thisstateuploadproof");
-        // console.log(this.state.uploadproof, "thisstateuploadproof");
-        // console.log(dateofbirth, "thisstateuploadproof");
-
-        // if (id !== "") {
-        //   this.props.addKYCdetails(token, formData, true, submitionEmail);
-        // } else {
-        //   this.props.addKYCdetails(token, formData, false, submitionEmail);
-        // }
-
-        // Display the key/value pairs
-        // for (var pair of formData.entries()) {
-        //   console.log("OTHER FORMDATA");
-        //   console.log(pair[0] + ', ' + pair[1]);
-        // }
       }
   };
 
@@ -894,8 +856,6 @@ class KYC extends Component {
   };
 
   render() {
-    // console.log(this.state);
-
     const uploadButton = (
       <div>
         <div className="ant-upload-text">Upload</div>
@@ -926,9 +886,6 @@ class KYC extends Component {
                   >
                     <h1 className="kycDetails"> Profile Details</h1>
                     <div className="kycDetailsBox">
-                      {/* <h1 className="kycDetails textAlignCenter">
-                       
-                      </h1> */}
                       <div className="kycformBox">
                         <div className="formRow">
                           <div className="formCol">
@@ -961,7 +918,7 @@ class KYC extends Component {
                               readOnly={true}
                               value={this.props.profileDetails.firstName + " " + this.props.profileDetails.lastName}
                               onChange={this.handleChange}
-                              style={{color:"#808080"}}
+                              style={{ color: "#808080" }}
                             />
                           </div>
                           <div className="formCol">
@@ -990,7 +947,7 @@ class KYC extends Component {
                               placeholder="abc@gmail.com"
                               value={this.state.email}
                               onChange={this.handleChange}
-                              style={{color:"#808080"}}
+                              style={{ color: "#808080" }}
 
                             />
                           </div>
@@ -1005,7 +962,7 @@ class KYC extends Component {
                               readOnly={true}
                               value={this.state.mobileno}
                               onChange={this.handleChange}
-                              style={{color:"#808080"}}
+                              style={{ color: "#808080" }}
 
                             />
                           </div>
@@ -1161,86 +1118,6 @@ class KYC extends Component {
                             </div>
                           </div>
                         </div>
-                        {/* <div className="formCol">
-                          <label className="formColLabel">
-                            Upload Proof
-                          </label>
-                          <Upload
-                            listType="picture-card"
-                            customRequest={dummyRequest}
-                            onChange={(file) =>
-                              this.handleChangeFile(file, "uploadproof")
-                            }
-                            fileList={this.state.uploadFile}
-                          >
-                            {uploadButton}
-                          </Upload>
-                        </div>
-
-                        <div className="formCol">
-                          <label
-                            className="formColLabel"
-                            style={{ marginBottom: "0px" }}
-                          >
-                            Address Proof
-                          </label>
-                          <Upload
-                            listType="picture-card"
-                            customRequest={dummyRequest}
-                            onChange={(file) =>
-                              this.handleChangeFile(file, "addressproof")
-                            }
-                            fileList={this.state.addressFile}
-                            onPreview={true}
-                          >
-                            {uploadButton}
-                          </Upload>
-                        </div> */}
-                        {/* <div className="formCol selectedfilew">
-                          <div>
-                            <label
-                              className="formColLabel"
-                              style={{ marginBottom: "0px" }}
-                            >
-                              Upload Proof * :{" "}
-                            </label>
-                          </div>
-                        </div>
-                        <div className="formCol">
-                          <Upload
-                            listType="picture-card"
-                            customRequest={dummyRequest}
-                            onChange={(file) =>
-                              this.handleChangeFile(file, "uploadproof")
-                            }
-                            fileList={this.state.uploadFile}
-                          >
-                            {uploadButton}
-                          </Upload>
-                        </div>
-                        <div className="formCol selectedfilew">
-                          <div>
-                            <label
-                              className="formColLabel"
-                              style={{ marginBottom: "0px" }}
-                            >
-                              Address Proof * :{" "}
-                            </label>
-                          </div>
-                        </div>
-                        <div className="formCol">
-                          <Upload
-                            listType="picture-card"
-                            customRequest={dummyRequest}
-                            onChange={(file) =>
-                              this.handleChangeFile(file, "addressproof")
-                            }
-                            fileList={this.state.addressFile}
-                            onPreview={true}
-                          >
-                            {uploadButton}
-                          </Upload>
-                        </div> */}
                       </>
                     )}
 
@@ -1336,17 +1213,6 @@ class KYC extends Component {
                                 >
                                   Upload Proof * :{" "}
                                 </label>
-                                {/* <label
-                                  className="formColLabel colorfileSele"
-                                  style={{ marginBottom: "0px" }}
-                                >
-                                  {this.state.uploadproof && (
-                                    <>
-                                      <span>File Selected </span> <br />
-                                      <span>{this.state.uploadproofName}</span>
-                                    </>
-                                  )}
-                                </label> */}
                               </div>
                               {this.state.id !== "" && (
                                 <button
@@ -1366,17 +1232,6 @@ class KYC extends Component {
                                 >
                                   Address Proof * :{" "}
                                 </label>
-                                {/* <label
-                                  className="formColLabel colorfileSele"
-                                  style={{ marginBottom: "0px" }}
-                                >
-                                  {this.state.addressproof && (
-                                    <>
-                                      <span>File Selected </span> <br />
-                                      <span>{this.state.addressproofName}</span>
-                                    </>
-                                  )}
-                                </label> */}
                               </div>
 
                               {this.state.id !== "" && (
@@ -1391,19 +1246,7 @@ class KYC extends Component {
                             </div>
 
                             <div className="formCol">
-                              {/* <div
-                                class="file-upload-wrapper"
-                                data-text="No file Selected"
-                              > */}
-                              {/* <input
-                                  type="file"
-                                  name="uploadproof"
-                                  onChange={this.handleChangeFile}
-                                  class="file-upload-field"
-                                /> */}
-
                               <Upload
-                                // fileList={this.state.selectedFileList}
                                 listType="picture-card"
                                 customRequest={dummyRequest}
                                 fileList={this.state.uploadFile}
@@ -1416,15 +1259,7 @@ class KYC extends Component {
                               </Upload>
                             </div>
                             <div className="formCol">
-                              {/* <input
-                                  type="file"
-                                  name="addressproof"
-                                  onChange={this.handleChangeFile}
-                                  class="file-upload-field"
-                                /> */}
-
                               <Upload
-                                // fileList={this.state.selectedFileList}
                                 listType="picture-card"
                                 customRequest={dummyRequest}
                                 fileList={this.state.addressFile}
@@ -1481,38 +1316,10 @@ class KYC extends Component {
                                 onChange={this.handleChange}
                               />
                             </div>
-                            {/* <div className="formCol">
-                              <label className="formColLabel">
-                                Date of Delivery
-                              </label>
-                              <input
-                                type="text"
-                                name="dateofdelivery"
-                                placeholder="YYYY-MM-DD"
-                                onChange={this.handleChange}
-                              />
-                            </div>
-                            <div className="formCol">
-                              <label className="formColLabel">
-                                State of Delivey
-                              </label>
-                              <input
-                                type="text"
-                                name="stateofdelivery"
-                                placeholder="Enter State of Delivery"
-                                onChange={this.handleChange}
-                              />
-                            </div> */}
                             <div className="formCol">
                               <label className="formColLabel">
                                 Expiry Date<span style={{ color: 'red' }}>*</span>
                               </label>
-                              {/* <input
-                                type="text"
-                                name="endofvaliditydate"
-                                placeholder="YYYY-MM-DD"
-                                onChange={this.handleChange}
-                              /> */}
                               <DatePicker
                                 selected={this.state.endofvaliditydate}
                                 minDate={new Date()}
@@ -1533,7 +1340,6 @@ class KYC extends Component {
 
                     <div>
                       <div class="custom-d-flex confirm_p_w mTB00">
-                        {/* <button class="aryousureBTN" style={{marginRight:"24px"}}>Reject</button> */}
                         <button class="blackbtn aryousureBTN confirmBtnR">
                           Save
                         </button>
@@ -1606,7 +1412,6 @@ class KYC extends Component {
                             }}
                             disabled={this.state.otp.length < 6 ? true : false}
                             onClick={() => {
-                              // checkOTPValidity();
                               this.SubmitForm()
                             }}
                             className="btn-default btn"
@@ -1622,29 +1427,6 @@ class KYC extends Component {
             </div>
           </div>
         </div>
-
-        {/* Modal */}
-        {/* <Modal
-          visible={this.state.isModalVisible}
-          onCancel={this.handleCancel}
-          cancelButtonProps={{style:{ display:'none !important'}}}
-          footer={null}
-        >
-        <div className="modal_w">
-          <span className="icon-Asset-58 closeBtn_custom" onClick={this.onCloseHandler}></span>
-          <div className="modal_w_in">
-            <div className="confirmImg mB36">
-              <img src={activeUser} alt="" />
-            </div>
-            <h2 className="mB36 aryousure">Are you sure you want to Activate User?</h2>
-            <div className="confirm_p_w">
-              <button className="aryousureBTN">No</button>
-              <button className="aryousureBTN confirmBtnR">Yes</button>
-            </div>
-          </div>
-        </div>
-          
-        </Modal> */}
       </div>
     );
   }
