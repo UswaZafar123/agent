@@ -1,6 +1,6 @@
 .navBar{
     width: 100%;
-    /* max-width: calc(100% - 313px); */
+    max-width: calc(100% - 313px);
     min-height: 83px;
     background: rgb(255, 255, 255);
     background-color: rgb(255, 255, 255);
