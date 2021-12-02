@@ -1,6 +1,6 @@
 .navBar{
     width: 100%;
-    max-width: calc(100% - 313px);
+    /* max-width: calc(100% - 313px); */
     min-height: 83px;
     background: rgb(255, 255, 255);
     background-color: rgb(255, 255, 255);
@@ -11,7 +11,7 @@
     position: fixed;
     left: 313px;
     top: 0;
-    z-index: 999;
+    z-index: 9999;
 }
 .navBar_Inner{
     display: flex;
