@@ -38,15 +38,14 @@ class Sidebar extends Component{
 
     componentDidMount() {
         this.setState({filteredMenu: Side_bar_data});
+        this.props.fetchProfile(sessionStorage.getItem("token"));
         if(Object.keys(this.props.profile.data).length === 0) {
-            this.props.fetchProfile(sessionStorage.getItem("token"));
         }
     }
 
     componentWillReceiveProps(nextProps) {
-        if(nextProps.profile.data && nextProps.profile.data.agentType !== 'AGENT_BANKER') {
-            this.removeCashDepositAndWithdrawBankLink();
-        }
+        this.filterSubmenuLinks(nextProps.profile.data);
+        
         if(nextProps.profile.data) {
             this.props.fetchAgentWallet(sessionStorage.getItem("token"));
             if(nextProps.profile.data.registrationType === 'EXISTING_BANK_CUSTOMER') {
@@ -62,12 +61,19 @@ class Sidebar extends Component{
     componentDidUpdate(prevProps, nextProps) {
     }
     
-    removeCashDepositAndWithdrawBankLink = () => {
-
+    filterSubmenuLinks = (profileData) => {
         var result = Side_bar_data.map((data) => {
             if(data.subMenu) {
                 var subMenu = data.subMenu.filter((subMenuOption) => {
-                    return (subMenuOption.path !== '/agent/cash_deposit/bank' && subMenuOption.path !== '/agent/cash_withdraw/bank')
+                    if(profileData && profileData.agentType === 'AGENT_BANKER') {
+                        console.log('Agent Banker');
+                        return (subMenuOption.path !== '/profile/account/link')
+                    } else if(profileData && profileData.agentType === 'AGENT') {
+                        console.log('Agent');
+                        return (subMenuOption.path !== '/agent/cash_deposit/bank' && subMenuOption.path !== '/agent/cash_withdraw/bank' && subMenuOption.path !== '/profile/account/validate_id')
+                    } else {
+                        return subMenuOption;
+                    }
                 });
                 return {
                     ...data,
@@ -224,9 +230,6 @@ class Sidebar extends Component{
     render() {
         return <>
             {this.props.profile.loading ? this.renderSideBarLoading() : this.renderSideBar()}
-            <Button variant="outlined" color="primary" onClick={this.toggleLinkingDialog}>
-                Slide in alert dialog
-            </Button>
             <Dialog
                 open={this.state.linkingDialogOpen}
                 TransitionComponent={Transition}

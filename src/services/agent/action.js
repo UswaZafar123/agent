@@ -13,6 +13,8 @@ export * from './bank_account_actions.js';
 export * from './customer_otp_actions.js';
 export * from './cash_deposit_actions.js';
 export * from './cash_withdraw_actions.js';
+export * from './account_linking_actions.js';
+export * from './agent_otp_actions.js'
 
 export const RegisterService = (payload) => (dispatch) => {
   const config = {

@@ -69,7 +69,7 @@ export const initiateBankCashDeposit = (token, payload) => (dispatch) => {
           toastr.error("Unable to process the cash deposit request");
         }
         dispatch({
-          type: actionType.CUSTOMER_WALLET_CASH_DEPOSIT_ERROR,
+          type: actionType.CUSTOMER_BANK_CASH_DEPOSIT_ERROR,
           payload: error,
         });
       });

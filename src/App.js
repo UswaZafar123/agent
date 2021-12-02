@@ -88,6 +88,8 @@ import Accounts from "./Component/page/Profile/Accounts";
 import qrCode from "./Component/page/Profile/QRCode";
 import ChangePassword from "./Component/page/Profile/ChangePassword";
 import LinkToBankAccount from "./Component/Agent/linking/linkAccount";
+import AgentAccountLinking from "./Component/page/AccountLinking/agentAccountLinking";
+import ValidateSuperAgentId from "./Component/page/AccountLinking/validateSuperAgentId";
 
 // Cash Operations Component Import
 import CashOperations from "./Component/page/Cash Operations/CashOperations";
@@ -322,8 +324,14 @@ export const App = (props) => {
                       component={ChangePassword}
                     />
                     <Route
-                      path="/profile/link/bank-account"
-                      component={LinkToBankAccount}
+                      exact
+                      path="/profile/account/link"
+                      component={AgentAccountLinking}
+                    />
+                    <Route
+                      exact
+                      path="/profile/account/validate_id"
+                      component={ValidateSuperAgentId}
                     />
                     {/* Cash Operations Routing */}
                     <Route

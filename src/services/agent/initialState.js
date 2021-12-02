@@ -13,6 +13,31 @@ const bankAccountState = {
   list: [],
 }
 
+const superAgentDetailState = {
+  loading: false,
+  data: {},
+}
+
+const sendLinkingRequestState = {
+  loading: false,
+  success: false,
+  error: false,
+}
+
+const validateSuperAgentState = {
+  loading: false,
+  success: false,
+  error: false,
+}
+
+const inkingRequestsState = {
+  loading: false,
+  list: [],
+  linkingRequestProcessing: false,
+  linkingRequestProcessSuccess: false,
+  linkingRequestProcessError: false,
+}
+
 const customerValidationState = {
   loading: false,
   success: false,
@@ -20,6 +45,12 @@ const customerValidationState = {
 };
 
 const customerOtpSendState = {
+  loading: false,
+  success: false,
+  error: false,
+};
+
+const agentOtpSendState = {
   loading: false,
   success: false,
   error: false,
@@ -81,7 +112,12 @@ const initialState = {
   profile: profileState,
   walletAccount: walletAccountState,
   bankAccounts: bankAccountState,
+  superAgentDetail: superAgentDetailState,
+  sendLinkingRequest: sendLinkingRequestState,
+  validateSuperAgent: validateSuperAgentState,
+  linkingRequests: inkingRequestsState,
   customerValidation: customerValidationState,
+  agentOtpSend: agentOtpSendState,
   customerOtpSend: customerOtpSendState,
   customerWalletCashDeposit: customerWalletCashDepositState,
   customerWalletCashWithdraw: customerWalletCashWithdrawState,

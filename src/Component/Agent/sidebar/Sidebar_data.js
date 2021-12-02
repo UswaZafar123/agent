@@ -450,8 +450,12 @@ export const Side_bar_data = [
         path: "/Profile/change-password",
       },
       {
-        title: "Link to Bank Account",
-        path: "/profile/link/bank-account",
+        title: "Account Linking",
+        path: "/profile/account/link",
+      },
+      {
+        title: "validate Bank Id",
+        path: "/profile/account/validate_id",
       },
     ],
   },

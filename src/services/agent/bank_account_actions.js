@@ -55,7 +55,7 @@ export const fetchCustomerBankAccounts = (token, bankCustomerId) => (dispatch) =
       }
     })
     .catch((error) => {
-      toastr.error("error", error.response.status)
+      // toastr.error("error", error.response.status)
       dispatch({
         type: actionType.CUSTOMER_BANK_ACCOUNTS_ERROR,
       });
