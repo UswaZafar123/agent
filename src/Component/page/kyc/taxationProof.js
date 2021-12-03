@@ -560,6 +560,11 @@ class KYC extends Component {
 
   showOTPModal = () => {
 
+    if(this.state.addressone === "" || this.state.addresstwo === "" || this.state.zipcode === "" || this.state.city === "" || this.state.longitude === "" || this.state.latitude === "" || this.state.addressproof === "" || this.state.uploadproof === "" || this.state.addressproofName === "" || this.state.uploadproofName === "" || this.state.addressproofValid === false || this.state.uploadproofValid === false || this.state.formValid === false
+      || this.state.identification === "" || this.state.number === "" || this.state.endofvaliditydate === "") {
+      toastr.error("Please fill all fields");
+    }
+    else{
     if (!this.state.isOTPSent) {
       this.sendOTP();
       this.startResendTimeout();
@@ -568,6 +573,7 @@ class KYC extends Component {
     this.setState({
       OTPModalVisible: true
     });
+  }
   }
 
   startResendTimeout = () => {

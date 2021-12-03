@@ -14,6 +14,7 @@ import {
 } from "../../../../services/agent/action";
 
 import "./settingcss.css";
+import { toastr } from "react-redux-toastr";
 
 import {
   Select,
@@ -311,8 +312,11 @@ class Packages extends Component {
       currencyLimitProfiles: this.state.currencyLimitProfiles,
       operationPermissionProfiles: filtered,
     };
-
-    this.props.createPackage(payload, this.props.history);
+    if(payload.name == "" || payload.planPrice == "" || payload.channel == "" || payload.settlementPeriod == "" || payload.currencyLimitProfiles.length == 0 || payload.operationPermissionProfiles.length == 0){
+      toastr.error("Please fill all the fields");
+    }else{
+      this.props.createPackage(payload, this.props.history);
+    }
   };
 
   render() {
