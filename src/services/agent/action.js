@@ -5,6 +5,8 @@ import { toastr } from "react-redux-toastr";
 import jwt from "jwt-decode";
 import qs from "qs";
 import { ShowLoading, HideLoading } from "../common/action";
+import { ArrowLeftOutlined } from "@ant-design/icons";
+
 
 export const RegisterService = (payload) => (dispatch) => {
   const config = {
