@@ -4,11 +4,13 @@
 
 // const GATEWAY_API = "http://localhost:8787/";
 const GATEWAY_API = "http://gateway.biapay.net:9001/";
-const keyClock = "https://keycloak.digitalbanking.groupebia.com/";
-const userManagementHost = "https://app.digitalbanking.groupebia.com/user-management/";
-const adminAPI = "https://app.digitalbanking.groupebia.com/";
-const API = "https://backoffice.digitalbanking.groupebia.com/";
-const MerchantAPI = "https://merchant.digitalbanking.groupebia.com/";
+
+const keyClock = "https://saranewappcmr.afrilandfirstbank.com/";
+const userManagementHost = "https://saranewtestcmr.afrilandfirstbank.com/user-management/";
+const adminAPI = "https://saranewappcmr.afrilandfirstbank.com/";
+const API = "https://backoffice.saranewcmr.afrilandfirstbank.com/";
+const MerchantAPI = "https://merchant.saranewcmr.afrilandfirstbank.com/";
+
 const configUrl = {
     common: {
       //LOGIN: `${API}common/Login`,
