@@ -326,7 +326,7 @@ class Packages extends Component {
     }
     
     else{
-      // this.props.createPackage(payload, this.props.history);
+      this.props.createPackage(payload, this.props.history);
     }
   };
 
