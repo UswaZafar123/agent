@@ -18,7 +18,7 @@ spec:
     spec: 
       containers: 
         - 
-          image: "registry.gitlab.com/business-intelligence-agency/sarafrontend:latest"
+          image: "registry.gitlab.com/business-intelligence-agency/saraagentfrontend:latest"
           name: saraagentfrontend
           ports: 
             - 
