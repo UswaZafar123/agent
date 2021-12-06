@@ -1,12 +1,9 @@
 const keyClock = process.env.REACT_APP_KEY_CLOACK;
 const userManagementHost = process.env.REACT_APP_KEY_USER_MANAGEMENT;
-// const bankManagementHost = process.env.REACT_APP_BANK_MANAGEMENT;
 const adminAPI = process.env.REACT_APP_ADMIN_API;
 const API = process.env.REACT_APP_API;
 const MerchantAPI = process.env.REACT_APP_MERCHANT_API;
 const AgentApi = process.env.REACT_APP_AGENT_BANKING_HOST;
-// const TontineAPI = process.env.REACT_APP_TONTINE_API;
-// const wallet_management_host = process.env.REACT_APP_WALLET_MANAGEMENT;
 const GATEWAY_API = "http://gateway.biapay.net:9001/";
 
 const configUrl = {
