@@ -93,7 +93,7 @@ export const App = (props) => {
   return (
     <>
       <Switch>
-        <Redirect exact from="/" to="/agent/login" />
+        <Redirect exact from="/" to="/registration" />
         <Route path="/agent/login" component={Login} />
         <Route path="/agent/register" component={AgentRegister} />
         <Route path="/agent/registration" component={Registration} />
