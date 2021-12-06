@@ -312,10 +312,21 @@ class Packages extends Component {
       currencyLimitProfiles: this.state.currencyLimitProfiles,
       operationPermissionProfiles: filtered,
     };
-    if(payload.name == "" || payload.planPrice == "" || payload.channel == "" || payload.settlementPeriod == "" || payload.currencyLimitProfiles.length == 0 || payload.operationPermissionProfiles.length == 0){
-      toastr.error("Please fill all the fields");
-    }else{
-      this.props.createPackage(payload, this.props.history);
+
+    if(payload.planPrice === null || payload.planPrice instanceof String || payload.planPrice <= 0){
+      toastr.error("Please enter valid subscription amount");
+    } else if(payload.name === ""){
+      toastr.error("Please enter valid plan name");
+    } else if((payload.currencyLimitProfiles[0].dailyTransactionAmount <= 0 && payload.currencyLimitProfiles[1].dailyTransactionAmount <= 0) || (payload.currencyLimitProfiles[0].dailyTransactionCount <= 0 && payload.currencyLimitProfiles[1].dailyTransactionCount <= 0)){
+      toastr.error("Please enter valid daily limit");
+    } else if((payload.currencyLimitProfiles[0].weeklyTransactionAmount <= 0 && payload.currencyLimitProfiles[1].weeklyTransactionAmount <= 0) || (payload.currencyLimitProfiles[0].weeklyTransactionCount <= 0 && payload.currencyLimitProfiles[1].weeklyTransactionCount <= 0)){
+      toastr.error("Please enter valid weekly limit");
+    } else if((payload.currencyLimitProfiles[0].monthlyTransactionAmount <= 0 && payload.currencyLimitProfiles[1].monthlyTransactionAmount <= 0) || (payload.currencyLimitProfiles[0].monthlyTransactionCount <= 0 && payload.currencyLimitProfiles[1].monthlyTransactionCount <= 0)){
+      toastr.error("Please enter valid monthly limit");
+    }
+    
+    else{
+      // this.props.createPackage(payload, this.props.history);
     }
   };
 
@@ -351,7 +362,7 @@ class Packages extends Component {
                           </label>
                           <input
                             onChange={this.handleAmount}
-                            type="text"
+                            type="number"
                             placeholder="Subscription Amount"
                           />
                         </div>
@@ -676,7 +687,7 @@ class Packages extends Component {
                                             <span className="mantdat">*</span>
                                           </label>
                                           <input
-                                            type="text"
+                                            type="number"
                                             onChange={(e) =>
                                               this.limits(
                                                 e,
@@ -703,7 +714,7 @@ class Packages extends Component {
                                                 "amount"
                                               )
                                             }
-                                            type="text"
+                                            type="number"
                                             placeholder="Amount of Transcation"
                                           />
                                         </div>
@@ -721,7 +732,7 @@ class Packages extends Component {
                                                 "number"
                                               )
                                             }
-                                            type="text"
+                                            type="number"
                                             placeholder="Number of transcations"
                                           />
                                         </div>
@@ -739,7 +750,7 @@ class Packages extends Component {
                                                 "amount"
                                               )
                                             }
-                                            type="text"
+                                            type="number"
                                             placeholder="Amount of Transcation"
                                           />
                                         </div>
@@ -757,7 +768,7 @@ class Packages extends Component {
                                                 "number"
                                               )
                                             }
-                                            type="text"
+                                            type="number"
                                             placeholder="Number of transcations"
                                           />
                                         </div>
@@ -775,7 +786,7 @@ class Packages extends Component {
                                                 "amount"
                                               )
                                             }
-                                            type="text"
+                                            type="number"
                                             placeholder="Amount of Transcation"
                                           />
                                         </div>
