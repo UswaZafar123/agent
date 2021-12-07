@@ -76,6 +76,7 @@ class Register extends Component {
       previewAddressTitle: "",
 
       viewSummaryVisible: false,
+      isMobile: false,
     };
   }
 
@@ -500,7 +501,7 @@ class Register extends Component {
       <Fragment>
         <section className="loginWrapper accountWrapper">
           <NavBar />
-          <div className="col-md-12 indAccountRegContainer">
+          <div className="col-sm-12 indAccountRegContainer">
             <div className="loginInner">
               <div className="row" style={{ display: "none" }}>
                 <h1 className="title">Welcome to Afriland Bank!</h1>
@@ -560,9 +561,9 @@ class Register extends Component {
                   </li>
                 </ul>
 
-                <div className="col-md-12">
+                <div className="col-sm-12">
                   <div
-                    className="col-md-12 text-center"
+                    className="col-sm-12 text-center"
                     style={{
                       justifyContent: "center",
                       display: "flex",
@@ -582,7 +583,7 @@ class Register extends Component {
 
                 <div className="row">
                   <div
-                    className="col-md-12 text-center"
+                    className="col-sm-12 text-center"
                     style={{
                       justifyContent: "center",
                       display: "flex",
@@ -600,9 +601,9 @@ class Register extends Component {
                 <h1 className="sub-title">
                   {sessionStorage.getItem("accountType")} Account
                 </h1>
-                <div className="col-md-12 float-left" style={{ float: "left" }}>
+                <div className="col-sm-12 float-left" style={{ float: "left" }}>
                   <div
-                    className="form-group "
+                    className="form-group"
                     style={{ marginTop: "5%", marginBottom: "5%" }}
                   >
                     <label>First Name</label>
@@ -779,7 +780,7 @@ class Register extends Component {
                   )}
 
                   <div
-                    className="col-md-12"
+                    className="col-sm-12"
                     style={{
                       display: "flex",
                       justifyContent: "space-around",
@@ -788,7 +789,7 @@ class Register extends Component {
                     }}
                   >
                     <div
-                      className="col-md-6 float-left"
+                      className="col-sm-6 float-left"
                       style={{ float: "left", marginRight: "5px" }}
                     >
                       <div style={{ textAlign: "center" }}>
@@ -823,7 +824,7 @@ class Register extends Component {
                       </div>
                     </div>
                     <div
-                      className="col-md-6 float-right"
+                      className="col-sm-6 float-right"
                       style={{ float: "right", marginLeft: "5px" }}
                     >
                       <div style={{ textAlign: "center" }}>
@@ -913,12 +914,7 @@ class Register extends Component {
                     {sessionStorage.getItem("accountType") !== "Individual" && (
                       <>
                         <h1
-                          style={{
-                            fontSize: "36px",
-                            lineHeight: "20px",
-                            fontWeight: "600",
-                            marginTop: "70px",
-                          }}
+                          className="h1ForBusinessDetails"
                         >
                           Business Details
                         </h1>
@@ -1019,7 +1015,7 @@ class Register extends Component {
                     )}
 
                     <div
-                      className="col-md-12"
+                      className="col-sm-12"
                       style={{
                         display: "flex",
                         justifyContent: "space-around",
@@ -1113,24 +1109,19 @@ class Register extends Component {
                       visible={this.state.viewSummaryVisible}
                       footer={null}
                       onCancel={this.handleSummaryCancel}
-                      width="75%"
+                      width="80%"
                       style={{
                         top: "30px",
                       }}
                     >
                       <div>
                         <h1
-                          style={{
-                            fontSize: "25px",
-                            fontWeight: "600",
-                            marginTop: "20px",
-                            textAlign: "center",
-                            marginBottom: "30px",
-                          }}
+                          className="h1ForSummaryModal"
                         >
                           Registration Summary
                         </h1>
 
+                        <div style={{"overflow-x":"auto"}}>
                         <table className="table" style={{ width: "100%" }}>
                           <tr>
                             <th></th>
@@ -1208,7 +1199,7 @@ class Register extends Component {
                             </td>
                             <td className="summaryValue">
                               <img
-                                style={{ width: "30%", height: "30%" }}
+                                className="imgThumbnailStyle"
                                 src={this.state.idFrontImageFile.thumbUrl}
                               />
                             </td>
@@ -1217,7 +1208,7 @@ class Register extends Component {
                             </td>
                             <td className="summaryValue">
                               <img
-                                style={{ width: "30%", height: "30%" }}
+                                className="imgThumbnailStyle"
                                 src={this.state.idBackImageFile.thumbUrl}
                               />
                             </td>
@@ -1249,7 +1240,7 @@ class Register extends Component {
                                 </td>
                                 <td className="summaryValue">
                                   <img
-                                    style={{ width: "30%", height: "30%" }}
+                                    className="imgThumbnailStyle"
                                     src={
                                       this.state.idFrontBusinessImageFile
                                         .thumbUrl
@@ -1261,7 +1252,7 @@ class Register extends Component {
                                 </td>
                                 <td className="summaryValue">
                                   <img
-                                    style={{ width: "30%", height: "30%" }}
+                                    className="imgThumbnailStyle"
                                     src={this.state.idAddressFile.thumbUrl}
                                   />
                                 </td>
@@ -1269,6 +1260,7 @@ class Register extends Component {
                             </>
                           )}
                         </table>
+                        </div>
 
                         {sessionStorage.getItem("accountType") !==
                           "Individual" && (
@@ -1292,7 +1284,7 @@ class Register extends Component {
                             >
                               Business Details
                             </h1>
-
+                            <div style={{"overflow-x":"auto"}}>
                             <table className="table" style={{ width: "100%" }}>
                               <tr>
                                 <th></th>
@@ -1346,7 +1338,7 @@ class Register extends Component {
                                 </td>
                                 <td className="summaryValue">
                                   <img
-                                    style={{ width: "30%", height: "30%" }}
+                                    className="imgThumbnailStyle"
                                     src={
                                       this.state.idFrontBusinessImageFile
                                         .thumbUrl
@@ -1358,17 +1350,18 @@ class Register extends Component {
                                 </td>
                                 <td className="summaryValue">
                                   <img
-                                    style={{ width: "30%", height: "30%" }}
+                                    className="imgThumbnailStyle"
                                     src={this.state.idAddressFile.thumbUrl}
                                   />
                                 </td>
                               </tr>
                             </table>
+                            </div>
                           </>
                         )}
-
+                    
                         <div
-                          className="col-md-12 text-center"
+                          className="col-sm-12 text-center"
                           style={{
                             justifyContent: "center",
                             display: "flex",
@@ -1387,7 +1380,7 @@ class Register extends Component {
                     </Modal>
                     <div className="row">
                       <div
-                        className="col-md-12 text-center"
+                        className="col-sm-12 text-center"
                         style={{
                           justifyContent: "center",
                           display: "flex",
