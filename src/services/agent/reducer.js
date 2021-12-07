@@ -452,7 +452,7 @@ const agentReducer = (state = initialState, action) => {
         ...state,
         customerValidation: {
           loading: false,
-          success: true,
+          success: false,
           error: true
         },
       }
@@ -676,7 +676,7 @@ const agentReducer = (state = initialState, action) => {
         ...state,
         customerBankCashDeposit: {
           loading: false,
-          success: true,
+          success: false,
           error: true
         },
       }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import '../../../css/ag-grid-customization01.css';
 import 'antd/dist/antd.css';
 import '../Settings/General/formfromold.css'
@@ -23,6 +23,7 @@ const resendTime = 30;
 
 const BankCashWithdraw = () => {
   
+  const firstUpdate = useRef(true);
   const [step, setStep] = useState(1);
   const idDocumentTypes = [
     {name: "ID Card", value: "ID_CARD"},
@@ -56,6 +57,23 @@ const BankCashWithdraw = () => {
   const customerCashWithdrawSuccess = useSelector(state => state.agentReducer.customerBankCashWithdraw.success);
 
   useEffect(() => {
+    return () => {
+      dispatch({
+        type: actionType.CUSTOMER_VALIDATION_RESET,
+      });
+      dispatch({
+        type: actionType.CUSTOMER_BANK_ACCOUNTS_RESET,
+      });
+      dispatch({
+        type: actionType.CUSTOMER_OTP_SEND_RESET,
+      });
+      dispatch({
+        type: actionType.CUSTOMER_BANK_CASH_WITHDRAW_RESET,
+      });
+    }
+  }, []);
+
+  useEffect(() => {
     if(customerBankAccounts) {
       setSelectedBankAccount(customerBankAccounts[0]);
     }
@@ -70,6 +88,10 @@ const BankCashWithdraw = () => {
   }, [otpTimer, step]);
 
   useEffect(() => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+      return;
+    }
     if(step === 1 && customerSuccess && Object.keys(customerBankAccounts).length) {
       setStep(step +1);
     }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import '../../../css/ag-grid-customization01.css';
 import 'antd/dist/antd.css';
 import '../Settings/General/formfromold.css'
@@ -12,6 +12,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import OtpInput from "react-otp-input";
 import { Select } from 'antd';
 import { useSelector, useDispatch } from 'react-redux'
+import actionType from "../../../services/agent/actionType.js";
 import { fetchAgentProfile, verifyCustomer, sendOtpToCustomer, initiateWalletCashDeposit } from "../../../services/agent/action.js";
 
 const { Option } = Select;
@@ -19,7 +20,8 @@ const resendTime = 30;
 
 const WalletCashDeposit = () => {
   
-  const [step, setstep] = useState(1);
+  const firstUpdate = useRef(true);
+  const [step, setStep] = useState(1);
   const idDocumentTypes = [
     {name: "ID Card", value: "ID_CARD"},
     {name: "Passport", value: "PASSPORT"}
@@ -47,19 +49,52 @@ const WalletCashDeposit = () => {
   const loadingCustomerCashDeposit = useSelector(state => state.agentReducer.customerWalletCashDeposit.loading);
   const customerCashDepositSuccess = useSelector(state => state.agentReducer.customerWalletCashDeposit.success);
 
-  React.useEffect(() => {
+
+  useEffect(() => {
+    //Reset States When leaving the page
+    return () => {
+      dispatch({
+        type: actionType.CUSTOMER_VALIDATION_RESET,
+      });
+      dispatch({
+        type: actionType.CUSTOMER_OTP_SEND_RESET,
+      });
+      dispatch({
+        type: actionType.CUSTOMER_WALLET_CASH_DEPOSIT_RESET,
+      });
+      setStep(1);
+     };
+   }, []);
+
+  useEffect(() => {
     if(!agentProfile) {
       dispatch(fetchAgentProfile(sessionStorage.getItem("token")));
     }
   }, [agentProfile, dispatch]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if(step === 4) {
       if (otpTimer > 0) {
         setTimeout(() => setOtpTimer(otpTimer - 1), 1000);
       }
     }
   }, [otpTimer, step]);
+
+  useEffect(() => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+      return;
+    }
+    if(step === 1 && customerSuccess) {
+      setStep(2);
+    }
+    if(step === 3 && customerOtpSuccess) {
+      setStep(4);
+    }
+    if(step === 4 && customerCashDepositSuccess) {
+      setStep(5)
+    }
+  }, [step, customerSuccess, customerOtpSuccess, customerCashDepositSuccess]);
 
   const stepOneValidated = () => {
     return !(validator.isEmpty(phoneNumber) || validator.isEmpty(selectedDocumentType) || validator.isEmpty(idDocumentNumber) || loadingCustomerValidation);
@@ -88,39 +123,53 @@ const WalletCashDeposit = () => {
         return stepThreeValidated();
       case 4:
         return stepFourValidated();
+      case 5:
+        return true;
       default:
         return false;
     }
   }
 
-  const nextStep = () => {
+  const formSubmitAction = () => {
     if(step === 1) {
       verifyCustomerSubmit();
-      if(customerSuccess) {
-        setstep(step + 1);
-      }
     } else if(step === 2) {
-      setstep(step + 1);
+      setStep(step + 1);
 
     } else if(step === 3) {
       sendCustomerOTP();
-      if(customerOtpSuccess) {
-        setstep(step + 1);
-      }
-    } else {
+    } else if(step === 4) {
       sendDepositRequest();
-      if(customerCashDepositSuccess) {
-        resetForm();
-        setstep(1);
-      }
+    } else {
+      resetForm();
+      setStep(1);
     }
   };
 
   const prevStep = () => {
-    setstep(step - 1);
+    if(step === 2) {
+      dispatch({
+        type: actionType.CUSTOMER_VALIDATION_RESET,
+      });
+    }
+    if(step === 4) {
+      dispatch({
+        type: actionType.CUSTOMER_OTP_SEND_RESET,
+      });
+    }
+    setStep(step - 1);
   };
 
   const resetForm = () => {
+    dispatch({
+      type: actionType.CUSTOMER_VALIDATION_RESET,
+    });
+    dispatch({
+      type: actionType.CUSTOMER_OTP_SEND_RESET,
+    });
+    dispatch({
+      type: actionType.CUSTOMER_WALLET_CASH_DEPOSIT_RESET,
+    });
     setPhoneNumber('');
     setIdDocumentNumber('');
     setAmount('');
@@ -305,6 +354,45 @@ const WalletCashDeposit = () => {
     );
   }
 
+  const transactionSuccess = () => {
+    return (
+      <>
+        <div className="containerBiaN_form">
+            <div className="containerBiaN_f_row">
+                <div className="containerBiaN_f_col width30percent textAlignRight">
+                </div>
+                <div className="containerBiaN_f_col width70percent">
+                    <h2>Congratulations</h2>
+                    <p>Transaction was Successful</p>
+                </div>
+            </div>
+            <div className="containerBiaN_f_row">
+                <div className="containerBiaN_f_col width30percent textAlignRight">
+                </div>
+                <div className="containerBiaN_f_col width70percent">
+                    <div style={{ display: 'flex' }}>
+                      <p style={{ marginRight: '16px', color:"gray" }}>Receiver Account</p>
+                      <p style={{ fontWeight: 'bold' }}>{phoneNumber}</p>
+                    </div>
+                    {/* <div style={{ display: 'flex' }}>
+                      <p style={{ marginRight: '16px', color:"gray"}}>Receiver Name</p>
+                      <p style={{ fontWeight: 'bold' }}>{selectedBankAccount.owner}</p>
+                    </div> */}
+                    <div style={{ display: 'flex' }}>
+                      <p style={{ marginRight: '16px', color:"gray" }}>Amount</p>
+                      <p style={{ fontWeight: 'bold' }}>{amount}</p>
+                    </div>
+                    <div style={{ display: 'flex' }}>
+                      <p style={{ marginRight: '16px', color:"gray" }}>Reason</p>
+                      <p style={{ fontWeight: 'bold' }}>{reason}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </>
+    );
+  }
+
   return (
     <div className="main_contain agentformCenter">
       <div className="merch_m_list_w">
@@ -326,20 +414,21 @@ const WalletCashDeposit = () => {
                                   case 2: return transactionDetails();
                                   case 3: return customerOTPType();
                                   case 4: return customerOTP();
+                                  case 5: return transactionSuccess();
                                   default: return <div></div>
                                 }
                               })()}
                           </div>
                           <div style={{width: "100%", float: "left"}}>
                               <div className="confirm_p_w mTB00 button-container rspacing">
-                                {step !== 1 ? <button className="blackbtn aryousureBTN confirmBtnR" onClick={() => prevStep()}>Back</button> : ''}
+                                {step !== 1 & step !== 5 ? <button className="blackbtn aryousureBTN confirmBtnR" onClick={() => prevStep()}>Back</button> : ''}
                                   <button 
                                     className="aryousureBTN confirmBtnR" 
                                     style={{ opacity: isFormValidated() ? '1' : '0.5' }}
                                     disabled={isFormValidated() ? false : true}
-                                    onClick={() => nextStep()}
+                                    onClick={() => formSubmitAction()}
                                   >
-                                      {step === 4 ? "Submit" : "Next"}
+                                      {step === 4 ? "Submit" : step === 5 ? "Done" : "Next"}
                                   </button>
                               </div>
                           </div>
