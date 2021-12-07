@@ -98,7 +98,7 @@ export const App = (props) => {
         <Route path="/agent/register" component={AgentRegister} />
         <Route path="/agent/registration" component={Registration} />
         <Route exact path="/agent/otp-verification" component={AgentOTP} />
-        <Route path="/registration" component={ChooseRegistrationAccount} />
+        {/* <Route path="/registration" component={ChooseRegistrationAccount} /> */}
         <Route path="/agent/registrationSuccess" component={AgentRegSuccess} />
       </Switch>
       {sessionStorage.getItem("token") &&

@@ -69,14 +69,22 @@
     "redux-persist": "^6.0.0",
     "redux-refresh-token": "^0.1.0",
     "redux-thunk": "^2.3.0",
+    "web-vitals": "^1.1.1",
     "styled-components": "^5.3.3",
-    "web-vitals": "^1.1.1"
+    "dotenv": "^10.0.0",
+    "env-cmd": "^10.1.0"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "env-cmd -f ./environments/.sit.env react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "start:bank": "env-cmd -f ./environments/.bank.env react-scripts start",
+    "build:bank": "env-cmd -f ./environments/.bank.env npm run-script build",
+    "start:sit": "env-cmd -f ./environments/.sit.env react-scripts start",
+    "build:sit": "env-cmd -f ./environments/.sit.env npm run-script build",
+    "start:preprod": "env-cmd -f ./environments/.preprod.env react-scripts start",
+    "build:preprod": "env-cmd -f ./environments/.preprod.env npm run-script build"
   },
   "eslintConfig": {
     "extends": [
