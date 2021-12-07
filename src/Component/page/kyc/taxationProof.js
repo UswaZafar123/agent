@@ -974,7 +974,10 @@ class KYC extends Component {
                             />
                           </div>
                           <div className="formCol">
-                            <label className="formColLabel">Address 1</label>
+                            <label className="formColLabel">
+                              Address 1
+                              <span style={{ color: 'red' }}>*</span>
+                            </label>
                             <input
                               type="text"
                               name="addressone"
@@ -984,7 +987,10 @@ class KYC extends Component {
                             />
                           </div>
                           <div className="formCol">
-                            <label className="formColLabel">Address 2</label>
+                            <label className="formColLabel">
+                              Address 2
+                              <span style={{ color: 'red' }}>*</span>
+                            </label>
                             <input
                               type="text"
                               name="addresstwo"
@@ -994,7 +1000,10 @@ class KYC extends Component {
                             />
                           </div>
                           <div className="formCol">
-                            <label className="formColLabel">City</label>
+                            <label className="formColLabel">
+                              City
+                              <span style={{ color: 'red' }}>*</span>
+                            </label>
                             <input
                               type="text"
                               name="city"
@@ -1004,7 +1013,10 @@ class KYC extends Component {
                             />
                           </div>
                           <div className="formCol">
-                            <label className="formColLabel">Zip Code</label>
+                            <label className="formColLabel">
+                              Zip Code
+                              <span style={{ color: 'red' }}>*</span>
+                            </label>
                             <input
                               type="number"
                               name="zipcode"

@@ -358,7 +358,7 @@ class Packages extends Component {
                       <div className="formRow">
                         <div className="formCol">
                           <label class="formColLabel">
-                            Subscription Amount{" "}
+                            Subscription Amount{" "}<span className="mantdat">*</span>
                           </label>
                           <input
                             onChange={this.handleAmount}
