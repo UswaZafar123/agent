@@ -133,7 +133,7 @@ class KYC extends Component {
       isOTPSent: false,
       OTPModalVisible: false,
       isResendOTPDisabled: true,
-      profileDetails: {}
+      profileDetails: {},
     };
   }
 
@@ -560,10 +560,11 @@ class KYC extends Component {
 
   showOTPModal = () => {
 
-    if(this.state.addressone === "" || this.state.addresstwo === "" || this.state.zipcode === "" || this.state.city === "" || this.state.longitude === "" || this.state.latitude === "" || this.state.addressproof === "" || this.state.uploadproof === "" || this.state.addressproofName === "" || this.state.uploadproofName === "" || this.state.addressproofValid === false || this.state.uploadproofValid === false || this.state.formValid === false
-      || this.state.identification === "" || this.state.number === "" || this.state.endofvaliditydate === "") {
-      toastr.error("Please fill all fields");
-    }
+    if(this.state.addressone === "" || this.state.addresstwo === "" || this.state.city === "" || this.state.identification === "" || this.state.number === "") {
+      toastr.error("Please fill required fields");
+    } else if(this.state.zipcode === "" || this.state.zipcode instanceof String) {
+      toastr.error("Please enter valid zipcode");
+   }
     else{
     if (!this.state.isOTPSent) {
       this.sendOTP();
@@ -1005,7 +1006,7 @@ class KYC extends Component {
                           <div className="formCol">
                             <label className="formColLabel">Zip Code</label>
                             <input
-                              type="text"
+                              type="number"
                               name="zipcode"
                               placeholder="Enter Code"
                               value={this.state.zipcode}
@@ -1017,7 +1018,7 @@ class KYC extends Component {
                           <div className="formCol">
                             <label className="formColLabel">Longitude</label>
                             <input
-                              type="text"
+                              type="number"
                               placeholder="55.3781° N"
                               name="longitutde"
                               value={this.state.longitude}
@@ -1027,7 +1028,7 @@ class KYC extends Component {
                           <div className="formCol">
                             <label className="formColLabel">Latitude</label>
                             <input
-                              type="text"
+                              type="number"
                               name="longitude"
                               placeholder="3.4360° W"
                               value={this.state.latitude}
