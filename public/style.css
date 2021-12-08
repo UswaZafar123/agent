@@ -81,6 +81,7 @@ body {
     display: flex;
     justify-content: center;    
     align-items: center;
+    overflow-x: hidden;
 }
 
 .agent-bg {
@@ -151,8 +152,8 @@ body {
     object-fit: contain;
 }
 
-.loginInform {
-}
+/* .loginInform {
+} */
 
 .loginInform h4 {
     font-weight: 600;
@@ -3101,4 +3102,257 @@ footer {
 
 .summaryValue {
     color: rgb(128, 128, 128);
+}
+
+.navDefaultLogoHeader{
+    margin-bottom: auto;
+    margin-top: auto;
+    margin-left: 2%;
+}
+
+.navDefaultLogo{
+    height: 90px;
+    width: 300px;
+}
+.h1ForBusinessDetails{
+    font-size: 36px;
+    line-height: 20px;
+    font-weight: 600;
+    margin-top: 70px;
+}
+
+.h1ForSummaryModal{
+    font-size: 30px;
+    font-weight: 600;
+    margin-top: 20px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.imgThumbnailStyle{
+    width: 40%;
+    height: 40%;
+}
+
+@media  screen and (max-width: 600px) {
+    .nav-default{
+        width: 100%;
+        height: 2em;
+
+    }
+
+    .navDefaultLogo{
+        height: 60px;
+        width: 200px;
+    }
+
+    .loginWrapper {
+        width: 100%;
+        top: 0;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        overflow-y: auto;
+        right: 0;
+        margin: auto;
+        /* display: flex; */
+        align-items: center;
+        /* justify-content: center; */
+        padding-top: 15%;
+        overflow-x: hidden;
+    }
+
+    .langOption {
+        position: absolute;
+        right: 3%;
+        top: 50%;
+        background: #DFDFDF;
+        border: 1px solid rgba(189, 189, 189, 0.2);
+        box-sizing: border-box;
+        border-radius: 50px;
+        width: 130px;
+        display: flex;
+        text-align: center;
+        height: 25px;
+        text-align-last: center;
+    }
+
+    .agent-registration-container {
+        /* background: linear-gradient(90deg, rgba(42, 69, 125, 0.9), rgba(150, 201, 57, 0.9)), url(../images/wallet-2125548_1920.jpg) !important; */
+        width: 100%;
+        min-height: 100vh;
+        /* height: 100%; */
+        background-image: url(./images/BG-2.png) !important;
+        background-position:center ;
+        background-repeat: no-repeat;
+        background-size: cover;
+        display: flex;
+        justify-content: center;    
+        align-items: center;
+    }
+    
+    .sub-title{
+        font-size: 22px;
+        font-weight: 500;
+    }
+
+    .form-control::placeholder {
+        font-size: 20px;
+    }
+
+    .h1ForSummaryModal{
+        font-size: 20px;
+        font-weight: 600;
+        margin-top: 20px;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .summaryRow {
+        height: 30px;
+    }
+
+    .summaryLabel {
+        font-weight: bold;
+        font-size: 15px;
+    }
+
+    .summaryValue {
+        color: rgb(128, 128, 128);
+        font-size: 15px;
+    }
+    
+}
+
+@media screen and (min-width: 600px) and (max-width: 1080px) {
+    .loginWrapper {
+        width: 100%;
+        top: 0;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        overflow-y: auto;
+        right: 0;
+        margin: auto;
+        /* display: flex; */
+        align-items: center;
+        /* justify-content: center; */
+        padding-top: 13%;
+        overflow-x: hidden;
+    }
+
+    .langOption {
+        position: absolute;
+        right: 3%;
+        top: 50%;
+        background: #DFDFDF;
+        border: 1px solid rgba(189, 189, 189, 0.2);
+        box-sizing: border-box;
+        border-radius: 50px;
+        width: 130px;
+        display: flex;
+        text-align: center;
+        height: 25px;
+        text-align-last: center;
+    }
+
+    .imgThumbnailStyle{
+        width: 70px;
+        height: 70px;
+    }
+}
+
+@media screen and (min-width: 320px) and (max-width: 568px) {
+    .nav-default{
+        width: 100%;
+        height: 2em;
+    }
+
+    .navDefaultLogo{
+        height: 50px;
+        width: 150px;
+    }
+
+    .loginWrapper {
+        width: 100%;
+        top: 0;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        overflow-y: auto;
+        right: 0;
+        margin: auto;
+        align-items: center;
+        padding-top: 15%;
+        overflow-x: hidden;
+    }
+
+    .langOption {
+        position: absolute;
+        right: 3%;
+        top: 50%;
+        background: #DFDFDF;
+        border: 1px solid rgba(189, 189, 189, 0.2);
+        box-sizing: border-box;
+        border-radius: 50px;
+        width: 130px;
+        display: flex;
+        text-align: center;
+        height: 25px;
+        text-align-last: center;
+    }
+
+    .h1ForBusinessDetails{
+        font-size: 22px;
+        line-height: 20px;
+        font-weight: 600;
+        margin-top: 70px;
+    }
+
+    .sub-title{
+        font-size: 22px;
+        font-weight: 500;
+    }
+
+    .h1ForSummaryModal{
+        font-size: 15px;
+        font-weight: 600;
+        margin-top: 20px;
+        text-align: center;
+        margin-bottom: 30px;
+    }
+    
+    .summaryRow {
+        height: 30px;
+    }
+
+    .summaryLabel {
+        font-weight: bold;
+        font-size: 10px;
+    }
+
+    .summaryValue {
+        color: rgb(128, 128, 128);
+        font-size: 12px;
+    }
+
+    .form-control::placeholder {
+        font-size: 15px;
+    }
+
+    .btn-default {
+        background: #DA4139 !important;
+        border-radius: 10px;
+        padding: 2%;
+        min-width:200px !important ;
+        border: 1px solid #DA4139;
+        height: 40px;
+        cursor: pointer;
+    }
+
+    .imgThumbnailStyle{
+        width: 70px;
+        height: 70px;
+    }
+
 }

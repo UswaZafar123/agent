@@ -135,11 +135,11 @@ class Sidebar extends Component{
         this.setState({submenu:id})
     }
 
-    toggleSubmenu2 = () => {
-        this.setState(state => ({
-            subMenu2: !state.subMenu2
-          }));
-    }
+  toggleSubmenu2 = () => {
+    this.setState((state) => ({
+      subMenu2: !state.subMenu2,
+    }));
+  };
 
     renderSideBarLoading = () => {
         return(

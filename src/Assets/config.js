@@ -1,15 +1,13 @@
-// const API = "https://backoffice-dev.biapay.net/api/";
-// const API = "https://app.digitalbanking.groupebia.com/";
-
-// const GATEWAY_API = "http://localhost:8787/";
+const keyClock = process.env.REACT_APP_KEY_CLOACK;
+const userManagementHost = process.env.REACT_APP_KEY_USER_MANAGEMENT;
+// const bankManagementHost = process.env.REACT_APP_BANK_MANAGEMENT;
+const adminAPI = process.env.REACT_APP_ADMIN_API;
+const API = process.env.REACT_APP_API;
+const MerchantAPI = process.env.REACT_APP_MERCHANT_API;
+const AgentApi = process.env.REACT_APP_AGENT_BANKING_HOST;
+// const TontineAPI = process.env.REACT_APP_TONTINE_API;
+// const wallet_management_host = process.env.REACT_APP_WALLET_MANAGEMENT;
 const GATEWAY_API = "http://gateway.biapay.net:9001/";
-const keyClock = "https://keycloak.digitalbanking.groupebia.com/";
-const userManagementHost =
-  "https://app.digitalbanking.groupebia.com/user-management/";
-const adminAPI = "https://app.digitalbanking.groupebia.com/";
-const API = "https://backoffice.digitalbanking.groupebia.com/";
-const MerchantAPI = "https://merchant.digitalbanking.groupebia.com/";
-const AgentApi = "https://app.digitalbanking.groupebia.com/agentms/";
 
 const configUrl = {
   common: {
@@ -256,6 +254,13 @@ const configUrl = {
     PAY_EU_MOMO: `${API}eumomo/sendPaymentRequest`,
   },
   agent: {
+    CREATE_PACKAGE: `${AgentApi}api-internal/agentPackages`,
+    GET_OPERATIONS: `${AgentApi}api-internal/operations`,
+    GET_ASSETS: `${AgentApi}api-internal/assets`,
+    GET_CURRENCIES: `${AgentApi}api-internal/currencies`,
+    GET_PACKAGES: `${AgentApi}api-internal/agentPackages`,
+    GET_PROFILE_IMAGE: `${AgentApi}api/agencyBanking/documents`,
+    GET_PROFILE: `${AgentApi}api-public/Agent/profile`,
     NON_EXISTING_BANK_CUSTOMER: `${AgentApi}api-public/registration/agentRegistration`,
     ACCOUNT_BALANCE_EU_MOMO: `${API}eumomo/getAccountBalance`,
     PAY_EU_MOMO: `${API}eumomo/sendPaymentRequest`,
@@ -279,7 +284,6 @@ const configUrl = {
     /**
      * 
      */
-
     FETCH_AGENT_PROFILE: `${AgentApi}api-public/Agent/profile`,
     FETCH_AGENT_WALLET_ACCOUNT: `${AgentApi}api/agencyBanking/agentWalletBalance`,
     FETCH_AGENT_BANK_ACCOUNT: `${AgentApi}api/agencyBanking/customerAccounts`,
@@ -296,10 +300,14 @@ const configUrl = {
     FETCH_CUSTOMER_BANK_ACCOUNTS: `${AgentApi}api/agencyBanking/customerAccounts`,
     CUSTOMER_BANK_CASH_DEPOSIT: `${AgentApi}api/walletTransfers/walletCashOut`,
     CUSTOMER_BANK_CASH_WITHDRAW: `${AgentApi}api/walletTransfers/walletCashIn`,
-
     /**
      * 
      */
+
+    GET_KYC: `${AgentApi}api/agencyBanking/getKYC`,
+    GET_SCREEN_PERMISSIONS_BY_ROLE: `${AgentApi}api-internal/roleScreenPermissions`,
+    GET_ALL_USER_ROLES: `${AgentApi}api-internal/userRoles`,
+    GET_ALL_SCREENS: `${AgentApi}api-internal/screens`,
   },
 };
 

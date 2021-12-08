@@ -248,7 +248,7 @@ class Login extends Component {
         <section className="loginWrapper accountWrapper">
           <NavBar language={this.language} />
           <IntlProvider messages={this.state.messages.default}>
-            <div className="col-md-12 loginContainer">
+            <div className="col-sm-12 loginContainer">
               <div className="loginInner">
                 <div className="loginInform">
                   <h4 aria-label="vinod is working">Agent Login</h4>
@@ -386,7 +386,7 @@ class Login extends Component {
                   {/* <GoogleRecaptcha rechaptchaEnable={this.rechaptchaEnable} /> */}
                   <p>
                     <FormattedMessage id="login.donthaveanaccount" />
-                    <NavLink to="/registration">
+                    <NavLink to="/agent/registration">
                       {" "}
                       <FormattedMessage id="register" />
                     </NavLink>

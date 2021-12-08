@@ -23,6 +23,7 @@ import {
 } from "../../../src/services/agent/action";
 
 
+import {getProfile} from "../../services/agent/action"
 import { Select, DatePicker } from 'antd';
 import moment from 'moment';
 const dateFormat = 'YYYY/MM/DD';
@@ -37,8 +38,6 @@ variablePie(Highcharts);
 highcharts3d(Highcharts);
 HighchartsMore(ReactHighcharts.Highcharts);
 
-
-
 function handleChange(value) {
   console.log(`selected ${value}`);
 }
@@ -50,6 +49,7 @@ class Dashboard extends Component {
     super(props);
     this.state = {
       fromDivHeight: null,
+      profileImage:null,
 
       options: {
         chart: {
@@ -738,12 +738,24 @@ class Dashboard extends Component {
     }, () => {
       console.log("test001", this.state.fromDivHeight)
     });
+
+    this.props.getProfile();
+
   }
 
   componentDidUpdate(prevProps, nextProps) {
   }
 
-  componentWillReceiveProps(nextProps) {
+  async componentWillReceiveProps(nextProps) {
+    if (nextProps.profileImageStatus) {
+      
+      var blob = new Blob([nextProps.profileImage], { type: "application/octet-stream" });
+
+      const value = URL.createObjectURL(blob)
+      this.setState({
+        profileImage:value
+      })
+    }
   }
 
   loadingProfileName = () => {
@@ -848,7 +860,9 @@ class Dashboard extends Component {
                 <h4>Agent Info</h4>
               </div>
               <div className="customdashboardrow1-image">
-                <img src="../../propic.jpg" />
+                {/* <img src="../../propic.jpg" /> */}
+                {this.props.profileImageStatus?<img src={this.state.profileImage} alt="profile pic" />:<img src="../../propic.jpg" />}
+
               </div>
               <div className="customdashboardrow1-image-name">
                 {this.props.profile.loading ? this.loadingProfileName() : this.props.profile.data.firstName + " " + this.props.profile.data.lastName}
@@ -1323,19 +1337,22 @@ class Dashboard extends Component {
 }
 
 const mapStateToProps = ({ agentReducer }) => {
-  const {
-    profile
-  } = agentReducer;
+  const { profile, profileImage, profileImageStatus } = agentReducer;
 
   return {
-    profile
+    profile,
+    profileImage,
+    profileImageStatus,
   };
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  fetchProfile: (token) => dispatch(fetchAgentProfile(token)),
-  fetchAgentWallet: (token) => dispatch(fetchAgentWallet(token)),
-  fetchAgentBankAccounts: (token, bankCustomerId) => dispatch(fetchAgentBankAccounts(token, bankCustomerId)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+const mapDispatchToProps=(dispatch)=>{
+  return {
+    fetchProfile: (token) => dispatch(fetchAgentProfile(token)),
+    fetchAgentWallet: (token) => dispatch(fetchAgentWallet(token)),
+    fetchAgentBankAccounts: (token, bankCustomerId) => dispatch(fetchAgentBankAccounts(token, bankCustomerId)),
+    getProfile:()=>dispatch(getProfile())
+  }
+  
+}
+export default connect(mapStateToProps,mapDispatchToProps) (Dashboard)
