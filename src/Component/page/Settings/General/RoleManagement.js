@@ -16,7 +16,7 @@ import { FolderViewOutlined } from '@ant-design/icons';
 
 import { Radio } from "antd";
 import moment from "moment";
-import { addUserRole, deleteUserRole, getAllScreens, getAllUserRoles, updateUserRole, getScreenPermissionsByRole } from '../../../../services/agent/action';
+import { addUserRole, deleteUserRole, getAllScreens, getAllUserRoles, updateUserRole, getScreenPermissionsByRole, updateScreenPermissionsByRole } from '../../../../services/agent/action';
 import { connect } from 'react-redux';
 
 const dateFormat = "YYYY-MM-DD";
@@ -75,6 +75,8 @@ class RoleManagement extends Component {
             editRoleName: "",
             editDisplayName: "",
             editDescription: "",
+            incomingEditRoleData: [],
+            modifiedEditRoleData: [],
 
             roleData: [],
             screensData: [],
@@ -132,6 +134,55 @@ class RoleManagement extends Component {
         console.log(this.state.modifiedScreenData, "mod screen data")
     }
 
+    permissionsUpdateOnChange = (e, screenId) => {
+        let name = e.target.name;
+        let value = e.target.checked;
+
+        if (this.state.modifiedEditRoleData.screenPermissions.length > 0) {
+            this.state.modifiedEditRoleData.screenPermissions.map((data) => {
+                if (screenId === data.screenId) {
+
+                    switch (name) {
+                        case "editPermission":
+
+                            data.update = value
+
+                            break;
+                        case "listPermission":
+
+                            data.list = value
+
+                            break;
+                        case "deletePermission":
+
+                            data.delete = value
+
+                            break;
+                        case "viewPermission":
+
+                            data.view = value
+
+                            break;
+                        case "addPermission":
+
+                            data.add = value
+
+                            break;
+
+                        default:
+                            break;
+                    }
+
+                    // console.log(data, "Current");
+                }
+            })
+        }
+
+        console.log(this.state.modifiedScreenData, "mod screen data")
+    }
+
+
+
     componentDidMount = () => {
 
         this.props.getAllUserRoles(sessionStorage.getItem("token"));
@@ -142,10 +193,34 @@ class RoleManagement extends Component {
 
     componentWillReceiveProps = (nextprops) => {
         if (nextprops.getScreenPermissionsByRoleStatus && nextprops.getScreenPermissionsByRoleData != null) {
-            console.log(nextprops.getScreenPermissionsByRoleData._embedded.roleScreenPermissionDtoList, "PERMISSION DATA BY ROLE")
+            // console.log(nextprops.getScreenPermissionsByRoleData._embedded.roleScreenPermissionDtoList, "PERMISSION DATA BY ROLE")
+
+            let dataPath = nextprops.getScreenPermissionsByRoleData._embedded.roleScreenPermissionDtoList;
 
             this.setState({
-                roleData: nextprops.getScreenPermissionsByRoleData._embedded.roleScreenPermissionDtoList
+                incomingEditRoleData: dataPath
+            }, () => {
+                let screenPermissionsArray = []
+                this.state.incomingEditRoleData.map((data) => {
+
+                    screenPermissionsArray.push({
+                        "add": data.add,
+                        "update": data.update,
+                        "delete": data.delete,
+                        "view": data.view,
+                        "list": data.list,
+                        "screenId": data.screenDto.screenId
+                    })
+                });
+
+                this.setState({
+                    modifiedEditRoleData: {
+                        "userRoleId": this.state.selectedRoleId,
+                        "screenPermissions": screenPermissionsArray
+                    }
+                }, () => {
+                    console.log(this.state.modifiedEditRoleData, "Modified")
+                })
             });
         }
 
@@ -279,23 +354,34 @@ class RoleManagement extends Component {
 
     addNewRole = () => {
         this.setState({
-            addNewRole: true,
-            editNewRole: false,
-            viewNewRole: false
+            roleName: "",
+            displayName: "",
+            description: "",
+        }, () => {
+            this.setState({
+                addNewRole: true,
+                editNewRole: false,
+                viewNewRole: false
+            })
         })
+
     }
     editNewRole = (editData) => {
         this.setState({
-            addNewRole: false,
-            editNewRole: true,
-            viewNewRole: false,
-
-            selectedRoleId: editData.userRoleId,
-            editRoleName: editData.name,
-            editDisplayName: editData.displayName,
-            editDescription: editData.description
+            incomingEditRoleData: [],
+            modifiedEditRoleData: []
         }, () => {
-            this.props.getScreenPermissionsByRole(sessionStorage.getItem("token"), this.state.selectedRoleId);
+            this.props.getScreenPermissionsByRole(sessionStorage.getItem("token"), editData.userRoleId);
+            this.setState({
+                addNewRole: false,
+                editNewRole: true,
+                viewNewRole: false,
+
+                selectedRoleId: editData.userRoleId,
+                editRoleName: editData.name,
+                editDisplayName: editData.displayName,
+                editDescription: editData.description
+            });
         })
     }
     viewNewRole = () => {
@@ -335,6 +421,8 @@ class RoleManagement extends Component {
             "defaultRole": "false"
         }
 
+        // console.log(this.state.modifiedScreenData,"MOD SCREEN DATA TEST")
+        
         this.props.addUserRole(sessionStorage.getItem("token"), payload, this.state.modifiedScreenData);
     }
 
@@ -347,14 +435,18 @@ class RoleManagement extends Component {
             "defaultRole": "false"
         }
 
-        this.props.updateUserRole(sessionStorage.getItem("token"), this.state.selectedRoleId, payload);
+        this.props.updateUserRole(sessionStorage.getItem("token"), this.state.selectedRoleId, payload, this.state.modifiedEditRoleData);
+
+        // console.log(this.state.modifiedEditRoleData, "edit permissions payload")
+
+        // this.props.updateScreenPermissionsByRole(sessionStorage.getItem("token"), this.state.modifiedEditRoleData, this.state.selectedRoleId);
 
     }
 
 
     render() {
 
-        const isfeatured = this.state.isfeatured
+        const isfeatured = this.state.isfeatured;
         return (
             <>
                 {!this.state.addNewRole && !this.state.editNewRole && !this.state.viewNewRole &&
@@ -728,38 +820,44 @@ class RoleManagement extends Component {
                                                         </thead>
                                                         <tbody>
                                                             {
-                                                                this.state.screensData.map((row) => {/* change array lator*/
+                                                                this.state.modifiedEditRoleData.screenPermissions && this.state.modifiedEditRoleData.screenPermissions.map((row) => {/* change array lator*/
                                                                     return (
                                                                         <tr>
-                                                                            <td>{row.name}</td>
-                                                                            <td>
-                                                                                <div className="antdCheckBCustom tablecheckinput">
-                                                                                    <Checkbox onChange={onChange}></Checkbox>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div className="antdCheckBCustom tablecheckinput">
-                                                                                    <Checkbox onChange={onChange}></Checkbox>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div className="antdCheckBCustom tablecheckinput">
-                                                                                    <Checkbox onChange={onChange}></Checkbox>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div className="antdCheckBCustom tablecheckinput">
-                                                                                    <Checkbox onChange={onChange}></Checkbox>
-                                                                                </div>
-                                                                            </td>
-                                                                            <td>
-                                                                                <div className="antdCheckBCustom tablecheckinput">
-                                                                                    <Checkbox onChange={onChange}></Checkbox>
-                                                                                </div>
-                                                                            </td>
+                                                                            {
+                                                                                this.state.screensData.map((screenData) => {
+                                                                                    if (screenData.screenId == row.screenId) {
+                                                                                        return (
+                                                                                            <td>{screenData.name}</td>
+                                                                                        )
+                                                                                    }
+                                                                                })
+                                                                            }
 
-                                                                            {/* {console.log(row.screenId, "Screen Row")} */}
-
+                                                                            <td>
+                                                                                <div className="antdCheckBCustom tablecheckinput">
+                                                                                    <Checkbox key={row.screenId + "editPermission"} name="editPermission" onChange={(e) => { this.permissionsUpdateOnChange(e, row.screenId) }} defaultChecked={row.update}></Checkbox>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div className="antdCheckBCustom tablecheckinput">
+                                                                                    <Checkbox key={row.screenId + "listPermission"} name="listPermission" onChange={(e) => { this.permissionsUpdateOnChange(e, row.screenId) }} defaultChecked={row.list}></Checkbox>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div className="antdCheckBCustom tablecheckinput">
+                                                                                    <Checkbox key={row.screenId + "deletePermission"} name="deletePermission" onChange={(e) => { this.permissionsUpdateOnChange(e, row.screenId) }} defaultChecked={row.delete}></Checkbox>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div className="antdCheckBCustom tablecheckinput">
+                                                                                    <Checkbox key={row.screenId + "viewPermission"} name="viewPermission" onChange={(e) => { this.permissionsUpdateOnChange(e, row.screenId) }} defaultChecked={row.view}></Checkbox>
+                                                                                </div>
+                                                                            </td>
+                                                                            <td>
+                                                                                <div className="antdCheckBCustom tablecheckinput">
+                                                                                    <Checkbox key={row.screenId + "addPermission"} name="addPermission" onChange={(e) => { this.permissionsUpdateOnChange(e, row.screenId) }} defaultChecked={row.add}></Checkbox>
+                                                                                </div>
+                                                                            </td>
                                                                         </tr>
                                                                     )
                                                                 })
@@ -929,6 +1027,8 @@ const mapStateToProps = ({ agentReducer }) => {
 
         getScreenPermissionsByRoleStatus: agentReducer.getScreenPermissionsByRoleStatus,
         getScreenPermissionsByRoleData: agentReducer.getScreenPermissionsByRoleData,
+        updateRolePermissionStatus: agentReducer.updateRolePermissionStatus,
+        updateRolePermissionData: agentReducer.updateRolePermissionData,
 
         addAllPermissionStatus: agentReducer.addAllPermissionStatus,
         addAllPermissionData: agentReducer.addAllPermissionData
@@ -945,12 +1045,14 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch(addUserRole(token, payload, permissionsPayload)),
     deleteUserRole: (token, roleId) =>
         dispatch(deleteUserRole(token, roleId)),
-    updateUserRole: (token, roleId, payload) =>
-        dispatch(updateUserRole(token, roleId, payload)),
+    updateUserRole: (token, roleId, payload, modifiedPermissionsList) =>
+        dispatch(updateUserRole(token, roleId, payload, modifiedPermissionsList)),
     getAllScreens: (token) =>
         dispatch(getAllScreens(token)),
     getScreenPermissionsByRole: (token, roleId) =>
-        dispatch(getScreenPermissionsByRole(token, roleId))
+        dispatch(getScreenPermissionsByRole(token, roleId)),
+    updateScreenPermissionsByRole: (token, payload, roleId) =>
+        dispatch(updateScreenPermissionsByRole(token, payload, roleId))
 
 });
 
