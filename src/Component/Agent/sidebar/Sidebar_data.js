@@ -6,6 +6,40 @@ export const Side_bar_data = [
     id: 1,
   },
   {
+    title:"Cash Deposit",
+    path:"/agent/cash_deposit/wallet",
+    iconClass:"icon-Asset-47",
+    id:2,
+    subMenu: [
+        {
+            title: "Cash Deposit To Wallet",
+            path: "/agent/cash_deposit/wallet",
+        },
+        {
+            title: "Cash Deposit To Bank",
+            path: "/agent/cash_deposit/bank",
+        },
+
+    ]
+},
+{
+    title:"Cash Withdraw",
+    path:"/agent/cash_withdraw/wallet",
+    iconClass:"icon-Asset-47",
+    id:3,
+    subMenu: [
+        {
+            title: "Cash Withdraw From Wallet",
+            path: "/agent/cash_withdraw/wallet",
+        },
+        {
+            title: "Cash Withdraw From Bank",
+            path: "/agent/cash_withdraw/bank",
+        },
+
+    ]
+},
+  {
     title: "Cash Opertaions",
     path: "/agent/cash-operations",
     iconClass: "icon-Asset-47",
@@ -416,8 +450,12 @@ export const Side_bar_data = [
         path: "/Profile/change-password",
       },
       {
-        title: "Link to Bank Account",
-        path: "/profile/link/bank-account",
+        title: "Account Linking",
+        path: "/profile/account/link",
+      },
+      {
+        title: "validate Bank Id",
+        path: "/profile/account/validate_id",
       },
     ],
   },

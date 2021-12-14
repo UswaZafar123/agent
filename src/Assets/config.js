@@ -273,12 +273,35 @@ const configUrl = {
     ADD_TICKET: `${API}agent/user/ticket`,
     TICKET_REPLY: `${API}agent/user/ticket/reply`,
     GET_A_TICKET: `${API}agent/user/ticket`,
-    GET_TICKETS: `${API}agent/user/ticket`,
-    GET_TICKETS_SUMMARY: `${API}agent/user/ticket/summary`,
-    GET_TICKETS_STATUS: `${API}agent/user/ticket/status`,
+    GET_TICKETS:`${API}agent/user/ticket`,
+    GET_TICKETS_SUMMARY:`${API}agent/user/ticket/summary`,
+    GET_TICKETS_STATUS:`${API}agent/user/ticket/status`,
+    UPDATE_KYC:`${AgentApi}api-public/AgentRegistration/agentKYC`,
+
+    /**
+     * 
+     */
+    FETCH_AGENT_PROFILE: `${AgentApi}api-public/Agent/profile`,
+    FETCH_AGENT_WALLET_ACCOUNT: `${AgentApi}api/agencyBanking/agentWalletBalance`,
+    FETCH_AGENT_BANK_ACCOUNT: `${AgentApi}api/agencyBanking/customerAccounts`,
+    FETCH_AGENT_DETAIL: `${AgentApi}api-public/Agent/getAgentDetails`,
+    SEND_LINKING_REQUEST: `${AgentApi}api-public/AgentRegistration/agentLinkingRequest`,
+    VALIDATE_SUPER_AGENT: `${AgentApi}api-public/AgentRegistration/validateMFALinkingToken`,
+    FETCH_LINKING_REQUESTS: `${AgentApi}api-public/AgentRegistration/getLinkingRequests`,
+    PROCESS_LINKING_REQUESTS: `${AgentApi}api-public/AgentRegistration/processLinkingRequest`,
+    CUSTOMER_VERIFICATION: `${AgentApi}api/walletTransfers/validateCustomer`,
+    AGENT_OTP_SEND: `${AgentApi}api-public/AgencyBanking/MFAGenerationForTransaction`,
+    CUSTOMER_OTP_SEND: `${AgentApi}api-public/AgencyBanking/MFAGenerationForTransaction`,
+    CUSTOMER_WALLET_CASH_DEPOSIT: `${AgentApi}api/walletTransfers/walletToWallet`,
+    CUSTOMER_WALLET_CASH_WITHDRAW: `${AgentApi}api/walletTransfers/walletToWallet`,
+    FETCH_CUSTOMER_BANK_ACCOUNTS: `${AgentApi}api/agencyBanking/customerAccounts`,
+    CUSTOMER_BANK_CASH_DEPOSIT: `${AgentApi}api/walletTransfers/walletCashOut`,
+    CUSTOMER_BANK_CASH_WITHDRAW: `${AgentApi}api/walletTransfers/walletCashIn`,
+    /**
+     * 
+     */
 
     GET_KYC: `${AgentApi}api/agencyBanking/getKYC`,
-    UPDATE_KYC: `${AgentApi}api-public/AgentRegistration/agentKYC`,
     GET_SCREEN_PERMISSIONS_BY_ROLE: `${AgentApi}api-internal/roleScreenPermissions`,
     GET_ALL_USER_ROLES: `${AgentApi}api-internal/userRoles`,
     GET_ALL_SCREENS: `${AgentApi}api-internal/screens`,
