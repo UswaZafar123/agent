@@ -10,7 +10,6 @@ const rootPersistConfig = {
   whitelist: ["agentReducer", "commonReducer"],
   blacklist: ["toastrReducer"],
 };
-
 const appReducer = combineReducers({
   commonReducer: commoReducer,
 

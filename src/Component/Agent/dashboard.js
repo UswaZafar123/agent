@@ -9,8 +9,21 @@ import HighchartsMore from 'highcharts/highcharts-more';
 
 import highcharts3d from 'highcharts/highcharts-3d';
 import ProgressBar from "@ramonak/react-progress-bar";
-import {connect} from "react-redux"
-import {   getProfile} from "../../services/agent/action"
+import { connect } from "react-redux";
+import Skeleton from '@material-ui/lab/Skeleton';
+import {
+  ListItem,
+  ListItemText
+} from '@material-ui/core';
+
+import {
+  fetchAgentProfile,
+  fetchAgentWallet,
+  fetchAgentBankAccounts
+} from "../../../src/services/agent/action";
+
+
+import {getProfile} from "../../services/agent/action"
 import { Select, DatePicker } from 'antd';
 import moment from 'moment';
 const dateFormat = 'YYYY/MM/DD';
@@ -24,8 +37,6 @@ function onChange(date, dateString) {
 variablePie(Highcharts);
 highcharts3d(Highcharts);
 HighchartsMore(ReactHighcharts.Highcharts);
-
-
 
 function handleChange(value) {
   console.log(`selected ${value}`);
@@ -730,9 +741,10 @@ class Dashboard extends Component {
 
     this.props.getProfile();
 
-
   }
 
+  componentDidUpdate(prevProps, nextProps) {
+  }
 
   async componentWillReceiveProps(nextProps) {
     if (nextProps.profileImageStatus) {
@@ -746,7 +758,13 @@ class Dashboard extends Component {
     }
   }
 
-  
+  loadingProfileName = () => {
+    return (
+        <React.Fragment>
+          <Skeleton variant="text" width={100} style={{ margin: 'auto' }}/>
+        </React.Fragment>
+    );
+  }
 
   render() {
 
@@ -847,9 +865,8 @@ class Dashboard extends Component {
 
               </div>
               <div className="customdashboardrow1-image-name">
-                Harry Jane
-
-          </div>
+                {this.props.profile.loading ? this.loadingProfileName() : this.props.profile.data.firstName + " " + this.props.profile.data.lastName}
+              </div>
               <div className="customdashboardrow1-label-whole">
                 <div className="customdashboardrow1-label">
                   <label>Id Number:</label>
@@ -1319,22 +1336,22 @@ class Dashboard extends Component {
   }
 }
 
-
 const mapStateToProps = ({ agentReducer }) => {
-  const { profileImage, profileImageStatus } = agentReducer;
-
-  console.log(agentReducer, "profileImage");
+  const { profile, profileImage, profileImageStatus } = agentReducer;
 
   return {
+    profile,
     profileImage,
     profileImageStatus,
   };
 };
 
 const mapDispatchToProps=(dispatch)=>{
-  return{
+  return {
+    fetchProfile: (token) => dispatch(fetchAgentProfile(token)),
+    fetchAgentWallet: (token) => dispatch(fetchAgentWallet(token)),
+    fetchAgentBankAccounts: (token, bankCustomerId) => dispatch(fetchAgentBankAccounts(token, bankCustomerId)),
     getProfile:()=>dispatch(getProfile())
-
   }
   
 }

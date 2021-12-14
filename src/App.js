@@ -8,6 +8,13 @@ import logoBg from "./Assets/images/bgLogowater.svg";
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 import AgentRouting from "./Component/Agent/agentRouting";
 import Dashboard from "./Component/Agent/dashboard";
+//Cash Deposit/Withdraw imports
+import WalletCashDeposit from "./Component/page/CashDeposit/WalletCashDeposit";
+import BankCashDeposit from "./Component/page/CashDeposit/BankCashDeposit";
+import WalletCashWithdraw from "./Component/page/cashWithdraw/WalletCashWithdraw";
+import BankCashWithdraw from "./Component/page/cashWithdraw/BankCashWithdraw";
+//End Deposit/Withdraw imports
+
 import Transaction from "./Component/Agent/Transaction";
 import AccessHistory from "./Component/AccessHistory/accessHistory";
 import Ticket from "./Component/Agent/Ticket";
@@ -83,6 +90,8 @@ import Accounts from "./Component/page/Profile/Accounts";
 import qrCode from "./Component/page/Profile/QRCode";
 import ChangePassword from "./Component/page/Profile/ChangePassword";
 import LinkToBankAccount from "./Component/Agent/linking/linkAccount";
+import AgentAccountLinking from "./Component/page/AccountLinking/agentAccountLinking";
+import ValidateSuperAgentId from "./Component/page/AccountLinking/validateSuperAgentId";
 
 // Cash Operations Component Import
 import CashOperations from "./Component/page/Cash Operations/CashOperations";
@@ -125,7 +134,11 @@ export const App = (props) => {
                 >
                   <Switch>
                     <Redirect exact from="/agent" to="/agent/dashboard" />
-                    <Route path="/agent/dashboard" component={Dashboard} />
+                    <Route exact path="/agent/dashboard" component={Dashboard} />
+                    <Route exact path="/agent/cash_deposit/wallet" component={WalletCashDeposit} />
+                    <Route exact path="/agent/cash_deposit/bank" component={BankCashDeposit} />
+                    <Route exact path="/agent/cash_withdraw/wallet" component={WalletCashWithdraw} />
+                    <Route exact path="/agent/cash_withdraw/bank" component={BankCashWithdraw} />
 
                     <Route
                       path="/agent/walletOperation/transfert"
@@ -323,8 +336,14 @@ export const App = (props) => {
                       component={ChangePassword}
                     />
                     <Route
-                      path="/profile/link/bank-account"
-                      component={LinkToBankAccount}
+                      exact
+                      path="/profile/account/link"
+                      component={AgentAccountLinking}
+                    />
+                    <Route
+                      exact
+                      path="/profile/account/validate_id"
+                      component={ValidateSuperAgentId}
                     />
                     {/* Cash Operations Routing */}
                     <Route
