@@ -44,6 +44,9 @@ const initialState = {
   updateUserRoleStatus: false,
   updateUserRoleData: null,
 
+  updateRolePermissionStatus : false,
+  updateRolePermissionData : null,
+
   getAllScreensStatus: false,
   getAllScreensData: null,
 
