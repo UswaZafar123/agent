@@ -827,7 +827,7 @@ export const addTicket = (token, payload, history) => (dispatch) => {
         history.push({ pathname: "/agent/tickets" });
       }
     })
-    .catch((error) => {});
+    .catch((error) => { });
 };
 export const UpdateTicket = (token, payload, ticketNo, history) => (
   dispatch
@@ -852,7 +852,7 @@ export const UpdateTicket = (token, payload, ticketNo, history) => (
         dispatch(getTickets(token));
       }
     })
-    .catch((error) => {});
+    .catch((error) => { });
 };
 export const addAreply = (token, data, ticketNo) => (dispatch) => {
   dispatch(uploadAttachmentFalse());
@@ -873,7 +873,7 @@ export const addAreply = (token, data, ticketNo) => (dispatch) => {
         dispatch(getATicket(token, ticketNo));
       }
     })
-    .catch((error) => {});
+    .catch((error) => { });
 };
 
 export const viewAttachmentFileFalse = () => (dispatch) => {
@@ -955,6 +955,35 @@ export const addScreenPermissionsByRole = (token, payload) => (dispatch) => {
     toastr.error("Role Permissions Failed to Add..");
     dispatch({
       type: actionType.ADD_ALL_PERMISSION_FAILURE,
+      payload: null
+    });
+  });
+};
+
+export const updateScreenPermissionsByRole = (token, payload, roleId) => (dispatch) => {
+  dispatch(ShowLoading());
+  const config = {
+    method: "PUT",
+    url: URL.agent.GET_SCREEN_PERMISSIONS_BY_ROLE + "/" + roleId,
+    data: payload,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
+    },
+  };
+
+  axios(config).then((res) => {
+    dispatch(HideLoading());
+    toastr.success("Role Permissions Updated..");
+    dispatch({
+      type: actionType.UPDATE_ROLE_PERMISSION_SUCCESS,
+      payload: res.data
+    });
+  }).catch((err) => {
+    dispatch(HideLoading());
+    toastr.error("Role Permissions Failed to Update..");
+    dispatch({
+      type: actionType.UPDATE_ROLE_PERMISSION_FAILURE,
       payload: null
     });
   });
@@ -1060,7 +1089,7 @@ export const deleteUserRole = (token, roleId) => (dispatch) => {
   });
 }
 
-export const updateUserRole = (token, roleId, payload) => (dispatch) => {
+export const updateUserRole = (token, roleId, payload, modifiedPermissionsList) => (dispatch) => {
   dispatch(ShowLoading());
   const config = {
     method: "PUT",
@@ -1074,6 +1103,7 @@ export const updateUserRole = (token, roleId, payload) => (dispatch) => {
   axios(config).then((res) => {
     dispatch(HideLoading());
     toastr.success("Role Updated..");
+    dispatch(updateScreenPermissionsByRole(token, modifiedPermissionsList, roleId));
     dispatch({
       type: actionType.UPDATE_USER_ROLE_SUCCESS,
       payload: res.data

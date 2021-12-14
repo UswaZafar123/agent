@@ -195,13 +195,13 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         getScreenPermissionsByRoleStatus: true,
-        getScreenPermissionsByRoleData: action.payload
+        getScreenPermissionsByRoleData: action.payload,
       };
     case actionType.GET_SCREEN_PERMISSIONS_BY_ROLE_FAILURE:
       return {
         ...state,
         getScreenPermissionsByRoleStatus: false,
-        getScreenPermissionsByRoleData: action.payload
+        getScreenPermissionsByRoleData: action.payload,
       };
     case actionType.GET_USER_ROLES_SUCCESS:
       return {
@@ -430,6 +430,18 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         a_package_status: "nullable",
+      };
+    case actionType.UPDATE_ROLE_PERMISSION_SUCCESS:
+      return {
+        ...state,
+        updateRolePermissionStatus: true,
+        updateRolePermissionData: action.payload,
+      };
+    case actionType.UPDATE_ROLE_PERMISSION_FAILURE:
+      return {
+        ...state,
+        updateRolePermissionStatus: false,
+        updateRolePermissionData: null,
       };
     default:
       return state;
