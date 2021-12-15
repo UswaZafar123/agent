@@ -174,6 +174,7 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         profile: {
+          ...state.profile,
           loading: true
         }
     }
@@ -181,6 +182,7 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         profile: {
+          ...state.profile,
           loading: false,
           data: action.payload
         }
@@ -189,6 +191,7 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         profile: {
+          ...state.profile,
           loading: false,
         }
     }
@@ -203,6 +206,7 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         walletAccount: {
+          ...state.walletAccount,
           loading: true
         }
     }
@@ -210,6 +214,7 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         walletAccount: {
+          ...state.walletAccount,
           loading: false,
           data: action.payload
         }
@@ -218,6 +223,7 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         walletAccount: {
+          ...state.walletAccount,
           loading: false,
         }
       }
@@ -232,6 +238,7 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         bankAccounts: {
+          ...state.bankAccounts,
           loading: true
         }
     }
@@ -239,6 +246,7 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         bankAccounts: {
+          ...state.bankAccounts,
           loading: false,
           list: action.payload
         }
@@ -247,6 +255,7 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         bankAccounts: {
+          ...state.bankAccounts,
           loading: false,
         }
       }
@@ -261,14 +270,15 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         superAgentDetail: {
+          ...state.superAgentDetail,
           loading: true,
-          data:{}
         }
     }
     case actionType.SUPER_AGENT_DETAIL_DATA:
       return {
         ...state,
         superAgentDetail: {
+          ...state.superAgentDetail,
           loading: false,
           data: action.payload
         }
@@ -277,14 +287,15 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         superAgentDetail: {
+          ...state.superAgentDetail,
           loading: false,
-          data:{}
         }
       }
     case actionType.SUPER_AGENT_DETAIL_RESET:
       return {
         ...state,
         superAgentDetail: {
+          ...state.superAgentDetail,
           loading: false,
           data:{}
         }
@@ -301,6 +312,7 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         sendLinkingRequest: {
+          ...state.sendLinkingRequest,
           loading: true
         }
     }
@@ -308,6 +320,7 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         sendLinkingRequest: {
+          ...state.sendLinkingRequest,
           loading: false,
           success: true
         }
@@ -316,6 +329,7 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         sendLinkingRequest: {
+          ...state.sendLinkingRequest,
           loading: false,
           success: false,
           error: true
@@ -332,6 +346,7 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         validateSuperAgent: {
+          ...state.validateSuperAgent,
           loading: true
         }
     }
@@ -339,6 +354,7 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         validateSuperAgent: {
+          ...state.validateSuperAgent,
           loading: false,
           success: true
         }
@@ -347,6 +363,7 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         validateSuperAgent: {
+          ...state.validateSuperAgent,
           loading: false,
           success: false,
           error: true
@@ -356,6 +373,7 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         validateSuperAgent: {
+          ...state.validateSuperAgent,
           loading: false,
           success: false,
           error: false
@@ -372,6 +390,7 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         linkingRequests: {
+          ...state.linkingRequests,
           loading: true
         }
     }
@@ -379,6 +398,7 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         linkingRequests: {
+          ...state.linkingRequests,
           loading: false,
           data: action.payload
         }
@@ -387,6 +407,7 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         linkingRequests: {
+          ...state.linkingRequests,
           loading: false,
         }
       }
@@ -401,6 +422,7 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         linkingRequests: {
+          ...state.linkingRequests,
           linkingRequestProcessing: true
         }
     }
@@ -408,6 +430,7 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         linkingRequests: {
+          ...state.linkingRequests,
           linkingRequestProcessing: false,
           linkingRequestProcessSuccess: true,
         }
@@ -416,6 +439,7 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         linkingRequests: {
+          ...state.linkingRequests,
           linkingRequestProcessing: false,
           linkingRequestProcessSuccess: false,
           linkingRequestProcessError: true,
@@ -433,6 +457,7 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         customerValidation: {
+          ...state.customerValidation,
           loading: true,
           success: false,
           error: false
@@ -442,6 +467,7 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         customerValidation: {
+          ...state.customerValidation,
           loading: false,
           success: true,
           error: false
@@ -451,6 +477,7 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         customerValidation: {
+          ...state.customerValidation,
           loading: false,
           success: false,
           error: true
@@ -460,6 +487,7 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         customerValidation: {
+          ...state.customerValidation,
           loading: false,
           success: false,
           error: false
@@ -477,6 +505,7 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         agentOtpSend: {
+          ...state.agentOtpSend,
           loading: true
         }
       };
@@ -484,6 +513,7 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         agentOtpSend: {
+          ...state.agentOtpSend,
           loading: false,
           success: true
         },
@@ -492,6 +522,7 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         agentOtpSend: {
+          ...state.agentOtpSend,
           loading: false,
           success: false,
           error: true
@@ -501,6 +532,7 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         agentOtpSend: {
+          ...state.agentOtpSend,
           loading: false,
           success: false,
           error: false
@@ -518,6 +550,7 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         customerOtpSend: {
+          ...state.customerOtpSend,
           loading: true
         }
       };
@@ -525,6 +558,7 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         customerOtpSend: {
+          ...state.customerOtpSend,
           loading: false,
           success: true
         },
@@ -533,6 +567,7 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         customerOtpSend: {
+          ...state.customerOtpSend,
           loading: false,
           success: false,
           error: true
@@ -542,6 +577,7 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         customerOtpSend: {
+          ...state.customerOtpSend,
           loading: false,
           success: false,
           error: false
@@ -556,6 +592,7 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         customerWalletCashDeposit: {
+          ...state.customerWalletCashDeposit,
           loading: true
         }
       };
@@ -563,6 +600,7 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         customerWalletCashDeposit: {
+          ...state.customerWalletCashDeposit,
           loading: false,
           success: true
         },
@@ -571,6 +609,7 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         customerWalletCashDeposit: {
+          ...state.customerWalletCashDeposit,
           loading: false,
           success: false,
           error: true
@@ -580,6 +619,7 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         customerWalletCashDeposit: {
+          ...state.customerWalletCashDeposit,
           loading: false,
           success: false,
           error: false
@@ -590,6 +630,7 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         customerWalletCashWithdraw: {
+          ...state.customerWalletCashWithdraw,
           loading: true
         }
       };
@@ -597,6 +638,7 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         customerWalletCashWithdraw: {
+          ...state.customerWalletCashWithdraw,
           loading: false,
           success: true
         },
@@ -605,6 +647,7 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         customerWalletCashWithdraw: {
+          ...state.customerWalletCashWithdraw,
           loading: false,
           success: false,
           error: true
@@ -614,6 +657,7 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         customerWalletCashWithdraw: {
+          ...state.customerWalletCashWithdraw,
           loading: false,
           success: false,
           error: false
@@ -624,14 +668,15 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         customerBankAccounts: {
+          ...state.customerBankAccounts,
           loading: true,
-          list: []
         }
     }
     case actionType.CUSTOMER_BANK_ACCOUNTS_DATA:
       return {
         ...state,
         customerBankAccounts: {
+          ...state.customerBankAccounts,
           loading: false,
           list: action.payload
         }
@@ -640,14 +685,15 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         customerBankAccounts: {
+          ...state.customerBankAccounts,
           loading: false,
-          list: []
         }
     }
     case actionType.CUSTOMER_BANK_ACCOUNTS_RESET:
       return {
         ...state,
         customerBankAccounts: {
+          ...state.customerBankAccounts,
           loading: false,
           list: []
         }
@@ -657,24 +703,24 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         customerBankCashDeposit: {
+          ...state.customerBankCashDeposit,
           loading: true,
-          success: false,
-          error: false,
         }
       };
     case actionType.CUSTOMER_BANK_CASH_DEPOSIT_SUCCESS:
       return {
         ...state,
         customerBankCashDeposit: {
+          ...state.customerBankCashDeposit,
           loading: false,
           success: true,
-          error: false,
         },
       }
     case actionType.CUSTOMER_BANK_CASH_DEPOSIT_ERROR:
       return {
         ...state,
         customerBankCashDeposit: {
+          ...state.customerBankCashDeposit,
           loading: false,
           success: false,
           error: true
@@ -684,6 +730,7 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         customerBankCashDeposit: {
+          ...state.customerBankCashDeposit,
           loading: false,
           success: false,
           error: false
@@ -694,6 +741,7 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         customerBankCashWithdraw: {
+          ...state.customerBankCashWithdraw,
           loading: true
         }
       };
@@ -701,6 +749,7 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         customerBankCashWithdraw: {
+          ...state.customerBankCashWithdraw,
           loading: false,
           success: true
         },
@@ -709,6 +758,7 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         customerBankCashWithdraw: {
+          ...state.customerBankCashWithdraw,
           loading: false,
           success: false,
           error: true
@@ -718,9 +768,84 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         customerBankCashWithdraw: {
+          ...state.customerBankCashWithdraw,
           loading: false,
           success: false,
           error: false
+        },
+      }
+    case actionType.AGENT_WALLET_CASH_IN_FETCH:
+      return {
+        ...state,
+        agentWalletCashIn: {
+          ...state.agentWalletCashIn,
+          loading: true,
+        },
+      }
+    case actionType.AGENT_WALLET_CASH_IN_SUCCESS:
+      return {
+        ...state,
+        agentWalletCashIn: {
+          ...state.agentWalletCashIn,
+          loading: false,
+          success: true,
+        },
+      }
+    case actionType.AGENT_WALLET_CASH_IN_ERROR:
+      return {
+        ...state,
+        agentWalletCashIn: {
+          ...state.agentWalletCashIn,
+          loading: false,
+          success: false,
+          error: true,
+        },
+      }
+    case actionType.AGENT_WALLET_CASH_IN_RESET:
+      return {
+        ...state,
+        agentWalletCashIn: {
+          ...state.agentWalletCashIn,
+          loading: false,
+          success: false,
+          error: false,
+        },
+      }
+    case actionType.AGENT_WALLET_CASH_OUT_FETCH:
+      return {
+        ...state,
+        agentWalletCashOut: {
+          ...state.agentWalletCashOut,
+          loading: true,
+        },
+      }
+    case actionType.AGENT_WALLET_CASH_OUT_SUCCESS:
+      return {
+        ...state,
+        agentWalletCashOut: {
+          ...state.agentWalletCashOut,
+          loading: false,
+          success: true,
+        },
+      }
+    case actionType.AGENT_WALLET_CASH_OUT_ERROR:
+      return {
+        ...state,
+        agentWalletCashOut: {
+          ...state.agentWalletCashOut,
+          loading: false,
+          success: false,
+          error: true,
+        },
+      }
+    case actionType.AGENT_WALLET_CASH_OUT_RESET:
+      return {
+        ...state,
+        agentWalletCashOut: {
+          ...state.agentWalletCashOut,
+          loading: false,
+          success: false,
+          error: false,
         },
       }
     case actionType.SEND_KYC_SUCCESS:

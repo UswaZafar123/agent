@@ -38,24 +38,20 @@ class Sidebar extends Component{
 
     componentDidMount() {
         this.setState({filteredMenu: Side_bar_data});
-        this.props.fetchProfile(sessionStorage.getItem("token"));
         if(Object.keys(this.props.profile.data).length === 0) {
+            this.props.fetchProfile(sessionStorage.getItem("token"));
         }
     }
 
     componentWillReceiveProps(nextProps) {
-        this.filterSubmenuLinks(nextProps.profile.data);
-        
-        if(nextProps.profile.data) {
+        if (Object.keys(nextProps.profile.data).length !== 0) {
+            this.filterSubmenuLinks(nextProps.profile.data);
             this.props.fetchAgentWallet(sessionStorage.getItem("token"));
             if(nextProps.profile.data.registrationType === 'EXISTING_BANK_CUSTOMER') {
                 this.props.fetchAgentBankAccounts(sessionStorage.getItem("token"), nextProps.profile.data.bankCustomerId);
             }
-        }
-        if(nextProps.profile.data && nextProps.profile.data.status === 'ACTIVE') {
             this.checkAccountStatus(nextProps.profile.data.agentType, nextProps.profile.data.status);
         }
-
     }
 
     componentDidUpdate(prevProps, nextProps) {

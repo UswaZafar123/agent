@@ -300,6 +300,8 @@ const configUrl = {
     FETCH_CUSTOMER_BANK_ACCOUNTS: `${AgentApi}api/agencyBanking/customerAccounts`,
     CUSTOMER_BANK_CASH_DEPOSIT: `${AgentApi}api/walletTransfers/walletCashOut`,
     CUSTOMER_BANK_CASH_WITHDRAW: `${AgentApi}api/walletTransfers/walletCashIn`,
+    WALLET_CASH_IN_FROM_BANK: `${AgentApi}api/walletTransfers/walletCashIn`,
+    WALLET_CASH_OUT_FROM_BANK: `${AgentApi}api/walletTransfers/walletCashOut`,
     /**
      * 
      */
