@@ -23,7 +23,7 @@ import { Select, DatePicker, Modal, Switch, Upload, message, Dropdown, Checkbox,
 import { Radio } from "antd";
 import moment from "moment";
 import { connect } from 'react-redux';
-import { createCommission, deleteCommission, getAllAgentMemberPackages, getAllCommissions, getAllCurrencies, getAllOperations } from '../../../services/agent/action';
+import { createCommission, deleteCommission, getAllAgentMemberPackages, getAllCommissions, getAllCurrencies, getAllOperations, editCommission } from '../../../services/agent/action';
 import { Input } from 'reactstrap';
 
 const dateFormat = "YYYY-MM-DD";
@@ -60,9 +60,8 @@ class CommissionsManagement extends Component {
                 {
                     headerName: "Action", field: "Action", width: 400,
                     cellRendererFramework: (params) => <div className="ac-view">
-                        <button className="edit" onClick={this.editNewCommissions}>Edit</button>
-                        <button className="delete ml4px" onClick={() => this.deleteCommission(params.data.ID)}>Delete</button>
-                        <button className="clone ml4px" onClick={this.editNewCommissions}>Clone</button>
+                        <button className="edit" onClick={() => this.editNewCommissions(params.data)}>Edit</button>
+                        <button className="delete" onClick={() => this.deleteCommission(params.data.ID)}>Delete</button>
                     </div>,
                     cellStyle: (params) => { return { textAlign: "center" } },
                 }
@@ -84,6 +83,7 @@ class CommissionsManagement extends Component {
             amount: "",
             percentage: "",
             commissionStatus: true,
+            commissionID: ""
 
 
         };
@@ -128,7 +128,9 @@ class CommissionsManagement extends Component {
                 feeStructure: 1,
                 amount: "",
                 percentage: "",
+                commissionStatus: true,
             });
+            this.viewNewCommissions();
         }
 
         if (nextprops.getCommissionStatus && nextprops.getCommissionData) {
@@ -139,11 +141,55 @@ class CommissionsManagement extends Component {
 
         }
 
+        if (nextprops.editCommissionStatus && nextprops.editCommissionData) {
+
+            this.viewNewCommissions();
+
+        }
+
     }
 
     deleteCommission = (commissionID) => {
 
         this.props.deleteCommission(commissionID);
+
+    }
+
+    editCommission = () => {
+
+        let payload;
+
+        if (this.state.feeStructure == 1) {
+
+            payload = {
+                "commissionId": this.state.commissionID,
+                "commissionType": this.state.commissionType,
+                "commissionAmount": this.state.amount,
+                "commissionPercentage": "0",
+                "active": this.state.commissionStatus
+            }
+
+        } else if (this.state.feeStructure == 2) {
+
+            payload = {
+                "commissionId": this.state.commissionID,
+                "commissionType": this.state.commissionType,
+                "commissionAmount": "0",
+                "commissionPercentage": this.state.percentage,
+                "active": this.state.commissionStatus
+            }
+
+        } else {
+            payload = {
+                "commissionId": this.state.commissionID,
+                "commissionType": this.state.commissionType,
+                "commissionAmount": this.state.amount,
+                "commissionPercentage": this.state.percentage,
+                "active": this.state.commissionStatus
+            }
+        }
+
+        this.props.editCommission(payload);
 
     }
 
@@ -170,20 +216,14 @@ class CommissionsManagement extends Component {
         else {
             document.getElementById('afterTo').innerHTML = this.state.commissionsData.length
         }
-        // console.log("get",params.api.getDisplayedRowCount())
-
 
     }
+
     handleChange = (value) => {
         this.state.gridApi.paginationSetPageSize(Number(value))
         // document.getElementById('totalPageSize').innerHTML=this.state.gridApi.paginationGetPageSize()
         document.getElementById('bTo').innerHTML = this.state.gridApi.paginationGetPageSize()
     }
-
-
-
-
-
 
     onPaginationChanged = () => {
         console.log('onPaginationPageLoaded');
@@ -214,13 +254,32 @@ class CommissionsManagement extends Component {
 
     addNewCommissions = () => {
         this.setState({
+            commissionID: "",
+            commissionType: "FIXED",
+            operation: "",
+            package: "",
+            currency: "",
+            feeStructure: 1,
+            amount: "",
+            percentage: "",
+            commissionStatus: true,
             addNewCommissions: true,
             editNewCommissions: false,
             viewNewCommissions: false
         })
     }
-    editNewCommissions = () => {
+    editNewCommissions = (data) => {
+        console.log(data);
         this.setState({
+            commissionID: data.ID,
+            commissionType: data.Type,
+            operation: "",
+            package: "",
+            currency: "",
+            feeStructure: data.Amount > 0 && data.Percentage > 0 ? 3 : data.Amount > 0 ? 1 : 2,
+            amount: data.Amount,
+            percentage: data.Percentage,
+            commissionStatus: data.Status == "Active" ? true : false,
             addNewCommissions: false,
             editNewCommissions: true,
             viewNewCommissions: false
@@ -577,16 +636,16 @@ class CommissionsManagement extends Component {
                                                                     }}
                                                                     id={'page-size'}
                                                                 >
-                                                                    <Option value="FIXED">Fixed</Option>
-                                                                    <Option value="PERCENTAGE">Percentage</Option>
-                                                                    <Option value="SLAB">Slab</Option>
-                                                                    <Option value="FIXED_AND_PERCENTAGE">Fixed and Percentage</Option>
+                                                                    <Option value="FIXED">FIXED</Option>
+                                                                    <Option value="PERCENTAGE">PERCENTAGE</Option>
+                                                                    <Option value="SLAB">SLAB</Option>
+                                                                    <Option value="FIXED_AND_PERCENTAGE">FIXED AND PERCENTAGE</Option>
                                                                 </Select>
                                                             </div>
                                                         </div>
                                                     </div>
 
-                                                    <div className="containerBiaN_f_row">
+                                                    {/* <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
                                                             <label>Operations <span className="mantdat">*</span></label>
                                                         </div>
@@ -616,9 +675,6 @@ class CommissionsManagement extends Component {
 
 
                                                                     </> : <></>}
-
-                                                                    {/* <Option value="Active">Cash Withdrawal from wallets</Option>
-                                                                    <Option value="Deactive">cash deposit - wallets</Option> */}
                                                                 </Select>
                                                             </div>
                                                         </div>
@@ -656,10 +712,6 @@ class CommissionsManagement extends Component {
 
 
                                                                     </> : <></>}
-
-
-                                                                    {/* <Option value="Active">Plan for inactive plan</Option>
-                                                                    <Option value="Deactive">Merchant plan</Option> */}
                                                                 </Select>
                                                             </div>
                                                         </div>
@@ -695,13 +747,10 @@ class CommissionsManagement extends Component {
 
 
                                                                     </> : <></>}
-
-                                                                    {/* <Option value="Active">FAF</Option>
-                                                                    <Option value="Deactive">OUV</Option> */}
                                                                 </Select>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                    </div> */}
                                                     {/* <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
                                                             <label>Lower Bound <span className="mantdat">*</span></label>
@@ -881,16 +930,40 @@ class CommissionsManagement extends Component {
                                             <div className="chartCardTop">
                                                 <div className="kyccustomformheading">
                                                     <h1 className="list_top_heading textAlignCenter text-center">
-                                                        Edit New Fees                            </h1>
+                                                        Edit Commission                            </h1>
                                                 </div>
                                             </div>
                                             <div className="chartCardMiddle" style={{ padding: "24px" }}>
 
                                                 <div className="containerBiaN_form">
 
-
-
                                                     <div className="containerBiaN_f_row">
+                                                        <div className="containerBiaN_f_col width30percent textAlignRight">
+                                                            <label>Commission Type <span className="mantdat">*</span></label>
+                                                        </div>
+                                                        <div className="containerBiaN_f_col width70percent">
+                                                            <div className="categorySelect">
+                                                                <Select
+                                                                    defaultValue={this.state.commissionType}
+                                                                    style={{ width: 100 + "%", height: 52 }}
+                                                                    onChange={(e) => {
+                                                                        this.setState({
+                                                                            commissionType: e
+                                                                        });
+                                                                    }}
+                                                                    id={'page-size'}
+                                                                >
+                                                                    <Option value="FIXED">FIXED</Option>
+                                                                    <Option value="PERCENTAGE">PERCENTAGE</Option>
+                                                                    <Option value="SLAB">SLAB</Option>
+                                                                    <Option value="FIXED_AND_PERCENTAGE">FIXED AND PERCENTAGE</Option>
+                                                                </Select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    {/* <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
                                                             <label>Operations <span className="mantdat">*</span></label>
                                                         </div>
@@ -959,7 +1032,7 @@ class CommissionsManagement extends Component {
                                                         <div className="containerBiaN_f_col width70percent">
                                                             <input type="text" placeholder="Enter Upper Bound" />
                                                         </div>
-                                                    </div>
+                                                    </div> */}
                                                     <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
                                                             <label>Fee Structure <span className="mantdat">*</span></label>
@@ -967,14 +1040,124 @@ class CommissionsManagement extends Component {
                                                         <div className="containerBiaN_f_col width70percent">
                                                             <div className="categorySelect">
                                                                 <Select
-                                                                    defaultValue="1"
+                                                                    defaultValue={this.state.feeStructure}
                                                                     style={{ width: 100 + "%", height: 52 }}
-                                                                    onChange={this.handleChangeSelect}
+                                                                    onChange={(e) => {
+                                                                        this.setState({
+                                                                            feeStructure: e
+                                                                        }, () => {
+                                                                            console.log(this.state, "state");
+                                                                        });
+                                                                    }}
                                                                     id={'page-size'}
                                                                 >
-                                                                    <Option value="1">Amount</Option>
-                                                                    <Option value="2">Percentage</Option>
-                                                                    <Option value="3">Both</Option>
+                                                                    <Option value={1}>Amount</Option>
+                                                                    <Option value={2}>Percentage</Option>
+                                                                    <Option value={3}>Both</Option>
+                                                                </Select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    {this.state.feeStructure == 1 ? <>
+
+                                                        <div className="containerBiaN_f_row">
+                                                            <div className="containerBiaN_f_col width30percent textAlignRight">
+                                                                <label>Amount <span className="mantdat">*</span></label>
+                                                            </div>
+                                                            <div className="containerBiaN_f_col width70percent">
+
+                                                                <div className="inputFlash2" style={{ marginLeft: 0, width: "100%" }} >
+                                                                    <Input value={this.state.amount} onChange={(e) => {
+                                                                        this.setState({
+                                                                            amount: e.target.value
+                                                                        });
+                                                                    }} placeholder="Enter Amount"  > </Input>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </> : this.state.feeStructure == 2 ? <>
+
+                                                        <div className="containerBiaN_f_row">
+                                                            <div className="containerBiaN_f_col width30percent textAlignRight">
+                                                                <label>Percentage <span className="mantdat">*</span></label>
+                                                            </div>
+                                                            <div className="containerBiaN_f_col width70percent">
+
+                                                                <div className="inputFlash2" style={{ marginLeft: 0, width: "100%" }} >
+                                                                    <Input value={this.state.percentage} onChange={(e) => {
+                                                                        this.setState({
+                                                                            percentage: e.target.value
+                                                                        });
+                                                                    }} placeholder="Enter Percentage"  > </Input>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </> : <>
+
+                                                        <div className="containerBiaN_f_row">
+                                                            <div className="containerBiaN_f_col width30percent textAlignRight">
+                                                                <label>Amount <span className="mantdat">*</span></label>
+                                                            </div>
+                                                            <div className="containerBiaN_f_col width70percent">
+
+                                                                <div className="inputFlash2" style={{ marginLeft: 0, width: "100%" }} >
+                                                                    <Input value={this.state.amount} onChange={(e) => {
+                                                                        this.setState({
+                                                                            amount: e.target.value
+                                                                        });
+                                                                    }} placeholder="Enter Amount"  > </Input>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="containerBiaN_f_row">
+                                                            <div className="containerBiaN_f_col width30percent textAlignRight">
+                                                                <label>Percentage <span className="mantdat">*</span></label>
+                                                            </div>
+                                                            <div className="containerBiaN_f_col width70percent">
+
+                                                                <div className="inputFlash2" style={{ marginLeft: 0, width: "100%" }} >
+                                                                    <Input value={this.state.percentage} onChange={(e) => {
+
+                                                                        this.setState({
+                                                                            percentage: e.target.value
+                                                                        });
+
+                                                                    }} placeholder="Enter Percentage"  > </Input>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </>}
+
+                                                    <div className="containerBiaN_f_row">
+                                                        <div className="containerBiaN_f_col width30percent textAlignRight">
+                                                            <label>Status <span className="mantdat">*</span></label>
+                                                        </div>
+                                                        <div className="containerBiaN_f_col width70percent">
+                                                            <div className="categorySelect">
+                                                                <Select
+                                                                    defaultValue={this.state.commissionStatus}
+                                                                    style={{ width: 100 + "%", height: 52 }}
+                                                                    onChange={(e) => {
+                                                                        this.setState({
+                                                                            commissionStatus: e
+                                                                        });
+                                                                    }}
+                                                                    id={'page-size'}
+                                                                >
+
+                                                                    <Option value={true}>Active</Option>
+                                                                    <Option value={false}>Inactive</Option>
+
+
                                                                 </Select>
                                                             </div>
                                                         </div>
@@ -985,7 +1168,7 @@ class CommissionsManagement extends Component {
                                                 <div style={{ width: "100%", float: "left" }}>
                                                     <div className="custom-d-flex confirm_p_w mTB00 button-container rspacing">
                                                         <button className="blackbtn aryousureBTN confirmBtnR" onClick={this.back5}>Cancel</button>
-                                                        <button className="aryousureBTN confirmBtnR">Submit</button>
+                                                        <button className="aryousureBTN confirmBtnR" onClick={() => this.editCommission()}>Submit</button>
                                                     </div>
                                                 </div>
 
@@ -1026,6 +1209,8 @@ const mapStateToProps = ({ agentReducer }) => {
         getCommissionData: agentReducer.getCommissionData,
         deleteCommissionStatus: agentReducer.deleteCommissionStatus,
         deleteCommissionData: agentReducer.deleteCommissionData,
+        editCommissionStatus: agentReducer.editCommissionStatus,
+        editCommissionData: agentReducer.editCommissionData
 
     }
 
@@ -1040,6 +1225,7 @@ const mapDispatchToProps = (dispatch) => ({
     createCommission: (payload, history) => dispatch(createCommission(payload, history)),
     getAllCommissions: () => dispatch(getAllCommissions()),
     deleteCommission: (id) => dispatch(deleteCommission(id)),
+    editCommission: (payload) => dispatch(editCommission(payload)),
 
 
 });

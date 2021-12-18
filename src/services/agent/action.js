@@ -339,7 +339,8 @@ export const createCommission = (payload) => (dispatch) => {
           payload: res.data,
         });
 
-        window.location.reload(false);
+        dispatch(getAllCommissions());
+
       }
     })
     .catch((error) => {
@@ -379,6 +380,38 @@ export const deleteCommission = (id) => (dispatch) => {
         payload: null,
       });
       toastr.warning("Failed to delete commission.");
+    });
+};
+
+export const editCommission = (payload) => (dispatch) => {
+  const config = {
+    method: "PUT",
+    url: URL.agent.COMMISSION + "/" + payload.commissionId,
+    data: payload,
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+
+  axios(config)
+    .then((res) => {
+      if (res.status === 201) {
+        toastr.success("commission updated Successfully");
+
+        dispatch({
+          type: actionType.EDIT_COMMISSION_SUCCESS,
+          payload: res.data,
+        });
+
+        dispatch(getAllCommissions());
+      }
+    })
+    .catch((error) => {
+      dispatch({
+        type: actionType.EDIT_COMMISSION_FAILURE,
+        payload: null,
+      });
+      toastr.warning("Failed to update commission. Commission with same type might already exist.");
     });
 };
 

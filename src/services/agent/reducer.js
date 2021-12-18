@@ -1130,13 +1130,21 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         addCommissionStatus: true,
-        addCommissionData: action.payload
+        addCommissionData: action.payload,
+        deleteCommissionStatus: false,
+        deleteCommissionData: null,
+        editCommissionStatus: false,
+        editCommissionData: null
       }
     case actionType.ADD_COMMISSION_FAILURE:
       return {
         ...state,
         addCommissionStatus: false,
-        addCommissionData: null
+        addCommissionData: null,
+        deleteCommissionStatus: false,
+        deleteCommissionData: null,
+        editCommissionStatus: false,
+        editCommissionData: null
       }
     case actionType.GET_COMMISSION_SUCCESS:
       return {
@@ -1144,7 +1152,9 @@ const agentReducer = (state = initialState, action) => {
         addCommissionStatus: false,
         addCommissionData: null,
         getCommissionStatus: true,
-        getCommissionData: action.payload
+        getCommissionData: action.payload,
+        editCommissionStatus: false,
+        editCommissionData: null
       }
     case actionType.GET_COMMISSION_FAILURE:
       return {
@@ -1152,7 +1162,9 @@ const agentReducer = (state = initialState, action) => {
         addCommissionStatus: false,
         addCommissionData: null,
         getCommissionStatus: false,
-        getCommissionData: null
+        getCommissionData: null,
+        editCommissionStatus: false,
+        editCommissionData: null
       }
     case actionType.DELETE_COMMISSION_SUCCESS:
       return {
@@ -1160,7 +1172,9 @@ const agentReducer = (state = initialState, action) => {
         addCommissionStatus: false,
         addCommissionData: null,
         deleteCommissionStatus: true,
-        deleteCommissionData: action.payload
+        deleteCommissionData: action.payload,
+        editCommissionStatus: false,
+        editCommissionData: null
       }
     case actionType.DELETE_COMMISSION_FAILURE:
       return {
@@ -1168,7 +1182,29 @@ const agentReducer = (state = initialState, action) => {
         addCommissionStatus: false,
         addCommissionData: null,
         deleteCommissionStatus: false,
-        deleteCommissionData: null
+        deleteCommissionData: null,
+        editCommissionStatus: false,
+        editCommissionData: null
+      }
+    case actionType.EDIT_COMMISSION_SUCCESS:
+      return {
+        ...state,
+        addCommissionStatus: false,
+        addCommissionData: null,
+        deleteCommissionStatus: false,
+        deleteCommissionData: null,
+        editCommissionStatus: true,
+        editCommissionData: action.payload
+      }
+    case actionType.EDIT_COMMISSION_FAILURE:
+      return {
+        ...state,
+        addCommissionStatus: false,
+        addCommissionData: null,
+        deleteCommissionStatus: false,
+        deleteCommissionData: null,
+        editCommissionStatus: false,
+        editCommissionData: null
       }
     default:
       return state;
