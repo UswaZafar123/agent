@@ -23,7 +23,7 @@ import { Select, DatePicker, Modal, Switch, Upload, message, Dropdown, Checkbox,
 import { Radio } from "antd";
 import moment from "moment";
 import { connect } from 'react-redux';
-import { createCommission, getAllAgentMemberPackages, getAllCommissions, getAllCurrencies, getAllOperations } from '../../../services/agent/action';
+import { createCommission, deleteCommission, getAllAgentMemberPackages, getAllCommissions, getAllCurrencies, getAllOperations } from '../../../services/agent/action';
 import { Input } from 'reactstrap';
 
 const dateFormat = "YYYY-MM-DD";
@@ -61,7 +61,7 @@ class CommissionsManagement extends Component {
                     headerName: "Action", field: "Action", width: 400,
                     cellRendererFramework: (params) => <div className="ac-view">
                         <button className="edit" onClick={this.editNewCommissions}>Edit</button>
-                        <button className="delete ml4px">Delete</button>
+                        <button className="delete ml4px" onClick={() => this.deleteCommission(params.data.ID)}>Delete</button>
                         <button className="clone ml4px" onClick={this.editNewCommissions}>Clone</button>
                     </div>,
                     cellStyle: (params) => { return { textAlign: "center" } },
@@ -138,6 +138,12 @@ class CommissionsManagement extends Component {
             });
 
         }
+
+    }
+
+    deleteCommission = (commissionID) => {
+
+        this.props.deleteCommission(commissionID);
 
     }
 
@@ -314,7 +320,7 @@ class CommissionsManagement extends Component {
                                                 </div>
                                             </div>
                                             <div className="chartCardMiddle" style={{ padding: "24px" }}>
-                                                <div className="filter_wrapper_agent">
+                                                {/* <div className="filter_wrapper_agent">
                                                     <div className="colagentfilter">
                                                         <label className="labelStyleagent">Subscription Plan</label>
                                                         <div className="categorySelect">
@@ -368,7 +374,7 @@ class CommissionsManagement extends Component {
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> */}
                                                 <div className="tableTop_wrapper">
                                                     <div className="disFl">
                                                         <h5 className="show_pp margin_right8">Show</h5>
@@ -460,7 +466,8 @@ class CommissionsManagement extends Component {
                                                                     Type: data.commissionType,
                                                                     Amount: data.commissionAmount,
                                                                     Percentage: data.commissionPercentage,
-                                                                    Status: data.active ? "Active" : "Inactive"
+                                                                    Status: data.active ? "Active" : "Inactive",
+                                                                    ID: data.commissionId
                                                                 }
                                                             );
 
@@ -1016,7 +1023,9 @@ const mapStateToProps = ({ agentReducer }) => {
         addCommissionStatus: agentReducer.addCommissionStatus,
         addCommissionData: agentReducer.addCommissionData,
         getCommissionStatus: agentReducer.getCommissionStatus,
-        getCommissionData: agentReducer.getCommissionData
+        getCommissionData: agentReducer.getCommissionData,
+        deleteCommissionStatus: agentReducer.deleteCommissionStatus,
+        deleteCommissionData: agentReducer.deleteCommissionData,
 
     }
 
@@ -1030,6 +1039,7 @@ const mapDispatchToProps = (dispatch) => ({
     getAllCurrencies: () => dispatch(getAllCurrencies()),
     createCommission: (payload, history) => dispatch(createCommission(payload, history)),
     getAllCommissions: () => dispatch(getAllCommissions()),
+    deleteCommission: (id) => dispatch(deleteCommission(id)),
 
 
 });

@@ -334,12 +334,51 @@ export const createCommission = (payload) => (dispatch) => {
     .then((res) => {
       if (res.status === 201) {
         toastr.success("commission created Successfully");
+        dispatch({
+          type: actionType.ADD_COMMISSION_SUCCESS,
+          payload: res.data,
+        });
 
         window.location.reload(false);
       }
     })
     .catch((error) => {
+      dispatch({
+        type: actionType.ADD_COMMISSION_FAILURE,
+        payload: null,
+      });
       toastr.warning("Failed to create commission. Commission Type Might Already Exist.");
+    });
+};
+
+export const deleteCommission = (id) => (dispatch) => {
+  const config = {
+    method: "DELETE",
+    url: URL.agent.COMMISSION + "/" + id,
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+
+  axios(config)
+    .then((res) => {
+      if (res.status === 204) {
+        toastr.success("commission deleted Successfully");
+
+        dispatch({
+          type: actionType.DELETE_COMMISSION_SUCCESS,
+          payload: res.data,
+        });
+
+        dispatch(getAllCommissions());
+      }
+    })
+    .catch((error) => {
+      dispatch({
+        type: actionType.DELETE_COMMISSION_FAILURE,
+        payload: null,
+      });
+      toastr.warning("Failed to delete commission.");
     });
 };
 
