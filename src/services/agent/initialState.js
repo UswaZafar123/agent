@@ -183,5 +183,7 @@ const initialState = {
 
   addCommissionStatus : false,
   addCommissionData : null,
+  getCommissionStatus: false,
+  getCommissionData : null,
 };
 export default initialState;

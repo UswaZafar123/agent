@@ -23,7 +23,7 @@ import { Select, DatePicker, Modal, Switch, Upload, message, Dropdown, Checkbox,
 import { Radio } from "antd";
 import moment from "moment";
 import { connect } from 'react-redux';
-import { createCommission, getAllAgentMemberPackages, getAllCurrencies, getAllOperations } from '../../../services/agent/action';
+import { createCommission, getAllAgentMemberPackages, getAllCommissions, getAllCurrencies, getAllOperations } from '../../../services/agent/action';
 import { Input } from 'reactstrap';
 
 const dateFormat = "YYYY-MM-DD";
@@ -53,13 +53,10 @@ class CommissionsManagement extends Component {
             activeStatus: true,
             value: 1,
             columnDefs: [
-                { headerName: "Lower Bound", field: "Lower_Bound" },
-                { headerName: "Upper Bound", field: "Upper_Bound" },
-                { headerName: "Amount ", field: "Amount" },
-                { headerName: "Percent ", field: "Percent" },
-                { headerName: "Payment Method ", field: "Payment_Method" },
-                { headerName: "Subscription Plan ", field: "Subscription_Plan" },
-                { headerName: "Currency", field: "Currency" },
+                { headerName: "Type", field: "Type" },
+                { headerName: "Amount", field: "Amount" },
+                { headerName: "Percentage ", field: "Percentage" },
+                { headerName: "Status ", field: "Status" },
                 {
                     headerName: "Action", field: "Action", width: 400,
                     cellRendererFramework: (params) => <div className="ac-view">
@@ -73,14 +70,11 @@ class CommissionsManagement extends Component {
 
 
             ],
-            rowData: [
-                { Lower_Bound: 1, Upper_Bound: 100000, Amount: 100, Percent: 2, Payment_Method: "Service Payment", Subscription_Plan: "Inactive Customer Plan", Currency: "FCFA", Action: "" },
-
-            ],
 
             operationsData: [],
             packagesData: [],
             currenciesData: [],
+            commissionsData: [],
 
             commissionType: "FIXED",
             operation: "",
@@ -89,6 +83,7 @@ class CommissionsManagement extends Component {
             feeStructure: 1,
             amount: "",
             percentage: "",
+            commissionStatus: true,
 
 
         };
@@ -98,11 +93,12 @@ class CommissionsManagement extends Component {
         this.props.getAllOperations();
         this.props.getAllAgentMemberPackages();
         this.props.getAllCurrencies();
+        this.props.getAllCommissions();
     }
 
     componentWillReceiveProps = (nextprops) => {
 
-        if (nextprops.operationDetails._embedded && nextprops.operationStatus) {
+        if (nextprops.operationDetails && nextprops.operationStatus) {
             this.setState({
                 operationsData: nextprops.operationDetails._embedded.operationDtoList
             });
@@ -135,6 +131,14 @@ class CommissionsManagement extends Component {
             });
         }
 
+        if (nextprops.getCommissionStatus && nextprops.getCommissionData) {
+
+            this.setState({
+                commissionsData: nextprops.getCommissionData._embedded.commissionDtoList
+            });
+
+        }
+
     }
 
 
@@ -151,14 +155,14 @@ class CommissionsManagement extends Component {
         })
         params.api.paginationGoToPage(10);
         document.getElementById('lbCurrentPage').innerHTML = this.state.gridApi.paginationGetCurrentPage() + 1
-        document.getElementById('totalPageSize').innerHTML = this.state.rowData.length
+        document.getElementById('totalPageSize').innerHTML = this.state.commissionsData.length
         document.getElementById('bTo').innerHTML = params.api.paginationGetPageSize(10)
         const changedV = (params.api.paginationGetPageSize(10)) * (this.state.gridApi.paginationGetCurrentPage() + 1)
-        if (changedV <= this.state.rowData.length) {
+        if (changedV <= this.state.commissionsData.length) {
             document.getElementById('afterTo').innerHTML = (params.api.paginationGetPageSize(10)) * (this.state.gridApi.paginationGetCurrentPage() + 1)
         }
         else {
-            document.getElementById('afterTo').innerHTML = this.state.rowData.length
+            document.getElementById('afterTo').innerHTML = this.state.commissionsData.length
         }
         // console.log("get",params.api.getDisplayedRowCount())
 
@@ -182,11 +186,11 @@ class CommissionsManagement extends Component {
             document.getElementById('bTo').innerHTML = this.state.gridApi.paginationGetPageSize() * this.state.gridApi.paginationGetCurrentPage() + 1
 
             const changedV = (this.state.gridApi.paginationGetPageSize(10)) * (this.state.gridApi.paginationGetCurrentPage() + 1)
-            if (changedV <= this.state.rowData.length) {
+            if (changedV <= this.state.commissionsData.length) {
                 document.getElementById('afterTo').innerHTML = (this.state.gridApi.paginationGetPageSize(10)) * (this.state.gridApi.paginationGetCurrentPage() + 1)
             }
             else {
-                document.getElementById('afterTo').innerHTML = this.state.rowData.length
+                document.getElementById('afterTo').innerHTML = this.state.commissionsData.length
             }
 
 
@@ -263,7 +267,7 @@ class CommissionsManagement extends Component {
                 "commissionType": this.state.commissionType,
                 "commissionAmount": this.state.amount,
                 "commissionPercentage": "0",
-                "active": true
+                "active": this.state.commissionStatus
             }
 
         } else if (this.state.feeStructure == 2) {
@@ -272,7 +276,7 @@ class CommissionsManagement extends Component {
                 "commissionType": this.state.commissionType,
                 "commissionAmount": "0",
                 "commissionPercentage": this.state.percentage,
-                "active": true
+                "active": this.state.commissionStatus
             }
 
         } else {
@@ -280,7 +284,7 @@ class CommissionsManagement extends Component {
                 "commissionType": this.state.commissionType,
                 "commissionAmount": this.state.amount,
                 "commissionPercentage": this.state.percentage,
-                "active": true
+                "active": this.state.commissionStatus
             }
         }
 
@@ -291,6 +295,7 @@ class CommissionsManagement extends Component {
     render() {
 
         const isfeatured = this.state.isfeatured
+
         return (
             <>
                 {!this.state.addNewCommissions && !this.state.editNewCommissions &&
@@ -448,7 +453,20 @@ class CommissionsManagement extends Component {
                                                         defaultColDef={{ resizable: true }}
                                                         onFirstDataRendered={this.onFirstDataRendered}
                                                         columnDefs={this.state.columnDefs}
-                                                        rowData={this.state.rowData}
+                                                        rowData={this.state.commissionsData.map((data) => {
+
+                                                            return (
+                                                                {
+                                                                    Type: data.commissionType,
+                                                                    Amount: data.commissionAmount,
+                                                                    Percentage: data.commissionPercentage,
+                                                                    Status: data.active ? "Active" : "Inactive"
+                                                                }
+                                                            );
+
+
+
+                                                        })}
                                                         pagination={true}
                                                         onGridReady={this.onGridReady}
                                                         onPaginationChanged={this.onPaginationChanged}
@@ -797,6 +815,32 @@ class CommissionsManagement extends Component {
 
                                                     </>}
 
+                                                    <div className="containerBiaN_f_row">
+                                                        <div className="containerBiaN_f_col width30percent textAlignRight">
+                                                            <label>Status <span className="mantdat">*</span></label>
+                                                        </div>
+                                                        <div className="containerBiaN_f_col width70percent">
+                                                            <div className="categorySelect">
+                                                                <Select
+                                                                    defaultValue={this.state.commissionStatus}
+                                                                    style={{ width: 100 + "%", height: 52 }}
+                                                                    onChange={(e) => {
+                                                                        this.setState({
+                                                                            commissionStatus: e
+                                                                        });
+                                                                    }}
+                                                                    id={'page-size'}
+                                                                >
+
+                                                                    <Option value={true}>Active</Option>
+                                                                    <Option value={false}>Inactive</Option>
+
+
+                                                                </Select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
                                                 </div>
 
                                                 <div style={{ width: "100%", float: "left" }}>
@@ -970,7 +1014,9 @@ const mapStateToProps = ({ agentReducer }) => {
         currencyStatus: agentReducer.currencyStatus,
         currencyDetails: agentReducer.currencyDetails,
         addCommissionStatus: agentReducer.addCommissionStatus,
-        addCommissionData: agentReducer.addCommissionData
+        addCommissionData: agentReducer.addCommissionData,
+        getCommissionStatus: agentReducer.getCommissionStatus,
+        getCommissionData: agentReducer.getCommissionData
 
     }
 
@@ -982,8 +1028,8 @@ const mapDispatchToProps = (dispatch) => ({
     getAllOperations: () => dispatch(getAllOperations()),
     getAllAgentMemberPackages: () => dispatch(getAllAgentMemberPackages()),
     getAllCurrencies: () => dispatch(getAllCurrencies()),
-
-    createCommission: (payload, history) => dispatch(createCommission(payload, history))
+    createCommission: (payload, history) => dispatch(createCommission(payload, history)),
+    getAllCommissions: () => dispatch(getAllCommissions()),
 
 
 });

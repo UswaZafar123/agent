@@ -1138,6 +1138,22 @@ const agentReducer = (state = initialState, action) => {
         addCommissionStatus: false,
         addCommissionData: null
       }
+    case actionType.GET_COMMISSION_SUCCESS:
+      return {
+        ...state,
+        addCommissionStatus: false,
+        addCommissionData: null,
+        getCommissionStatus: true,
+        getCommissionData: action.payload
+      }
+    case actionType.GET_COMMISSION_FAILURE:
+      return {
+        ...state,
+        addCommissionStatus: false,
+        addCommissionData: null,
+        getCommissionStatus: false,
+        getCommissionData: null
+      }
     default:
       return state;
   }

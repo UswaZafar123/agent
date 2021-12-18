@@ -292,6 +292,34 @@ export const getAPackage = (id) => (dispatch) => {
     });
 };
 
+export const getAllCommissions = () => (dispatch) => {
+
+  const config = {
+    method: "GET",
+    url: URL.agent.COMMISSION,
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+
+  axios(config)
+    .then((res) => {
+      if (res.status === 200) {
+        toastr.success("Commissions Retrieved Successfully");
+        dispatch({
+          type: actionType.GET_COMMISSION_SUCCESS,
+          payload: res.data,
+        });
+      }
+    })
+    .catch((error) => {
+      toastr.warning("failed to retrieve commissions");
+      dispatch({
+        type: actionType.GET_COMMISSION_FAILURE,
+      });
+    });
+};
+
 export const createCommission = (payload) => (dispatch) => {
   const config = {
     method: "post",
@@ -311,7 +339,7 @@ export const createCommission = (payload) => (dispatch) => {
       }
     })
     .catch((error) => {
-      toastr.warning("failed to create commission");
+      toastr.warning("Failed to create commission. Commission Type Might Already Exist.");
     });
 };
 
