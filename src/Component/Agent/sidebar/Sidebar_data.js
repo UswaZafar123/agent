@@ -39,17 +39,27 @@ export const Side_bar_data = [
 
     ]
 },
-  {
-    title: "Cash Opertaions",
-    path: "/agent/cash-operations",
-    iconClass: "icon-Asset-47",
-    id: 1,
-  },
-  {
+{
+  title: "Cash In/Cash Out",
+  path: "/agent/cash_in",
+  iconClass: "icon-Asset-47",
+  id: 4,
+  subMenu: [
+    {
+      title: "Cash In",
+      path: "/agent/cash_in",
+    },
+    {
+      title: "Cash out",
+      path: "/agent/cash_out",
+    },
+  ],
+},
+{
     title: "Send / Request Money",
     path: "/agent/send-request-money",
     iconClass: "icon-Asset-47",
-    id: 1,
+    id: 5,
     subMenu: [
       {
         title: "Send",
@@ -65,19 +75,19 @@ export const Side_bar_data = [
     title: "Cash in Cash Out",
     path: "/agent/cash-in-cash-out",
     iconClass: "icon-Asset-47",
-    id: 1,
+    id: 6,
   },
   {
     title: "Pricing List",
     path: "/agent/pricing-list",
     iconClass: "icon-Asset-47",
-    id: 1,
+    id: 7,
   },
   {
     title: "Customer Registration",
     path: "/admin/agents",
     iconClass: "icon-Asset-2",
-    id: 2,
+    id: 8,
     subMenu: [
       {
         title: "Wallet Account Opening",
@@ -108,7 +118,7 @@ export const Side_bar_data = [
   {
     title: "Banking Operation",
     path: "/admin/banking/transfer",
-    id: 3,
+    id: 9,
     iconClass: "icon-Asset-4",
     subMenu: [
       {
@@ -140,7 +150,7 @@ export const Side_bar_data = [
   {
     title: "Wallet Operation",
     path: "/Agent/walletOperation/",
-    id: 4,
+    id: 10,
     iconClass: "icon-Asset-3",
     subMenu: [
       {
@@ -164,7 +174,7 @@ export const Side_bar_data = [
   {
     title: "Flash Transfer",
     path: "/admin/clients/all",
-    id: 14,
+    id: 11,
     iconClass: "icon-Asset-3",
     subMenu: [
       {
@@ -181,7 +191,7 @@ export const Side_bar_data = [
   {
     title: "Assets & Operations",
     path: "/agent/assets",
-    id: 14,
+    id: 12,
     iconClass: "icon-Asset-3",
     subMenu: [
       {
@@ -197,7 +207,7 @@ export const Side_bar_data = [
   {
     title: "Transactions",
     path: "/agent/transcations",
-    id: 5,
+    id: 13,
     iconClass: "icon-Asset-33",
   },
   // {
@@ -233,7 +243,7 @@ export const Side_bar_data = [
   {
     title: "Revenue Management",
     path: "/admin/user-type/management",
-    id: 8,
+    id: 14,
     iconClass: "icon-Asset-29",
   },
   // {
@@ -242,9 +252,9 @@ export const Side_bar_data = [
   //     iconClass:"icon-Asset-28"
   // },
   {
-    title: "Ticket Management​",
+    title: "Ticket Management",
     path: "/agent/tickets",
-    id: 9,
+    id: 16,
     iconClass: "icon-Asset-26",
   },
   // {
@@ -260,13 +270,13 @@ export const Side_bar_data = [
   {
     title: "Access History",
     path: "/agent/access-history",
-    id: 10,
+    id: 17,
     iconClass: "icon-Asset-25",
   },
   {
     title: "KYC",
     path: "/agent/kyc",
-    id: 15,
+    id: 18,
     iconClass: "icon-Asset-3",
     subMenu: [
       {
@@ -280,7 +290,7 @@ export const Side_bar_data = [
     title: "Settings",
     path: "/agents/Settings",
     iconClass: "icon-Asset-23",
-    id: 11,
+    id: 19,
     subMenu: [
       {
         title: "General",
@@ -428,9 +438,9 @@ export const Side_bar_data = [
     ],
   },
   {
-    title: "Profile​",
-    path: "/Profile/Profile​",
-    id: 12,
+    title: "Profile",
+    path: "/Profile/Profile",
+    id: 20,
     iconClass: "icon-Asset-22",
     subMenu: [
       {

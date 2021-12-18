@@ -85,6 +85,18 @@ const customerBankCashWithdrawState = {
   error: false,
 };
 
+const agentWalletCashInState = {
+  loading: false,
+  success: false,
+  error: false,
+};
+
+const agentWalletCashOutState = {
+  loading: false,
+  success: false,
+  error: false,
+};
+
 const initialState = {
   agentLoginstatus: false,
   linkingStatus: false,
@@ -165,6 +177,8 @@ const initialState = {
   customerWalletCashWithdraw: customerWalletCashWithdrawState,
   customerBankAccounts: customerBankAccountsState,
   customerBankCashDeposit: customerBankCashDepositState,
-  customerBankCashWithdraw: customerBankCashWithdrawState
+  customerBankCashWithdraw: customerBankCashWithdrawState,
+  agentWalletCashIn: agentWalletCashInState,
+  agentWalletCashOut: agentWalletCashOutState
 };
 export default initialState;

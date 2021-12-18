@@ -22,7 +22,6 @@ export const initiateWalletCashDeposit = (token, payload) => (dispatch) => {
         toastr.success("Cash Deposit Request has been processed.");
         dispatch({
           type: actionType.CUSTOMER_WALLET_CASH_DEPOSIT_SUCCESS,
-          payload: res.data,
         });
       }
     })
