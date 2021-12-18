@@ -179,6 +179,9 @@ const initialState = {
   customerBankCashDeposit: customerBankCashDepositState,
   customerBankCashWithdraw: customerBankCashWithdrawState,
   agentWalletCashIn: agentWalletCashInState,
-  agentWalletCashOut: agentWalletCashOutState
+  agentWalletCashOut: agentWalletCashOutState,
+
+  addCommissionStatus : false,
+  addCommissionData : null,
 };
 export default initialState;

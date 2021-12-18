@@ -292,6 +292,29 @@ export const getAPackage = (id) => (dispatch) => {
     });
 };
 
+export const createCommission = (payload) => (dispatch) => {
+  const config = {
+    method: "post",
+    url: URL.agent.COMMISSION,
+    data: payload,
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+
+  axios(config)
+    .then((res) => {
+      if (res.status === 201) {
+        toastr.success("commission created Successfully");
+
+        window.location.reload(false);
+      }
+    })
+    .catch((error) => {
+      toastr.warning("failed to create commission");
+    });
+};
+
 export const createPackage = (payload, history) => (dispatch) => {
   const config = {
     method: "post",
