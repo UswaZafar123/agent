@@ -23,7 +23,6 @@ import {
 } from "../../../src/services/agent/action";
 
 
-import {getProfile} from "../../services/agent/action"
 import { Select, DatePicker } from 'antd';
 import moment from 'moment';
 const dateFormat = 'YYYY/MM/DD';
@@ -738,12 +737,13 @@ class Dashboard extends Component {
     }, () => {
       console.log("test001", this.state.fromDivHeight)
     });
-
-    this.props.getProfile();
-
+    // if(Object.keys(this.props.profile.data).length === 0) {
+    //   this.props.fetchProfile();
+    // }
   }
 
   componentDidUpdate(prevProps, nextProps) {
+    console.log('dashboard component did update.');
   }
 
   async componentWillReceiveProps(nextProps) {
@@ -1349,9 +1349,6 @@ const mapStateToProps = ({ agentReducer }) => {
 const mapDispatchToProps=(dispatch)=>{
   return {
     fetchProfile: (token) => dispatch(fetchAgentProfile(token)),
-    fetchAgentWallet: (token) => dispatch(fetchAgentWallet(token)),
-    fetchAgentBankAccounts: (token, bankCustomerId) => dispatch(fetchAgentBankAccounts(token, bankCustomerId)),
-    getProfile:()=>dispatch(getProfile())
   }
   
 }
