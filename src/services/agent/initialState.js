@@ -142,8 +142,8 @@ const initialState = {
   updateUserRoleStatus: false,
   updateUserRoleData: null,
 
-  updateRolePermissionStatus : false,
-  updateRolePermissionData : null,
+  updateRolePermissionStatus: false,
+  updateRolePermissionData: null,
 
   getAllScreensStatus: false,
   getAllScreensData: null,
@@ -179,6 +179,16 @@ const initialState = {
   customerBankCashDeposit: customerBankCashDepositState,
   customerBankCashWithdraw: customerBankCashWithdrawState,
   agentWalletCashIn: agentWalletCashInState,
-  agentWalletCashOut: agentWalletCashOutState
+  agentWalletCashOut: agentWalletCashOutState,
+
+  addCommissionStatus: false,
+  addCommissionData: null,
+  getCommissionStatus: false,
+  getCommissionData: null,
+  deleteCommissionStatus: false,
+  deleteCommissionData: null,
+  editCommissionStatus: true,
+  editCommissionData: null
+
 };
 export default initialState;

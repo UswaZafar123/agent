@@ -273,10 +273,10 @@ const configUrl = {
     ADD_TICKET: `${API}agent/user/ticket`,
     TICKET_REPLY: `${API}agent/user/ticket/reply`,
     GET_A_TICKET: `${API}agent/user/ticket`,
-    GET_TICKETS:`${API}agent/user/ticket`,
-    GET_TICKETS_SUMMARY:`${API}agent/user/ticket/summary`,
-    GET_TICKETS_STATUS:`${API}agent/user/ticket/status`,
-    UPDATE_KYC:`${AgentApi}api-public/AgentRegistration/agentKYC`,
+    GET_TICKETS: `${API}agent/user/ticket`,
+    GET_TICKETS_SUMMARY: `${API}agent/user/ticket/summary`,
+    GET_TICKETS_STATUS: `${API}agent/user/ticket/status`,
+    UPDATE_KYC: `${AgentApi}api-public/AgentRegistration/agentKYC`,
 
     /**
      * 
@@ -307,6 +307,8 @@ const configUrl = {
     GET_SCREEN_PERMISSIONS_BY_ROLE: `${AgentApi}api-internal/roleScreenPermissions`,
     GET_ALL_USER_ROLES: `${AgentApi}api-internal/userRoles`,
     GET_ALL_SCREENS: `${AgentApi}api-internal/screens`,
+
+    COMMISSION: `${AgentApi}api-internal/commissions`
   },
 };
 

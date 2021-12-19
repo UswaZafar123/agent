@@ -292,6 +292,129 @@ export const getAPackage = (id) => (dispatch) => {
     });
 };
 
+export const getAllCommissions = () => (dispatch) => {
+
+  const config = {
+    method: "GET",
+    url: URL.agent.COMMISSION,
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+
+  axios(config)
+    .then((res) => {
+      if (res.status === 200) {
+        toastr.success("Commissions Retrieved Successfully");
+        dispatch({
+          type: actionType.GET_COMMISSION_SUCCESS,
+          payload: res.data,
+        });
+      }
+    })
+    .catch((error) => {
+      toastr.warning("failed to retrieve commissions");
+      dispatch({
+        type: actionType.GET_COMMISSION_FAILURE,
+      });
+    });
+};
+
+export const createCommission = (payload) => (dispatch) => {
+  const config = {
+    method: "post",
+    url: URL.agent.COMMISSION,
+    data: payload,
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+
+  axios(config)
+    .then((res) => {
+      if (res.status === 201) {
+        toastr.success("commission created Successfully");
+        dispatch({
+          type: actionType.ADD_COMMISSION_SUCCESS,
+          payload: res.data,
+        });
+
+        dispatch(getAllCommissions());
+
+      }
+    })
+    .catch((error) => {
+      dispatch({
+        type: actionType.ADD_COMMISSION_FAILURE,
+        payload: null,
+      });
+      toastr.warning("Failed to create commission. Commission Type Might Already Exist.");
+    });
+};
+
+export const deleteCommission = (id) => (dispatch) => {
+  const config = {
+    method: "DELETE",
+    url: URL.agent.COMMISSION + "/" + id,
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+
+  axios(config)
+    .then((res) => {
+      if (res.status === 204) {
+        toastr.success("commission deleted Successfully");
+
+        dispatch({
+          type: actionType.DELETE_COMMISSION_SUCCESS,
+          payload: res.data,
+        });
+
+        dispatch(getAllCommissions());
+      }
+    })
+    .catch((error) => {
+      dispatch({
+        type: actionType.DELETE_COMMISSION_FAILURE,
+        payload: null,
+      });
+      toastr.warning("Failed to delete commission.");
+    });
+};
+
+export const editCommission = (payload) => (dispatch) => {
+  const config = {
+    method: "PUT",
+    url: URL.agent.COMMISSION + "/" + payload.commissionId,
+    data: payload,
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+
+  axios(config)
+    .then((res) => {
+      if (res.status === 201) {
+        toastr.success("commission updated Successfully");
+
+        dispatch({
+          type: actionType.EDIT_COMMISSION_SUCCESS,
+          payload: res.data,
+        });
+
+        dispatch(getAllCommissions());
+      }
+    })
+    .catch((error) => {
+      dispatch({
+        type: actionType.EDIT_COMMISSION_FAILURE,
+        payload: null,
+      });
+      toastr.warning("Failed to update commission. Commission with same type might already exist.");
+    });
+};
+
 export const createPackage = (payload, history) => (dispatch) => {
   const config = {
     method: "post",
