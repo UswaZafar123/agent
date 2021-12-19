@@ -989,7 +989,7 @@ const agentReducer = (state = initialState, action) => {
         ...state,
         profileDetails: action.payload,
       };
-    case actionType.GET_PROFILE_SUCCESS:
+    case actionType.GET_PROFILE_FAILURE:
       return {
         ...state,
         profileDetails: null,
