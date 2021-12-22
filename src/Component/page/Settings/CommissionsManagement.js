@@ -644,8 +644,7 @@ class CommissionsManagement extends Component {
                                                             </div>
                                                         </div>
                                                     </div>
-
-                                                    {/* <div className="containerBiaN_f_row">
+                                                    <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
                                                             <label>Operations <span className="mantdat">*</span></label>
                                                         </div>
@@ -750,23 +749,23 @@ class CommissionsManagement extends Component {
                                                                 </Select>
                                                             </div>
                                                         </div>
-                                                    </div> */}
-                                                    {/* <div className="containerBiaN_f_row">
+                                                    </div>
+                                                    <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
                                                             <label>Lower Bound <span className="mantdat">*</span></label>
                                                         </div>
                                                         <div className="containerBiaN_f_col width70percent">
                                                             <input type="text" placeholder="Enter Lower Bound" />
                                                         </div>
-                                                    </div> */}
-                                                    {/* <div className="containerBiaN_f_row">
+                                                    </div>
+                                                    <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
                                                             <label>Upper Bound <span className="mantdat">*</span></label>
                                                         </div>
                                                         <div className="containerBiaN_f_col width70percent">
                                                             <input type="text" placeholder="Enter Upper Bound" />
                                                         </div>
-                                                    </div> */}
+                                                    </div>
                                                     <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
                                                             <label>Fee Structure <span className="mantdat">*</span></label>
@@ -914,9 +913,6 @@ class CommissionsManagement extends Component {
                                 </div>
                             </div>
                         </div>
-
-
-
                     </div>
 
                 }
@@ -963,38 +959,73 @@ class CommissionsManagement extends Component {
                                                     </div>
 
 
-                                                    {/* <div className="containerBiaN_f_row">
+                                                    <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
                                                             <label>Operations <span className="mantdat">*</span></label>
                                                         </div>
                                                         <div className="containerBiaN_f_col width70percent">
                                                             <div className="categorySelect">
                                                                 <Select
-                                                                    defaultValue="1"
+                                                                    defaultValue="Default"
                                                                     style={{ width: 100 + "%", height: 52 }}
-                                                                    onChange={this.handleChangeSelect}
+                                                                    onChange={(e) => {
+                                                                        this.setState({
+                                                                            operation: e
+                                                                        });
+                                                                    }}
                                                                     id={'page-size'}
                                                                 >
-                                                                    <Option value="Active">Cash Withdrawal from wallets</Option>
-                                                                    <Option value="Deactive">cash deposit - wallets</Option>
+                                                                    <Option value="Default" disabled={true}>Select Operation</Option>
+
+                                                                    {this.state.operationsData.length > 0 ? <>
+
+                                                                        {this.state.operationsData.map((data) => {
+
+                                                                            return (
+                                                                                <Option value={data.name}>{data.name}</Option>
+                                                                            );
+
+                                                                        })}
+
+
+                                                                    </> : <></>}
                                                                 </Select>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                            <label>Subscription Plan <span className="mantdat">*</span></label>
+                                                            <label>Package <span className="mantdat">*</span></label>
                                                         </div>
                                                         <div className="containerBiaN_f_col width70percent">
                                                             <div className="categorySelect">
                                                                 <Select
-                                                                    defaultValue="1"
+                                                                    defaultValue="Default"
                                                                     style={{ width: 100 + "%", height: 52 }}
-                                                                    onChange={this.handleChangeSelect}
+                                                                    onChange={(e) => {
+                                                                        this.setState({
+                                                                            package: e
+                                                                        });
+                                                                    }}
                                                                     id={'page-size'}
                                                                 >
-                                                                    <Option value="Active">Plan for inactive plan</Option>
-                                                                    <Option value="Deactive">Merchant plan</Option>
+
+                                                                    <Option value="Default" disabled={true}>Select Package</Option>
+
+                                                                    {this.state.packagesData.length > 0 ? <>
+
+                                                                        {this.state.packagesData.map((data) => {
+
+                                                                            if (data.active && data.name != "") {
+                                                                                return (
+                                                                                    <Option value={data.name}>{data.name}</Option>
+                                                                                );
+                                                                            }
+
+                                                                        })}
+
+
+                                                                    </> : <></>}
                                                                 </Select>
                                                             </div>
                                                         </div>
@@ -1006,13 +1037,30 @@ class CommissionsManagement extends Component {
                                                         <div className="containerBiaN_f_col width70percent">
                                                             <div className="categorySelect">
                                                                 <Select
-                                                                    defaultValue="1"
+                                                                    defaultValue="Default"
                                                                     style={{ width: 100 + "%", height: 52 }}
-                                                                    onChange={this.handleChangeSelect}
+                                                                    onChange={(e) => {
+                                                                        this.setState({
+                                                                            currency: e
+                                                                        });
+                                                                    }}
                                                                     id={'page-size'}
                                                                 >
-                                                                    <Option value="Active">FAF</Option>
-                                                                    <Option value="Deactive">OUV</Option>
+
+                                                                    <Option value="Default" disabled={true}>Select Currency</Option>
+
+                                                                    {this.state.currenciesData.length > 0 ? <>
+
+                                                                        {this.state.currenciesData.map((data) => {
+
+                                                                            return (
+                                                                                <Option value={data.name}>{data.name}</Option>
+                                                                            );
+
+                                                                        })}
+
+
+                                                                    </> : <></>}
                                                                 </Select>
                                                             </div>
                                                         </div>
@@ -1032,7 +1080,7 @@ class CommissionsManagement extends Component {
                                                         <div className="containerBiaN_f_col width70percent">
                                                             <input type="text" placeholder="Enter Upper Bound" />
                                                         </div>
-                                                    </div> */}
+                                                    </div>
                                                     <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
                                                             <label>Fee Structure <span className="mantdat">*</span></label>
@@ -1180,9 +1228,6 @@ class CommissionsManagement extends Component {
                                 </div>
                             </div>
                         </div>
-
-
-
                     </div>
                 }
 

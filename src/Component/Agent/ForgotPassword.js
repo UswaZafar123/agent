@@ -344,7 +344,6 @@ class ForgotPassword extends Component {
                                 </div>
                             </div>
                         </InnerWrapper>
-
                     </> : <></>}
                 </section>
             </Fragment>
