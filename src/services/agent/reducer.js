@@ -47,11 +47,15 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         agentOTPStatus: true,
+        agentSetPasswordStatus: false,
+        agentOTPValidStatus: false
       };
     case actionType.AGENT_BANKER_OTP_FAILURE:
       return {
         ...state,
         agentOTPStatus: false,
+        agentSetPasswordStatus: false,
+        agentOTPValidStatus: false
       };
     case actionType.AGENT_BANKER_OTP_VALID:
       return {

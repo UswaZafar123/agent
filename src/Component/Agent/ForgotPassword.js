@@ -4,6 +4,7 @@ import OtpInput from "react-otp-input";
 import { connect } from "react-redux";
 import { toastr } from "react-redux-toastr";
 import styled from "styled-components";
+import { checkOTPValid, sendAgentOTP, setAgentPassword } from "../../services/agent/action";
 import NavBar from "../common/register/NavBar";
 
 class ForgotPassword extends Component {
@@ -28,6 +29,16 @@ class ForgotPassword extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
+
+        if (nextProps.agentOTPValidStatus) {
+            this.setState({
+                loadingComponent: "SET_PASSWORD"
+            });
+        }
+
+        if (nextProps.agentSetPasswordStatus) {
+            window.location = "/agent/login";
+        }
 
     }
 
@@ -117,10 +128,10 @@ class ForgotPassword extends Component {
 
     sendOTP = () => {
         const data = {
-            phoneNumber: this.state.mobileno,
+            phoneNumber: this.state.mobileNumber,
         };
 
-        // this.props.sendAgentOTP(data);
+        this.props.sendAgentOTP(data);
         console.log("SENDING OTP..");
 
         this.setState({
@@ -148,9 +159,22 @@ class ForgotPassword extends Component {
     }
 
     verifyOTP = () => {
-        this.setState({
-            loadingComponent: "SET_PASSWORD"
-        });
+        const data = {
+            phoneNumber: this.state.mobileNumber,
+            mfaCode: this.state.otp,
+        };
+
+        this.props.checkOTPValid(data);
+    }
+
+    setAgentPassword = () => {
+        const data = {
+            phoneNumber: this.state.mobileNumber,
+            password: this.state.password,
+            confirmPassword: this.state.confirmpassword,
+        };
+
+        this.props.setAgentPassword(data);
     }
 
     render() {
@@ -337,6 +361,7 @@ class ForgotPassword extends Component {
                                         }}
                                         className="btn-default okayBtn"
                                         onClick={() => {
+                                            this.setAgentPassword();
                                         }}
                                     >
                                         Set New Password
@@ -401,13 +426,22 @@ const InnerWrapper = styled.div`
   }
 `;
 
-const mapStateToProps = ({ merchantReducer }) => {
+const mapStateToProps = ({ agentReducer }) => {
     return {
-
+        agentOTPStatus: agentReducer.agentOTPStatus,
+        agentOTPValidStatus: agentReducer.agentOTPValidStatus,
+        agentSetPasswordStatus: agentReducer.agentSetPasswordStatus
     };
 };
 
 const mapDispatchToProps = (dispatch) => ({
+
+    sendAgentOTP: (payload) =>
+        dispatch(sendAgentOTP(payload)),
+    checkOTPValid: (payload) =>
+        dispatch(checkOTPValid(payload)),
+    setAgentPassword: (payload) =>
+        dispatch(setAgentPassword(payload))
 
 });
 
