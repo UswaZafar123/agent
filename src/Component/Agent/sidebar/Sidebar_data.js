@@ -6,56 +6,56 @@ export const Side_bar_data = [
     id: 1,
   },
   {
-    title:"Cash Deposit",
-    path:"/agent/cash_deposit/wallet",
-    iconClass:"icon-Asset-47",
-    id:2,
+    title: "Cash Deposit",
+    path: "/agent/cash_deposit/wallet",
+    iconClass: "icon-Asset-47",
+    id: 2,
     subMenu: [
-        {
-            title: "Cash Deposit To Wallet",
-            path: "/agent/cash_deposit/wallet",
-        },
-        {
-            title: "Cash Deposit To Bank",
-            path: "/agent/cash_deposit/bank",
-        },
+      {
+        title: "Cash Deposit To Wallet",
+        path: "/agent/cash_deposit/wallet",
+      },
+      {
+        title: "Cash Deposit To Bank",
+        path: "/agent/cash_deposit/bank",
+      },
 
     ]
-},
-{
-    title:"Cash Withdraw",
-    path:"/agent/cash_withdraw/wallet",
-    iconClass:"icon-Asset-47",
-    id:3,
+  },
+  {
+    title: "Cash Withdraw",
+    path: "/agent/cash_withdraw/wallet",
+    iconClass: "icon-Asset-47",
+    id: 3,
     subMenu: [
-        {
-            title: "Cash Withdraw From Wallet",
-            path: "/agent/cash_withdraw/wallet",
-        },
-        {
-            title: "Cash Withdraw From Bank",
-            path: "/agent/cash_withdraw/bank",
-        },
+      {
+        title: "Cash Withdraw From Wallet",
+        path: "/agent/cash_withdraw/wallet",
+      },
+      {
+        title: "Cash Withdraw From Bank",
+        path: "/agent/cash_withdraw/bank",
+      },
 
     ]
-},
-{
-  title: "Cash In/Cash Out",
-  path: "/agent/cash_in",
-  iconClass: "icon-Asset-47",
-  id: 4,
-  subMenu: [
-    {
-      title: "Cash In",
-      path: "/agent/cash_in",
-    },
-    {
-      title: "Cash out",
-      path: "/agent/cash_out",
-    },
-  ],
-},
-{
+  },
+  {
+    title: "Cash In/Cash Out",
+    path: "/agent/cash_in",
+    iconClass: "icon-Asset-47",
+    id: 4,
+    subMenu: [
+      {
+        title: "Cash In",
+        path: "/agent/cash_in",
+      },
+      {
+        title: "Cash out",
+        path: "/agent/cash_out",
+      },
+    ],
+  },
+  {
     title: "Send / Request Money",
     path: "/agent/send-request-money",
     iconClass: "icon-Asset-47",
@@ -71,18 +71,18 @@ export const Side_bar_data = [
       },
     ],
   },
-  {
-    title: "Cash in Cash Out",
-    path: "/agent/cash-in-cash-out",
-    iconClass: "icon-Asset-47",
-    id: 6,
-  },
-  {
-    title: "Pricing List",
-    path: "/agent/pricing-list",
-    iconClass: "icon-Asset-47",
-    id: 7,
-  },
+  // {
+  //   title: "Cash in Cash Out",
+  //   path: "/agent/cash-in-cash-out",
+  //   iconClass: "icon-Asset-47",
+  //   id: 6,
+  // },
+  // {
+  //   title: "Pricing List",
+  //   path: "/agent/pricing-list",
+  //   iconClass: "icon-Asset-47",
+  //   id: 7,
+  // },
   {
     title: "Customer Registration",
     path: "/admin/agents",
@@ -171,39 +171,39 @@ export const Side_bar_data = [
       },
     ],
   },
-  {
-    title: "Flash Transfer",
-    path: "/admin/clients/all",
-    id: 11,
-    iconClass: "icon-Asset-3",
-    subMenu: [
-      {
-        title: "Send Money",
-        path: "/Admin/Transfer",
-      },
-      {
-        title: "Recive Money",
-        path: "/Admin/Transfer0",
-      },
-    ],
-  },
+  // {
+  //   title: "Flash Transfer",
+  //   path: "/admin/clients/all",
+  //   id: 11,
+  //   iconClass: "icon-Asset-3",
+  //   subMenu: [
+  //     {
+  //       title: "Send Money",
+  //       path: "/Admin/Transfer",
+  //     },
+  //     {
+  //       title: "Recive Money",
+  //       path: "/Admin/Transfer0",
+  //     },
+  //   ],
+  // },
 
-  {
-    title: "Assets & Operations",
-    path: "/agent/assets",
-    id: 12,
-    iconClass: "icon-Asset-3",
-    subMenu: [
-      {
-        title: "Assets",
-        path: "/agent/assets",
-      },
-      {
-        title: "Operations",
-        path: "/agent/opeartions",
-      },
-    ],
-  },
+  // {
+  //   title: "Assets & Operations",
+  //   path: "/agent/assets",
+  //   id: 12,
+  //   iconClass: "icon-Asset-3",
+  //   subMenu: [
+  //     {
+  //       title: "Assets",
+  //       path: "/agent/assets",
+  //     },
+  //     {
+  //       title: "Operations",
+  //       path: "/agent/opeartions",
+  //     },
+  //   ],
+  // },
   {
     title: "Transactions",
     path: "/agent/transcations",
@@ -240,12 +240,12 @@ export const Side_bar_data = [
 
   //     ]
   // },
-  {
-    title: "Revenue Management",
-    path: "/admin/user-type/management",
-    id: 14,
-    iconClass: "icon-Asset-29",
-  },
+  // {
+  //   title: "Revenue Management",
+  //   path: "/admin/user-type/management",
+  //   id: 14,
+  //   iconClass: "icon-Asset-29",
+  // },
   // {
   //     title:"Invoice Management",
   //     path:"/Invoice_Management ",
@@ -430,6 +430,14 @@ export const Side_bar_data = [
       {
         title: "Commissions management",
         path: "/settings/Commissions-management",
+      },
+      {
+        title: "Assets",
+        path: "/agent/assets",
+      },
+      {
+        title: "Operations",
+        path: "/agent/opeartions",
       },
       // {
       //     title:"Loyalty Management",
