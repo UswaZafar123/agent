@@ -560,21 +560,21 @@ class KYC extends Component {
 
   showOTPModal = () => {
 
-    if(this.state.addressone === "" || this.state.addresstwo === "" || this.state.city === "" || this.state.identification === "" || this.state.number === "") {
+    if (this.state.addressone === "" || this.state.addresstwo === "" || this.state.city === "" || this.state.identification === "" || this.state.number === "") {
       toastr.error("Please fill required fields");
-    } else if(this.state.zipcode === "" || this.state.zipcode instanceof String) {
+    } else if (this.state.zipcode === "" || this.state.zipcode instanceof String) {
       toastr.error("Please enter valid zipcode");
-   }
-    else{
-    if (!this.state.isOTPSent) {
-      this.sendOTP();
-      this.startResendTimeout();
     }
+    else {
+      if (!this.state.isOTPSent) {
+        this.sendOTP();
+        this.startResendTimeout();
+      }
 
-    this.setState({
-      OTPModalVisible: true
-    });
-  }
+      this.setState({
+        OTPModalVisible: true
+      });
+    }
   }
 
   startResendTimeout = () => {
