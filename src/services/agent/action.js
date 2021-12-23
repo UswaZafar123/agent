@@ -609,6 +609,35 @@ export const setAgentPassword = (payload) => (dispatch) => {
     });
 };
 
+export const setAgentPasswordMember = (payload,history) => (dispatch) => {
+  const config = {
+    method: "POST",
+    url: URL.agent.AGENT_SET_PASSWORD,
+    data: payload,
+  };
+  axios(config)
+    .then((res) => {
+      if (res.status === 200) {
+        toastr.success("Password is Set");
+        history.push({pathname:"/settings/agent-member"})
+        dispatch({
+          type: actionType.AGENT_SET_PASSWORD_SUCCESS,
+        });
+      } else {
+        toastr.warning("Something's Wrong !");
+        dispatch({
+          type: actionType.AGENT_SET_PASSWORD_FAILED,
+        });
+      }
+    })
+    .catch((error) => {
+      toastr.error("Password Set Error!");
+      dispatch({
+        type: actionType.AGENT_SET_PASSWORD_FAILED,
+      });
+    });
+};
+
 export const getRefreshToken = (data) => (dispatch) => {
   const config = {
     method: "post",
@@ -1280,3 +1309,36 @@ export const getAllScreens = (token) => (dispatch) => {
     });
   });
 }
+
+
+export const registerAgentMember = (token,data,history,phoneNumber,mobileCode) => (dispatch) => {
+  dispatch(ShowLoading());
+  dispatch({
+    type: actionType.AGENT_BANKER_OTP_INVALID,
+  });
+  const config = {
+    method: "post",
+    url: URL.agent.AGENT_MEMBER_REGISTER,
+    data,
+    headers: {
+      "Content-Type": "multipart/form-data",
+      // Authorization: "Bearer " + token,
+    },
+  };
+
+  axios(config).then((res) => {
+    dispatch(HideLoading());
+    toastr.success("succesfully registered agent memeber please set the password");
+    history.push({
+      pathname:"/agentMemeber/OTP",
+      state:{phoneNumber:phoneNumber,mobileCode:mobileCode}
+    })
+
+  }).catch((err) => {
+    dispatch(HideLoading());
+    toastr.error("error in regsitering agent memeber");
+  });
+}
+
+
+

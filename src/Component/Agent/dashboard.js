@@ -17,7 +17,7 @@ import {
 } from '@material-ui/core';
 
 import {
-  fetchAgentProfile,
+  getProfile,
   fetchAgentWallet,
   fetchAgentBankAccounts
 } from "../../../src/services/agent/action";
@@ -737,9 +737,9 @@ class Dashboard extends Component {
     }, () => {
       console.log("test001", this.state.fromDivHeight)
     });
-    // if(Object.keys(this.props.profile.data).length === 0) {
-    //   this.props.fetchProfile();
-    // }
+   
+      this.props.getProfile();
+    
   }
 
   componentDidUpdate(prevProps, nextProps) {
@@ -1348,7 +1348,7 @@ const mapStateToProps = ({ agentReducer }) => {
 
 const mapDispatchToProps=(dispatch)=>{
   return {
-    fetchProfile: (token) => dispatch(fetchAgentProfile(token)),
+    getProfile: (token) => dispatch(getProfile(token)),
   }
   
 }
