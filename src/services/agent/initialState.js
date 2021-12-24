@@ -1,34 +1,34 @@
 const profileState = {
   loading: false,
   data: {},
-}
+};
 
 const walletAccountState = {
   loading: false,
   data: {},
-}
+};
 
 const bankAccountState = {
   loading: false,
   list: [],
-}
+};
 
 const superAgentDetailState = {
   loading: false,
   data: {},
-}
+};
 
 const sendLinkingRequestState = {
   loading: false,
   success: false,
   error: false,
-}
+};
 
 const validateSuperAgentState = {
   loading: false,
   success: false,
   error: false,
-}
+};
 
 const inkingRequestsState = {
   loading: false,
@@ -36,7 +36,7 @@ const inkingRequestsState = {
   linkingRequestProcessing: false,
   linkingRequestProcessSuccess: false,
   linkingRequestProcessError: false,
-}
+};
 
 const customerValidationState = {
   loading: false,
@@ -71,7 +71,7 @@ const customerWalletCashWithdrawState = {
 const customerBankAccountsState = {
   loading: false,
   list: [],
-}
+};
 
 const customerBankCashDepositState = {
   loading: false,
@@ -95,6 +95,22 @@ const agentWalletCashOutState = {
   loading: false,
   success: false,
   error: false,
+};
+
+const customerDetailState = {
+  loading: false,
+  data: {},
+};
+
+const agentSendMoneyState = {
+  loading: false,
+  success: false,
+  error: false,
+};
+
+const feeDetailState = {
+  loading: false,
+  data: {},
 };
 
 const initialState = {
@@ -176,6 +192,9 @@ const initialState = {
   customerBankCashDeposit: customerBankCashDepositState,
   customerBankCashWithdraw: customerBankCashWithdrawState,
   agentWalletCashIn: agentWalletCashInState,
-  agentWalletCashOut: agentWalletCashOutState
+  agentWalletCashOut: agentWalletCashOutState,
+  customerDetail: customerDetailState,
+  agentSendMoney: agentSendMoneyState,
+  feeDetail: feeDetailState,
 };
 export default initialState;

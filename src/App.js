@@ -15,6 +15,7 @@ import WalletCashWithdraw from "./Component/page/cashWithdraw/WalletCashWithdraw
 import BankCashWithdraw from "./Component/page/cashWithdraw/BankCashWithdraw";
 import CashIn from "./Component/page/CashIn/CashIn";
 import CashOut from "./Component/page/CashOut/CashOut";
+import AgentSendMoney from "./Component/page/AgentSendMoney/AgentSendMoney";
 //End Deposit/Withdraw imports
 
 import Transaction from "./Component/Agent/Transaction";
@@ -136,13 +137,38 @@ export const App = (props) => {
                 >
                   <Switch>
                     <Redirect exact from="/agent" to="/agent/dashboard" />
-                    <Route exact path="/agent/dashboard" component={Dashboard} />
-                    <Route exact path="/agent/cash_deposit/wallet" component={WalletCashDeposit} />
-                    <Route exact path="/agent/cash_deposit/bank" component={BankCashDeposit} />
-                    <Route exact path="/agent/cash_withdraw/wallet" component={WalletCashWithdraw} />
-                    <Route exact path="/agent/cash_withdraw/bank" component={BankCashWithdraw} />
+                    <Route
+                      exact
+                      path="/agent/dashboard"
+                      component={Dashboard}
+                    />
+                    <Route
+                      exact
+                      path="/agent/cash_deposit/wallet"
+                      component={WalletCashDeposit}
+                    />
+                    <Route
+                      exact
+                      path="/agent/cash_deposit/bank"
+                      component={BankCashDeposit}
+                    />
+                    <Route
+                      exact
+                      path="/agent/cash_withdraw/wallet"
+                      component={WalletCashWithdraw}
+                    />
+                    <Route
+                      exact
+                      path="/agent/cash_withdraw/bank"
+                      component={BankCashWithdraw}
+                    />
                     <Route exact path="/agent/cash_in" component={CashIn} />
                     <Route exact path="/agent/cash_out" component={CashOut} />
+                    <Route
+                      exact
+                      path="/agent/send-money"
+                      component={AgentSendMoney}
+                    />
 
                     <Route
                       path="/agent/walletOperation/transfert"

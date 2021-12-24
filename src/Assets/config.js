@@ -276,13 +276,13 @@ const configUrl = {
     ADD_TICKET: `${API}agent/user/ticket`,
     TICKET_REPLY: `${API}agent/user/ticket/reply`,
     GET_A_TICKET: `${API}agent/user/ticket`,
-    GET_TICKETS:`${API}agent/user/ticket`,
-    GET_TICKETS_SUMMARY:`${API}agent/user/ticket/summary`,
-    GET_TICKETS_STATUS:`${API}agent/user/ticket/status`,
-    UPDATE_KYC:`${AgentApi}api-public/AgentRegistration/agentKYC`,
+    GET_TICKETS: `${API}agent/user/ticket`,
+    GET_TICKETS_SUMMARY: `${API}agent/user/ticket/summary`,
+    GET_TICKETS_STATUS: `${API}agent/user/ticket/status`,
+    UPDATE_KYC: `${AgentApi}api-public/AgentRegistration/agentKYC`,
 
     /**
-     * 
+     *
      */
     FETCH_AGENT_PROFILE: `${AgentApi}api-public/Agent/profile`,
     FETCH_AGENT_WALLET_ACCOUNT: `${AgentApi}api/agencyBanking/agentWalletBalance`,
@@ -302,8 +302,11 @@ const configUrl = {
     CUSTOMER_BANK_CASH_WITHDRAW: `${AgentApi}api/walletTransfers/walletCashIn`,
     WALLET_CASH_IN_FROM_BANK: `${AgentApi}api/walletTransfers/walletCashIn`,
     WALLET_CASH_OUT_FROM_BANK: `${AgentApi}api/walletTransfers/walletCashOut`,
+    CUSTOMER_DETAIL: `${AgentApi}api/walletTransfers/walletCustomerDetails`,
+    AGENT_SEND_MONEY: `${AgentApi}api/walletTransfers/walletToWallet`,
+    FEE_DETAIL: `${adminAPI}customer/transactionFees/calculate`,
     /**
-     * 
+     *
      */
 
     GET_KYC: `${AgentApi}api/agencyBanking/getKYC`,

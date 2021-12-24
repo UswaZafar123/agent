@@ -6,70 +6,58 @@ export const Side_bar_data = [
     id: 1,
   },
   {
-    title:"Cash Deposit",
-    path:"/agent/cash_deposit/wallet",
-    iconClass:"icon-Asset-47",
-    id:2,
-    subMenu: [
-        {
-            title: "Cash Deposit To Wallet",
-            path: "/agent/cash_deposit/wallet",
-        },
-        {
-            title: "Cash Deposit To Bank",
-            path: "/agent/cash_deposit/bank",
-        },
-
-    ]
-},
-{
-    title:"Cash Withdraw",
-    path:"/agent/cash_withdraw/wallet",
-    iconClass:"icon-Asset-47",
-    id:3,
-    subMenu: [
-        {
-            title: "Cash Withdraw From Wallet",
-            path: "/agent/cash_withdraw/wallet",
-        },
-        {
-            title: "Cash Withdraw From Bank",
-            path: "/agent/cash_withdraw/bank",
-        },
-
-    ]
-},
-{
-  title: "Cash In/Cash Out",
-  path: "/agent/cash_in",
-  iconClass: "icon-Asset-47",
-  id: 4,
-  subMenu: [
-    {
-      title: "Cash In",
-      path: "/agent/cash_in",
-    },
-    {
-      title: "Cash out",
-      path: "/agent/cash_out",
-    },
-  ],
-},
-{
-    title: "Send / Request Money",
-    path: "/agent/send-request-money",
+    title: "Cash Deposit",
+    path: "/agent/cash_deposit/wallet",
     iconClass: "icon-Asset-47",
-    id: 5,
+    id: 2,
     subMenu: [
       {
-        title: "Send",
-        path: "/agent/send/money",
+        title: "Cash Deposit To Wallet",
+        path: "/agent/cash_deposit/wallet",
       },
       {
-        title: "Request",
-        path: "/agent/request/money",
+        title: "Cash Deposit To Bank",
+        path: "/agent/cash_deposit/bank",
       },
     ],
+  },
+  {
+    title: "Cash Withdraw",
+    path: "/agent/cash_withdraw/wallet",
+    iconClass: "icon-Asset-47",
+    id: 3,
+    subMenu: [
+      {
+        title: "Cash Withdraw From Wallet",
+        path: "/agent/cash_withdraw/wallet",
+      },
+      {
+        title: "Cash Withdraw From Bank",
+        path: "/agent/cash_withdraw/bank",
+      },
+    ],
+  },
+  {
+    title: "Cash In/Cash Out",
+    path: "/agent/cash_in",
+    iconClass: "icon-Asset-47",
+    id: 4,
+    subMenu: [
+      {
+        title: "Cash In",
+        path: "/agent/cash_in",
+      },
+      {
+        title: "Cash out",
+        path: "/agent/cash_out",
+      },
+    ],
+  },
+  {
+    title: "Send Money",
+    path: "/agent/send-money",
+    iconClass: "icon-Asset-47",
+    id: 5,
   },
   {
     title: "Cash in Cash Out",

@@ -19,16 +19,16 @@ export const fetchAgentWallet = (token) => (dispatch) => {
     .then((res) => {
       if (res.status === 200) {
         var walletData = res.data.find((wallet) => {
-          return wallet.currencyCode.toLowerCase() === 'xaf'
+          return wallet.currencyCode.toLowerCase() === "xaf";
         });
         dispatch({
           type: actionType.AGENT_WALLET_ACCOUNT_DATA,
-          payload:walletData
+          payload: walletData,
         });
       }
     })
     .catch((error) => {
-      console.log('error');
+      console.log("error");
       // console.log(error.response.status);
       // toastr.error("error", error.response.status)
       dispatch({
@@ -60,7 +60,7 @@ export const walletCashInFromBank = (payload) => (dispatch) => {
       }
     })
     .catch((error) => {
-      if(error.response.data.detail) {
+      if (error.response.data.detail) {
         toastr.error(error.response.data.detail);
       } else {
         toastr.error("Unable to process the cash in request");
@@ -94,13 +94,47 @@ export const walletCashOutFromBank = (payload) => (dispatch) => {
       }
     })
     .catch((error) => {
-      if(error.response.data.detail) {
+      if (error.response.data.detail) {
         toastr.error(error.response.data.detail);
       } else {
         toastr.error("Unable to process the cash out request");
       }
       dispatch({
         type: actionType.AGENT_WALLET_CASH_OUT_ERROR,
+      });
+    });
+};
+
+export const agentSendMoneyAction = (payload) => (dispatch) => {
+  const config = {
+    method: "POST",
+    url: URL.agent.AGENT_SEND_MONEY,
+    data: payload,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+  dispatch({
+    type: actionType.AGENT_SEND_MONEY_FETCH,
+  });
+  axios(config)
+    .then((res) => {
+      if (res.status === 200) {
+        toastr.success("Send Money Request has been processed.");
+        dispatch({
+          type: actionType.AGENT_SEND_MONEY_SUCCESS,
+        });
+      }
+    })
+    .catch((error) => {
+      if (error.response.data.detail) {
+        toastr.error(error.response.data.detail);
+      } else {
+        toastr.error("Unable to process the send money request");
+      }
+      dispatch({
+        type: actionType.AGENT_SEND_MONEY_ERROR,
       });
     });
 };
