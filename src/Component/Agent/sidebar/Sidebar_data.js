@@ -19,8 +19,7 @@ export const Side_bar_data = [
         title: "Cash Deposit To Bank",
         path: "/agent/cash_deposit/bank",
       },
-
-    ]
+    ],
   },
   {
     title: "Cash Withdraw",
@@ -36,8 +35,7 @@ export const Side_bar_data = [
         title: "Cash Withdraw From Bank",
         path: "/agent/cash_withdraw/bank",
       },
-
-    ]
+    ],
   },
   {
     title: "Cash In/Cash Out",
@@ -59,30 +57,24 @@ export const Side_bar_data = [
     title: "Send / Request Money",
     path: "/agent/send-request-money",
     iconClass: "icon-Asset-47",
-    id: 5,
+    id: 4,
     subMenu: [
       {
-        title: "Send",
-        path: "/agent/send/money",
+        title: "Cash In",
+        path: "/agent/cash_in",
       },
       {
-        title: "Request",
-        path: "/agent/request/money",
+        title: "Cash out",
+        path: "/agent/cash_out",
       },
     ],
   },
-  // {
-  //   title: "Cash in Cash Out",
-  //   path: "/agent/cash-in-cash-out",
-  //   iconClass: "icon-Asset-47",
-  //   id: 6,
-  // },
-  // {
-  //   title: "Pricing List",
-  //   path: "/agent/pricing-list",
-  //   iconClass: "icon-Asset-47",
-  //   id: 7,
-  // },
+  {
+    title: "Send Money",
+    path: "/agent/send-money",
+    iconClass: "icon-Asset-47",
+    id: 5,
+  },
   {
     title: "Customer Registration",
     path: "/admin/agents",
@@ -97,22 +89,6 @@ export const Side_bar_data = [
         title: "Banking Account Opening",
         path: "/agent/BankingAccountOpening",
       },
-      // {
-      //     title:"Agent Lists",
-      //     path:"/admin/agents/all",
-      // },
-      // {
-      //     title:"Agent Payments",
-      //     path:"/admin/agents/payments",
-      // },
-      // {
-      //     title:"Agent-Profile First Approval",
-      //     path:"/admin/agents/first-approvals",
-      // },
-      // {
-      //     title:"Agent-Profile Second Approval",
-      //     path:"/admin/agents/second-approvals",
-      // },
     ],
   },
   {

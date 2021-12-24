@@ -283,7 +283,7 @@ const configUrl = {
     UPDATE_KYC: `${AgentApi}api-public/AgentRegistration/agentKYC`,
 
     /**
-     * 
+     *
      */
     FETCH_AGENT_PROFILE: `${AgentApi}api-public/Agent/profile`,
     FETCH_AGENT_WALLET_ACCOUNT: `${AgentApi}api/agencyBanking/agentWalletBalance`,
@@ -303,8 +303,11 @@ const configUrl = {
     CUSTOMER_BANK_CASH_WITHDRAW: `${AgentApi}api/walletTransfers/walletCashIn`,
     WALLET_CASH_IN_FROM_BANK: `${AgentApi}api/walletTransfers/walletCashIn`,
     WALLET_CASH_OUT_FROM_BANK: `${AgentApi}api/walletTransfers/walletCashOut`,
+    CUSTOMER_DETAIL: `${AgentApi}api/walletTransfers/walletCustomerDetails`,
+    AGENT_SEND_MONEY: `${AgentApi}api/walletTransfers/walletToWallet`,
+    FEE_DETAIL: `${adminAPI}customer/transactionFees/calculate`,
     /**
-     * 
+     *
      */
 
     GET_KYC: `${AgentApi}api/agencyBanking/getKYC`,
