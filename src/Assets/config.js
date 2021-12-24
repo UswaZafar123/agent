@@ -251,6 +251,7 @@ const configUrl = {
     PAY_EU_MOMO: `${API}eumomo/sendPaymentRequest`,
   },
   agent: {
+    AGENT_MEMBER_REGISTER:`${AgentApi}api-public/registration/agentRegistration`,
     CREATE_PACKAGE: `${AgentApi}api-internal/agentPackages`,
     GET_OPERATIONS: `${AgentApi}api-internal/operations`,
     GET_ASSETS: `${AgentApi}api-internal/assets`,

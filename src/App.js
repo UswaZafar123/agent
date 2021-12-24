@@ -76,6 +76,8 @@ import AgentRegister from "./Component/common/register/AgentRegister";
 
 import Registration from "./Component/Agent/AgentRegistration/AgentRegistration";
 import AgentOTP from "./Component/Agent/AgentRegistration/AgentOTPScreen";
+import AgentMemberOTP from "./Component/Agent/AgentRegistration/AgentMemeberOTPScreen";
+
 import ChooseRegistrationAccount from "./Component/ChooseRegistrationAccount";
 import AgentRegSuccess from "./Component/Agent/AgentRegistration/AgentRegSuccess";
 // Setting Component Import
@@ -145,7 +147,8 @@ export const App = (props) => {
                     <Route exact path="/agent/cash_withdraw/bank" component={BankCashWithdraw} />
                     <Route exact path="/agent/cash_in" component={CashIn} />
                     <Route exact path="/agent/cash_out" component={CashOut} />
-
+                    <Route exact path="/agentMemeber/OTP" component={AgentMemberOTP} />
+                   
                     <Route
                       path="/agent/walletOperation/transfert"
                       component={transfert}
