@@ -1141,6 +1141,39 @@ const agentReducer = (state = initialState, action) => {
 
         operationDetails: null,
       };
+    case actionType.ADD_OPERATIONS_SUCCESS:
+      return {
+        ...state,
+        addOperationStatus: true,
+      };
+
+    case actionType.ADD_OPERATIONS_FAILURE:
+      return {
+        ...state,
+        addOperationStatus: false,
+      };
+    case actionType.DELETE_OPERATIONS_SUCCESS:
+      return {
+        ...state,
+        deleteOperationStatus: true,
+      };
+
+    case actionType.DELETE_OPERATIONS_FAILURE:
+      return {
+        ...state,
+        deleteOperationStatus: false,
+      };
+    case actionType.EDIT_OPERATIONS_SUCCESS:
+      return {
+        ...state,
+        editOperationStatus: true,
+      };
+
+    case actionType.EDIT_OPERATIONS_FAILURE:
+      return {
+        ...state,
+        editOperationStatus: false,
+      };
     case actionType.OPERATIONS_NULLABLE:
       return {
         ...state,

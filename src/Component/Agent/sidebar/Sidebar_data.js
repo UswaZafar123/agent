@@ -437,7 +437,7 @@ export const Side_bar_data = [
       },
       {
         title: "Operations",
-        path: "/agent/opeartions",
+        path: "/agent/operations",
       },
       // {
       //     title:"Loyalty Management",

@@ -102,6 +102,7 @@ import CashOperations from "./Component/page/Cash Operations/CashOperations";
 import ticketReply from "./Component/Agent/ticketReply";
 import Assets from "./Component/Agent/assets";
 import ForgotPassword from "./Component/Agent/ForgotPassword"
+import Operations from "./Component/Agent/Operations";
 
 export const App = (props) => {
   return (
@@ -148,13 +149,15 @@ export const App = (props) => {
                     <Route exact path="/agent/cash_in" component={CashIn} />
                     <Route exact path="/agent/cash_out" component={CashOut} />
                     <Route exact path="/agentMemeber/OTP" component={AgentMemberOTP} />
-                   
+
                     <Route
                       path="/agent/walletOperation/transfert"
                       component={transfert}
                     />
 
                     <Route path="/agent/assets" component={Assets} />
+
+                    <Route path="/agent/operations" component={Operations} />
 
                     <Route
                       path="/agent/walletOperation/WalletToAccount1"

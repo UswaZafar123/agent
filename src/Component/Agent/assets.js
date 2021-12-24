@@ -4,19 +4,11 @@ import "../../css/merchant_management.css";
 import "../../css/ag-grid-customization01.css";
 import "antd/dist/antd.css";
 import "./antDcustom.css";
-import { AgGridColumn, AgGridReact } from "ag-grid-react";
+import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
-import EditTicket from "./EditTicket";
-import activeUser from "../../Assets/images/confirm.svg";
-
 import { connect } from "react-redux";
-import { Select, Menu, Dropdown, Modal } from "antd";
-import { DownOutlined } from "@ant-design/icons";
-import Approved from "../Alerts/Approved";
-import Reject from "../Alerts/Reject";
-// import Dashboard from "../Dashboard/Dashboard";
-import { data } from "jquery";
+import { Select, Dropdown } from "antd";
 import { addAsset, deleteAsset, getAllAssets, updateAsset } from "../../services/agent/action";
 const { Option } = Select;
 
@@ -145,19 +137,19 @@ class Ticket extends Component {
       this.state.gridApi.paginationGetCurrentPage() + 1;
     document.getElementById(
       "totalPageSize"
-    ).innerHTML = this.state.rowData.length;
+    ).innerHTML = this.state.assetData.length;
     document.getElementById("bTo").innerHTML = params.api.paginationGetPageSize(
       10
     );
     const changedV =
       params.api.paginationGetPageSize(10) *
       (this.state.gridApi.paginationGetCurrentPage() + 1);
-    if (changedV <= this.state.rowData.length) {
+    if (changedV <= this.state.assetData.length) {
       document.getElementById("afterTo").innerHTML =
         params.api.paginationGetPageSize(10) *
         (this.state.gridApi.paginationGetCurrentPage() + 1);
     } else {
-      document.getElementById("afterTo").innerHTML = this.state.rowData.length;
+      document.getElementById("afterTo").innerHTML = this.state.assetData.length;
     }
     // console.log("get",params.api.getDisplayedRowCount())
   };
@@ -205,14 +197,14 @@ class Ticket extends Component {
       const changedV =
         this.state.gridApi.paginationGetPageSize(10) *
         (this.state.gridApi.paginationGetCurrentPage() + 1);
-      if (changedV <= this.state.rowData.length) {
+      if (changedV <= this.state.assetData.length) {
         document.getElementById("afterTo").innerHTML =
           this.state.gridApi.paginationGetPageSize(10) *
           (this.state.gridApi.paginationGetCurrentPage() + 1);
       } else {
         document.getElementById(
           "afterTo"
-        ).innerHTML = this.state.rowData.length;
+        ).innerHTML = this.state.assetData.length;
       }
     }
   };

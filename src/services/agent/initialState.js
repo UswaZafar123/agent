@@ -160,6 +160,9 @@ const initialState = {
   assetDetails: null,
   operationStatus: "nullable",
   operationDetails: null,
+  addOperationStatus: false,
+  editOperationStatus: false,
+  deleteOperationStatus: false,
   a_package_status: "nullable",
   a_package_details: null,
   //   viewProPicStatus: false
@@ -190,12 +193,12 @@ const initialState = {
   editCommissionStatus: true,
   editCommissionData: null,
 
-  addAssetStatus : false,
-  addAssetData : null,
-  deleteAssetStatus : true,
-  deleteAssetData : null,
-  editAssetStatus : false,
-  editAssetData : null
+  addAssetStatus: false,
+  addAssetData: null,
+  deleteAssetStatus: true,
+  deleteAssetData: null,
+  editAssetStatus: false,
+  editAssetData: null
 
 };
 export default initialState;
