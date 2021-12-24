@@ -258,7 +258,7 @@ class Operations extends Component {
 
         console.log(data, "EDIT SUBMIT DATA");
 
-        this.props.editOperation(assetID, data);
+        this.props.editOperation(this.state.operationID, data);
 
         // this.props.editOperation()
 
