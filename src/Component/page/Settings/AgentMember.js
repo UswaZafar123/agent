@@ -917,15 +917,11 @@ class AgentMember extends Component {
                          </tr>
                          <tr>
                              <td>country code</td>
-                             <td>{this.state.countrycode}</td>
+                             <td>{this.state.countryCode}</td>
                          </tr>
                          <tr>
                              <td>phone</td>
                              <td>{this.state.phoneNumber}</td>
-                         </tr>
-                         <tr>
-                             <td> phone dial code </td>
-                             <td>{this.state.email}</td>
                          </tr>
                          <tr>
                              <td>Address</td>
