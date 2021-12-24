@@ -188,7 +188,14 @@ const initialState = {
   deleteCommissionStatus: false,
   deleteCommissionData: null,
   editCommissionStatus: true,
-  editCommissionData: null
+  editCommissionData: null,
+
+  addAssetStatus : false,
+  addAssetData : null,
+  deleteAssetStatus : true,
+  deleteAssetData : null,
+  editAssetStatus : false,
+  editAssetData : null
 
 };
 export default initialState;

@@ -1070,15 +1070,63 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         assetStatus: false,
-
         assetDetails: null,
+      };
+    case actionType.ADD_ASSET_SUCCESS:
+      return {
+        ...state,
+        addAssetStatus: true,
+        addAssetData: action.payload,
+      };
+
+    case actionType.DELETE_ASSET_SUCCESS:
+      return {
+        ...state,
+        deleteAssetStatus: true,
+        deleteAssetData: action.payload,
+        addAssetStatus: false,
+        addAssetData: null,
+      };
+    case actionType.DELETE_ASSET_FAILURE:
+      return {
+        ...state,
+        deleteAssetStatus: false,
+        deleteAssetData: null,
+        addAssetStatus: false,
+        addAssetData: null,
+      };
+    case actionType.EDIT_ASSET_SUCCESS:
+      return {
+        ...state,
+        editAssetStatus: true,
+        editAssetData: action.payload,
+        deleteAssetStatus: false,
+        deleteAssetData: null,
+        addAssetStatus: false,
+        addAssetData: null,
+      };
+    case actionType.EDIT_ASSET_FAILURE:
+      return {
+        ...state,
+        editAssetStatus: false,
+        editAssetData: null,
+        deleteAssetStatus: false,
+        deleteAssetData: null,
+        addAssetStatus: false,
+        addAssetData: null,
+      };
+
+    case actionType.ADD_ASSET_FAILURE:
+      return {
+        ...state,
+        addAssetStatus: false,
+        addAssetData: null,
       };
     case actionType.ASSETS_NULLABLE:
       return {
         ...state,
         assetStatus: "nullable",
       };
-
     case actionType.GET_OPERATIONS_SUCCESS:
       return {
         ...state,
