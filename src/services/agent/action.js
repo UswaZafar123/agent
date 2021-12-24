@@ -190,12 +190,157 @@ export const getAllAssets = () => (dispatch) => {
           type: actionType.GET_ASSETS_SUCCESS,
           payload: res.data,
         });
+        dispatch({
+          type: actionType.ADD_ASSET_FAILURE,
+          payload: null,
+        });
       }
     })
     .catch((error) => {
       toastr.warning("failed to retrieve assets");
       dispatch({
         type: actionType.GET_ASSETS_FAILURE,
+      });
+      dispatch({
+        type: actionType.ADD_ASSET_FAILURE,
+        payload: null,
+      });
+    });
+};
+
+export const addAsset = (payload) => (dispatch) => {
+  const config = {
+    method: "POST",
+    url: URL.agent.GET_ASSETS,
+    data: payload,
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+
+  axios(config)
+    .then((res) => {
+      if (res.status === 201) {
+        toastr.success("Asset Created Successfully");
+        dispatch({
+          type: actionType.ADD_ASSET_SUCCESS,
+          payload: res.data,
+        });
+        dispatch({
+          type: actionType.EDIT_ASSET_FAILURE,
+          payload: null,
+        });
+        dispatch({
+          type: actionType.DELETE_ASSET_FAILURE,
+          payload: null,
+        });
+        dispatch(getAllAssets());
+      }
+    })
+    .catch((error) => {
+      toastr.warning("Failed to Add Asset.");
+      dispatch({
+        type: actionType.ADD_ASSET_FAILURE,
+        payload: null,
+      });
+      dispatch({
+        type: actionType.EDIT_ASSET_FAILURE,
+        payload: null,
+      });
+      dispatch({
+        type: actionType.DELETE_ASSET_FAILURE,
+        payload: null,
+      });
+    });
+};
+
+export const deleteAsset = (id) => (dispatch) => {
+  const config = {
+    method: "DELETE",
+    url: URL.agent.GET_ASSETS + "/" + id,
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+
+  axios(config)
+    .then((res) => {
+      if (res.status === 204) {
+        toastr.success("Asset Deleted Successfully");
+        dispatch({
+          type: actionType.DELETE_ASSET_SUCCESS,
+          payload: res.data,
+        });
+        dispatch({
+          type: actionType.ADD_ASSET_FAILURE,
+          payload: null,
+        });
+        dispatch({
+          type: actionType.EDIT_ASSET_FAILURE,
+          payload: null,
+        });
+        dispatch(getAllAssets());
+      }
+    })
+    .catch((error) => {
+      toastr.warning("Failed to Delete Asset.");
+      dispatch({
+        type: actionType.DELETE_ASSET_FAILURE,
+        payload: null,
+      });
+      dispatch({
+        type: actionType.ADD_ASSET_FAILURE,
+        payload: null,
+      });
+      dispatch({
+        type: actionType.EDIT_ASSET_FAILURE,
+        payload: null,
+      });
+    });
+};
+
+export const updateAsset = (id, payload) => (dispatch) => {
+  const config = {
+    method: "PUT",
+    url: URL.agent.GET_ASSETS + "/" + id,
+    data: payload,
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+
+  axios(config)
+    .then((res) => {
+      if (res.status === 201) {
+        toastr.success("Asset Updated Successfully");
+        dispatch({
+          type: actionType.EDIT_ASSET_SUCCESS,
+          payload: res.data,
+        });
+        dispatch({
+          type: actionType.ADD_ASSET_FAILURE,
+          payload: null,
+        });
+        dispatch({
+          type: actionType.DELETE_ASSET_FAILURE,
+          payload: null,
+        });
+        dispatch(getAllAssets());
+      }
+    })
+    .catch((error) => {
+      toastr.warning("Failed to Update Asset.");
+      dispatch({
+        type: actionType.EDIT_ASSET_FAILURE,
+        payload: null,
+      });
+      dispatch({
+        type: actionType.ADD_ASSET_FAILURE,
+        payload: null,
+      });
+      dispatch({
+        type: actionType.DELETE_ASSET_FAILURE,
+        payload: null,
       });
     });
 };
@@ -609,7 +754,7 @@ export const setAgentPassword = (payload) => (dispatch) => {
     });
 };
 
-export const setAgentPasswordMember = (payload,history) => (dispatch) => {
+export const setAgentPasswordMember = (payload, history) => (dispatch) => {
   const config = {
     method: "POST",
     url: URL.agent.AGENT_SET_PASSWORD,
@@ -619,7 +764,7 @@ export const setAgentPasswordMember = (payload,history) => (dispatch) => {
     .then((res) => {
       if (res.status === 200) {
         toastr.success("Password is Set");
-        history.push({pathname:"/settings/agent-member"})
+        history.push({ pathname: "/settings/agent-member" })
         dispatch({
           type: actionType.AGENT_SET_PASSWORD_SUCCESS,
         });
@@ -1311,7 +1456,7 @@ export const getAllScreens = (token) => (dispatch) => {
 }
 
 
-export const registerAgentMember = (token,data,history,phoneNumber,mobileCode) => (dispatch) => {
+export const registerAgentMember = (token, data, history, phoneNumber, mobileCode) => (dispatch) => {
   dispatch(ShowLoading());
   dispatch({
     type: actionType.AGENT_BANKER_OTP_INVALID,
@@ -1330,8 +1475,8 @@ export const registerAgentMember = (token,data,history,phoneNumber,mobileCode) =
     dispatch(HideLoading());
     toastr.success("succesfully registered agent memeber please set the password");
     history.push({
-      pathname:"/agentMemeber/OTP",
-      state:{phoneNumber:phoneNumber,mobileCode:mobileCode}
+      pathname: "/agentMemeber/OTP",
+      state: { phoneNumber: phoneNumber, mobileCode: mobileCode }
     })
 
   }).catch((err) => {
