@@ -8,7 +8,7 @@ import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 import { FormattedMessage, useIntl, injectIntl } from "react-intl";
 import {registerAgentMember}from "../../../services/agent/action"
-import libphonenumber from 'google-libphonenumber';
+// import libphonenumber from 'google-libphonenumber';
 
 
 // import activeUser from '../../Assets/images/confirm.svg'
@@ -259,7 +259,7 @@ class AgentMember extends Component {
 
       submitData=()=>{
 
-        const phoneUtil = libphonenumber.PhoneNumberUtil.getInstance();
+        // const phoneUtil = libphonenumber.PhoneNumberUtil.getInstance();
 
       let formData =new FormData();
       formData.append("firstName",this.state.firstName)
