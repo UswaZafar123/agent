@@ -356,7 +356,7 @@ class Login extends Component {
                         <label> Remember me</label>
                       </span>
                       <span>
-                        <NavLink to="/ForgotPassword" className="forgetPass">
+                        <NavLink to="/agent/forgotPassword" className="forgetPass">
                           <FormattedMessage id="login.forogtpassword" />
                         </NavLink>
                       </span>
