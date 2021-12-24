@@ -1,34 +1,34 @@
 const profileState = {
   loading: false,
   data: {},
-}
+};
 
 const walletAccountState = {
   loading: false,
   data: {},
-}
+};
 
 const bankAccountState = {
   loading: false,
   list: [],
-}
+};
 
 const superAgentDetailState = {
   loading: false,
   data: {},
-}
+};
 
 const sendLinkingRequestState = {
   loading: false,
   success: false,
   error: false,
-}
+};
 
 const validateSuperAgentState = {
   loading: false,
   success: false,
   error: false,
-}
+};
 
 const inkingRequestsState = {
   loading: false,
@@ -36,7 +36,7 @@ const inkingRequestsState = {
   linkingRequestProcessing: false,
   linkingRequestProcessSuccess: false,
   linkingRequestProcessError: false,
-}
+};
 
 const customerValidationState = {
   loading: false,
@@ -71,7 +71,7 @@ const customerWalletCashWithdrawState = {
 const customerBankAccountsState = {
   loading: false,
   list: [],
-}
+};
 
 const customerBankCashDepositState = {
   loading: false,
@@ -95,6 +95,22 @@ const agentWalletCashOutState = {
   loading: false,
   success: false,
   error: false,
+};
+
+const customerDetailState = {
+  loading: false,
+  data: {},
+};
+
+const agentSendMoneyState = {
+  loading: false,
+  success: false,
+  error: false,
+};
+
+const feeDetailState = {
+  loading: false,
+  data: {},
 };
 
 const initialState = {
@@ -142,9 +158,6 @@ const initialState = {
   updateUserRoleStatus: false,
   updateUserRoleData: null,
 
-  updateRolePermissionStatus: false,
-  updateRolePermissionData: null,
-
   getAllScreensStatus: false,
   getAllScreensData: null,
 
@@ -160,6 +173,9 @@ const initialState = {
   assetDetails: null,
   operationStatus: "nullable",
   operationDetails: null,
+  addOperationStatus: false,
+  editOperationStatus: false,
+  deleteOperationStatus: false,
   a_package_status: "nullable",
   a_package_details: null,
   //   viewProPicStatus: false
@@ -190,12 +206,15 @@ const initialState = {
   editCommissionStatus: true,
   editCommissionData: null,
 
-  addAssetStatus : false,
-  addAssetData : null,
-  deleteAssetStatus : true,
-  deleteAssetData : null,
-  editAssetStatus : false,
-  editAssetData : null
+  addAssetStatus: false,
+  addAssetData: null,
+  deleteAssetStatus: true,
+  deleteAssetData: null,
+  editAssetStatus: false,
+  editAssetData: null,
 
+  customerDetail: customerDetailState,
+  agentSendMoney: agentSendMoneyState,
+  feeDetail: feeDetailState,
 };
 export default initialState;

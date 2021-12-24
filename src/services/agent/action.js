@@ -7,16 +7,16 @@ import qs from "qs";
 import { ShowLoading, HideLoading } from "../common/action";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 
-
-export * from './customer_verification_actions.js';
-export * from './profile_actions.js';
-export * from './wallet_account_actions.js';
-export * from './bank_account_actions.js';
-export * from './customer_otp_actions.js';
-export * from './cash_deposit_actions.js';
-export * from './cash_withdraw_actions.js';
-export * from './account_linking_actions.js';
-export * from './agent_otp_actions.js'
+export * from "./customer_verification_actions.js";
+export * from "./profile_actions.js";
+export * from "./wallet_account_actions.js";
+export * from "./bank_account_actions.js";
+export * from "./customer_otp_actions.js";
+export * from "./cash_deposit_actions.js";
+export * from "./cash_withdraw_actions.js";
+export * from "./account_linking_actions.js";
+export * from "./agent_otp_actions.js";
+export * from "./common_actions.js";
 
 export const RegisterService = (payload) => (dispatch) => {
   const config = {
@@ -365,12 +365,137 @@ export const getAllOperations = () => (dispatch) => {
           type: actionType.GET_OPERATIONS_SUCCESS,
           payload: res.data,
         });
+        dispatch({
+          type: actionType.ADD_OPERATIONS_FAILURE,
+        });
       }
     })
     .catch((error) => {
       toastr.warning("failed to retrieve operation");
       dispatch({
         type: actionType.GET_OPERATIONS_FAILURE,
+      });
+      dispatch({
+        type: actionType.ADD_OPERATIONS_FAILURE,
+      });
+    });
+};
+
+export const addOperation = (payload) => (dispatch) => {
+  const config = {
+    method: "POST",
+    url: URL.agent.GET_OPERATIONS,
+    data: payload,
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+  axios(config)
+    .then((res) => {
+      if (res.status === 201) {
+        toastr.success("operation created Successfully");
+        dispatch({
+          type: actionType.ADD_OPERATIONS_SUCCESS,
+          payload: res.data,
+        });
+        dispatch({
+          type: actionType.DELETE_OPERATIONS_FAILURE,
+        });
+        dispatch({
+          type: actionType.EDIT_OPERATIONS_FAILURE,
+        });
+        dispatch(getAllOperations());
+      }
+    })
+    .catch((error) => {
+      toastr.warning("failed to add operation");
+      dispatch({
+        type: actionType.ADD_OPERATIONS_FAILURE,
+      });
+      dispatch({
+        type: actionType.DELETE_OPERATIONS_FAILURE,
+      });
+      dispatch({
+        type: actionType.EDIT_OPERATIONS_FAILURE,
+      });
+    });
+};
+
+export const deleteOperation = (id) => (dispatch) => {
+  const config = {
+    method: "DELETE",
+    url: URL.agent.GET_OPERATIONS + "/" + id,
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+  axios(config)
+    .then((res) => {
+      if (res.status === 204) {
+        toastr.success("operation deleted Successfully");
+        dispatch({
+          type: actionType.DELETE_OPERATIONS_SUCCESS,
+          payload: res.data,
+        });
+        dispatch({
+          type: actionType.ADD_OPERATIONS_FAILURE,
+        });
+        dispatch({
+          type: actionType.EDIT_OPERATIONS_FAILURE,
+        });
+        dispatch(getAllOperations());
+      }
+    })
+    .catch((error) => {
+      toastr.warning("failed to delete operation");
+      dispatch({
+        type: actionType.DELETE_OPERATIONS_FAILURE,
+      });
+      dispatch({
+        type: actionType.ADD_OPERATIONS_FAILURE,
+      });
+      dispatch({
+        type: actionType.EDIT_OPERATIONS_FAILURE,
+      });
+    });
+};
+
+export const editOperation = (id, payload) => (dispatch) => {
+  const config = {
+    method: "PUT",
+    url: URL.agent.GET_OPERATIONS + "/" + id,
+    data: payload,
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+  axios(config)
+    .then((res) => {
+      if (res.status === 201) {
+        toastr.success("operation updated Successfully");
+        dispatch({
+          type: actionType.EDIT_OPERATIONS_SUCCESS,
+          payload: res.data,
+        });
+        dispatch({
+          type: actionType.ADD_OPERATIONS_FAILURE,
+        });
+        dispatch({
+          type: actionType.DELETE_OPERATIONS_FAILURE,
+        });
+        dispatch(getAllOperations());
+      }
+    })
+    .catch((error) => {
+      toastr.warning("failed to edit operation");
+      dispatch({
+        type: actionType.EDIT_OPERATIONS_FAILURE,
+      });
+      dispatch({
+        type: actionType.ADD_OPERATIONS_FAILURE,
+      });
+      dispatch({
+        type: actionType.DELETE_OPERATIONS_FAILURE,
       });
     });
 };
@@ -438,7 +563,6 @@ export const getAPackage = (id) => (dispatch) => {
 };
 
 export const getAllCommissions = () => (dispatch) => {
-
   const config = {
     method: "GET",
     url: URL.agent.COMMISSION,
@@ -485,7 +609,6 @@ export const createCommission = (payload) => (dispatch) => {
         });
 
         dispatch(getAllCommissions());
-
       }
     })
     .catch((error) => {
@@ -493,7 +616,9 @@ export const createCommission = (payload) => (dispatch) => {
         type: actionType.ADD_COMMISSION_FAILURE,
         payload: null,
       });
-      toastr.warning("Failed to create commission. Commission Type Might Already Exist.");
+      toastr.warning(
+        "Failed to create commission. Commission Type Might Already Exist."
+      );
     });
 };
 
@@ -556,7 +681,9 @@ export const editCommission = (payload) => (dispatch) => {
         type: actionType.EDIT_COMMISSION_FAILURE,
         payload: null,
       });
-      toastr.warning("Failed to update commission. Commission with same type might already exist.");
+      toastr.warning(
+        "Failed to update commission. Commission with same type might already exist."
+      );
     });
 };
 
@@ -764,7 +891,7 @@ export const setAgentPasswordMember = (payload, history) => (dispatch) => {
     .then((res) => {
       if (res.status === 200) {
         toastr.success("Password is Set");
-        history.push({ pathname: "/settings/agent-member" })
+        history.push({ pathname: "/settings/agent-member" });
         dispatch({
           type: actionType.AGENT_SET_PASSWORD_SUCCESS,
         });
@@ -1134,33 +1261,32 @@ export const addTicket = (token, payload, history) => (dispatch) => {
         history.push({ pathname: "/agent/tickets" });
       }
     })
-    .catch((error) => { });
+    .catch((error) => {});
 };
-export const UpdateTicket = (token, payload, ticketNo, history) => (
-  dispatch
-) => {
-  dispatch(uploadAttachmentFalse());
-  dispatch(viewAttachmentFileFalse());
-  const config = {
-    method: "put",
-    data: payload,
-    url: URL.agent.ADD_TICKET + "/" + ticketNo,
-    headers: {
-      "content-type": "application/json",
-      Authorization: "Bearer " + token,
-    },
-  };
+export const UpdateTicket =
+  (token, payload, ticketNo, history) => (dispatch) => {
+    dispatch(uploadAttachmentFalse());
+    dispatch(viewAttachmentFileFalse());
+    const config = {
+      method: "put",
+      data: payload,
+      url: URL.agent.ADD_TICKET + "/" + ticketNo,
+      headers: {
+        "content-type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    };
 
-  axios(config)
-    .then((res) => {
-      if (res.status === 200) {
-        toastr.success(res.data.message);
-        history.push({ pathname: "/agent/tickets" });
-        dispatch(getTickets(token));
-      }
-    })
-    .catch((error) => { });
-};
+    axios(config)
+      .then((res) => {
+        if (res.status === 200) {
+          toastr.success(res.data.message);
+          history.push({ pathname: "/agent/tickets" });
+          dispatch(getTickets(token));
+        }
+      })
+      .catch((error) => {});
+  };
 export const addAreply = (token, data, ticketNo) => (dispatch) => {
   dispatch(uploadAttachmentFalse());
   dispatch(viewAttachmentFileFalse());
@@ -1180,7 +1306,7 @@ export const addAreply = (token, data, ticketNo) => (dispatch) => {
         dispatch(getATicket(token, ticketNo));
       }
     })
-    .catch((error) => { });
+    .catch((error) => {});
 };
 
 export const viewAttachmentFileFalse = () => (dispatch) => {
@@ -1223,19 +1349,21 @@ export const getScreenPermissionsByRole = (token, roleId) => (dispatch) => {
     },
   };
 
-  axios(config).then((res) => {
-    dispatch(HideLoading());
-    dispatch({
-      type: actionType.GET_SCREEN_PERMISSIONS_BY_ROLE_SUCCESS,
-      payload: res.data
+  axios(config)
+    .then((res) => {
+      dispatch(HideLoading());
+      dispatch({
+        type: actionType.GET_SCREEN_PERMISSIONS_BY_ROLE_SUCCESS,
+        payload: res.data,
+      });
+    })
+    .catch((err) => {
+      dispatch(HideLoading());
+      dispatch({
+        type: actionType.GET_SCREEN_PERMISSIONS_BY_ROLE_SUCCESS,
+        payload: null,
+      });
     });
-  }).catch((err) => {
-    dispatch(HideLoading());
-    dispatch({
-      type: actionType.GET_SCREEN_PERMISSIONS_BY_ROLE_SUCCESS,
-      payload: null
-    });
-  });
 };
 
 export const addScreenPermissionsByRole = (token, payload) => (dispatch) => {
@@ -1250,51 +1378,56 @@ export const addScreenPermissionsByRole = (token, payload) => (dispatch) => {
     },
   };
 
-  axios(config).then((res) => {
-    dispatch(HideLoading());
-    toastr.success("Role Permissions Added..");
-    dispatch({
-      type: actionType.ADD_ALL_PERMISSION_SUCCESS,
-      payload: res.data
+  axios(config)
+    .then((res) => {
+      dispatch(HideLoading());
+      toastr.success("Role Permissions Added..");
+      dispatch({
+        type: actionType.ADD_ALL_PERMISSION_SUCCESS,
+        payload: res.data,
+      });
+    })
+    .catch((err) => {
+      dispatch(HideLoading());
+      toastr.error("Role Permissions Failed to Add..");
+      dispatch({
+        type: actionType.ADD_ALL_PERMISSION_FAILURE,
+        payload: null,
+      });
     });
-  }).catch((err) => {
-    dispatch(HideLoading());
-    toastr.error("Role Permissions Failed to Add..");
-    dispatch({
-      type: actionType.ADD_ALL_PERMISSION_FAILURE,
-      payload: null
-    });
-  });
 };
 
-export const updateScreenPermissionsByRole = (token, payload, roleId) => (dispatch) => {
-  dispatch(ShowLoading());
-  const config = {
-    method: "PUT",
-    url: URL.agent.GET_SCREEN_PERMISSIONS_BY_ROLE + "/" + roleId,
-    data: payload,
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
-    },
+export const updateScreenPermissionsByRole =
+  (token, payload, roleId) => (dispatch) => {
+    dispatch(ShowLoading());
+    const config = {
+      method: "PUT",
+      url: URL.agent.GET_SCREEN_PERMISSIONS_BY_ROLE + "/" + roleId,
+      data: payload,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    };
+
+    axios(config)
+      .then((res) => {
+        dispatch(HideLoading());
+        toastr.success("Role Permissions Updated..");
+        dispatch({
+          type: actionType.UPDATE_ROLE_PERMISSION_SUCCESS,
+          payload: res.data,
+        });
+      })
+      .catch((err) => {
+        dispatch(HideLoading());
+        toastr.error("Role Permissions Failed to Update..");
+        dispatch({
+          type: actionType.UPDATE_ROLE_PERMISSION_FAILURE,
+          payload: null,
+        });
+      });
   };
-
-  axios(config).then((res) => {
-    dispatch(HideLoading());
-    toastr.success("Role Permissions Updated..");
-    dispatch({
-      type: actionType.UPDATE_ROLE_PERMISSION_SUCCESS,
-      payload: res.data
-    });
-  }).catch((err) => {
-    dispatch(HideLoading());
-    toastr.error("Role Permissions Failed to Update..");
-    dispatch({
-      type: actionType.UPDATE_ROLE_PERMISSION_FAILURE,
-      payload: null
-    });
-  });
-};
 
 export const getAllUserRoles = (token) => (dispatch) => {
   dispatch(ShowLoading());
@@ -1307,67 +1440,70 @@ export const getAllUserRoles = (token) => (dispatch) => {
     },
   };
 
-  axios(config).then((res) => {
-    dispatch(HideLoading());
-    toastr.success("Roles Fetched Successfully..");
+  axios(config)
+    .then((res) => {
+      dispatch(HideLoading());
+      toastr.success("Roles Fetched Successfully..");
 
-    dispatch({
-      type: actionType.GET_USER_ROLES_SUCCESS,
-      payload: res.data
+      dispatch({
+        type: actionType.GET_USER_ROLES_SUCCESS,
+        payload: res.data,
+      });
+    })
+    .catch((err) => {
+      dispatch(HideLoading());
+      toastr.error("Roles Fetch Error..");
+
+      dispatch({
+        type: actionType.GET_USER_ROLES_FAILURE,
+        payload: null,
+      });
     });
-  }).catch((err) => {
-    dispatch(HideLoading());
-    toastr.error("Roles Fetch Error..");
+};
 
-    dispatch({
-      type: actionType.GET_USER_ROLES_FAILURE,
-      payload: null
-    });
-  });
-}
+export const addUserRole =
+  (token, payload, permissionsPayload) => (dispatch) => {
+    dispatch(ShowLoading());
+    const config = {
+      method: "POST",
+      url: URL.agent.GET_ALL_USER_ROLES,
+      data: payload,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    };
+    axios(config)
+      .then((res) => {
+        dispatch(HideLoading());
+        toastr.success("Role Added..");
+        dispatch({
+          type: actionType.ADD_USER_ROLE_SUCCESS,
+          payload: res.data,
+        });
 
-export const addUserRole = (token, payload, permissionsPayload) => (dispatch) => {
-  dispatch(ShowLoading());
-  const config = {
-    method: "POST",
-    url: URL.agent.GET_ALL_USER_ROLES,
-    data: payload,
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
-    },
+        if (res.data.userRoleId) {
+          const userRoleId = res.data.userRoleId;
+
+          const permissionsBody = {
+            userRoleId: userRoleId,
+            screenPermissions: permissionsPayload,
+          };
+
+          console.log(permissionsBody, "PERMISSIONS BODY");
+
+          dispatch(addScreenPermissionsByRole(token, permissionsBody));
+        }
+      })
+      .catch((err) => {
+        dispatch(HideLoading());
+        toastr.error("ERROR ADDING ROLE..");
+        dispatch({
+          type: actionType.ADD_USER_ROLE_FAILURE,
+          payload: null,
+        });
+      });
   };
-  axios(config).then((res) => {
-    dispatch(HideLoading());
-    toastr.success("Role Added..");
-    dispatch({
-      type: actionType.ADD_USER_ROLE_SUCCESS,
-      payload: res.data
-    });
-
-    if (res.data.userRoleId) {
-
-      const userRoleId = res.data.userRoleId
-
-      const permissionsBody = {
-        "userRoleId": userRoleId,
-        "screenPermissions": permissionsPayload
-      }
-
-      console.log(permissionsBody, "PERMISSIONS BODY")
-
-      dispatch(addScreenPermissionsByRole(token, permissionsBody));
-
-    }
-  }).catch((err) => {
-    dispatch(HideLoading());
-    toastr.error("ERROR ADDING ROLE..");
-    dispatch({
-      type: actionType.ADD_USER_ROLE_FAILURE,
-      payload: null
-    });
-  });
-}
 
 export const deleteUserRole = (token, roleId) => (dispatch) => {
   dispatch(ShowLoading());
@@ -1379,51 +1515,58 @@ export const deleteUserRole = (token, roleId) => (dispatch) => {
       Authorization: "Bearer " + token,
     },
   };
-  axios(config).then((res) => {
-    dispatch(HideLoading());
-    toastr.success("Role Deleted..");
-    dispatch({
-      type: actionType.DELETE_USER_ROLE_SUCCESS,
-      payload: res.data
+  axios(config)
+    .then((res) => {
+      dispatch(HideLoading());
+      toastr.success("Role Deleted..");
+      dispatch({
+        type: actionType.DELETE_USER_ROLE_SUCCESS,
+        payload: res.data,
+      });
+    })
+    .catch((err) => {
+      dispatch(HideLoading());
+      toastr.error("ERROR DELETING ROLE..");
+      dispatch({
+        type: actionType.DELETE_USER_ROLE_FAILURE,
+        payload: null,
+      });
     });
-  }).catch((err) => {
-    dispatch(HideLoading());
-    toastr.error("ERROR DELETING ROLE..");
-    dispatch({
-      type: actionType.DELETE_USER_ROLE_FAILURE,
-      payload: null
-    });
-  });
-}
+};
 
-export const updateUserRole = (token, roleId, payload, modifiedPermissionsList) => (dispatch) => {
-  dispatch(ShowLoading());
-  const config = {
-    method: "PUT",
-    data: payload,
-    url: URL.agent.GET_ALL_USER_ROLES + "/" + roleId,
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
-    },
+export const updateUserRole =
+  (token, roleId, payload, modifiedPermissionsList) => (dispatch) => {
+    dispatch(ShowLoading());
+    const config = {
+      method: "PUT",
+      data: payload,
+      url: URL.agent.GET_ALL_USER_ROLES + "/" + roleId,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    };
+    axios(config)
+      .then((res) => {
+        dispatch(HideLoading());
+        toastr.success("Role Updated..");
+        dispatch(
+          updateScreenPermissionsByRole(token, modifiedPermissionsList, roleId)
+        );
+        dispatch({
+          type: actionType.UPDATE_USER_ROLE_SUCCESS,
+          payload: res.data,
+        });
+      })
+      .catch((err) => {
+        dispatch(HideLoading());
+        toastr.error("ERROR UPDATING ROLE..");
+        dispatch({
+          type: actionType.UPDATE_USER_ROLE_FAILURE,
+          payload: null,
+        });
+      });
   };
-  axios(config).then((res) => {
-    dispatch(HideLoading());
-    toastr.success("Role Updated..");
-    dispatch(updateScreenPermissionsByRole(token, modifiedPermissionsList, roleId));
-    dispatch({
-      type: actionType.UPDATE_USER_ROLE_SUCCESS,
-      payload: res.data
-    });
-  }).catch((err) => {
-    dispatch(HideLoading());
-    toastr.error("ERROR UPDATING ROLE..");
-    dispatch({
-      type: actionType.UPDATE_USER_ROLE_FAILURE,
-      payload: null
-    });
-  });
-}
 
 export const getAllScreens = (token) => (dispatch) => {
   dispatch(ShowLoading());
@@ -1436,54 +1579,56 @@ export const getAllScreens = (token) => (dispatch) => {
     },
   };
 
-  axios(config).then((res) => {
-    dispatch(HideLoading());
-    toastr.success("Screens Fetched Successfully..");
+  axios(config)
+    .then((res) => {
+      dispatch(HideLoading());
+      toastr.success("Screens Fetched Successfully..");
 
-    dispatch({
-      type: actionType.GET_ALL_SCREEN_SUCCESS,
-      payload: res.data
-    });
-  }).catch((err) => {
-    dispatch(HideLoading());
-    toastr.error("Screens Fetch Error..");
-
-    dispatch({
-      type: actionType.GET_ALL_SCREEN_FAILURE,
-      payload: null
-    });
-  });
-}
-
-
-export const registerAgentMember = (token, data, history, phoneNumber, mobileCode) => (dispatch) => {
-  dispatch(ShowLoading());
-  dispatch({
-    type: actionType.AGENT_BANKER_OTP_INVALID,
-  });
-  const config = {
-    method: "post",
-    url: URL.agent.AGENT_MEMBER_REGISTER,
-    data,
-    headers: {
-      "Content-Type": "multipart/form-data",
-      // Authorization: "Bearer " + token,
-    },
-  };
-
-  axios(config).then((res) => {
-    dispatch(HideLoading());
-    toastr.success("succesfully registered agent memeber please set the password");
-    history.push({
-      pathname: "/agentMemeber/OTP",
-      state: { phoneNumber: phoneNumber, mobileCode: mobileCode }
+      dispatch({
+        type: actionType.GET_ALL_SCREEN_SUCCESS,
+        payload: res.data,
+      });
     })
+    .catch((err) => {
+      dispatch(HideLoading());
+      toastr.error("Screens Fetch Error..");
 
-  }).catch((err) => {
-    dispatch(HideLoading());
-    toastr.error("error in regsitering agent memeber");
-  });
-}
+      dispatch({
+        type: actionType.GET_ALL_SCREEN_FAILURE,
+        payload: null,
+      });
+    });
+};
 
+export const registerAgentMember =
+  (token, data, history, phoneNumber, mobileCode) => (dispatch) => {
+    dispatch(ShowLoading());
+    dispatch({
+      type: actionType.AGENT_BANKER_OTP_INVALID,
+    });
+    const config = {
+      method: "post",
+      url: URL.agent.AGENT_MEMBER_REGISTER,
+      data,
+      headers: {
+        "Content-Type": "multipart/form-data",
+        // Authorization: "Bearer " + token,
+      },
+    };
 
-
+    axios(config)
+      .then((res) => {
+        dispatch(HideLoading());
+        toastr.success(
+          "succesfully registered agent memeber please set the password"
+        );
+        history.push({
+          pathname: "/agentMemeber/OTP",
+          state: { phoneNumber: phoneNumber, mobileCode: mobileCode },
+        });
+      })
+      .catch((err) => {
+        dispatch(HideLoading());
+        toastr.error("error in regsitering agent memeber");
+      });
+  };
