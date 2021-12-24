@@ -254,6 +254,7 @@ const configUrl = {
     PAY_EU_MOMO: `${API}eumomo/sendPaymentRequest`,
   },
   agent: {
+    AGENT_MEMBER_REGISTER:`${AgentApi}api-public/registration/agentRegistration`,
     CREATE_PACKAGE: `${AgentApi}api-internal/agentPackages`,
     GET_OPERATIONS: `${AgentApi}api-internal/operations`,
     GET_ASSETS: `${AgentApi}api-internal/assets`,
@@ -313,6 +314,8 @@ const configUrl = {
     GET_SCREEN_PERMISSIONS_BY_ROLE: `${AgentApi}api-internal/roleScreenPermissions`,
     GET_ALL_USER_ROLES: `${AgentApi}api-internal/userRoles`,
     GET_ALL_SCREENS: `${AgentApi}api-internal/screens`,
+
+    COMMISSION: `${AgentApi}api-internal/commissions`
   },
 };
 

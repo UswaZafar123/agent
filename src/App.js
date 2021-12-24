@@ -77,6 +77,8 @@ import AgentRegister from "./Component/common/register/AgentRegister";
 
 import Registration from "./Component/Agent/AgentRegistration/AgentRegistration";
 import AgentOTP from "./Component/Agent/AgentRegistration/AgentOTPScreen";
+import AgentMemberOTP from "./Component/Agent/AgentRegistration/AgentMemeberOTPScreen";
+
 import ChooseRegistrationAccount from "./Component/ChooseRegistrationAccount";
 import AgentRegSuccess from "./Component/Agent/AgentRegistration/AgentRegSuccess";
 // Setting Component Import
@@ -100,6 +102,7 @@ import ValidateSuperAgentId from "./Component/page/AccountLinking/validateSuperA
 import CashOperations from "./Component/page/Cash Operations/CashOperations";
 import ticketReply from "./Component/Agent/ticketReply";
 import Assets from "./Component/Agent/assets";
+import ForgotPassword from "./Component/Agent/ForgotPassword";
 
 export const App = (props) => {
   return (
@@ -112,6 +115,7 @@ export const App = (props) => {
         <Route exact path="/agent/otp-verification" component={AgentOTP} />
         {/* <Route path="/registration" component={ChooseRegistrationAccount} /> */}
         <Route path="/agent/registrationSuccess" component={AgentRegSuccess} />
+        <Route path="/agent/forgotPassword" component={ForgotPassword} />
       </Switch>
       {sessionStorage.getItem("token") &&
         window.location.pathname !== "/agent/login" && (
@@ -168,6 +172,12 @@ export const App = (props) => {
                       exact
                       path="/agent/send-money"
                       component={AgentSendMoney}
+                    />
+
+                    <Route
+                      exact
+                      path="/agentMemeber/OTP"
+                      component={AgentMemberOTP}
                     />
 
                     <Route

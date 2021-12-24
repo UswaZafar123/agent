@@ -17,6 +17,7 @@ import Approved from "../Alerts/Approved";
 import Reject from "../Alerts/Reject";
 // import Dashboard from "../Dashboard/Dashboard";
 import { data } from "jquery";
+import { addAsset, deleteAsset, getAllAssets, updateAsset } from "../../services/agent/action";
 const { Option } = Select;
 
 class Ticket extends Component {
@@ -32,28 +33,19 @@ class Ticket extends Component {
       paginationGetCurrentPage: null,
       popup: false,
       columnDefs: [
-        { headerName: "Ticket NO", field: "ticketNo", width: 250 },
-        {
-          headerName: "Merchant/User",
-          cellRendererFramework: (params) => (
-            <span>{params.data.createdUser.name}</span>
-          ),
-        },
-        { headerName: "Subject ", field: "title" },
-        { headerName: "  Status ", field: "status" },
-        { headerName: "Priority ", field: "priority" },
-        { headerName: "Date ", field: "createdDateTime" },
+        { headerName: "Name", field: "name", width: 250 },
+        { headerName: "Status ", field: "status" },
         {
           headerName: "Action",
           field: "Action",
           cellRendererFramework: (params) => (
             <div className="ac-view">
-              <button onClick={(e) => this.viewTicket(e, params.data)}>
-                {"View"}
+              <button onClick={(e) => this.editAsset(e, params.data)}>
+                {"Edit"}
               </button>
               &ensp;
-              <button onClick={(e) => this.EditTicket(e, params.data)}>
-                {"Edit"}
+              <button onClick={(e) => this.deleteAsset(e, params.data)}>
+                {"Delete"}
               </button>
             </div>
           ),
@@ -63,6 +55,16 @@ class Ticket extends Component {
         },
       ],
       rowData: [],
+
+      assetData: [],
+
+      mainAssetView: true,
+      addAssetView: false,
+      editAssetView: false,
+
+      assetName: "",
+      assetStatus: false,
+      assetID: "",
     };
   }
   save = () => {
@@ -87,22 +89,50 @@ class Ticket extends Component {
     this.props.history.push("/Shops_Points_Sales/EditPOS");
   };
   addChange = () => {
-    this.props.history.push("/agent/tickets/add-ticket");
-  };
-
-  viewTicket = (e, data) => {
-    console.log(data, "datatatatat");
-    this.props.history.push({
-      pathname: "/tickets/reply",
-      state: { data: data.ticketNo },
-    });
-  };
-
-  EditTicket = (e, data) => {
+    // this.props.history.push("/agent/assets/add-asset");
     this.setState({
-      editStatus: true,
-      editData: data,
+      mainAssetView: false,
+      addAssetView: true,
+      assetName: "",
+      assetStatus: false,
     });
+  };
+
+  goToMainAssetPage = () => {
+    this.setState({
+      mainAssetView: true,
+      addAssetView: false,
+      editAssetView: false,
+      assetID: "",
+      assetName: "",
+      assetStatus: false
+    })
+  }
+
+  editAsset = (e, data) => {
+
+    // console.log(data.status,"active")
+
+    this.setState({
+      assetID: data.id,
+      assetName: data.name,
+      assetStatus: data.status,
+      editAssetView: true,
+      mainAssetView: false,
+    });
+
+    // this.props.history.push({
+    //   pathname: "/tickets/reply",
+    //   state: { data: data.ticketNo },
+    // });
+  };
+
+  deleteAsset = (e, data) => {
+
+    // console.log(data.id);
+
+    this.props.deleteAsset(data.id);
+
   };
 
   onGridReady = (params) => {
@@ -169,7 +199,7 @@ class Ticket extends Component {
         this.state.gridApi.paginationGetCurrentPage() + 1;
       document.getElementById("bTo").innerHTML =
         this.state.gridApi.paginationGetPageSize() *
-          this.state.gridApi.paginationGetCurrentPage() +
+        this.state.gridApi.paginationGetCurrentPage() +
         1;
 
       const changedV =
@@ -188,31 +218,26 @@ class Ticket extends Component {
   };
 
   componentDidMount() {
-    // this.props.getAllAssets(sessionStorage.getItem("token"));
+    this.props.getAllAssets(sessionStorage.getItem("token"));
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log("hello next", nextProps);
-    if (nextProps.ticketsStatus) {
-      this.setState({ rowData: nextProps.ticketsData });
+
+    if (nextProps.assetDetails) {
+      console.log("hello next", nextProps.assetDetails._embedded.assetDtoList);
+      this.setState({
+        assetData: nextProps.assetDetails._embedded.assetDtoList
+      })
     }
 
-    if (nextProps.ticketSummaryStatus) {
-      var summary = [];
-      var chek =
-        nextProps.ticketStatusData && nextProps.ticketStatusData.length > 0
-          ? nextProps.ticketStatusData.map((val) => {
-              summary.push({
-                status: val,
-                value: nextProps.ticketSummaryData[val]
-                  ? nextProps.ticketSummaryData[val]
-                  : 0,
-              });
-            })
-          : "";
-
-      this.setState({ summary });
+    if (nextProps.addAssetStatus && nextProps.addAssetData) {
+      this.goToMainAssetPage();
     }
+
+    if (nextProps.editAssetStatus && nextProps.editAssetData) {
+      this.goToMainAssetPage();
+    }
+
   }
 
   onFilterTextBoxChanged = () => {
@@ -236,156 +261,267 @@ class Ticket extends Component {
     this.state.gridApi.paginationGoToPreviousPage();
   };
 
+  onAddAsset = () => {
+    console.log(this.state.assetName, "ASSET NAME")
+    console.log(this.state.assetStatus, "ASSET STATUS")
+
+    const data = {
+      name: this.state.assetName,
+      active: this.state.assetStatus
+    }
+
+    this.props.addAsset(data);
+
+  }
+
+  onEditAsset = () => {
+    // console.log(this.state.assetName, "ASSET NAME")
+    // console.log(this.state.assetStatus, "ASSET STATUS")
+
+    let data = {
+      "assetId": this.state.assetID,
+      "name": this.state.assetName,
+      "active": this.state.assetStatus
+    }
+
+    // console.log(data, "EDIT DATA");
+
+    this.props.updateAsset(this.state.assetID, data);
+
+  }
+
   render() {
     console.log("show summary", this.state.summary);
     // console.log("jai",this.state.paginationGetCurrentPage)
     return (
       <>
-        <div className="main_contain responsive_p_a">
-          <div className="merch_m_list_w">
-            <div className="merch_list_card" id="merch_list_card">
-              <div className="section_custom">
-                <div className="sectionInn">
-                  <div className="chartCard_w">
-                    <div className="chartCardTop">
-                      <div className="kyccustomformheading">
-                        <h1 className="list_top_heading textAlignCenter text-center">
-                          Assets
-                        </h1>
-                        <button
-                          className="addposbtn c_first_pending_BTN btnMaxWidth"
-                          onClick={this.addChange}
-                        >
-                          Add Assets
-                        </button>
-                      </div>
-                    </div>
-                    <div
-                      className="chartCardMiddle"
-                      style={{ padding: "24px" }}
-                    >
-                      <div className="tableTop_wrapper">
-                        <div className="disFl">
-                          <h5 className="show_pp margin_right8">Show</h5>
-                          <div className="tableShowRecordPerPage">
-                            <Select
-                              defaultValue="10"
-                              style={{ width: 74, height: 27 }}
-                              onChange={this.handleChange}
-                              id={"page-size"}
-                            >
-                              <Option value="10">10</Option>
-                              <Option value="25">25</Option>
-                              <Option value="100">100</Option>
-                              {/* <Option value="all">all</Option> */}
-                            </Select>
-                          </div>
-
-                          <h5 className="show_pp margin_left8">Entries</h5>
-                          <div
-                            className="margin-left-auto"
-                            style={{ display: "flex", alignItems: "center" }}
-                          >
-                            <div className="shortCustom">
-                              <span className="icon-Asset-55"></span>
-                              <h6>Sort</h6>
-                            </div>
-                            <div className="shortCustom">
-                              <Dropdown
-                                overlay={
-                                  <ul class="filterDrd">
-                                    <li>
-                                      <a href="#">
-                                        <span class="icon-logout"></span>All
-                                      </a>
-                                    </li>
-                                    <li>
-                                      <a href="#">
-                                        <span class="icon-logout"></span>
-                                        Inactive
-                                      </a>
-                                    </li>
-                                    <li>
-                                      <a href="#">
-                                        <span class="icon-logout"></span>
-                                        Active
-                                      </a>
-                                    </li>
-                                  </ul>
-                                }
-                                placement="bottomLeft"
-                                trigger={["click"]}
+        {
+          this.state.mainAssetView && (
+            <>
+              <div className="main_contain responsive_p_a">
+                <div className="merch_m_list_w">
+                  <div className="merch_list_card" id="merch_list_card">
+                    <div className="section_custom">
+                      <div className="sectionInn">
+                        <div className="chartCard_w">
+                          <div className="chartCardTop">
+                            <div className="kyccustomformheading">
+                              <h1 className="list_top_heading textAlignCenter text-center">
+                                Assets
+                              </h1>
+                              <button
+                                className="addposbtn c_first_pending_BTN btnMaxWidth"
+                                onClick={this.addChange}
                               >
-                                <div className="shortCustom01">
-                                  <span className="icon-Asset-54"></span>
-                                  <h6>Filter</h6>
-                                </div>
-                              </Dropdown>
-                            </div>
-                            <div
-                              className="search_w_merchant_m"
-                              style={{ width: "270px" }}
-                            >
-                              <input
-                                type="search"
-                                placeholder="Search"
-                                id="filter-text-box"
-                                placeholder="Search"
-                                onChange={this.onFilterTextBoxChanged}
-                              />
+                                Add Assets
+                              </button>
                             </div>
                           </div>
-                        </div>
-                        {/* <div className="actionBtnWp">
+                          <div
+                            className="chartCardMiddle"
+                            style={{ padding: "24px" }}
+                          >
+                            <div className="tableTop_wrapper">
+                              <div className="disFl">
+                                <h5 className="show_pp margin_right8">Show</h5>
+                                <div className="tableShowRecordPerPage">
+                                  <Select
+                                    defaultValue="10"
+                                    style={{ width: 74, height: 27 }}
+                                    onChange={this.handleChange}
+                                    id={"page-size"}
+                                  >
+                                    <Option value="10">10</Option>
+                                    <Option value="25">25</Option>
+                                    <Option value="100">100</Option>
+                                    {/* <Option value="all">all</Option> */}
+                                  </Select>
+                                </div>
+
+                                <h5 className="show_pp margin_left8">Entries</h5>
+                                <div
+                                  className="margin-left-auto"
+                                  style={{ display: "flex", alignItems: "center" }}
+                                >
+                                  <div className="shortCustom">
+                                    <span className="icon-Asset-55"></span>
+                                    <h6>Sort</h6>
+                                  </div>
+                                  <div className="shortCustom">
+                                    <Dropdown
+                                      overlay={
+                                        <ul class="filterDrd">
+                                          <li>
+                                            <a href="#">
+                                              <span class="icon-logout"></span>All
+                                            </a>
+                                          </li>
+                                          <li>
+                                            <a href="#">
+                                              <span class="icon-logout"></span>
+                                              Inactive
+                                            </a>
+                                          </li>
+                                          <li>
+                                            <a href="#">
+                                              <span class="icon-logout"></span>
+                                              Active
+                                            </a>
+                                          </li>
+                                        </ul>
+                                      }
+                                      placement="bottomLeft"
+                                      trigger={["click"]}
+                                    >
+                                      <div className="shortCustom01">
+                                        <span className="icon-Asset-54"></span>
+                                        <h6>Filter</h6>
+                                      </div>
+                                    </Dropdown>
+                                  </div>
+                                  <div
+                                    className="search_w_merchant_m"
+                                    style={{ width: "270px" }}
+                                  >
+                                    <input
+                                      type="search"
+                                      placeholder="Search"
+                                      id="filter-text-box"
+                                      placeholder="Search"
+                                      onChange={this.onFilterTextBoxChanged}
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                              {/* <div className="actionBtnWp">
                                                 <span className="icon-Asset-51"></span>
                                                 <span className="icon-Asset-52"></span>
                                                 <span className="icon-Asset-53"></span>
                                             </div> */}
-                      </div>
-                      <div
-                        className="ag-theme-alpine agGridCustomize"
-                        style={{ height: 400, width: 100 + "%" }}
-                      >
-                        <AgGridReact
-                          rowHeight={55}
-                          defaultColDef={{ resizable: true }}
-                          onFirstDataRendered={this.onFirstDataRendered}
-                          columnDefs={this.state.columnDefs}
-                          rowData={this.state.rowData}
-                          pagination={true}
-                          onGridReady={this.onGridReady}
-                          onPaginationChanged={this.onPaginationChanged}
-                          paginationPageSize={10}
-                          suppressPaginationPanel={true}
-                        />
-                      </div>
-                      <div className="customAgFooter">
-                        <div className="showingFooter">
-                          <span>Showing</span>
-                          <span id="bTo"> </span>
-                          <span>to</span>
-                          <span id="afterTo"></span>
-                          <span>of</span>
-                          <span id="totalPageSize"></span>
-                          <span>entries</span>
+                            </div>
+                            <div
+                              className="ag-theme-alpine agGridCustomize"
+                              style={{ height: 400, width: 100 + "%" }}
+                            >
+                              <AgGridReact
+                                rowHeight={55}
+                                defaultColDef={{ resizable: true }}
+                                onFirstDataRendered={this.onFirstDataRendered}
+                                columnDefs={this.state.columnDefs}
+                                rowData={this.state.assetData.map((data) => {
+                                  return ({
+                                    id: data.assetId,
+                                    name: data.name,
+                                    status: data.active ? "Active" : "Inactive"
+                                  });
+                                })}
+                                pagination={true}
+                                onGridReady={this.onGridReady}
+                                onPaginationChanged={this.onPaginationChanged}
+                                paginationPageSize={10}
+                                suppressPaginationPanel={true}
+                              />
+                            </div>
+                            <div className="customAgFooter">
+                              <div className="showingFooter">
+                                <span>Showing</span>
+                                <span id="bTo"> </span>
+                                <span>to</span>
+                                <span id="afterTo"></span>
+                                <span>of</span>
+                                <span id="totalPageSize"></span>
+                                <span>entries</span>
+                              </div>
+                              <div className="NextPrevW">
+                                <button
+                                  className="NextPrev"
+                                  onClick={() => this.onBtPrevious()}
+                                >
+                                  Prev
+                                </button>
+                                <span
+                                  className="valueNextPrev"
+                                  id="lbCurrentPage"
+                                ></span>
+                                <button
+                                  className="NextPrev"
+                                  onClick={() => this.onBtNext()}
+                                >
+                                  Next
+                                </button>
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                        <div className="NextPrevW">
-                          <button
-                            className="NextPrev"
-                            onClick={() => this.onBtPrevious()}
-                          >
-                            Prev
-                          </button>
-                          <span
-                            className="valueNextPrev"
-                            id="lbCurrentPage"
-                          ></span>
-                          <button
-                            className="NextPrev"
-                            onClick={() => this.onBtNext()}
-                          >
-                            Next
-                          </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </>
+          )
+        }
+
+        {this.state.addAssetView && (
+          <>
+            <div className="main_contain agentformCenter">
+              <div className="merch_m_list_w">
+                <div className="merch_list_card" id="merch_list_card">
+                  <div className="section_custom">
+                    <div className="sectionInn">
+                      <div className="chartCard_w">
+                        <div className="chartCardTop">
+                          <div className="kyccustomformheading">
+                            <h1 className="list_top_heading textAlignCenter text-center">
+                              Add New Asset
+                            </h1>
+                          </div>
+                        </div>
+                        <div className="chartCardMiddle" style={{ padding: "24px" }}>
+
+                          <div className="containerBiaN_form">
+                            <div className="containerBiaN_f_row">
+                              <div className="containerBiaN_f_col width30percent textAlignRight">
+                                <label>Name<span className="mantdat">*</span></label>
+                              </div>
+                              <div className="containerBiaN_f_col width70percent">
+                                <input type="text" value={this.state.assetName} placeholder="Enter Asset Name" onChange={(e) => {
+                                  this.setState({
+                                    assetName: e.target.value
+                                  });
+                                }} />
+                              </div>
+                            </div>
+                            <div className="containerBiaN_f_row">
+                              <div className="containerBiaN_f_col width30percent textAlignRight">
+                                <label>Status <span className="mantdat">*</span></label>
+                              </div>
+                              <div className="containerBiaN_f_col width70percent">
+                                <div className="categorySelect">
+                                  <Select
+                                    defaultValue={this.state.assetStatus}
+                                    style={{ width: 100 + "%", height: 52 }}
+                                    onChange={(e) => {
+                                      this.setState({
+                                        assetStatus: e
+                                      });
+                                    }}
+                                    id={'page-size'}
+                                  >
+                                    <Option value={true}>Active</Option>
+                                    <Option value={false}>Inactive</Option>
+                                  </Select>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div style={{ width: "100%", float: "left" }}>
+                            <div className="confirm_p_w mTB00 button-container rspacing">
+                              <button className="blackbtn aryousureBTN confirmBtnR" onClick={this.goToMainAssetPage}>Cancel</button>
+                              <button className="aryousureBTN confirmBtnR" onClick={this.onAddAsset}>Submit</button>
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -393,18 +529,101 @@ class Ticket extends Component {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+          </>
+        )}
+
+        {this.state.editAssetView && (
+          <>
+            <div className="main_contain agentformCenter">
+              <div className="merch_m_list_w">
+                <div className="merch_list_card" id="merch_list_card">
+                  <div className="section_custom">
+                    <div className="sectionInn">
+                      <div className="chartCard_w">
+                        <div className="chartCardTop">
+                          <div className="kyccustomformheading">
+                            <h1 className="list_top_heading textAlignCenter text-center">
+                              Update Asset
+                            </h1>
+                          </div>
+                        </div>
+                        <div className="chartCardMiddle" style={{ padding: "24px" }}>
+
+                          <div className="containerBiaN_form">
+                            <div className="containerBiaN_f_row">
+                              <div className="containerBiaN_f_col width30percent textAlignRight">
+                                <label>Name<span className="mantdat">*</span></label>
+                              </div>
+                              <div className="containerBiaN_f_col width70percent">
+                                <input type="text" value={this.state.assetName} placeholder="Enter Asset Name" onChange={(e) => {
+                                  this.setState({
+                                    assetName: e.target.value
+                                  });
+                                }} />
+                              </div>
+                            </div>
+                            <div className="containerBiaN_f_row">
+                              <div className="containerBiaN_f_col width30percent textAlignRight">
+                                <label>Status <span className="mantdat">*</span></label>
+                              </div>
+                              <div className="containerBiaN_f_col width70percent">
+                                <div className="categorySelect">
+                                  <Select
+                                    defaultValue={this.state.assetStatus}
+                                    style={{ width: 100 + "%", height: 52 }}
+                                    onChange={(e) => {
+                                      this.setState({
+                                        assetStatus: e
+                                      });
+                                    }}
+                                    id={'page-size'}
+                                  >
+                                    <Option value={true}>Active</Option>
+                                    <Option value={false}>Inactive</Option>
+                                  </Select>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div style={{ width: "100%", float: "left" }}>
+                            <div className="confirm_p_w mTB00 button-container rspacing">
+                              <button className="blackbtn aryousureBTN confirmBtnR" onClick={this.goToMainAssetPage}>Cancel</button>
+                              <button className="aryousureBTN confirmBtnR" onClick={this.onEditAsset}>Update</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </>
+        )
+
+        }
       </>
     );
   }
 }
-const mapStateToProps = ({ }) => {
- 
+const mapStateToProps = ({ agentReducer }) => {
+
+  return {
+    addAssetStatus: agentReducer.addAssetStatus,
+    addAssetData: agentReducer.addAssetData,
+    assetDetails: agentReducer.assetDetails,
+    editAssetStatus: agentReducer.editAssetStatus,
+    editAssetData: agentReducer.editAssetData
+  }
+
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  // getAllAssets: () => dispatch(getAllAssets()),
+  getAllAssets: () => dispatch(getAllAssets()),
+  addAsset: (payload) => dispatch(addAsset(payload)),
+  deleteAsset: (id) => dispatch(deleteAsset(id)),
+  updateAsset: (id, payload) => dispatch(updateAsset(id, payload))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Ticket);

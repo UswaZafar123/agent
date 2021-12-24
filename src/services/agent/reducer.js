@@ -47,11 +47,15 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         agentOTPStatus: true,
+        agentSetPasswordStatus: false,
+        agentOTPValidStatus: false,
       };
     case actionType.AGENT_BANKER_OTP_FAILURE:
       return {
         ...state,
         agentOTPStatus: false,
+        agentSetPasswordStatus: false,
+        agentOTPValidStatus: false,
       };
     case actionType.AGENT_BANKER_OTP_VALID:
       return {
@@ -1091,7 +1095,7 @@ const agentReducer = (state = initialState, action) => {
         ...state,
         profileDetails: action.payload,
       };
-    case actionType.GET_PROFILE_SUCCESS:
+    case actionType.GET_PROFILE_FAILURE:
       return {
         ...state,
         profileDetails: null,
@@ -1168,15 +1172,63 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         assetStatus: false,
-
         assetDetails: null,
+      };
+    case actionType.ADD_ASSET_SUCCESS:
+      return {
+        ...state,
+        addAssetStatus: true,
+        addAssetData: action.payload,
+      };
+
+    case actionType.DELETE_ASSET_SUCCESS:
+      return {
+        ...state,
+        deleteAssetStatus: true,
+        deleteAssetData: action.payload,
+        addAssetStatus: false,
+        addAssetData: null,
+      };
+    case actionType.DELETE_ASSET_FAILURE:
+      return {
+        ...state,
+        deleteAssetStatus: false,
+        deleteAssetData: null,
+        addAssetStatus: false,
+        addAssetData: null,
+      };
+    case actionType.EDIT_ASSET_SUCCESS:
+      return {
+        ...state,
+        editAssetStatus: true,
+        editAssetData: action.payload,
+        deleteAssetStatus: false,
+        deleteAssetData: null,
+        addAssetStatus: false,
+        addAssetData: null,
+      };
+    case actionType.EDIT_ASSET_FAILURE:
+      return {
+        ...state,
+        editAssetStatus: false,
+        editAssetData: null,
+        deleteAssetStatus: false,
+        deleteAssetData: null,
+        addAssetStatus: false,
+        addAssetData: null,
+      };
+
+    case actionType.ADD_ASSET_FAILURE:
+      return {
+        ...state,
+        addAssetStatus: false,
+        addAssetData: null,
       };
     case actionType.ASSETS_NULLABLE:
       return {
         ...state,
         assetStatus: "nullable",
       };
-
     case actionType.GET_OPERATIONS_SUCCESS:
       return {
         ...state,
@@ -1215,6 +1267,98 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         a_package_status: "nullable",
+      };
+    case actionType.UPDATE_ROLE_PERMISSION_SUCCESS:
+      return {
+        ...state,
+        updateRolePermissionStatus: true,
+        updateRolePermissionData: action.payload,
+      };
+    case actionType.UPDATE_ROLE_PERMISSION_FAILURE:
+      return {
+        ...state,
+        updateRolePermissionStatus: false,
+        updateRolePermissionData: null,
+      };
+    case actionType.ADD_COMMISSION_SUCCESS:
+      return {
+        ...state,
+        addCommissionStatus: true,
+        addCommissionData: action.payload,
+        deleteCommissionStatus: false,
+        deleteCommissionData: null,
+        editCommissionStatus: false,
+        editCommissionData: null,
+      };
+    case actionType.ADD_COMMISSION_FAILURE:
+      return {
+        ...state,
+        addCommissionStatus: false,
+        addCommissionData: null,
+        deleteCommissionStatus: false,
+        deleteCommissionData: null,
+        editCommissionStatus: false,
+        editCommissionData: null,
+      };
+    case actionType.GET_COMMISSION_SUCCESS:
+      return {
+        ...state,
+        addCommissionStatus: false,
+        addCommissionData: null,
+        getCommissionStatus: true,
+        getCommissionData: action.payload,
+        editCommissionStatus: false,
+        editCommissionData: null,
+      };
+    case actionType.GET_COMMISSION_FAILURE:
+      return {
+        ...state,
+        addCommissionStatus: false,
+        addCommissionData: null,
+        getCommissionStatus: false,
+        getCommissionData: null,
+        editCommissionStatus: false,
+        editCommissionData: null,
+      };
+    case actionType.DELETE_COMMISSION_SUCCESS:
+      return {
+        ...state,
+        addCommissionStatus: false,
+        addCommissionData: null,
+        deleteCommissionStatus: true,
+        deleteCommissionData: action.payload,
+        editCommissionStatus: false,
+        editCommissionData: null,
+      };
+    case actionType.DELETE_COMMISSION_FAILURE:
+      return {
+        ...state,
+        addCommissionStatus: false,
+        addCommissionData: null,
+        deleteCommissionStatus: false,
+        deleteCommissionData: null,
+        editCommissionStatus: false,
+        editCommissionData: null,
+      };
+    case actionType.EDIT_COMMISSION_SUCCESS:
+      return {
+        ...state,
+        addCommissionStatus: false,
+        addCommissionData: null,
+        deleteCommissionStatus: false,
+        deleteCommissionData: null,
+        editCommissionStatus: true,
+        editCommissionData: action.payload,
+      };
+    case actionType.EDIT_COMMISSION_FAILURE:
+      return {
+        ...state,
+        addCommissionStatus: false,
+        addCommissionData: null,
+        deleteCommissionStatus: false,
+        deleteCommissionData: null,
+        editCommissionStatus: false,
+        editCommissionData: null,
       };
     default:
       return state;

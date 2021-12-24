@@ -1695,3 +1695,6 @@ input[type="text"], input[type="email"], input[type="password"], input[type="fil
     height: auto;
     margin-left: 12px;
 }
+.ant-picker{
+  height: 50px !important;
+}
