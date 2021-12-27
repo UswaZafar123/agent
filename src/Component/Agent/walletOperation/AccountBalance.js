@@ -81,7 +81,7 @@ const WalletAccountBalance = () => {
         type: actionType.CUSTOMER_OTP_SEND_RESET,
       });
       dispatch({
-        type: actionType.CUSTOMER_WALLET_CASH_DEPOSIT_RESET,
+        type: actionType.CUSTOMER_BALANCE_INQUIRY_RESET,
       });
       setStep(1);
     };
@@ -194,7 +194,7 @@ const WalletAccountBalance = () => {
       type: actionType.CUSTOMER_OTP_SEND_RESET,
     });
     dispatch({
-      type: actionType.CUSTOMER_WALLET_CASH_DEPOSIT_RESET,
+      type: actionType.CUSTOMER_BALANCE_INQUIRY_RESET,
     });
     setPhoneNumber("");
     setIdDocumentNumber("");

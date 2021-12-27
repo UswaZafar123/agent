@@ -190,7 +190,7 @@ export const walletStatementInquiryAction = (payload) => (dispatch) => {
   axios(config)
     .then((res) => {
       if (res.status === 200) {
-        toastr.success("Balance detail has been sent.");
+        toastr.success("Statement detail has been sent.");
         dispatch({
           type: actionType.CUSTOMER_STATEMENT_INQUIRY_SUCCESS,
         });

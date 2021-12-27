@@ -36,8 +36,8 @@ const WalletAccountStatement = () => {
   ];
   const sendTypes = [
     { name: "Email", value: "EMAIL" },
-    { name: "SMS", value: "SMS" },
-    { name: "Both", value: "BOTH" },
+    // { name: "SMS", value: "SMS" },
+    // { name: "Both", value: "BOTH" },
   ];
 
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -83,7 +83,7 @@ const WalletAccountStatement = () => {
         type: actionType.CUSTOMER_OTP_SEND_RESET,
       });
       dispatch({
-        type: actionType.CUSTOMER_WALLET_CASH_DEPOSIT_RESET,
+        type: actionType.CUSTOMER_STATEMENT_INQUIRY_RESET,
       });
       setStep(1);
     };
@@ -130,6 +130,8 @@ const WalletAccountStatement = () => {
       validator.isEmpty(selectedDocumentType) ||
       validator.isEmpty(idDocumentNumber) ||
       validator.isEmpty(selectedSendType) ||
+      validator.isEmpty(startDate) ||
+      validator.isEmpty(endDate) ||
       loadingCustomerValidation
     );
   };
@@ -196,7 +198,7 @@ const WalletAccountStatement = () => {
       type: actionType.CUSTOMER_OTP_SEND_RESET,
     });
     dispatch({
-      type: actionType.CUSTOMER_WALLET_CASH_DEPOSIT_RESET,
+      type: actionType.CUSTOMER_STATEMENT_INQUIRY_RESET,
     });
     setPhoneNumber("");
     setStartDate("");
