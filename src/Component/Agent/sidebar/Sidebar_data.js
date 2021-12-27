@@ -76,7 +76,7 @@ export const Side_bar_data = [
     id: 5,
   },
   {
-    title: "Customer Registration",
+    title: "Account Opening",
     path: "/admin/agents",
     iconClass: "icon-Asset-2",
     id: 8,
