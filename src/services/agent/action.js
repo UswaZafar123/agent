@@ -365,12 +365,137 @@ export const getAllOperations = () => (dispatch) => {
           type: actionType.GET_OPERATIONS_SUCCESS,
           payload: res.data,
         });
+        dispatch({
+          type: actionType.ADD_OPERATIONS_FAILURE,
+        });
       }
     })
     .catch((error) => {
       toastr.warning("failed to retrieve operation");
       dispatch({
         type: actionType.GET_OPERATIONS_FAILURE,
+      });
+      dispatch({
+        type: actionType.ADD_OPERATIONS_FAILURE,
+      });
+    });
+};
+
+export const addOperation = (payload) => (dispatch) => {
+  const config = {
+    method: "POST",
+    url: URL.agent.GET_OPERATIONS,
+    data: payload,
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+  axios(config)
+    .then((res) => {
+      if (res.status === 201) {
+        toastr.success("operation created Successfully");
+        dispatch({
+          type: actionType.ADD_OPERATIONS_SUCCESS,
+          payload: res.data,
+        });
+        dispatch({
+          type: actionType.DELETE_OPERATIONS_FAILURE,
+        });
+        dispatch({
+          type: actionType.EDIT_OPERATIONS_FAILURE,
+        });
+        dispatch(getAllOperations());
+      }
+    })
+    .catch((error) => {
+      toastr.warning("failed to add operation");
+      dispatch({
+        type: actionType.ADD_OPERATIONS_FAILURE,
+      });
+      dispatch({
+        type: actionType.DELETE_OPERATIONS_FAILURE,
+      });
+      dispatch({
+        type: actionType.EDIT_OPERATIONS_FAILURE,
+      });
+    });
+};
+
+export const deleteOperation = (id) => (dispatch) => {
+  const config = {
+    method: "DELETE",
+    url: URL.agent.GET_OPERATIONS + "/" + id,
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+  axios(config)
+    .then((res) => {
+      if (res.status === 204) {
+        toastr.success("operation deleted Successfully");
+        dispatch({
+          type: actionType.DELETE_OPERATIONS_SUCCESS,
+          payload: res.data,
+        });
+        dispatch({
+          type: actionType.ADD_OPERATIONS_FAILURE,
+        });
+        dispatch({
+          type: actionType.EDIT_OPERATIONS_FAILURE,
+        });
+        dispatch(getAllOperations());
+      }
+    })
+    .catch((error) => {
+      toastr.warning("failed to delete operation");
+      dispatch({
+        type: actionType.DELETE_OPERATIONS_FAILURE,
+      });
+      dispatch({
+        type: actionType.ADD_OPERATIONS_FAILURE,
+      });
+      dispatch({
+        type: actionType.EDIT_OPERATIONS_FAILURE,
+      });
+    });
+};
+
+export const editOperation = (id, payload) => (dispatch) => {
+  const config = {
+    method: "PUT",
+    url: URL.agent.GET_OPERATIONS + "/" + id,
+    data: payload,
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+  axios(config)
+    .then((res) => {
+      if (res.status === 201) {
+        toastr.success("operation updated Successfully");
+        dispatch({
+          type: actionType.EDIT_OPERATIONS_SUCCESS,
+          payload: res.data,
+        });
+        dispatch({
+          type: actionType.ADD_OPERATIONS_FAILURE,
+        });
+        dispatch({
+          type: actionType.DELETE_OPERATIONS_FAILURE,
+        });
+        dispatch(getAllOperations());
+      }
+    })
+    .catch((error) => {
+      toastr.warning("failed to edit operation");
+      dispatch({
+        type: actionType.EDIT_OPERATIONS_FAILURE,
+      });
+      dispatch({
+        type: actionType.ADD_OPERATIONS_FAILURE,
+      });
+      dispatch({
+        type: actionType.DELETE_OPERATIONS_FAILURE,
       });
     });
 };

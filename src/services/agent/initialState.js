@@ -185,6 +185,9 @@ const initialState = {
   assetDetails: null,
   operationStatus: "nullable",
   operationDetails: null,
+  addOperationStatus: false,
+  editOperationStatus: false,
+  deleteOperationStatus: false,
   a_package_status: "nullable",
   a_package_details: null,
   //   viewProPicStatus: false
@@ -205,6 +208,23 @@ const initialState = {
   customerBankCashWithdraw: customerBankCashWithdrawState,
   agentWalletCashIn: agentWalletCashInState,
   agentWalletCashOut: agentWalletCashOutState,
+
+  addCommissionStatus: false,
+  addCommissionData: null,
+  getCommissionStatus: false,
+  getCommissionData: null,
+  deleteCommissionStatus: false,
+  deleteCommissionData: null,
+  editCommissionStatus: true,
+  editCommissionData: null,
+
+  addAssetStatus: false,
+  addAssetData: null,
+  deleteAssetStatus: true,
+  deleteAssetData: null,
+  editAssetStatus: false,
+  editAssetData: null,
+
   customerDetail: customerDetailState,
   agentSendMoney: agentSendMoneyState,
   feeDetail: feeDetailState,

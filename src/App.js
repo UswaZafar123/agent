@@ -102,7 +102,8 @@ import ValidateSuperAgentId from "./Component/page/AccountLinking/validateSuperA
 import CashOperations from "./Component/page/Cash Operations/CashOperations";
 import ticketReply from "./Component/Agent/ticketReply";
 import Assets from "./Component/Agent/assets";
-import ForgotPassword from "./Component/Agent/ForgotPassword";
+import ForgotPassword from "./Component/Agent/ForgotPassword"
+import Operations from "./Component/Agent/Operations";
 
 export const App = (props) => {
   return (
@@ -186,6 +187,8 @@ export const App = (props) => {
                     />
 
                     <Route path="/agent/assets" component={Assets} />
+
+                    <Route path="/agent/operations" component={Operations} />
 
                     <Route
                       path="/agent/walletOperation/WalletToAccount1"
