@@ -29,8 +29,8 @@ import WalletToAccount2 from "./Component/Agent/walletOperation/WalletToAccount2
 import WalletToAccount1 from "./Component/Agent/walletOperation/WalletToAccount1";
 import WalletToWallet from "./Component/Agent/walletOperation/WalletToWallet";
 import WalletToWallet2 from "./Component/Agent/walletOperation/WalletToWallet2";
-//import AccountBalance from "./Component/Agent/walletOperation/AccountBalance";
-//import AccountStatement from "./Component/Agent/walletOperation/AccountStatement";
+import WalletAccountBalance from "./Component/Agent/walletOperation/AccountBalance";
+import WalletAccountStatement from "./Component/Agent/walletOperation/AccountStatement";
 //import ServicePayment from "./Component/Agent/walletOperation/ServicePayment";
 import TaxPayment from "./Component/Agent/walletOperation/TaxPayment";
 import TaxPaymentResum from "./Component/Agent/walletOperation/TaxPaymentResum";
@@ -53,8 +53,8 @@ import TaxationProof from "./Component/page/kyc/taxationProof";
 import LoanApplication from "./Component/page/Loan_Application/loanApplication";
 
 import Transfer from "./Component/Banking/transfer";
-import AccountBalance from "./Component/Banking/accountBalance";
-import AccountStatement from "./Component/Banking/accountStatement";
+import BankAccountBalance from "./Component/Banking/accountBalance";
+import BankAccountStatement from "./Component/Banking/accountStatement";
 import CashDeposit from "./Component/Banking/cashDeposit";
 import CashWithdrawal from "./Component/Banking/cashWithdrawal";
 import ServicePayment from "./Component/Banking/servicePayment";
@@ -216,11 +216,11 @@ export const App = (props) => {
 
                     <Route
                       path="/agent/walletOperation/AccountBalance"
-                      component={AccountBalance}
+                      component={WalletAccountBalance}
                     />
                     <Route
                       path="/agent/walletOperation/AccountStatement"
-                      component={AccountStatement}
+                      component={WalletAccountStatement}
                     />
 
                     <Route
@@ -287,7 +287,7 @@ export const App = (props) => {
                     />
                     <Route
                       path="/agent/AccountBalance"
-                      component={AccountBalance}
+                      component={BankAccountBalance}
                     />
 
                     <Route path="/Admin/Transfer" component={SendMoney1} />
@@ -313,11 +313,11 @@ export const App = (props) => {
                     />
                     <Route
                       path="/admin/banking/account_balance"
-                      component={AccountBalance}
+                      component={BankAccountBalance}
                     />
                     <Route
                       path="/admin/banking/account_statement"
-                      component={AccountStatement}
+                      component={BankAccountStatement}
                     />
                     <Route
                       path="/admin/banking/cash_deposit_bank"

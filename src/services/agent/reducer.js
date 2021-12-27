@@ -954,6 +954,82 @@ const agentReducer = (state = initialState, action) => {
         },
       };
 
+    case actionType.CUSTOMER_BALANCE_INQUIRY_FETCH:
+      return {
+        ...state,
+        customerBalanceInquiry: {
+          ...state.customerBalanceInquiry,
+          loading: true,
+        },
+      };
+    case actionType.CUSTOMER_BALANCE_INQUIRY_SUCCESS:
+      return {
+        ...state,
+        customerBalanceInquiry: {
+          ...state.customerBalanceInquiry,
+          loading: false,
+          success: true,
+        },
+      };
+    case actionType.CUSTOMER_BALANCE_INQUIRY_ERROR:
+      return {
+        ...state,
+        customerBalanceInquiry: {
+          ...state.customerBalanceInquiry,
+          loading: false,
+          success: false,
+          error: true,
+        },
+      };
+    case actionType.CUSTOMER_BALANCE_INQUIRY_RESET:
+      return {
+        ...state,
+        customerBalanceInquiry: {
+          ...state.customerBalanceInquiry,
+          loading: false,
+          success: false,
+          error: false,
+        },
+      };
+
+    case actionType.CUSTOMER_STATEMENT_INQUIRY_FETCH:
+      return {
+        ...state,
+        customerStatementInquiry: {
+          ...state.customerStatementInquiry,
+          loading: true,
+        },
+      };
+    case actionType.CUSTOMER_STATEMENT_INQUIRY_SUCCESS:
+      return {
+        ...state,
+        customerStatementInquiry: {
+          ...state.customerStatementInquiry,
+          loading: false,
+          success: true,
+        },
+      };
+    case actionType.CUSTOMER_STATEMENT_INQUIRY_ERROR:
+      return {
+        ...state,
+        customerStatementInquiry: {
+          ...state.customerStatementInquiry,
+          loading: false,
+          success: false,
+          error: true,
+        },
+      };
+    case actionType.CUSTOMER_STATEMENT_INQUIRY_RESET:
+      return {
+        ...state,
+        customerStatementInquiry: {
+          ...state.customerStatementInquiry,
+          loading: false,
+          success: false,
+          error: false,
+        },
+      };
+
     case actionType.SEND_KYC_SUCCESS:
       return {
         ...state,

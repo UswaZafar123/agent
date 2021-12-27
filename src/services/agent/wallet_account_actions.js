@@ -138,3 +138,73 @@ export const agentSendMoneyAction = (payload) => (dispatch) => {
       });
     });
 };
+
+export const walletBalanceInquiryAction = (payload) => (dispatch) => {
+  const config = {
+    method: "POST",
+    url: URL.agent.WALLET_BALANCE_INQUIRY,
+    data: payload,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+  dispatch({
+    type: actionType.CUSTOMER_BALANCE_INQUIRY_FETCH,
+  });
+  axios(config)
+    .then((res) => {
+      if (res.status === 200) {
+        toastr.success("Balance detail has been sent.");
+        dispatch({
+          type: actionType.CUSTOMER_BALANCE_INQUIRY_SUCCESS,
+        });
+      }
+    })
+    .catch((error) => {
+      if (error.response.data.detail) {
+        toastr.error(error.response.data.detail);
+      } else {
+        toastr.error("Unable to process the request");
+      }
+      dispatch({
+        type: actionType.CUSTOMER_BALANCE_INQUIRY_ERROR,
+        payload: error,
+      });
+    });
+};
+
+export const walletStatementInquiryAction = (payload) => (dispatch) => {
+  const config = {
+    method: "POST",
+    url: URL.agent.WALLET_STATEMENT_INQUIRY,
+    data: payload,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+  dispatch({
+    type: actionType.CUSTOMER_STATEMENT_INQUIRY_FETCH,
+  });
+  axios(config)
+    .then((res) => {
+      if (res.status === 200) {
+        toastr.success("Balance detail has been sent.");
+        dispatch({
+          type: actionType.CUSTOMER_STATEMENT_INQUIRY_SUCCESS,
+        });
+      }
+    })
+    .catch((error) => {
+      if (error.response.data.detail) {
+        toastr.error(error.response.data.detail);
+      } else {
+        toastr.error("Unable to process the request");
+      }
+      dispatch({
+        type: actionType.CUSTOMER_STATEMENT_INQUIRY_ERROR,
+        payload: error,
+      });
+    });
+};
