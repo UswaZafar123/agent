@@ -13,6 +13,7 @@ import moment from "moment";
 import { RegisterService } from "../../../services/agent/action";
 import { Upload, Modal } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
+import { Checkbox } from "@material-ui/core";
 
 class Register extends Component {
   constructor() {
@@ -77,6 +78,7 @@ class Register extends Component {
 
       viewSummaryVisible: false,
       isMobile: false,
+      isPrivacyPolicyAgree: false,
     };
   }
 
@@ -502,7 +504,7 @@ class Register extends Component {
         <section className="loginWrapper accountWrapper">
           <NavBar />
           <div className="col-sm-12 indAccountRegContainer">
-            <div className="loginInner">
+            <div className="loginInner" style={{ width: "50%" }}>
               <div className="row" style={{ display: "none" }}>
                 <h1 className="title">Welcome to Afriland Bank!</h1>
 
@@ -1100,8 +1102,13 @@ class Register extends Component {
                         style={{ justifyContent: "center", display: "flex" }}
                       >
                         <label className="privacy_policy">
-                          i agree to the <a>terms & conditions </a> and{" "}
-                          <a>privacy policy of sara banking</a>
+                          <Checkbox value={this.state.isPrivacyPolicyAgree} onChange={(e) => {
+                            this.setState({
+                              isPrivacyPolicyAgree: e.target.checked
+                            });
+                          }} />
+                          i agree to the <a style={{ fontWeight: "bold" }}>terms & conditions </a>and{" "}
+                          <a style={{ fontWeight: "bold" }}>privacy policy of sara banking</a>
                         </label>
                       </div>
                     </div>
@@ -1121,245 +1128,245 @@ class Register extends Component {
                           Registration Summary
                         </h1>
 
-                        <div style={{"overflow-x":"auto"}}>
-                        <table className="table" style={{ width: "100%" }}>
-                          <tr>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                          </tr>
-                          <tr className="summaryRow">
-                            <td className="summaryLabel">Firstname : </td>
-                            <td className="summaryValue">
-                              {this.state.firstName}
-                            </td>
-                            <td className="summaryLabel">Lastname : </td>
-                            <td className="summaryValue">
-                              {this.state.lastName}
-                            </td>
-                          </tr>
-                          <tr className="summaryRow">
-                            <td className="summaryLabel">Email : </td>
-                            <td className="summaryValue">{this.state.email}</td>
-                            <td className="summaryLabel">Phone Number : </td>
-                            <td className="summaryValue">
-                              {this.state.mobileNumber}
-                            </td>
-                          </tr>
-                          <tr className="summaryRow">
-                            <td className="summaryLabel">Date of Birth : </td>
-                            <td className="summaryValue">
-                              {moment(new Date(this.state.dob)).format(
-                                "YYYY-MM-DD"
+                        <div style={{ "overflow-x": "auto" }}>
+                          <table className="table" style={{ width: "100%" }}>
+                            <tr>
+                              <th></th>
+                              <th></th>
+                              <th></th>
+                              <th></th>
+                            </tr>
+                            <tr className="summaryRow">
+                              <td className="summaryLabel">Firstname : </td>
+                              <td className="summaryValue">
+                                {this.state.firstName}
+                              </td>
+                              <td className="summaryLabel">Lastname : </td>
+                              <td className="summaryValue">
+                                {this.state.lastName}
+                              </td>
+                            </tr>
+                            <tr className="summaryRow">
+                              <td className="summaryLabel">Email : </td>
+                              <td className="summaryValue">{this.state.email}</td>
+                              <td className="summaryLabel">Phone Number : </td>
+                              <td className="summaryValue">
+                                {this.state.mobileNumber}
+                              </td>
+                            </tr>
+                            <tr className="summaryRow">
+                              <td className="summaryLabel">Date of Birth : </td>
+                              <td className="summaryValue">
+                                {moment(new Date(this.state.dob)).format(
+                                  "YYYY-MM-DD"
+                                )}
+                              </td>
+                              <td className="summaryLabel">Gender : </td>
+                              <td className="summaryValue">
+                                {this.state.gender}
+                              </td>
+                            </tr>
+                            <tr className="summaryRow">
+                              <td className="summaryLabel">ID Type : </td>
+                              <td className="summaryValue">
+                                {this.state.documentName}
+                              </td>
+                              <td className="summaryLabel">
+                                {this.state.documentType === "ID_DOCUMENT"
+                                  ? "ID Card Number"
+                                  : "Passport Number"}
+                              </td>
+                              <td className="summaryValue">
+                                {this.state.idDocumentIdNumber}
+                              </td>
+                            </tr>
+                            {sessionStorage.getItem("accountType") !==
+                              "Individual" && (
+                                <>
+                                  <tr className="summaryRow">
+                                    <td className="summaryLabel">
+                                      Business Address :
+                                    </td>
+                                    <td className="summaryValue">
+                                      {this.state.agentBusinessAddress}
+                                    </td>
+                                    <td className="summaryLabel">
+                                      Business City :{" "}
+                                    </td>
+                                    <td className="summaryValue">
+                                      {this.state.agentBusinessCity}
+                                    </td>
+                                  </tr>
+                                </>
                               )}
-                            </td>
-                            <td className="summaryLabel">Gender : </td>
-                            <td className="summaryValue">
-                              {this.state.gender}
-                            </td>
-                          </tr>
-                          <tr className="summaryRow">
-                            <td className="summaryLabel">ID Type : </td>
-                            <td className="summaryValue">
-                              {this.state.documentName}
-                            </td>
-                            <td className="summaryLabel">
-                              {this.state.documentType === "ID_DOCUMENT"
-                                ? "ID Card Number"
-                                : "Passport Number"}
-                            </td>
-                            <td className="summaryValue">
-                              {this.state.idDocumentIdNumber}
-                            </td>
-                          </tr>
-                          {sessionStorage.getItem("accountType") !==
-                            "Individual" && (
-                            <>
-                              <tr className="summaryRow">
-                                <td className="summaryLabel">
-                                  Business Address :
-                                </td>
-                                <td className="summaryValue">
-                                  {this.state.agentBusinessAddress}
-                                </td>
-                                <td className="summaryLabel">
-                                  Business City :{" "}
-                                </td>
-                                <td className="summaryValue">
-                                  {this.state.agentBusinessCity}
-                                </td>
-                              </tr>
-                            </>
-                          )}
 
-                          <tr className="summaryRow">
-                            <td className="summaryLabel">
-                              ID Card Front Image :{" "}
-                            </td>
-                            <td className="summaryValue">
-                              <img
-                                className="imgThumbnailStyle"
-                                src={this.state.idFrontImageFile.thumbUrl}
-                              />
-                            </td>
-                            <td className="summaryLabel">
-                              ID Card Back Image :
-                            </td>
-                            <td className="summaryValue">
-                              <img
-                                className="imgThumbnailStyle"
-                                src={this.state.idBackImageFile.thumbUrl}
-                              />
-                            </td>
-                          </tr>
-                          <tr className="summaryRow">
-                            <td className="summaryLabel">Expiration Date :</td>
-                            <td className="summaryValue">
-                              {moment(
-                                new Date(this.state.setExpirationDate)
-                              ).format("YYYY-MM-DD")}
-                            </td>
-                            <td className="summaryLabel">City : </td>
-                            <td className="summaryValue">{this.state.city}</td>
-                          </tr>
-                          <tr className="summaryRow">
-                            <td className="summaryLabel">Address : </td>
-                            <td className="summaryValue">
-                              {this.state.address1}
-                            </td>
-                            <td className="summaryLabel"></td>
-                            <td className="summaryValue"></td>
-                          </tr>
-                          {sessionStorage.getItem("accountType") ==
-                            "Individual" && (
-                            <>
-                              <tr className="summaryRow">
-                                <td className="summaryLabel">
-                                  ID Card Front Image :{" "}
-                                </td>
-                                <td className="summaryValue">
-                                  <img
-                                    className="imgThumbnailStyle"
-                                    src={
-                                      this.state.idFrontBusinessImageFile
-                                        .thumbUrl
-                                    }
-                                  />
-                                </td>
-                                <td className="summaryLabel">
-                                  Proof of Address :
-                                </td>
-                                <td className="summaryValue">
-                                  <img
-                                    className="imgThumbnailStyle"
-                                    src={this.state.idAddressFile.thumbUrl}
-                                  />
-                                </td>
-                              </tr>
-                            </>
-                          )}
-                        </table>
+                            <tr className="summaryRow">
+                              <td className="summaryLabel">
+                                ID Card Front Image :{" "}
+                              </td>
+                              <td className="summaryValue">
+                                <img
+                                  className="imgThumbnailStyle"
+                                  src={this.state.idFrontImageFile.thumbUrl}
+                                />
+                              </td>
+                              <td className="summaryLabel">
+                                ID Card Back Image :
+                              </td>
+                              <td className="summaryValue">
+                                <img
+                                  className="imgThumbnailStyle"
+                                  src={this.state.idBackImageFile.thumbUrl}
+                                />
+                              </td>
+                            </tr>
+                            <tr className="summaryRow">
+                              <td className="summaryLabel">Expiration Date :</td>
+                              <td className="summaryValue">
+                                {moment(
+                                  new Date(this.state.setExpirationDate)
+                                ).format("YYYY-MM-DD")}
+                              </td>
+                              <td className="summaryLabel">City : </td>
+                              <td className="summaryValue">{this.state.city}</td>
+                            </tr>
+                            <tr className="summaryRow">
+                              <td className="summaryLabel">Address : </td>
+                              <td className="summaryValue">
+                                {this.state.address1}
+                              </td>
+                              <td className="summaryLabel"></td>
+                              <td className="summaryValue"></td>
+                            </tr>
+                            {sessionStorage.getItem("accountType") ==
+                              "Individual" && (
+                                <>
+                                  <tr className="summaryRow">
+                                    <td className="summaryLabel">
+                                      ID Card Front Image :{" "}
+                                    </td>
+                                    <td className="summaryValue">
+                                      <img
+                                        className="imgThumbnailStyle"
+                                        src={
+                                          this.state.idFrontBusinessImageFile
+                                            .thumbUrl
+                                        }
+                                      />
+                                    </td>
+                                    <td className="summaryLabel">
+                                      Proof of Address :
+                                    </td>
+                                    <td className="summaryValue">
+                                      <img
+                                        className="imgThumbnailStyle"
+                                        src={this.state.idAddressFile.thumbUrl}
+                                      />
+                                    </td>
+                                  </tr>
+                                </>
+                              )}
+                          </table>
                         </div>
 
                         {sessionStorage.getItem("accountType") !==
                           "Individual" && (
-                          <>
-                            <hr
-                              style={{
-                                width: "30%",
-                                borderTop: "3px solid darkgray",
-                                marginTop: "20px",
-                                borderRadius: "10px",
-                              }}
-                            />
-                            <h1
-                              style={{
-                                fontSize: "20px",
-                                fontWeight: "600",
-                                marginTop: "20px",
-                                marginBottom: "20px",
-                                textAlign: "center",
-                              }}
-                            >
-                              Business Details
-                            </h1>
-                            <div style={{"overflow-x":"auto"}}>
-                            <table className="table" style={{ width: "100%" }}>
-                              <tr>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                              </tr>
-                              <tr className="summaryRow">
-                                <td className="summaryLabel">
-                                  Name of Organization :{" "}
-                                </td>
-                                <td className="summaryValue">
-                                  {this.state.Organization}
-                                </td>
-                                <td className="summaryLabel">
-                                  Registered Date :{" "}
-                                </td>
-                                <td className="summaryValue">
-                                  {moment(
-                                    new Date(this.state.registeredDate)
-                                  ).format("YYYY-MM-DD")}
-                                </td>
-                              </tr>
-                              <tr className="summaryRow">
-                                <td className="summaryLabel">
-                                  Website Link :{" "}
-                                </td>
-                                <td className="summaryValue">
-                                  {this.state.website}
-                                </td>
-                                <td className="summaryLabel">
-                                  Trade Register Number :{" "}
-                                </td>
-                                <td className="summaryValue">
-                                  {this.state.tradeRegister}
-                                </td>
-                              </tr>
-                              <tr className="summaryRow">
-                                <td className="summaryLabel">
-                                  Taxpayer Number :{" "}
-                                </td>
-                                <td className="summaryValue">
-                                  {this.state.taxPayer}
-                                </td>
-                                <td></td>
-                                <td></td>
-                              </tr>
-                              <tr className="summaryRow">
-                                <td className="summaryLabel">
-                                  ID Card Front Image :{" "}
-                                </td>
-                                <td className="summaryValue">
-                                  <img
-                                    className="imgThumbnailStyle"
-                                    src={
-                                      this.state.idFrontBusinessImageFile
-                                        .thumbUrl
-                                    }
-                                  />
-                                </td>
-                                <td className="summaryLabel">
-                                  Proof of Address :
-                                </td>
-                                <td className="summaryValue">
-                                  <img
-                                    className="imgThumbnailStyle"
-                                    src={this.state.idAddressFile.thumbUrl}
-                                  />
-                                </td>
-                              </tr>
-                            </table>
-                            </div>
-                          </>
-                        )}
-                    
+                            <>
+                              <hr
+                                style={{
+                                  width: "30%",
+                                  borderTop: "3px solid darkgray",
+                                  marginTop: "20px",
+                                  borderRadius: "10px",
+                                }}
+                              />
+                              <h1
+                                style={{
+                                  fontSize: "20px",
+                                  fontWeight: "600",
+                                  marginTop: "20px",
+                                  marginBottom: "20px",
+                                  textAlign: "center",
+                                }}
+                              >
+                                Business Details
+                              </h1>
+                              <div style={{ "overflow-x": "auto" }}>
+                                <table className="table" style={{ width: "100%" }}>
+                                  <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                    <th></th>
+                                  </tr>
+                                  <tr className="summaryRow">
+                                    <td className="summaryLabel">
+                                      Name of Organization :{" "}
+                                    </td>
+                                    <td className="summaryValue">
+                                      {this.state.Organization}
+                                    </td>
+                                    <td className="summaryLabel">
+                                      Registered Date :{" "}
+                                    </td>
+                                    <td className="summaryValue">
+                                      {moment(
+                                        new Date(this.state.registeredDate)
+                                      ).format("YYYY-MM-DD")}
+                                    </td>
+                                  </tr>
+                                  <tr className="summaryRow">
+                                    <td className="summaryLabel">
+                                      Website Link :{" "}
+                                    </td>
+                                    <td className="summaryValue">
+                                      {this.state.website}
+                                    </td>
+                                    <td className="summaryLabel">
+                                      Trade Register Number :{" "}
+                                    </td>
+                                    <td className="summaryValue">
+                                      {this.state.tradeRegister}
+                                    </td>
+                                  </tr>
+                                  <tr className="summaryRow">
+                                    <td className="summaryLabel">
+                                      Taxpayer Number :{" "}
+                                    </td>
+                                    <td className="summaryValue">
+                                      {this.state.taxPayer}
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                  </tr>
+                                  <tr className="summaryRow">
+                                    <td className="summaryLabel">
+                                      ID Card Front Image :{" "}
+                                    </td>
+                                    <td className="summaryValue">
+                                      <img
+                                        className="imgThumbnailStyle"
+                                        src={
+                                          this.state.idFrontBusinessImageFile
+                                            .thumbUrl
+                                        }
+                                      />
+                                    </td>
+                                    <td className="summaryLabel">
+                                      Proof of Address :
+                                    </td>
+                                    <td className="summaryValue">
+                                      <img
+                                        className="imgThumbnailStyle"
+                                        src={this.state.idAddressFile.thumbUrl}
+                                      />
+                                    </td>
+                                  </tr>
+                                </table>
+                              </div>
+                            </>
+                          )}
+
                         <div
                           className="col-sm-12 text-center"
                           style={{
@@ -1521,11 +1528,11 @@ class Register extends Component {
                           type="button"
                           disabled={
                             this.state.otp1 &&
-                            this.state.otp2 &&
-                            this.state.otp3 &&
-                            this.state.otp4 &&
-                            this.state.otp5 &&
-                            this.state.otp6
+                              this.state.otp2 &&
+                              this.state.otp3 &&
+                              this.state.otp4 &&
+                              this.state.otp5 &&
+                              this.state.otp6
                               ? false
                               : true
                           }
