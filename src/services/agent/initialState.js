@@ -113,6 +113,18 @@ const feeDetailState = {
   data: {},
 };
 
+const balanceInquiryState = {
+  loading: false,
+  success: false,
+  error: false,
+};
+
+const statementInquiryState = {
+  loading: false,
+  success: false,
+  error: false,
+};
+
 const initialState = {
   agentLoginstatus: false,
   linkingStatus: false,
@@ -196,5 +208,7 @@ const initialState = {
   customerDetail: customerDetailState,
   agentSendMoney: agentSendMoneyState,
   feeDetail: feeDetailState,
+  customerBalanceInquiry: balanceInquiryState,
+  customerStatementInquiry: statementInquiryState,
 };
 export default initialState;
