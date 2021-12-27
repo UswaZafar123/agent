@@ -251,7 +251,7 @@ const configUrl = {
     PAY_EU_MOMO: `${API}eumomo/sendPaymentRequest`,
   },
   agent: {
-    AGENT_MEMBER_REGISTER:`${AgentApi}api-public/registration/agentRegistration`,
+    AGENT_MEMBER_REGISTER: `${AgentApi}api-public/registration/agentRegistration`,
     CREATE_PACKAGE: `${AgentApi}api-internal/agentPackages`,
     GET_OPERATIONS: `${AgentApi}api-internal/operations`,
     GET_ASSETS: `${AgentApi}api-internal/assets`,
@@ -303,6 +303,10 @@ const configUrl = {
     CUSTOMER_DETAIL: `${AgentApi}api/walletTransfers/walletCustomerDetails`,
     AGENT_SEND_MONEY: `${AgentApi}api/walletTransfers/walletToWallet`,
     FEE_DETAIL: `${adminAPI}customer/transactionFees/calculate`,
+    WALLET_BALANCE_INQUIRY: `${AgentApi}api/walletTransfers/walletBalance`,
+    WALLET_STATEMENT_INQUIRY: `${AgentApi}api/walletTransfers/walletHistory`,
+    BANK_BALANCE_INQUIRY: `${AgentApi}api/agencyBanking/accountBalance`,
+    BANK_STATEMENT_INQUIRY: `${AgentApi}api/agencyBanking/accountStatement`,
     /**
      *
      */
@@ -312,7 +316,7 @@ const configUrl = {
     GET_ALL_USER_ROLES: `${AgentApi}api-internal/userRoles`,
     GET_ALL_SCREENS: `${AgentApi}api-internal/screens`,
 
-    COMMISSION: `${AgentApi}api-internal/commissions`
+    COMMISSION: `${AgentApi}api-internal/commissions`,
   },
 };
 
