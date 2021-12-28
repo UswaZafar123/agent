@@ -1469,6 +1469,26 @@ const agentReducer = (state = initialState, action) => {
         editCommissionStatus: false,
         editCommissionData: null,
       };
+    case actionType.UPLOAD_PROOF_FETCH_SUCCESS:
+      return {
+        ...state,
+        uploadProofImage: action.payload
+      }
+    case actionType.UPLOAD_PROOF_FETCH_FAILURE:
+      return {
+        ...state,
+        uploadProofImage: null
+      }
+    case actionType.ADDRESS_PROOF_FETCH_SUCCESS:
+      return {
+        ...state,
+        addressProofImage: action.payload
+      }
+    case actionType.ADDRESS_PROOF_FETCH_FAILURE:
+      return {
+        ...state,
+        addressProofImage: null
+      }
     default:
       return state;
   }
