@@ -230,5 +230,8 @@ const initialState = {
   feeDetail: feeDetailState,
   customerBalanceInquiry: balanceInquiryState,
   customerStatementInquiry: statementInquiryState,
+
+  uploadProofImage: null,
+  addressProofImage: null,
 };
 export default initialState;

@@ -134,6 +134,11 @@ class KYC extends Component {
       OTPModalVisible: false,
       isResendOTPDisabled: true,
       profileDetails: {},
+
+      receivedUploadProofImage: null,
+      previewReceivedUploadProofImage: false,
+      receivedAddressProofImage: null,
+      previewReceivedAddressProofImage: false,
     };
   }
 
@@ -219,6 +224,34 @@ class KYC extends Component {
           profileDetails: nextprops.profileDetails
         });
 
+      }
+
+      if (nextprops.getKYCDetails) {
+        console.log(nextprops.getKYCDetails, "GET KYC DETAILS")
+      }
+
+      if (nextprops.uploadProofImage) {
+        // console.log(nextprops.uploadProofImage, "UP PROOF IMAGE");
+
+        var binaryData = [];
+        binaryData.push(nextprops.uploadProofImage);
+
+        this.setState({
+          receivedUploadProofImage: window.URL.createObjectURL(
+            new Blob(binaryData, { type: "application/octet-stream" })
+          ),
+        });
+      }
+
+      if (nextprops.addressProofImage) {
+        var binaryData = [];
+        binaryData.push(nextprops.addressProofImage);
+
+        this.setState({
+          receivedAddressProofImage: window.URL.createObjectURL(
+            new Blob(binaryData, { type: "application/octet-stream" })
+          ),
+        });
       }
 
       // if (nextprops.getKYCDetailsStatus) {
@@ -1100,6 +1133,32 @@ class KYC extends Component {
                               <p style={{ color: "darkgray", paddingRight: '10px' }}>
                                 Upload Proof
                               </p>
+                              {this.state.receivedUploadProofImage ? (
+                                <>
+                                  <button style={{ backgroundColor: "#343A40", fontWeight: "bold", color: "white", borderRadius: "10px", border: "none", padding: "10px" }} onClick={() => {
+                                    this.setState({
+                                      previewReceivedUploadProofImage: true
+                                    });
+                                  }}>View Uploaded Proof</button>
+                                  {/* <img src={this.state.receivedUploadProofImage} /> */}
+
+                                  <Modal
+                                    visible={this.state.previewReceivedUploadProofImage}
+                                    title={"Upload Proof"}
+                                    footer={null}
+                                    onCancel={() => {
+                                      this.setState({
+                                        previewReceivedUploadProofImage: false
+                                      });
+                                    }}
+                                  >
+                                    <img
+                                      style={{ width: "100%" }}
+                                      src={this.state.receivedUploadProofImage}
+                                    />
+                                  </Modal>
+                                </>
+                              ) : <></>}
                             </div>
                           </div>
                           <div
@@ -1134,6 +1193,32 @@ class KYC extends Component {
                               <p style={{ color: "darkgray", paddingRight: '10px' }}>
                                 Address Proof
                               </p>
+                              {this.state.receivedAddressProofImage ? (
+                                <>
+                                  <button style={{ backgroundColor: "#343A40", fontWeight: "bold", color: "white", borderRadius: "10px", border: "none", padding: "10px" }} onClick={() => {
+                                    this.setState({
+                                      previewReceivedAddressProofImage: true
+                                    });
+                                  }}>View Address Proof</button>
+                                  {/* <img src={this.state.receivedUploadProofImage} /> */}
+
+                                  <Modal
+                                    visible={this.state.previewReceivedAddressProofImage}
+                                    title={"Address Proof"}
+                                    footer={null}
+                                    onCancel={() => {
+                                      this.setState({
+                                        previewReceivedAddressProofImage: false
+                                      });
+                                    }}
+                                  >
+                                    <img
+                                      style={{ width: "100%" }}
+                                      src={this.state.receivedAddressProofImage}
+                                    />
+                                  </Modal>
+                                </>
+                              ) : <></>}
                             </div>
                           </div>
                         </div>
@@ -1460,7 +1545,9 @@ const mapStateToProps = ({ agentReducer }) => {
     kycGetStatus: agentReducer.kycGetStatus,
     kycGetData: agentReducer.kycGetData,
     agentOTPStatus: agentReducer.agentOTPStatus,
-    profileDetails: agentReducer.profileDetails
+    profileDetails: agentReducer.profileDetails,
+    uploadProofImage: agentReducer.uploadProofImage,
+    addressProofImage: agentReducer.addressProofImage
   }
 
 };

@@ -100,6 +100,8 @@ export const getAgentKYC = (token) => (dispatch) => {
           type: actionType.GET_KYC_SUCCESS,
           payload: res.data,
         });
+        dispatch(getUploadProof(res.data.idDocuments[0].documentFileName));
+        dispatch(getAddressProof(res.data.proofOfAddress[0].documentFileName));
       }
     })
     .catch((error) => {
@@ -797,6 +799,62 @@ export const getProfileImage = (filename) => (dispatch) => {
     });
 };
 
+export const getUploadProof = (filename) => (dispatch) => {
+  const config = {
+    method: "GET",
+    url: URL.agent.GET_PROFILE_IMAGE + "/" + filename,
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+    responseType: "blob",
+  };
+
+  axios(config)
+    .then((res) => {
+      if (res.status === 200) {
+        toastr.success("upload proof retrieved Successfully");
+        dispatch({
+          type: actionType.UPLOAD_PROOF_FETCH_SUCCESS,
+          payload: res.data,
+        });
+      }
+    })
+    .catch((error) => {
+      toastr.warning("failed to retrieve upload proof");
+      dispatch({
+        type: actionType.UPLOAD_PROOF_FETCH_FAILURE,
+      });
+    });
+};
+
+export const getAddressProof = (filename) => (dispatch) => {
+  const config = {
+    method: "GET",
+    url: URL.agent.GET_PROFILE_IMAGE + "/" + filename,
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+    responseType: "blob",
+  };
+
+  axios(config)
+    .then((res) => {
+      if (res.status === 200) {
+        toastr.success("address proof retrieved Successfully");
+        dispatch({
+          type: actionType.ADDRESS_PROOF_FETCH_SUCCESS,
+          payload: res.data,
+        });
+      }
+    })
+    .catch((error) => {
+      toastr.warning("failed to retrieve address proof");
+      dispatch({
+        type: actionType.ADDRESS_PROOF_FETCH_FAILURE,
+      });
+    });
+};
+
 export const sendAgentOTP = (payload) => (dispatch) => {
   const config = {
     method: "POST",
@@ -1261,7 +1319,7 @@ export const addTicket = (token, payload, history) => (dispatch) => {
         history.push({ pathname: "/agent/tickets" });
       }
     })
-    .catch((error) => {});
+    .catch((error) => { });
 };
 export const UpdateTicket =
   (token, payload, ticketNo, history) => (dispatch) => {
@@ -1285,7 +1343,7 @@ export const UpdateTicket =
           dispatch(getTickets(token));
         }
       })
-      .catch((error) => {});
+      .catch((error) => { });
   };
 export const addAreply = (token, data, ticketNo) => (dispatch) => {
   dispatch(uploadAttachmentFalse());
@@ -1306,7 +1364,7 @@ export const addAreply = (token, data, ticketNo) => (dispatch) => {
         dispatch(getATicket(token, ticketNo));
       }
     })
-    .catch((error) => {});
+    .catch((error) => { });
 };
 
 export const viewAttachmentFileFalse = () => (dispatch) => {
