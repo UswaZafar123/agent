@@ -923,7 +923,7 @@ class KYC extends Component {
                               name="clientName"
                               placeholder="Enter Name"
                               readOnly={true}
-                              value={this.props.profileDetails.firstName + " " + this.props.profileDetails.lastName}
+                              value={this.props.profileDetails != null && this.props.profileDetails != null ? this.props.profileDetails.firstName + " " + this.props.profileDetails.lastName : ""}
                               onChange={this.handleChange}
                               style={{ color: "#808080" }}
                             />
