@@ -2,14 +2,24 @@ import React, { Component, Fragment } from "react";
 import Logo from "../../../Assets/images/logo.png";
 import ReactFlagsSelect from 'react-flags-select';
 import { AlternateEmailTwoTone } from "@material-ui/icons";
-import {LOCALES} from '../../i18n/locales';
+import { LOCALES } from '../../i18n/locales';
+import { connect } from "react-redux";
+import { SetLanguage } from "../../../services/common/action";
+import { isThisSecond } from "date-fns";
 class NavBar extends Component {
   constructor() {
     super();
     this.state = {
       selected: "",
-      langue: 'fr'
+      langue: 'fr',
+      language: ""
     };
+  }
+
+  componentDidMount = () => {
+    this.setState({
+      language: localStorage.getItem("lang")
+    })
   }
 
   setSelected = (code) => {
@@ -17,8 +27,12 @@ class NavBar extends Component {
   }
 
   handleLanguage(e) {
-    localStorage.setItem("langue", e.target.value)
-    this.props.language(e.target.value)
+    localStorage.setItem("lang", e.target.value)
+    this.setState({
+      language: e.target.value
+    });
+    // this.props.language(e.target.value)
+    this.props.SetLanguage(e.target.value)
   }
 
   render() {
@@ -34,10 +48,10 @@ class NavBar extends Component {
           selected={this.state.selected} className="langOption navCountrySelect"
           onSelect={code => this.setSelected(code)}
         /> */}
-        <select className="langOption" name='langue' onChange={(e) => this.handleLanguage(e)}
+        <select value={this.state.language} className="langOption" name='langue' onChange={(e) => this.handleLanguage(e)}
         >
-          <option value=''>Choisir la langue</option>
-          <option value='en'>English</option>
+          <option value='' disabled={true}> {this.state.language == "en-US" ? "Choose A Language" : "Choisir la langue"}</option>
+          <option value='en-US'>English</option>
           <option value='fr'>French</option>
         </select>
 
@@ -47,5 +61,18 @@ class NavBar extends Component {
   }
 }
 
+// // function for mapping redux state values with props //
+const mapStateToProps = ({ commonReducer }) => {
+  return {
+
+  };
+};
+
+const mapDispatchToProps = (dispatch) => ({
+
+  SetLanguage: (lang) => dispatch(SetLanguage(lang))
+
+});
+
 //connect method is used for connecting react and redux //
-export default NavBar;
+export default connect(mapStateToProps, mapDispatchToProps)(NavBar);

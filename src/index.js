@@ -42,14 +42,14 @@ else {
   const locale= localStorage.setItem('lang', 'en-US')
 } */
 
-const locale = localStorage.getItem("lang") ? localStorage.getItem("lang") : localStorage.setItem('lang', 'en-US')
+// const locale = localStorage.getItem("lang") ? localStorage.getItem("lang") : localStorage.setItem('lang', 'en-US')
 
 ReactDOM.render(
-  <I18nProvider locale={locale}>
+  <I18nProvider locale={localStorage.getItem("lang")}>
     <Provider store={store}>
       {/* <Loader /> */}
       <PersistGate persistor={persistor}>
-        <Loader/>
+        <Loader />
         <div>
           <ReduxToastr
             timeOut={4000}
