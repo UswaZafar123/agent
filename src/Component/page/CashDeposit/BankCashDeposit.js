@@ -275,7 +275,7 @@ const BankCashDeposit = () => {
         <div className="containerBiaN_form">
             <div className="containerBiaN_f_row">
                 <div className="containerBiaN_f_col width30percent textAlignRight">
-                    <label>Bank Customer Id <span className="mantdat">*</span></label>
+                    <label><FormattedMessage id="agent.BankCustomerID" /> <span className="mantdat">*</span></label>
                 </div>
                 <div className="containerBiaN_f_col width70percent">
                     <input placeholder="Enter Bank Customer Id" type="number" value={bankCustomerId} onChange={(e) => setBankCustomerId(e.target.value)}/>
@@ -283,7 +283,7 @@ const BankCashDeposit = () => {
             </div>
             <div className="containerBiaN_f_row">
                 <div className="containerBiaN_f_col width30percent textAlignRight">
-                    <label>Phone number <span className="mantdat">*</span></label>
+                    <label><FormattedMessage id="agent.phonenumber" /> <span className="mantdat">*</span></label>
                 </div>
                 <div className="containerBiaN_f_col width70percent">
                     <input placeholder="Enter Phone number" type="number" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)}/>
@@ -291,7 +291,7 @@ const BankCashDeposit = () => {
             </div>
             <div className="containerBiaN_f_row">
                 <div className="containerBiaN_f_col width30percent textAlignRight">
-                    <label>Document Type <span className="mantdat">*</span></label>
+                    <label><FormattedMessage id="agent.DocumentType" /> <span className="mantdat">*</span></label>
                 </div>
                 <div className="containerBiaN_f_col width70percent">
                     <div className="categorySelect" >
@@ -306,7 +306,7 @@ const BankCashDeposit = () => {
             </div>
             <div className="containerBiaN_f_row">
                 <div className="containerBiaN_f_col width30percent textAlignRight">
-                    <label>ID Document Number <span className="mantdat">*</span></label>
+                    <label><FormattedMessage id="agent.IDDocumentNumber" /> <span className="mantdat">*</span></label>
                 </div>
                 <div className="containerBiaN_f_col width70percent">
                     <input placeholder="Enter ID document number" value={idDocumentNumber} onChange={(e) => setIdDocumentNumber(e.target.value)}/>
@@ -341,7 +341,7 @@ const BankCashDeposit = () => {
             </div>
             <div className="containerBiaN_f_row">
                 <div className="containerBiaN_f_col width30percent textAlignRight">
-                    <label>Amount <span className="mantdat">*</span></label>
+                    <label><FormattedMessage id="agent.Amount" /> <span className="mantdat">*</span></label>
                 </div>
                 <div className="containerBiaN_f_col width70percent">
                     <input placeholder="Enter amount"  type="number" value={amount} onChange={(e) => setAmount(e.target.value)}/>
@@ -349,7 +349,7 @@ const BankCashDeposit = () => {
             </div>
             <div className="containerBiaN_f_row">
                 <div className="containerBiaN_f_col width30percent textAlignRight">
-                    <label>Reason <span className="mantdat">*</span></label>
+                    <label><FormattedMessage id="agent.Reason" /> <span className="mantdat">*</span></label>
                 </div>
                 <div className="containerBiaN_f_col width70percent">
                     <textarea id="w3review" rows="4" cols="50" value={reason} onChange={(e) => setReason(e.target.value)}></textarea>

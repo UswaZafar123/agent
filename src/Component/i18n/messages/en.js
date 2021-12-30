@@ -432,6 +432,10 @@ const en = {
         'agent.Status' : "Status",
         'agent.phonenumber' : "Phone Number",
         'agent.EnterPhoneNumber' : "Enter Phone Number",
+        'agent.DocumentType' : "Document Type",
+        'agent.IDDocumentNumber' : "ID Document Number",
+        'agent.Reason' : "Reason",
+        'agent.BankCustomerID' : "Bank Customer ID",
 
 
 }

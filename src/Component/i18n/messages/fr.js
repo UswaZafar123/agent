@@ -414,6 +414,10 @@ const fr = {
       'agent.Status' : 'État',
       'agent.phonenumber' : "Numéro de téléphone",
       'agent.EnterPhoneNumber' : "Saisir un numéro de téléphone",
+      'agent.DocumentType' : "Type de document",
+      'agent.IDDocumentNumber' : "Numéro de document d'identité",
+      'agent.Reason' : "Motif",
+      'agent.BankCustomerID' : "ID Client Banque",
 
 
 }
