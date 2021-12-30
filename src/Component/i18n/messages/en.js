@@ -405,6 +405,8 @@ const en = {
         'agent.agentlogin' : "Agent Login",
         'agent.phonenumber' : "Agent Phone Number",
         'agent.rememberme' : "Remember me",
+        'agent.TotalAgentMember' : "Total Agent Member",
+        'agent.WalletCashDeposit' : "Wallet Cash Deposit",
 
 
 

@@ -387,6 +387,10 @@ const fr = {
       'agent.agentlogin': "Connexion Agent",
       'agent.phonenumber': "Numéro de téléphone de l'agent",
       'agent.rememberme': "Se souvenir de moi",
+      'agent.TotalAgentMember' : "Total Sous-agents",
+      'agent.WalletCashDeposit' : "Dépôt en espèces Portefeuille",
+
+
 }
 
 
