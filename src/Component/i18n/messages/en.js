@@ -465,9 +465,10 @@ const en = {
         'agent.InvoiceAddress': "Invoice Address",
         'agent.Street': "Street",
         'agent.SaveCreditCardDetails': "Save Credit Card Details",
-
-
-
+        'agent.ChangePassword': "Change Password",
+        'agent.OldPassword': "Old Password",
+        'agent.NewPassword': "New Password",
+        'agent.ConfirmNewPassword': "Confirm New Password",
 
 }
 

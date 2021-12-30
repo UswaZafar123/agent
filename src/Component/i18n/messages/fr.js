@@ -447,6 +447,10 @@ const fr = {
       'agent.InvoiceAddress': "Adresse de facturation",
       'agent.Street': "Rue",
       'agent.SaveCreditCardDetails': "Enregistrer Détails de la carte de crédit",
+      'agent.ChangePassword': "Changer le mot de passe",
+      'agent.OldPassword': "Ancien mot de passe",
+      'agent.NewPassword': "Nouveau mot de passe",
+      'agent.ConfirmNewPassword': "Confirmer Nouveau mot de passe",
 
 
 
