@@ -437,8 +437,11 @@ const en = {
         'agent.PleaseEnterVerificationCode': "Please enter the verification code you received on",
         'agent.ResendCode': "Resend Code",
         'agent.Submit': "Submit",
-
-
+        'agent.Profile': "Profile",
+        'agent.UploadProfilePhoto': "Upload Profile Photo",
+        'agent.UploadLogo': "Upload Logo",
+        'agent.FirstName': "First Name",
+        'agent.LastName': "Last Name",
 
 }
 

@@ -419,6 +419,11 @@ const fr = {
       'agent.PleaseEnterVerificationCode': "Prière d'entrer le code de vérification reçu au numéro",
       'agent.ResendCode': "Renvoyer le code",
       'agent.Submit': "Envoyer",
+      'agent.Profile': "Profil",
+      'agent.UploadProfilePhoto': "Téléverser Photo de profil",
+      'agent.UploadLogo': "Téléverser le logo",
+      'agent.FirstName': "Prénom",
+      'agent.LastName': "Nom",
 
 
 
