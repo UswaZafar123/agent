@@ -402,6 +402,11 @@ const en = {
         'btn.continue': "Next",
 
         'agent.selectTypeAccount' : "Please select the type of Account you want to Open",
+        'agent.agentlogin' : "Agent Login",
+        'agent.phonenumber' : "Agent Phone Number",
+        'agent.rememberme' : "Remember me",
+
+
 
 
 }

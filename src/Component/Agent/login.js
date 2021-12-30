@@ -251,7 +251,7 @@ class Login extends Component {
             <div className="col-sm-12 loginContainer">
               <div className="loginInner">
                 <div className="loginInform">
-                  <h4 aria-label="vinod is working">Agent Login</h4>
+                  <h4 aria-label="vinod is working"><FormattedMessage id="agent.agentlogin" /></h4>
 
                   <div style={{ color: "red" }}>{this.props.login}</div>
                   <div style={{ color: "red" }}></div>
@@ -276,7 +276,7 @@ class Login extends Component {
                         <div className="form-group">
                           <label>
                             {/* <FormattedMessage id="login.username" />{" "} */}
-                            Agent Phone Number
+                            <FormattedMessage id="agent.phonenumber" />
                           </label>
                           <input
                             type="text"
@@ -353,7 +353,7 @@ class Login extends Component {
                     <div className="form-group">
                       <span>
                         <input type="checkbox" />
-                        <label> Remember me</label>
+                        <label><FormattedMessage id="agent.rememberme" /></label>
                       </span>
                       <span>
                         <NavLink to="/agent/forgotPassword" className="forgetPass">

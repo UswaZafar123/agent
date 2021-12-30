@@ -384,6 +384,9 @@ const fr = {
 
       'agent.selectTypeAccount': "Prière de sélectionner le type de compte que vous souhaitez ouvrir",
 
+      'agent.agentlogin': "Connexion Agent",
+      'agent.phonenumber': "Numéro de téléphone de l'agent",
+      'agent.rememberme': "Se souvenir de moi",
 }
 
 
