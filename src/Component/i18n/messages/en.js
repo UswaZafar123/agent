@@ -469,6 +469,9 @@ const en = {
         'agent.OldPassword': "Old Password",
         'agent.NewPassword': "New Password",
         'agent.ConfirmNewPassword': "Confirm New Password",
+        'agent.SendLinkingRequestToSuperAgent' : "Send Linking Request to Super Agent",
+        'agent.supAgentIDWithoutCountryCode' : "Super Agent Id(Phone number without country code)",
+        'agent.Next' : "Next",
 
 }
 
