@@ -19,6 +19,7 @@ spec:
       containers: 
         - 
           image: "172.26.5.32:5000/saraagentfrontend:bank"
+          imagePullPolicy: Always
           name: saraagentfrontend
           ports: 
             - 
