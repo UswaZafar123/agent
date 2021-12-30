@@ -424,6 +424,35 @@ const fr = {
       'agent.UploadLogo': "Téléverser le logo",
       'agent.FirstName': "Prénom",
       'agent.LastName': "Nom",
+      'agent.Accounts': "Comptes",
+      'agent.BankDetails': "Coordonnées bancaires",
+      'agent.BankName': "Nom de la banque",
+      'agent.BankCode': "Code bancaire",
+      'agent.BranchCode': "Code d'agence",
+      'agent.AccountNumber': "Numéro de compte",
+      'agent.Key': "Clé",
+      'agent.Currency': "Monnaie",
+      'agent.IBAN': "IBAN",
+      'agent.SWIFT': "SWIFT",
+      'agent.SaveBankDetails': "Enregistrer Coordonnées bancaires",
+      'agent.MobileAccountsDetails': "Détails du compte mobile",
+      'agent.Operators': "Opérateurs",
+      'agent.Country': "Pays",
+      'agent.Verified': "Vérifié",
+      'agent.NotVerified': "Non vérifié",
+      'agent.SaveMobileAccountsDetails': "Enregistrer Détails du compte mobile",
+      'agent.CreditCardDetails': "Détails de la carte de crédit",
+      'agent.SelectCardType': "Sélectionner le type de carte",
+      'agent.CardExpiry': "Date d'expiration de la carte",
+      'agent.InvoiceAddress': "Adresse de facturation",
+      'agent.Street': "Rue",
+      'agent.SaveCreditCardDetails': "Enregistrer Détails de la carte de crédit",
+
+
+
+
+
+
 
 
 

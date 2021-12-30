@@ -442,6 +442,32 @@ const en = {
         'agent.UploadLogo': "Upload Logo",
         'agent.FirstName': "First Name",
         'agent.LastName': "Last Name",
+        'agent.Accounts': "Accounts",
+        'agent.BankDetails': "Bank Details",
+        'agent.BankName': "Bank Name",
+        'agent.BankCode': "Bank Code",
+        'agent.BranchCode': "Branch Code",
+        'agent.AccountNumber': "Account Number",
+        'agent.Key': "Key",
+        'agent.Currency': "Currency",
+        'agent.IBAN': "IBAN",
+        'agent.SWIFT': "SWIFT",
+        'agent.SaveBankDetails': "Save Bank Details",
+        'agent.MobileAccountsDetails': "Mobile Accounts Details",
+        'agent.Operators': "Operators",
+        'agent.Country': "Country",
+        'agent.Verified': "Verified",
+        'agent.NotVerified': "Not Verified",
+        'agent.SaveMobileAccountsDetails': "Save Mobile Accounts Details",
+        'agent.CreditCardDetails': "Credit Card Details",
+        'agent.SelectCardType': "Select Card Type",
+        'agent.CardExpiry': "Card Expiry Date",
+        'agent.InvoiceAddress': "Invoice Address",
+        'agent.Street': "Street",
+        'agent.SaveCreditCardDetails': "Save Credit Card Details",
+
+
+
 
 }
 
