@@ -260,7 +260,7 @@ const WalletCashDeposit = () => {
         <div className="containerBiaN_form">
           <div className="containerBiaN_f_row">
             <div className="containerBiaN_f_col width30percent textAlignRight">
-              <label>Phone number <span className="mantdat">*</span></label>
+              <label><FormattedMessage id="agent.phonenumber" /> <span className="mantdat">*</span></label>
             </div>
             <div className="containerBiaN_f_col width70percent">
               <input placeholder="Enter Phone number" type="number" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />

@@ -814,7 +814,7 @@ class Dashboard extends Component {
                       <div className="icNa">
 
                         <div className="cardrightVal width50p">
-                          <p>Total Agents</p>
+                          <p><FormattedMessage id="agent.TotalAgents" /></p>
                           <div className="cardnumber">
                             213
                           </div>
@@ -853,7 +853,7 @@ class Dashboard extends Component {
                       <div className="icNa">
 
                         <div className="cardrightVal width50p">
-                          <p>Liquidity Balance</p>
+                          <p><FormattedMessage id="agent.LiquidityBalance" /></p>
                           <div className="cardnumber">
                             300
                           </div>
@@ -891,7 +891,7 @@ class Dashboard extends Component {
               </div>
               <div className="customdashboardrow1">
                 <div className="customdashboardrow1-heading">
-                  <h4>Agent Info</h4>
+                  <h4><FormattedMessage id="agent.AgentInfo" /></h4>
                 </div>
                 <div className="customdashboardrow1-image">
                   {/* <img src="../../propic.jpg" /> */}
@@ -903,7 +903,7 @@ class Dashboard extends Component {
                 </div>
                 <div className="customdashboardrow1-label-whole">
                   <div className="customdashboardrow1-label">
-                    <label>Id Number:</label>
+                    <label><FormattedMessage id="agent.IDNumber" />:</label>
                     <span>32890233</span>
                   </div>
                   <div className="line-separator"></div>
@@ -913,7 +913,7 @@ class Dashboard extends Component {
                   </div>
                   <div className="line-separator"></div>
                   <div className="customdashboardrow1-label">
-                    <label>Address:     </label>
+                    <label><FormattedMessage id="agent.Address" />:     </label>
                     <span>xyz  </span>
                   </div>
                   <div className="line-separator"></div>
@@ -940,7 +940,7 @@ class Dashboard extends Component {
                   <div className="chartgraycard chartCardTop">
 
                     <div>
-                      <h1 className="commonHeading">Transactions per Agent</h1>
+                      <h1 className="commonHeading"><FormattedMessage id="agent.TransactionsPerAgent" /></h1>
                       {/* <h6 className="commonHeadingSmall color6E6E70 changeSiz">Total Amount Collected</h6> */}
                     </div>
                     <div className="hSelect">
@@ -959,11 +959,11 @@ class Dashboard extends Component {
                   <div className="chartCardMiddle">
                     <div className="chartTabs">
                       <ul>
-                        <li className="active">Today</li>
-                        <li>This Week</li>
-                        <li>7 Days</li>
+                        <li className="active"><FormattedMessage id="agent.Today" /></li>
+                        <li><FormattedMessage id="agent.ThisWeek" /></li>
+                        <li><FormattedMessage id="agent.7Days" /></li>
                         <li>This Month</li>
-                        <li>Last Month</li>
+                        <li><FormattedMessage id="agent.LastMonth" /></li>
                       </ul>
                     </div>
 
@@ -978,7 +978,7 @@ class Dashboard extends Component {
                 <div className="chartCard_w width50p getHeight">
                   <div className="chartgraycard chartCardTop">
                     <div>
-                      <h1 className="commonHeading">Transaction per Number</h1>
+                      <h1 className="commonHeading"><FormattedMessage id="agent.TransactionPerNumber" /></h1>
                       {/* <h6 className="commonHeadingSmall color6E6E70 changeSiz">Total Amount Collected</h6> */}
                     </div>
 
@@ -998,11 +998,11 @@ class Dashboard extends Component {
                   <div className="chartCardMiddle">
                     <div className="chartTabs">
                       <ul>
-                        <li className="active">Today</li>
-                        <li>This Week</li>
-                        <li>7 Days</li>
+                      <li className="active"><FormattedMessage id="agent.Today" /></li>
+                        <li><FormattedMessage id="agent.ThisWeek" /></li>
+                        <li><FormattedMessage id="agent.7Days" /></li>
                         <li>This Month</li>
-                        <li>Last Month</li>
+                        <li><FormattedMessage id="agent.LastMonth" /></li>
                       </ul>
                     </div>
 
@@ -1120,7 +1120,7 @@ class Dashboard extends Component {
               <div className="sectionInn chartCardColumn">
                 <div className="amountcollectedcard chartCard_w width50p getHeight">
                   <div className="chartgraycard chartCardTop">
-                    <h1 className="commonHeading">Transactions % of Assets</h1>
+                    <h1 className="commonHeading"><FormattedMessage id="agent.Transactions%ofAssets" /></h1>
                     <div className="hSelect">
                       <div className="antdSelect">
                         <Select
@@ -1137,11 +1137,11 @@ class Dashboard extends Component {
                   <div className="chartCardMiddle">
                     <div className="chartTabs">
                       <ul>
-                        <li className="active">Today</li>
-                        <li>This Week</li>
-                        <li>7 Days</li>
+                      <li className="active"><FormattedMessage id="agent.Today" /></li>
+                        <li><FormattedMessage id="agent.ThisWeek" /></li>
+                        <li><FormattedMessage id="agent.7Days" /></li>
                         <li>This Month</li>
-                        <li>Last Month</li>
+                        <li><FormattedMessage id="agent.LastMonth" /></li>
                       </ul>
                     </div>
                     <HighchartsReact
@@ -1152,7 +1152,7 @@ class Dashboard extends Component {
                 </div>
                 <div className="amountcollectedcard chartCard_w width50p getHeight">
                   <div className="chartgraycard chartCardTop">
-                    <h1 className="commonHeading">Transactions % of Category</h1>
+                    <h1 className="commonHeading"><FormattedMessage id="agent.Transactions%ofCategory" /></h1>
                     <div className="hSelect">
                       <div className="antdSelect">
                         <Select
@@ -1169,11 +1169,11 @@ class Dashboard extends Component {
                   <div className="chartCardMiddle">
                     <div className="chartTabs">
                       <ul>
-                        <li className="active">Today</li>
-                        <li>This Week</li>
-                        <li>7 Days</li>
+                      <li className="active"><FormattedMessage id="agent.Today" /></li>
+                        <li><FormattedMessage id="agent.ThisWeek" /></li>
+                        <li><FormattedMessage id="agent.7Days" /></li>
                         <li>This Month</li>
-                        <li>Last Month</li>
+                        <li><FormattedMessage id="agent.LastMonth" /></li>
                       </ul>
                     </div>
                     <HighchartsReact
@@ -1191,7 +1191,7 @@ class Dashboard extends Component {
                 <div className="chartCard_w m_r24 getHeight">
                   <div className="chartgraycard chartCardTop">
                     <div className="flCenterColumn">
-                      <h1 className="commonHeading textAlignCenter">Last 30 Days Transaction</h1>
+                      <h1 className="commonHeading textAlignCenter"><FormattedMessage id="agent.Last30DaysTransaction" /></h1>
                       {/* <h6 className="commonHeadingSmall color6E6E70">as of 29 March 2021, 09:41 PM</h6> */}
                     </div>
                   </div>
@@ -1209,7 +1209,7 @@ class Dashboard extends Component {
                 <div className="chartCard_w m_r24 getHeight">
                   <div className="chartCardTop">
                     <div className="flCenterColumn">
-                      <h1 className="commonHeading textAlignCenter">Last 12 weeks Fees Earned</h1>
+                      <h1 className="commonHeading textAlignCenter"><FormattedMessage id="agent.Last12weeksFeesEarned" /></h1>
                       {/* <h6 className="commonHeadingSmall color6E6E70">as of 29 March 2021, 09:41 PM</h6> */}
                     </div>
                   </div>
@@ -1228,7 +1228,7 @@ class Dashboard extends Component {
                 <div className="chartCard_w m_r24 getHeight">
                   <div className="chartCardTop">
                     <div className="flCenterColumn">
-                      <h1 className="commonHeading textAlignCenter">Last 30 Days Liquidity Balance</h1>
+                      <h1 className="commonHeading textAlignCenter"><FormattedMessage id="agent.Last30DaysLiquiditybalance" /></h1>
                       {/* <h6 className="commonHeadingSmall color6E6E70">as of 29 March 2021, 09:41 PM</h6> */}
                     </div>
                   </div>
@@ -1248,7 +1248,7 @@ class Dashboard extends Component {
                 <div className="chartCard_w m_r24 getHeight">
                   <div className="chartCardTop">
                     <div className="flCenterColumn">
-                      <h1 className="commonHeading textAlignCenter">Last 12 weeks Fees Earned</h1>
+                      <h1 className="commonHeading textAlignCenter"><FormattedMessage id="agent.Last12weeksFeesEarned" /></h1>
                       {/* <h6 className="commonHeadingSmall color6E6E70">as of 29 March 2021, 09:41 PM</h6> */}
                     </div>
                   </div>
@@ -1267,7 +1267,7 @@ class Dashboard extends Component {
                 <div className="chartCard_w m_r24 getHeight">
                   <div className="chartCardTop">
                     <div className="flCenterColumn">
-                      <h1 className="commonHeading textAlignCenter">Recent Transaction</h1>
+                      <h1 className="commonHeading textAlignCenter"><FormattedMessage id="agent.RecentTransaction" /></h1>
                     </div>
                   </div>
                   <div className="chartCardMiddle">
@@ -1275,15 +1275,15 @@ class Dashboard extends Component {
                       <table>
                         <thead>
                           <tr>
-                            <th>User</th>
+                            <th><FormattedMessage id="agent.User" /></th>
                             <th>Type</th>
                             <th>Date</th>
-                            <th>Amount</th>
-                            <th>Fee</th>
+                            <th><FormattedMessage id="agent.Amount" /></th>
+                            <th><FormattedMessage id="agent.Fee" /></th>
                             <th>Total</th>
-                            <th>Currency</th>
+                            <th><FormattedMessage id="agent.Currency" /></th>
                             <th>Reciver</th>
-                            <th>Status</th>
+                            <th><FormattedMessage id="agent.Status" /></th>
                             <th>Action</th>
                           </tr>
                         </thead>

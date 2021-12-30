@@ -407,8 +407,31 @@ const en = {
         'agent.rememberme' : "Remember me",
         'agent.TotalAgentMember' : "Total Agent Member",
         'agent.WalletCashDeposit' : "Wallet Cash Deposit",
-
-
+        'agent.TotalAgents' : "Total Agents",
+        'agent.LiquidityBalance' : "Liquidity Balance",
+        'agent.AgentInfo' : "Agent Info",
+        'agent.BankCashDeposit' : "Bank Cash Deposit",
+        'agent.IDNumber' : "ID Number",
+        'agent.Address' : "Address",
+        'agent.TransactionsPerAgent' : "Transactions Per Agent",
+        'agent.Today' : "Today",
+        'agent.ThisWeek' : "This Week",
+        'agent.7Days' : "7 Days",
+        'agent.LastMonth' : "Last Month",
+        'agent.TransactionPerNumber' : "Transaction Per Number",
+        'agent.Transactions%ofAssets' : "Transactions % of Assets",
+        'agent.Transactions%ofCategory' : "Transactions % of Category",
+        'agent.Last30DaysTransaction' : "Last 30 Days Transaction",
+        'agent.Last12weeksFeesEarned' : "Last 12 weeks Fees Earned",
+        'agent.Last30DaysLiquiditybalance' : "Last 30 Days Liquidity Balance",
+        'agent.RecentTransaction' : "Recent Transaction",
+        'agent.User' : "User",
+        'agent.Amount' : "Amount",
+        'agent.Fee' : "Fee",
+        'agent.Currency' : "Currency",
+        'agent.Status' : "Status",
+        'agent.phonenumber' : "Phone Number",
+        'agent.EnterPhoneNumber' : "Enter Phone Number",
 
 
 }

@@ -15,6 +15,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Card } from 'react-bootstrap';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import actionType from "../../../services/agent/actionType.js";
+import { FormattedMessage, IntlProvider } from 'react-intl';
 
 import { verifyCustomer, fetchCustomerBankAccounts , sendOtpToCustomer, initiateBankCashDeposit } from "../../../services/agent/action.js";
 
@@ -33,6 +34,11 @@ const BankCashDeposit = () => {
     {name: "Email", value: "EMAIL"},
     {name: "SMS", value: "SMS"}
   ];
+
+  const [messages, setMessages] = useState("");
+  const [language, setLanguage] = useState("");
+
+  const lan = useSelector(state => state.commonReducer.language)
   
   const [bankCustomerId, setBankCustomerId] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -71,6 +77,35 @@ const BankCashDeposit = () => {
     });
    }
   }, []);
+
+  useEffect(async () => {
+
+    const messages = await loadLocaleData(localStorage.getItem("lang"));
+    setMessages(messages);
+
+    setLanguage(localStorage.getItem("lang"));
+
+    // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
+
+  }, [])
+
+  const loadLocaleData = (locale) => {
+    switch (locale) {
+      case "fr":
+        return import("../../i18n/messages/fr.js");
+      default:
+        return import("../../i18n/messages/en.js");
+    }
+  };
+
+  useEffect(async () => {
+
+    const messages = await loadLocaleData(lan);
+    setMessages(messages);
+
+    setLanguage(lan);
+
+  }, [lan])
 
   useEffect(() => {
     if(customerBankAccounts) {
@@ -432,6 +467,10 @@ const BankCashDeposit = () => {
   }
 
   return (
+    <IntlProvider
+    messages={messages.default}
+    locale={language}
+  >
     <div className="main_contain agentformCenter">
       <div className="merch_m_list_w">
           <div className="merch_list_card" id="merch_list_card">
@@ -441,7 +480,7 @@ const BankCashDeposit = () => {
                           <div className="chartCardTop">
                               <div className="kyccustomformheading">
                                   <h1 className="list_top_heading textAlignCenter text-center" style={{paddingLeft:"0px"}}>
-                                    Bank Cash Deposit
+                                    <FormattedMessage id="agent.BankCashDeposit" />
                                   </h1>
                               </div>
                           </div>
@@ -476,6 +515,7 @@ const BankCashDeposit = () => {
           </div>
       </div>
   </div>
+  </IntlProvider>
   );
 };
  
