@@ -225,15 +225,19 @@ class RoleManagement extends Component {
         }
 
         if (nextprops.getUserRoleStatus && nextprops.getUserRoleData != null) {
-            console.log(nextprops.getUserRoleData, "USER ROLE DATA");
-            this.setState({
-                roleData: [nextprops.getUserRoleData._embedded.userRoleDtoList]
-            }, () => {
-                console.log(this.state.roleData[0])
-                this.setState({
-                    rowData: this.state.roleData[0]
-                });
-            });
+            // console.log(nextprops.getUserRoleData, "USER ROLE DATA");
+            if (nextprops.getUserRoleData._embedded) {
+                if (nextprops.getUserRoleData._embedded.userRoleDtoList != undefined) {
+                    this.setState({
+                        roleData: [nextprops.getUserRoleData._embedded.userRoleDtoList]
+                    }, () => {
+                        console.log(this.state.roleData[0])
+                        this.setState({
+                            rowData: this.state.roleData[0]
+                        });
+                    });
+                }
+            }
         }
 
         if (nextprops.addUserRoleStatus && nextprops.addUserRoleData != null) {
@@ -252,20 +256,28 @@ class RoleManagement extends Component {
 
         if (nextprops.getAllScreensStatus && nextprops.getAllScreensData != null) {
 
-            this.setState({
-                screensData: nextprops.getAllScreensData._embedded.screenDtoList
-            }, () => {
-                this.state.screensData.map((data) => {
-                    this.state.modifiedScreenData.push({
-                        "screenId": data.screenId,
-                        "add": false,
-                        "update": false,
-                        "delete": false,
-                        "view": false,
-                        "list": false
+            if (nextprops.getAllScreensData._embedded) {
+
+                if (nextprops.getAllScreensData._embedded.screenDtoList != undefined) {
+
+                    this.setState({
+                        screensData: nextprops.getAllScreensData._embedded.screenDtoList
+                    }, () => {
+                        this.state.screensData.map((data) => {
+                            this.state.modifiedScreenData.push({
+                                "screenId": data.screenId,
+                                "add": false,
+                                "update": false,
+                                "delete": false,
+                                "view": false,
+                                "list": false
+                            });
+                        });
                     });
-                });
-            });
+
+                }
+
+            }
         }
     }
 
@@ -422,7 +434,7 @@ class RoleManagement extends Component {
         }
 
         // console.log(this.state.modifiedScreenData,"MOD SCREEN DATA TEST")
-        
+
         this.props.addUserRole(sessionStorage.getItem("token"), payload, this.state.modifiedScreenData);
     }
 
