@@ -125,7 +125,7 @@ const CashIn = () => {
     };
 
     const stepOneValidated = () => {
-        return !(validator.isEmpty(amount) || !selectedBankAccount);
+        return !(validator.isEmpty(amount) || selectedBankAccount);
     };
 
     const stepTwoValidated = () => {
@@ -225,7 +225,7 @@ const CashIn = () => {
         <>
             <div>
                 <div style={{ display: 'flex', overflowX: 'auto', whiteSpace: 'nowrap' }}>
-                    {agentBankAccountsLoading ? <CircularProgress style={{ margin: 'auto', color: 'rgb(191 21 21)' }}/> : agentBankAccounts.map((bankAccount) => {
+                    {agentBankAccountsLoading ? <CircularProgress style={{ margin: 'auto', color: 'rgb(191 21 21)' }}/> : agentBankAccounts.length == 0  ? <p>Bank Accounts not available</p> : agentBankAccounts.map((bankAccount) => {
                         return <Card onClick={() => setSelectedBankAccount(bankAccount)} style={{ width: '50%', float: 'left', minWidth: 'unset', margin: '4px 4px', cursor: 'pointer', border: selectedBankAccount.accNo === bankAccount.accNo ? '2px solid rgb(191 21 21)': '' }}>
                             <Card.Body style={{ padding: '0.5rem' }}>
                                 <Card.Title>{bankAccount.accNo}</Card.Title>
@@ -394,12 +394,17 @@ const CashIn = () => {
                             <div className={classes.root} style={{  width: '60%',margin: 'auto' }}>
                                 {step === 1 && <AppBar position="static" style={{ backgroundColor: 'rgb(52 58 64 / 100%)' }}>
                                     <Tabs variant="fullWidth" value={selectedTab} onChange={handleTabChange}>
+                                        {agentProfile.registrationType === 'EXISTING_BANK_CUSTOMER' && <Tab label="Credit/Debit Card" />}
                                         <Tab label="Bank Account" />
-                                        <Tab label="Credit/Debit Card" />
                                     </Tabs>
                                 </AppBar>}
+
+                                {selectedTab === 0 && <TabContainer>
+                                    <div>
+                                        <p>This feature will be available soon</p>
+                                    </div></TabContainer>}
                                 
-                                {selectedTab === 0 && <div style={{ margin: '16px 0px' }}>
+                                {agentProfile.registrationType === 'EXISTING_BANK_CUSTOMER' && selectedTab === 1 && <div style={{ margin: '16px 0px' }}>
                                     {(() => {
                                         switch(step) {
                                         case 1: return bankCashInForm();
@@ -424,10 +429,7 @@ const CashIn = () => {
                                         </div>
                                     </div>
                                 </div>}
-                                {selectedTab === 1 && <TabContainer>
-                                    <div>
-                                        <p>This feature will be available soon</p>
-                                    </div></TabContainer>}
+                                
                             </div>
                             </div>
                             
