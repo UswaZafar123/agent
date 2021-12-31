@@ -15,6 +15,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Card } from 'react-bootstrap';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import actionType from "../../../services/agent/actionType.js";
+import { FormattedMessage, IntlProvider } from 'react-intl';
 
 import { verifyCustomer, fetchCustomerBankAccounts , sendOtpToCustomer, initiateBankCashDeposit } from "../../../services/agent/action.js";
 
@@ -33,6 +34,11 @@ const BankCashDeposit = () => {
     {name: "Email", value: "EMAIL"},
     {name: "SMS", value: "SMS"}
   ];
+
+  const [messages, setMessages] = useState("");
+  const [language, setLanguage] = useState("");
+
+  const lan = useSelector(state => state.commonReducer.language)
   
   const [bankCustomerId, setBankCustomerId] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -71,6 +77,35 @@ const BankCashDeposit = () => {
     });
    }
   }, []);
+
+  useEffect(async () => {
+
+    const messages = await loadLocaleData(localStorage.getItem("lang"));
+    setMessages(messages);
+
+    setLanguage(localStorage.getItem("lang"));
+
+    // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
+
+  }, [])
+
+  const loadLocaleData = (locale) => {
+    switch (locale) {
+      case "fr":
+        return import("../../i18n/messages/fr.js");
+      default:
+        return import("../../i18n/messages/en.js");
+    }
+  };
+
+  useEffect(async () => {
+
+    const messages = await loadLocaleData(lan);
+    setMessages(messages);
+
+    setLanguage(lan);
+
+  }, [lan])
 
   useEffect(() => {
     if(customerBankAccounts) {
@@ -240,7 +275,7 @@ const BankCashDeposit = () => {
         <div className="containerBiaN_form">
             <div className="containerBiaN_f_row">
                 <div className="containerBiaN_f_col width30percent textAlignRight">
-                    <label>Bank Customer Id <span className="mantdat">*</span></label>
+                    <label><FormattedMessage id="agent.BankCustomerID" /> <span className="mantdat">*</span></label>
                 </div>
                 <div className="containerBiaN_f_col width70percent">
                     <input placeholder="Enter Bank Customer Id" type="number" value={bankCustomerId} onChange={(e) => setBankCustomerId(e.target.value)}/>
@@ -248,7 +283,7 @@ const BankCashDeposit = () => {
             </div>
             <div className="containerBiaN_f_row">
                 <div className="containerBiaN_f_col width30percent textAlignRight">
-                    <label>Phone number <span className="mantdat">*</span></label>
+                    <label><FormattedMessage id="agent.phonenumber" /> <span className="mantdat">*</span></label>
                 </div>
                 <div className="containerBiaN_f_col width70percent">
                     <input placeholder="Enter Phone number" type="number" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)}/>
@@ -256,7 +291,7 @@ const BankCashDeposit = () => {
             </div>
             <div className="containerBiaN_f_row">
                 <div className="containerBiaN_f_col width30percent textAlignRight">
-                    <label>Document Type <span className="mantdat">*</span></label>
+                    <label><FormattedMessage id="agent.DocumentType" /> <span className="mantdat">*</span></label>
                 </div>
                 <div className="containerBiaN_f_col width70percent">
                     <div className="categorySelect" >
@@ -271,7 +306,7 @@ const BankCashDeposit = () => {
             </div>
             <div className="containerBiaN_f_row">
                 <div className="containerBiaN_f_col width30percent textAlignRight">
-                    <label>ID Document Number <span className="mantdat">*</span></label>
+                    <label><FormattedMessage id="agent.IDDocumentNumber" /> <span className="mantdat">*</span></label>
                 </div>
                 <div className="containerBiaN_f_col width70percent">
                     <input placeholder="Enter ID document number" value={idDocumentNumber} onChange={(e) => setIdDocumentNumber(e.target.value)}/>
@@ -306,7 +341,7 @@ const BankCashDeposit = () => {
             </div>
             <div className="containerBiaN_f_row">
                 <div className="containerBiaN_f_col width30percent textAlignRight">
-                    <label>Amount <span className="mantdat">*</span></label>
+                    <label><FormattedMessage id="agent.Amount" /> <span className="mantdat">*</span></label>
                 </div>
                 <div className="containerBiaN_f_col width70percent">
                     <input placeholder="Enter amount"  type="number" value={amount} onChange={(e) => setAmount(e.target.value)}/>
@@ -314,7 +349,7 @@ const BankCashDeposit = () => {
             </div>
             <div className="containerBiaN_f_row">
                 <div className="containerBiaN_f_col width30percent textAlignRight">
-                    <label>Reason <span className="mantdat">*</span></label>
+                    <label><FormattedMessage id="agent.Reason" /> <span className="mantdat">*</span></label>
                 </div>
                 <div className="containerBiaN_f_col width70percent">
                     <textarea id="w3review" rows="4" cols="50" value={reason} onChange={(e) => setReason(e.target.value)}></textarea>
@@ -432,6 +467,10 @@ const BankCashDeposit = () => {
   }
 
   return (
+    <IntlProvider
+    messages={messages.default}
+    locale={language}
+  >
     <div className="main_contain agentformCenter">
       <div className="merch_m_list_w">
           <div className="merch_list_card" id="merch_list_card">
@@ -441,7 +480,7 @@ const BankCashDeposit = () => {
                           <div className="chartCardTop">
                               <div className="kyccustomformheading">
                                   <h1 className="list_top_heading textAlignCenter text-center" style={{paddingLeft:"0px"}}>
-                                    Bank Cash Deposit
+                                    <FormattedMessage id="agent.BankCashDeposit" />
                                   </h1>
                               </div>
                           </div>
@@ -476,6 +515,7 @@ const BankCashDeposit = () => {
           </div>
       </div>
   </div>
+  </IntlProvider>
   );
 };
  

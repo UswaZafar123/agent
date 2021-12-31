@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import { toastr } from "react-redux-toastr";
 import { getAgentKYC, getProfile, sendAgentKYC, sendAgentOTP } from "../../../services/agent/action";
 import OtpInput from "react-otp-input";
+import { FormattedMessage, IntlProvider } from "react-intl";
 
 
 const { Option } = Select;
@@ -139,8 +140,32 @@ class KYC extends Component {
       previewReceivedUploadProofImage: false,
       receivedAddressProofImage: null,
       previewReceivedAddressProofImage: false,
+
+      messages: "",
+      language: ""
+
     };
   }
+
+  async translationHelperFunction() {
+
+    const messages = await this.loadLocaleData(localStorage.getItem("lang"));
+    this.setState({
+      messages: messages,
+      language: localStorage.getItem("lang")
+    });
+    // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
+
+  }
+
+  loadLocaleData = (locale) => {
+    switch (locale) {
+      case "fr":
+        return import("../../i18n/messages/fr.js");
+      default:
+        return import("../../i18n/messages/en.js");
+    }
+  };
 
   getBase64UploadProof(file) {
     return new Promise((resolve, reject) => {
@@ -196,6 +221,9 @@ class KYC extends Component {
     this.props.getAgentKYC(sessionStorage.getItem("token"));
     this.props.getProfile();
 
+    this.translationHelperFunction();
+
+
   }
 
   handleChangeSelect = (e) => {
@@ -206,7 +234,17 @@ class KYC extends Component {
     this.setState({ kycMerchantCategory: e });
   };
 
-  componentWillReceiveProps = (nextprops) => {
+  async componentWillReceiveProps(nextprops) {
+
+    if (nextprops.language) {
+      const messages = await this.loadLocaleData(nextprops.language);
+
+      this.setState({
+        messages: messages,
+        language: nextprops.language
+      });
+    }
+
     if (this.state.refreshtokenState == 0) {
 
       if (nextprops.kycSendStatus) {
@@ -903,533 +941,79 @@ class KYC extends Component {
     );
 
     return (
-      <div className="main_contain kyc_parent_m">
-        <div className="merch_m_list_w">
-          <h1 className="m_listHeading textAlignCenter pd_t_b24">
-            Agent Management{" "}
-          </h1>
-          <div className="merch_list_card">
-            <div className="section_custom">
-              <div className="sectionInn">
-                <div className="chartCard_w">
-                  <div className="chartCardTop">
-                    <div className="kyccustomformheading">
-                      <h1 className="list_top_heading textAlignCenter text-center">
-                        KYC Form
-                      </h1>
-                      <button className="c_first_pending_BTN">Cancel</button>
-                    </div>
-                  </div>
-                  <div
-                    className="kyccustomform chartCardMiddle"
-                    style={{ padding: "24px" }}
-                  >
-                    <h1 className="kycDetails"> Profile Details</h1>
-                    <div className="kycDetailsBox">
-                      <div className="kycformBox">
-                        <div className="formRow">
-                          <div className="formCol">
-                            <label className="formColLabel">Category<span style={{ color: 'red' }}>*</span></label>
-                            <div className="categorySelect">
-                              <Select
-                                value={this.state.kycMerchantCategory}
-                                defaultValue=""
-                                style={{ width: 100 + "%", height: 52 }}
-                                onChange={this.setkeyMechantCategory}
-                              >
-                                <Option value="" disabled>
-                                  Select Category
-                                </Option>
-                                <Option value="Individual">Individual</Option>
-                                <Option value="ETS">ETS</Option>
-                                <Option value="SAS">SAS</Option>
-                                <Option value="SA">SA</Option>
-                                <Option value="SARL">SARL</Option>
-                              </Select>
-                            </div>
-                          </div>
-                          <div className="formCol"></div>
-                          <div className="formCol">
-                            <label className="formColLabel">Name<span style={{ color: 'red' }}>*</span></label>
-                            <input
-                              type="text"
-                              name="clientName"
-                              placeholder="Enter Name"
-                              readOnly={true}
-                              value={this.props.profileDetails != null && this.props.profileDetails != null ? this.props.profileDetails.firstName + " " + this.props.profileDetails.lastName : ""}
-                              onChange={this.handleChange}
-                              style={{ color: "#808080" }}
-                            />
-                          </div>
-                          <div className="formCol">
-                            <label className="formColLabel">
-                              Date of Birth
-                            </label>
-                            <DatePicker
-                              selected={this.state.dateOfBirthValue}
-                              maxDate={new Date()}
-                              className="form-control"
-                              name="dateofbirth"
-                              onChange={this.dob}
-                              peekNextMont
-                              showMonthDropdown
-                              showYearDropdown
-                              dropdownMode="select"
-                              autoComplete="off"
-                            />
-                          </div>
-                          <div className="formCol">
-                            <label className="formColLabel">Email<span style={{ color: 'red' }}>*</span></label>
-                            <input
-                              type="text"
-                              name="email"
-                              readOnly={true}
-                              placeholder="abc@gmail.com"
-                              value={this.state.email}
-                              onChange={this.handleChange}
-                              style={{ color: "#808080" }}
-
-                            />
-                          </div>
-                          <div className="formCol">
-                            <label className="formColLabel">
-                              Mobile Number <span style={{ color: 'red' }}>*</span>
-                            </label>
-                            <input
-                              type="text"
-                              name="mobileno"
-                              placeholder="237132321312"
-                              readOnly={true}
-                              value={this.state.mobileno}
-                              onChange={this.handleChange}
-                              style={{ color: "#808080" }}
-
-                            />
-                          </div>
-                          <div className="formCol">
-                            <label className="formColLabel">
-                              Address 1
-                              <span style={{ color: 'red' }}>*</span>
-                            </label>
-                            <input
-                              type="text"
-                              name="addressone"
-                              placeholder="Address 1"
-                              value={this.state.addressone}
-                              onChange={this.handleChange}
-                            />
-                          </div>
-                          <div className="formCol">
-                            <label className="formColLabel">
-                              Address 2
-                              <span style={{ color: 'red' }}>*</span>
-                            </label>
-                            <input
-                              type="text"
-                              name="addresstwo"
-                              placeholder="Address 2"
-                              value={this.state.addresstwo}
-                              onChange={this.handleChange}
-                            />
-                          </div>
-                          <div className="formCol">
-                            <label className="formColLabel">
-                              City
-                              <span style={{ color: 'red' }}>*</span>
-                            </label>
-                            <input
-                              type="text"
-                              name="city"
-                              placeholder="Enter City"
-                              value={this.state.city}
-                              onChange={this.handleChange}
-                            />
-                          </div>
-                          <div className="formCol">
-                            <label className="formColLabel">
-                              Zip Code
-                              <span style={{ color: 'red' }}>*</span>
-                            </label>
-                            <input
-                              type="number"
-                              name="zipcode"
-                              placeholder="Enter Code"
-                              value={this.state.zipcode}
-                              onChange={this.handleChange}
-                            />
-                          </div>
-                        </div>
-                        <div className="mapformrow formRow">
-                          <div className="formCol">
-                            <label className="formColLabel">Longitude</label>
-                            <input
-                              type="number"
-                              placeholder="55.3781° N"
-                              name="longitutde"
-                              value={this.state.longitude}
-                              onChange={this.handleChange}
-                            />
-                          </div>
-                          <div className="formCol">
-                            <label className="formColLabel">Latitude</label>
-                            <input
-                              type="number"
-                              name="longitude"
-                              placeholder="3.4360° W"
-                              value={this.state.latitude}
-                            />
-                          </div>
-                          <button
-                            className="c_first_pending_BTN"
-                            name="latitude"
-                            onClick={this.getGeo}
-                          >
-                            Geolocation
-                          </button>
-                        </div>
+      <IntlProvider
+        messages={this.state.messages.default}
+        locale={this.state.language}
+      >
+        <div className="main_contain kyc_parent_m">
+          <div className="merch_m_list_w">
+            <h1 className="m_listHeading textAlignCenter pd_t_b24">
+              {/* Agent Management{" "} */}
+              <FormattedMessage id="agent.AgentManagement" />
+            </h1>
+            <div className="merch_list_card">
+              <div className="section_custom">
+                <div className="sectionInn">
+                  <div className="chartCard_w">
+                    <div className="chartCardTop">
+                      <div className="kyccustomformheading">
+                        <h1 className="list_top_heading textAlignCenter text-center">
+                          <FormattedMessage id="agent.KYCForm" />
+                        </h1>
+                        <button className="c_first_pending_BTN"><FormattedMessage id="agent.Cancel" /></button>
                       </div>
                     </div>
-                    {this.state.kycMerchantCategory == "Individual" && (
-                      <>
-
-                        <div
-                          className="col-md-12"
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-around",
-                            marginTop: "70px",
-                            marginBottom: "70px",
-                          }}
-                        >
-
-                          <div
-                            className="col-md-6 float-left"
-                            style={{ float: "left", marginRight: "5px" }}
-                          >
-                            <div style={{ textAlign: "center" }}>
-                              <Upload
-                                listType="picture-card"
-                                maxCount={1}
-                                customRequest={dummyRequest}
-                                onPreview={this.handlePreviewUploadProof}
-                                onChange={(file) =>
-                                  this.handleChangeFile(file, "uploadproof")
-                                }
-                                fileList={this.state.uploadFile}
-                              >
-                                {uploadButton}
-                              </Upload>
-                              <Modal
-                                visible={this.state.uploadProofVisible}
-                                title={this.state.previewUploadTitle}
-                                footer={null}
-                                onCancel={this.handleCancelUploadImage}
-                              >
-                                <img
-                                  style={{ width: "100%" }}
-                                  src={this.state.previewUploadProof}
-                                />
-                              </Modal>
-                              <p style={{ color: "darkgray", paddingRight: '10px' }}>
-                                Upload Proof
-                              </p>
-                              {this.state.receivedUploadProofImage ? (
-                                <>
-                                  <button style={{ backgroundColor: "#343A40", fontWeight: "bold", color: "white", borderRadius: "10px", border: "none", padding: "10px" }} onClick={() => {
-                                    this.setState({
-                                      previewReceivedUploadProofImage: true
-                                    });
-                                  }}>View Uploaded Proof</button>
-                                  {/* <img src={this.state.receivedUploadProofImage} /> */}
-
-                                  <Modal
-                                    visible={this.state.previewReceivedUploadProofImage}
-                                    title={"Upload Proof"}
-                                    footer={null}
-                                    onCancel={() => {
-                                      this.setState({
-                                        previewReceivedUploadProofImage: false
-                                      });
-                                    }}
-                                  >
-                                    <img
-                                      style={{ width: "100%" }}
-                                      src={this.state.receivedUploadProofImage}
-                                    />
-                                  </Modal>
-                                </>
-                              ) : <></>}
-                            </div>
-                          </div>
-                          <div
-                            className="col-md-6 float-left"
-                            style={{ float: "left", marginRight: "5px" }}
-                          >
-                            <div style={{ textAlign: "center" }}>
-
-                              <Upload
-                                listType="picture-card"
-                                customRequest={dummyRequest}
-                                maxCount={1}
-                                onPreview={this.handlePreviewAddressProof}
-                                onChange={(file) =>
-                                  this.handleChangeFile(file, "addressproof")
-                                }
-                                fileList={this.state.addressFile}
-                              >
-                                {uploadButton}
-                              </Upload>
-                              <Modal
-                                visible={this.state.addressProofVisible}
-                                title={this.state.previewAddressTitle}
-                                footer={null}
-                                onCancel={this.handleCancelAddressImage}
-                              >
-                                <img
-                                  style={{ width: "100%" }}
-                                  src={this.state.previewAddressProof}
-                                />
-                              </Modal>
-                              <p style={{ color: "darkgray", paddingRight: '10px' }}>
-                                Address Proof
-                              </p>
-                              {this.state.receivedAddressProofImage ? (
-                                <>
-                                  <button style={{ backgroundColor: "#343A40", fontWeight: "bold", color: "white", borderRadius: "10px", border: "none", padding: "10px" }} onClick={() => {
-                                    this.setState({
-                                      previewReceivedAddressProofImage: true
-                                    });
-                                  }}>View Address Proof</button>
-                                  {/* <img src={this.state.receivedUploadProofImage} /> */}
-
-                                  <Modal
-                                    visible={this.state.previewReceivedAddressProofImage}
-                                    title={"Address Proof"}
-                                    footer={null}
-                                    onCancel={() => {
-                                      this.setState({
-                                        previewReceivedAddressProofImage: false
-                                      });
-                                    }}
-                                  >
-                                    <img
-                                      style={{ width: "100%" }}
-                                      src={this.state.receivedAddressProofImage}
-                                    />
-                                  </Modal>
-                                </>
-                              ) : <></>}
-                            </div>
-                          </div>
-                        </div>
-                      </>
-                    )}
-
-                    {this.state.kycMerchantCategory !== "Individual" && this.state.kycMerchantCategory !== "Select Category" && (
-                      <>
-                        <div className="formCol">
-                          <label className="formColLabel">
-                            Name of Organization
-                          </label>
-                          <input
-                            type="text"
-                            placeholder="Enter Organization Name"
-                            name="nameoforganization"
-                            value={this.state.nameoforganization}
-                            onChange={this.handleChange}
-                          />
-                        </div>
-                        <div className="formCol">
-                          <label className="formColLabel">
-                            Registered Date
-                          </label>
-                          <DatePicker
-                            selected={this.state.registereddate}
-                            maxDate={new Date()}
-                            className="form-control"
-                            name="registereddate"
-                            onChange={this.registereddate}
-                            peekNextMont
-                            showMonthDropdown
-                            showYearDropdown
-                            dropdownMode="select"
-                            autoComplete="off"
-                          />
-                        </div>
-                      </>
-                    )}
-
-                    {this.state.kycMerchantCategory !== "Individual" && this.state.kycMerchantCategory !== "Select Category" && (
+                    <div
+                      className="kyccustomform chartCardMiddle"
+                      style={{ padding: "24px" }}
+                    >
+                      <h1 className="kycDetails"><FormattedMessage id="agent.ProfileDetails" /></h1>
                       <div className="kycDetailsBox">
-                        <h1 className="kycDetails textAlignCenter">
-                          Business Details
-                        </h1>
                         <div className="kycformBox">
                           <div className="formRow">
                             <div className="formCol">
-                              <label className="formColLabel">
-                                Website Link
-                              </label>
-                              <input
-                                type="text"
-                                name="websitelink"
-                                value={this.state.websitelink}
-                                placeholder="aammnnbb@gmail.com"
-                                onChange={this.handleChange}
-                              />
-                            </div>
-
-                            {this.state.kycMerchantCategory !==
-                              "Individual" && this.state.kycMerchantCategory !== "Select Category" && (
-                                <>
-                                  <div className="formCol">
-                                    <label className="formColLabel">
-                                      Trade Register Number
-                                    </label>
-                                    <input
-                                      type="text"
-                                      placeholder="237132321312"
-                                      name="traderegisternumber"
-                                      value={this.state.traderegisternumber}
-                                      onChange={this.handleChange}
-                                    />
-                                  </div>
-                                </>
-                              )}
-
-                            <div className="formCol">
-                              <label className="formColLabel">
-                                Taxpayer Number{" "}
-                              </label>
-                              <input
-                                type="text"
-                                placeholder="123456899"
-                                name="taxpayernumber"
-                                value={this.state.taxpayernumber}
-                                onChange={this.handleChange}
-                              />
-                            </div>
-                            <div className="formCol selectedfilew">
-                              <div>
-                                <label
-                                  className="formColLabel"
-                                  style={{ marginBottom: "0px" }}
-                                >
-                                  Upload Proof * :{" "}
-                                </label>
-                              </div>
-                              {this.state.id !== "" && (
-                                <button
-                                  className="c_first_pending_BTN"
-                                  style={{ marginLeft: "12px" }}
-                                  onClick={this.uploadProof}
-                                >
-                                  View
-                                </button>
-                              )}
-                            </div>
-                            <div className="formCol selectedfilew">
-                              <div>
-                                <label
-                                  className="formColLabel"
-                                  style={{ marginBottom: "0px" }}
-                                >
-                                  Address Proof * :{" "}
-                                </label>
-                              </div>
-
-                              {this.state.id !== "" && (
-                                <button
-                                  className="c_first_pending_BTN"
-                                  style={{ marginLeft: "12px" }}
-                                  onClick={this.onTax}
-                                >
-                                  View
-                                </button>
-                              )}
-                            </div>
-
-                            <div className="formCol">
-                              <Upload
-                                listType="picture-card"
-                                customRequest={dummyRequest}
-                                fileList={this.state.uploadFile}
-                                onChange={(file) =>
-                                  this.handleChangeFile(file, "uploadproof")
-                                }
-                                beforeUpload={() => false}
-                              >
-                                {uploadButton}
-                              </Upload>
-                            </div>
-                            <div className="formCol">
-                              <Upload
-                                listType="picture-card"
-                                customRequest={dummyRequest}
-                                fileList={this.state.addressFile}
-                                onChange={(file) =>
-                                  this.handleChangeFile(file, "addressproof")
-                                }
-                                onPreview={true}
-                                beforeUpload={() => false}
-                              >
-                                {uploadButton}
-                              </Upload>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-
-                    {this.state.kycMerchantCategory === "Individual" && (
-                      <div className="kycDetailsBox">
-                        <h1 className="kycDetails textAlignCenter">
-                          Identity Information
-                        </h1>
-                        <div className="kycformBox">
-                          <div className="formRow">
-                            <div className="formCol">
-                              <label className="formColLabel">
-                                Identification<span style={{ color: 'red' }}>*</span>
-                              </label>
+                              <label className="formColLabel"><FormattedMessage id="agent.Category" /><span style={{ color: 'red' }}>*</span></label>
                               <div className="categorySelect">
                                 <Select
+                                  value={this.state.kycMerchantCategory}
                                   defaultValue=""
-                                  value={this.state.identification}
                                   style={{ width: 100 + "%", height: 52 }}
-                                  name="identification"
-                                  onChange={this.handleChangeSelect}
+                                  onChange={this.setkeyMechantCategory}
                                 >
-                                  <Option value="">
-                                    Select Identification Type
+                                  <Option value="" disabled>
+                                    Select Category
                                   </Option>
-                                  <Option value="password">Passport</Option>
-                                  <Option value="identity_card">
-                                    Identity Card
-                                  </Option>
+                                  <Option value="Individual"><FormattedMessage id="agent.Individual" /></Option>
+                                  <Option value="ETS">ETS</Option>
+                                  <Option value="SAS">SAS</Option>
+                                  <Option value="SA">SA</Option>
+                                  <Option value="SARL">SARL</Option>
                                 </Select>
                               </div>
                             </div>
+                            <div className="formCol"></div>
                             <div className="formCol">
-                              <label className="formColLabel">Number<span style={{ color: 'red' }}>*</span></label>
+                              <label className="formColLabel"><FormattedMessage id="agent.Name" /><span style={{ color: 'red' }}>*</span></label>
                               <input
                                 type="text"
-                                name="number"
-                                value={this.state.number}
-                                placeholder="Enter Number"
+                                name="clientName"
+                                placeholder="Enter Name"
+                                readOnly={true}
+                                value={this.props.profileDetails != null && this.props.profileDetails != null ? this.props.profileDetails.firstName + " " + this.props.profileDetails.lastName : ""}
                                 onChange={this.handleChange}
+                                style={{ color: "#808080" }}
                               />
                             </div>
                             <div className="formCol">
                               <label className="formColLabel">
-                                Expiry Date<span style={{ color: 'red' }}>*</span>
+                                <FormattedMessage id="agent.dob" />
                               </label>
                               <DatePicker
-                                selected={this.state.endofvaliditydate}
-                                minDate={new Date()}
+                                selected={this.state.dateOfBirthValue}
+                                maxDate={new Date()}
                                 className="form-control"
-                                name="endofvaliditydate"
-                                onChange={this.identityExpiry}
+                                name="dateofbirth"
+                                onChange={this.dob}
                                 peekNextMont
                                 showMonthDropdown
                                 showYearDropdown
@@ -1437,93 +1021,554 @@ class KYC extends Component {
                                 autoComplete="off"
                               />
                             </div>
+                            <div className="formCol">
+                              <label className="formColLabel"><FormattedMessage id="agent.email" /><span style={{ color: 'red' }}>*</span></label>
+                              <input
+                                type="text"
+                                name="email"
+                                readOnly={true}
+                                placeholder="abc@gmail.com"
+                                value={this.state.email}
+                                onChange={this.handleChange}
+                                style={{ color: "#808080" }}
+
+                              />
+                            </div>
+                            <div className="formCol">
+                              <label className="formColLabel">
+                                <FormattedMessage id="agent.MobileNumber" /> <span style={{ color: 'red' }}>*</span>
+                              </label>
+                              <input
+                                type="text"
+                                name="mobileno"
+                                placeholder="237132321312"
+                                readOnly={true}
+                                value={this.state.mobileno}
+                                onChange={this.handleChange}
+                                style={{ color: "#808080" }}
+
+                              />
+                            </div>
+                            <div className="formCol">
+                              <label className="formColLabel">
+                                <FormattedMessage id="agent.Address" /> 1
+                                <span style={{ color: 'red' }}>*</span>
+                              </label>
+                              <input
+                                type="text"
+                                name="addressone"
+                                placeholder="Address 1"
+                                value={this.state.addressone}
+                                onChange={this.handleChange}
+                              />
+                            </div>
+                            <div className="formCol">
+                              <label className="formColLabel">
+                                <FormattedMessage id="agent.Address" /> 2
+                                <span style={{ color: 'red' }}>*</span>
+                              </label>
+                              <input
+                                type="text"
+                                name="addresstwo"
+                                placeholder="Address 2"
+                                value={this.state.addresstwo}
+                                onChange={this.handleChange}
+                              />
+                            </div>
+                            <div className="formCol">
+                              <label className="formColLabel">
+                                <FormattedMessage id="agent.City" />
+                                <span style={{ color: 'red' }}>*</span>
+                              </label>
+                              <input
+                                type="text"
+                                name="city"
+                                placeholder="Enter City"
+                                value={this.state.city}
+                                onChange={this.handleChange}
+                              />
+                            </div>
+                            <div className="formCol">
+                              <label className="formColLabel">
+                                <FormattedMessage id="agent.ZipCode" />
+                                <span style={{ color: 'red' }}>*</span>
+                              </label>
+                              <input
+                                type="number"
+                                name="zipcode"
+                                placeholder="Enter Code"
+                                value={this.state.zipcode}
+                                onChange={this.handleChange}
+                              />
+                            </div>
+                          </div>
+                          <div className="mapformrow formRow">
+                            <div className="formCol">
+                              <label className="formColLabel"><FormattedMessage id="agent.Longitude" /></label>
+                              <input
+                                type="number"
+                                placeholder="55.3781° N"
+                                name="longitutde"
+                                value={this.state.longitude}
+                                onChange={this.handleChange}
+                              />
+                            </div>
+                            <div className="formCol">
+                              <label className="formColLabel"><FormattedMessage id="agent.Latitude" /></label>
+                              <input
+                                type="number"
+                                name="longitude"
+                                placeholder="3.4360° W"
+                                value={this.state.latitude}
+                              />
+                            </div>
+                            <button
+                              className="c_first_pending_BTN"
+                              name="latitude"
+                              onClick={this.getGeo}
+                            >
+                              <FormattedMessage id="agent.Geolocation" />
+                            </button>
                           </div>
                         </div>
                       </div>
-                    )}
+                      {this.state.kycMerchantCategory == "Individual" && (
+                        <>
 
-                    <div>
-                      <div class="custom-d-flex confirm_p_w mTB00">
-                        <button class="blackbtn aryousureBTN confirmBtnR">
-                          Save
-                        </button>
-                        <button
-                          class="aryousureBTN confirmBtnR"
-                          onClick={this.showOTPModal}
-                        >
-                          Save & Submit
-                        </button>
-                      </div>
-                      <Modal
-                        visible={this.state.OTPModalVisible}
-                        onCancel={this.handleCancelOTPModal}
-                        footer={null}
-                      >
-                        <div style={{ textAlign: "center" }}>
-                          <h2 style={{ fontSize: '15px' }}>
-                            Please enter the verification code you received on <br /> {this.state.mobileno}
-                          </h2>
-
-                          <OtpInput
-                            value={this.state.otp}
-                            shouldAutoFocus={true}
-                            onChange={(e) => this.setOtp(e)}
-                            numInputs={6}
-                            seperator={<span></span>}
-                            isInputNum={true}
-                            inputStyle={{
-                              width: "50px",
-                              padding: "0px",
-                              marginRight: "10px",
-                              marginLeft: "10px",
-                              fontWeight: "600",
-                              fontSize: "16px",
-                              lineHeight: "20px",
-                              padding: "15px 20px",
-                              borderRadius: "5px",
-                              border: "1px solid transparent",
-                              color: "#DA4139",
-                              background: "#F2F2F2",
-                              display: "inline-block",
-                              boxShadow: "0px 8px 8px rgba(37, 51, 66, 0.15)",
-                            }}
-                            containerStyle={{
-                              paddingLeft: "25px",
-                              marginTop: "20px"
-                            }}
-                          />
-
-                          <div style={{ textAlign: "left", marginTop: "10px", paddingLeft: "25px" }}>
-                            <Button
-                              type="link"
-                              disabled={this.state.isResendOTPDisabled}
-                              style={{
-                                color: this.state.isResendOTPDisabled ? "darkgray" : "#066FD0",
-                                paddingLeft: "0px",
-                                fontWeight: "550",
-                              }}
-                              onClick={() => this.resendOTP()}
-                            >
-                              Resend Code
-                            </Button>
-                          </div>
-
-                          <button
+                          <div
+                            className="col-md-12"
                             style={{
-                              marginTop: "20px",
-                              height: "40px",
-                              color: "white"
+                              display: "flex",
+                              justifyContent: "space-around",
+                              marginTop: "70px",
+                              marginBottom: "70px",
                             }}
-                            disabled={this.state.otp.length < 6 ? true : false}
-                            onClick={() => {
-                              this.SubmitForm()
-                            }}
-                            className="btn-default btn"
                           >
-                            Submit KYC
+
+                            <div
+                              className="col-md-6 float-left"
+                              style={{ float: "left", marginRight: "5px" }}
+                            >
+                              <div style={{ textAlign: "center" }}>
+                                <Upload
+                                  listType="picture-card"
+                                  maxCount={1}
+                                  customRequest={dummyRequest}
+                                  onPreview={this.handlePreviewUploadProof}
+                                  onChange={(file) =>
+                                    this.handleChangeFile(file, "uploadproof")
+                                  }
+                                  fileList={this.state.uploadFile}
+                                >
+                                  {uploadButton}
+                                </Upload>
+                                <Modal
+                                  visible={this.state.uploadProofVisible}
+                                  title={this.state.previewUploadTitle}
+                                  footer={null}
+                                  onCancel={this.handleCancelUploadImage}
+                                >
+                                  <img
+                                    style={{ width: "100%" }}
+                                    src={this.state.previewUploadProof}
+                                  />
+                                </Modal>
+                                <p style={{ color: "darkgray", paddingRight: '10px' }}>
+                                  <FormattedMessage id="agent.UploadProof" />
+                                </p>
+                                {this.state.receivedUploadProofImage ? (
+                                  <>
+                                    <button style={{ backgroundColor: "#343A40", fontWeight: "bold", color: "white", borderRadius: "10px", border: "none", padding: "10px" }} onClick={() => {
+                                      this.setState({
+                                        previewReceivedUploadProofImage: true
+                                      });
+                                    }}>View Uploaded Proof</button>
+                                    {/* <img src={this.state.receivedUploadProofImage} /> */}
+
+                                    <Modal
+                                      visible={this.state.previewReceivedUploadProofImage}
+                                      title={"Upload Proof"}
+                                      footer={null}
+                                      onCancel={() => {
+                                        this.setState({
+                                          previewReceivedUploadProofImage: false
+                                        });
+                                      }}
+                                    >
+                                      <img
+                                        style={{ width: "100%" }}
+                                        src={this.state.receivedUploadProofImage}
+                                      />
+                                    </Modal>
+                                  </>
+                                ) : <></>}
+                              </div>
+                            </div>
+                            <div
+                              className="col-md-6 float-left"
+                              style={{ float: "left", marginRight: "5px" }}
+                            >
+                              <div style={{ textAlign: "center" }}>
+
+                                <Upload
+                                  listType="picture-card"
+                                  customRequest={dummyRequest}
+                                  maxCount={1}
+                                  onPreview={this.handlePreviewAddressProof}
+                                  onChange={(file) =>
+                                    this.handleChangeFile(file, "addressproof")
+                                  }
+                                  fileList={this.state.addressFile}
+                                >
+                                  {uploadButton}
+                                </Upload>
+                                <Modal
+                                  visible={this.state.addressProofVisible}
+                                  title={this.state.previewAddressTitle}
+                                  footer={null}
+                                  onCancel={this.handleCancelAddressImage}
+                                >
+                                  <img
+                                    style={{ width: "100%" }}
+                                    src={this.state.previewAddressProof}
+                                  />
+                                </Modal>
+                                <p style={{ color: "darkgray", paddingRight: '10px' }}>
+                                  <FormattedMessage id="agent.AddressProof" />
+                                </p>
+                                {this.state.receivedAddressProofImage ? (
+                                  <>
+                                    <button style={{ backgroundColor: "#343A40", fontWeight: "bold", color: "white", borderRadius: "10px", border: "none", padding: "10px" }} onClick={() => {
+                                      this.setState({
+                                        previewReceivedAddressProofImage: true
+                                      });
+                                    }}>View Address Proof</button>
+                                    {/* <img src={this.state.receivedUploadProofImage} /> */}
+
+                                    <Modal
+                                      visible={this.state.previewReceivedAddressProofImage}
+                                      title={"Address Proof"}
+                                      footer={null}
+                                      onCancel={() => {
+                                        this.setState({
+                                          previewReceivedAddressProofImage: false
+                                        });
+                                      }}
+                                    >
+                                      <img
+                                        style={{ width: "100%" }}
+                                        src={this.state.receivedAddressProofImage}
+                                      />
+                                    </Modal>
+                                  </>
+                                ) : <></>}
+                              </div>
+                            </div>
+                          </div>
+                        </>
+                      )}
+
+                      {this.state.kycMerchantCategory !== "Individual" && this.state.kycMerchantCategory !== "Select Category" && (
+                        <>
+                          <div className="formCol">
+                            <label className="formColLabel">
+                              Name of Organization
+                            </label>
+                            <input
+                              type="text"
+                              placeholder="Enter Organization Name"
+                              name="nameoforganization"
+                              value={this.state.nameoforganization}
+                              onChange={this.handleChange}
+                            />
+                          </div>
+                          <div className="formCol">
+                            <label className="formColLabel">
+                              Registered Date
+                            </label>
+                            <DatePicker
+                              selected={this.state.registereddate}
+                              maxDate={new Date()}
+                              className="form-control"
+                              name="registereddate"
+                              onChange={this.registereddate}
+                              peekNextMont
+                              showMonthDropdown
+                              showYearDropdown
+                              dropdownMode="select"
+                              autoComplete="off"
+                            />
+                          </div>
+                        </>
+                      )}
+
+                      {this.state.kycMerchantCategory !== "Individual" && this.state.kycMerchantCategory !== "Select Category" && (
+                        <div className="kycDetailsBox">
+                          <h1 className="kycDetails textAlignCenter">
+                            Business Details
+                          </h1>
+                          <div className="kycformBox">
+                            <div className="formRow">
+                              <div className="formCol">
+                                <label className="formColLabel">
+                                  Website Link
+                                </label>
+                                <input
+                                  type="text"
+                                  name="websitelink"
+                                  value={this.state.websitelink}
+                                  placeholder="aammnnbb@gmail.com"
+                                  onChange={this.handleChange}
+                                />
+                              </div>
+
+                              {this.state.kycMerchantCategory !==
+                                "Individual" && this.state.kycMerchantCategory !== "Select Category" && (
+                                  <>
+                                    <div className="formCol">
+                                      <label className="formColLabel">
+                                        Trade Register Number
+                                      </label>
+                                      <input
+                                        type="text"
+                                        placeholder="237132321312"
+                                        name="traderegisternumber"
+                                        value={this.state.traderegisternumber}
+                                        onChange={this.handleChange}
+                                      />
+                                    </div>
+                                  </>
+                                )}
+
+                              <div className="formCol">
+                                <label className="formColLabel">
+                                  Taxpayer Number{" "}
+                                </label>
+                                <input
+                                  type="text"
+                                  placeholder="123456899"
+                                  name="taxpayernumber"
+                                  value={this.state.taxpayernumber}
+                                  onChange={this.handleChange}
+                                />
+                              </div>
+                              <div className="formCol selectedfilew">
+                                <div>
+                                  <label
+                                    className="formColLabel"
+                                    style={{ marginBottom: "0px" }}
+                                  >
+                                    Upload Proof * :{" "}
+                                  </label>
+                                </div>
+                                {this.state.id !== "" && (
+                                  <button
+                                    className="c_first_pending_BTN"
+                                    style={{ marginLeft: "12px" }}
+                                    onClick={this.uploadProof}
+                                  >
+                                    View
+                                  </button>
+                                )}
+                              </div>
+                              <div className="formCol selectedfilew">
+                                <div>
+                                  <label
+                                    className="formColLabel"
+                                    style={{ marginBottom: "0px" }}
+                                  >
+                                    Address Proof * :{" "}
+                                  </label>
+                                </div>
+
+                                {this.state.id !== "" && (
+                                  <button
+                                    className="c_first_pending_BTN"
+                                    style={{ marginLeft: "12px" }}
+                                    onClick={this.onTax}
+                                  >
+                                    View
+                                  </button>
+                                )}
+                              </div>
+
+                              <div className="formCol">
+                                <Upload
+                                  listType="picture-card"
+                                  customRequest={dummyRequest}
+                                  fileList={this.state.uploadFile}
+                                  onChange={(file) =>
+                                    this.handleChangeFile(file, "uploadproof")
+                                  }
+                                  beforeUpload={() => false}
+                                >
+                                  {uploadButton}
+                                </Upload>
+                              </div>
+                              <div className="formCol">
+                                <Upload
+                                  listType="picture-card"
+                                  customRequest={dummyRequest}
+                                  fileList={this.state.addressFile}
+                                  onChange={(file) =>
+                                    this.handleChangeFile(file, "addressproof")
+                                  }
+                                  onPreview={true}
+                                  beforeUpload={() => false}
+                                >
+                                  {uploadButton}
+                                </Upload>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {this.state.kycMerchantCategory === "Individual" && (
+                        <div className="kycDetailsBox">
+                          <h1 className="kycDetails textAlignCenter">
+                            <FormattedMessage id="agent.IdentityInformation" />
+                          </h1>
+                          <div className="kycformBox">
+                            <div className="formRow">
+                              <div className="formCol">
+                                <label className="formColLabel">
+                                  <FormattedMessage id="agent.Identification" /><span style={{ color: 'red' }}>*</span>
+                                </label>
+                                <div className="categorySelect">
+                                  <Select
+                                    defaultValue=""
+                                    value={this.state.identification}
+                                    style={{ width: 100 + "%", height: 52 }}
+                                    name="identification"
+                                    onChange={this.handleChangeSelect}
+                                  >
+                                    <Option value="">
+                                      Select Identification Type
+                                    </Option>
+                                    <Option value="password"><FormattedMessage id="agent.Passport" /></Option>
+                                    <Option value="identity_card">
+                                      <FormattedMessage id="agent.IdentityCard" />
+                                    </Option>
+                                  </Select>
+                                </div>
+                              </div>
+                              <div className="formCol">
+                                <label className="formColLabel"><FormattedMessage id="agent.Number" /><span style={{ color: 'red' }}>*</span></label>
+                                <input
+                                  type="text"
+                                  name="number"
+                                  value={this.state.number}
+                                  placeholder="Enter Number"
+                                  onChange={this.handleChange}
+                                />
+                              </div>
+                              <div className="formCol">
+                                <label className="formColLabel">
+                                  <FormattedMessage id="agent.ExpiryDate" /><span style={{ color: 'red' }}>*</span>
+                                </label>
+                                <DatePicker
+                                  selected={this.state.endofvaliditydate}
+                                  minDate={new Date()}
+                                  className="form-control"
+                                  name="endofvaliditydate"
+                                  onChange={this.identityExpiry}
+                                  peekNextMont
+                                  showMonthDropdown
+                                  showYearDropdown
+                                  dropdownMode="select"
+                                  autoComplete="off"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      <div>
+                        <div class="custom-d-flex confirm_p_w mTB00">
+                          <button class="blackbtn aryousureBTN confirmBtnR">
+                            <FormattedMessage id="agent.Save" />
+                          </button>
+                          <button
+                            class="aryousureBTN confirmBtnR"
+                            onClick={this.showOTPModal}
+                          >
+                            <FormattedMessage id="agent.SaveAndSubmit" />
                           </button>
                         </div>
-                      </Modal>
+                        <Modal
+                          visible={this.state.OTPModalVisible}
+                          onCancel={this.handleCancelOTPModal}
+                          footer={null}
+                        >
+                          <div style={{ textAlign: "center" }}>
+                            <h2 style={{ fontSize: '15px' }}>
+                              <FormattedMessage id="agent.PleaseEnterVerificationCode" />
+                              <br /> {this.state.mobileno}
+                            </h2>
+
+                            <OtpInput
+                              value={this.state.otp}
+                              shouldAutoFocus={true}
+                              onChange={(e) => this.setOtp(e)}
+                              numInputs={6}
+                              seperator={<span></span>}
+                              isInputNum={true}
+                              inputStyle={{
+                                width: "50px",
+                                padding: "0px",
+                                marginRight: "10px",
+                                marginLeft: "10px",
+                                fontWeight: "600",
+                                fontSize: "16px",
+                                lineHeight: "20px",
+                                padding: "15px 20px",
+                                borderRadius: "5px",
+                                border: "1px solid transparent",
+                                color: "#DA4139",
+                                background: "#F2F2F2",
+                                display: "inline-block",
+                                boxShadow: "0px 8px 8px rgba(37, 51, 66, 0.15)",
+                              }}
+                              containerStyle={{
+                                paddingLeft: "25px",
+                                marginTop: "20px"
+                              }}
+                            />
+
+                            <div style={{ textAlign: "left", marginTop: "10px", paddingLeft: "25px" }}>
+                              <Button
+                                type="link"
+                                disabled={this.state.isResendOTPDisabled}
+                                style={{
+                                  color: this.state.isResendOTPDisabled ? "darkgray" : "#066FD0",
+                                  paddingLeft: "0px",
+                                  fontWeight: "550",
+                                }}
+                                onClick={() => this.resendOTP()}
+                              >
+                                <FormattedMessage id="agent.ResendCode" />
+                              </Button>
+                            </div>
+
+                            <button
+                              style={{
+                                marginTop: "20px",
+                                height: "40px",
+                                color: "white"
+                              }}
+                              disabled={this.state.otp.length < 6 ? true : false}
+                              onClick={() => {
+                                this.SubmitForm()
+                              }}
+                              className="btn-default btn"
+                            >
+                              <FormattedMessage id="agent.Submit" /> KYC
+                            </button>
+                          </div>
+                        </Modal>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -1531,13 +1576,13 @@ class KYC extends Component {
             </div>
           </div>
         </div>
-      </div>
+      </IntlProvider>
     );
   }
 }
 
 // function for mapping redux state values with props //
-const mapStateToProps = ({ agentReducer }) => {
+const mapStateToProps = ({ agentReducer, commonReducer }) => {
 
   return {
     kycSendStatus: agentReducer.kycSendStatus,
@@ -1547,7 +1592,8 @@ const mapStateToProps = ({ agentReducer }) => {
     agentOTPStatus: agentReducer.agentOTPStatus,
     profileDetails: agentReducer.profileDetails,
     uploadProofImage: agentReducer.uploadProofImage,
-    addressProofImage: agentReducer.addressProofImage
+    addressProofImage: agentReducer.addressProofImage,
+    language: commonReducer.language,
   }
 
 };
