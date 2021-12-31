@@ -19,7 +19,7 @@ function AgentRegistration(props) {
 
     setLanguage(localStorage.getItem("lang"));
 
-    console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
+    // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
 
   }, [])
 
