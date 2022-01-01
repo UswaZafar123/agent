@@ -12,6 +12,7 @@ import Button from "@material-ui/core/Button";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import Grid from "@material-ui/core/Grid";
+import moment from "moment";
 import {
   Card,
   CardBody,
@@ -26,7 +27,7 @@ import {
   Label,
 } from "reactstrap";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import { Select } from "antd";
+import { Select, DatePicker } from "antd";
 
 import { connect } from "react-redux";
 
@@ -59,70 +60,7 @@ class BankingAccountOpening extends Component {
     };
   }
   componentDidMount() {}
-  componentWillReceiveProps(nextprops) {
-    this.setState({ rowData: nextprops.transactionResponseList });
-  }
-
-  onPaginationChanged = () => {
-    console.log("onPaginationPageLoaded");
-    if (this.state.gridApi) {
-      document.getElementById("lbCurrentPage").innerHTML =
-        this.state.gridApi.paginationGetCurrentPage() + 1;
-      document.getElementById("bTo").innerHTML =
-        this.state.gridApi.paginationGetPageSize() *
-          this.state.gridApi.paginationGetCurrentPage() +
-        1;
-
-      const changedV =
-        this.state.gridApi.paginationGetPageSize(10) *
-        (this.state.gridApi.paginationGetCurrentPage() + 1);
-      // if (changedV <= this.state.rowData.length) {
-      //     document.getElementById('afterTo').innerHTML = (this.state.gridApi.paginationGetPageSize(10)) * (this.state.gridApi.paginationGetCurrentPage() + 1)
-      // }
-      // else {
-      //     document.getElementById('afterTo').innerHTML = this.state.rowData.length
-      // }
-    }
-  };
-
-  onBtNext = () => {
-    this.state.gridApi.paginationGoToNextPage();
-    // console.log()
-  };
-
-  onBtPrevious = () => {
-    this.state.gridApi.paginationGoToPreviousPage();
-  };
-
-  setStartDate = (date) => {
-    this.setState({ startdate: date });
-  };
-
-  setEndDate = (date) => {
-    this.setState({ endDate: date });
-  };
-
-  filterData = () => {
-    var firstDayFormat = new Date(
-      this.state.startdate.getTime() -
-        this.state.startdate.getTimezoneOffset() * 60000
-    )
-      .toISOString()
-      .split("T")[0];
-    var todayDateFormat = new Date(
-      this.state.endDate.getTime() -
-        this.state.endDate.getTimezoneOffset() * 60000
-    )
-      .toISOString()
-      .split("T")[0];
-
-    this.props.getMerchantTransactionList(
-      sessionStorage.getItem("token"),
-      firstDayFormat,
-      todayDateFormat,
-      "XAF"
-    );
-  };
+  componentWillReceiveProps(nextprops) {}
 
   render() {
     // console.log("jai",this.state.paginationGetCurrentPage)
@@ -138,13 +76,13 @@ class BankingAccountOpening extends Component {
                       <h1 className="list_top_heading textAlignCenter text-center">
                         Banking Account Opening
                       </h1>
-                      <button
+                      {/* <button
                         className="addposbtn c_first_pending_BTN"
                         onClick={this.addChange}
                       >
                         Cancel
                       </button>{" "}
-                      *
+                      * */}
                     </div>
                   </div>
                   <div className=" chartCardMiddle" style={{ padding: "24px" }}>
@@ -195,21 +133,6 @@ class BankingAccountOpening extends Component {
                         </div>
                       </Grid>
                       <Grid item xs={12} sm={6}>
-                        <label className="non-afb-label"> Date of Birth </label>
-                        <div className="inputFlash">
-                          <Input
-                            type="date"
-                            placeholder="Date of Birth"
-                            name="dateOfBirth"
-                            value={this.state.dateOfBirth}
-                            style={{ width: 100 + "%", height: 52 }}
-                            onChange={(e) => {
-                              this.setState({ dateOfBirth: e.target.value });
-                            }}
-                          ></Input>
-                        </div>
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
                         <label className="non-afb-label">Email Id </label>
                         <div className="inputFlash">
                           <Input
@@ -238,7 +161,70 @@ class BankingAccountOpening extends Component {
                         </div>
                       </Grid>
                       <Grid item xs={12} sm={6}>
-                        <label className="non-afb-label">Address 1 </label>
+                        <label className="non-afb-label"> Date of Birth </label>
+                        <div className="inputFlash">
+                          <DatePicker
+                            format="YYYY-MM-DD"
+                            value={moment(this.state.dateOfBirth)}
+                            style={{ width: "100%", background: "#f3f3f3" }}
+                            onChange={(date, dateString) => {
+                              this.setState({ dateOfBirth: dateString });
+                            }}
+                          />
+                        </div>
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <label className="non-afb-label">
+                          Customer Picture
+                        </label>
+                        <div className="inputFlash">
+                          <Input type="file" name="addressProof"></Input>
+                        </div>
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <label className="non-afb-label">Document Type</label>
+                        <div className="inputFlash">
+                          <div className="categorySelect">
+                            <Select
+                              style={{ width: 100 + "%", height: 52 }}
+                              defaultValue="ID_CARD"
+                            >
+                              <Option value="ID_CARD">ID CARD</Option>
+                              <Option value="PASSPORT">Passport</Option>
+                            </Select>
+                          </div>
+                        </div>
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <label className="non-afb-label">Document Number</label>
+                        <div className="inputFlash">
+                          <Input
+                            type="text"
+                            placeholder="Number"
+                            name="number"
+                            value={this.state.uin}
+                          ></Input>
+                        </div>
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <label className="non-afb-label">
+                          Document Expiry Date
+                        </label>
+                        <div className="inputFlash">
+                          <DatePicker
+                            disabledDate={(current) => {
+                              let customDate = moment().format("YYYY-MM-DD");
+                              return (
+                                current &&
+                                current < moment(customDate, "YYYY-MM-DD")
+                              );
+                            }}
+                            style={{ width: "100%", background: "#f3f3f3" }}
+                          />
+                        </div>
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <label className="non-afb-label">Address </label>
                         <div className="inputFlash">
                           <Input
                             type="text"
@@ -251,20 +237,7 @@ class BankingAccountOpening extends Component {
                           ></Input>
                         </div>
                       </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <label className="non-afb-label">Address 2 </label>
-                        <div className="inputFlash">
-                          <Input
-                            type="text"
-                            placeholder="Address 2"
-                            name="address2"
-                            value={this.state.address2}
-                            onChange={(e) => {
-                              this.setState({ address2: e.target.value });
-                            }}
-                          ></Input>
-                        </div>
-                      </Grid>
+
                       <Grid item xs={12} sm={6}>
                         <label className="non-afb-label">City </label>
                         <div className="inputFlash">
@@ -322,37 +295,7 @@ class BankingAccountOpening extends Component {
                           ></Input>
                         </div>
                       </Grid>
-                      {/* <Grid item xs={12} sm={6}>
-                        <label> </label>
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <label className="non-afb-label">Longitude </label>
-                        <div className="inputFlash">
-                          <Input
-                            type="text"
-                            placeholder="80"
-                            name="longitude"
-                            value={this.state.longitude}
-                            onChange={(e) => {
-                                this.setState({ longitude: e.target.value });
-                              }}
-                          ></Input>
-                        </div>
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <label className="non-afb-label">Latitude </label>
-                        <div className="inputFlash">
-                          <Input
-                            type="text"
-                            placeholder="6"
-                            name="latitude"
-                            value={this.state.latitude}
-                            onChange={(e) => {
-                                this.setState({ latitude: e.target.value });
-                              }}
-                          ></Input>
-                        </div>
-                      </Grid> */}
+
                       <Grid item xs={12} sm={6}>
                         <label className="non-afb-label">Identification </label>
                         <div className="inputFlash">
@@ -364,29 +307,7 @@ class BankingAccountOpening extends Component {
                           ></Input>
                         </div>
                       </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <label className="non-afb-label">Number</label>
-                        <div className="inputFlash">
-                          <Input
-                            type="text"
-                            placeholder="Number"
-                            name="number"
-                            value={this.state.uin}
-                          ></Input>
-                        </div>
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <label className="non-afb-label">Expiry Date</label>
-                        <div className="inputFlash">
-                          <Input
-                            type="date"
-                            placeholder="expiry Date"
-                            name="expiryDate"
-                            value={this.state.expiryDate}
-                            style={{ width: 100 + "%", height: 52 }}
-                          ></Input>
-                        </div>
-                      </Grid>
+
                       <Grid item xs={12} sm={6}>
                         <label className="non-afb-label">UIN</label>
                         <div className="inputFlash">
@@ -397,37 +318,7 @@ class BankingAccountOpening extends Component {
                           ></Input>
                         </div>
                       </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <label className="non-afb-label">
-                          Type of Customer
-                        </label>
-                        <div className="inputFlash">
-                          <div className="categorySelect">
-                            <Select style={{ width: 100 + "%", height: 52 }}>
-                              <Option>Individual</Option>
-                              <Option>Group</Option>
-                            </Select>
-                          </div>
-                        </div>
-                      </Grid>
 
-                      <Grid item xs={12} sm={6}>
-                        <label className="non-afb-label">
-                          Customer Picture
-                        </label>
-                        <div className="inputFlash">
-                          <Input type="file" name="addressProof"></Input>
-                        </div>
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <label> </label>
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <button className="btn_1_view_proof_banking_opening">
-                          {" "}
-                          View Proof
-                        </button>
-                      </Grid>
                       <Grid item xs={12} sm={6}>
                         <label> </label>
                       </Grid>
