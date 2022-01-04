@@ -16,7 +16,7 @@ import { FolderViewOutlined } from '@ant-design/icons';
 
 import { connect } from 'react-redux';
 import PhoneInput from 'react-phone-input-2';
-import { addAgentUser, getAllAgentUsers, getAllUserRoles } from '../../../../services/agent/action';
+import { addAgentUser, deleteAgentUser, getAllAgentUsers, getAllUserRoles } from '../../../../services/agent/action';
 
 const { Option } = Select;
 
@@ -41,7 +41,7 @@ class Users extends Component {
                     cellRendererFramework: (params) => <div className="ac-view">
                         <span className="" style={{ cursor: "pointer", fontSize: "17px" }} onClick={this.viewNewRole}><FolderViewOutlined /></span>
                         <span className="icon-edit-2" style={{ cursor: "pointer" }} style={{ marginLeft: "5%" }} onClick={() => this.editNewRole(params.data)}></span>
-                        <span className="icon-Group-357" style={{ marginLeft: "5%" }} onClick={() => this.props.deleteUserRole(sessionStorage.getItem("token"), params.data.userRoleId)}></span>
+                        <span className="icon-Group-357" style={{ marginLeft: "5%" }} onClick={() => this.props.deleteAgentUser(params.data.AgentUserID)}></span>
                     </div>,
                     cellStyle: (params) => { return { textAlign: "center" } },
                 }
@@ -85,6 +85,11 @@ class Users extends Component {
             this.onCancelView();
         }
 
+        if (nextprops.getAgentData._embedded === undefined) {
+            this.setState({
+                agentUserData: []
+            });
+        }
     }
 
     onFirstDataRendered = (params) => {
@@ -290,6 +295,7 @@ class Users extends Component {
                                                                 return (
                                                                     {
 
+                                                                        AgentUserID: data.agentUserId,
                                                                         Name: data.name,
                                                                         Email: data.email,
                                                                         Username: data.userName,
@@ -473,6 +479,7 @@ const mapStateToProps = ({ agentReducer }) => {
         addAgentUserData: agentReducer.addAgentUserData,
         getAgentDataStatus: agentReducer.getAgentDataStatus,
         getAgentData: agentReducer.getAgentData,
+        deleteAgentUserStatus: agentReducer.deleteAgentUserStatus,
     }
 };
 
@@ -483,6 +490,7 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch(getAllUserRoles(token)),
     getAllAgentUsers: () =>
         dispatch(getAllAgentUsers()),
+    deleteAgentUser: (id) => dispatch(deleteAgentUser(id))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Users);

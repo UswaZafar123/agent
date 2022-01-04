@@ -1513,6 +1513,16 @@ const agentReducer = (state = initialState, action) => {
         getAgentDataStatus: false,
         getAgentData: null,
       }
+    case actionType.DELETE_AGENTUSER_SUCCESS:
+      return {
+        ...state,
+        deleteAgentUserStatus: true
+      }
+    case actionType.DELETE_AGENTUSER_FAILURE:
+      return {
+        ...state,
+        deleteAgentUserStatus: false
+      }
     default:
       return state;
   }

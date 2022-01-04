@@ -1717,11 +1717,18 @@ export const addAgentUser = (payload) => (dispatch) => {
         toastr.warning(
           "Agent User Creation Warning!"
         );
+        dispatch({
+          type: actionType.ADD_AGENTUSER_FAILURE,
+          payload: res.data,
+        });
       }
     })
     .catch((err) => {
       dispatch(HideLoading());
       toastr.error("Error Creating Agent User");
+      dispatch({
+        type: actionType.ADD_AGENTUSER_FAILURE,
+      });
     });
 };
 
@@ -1745,14 +1752,67 @@ export const getAllAgentUsers = () => (dispatch) => {
           type: actionType.GET_AGENTUSER_SUCCESS,
           payload: res.data,
         });
+        dispatch({
+          type: actionType.DELETE_AGENTUSER_FAILURE,
+          payload: res.data,
+        });
+        dispatch({
+          type: actionType.ADD_AGENTUSER_FAILURE,
+          payload: res.data,
+        });
       } else {
         toastr.warning(
           "Agent User Fetch Warning!"
         );
+        dispatch({
+          type: actionType.GET_AGENTUSER_FAILURE,
+        });
       }
     })
     .catch((err) => {
       dispatch(HideLoading());
       toastr.error("Error Fetching Agent Users");
+      dispatch({
+        type: actionType.GET_AGENTUSER_FAILURE,
+      });
+    });
+};
+
+export const deleteAgentUser = (id) => (dispatch) => {
+  dispatch(ShowLoading());
+  const config = {
+    method: "DELETE",
+    url: URL.agent.AGENT_USER + "/" + id,
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+  axios(config)
+    .then((res) => {
+      dispatch(HideLoading());
+      if (res.status === 204) {
+        toastr.success(
+          "Agent User Delete Successful"
+        );
+        dispatch({
+          type: actionType.DELETE_AGENTUSER_SUCCESS,
+        });
+        dispatch(getAllAgentUsers());
+      } else {
+        toastr.warning(
+          "Agent User Delete Warning!"
+        );
+        dispatch({
+          type: actionType.DELETE_AGENTUSER_FAILURE,
+          payload: res.data,
+        });
+      }
+    })
+    .catch((err) => {
+      dispatch(HideLoading());
+      toastr.error("Error Deleting Agent User");
+      dispatch({
+        type: actionType.DELETE_AGENTUSER_FAILURE,
+      });
     });
 };
