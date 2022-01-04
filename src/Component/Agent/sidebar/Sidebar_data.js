@@ -336,7 +336,7 @@ export const Side_bar_data = [
           //     iconClass:"icon-Asset-11"
           // },
           {
-            title: "Users",
+            title: "Agent Users",
             path: "/settings/general/users",
             iconClass: "icon-Asset-2",
           },

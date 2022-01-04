@@ -16,7 +16,7 @@ import { FolderViewOutlined } from '@ant-design/icons';
 
 import { connect } from 'react-redux';
 import PhoneInput from 'react-phone-input-2';
-import { addAgentUser, deleteAgentUser, getAllAgentUsers, getAllUserRoles } from '../../../../services/agent/action';
+import { addAgentUser, deleteAgentUser, getAllAgentUsers, getAllUserRoles, updateAgentUser } from '../../../../services/agent/action';
 
 const { Option } = Select;
 
@@ -37,10 +37,42 @@ class Users extends Component {
                 { headerName: "Mobile ", field: "MobileNumber" },
                 { headerName: "Role ", field: "Role" },
                 {
+                    headerName: "Status ", field: "Status",
+                    cellRendererFramework: (params) => (
+                        <div style={{ alignItems: "center" }}>
+                            <span
+                                className={
+                                    params.data.Status === "ENABLE" ? "yesF yesColorF" : "yesF noColorF"
+                                }
+                                style={{ fontWeight: "bold", textDecoration: "underline", cursor: "pointer" }}
+                                onClick={() => this.changeStatus(params.data)}
+                            >
+
+                                {params.data.Status === "DISABLE" ? "INACTIVE" : "ACTIVE"}
+                            </span>
+                            {/* <span
+                                style={{
+                                    textDecoration: "underline",
+                                    color: "blue",
+                                    cursor: "pointer",
+                                }}
+                                onClick={(e) => {
+                                    this.setAsFeaturedHandler(e, params.data);
+                                }}
+                            >
+                                {" "}
+                                {params.data.isFeatured ? "Unset Featured" : "Set as Featured"}
+                            </span> */}
+                        </div>
+                    ),
+                },
+
+                {
                     headerName: "Action", field: "Action",
                     cellRendererFramework: (params) => <div className="ac-view">
-                        <span className="" style={{ cursor: "pointer", fontSize: "17px" }} onClick={this.viewNewRole}><FolderViewOutlined /></span>
-                        <span className="icon-edit-2" style={{ cursor: "pointer" }} style={{ marginLeft: "5%" }} onClick={() => this.editNewRole(params.data)}></span>
+                        {/* <span style={{ cursor: "pointer" }}></span> */}
+
+                        <span className="icon-edit-2" style={{ cursor: "pointer" }} style={{ marginLeft: "5%" }} onClick={() => this.editAgentUser(params.data)}></span>
                         <span className="icon-Group-357" style={{ marginLeft: "5%" }} onClick={() => this.props.deleteAgentUser(params.data.AgentUserID)}></span>
                     </div>,
                     cellStyle: (params) => { return { textAlign: "center" } },
@@ -53,14 +85,32 @@ class Users extends Component {
             agentUserData: [],
 
             showAddNewUser: false,
+            showEditUser: false,
+            selectedAgentUserID: "",
             name: "",
             email: "",
             username: "",
             mobileNumber: "",
             role: "DEFAULT",
             rolesData: [],
+            currentStatus: "",
 
         };
+    }
+
+    changeStatus = (agentInfo) => {
+        let data = {
+            "agentUserId": agentInfo.AgentUserID,
+            "name": agentInfo.Name,
+            "email": agentInfo.Email,
+            "userName": agentInfo.Username,
+            "mobileNumber": "u_" + agentInfo.MobileNumber,
+            "userStatus": agentInfo.Status === "DISABLE" ? "ENABLE" : "DISABLE",
+            "userRoleId": (agentInfo.RoleID).toString()
+        }
+
+        // console.log(data, "EDITED DATA")
+        this.props.updateAgentUser(agentInfo.AgentUserID, data);
     }
 
     componentDidMount = () => {
@@ -160,7 +210,11 @@ class Users extends Component {
 
     showAddNewUser = () => {
         this.setState({
-            showAddNewUser: true
+            showAddNewUser: true,
+            showEditUser: false,
+            selectedAgentUserID: "",
+            currentStatus: "",
+            role: "DEFAULT"
         });
     }
 
@@ -169,6 +223,7 @@ class Users extends Component {
     };
 
     onAddNewUser = () => {
+
         let data = {
             "name": this.state.name,
             "email": this.state.email,
@@ -182,20 +237,53 @@ class Users extends Component {
 
     onCancelView = () => {
         this.setState({
+            showEditUser: false,
             showAddNewUser: false,
             name: "",
             email: "",
             username: "",
             mobileNumber: "",
-            role: ""
+            role: "",
+            currentStatus: "",
         });
     }
 
+    editAgentUser = (data) => {
+        // console.log(data, "EDIT DATA");
+        this.setState({
+            showAddNewUser: false,
+            showEditUser: true,
+            selectedAgentUserID: data.AgentUserID,
+            name: data.Name,
+            email: data.Email,
+            username: data.Username,
+            mobileNumber: data.MobileNumber,
+            role: data.RoleID,
+            currentStatus: data.Status
+        });
+    }
+
+    onUpdateAgentUser = () => {
+
+        let data = {
+            "agentUserId": this.state.selectedAgentUserID,
+            "name": this.state.name,
+            "email": this.state.email,
+            "userName": this.state.username,
+            "mobileNumber": "u_" + this.state.mobileNumber,
+            "userStatus": this.state.currentStatus,
+            "userRoleId": (this.state.role).toString()
+        }
+
+        // console.log(data, "EDITED DATA")
+        this.props.updateAgentUser(this.state.selectedAgentUserID, data);
+
+    }
     render() {
         return (
             <>
                 {
-                    !this.state.showAddNewUser && (
+                    !this.state.showAddNewUser && !this.state.showEditUser && (
                         <div className="main_contain settings-container">
                             <div className="merch_m_list_w">
                                 <div className="merch_list_card" id="merch_list_card">
@@ -205,9 +293,9 @@ class Users extends Component {
                                                 <div className="chartCardTop">
                                                     <div className="kyccustomformheading">
                                                         <h1 className="list_top_heading textAlignCenter text-center">
-                                                            Users
+                                                            Agent Users
                                                         </h1>
-                                                        <button className="addposbtn c_first_pending_BTN" onClick={this.showAddNewUser}>Add New User</button>
+                                                        <button className="addposbtn c_first_pending_BTN" onClick={this.showAddNewUser}>Add New Agent User</button>
                                                     </div>
                                                 </div>
                                                 <div className="chartCardMiddle" style={{ padding: "24px" }}>
@@ -300,6 +388,8 @@ class Users extends Component {
                                                                         Email: data.email,
                                                                         Username: data.userName,
                                                                         MobileNumber: data.mobileNumber.split("u_")[1],
+                                                                        Status: data.userStatus,
+                                                                        RoleID: data.userRole.userRoleId,
                                                                         Role: data.userRole.name
 
                                                                     }
@@ -353,7 +443,7 @@ class Users extends Component {
                                                 <div className="chartCardTop">
                                                     <div className="kyccustomformheading">
                                                         <h1 className="list_top_heading textAlignCenter text-center">
-                                                            Add New User
+                                                            Add New Agent User
                                                         </h1>
                                                     </div>
                                                 </div>
@@ -465,6 +555,129 @@ class Users extends Component {
                     )
                 }
 
+                {
+                    this.state.showEditUser && (
+                        <div className="main_contain settings-container">
+                            <div className="merch_m_list_w">
+                                <div className="merch_list_card" id="merch_list_card">
+                                    <div className="section_custom">
+                                        <div className="sectionInn">
+                                            <div className="chartCard_w">
+                                                <div className="chartCardTop">
+                                                    <div className="kyccustomformheading">
+                                                        <h1 className="list_top_heading textAlignCenter text-center">
+                                                            Edit Agent User
+                                                        </h1>
+                                                    </div>
+                                                </div>
+                                                <div className="chartCardMiddle" style={{ padding: "24px" }}>
+
+                                                    <div className="containerBiaN_form">
+                                                        <div className="containerBiaN_f_row">
+                                                            <div className="containerBiaN_f_col width30percent textAlignRight">
+                                                                <label>Name</label>
+                                                            </div>
+                                                            <div className="containerBiaN_f_col width70percent">
+                                                                <input name="name" value={this.state.name} onChange={(e) => { this.handleOnChangeInput(e) }} type="text" placeholder="Enter Name" />
+                                                            </div>
+                                                        </div>
+                                                        <div className="containerBiaN_f_row">
+                                                            <div className="containerBiaN_f_col width30percent textAlignRight">
+                                                                <label>Email</label>
+                                                            </div>
+                                                            <div className="containerBiaN_f_col width70percent">
+                                                                <input name="email" value={this.state.email} onChange={(e) => { this.handleOnChangeInput(e) }} type="text" placeholder="Enter Email Address" />
+                                                            </div>
+                                                        </div>
+                                                        <div className="containerBiaN_f_row">
+                                                            <div className="containerBiaN_f_col width30percent textAlignRight">
+                                                                <label>Username</label>
+                                                            </div>
+                                                            <div className="containerBiaN_f_col width70percent">
+                                                                <input name="username" value={this.state.username} onChange={(e) => { this.handleOnChangeInput(e) }} type="text" placeholder="Enter Username" />
+                                                            </div>
+                                                        </div>
+                                                        <div className="containerBiaN_f_row">
+                                                            <div className="containerBiaN_f_col width30percent textAlignRight">
+                                                                <label>Mobile Number</label>
+                                                            </div>
+                                                            <div className="containerBiaN_f_col width70percent">
+                                                                {/* <input name="mobileNumber" value={this.state.mobileNumber} onChange={(e) => { this.handleOnChangeInput(e) }} type="text" placeholder="Enter Mobile Number" /> */}
+                                                                <PhoneInput
+                                                                    country="cm"
+                                                                    enableSearch={true}
+                                                                    countryCodeEditable={false}
+                                                                    enableLongNumbers={false}
+                                                                    searchPlaceholder="Search for countries.."
+                                                                    inputStyle={{ width: "100%" }}
+                                                                    value={this.state.mobileNumber}
+                                                                    onChange={this.handleChangeMobile}
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                        {/* <div className="containerBiaN_f_row">
+                                                            <div className="containerBiaN_f_col width30percent textAlignRight">
+                                                                <label>Role</label>
+                                                            </div>
+                                                            <div className="containerBiaN_f_col width70percent">
+                                                                <input name="role" value={this.state.role} onChange={(e) => { this.handleOnChangeInput(e) }} type="text" placeholder="Enter Description" />
+                                                            </div>
+                                                        </div> */}
+
+                                                        <div className="containerBiaN_f_row">
+                                                            <div className="containerBiaN_f_col width30percent textAlignRight">
+                                                                <label>Role <span className="mantdat">*</span></label>
+                                                            </div>
+                                                            <div className="containerBiaN_f_col width70percent">
+                                                                <div className="categorySelect">
+                                                                    <Select
+                                                                        value={this.state.role}
+                                                                        style={{ width: 100 + "%", height: 52 }}
+                                                                        onChange={(e) => {
+                                                                            this.setState({
+                                                                                role: e
+                                                                            });
+                                                                        }}
+                                                                        id={'page-size'}
+                                                                    >
+                                                                        <Option value="DEFAULT" disabled={true}>Select a Role</Option>
+                                                                        {this.state.rolesData.map((data) => {
+
+                                                                            return (
+                                                                                <>
+                                                                                    <Option value={data.userRoleId}>{data.name}</Option>
+                                                                                </>
+                                                                            )
+
+                                                                        })}
+                                                                        {/* <Option value={true}>Active</Option>
+                                                                        <Option value={false}>Inactive</Option> */}
+                                                                    </Select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div style={{ width: "100%", float: "left" }}>
+                                                        <div className="custom-d-flex confirm_p_w mTB00 button-container rspacing">
+                                                            <button className="blackbtn aryousureBTN confirmBtnR" onClick={() => {
+                                                                this.onCancelView();
+                                                            }}>Cancel</button>
+                                                            <button className="aryousureBTN confirmBtnR" onClick={() => {
+                                                                this.onUpdateAgentUser();
+                                                            }}>Update</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )
+                }
+
             </>
         );
     }
@@ -480,6 +693,8 @@ const mapStateToProps = ({ agentReducer }) => {
         getAgentDataStatus: agentReducer.getAgentDataStatus,
         getAgentData: agentReducer.getAgentData,
         deleteAgentUserStatus: agentReducer.deleteAgentUserStatus,
+        updateAgentUserStatus: agentReducer.updateAgentUserStatus,
+        updateAgentUserData: agentReducer.updateAgentUserData,
     }
 };
 
@@ -490,7 +705,8 @@ const mapDispatchToProps = (dispatch) => ({
         dispatch(getAllUserRoles(token)),
     getAllAgentUsers: () =>
         dispatch(getAllAgentUsers()),
-    deleteAgentUser: (id) => dispatch(deleteAgentUser(id))
+    deleteAgentUser: (id) => dispatch(deleteAgentUser(id)),
+    updateAgentUser: (id, payload) => dispatch(updateAgentUser(id, payload)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Users);

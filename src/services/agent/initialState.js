@@ -238,6 +238,8 @@ const initialState = {
   addAgentUserData: null,
   getAgentDataStatus : false,
   getAgentData : null,
-  deleteAgentUserStatus : false
+  deleteAgentUserStatus : false,
+  updateAgentUserStatus : false,
+  updateAgentUserData: null,
 };
 export default initialState;

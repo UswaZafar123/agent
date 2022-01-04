@@ -1523,6 +1523,18 @@ const agentReducer = (state = initialState, action) => {
         ...state,
         deleteAgentUserStatus: false
       }
+    case actionType.UPDATE_AGENTUSER_SUCCESS:
+      return {
+        ...state,
+        updateAgentUserStatus: true,
+        updateAgentUserData: action.payload,
+      }
+    case actionType.UPDATE_AGENTUSER_FAILURE:
+      return {
+        ...state,
+        updateAgentUserStatus: false,
+        updateAgentUserData: null,
+      }
     default:
       return state;
   }

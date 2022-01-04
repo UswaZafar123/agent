@@ -1760,6 +1760,9 @@ export const getAllAgentUsers = () => (dispatch) => {
           type: actionType.ADD_AGENTUSER_FAILURE,
           payload: res.data,
         });
+        dispatch({
+          type: actionType.UPDATE_AGENTUSER_FAILURE,
+        });
       } else {
         toastr.warning(
           "Agent User Fetch Warning!"
@@ -1813,6 +1816,46 @@ export const deleteAgentUser = (id) => (dispatch) => {
       toastr.error("Error Deleting Agent User");
       dispatch({
         type: actionType.DELETE_AGENTUSER_FAILURE,
+      });
+    });
+};
+
+export const updateAgentUser = (id, payload) => (dispatch) => {
+  dispatch(ShowLoading());
+  const config = {
+    method: "PUT",
+    url: URL.agent.AGENT_USER + "/" + id,
+    data: payload,
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+  axios(config)
+    .then((res) => {
+      dispatch(HideLoading());
+      if (res.status === 201) {
+        toastr.success(
+          "Agent User Update Successful"
+        );
+        dispatch({
+          type: actionType.UPDATE_AGENTUSER_SUCCESS,
+          payload: res.data,
+        });
+        dispatch(getAllAgentUsers());
+      } else {
+        toastr.warning(
+          "Agent User Update Warning!"
+        );
+        dispatch({
+          type: actionType.UPDATE_AGENTUSER_FAILURE,
+        });
+      }
+    })
+    .catch((err) => {
+      dispatch(HideLoading());
+      toastr.error("Error Updating Agent User");
+      dispatch({
+        type: actionType.UPDATE_AGENTUSER_FAILURE,
       });
     });
 };
