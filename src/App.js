@@ -104,6 +104,7 @@ import ticketReply from "./Component/Agent/ticketReply";
 import Assets from "./Component/Agent/assets";
 import ForgotPassword from "./Component/Agent/ForgotPassword"
 import Operations from "./Component/Agent/Operations";
+import Users from "./Component/page/Settings/General/Users";
 
 export const App = (props) => {
   return (
@@ -347,6 +348,10 @@ export const App = (props) => {
                     <Route
                       path="/settings/general/package-management"
                       component={Packages}
+                    />
+                    <Route
+                      path="/settings/general/users"
+                      component={Users}
                     />
 
                     <Route

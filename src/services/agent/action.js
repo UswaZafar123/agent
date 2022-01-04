@@ -1690,3 +1690,69 @@ export const registerAgentMember =
         toastr.error("error in regsitering agent memeber");
       });
   };
+
+export const addAgentUser = (payload) => (dispatch) => {
+  dispatch(ShowLoading());
+  const config = {
+    method: "POST",
+    url: URL.agent.AGENT_USER,
+    data: payload,
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+  axios(config)
+    .then((res) => {
+      dispatch(HideLoading());
+      if (res.status === 201) {
+        toastr.success(
+          "Agent User Successfully Created"
+        );
+        dispatch({
+          type: actionType.ADD_AGENTUSER_SUCCESS,
+          payload: res.data,
+        });
+        dispatch(getAllAgentUsers());
+      } else {
+        toastr.warning(
+          "Agent User Creation Warning!"
+        );
+      }
+    })
+    .catch((err) => {
+      dispatch(HideLoading());
+      toastr.error("Error Creating Agent User");
+    });
+};
+
+export const getAllAgentUsers = () => (dispatch) => {
+  dispatch(ShowLoading());
+  const config = {
+    method: "GET",
+    url: URL.agent.AGENT_USER,
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+  axios(config)
+    .then((res) => {
+      dispatch(HideLoading());
+      if (res.status === 200) {
+        toastr.success(
+          "Agent User Fetch Successful"
+        );
+        dispatch({
+          type: actionType.GET_AGENTUSER_SUCCESS,
+          payload: res.data,
+        });
+      } else {
+        toastr.warning(
+          "Agent User Fetch Warning!"
+        );
+      }
+    })
+    .catch((err) => {
+      dispatch(HideLoading());
+      toastr.error("Error Fetching Agent Users");
+    });
+};

@@ -233,5 +233,10 @@ const initialState = {
 
   uploadProofImage: null,
   addressProofImage: null,
+
+  addAgentUserStatus: false,
+  addAgentUserData: null,
+  getAgentDataStatus : false,
+  getAgentData : null,
 };
 export default initialState;

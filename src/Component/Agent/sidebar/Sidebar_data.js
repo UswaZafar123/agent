@@ -335,7 +335,11 @@ export const Side_bar_data = [
           //     path:"/admin/settings/general/manage/languages",
           //     iconClass:"icon-Asset-11"
           // },
-
+          {
+            title: "Users",
+            path: "/settings/general/users",
+            iconClass: "icon-Asset-2",
+          },
           {
             title: "Package Management",
             path: "/settings/general/package-management",

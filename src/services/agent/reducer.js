@@ -1489,6 +1489,30 @@ const agentReducer = (state = initialState, action) => {
         ...state,
         addressProofImage: null
       }
+    case actionType.ADD_AGENTUSER_SUCCESS:
+      return {
+        ...state,
+        addAgentUserStatus: true,
+        addAgentUserData: action.payload,
+      }
+    case actionType.ADD_AGENTUSER_FAILURE:
+      return {
+        ...state,
+        addAgentUserStatus: false,
+        addAgentUserData: null,
+      }
+    case actionType.GET_AGENTUSER_SUCCESS:
+      return {
+        ...state,
+        getAgentDataStatus: true,
+        getAgentData: action.payload,
+      }
+    case actionType.GET_AGENTUSER_FAILURE:
+      return {
+        ...state,
+        getAgentDataStatus: false,
+        getAgentData: null,
+      }
     default:
       return state;
   }

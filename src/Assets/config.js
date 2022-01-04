@@ -317,6 +317,7 @@ const configUrl = {
     GET_ALL_SCREENS: `${AgentApi}api-internal/screens`,
 
     COMMISSION: `${AgentApi}api-internal/commissions`,
+    AGENT_USER: `${AgentApi}api-internal/agentUsers`
   },
 };
 
