@@ -5,38 +5,25 @@ export const Side_bar_data = [
     iconClass: "icon-Asset-47",
     id: 1,
   },
-  {
-    title: "Cash Deposit",
-    path: "/agent/cash_deposit/wallet",
-    iconClass: "icon-Asset-47",
-    id: 2,
-    subMenu: [
-      {
-        title: "Cash Deposit To Wallet",
-        path: "/agent/cash_deposit/wallet",
-      },
-      {
-        title: "Cash Deposit To Bank",
-        path: "/agent/cash_deposit/bank",
-      },
-    ],
-  },
-  {
-    title: "Cash Withdraw",
-    path: "/agent/cash_withdraw/wallet",
-    iconClass: "icon-Asset-47",
-    id: 3,
-    subMenu: [
-      {
-        title: "Cash Withdraw From Wallet",
-        path: "/agent/cash_withdraw/wallet",
-      },
-      {
-        title: "Cash Withdraw From Bank",
-        path: "/agent/cash_withdraw/bank",
-      },
-    ],
-  },
+  // {
+  //   title: "Cash Deposit",
+  //   path: "/agent/cash_deposit/wallet",
+  //   iconClass: "icon-Asset-47",
+  //   id: 2,
+  //   subMenu: [
+
+  //   ],
+  // },
+  // {
+  //   title: "Cash Withdraw",
+  //   path: "/agent/cash_withdraw/wallet",
+  //   iconClass: "icon-Asset-47",
+  //   id: 3,
+  //   subMenu: [
+
+
+  //   ],
+  // },
   {
     title: "Cash In/Cash Out",
     path: "/agent/cash_in",
@@ -71,9 +58,19 @@ export const Side_bar_data = [
   },
   {
     title: "Send Money",
-    path: "/agent/send-money",
+    path: "/agent/sendmoney",
     iconClass: "icon-Asset-47",
     id: 5,
+    subMenu: [
+      {
+        title: "To Agent Wallet",
+        path: "/agent/send-money",
+      },
+      {
+        title: "To Agent Member",
+        path: "/agent/send-money-agentMember",
+      },
+    ],
   },
   {
     title: "Account Opening",
@@ -100,6 +97,14 @@ export const Side_bar_data = [
       {
         title: "Transfer",
         path: "/admin/banking/transfer",
+      },
+      {
+        title: "Cash Deposit To Bank",
+        path: "/agent/cash_deposit/bank",
+      },
+      {
+        title: "Cash Withdraw From Bank",
+        path: "/agent/cash_withdraw/bank",
       },
       {
         title: "Account Balance",
@@ -132,6 +137,14 @@ export const Side_bar_data = [
       {
         title: "Transfert",
         path: "/Agent/walletOperation/transfert",
+      },
+      {
+        title: "Cash Deposit To Wallet",
+        path: "/agent/cash_deposit/wallet",
+      },
+      {
+        title: "Cash Withdraw From Wallet",
+        path: "/agent/cash_withdraw/wallet",
       },
       {
         title: "Account Balance",
@@ -431,14 +444,14 @@ export const Side_bar_data = [
         title: "Profile",
         path: "/Profile/Profile",
       },
-      {
-        title: "Accounts",
-        path: "/Profile/Accounts",
-      },
-      {
-        title: "QR Code",
-        path: "/Profile/qr-code",
-      },
+      // {
+      //   title: "Accounts",
+      //   path: "/Profile/Accounts",
+      // },
+      // {
+      //   title: "QR Code",
+      //   path: "/Profile/qr-code",
+      // },
       {
         title: "Change Password",
         path: "/Profile/change-password",
