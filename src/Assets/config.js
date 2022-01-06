@@ -307,6 +307,7 @@ const configUrl = {
     WALLET_STATEMENT_INQUIRY: `${AgentApi}api/walletTransfers/walletHistory`,
     BANK_BALANCE_INQUIRY: `${AgentApi}api/agencyBanking/accountBalance`,
     BANK_STATEMENT_INQUIRY: `${AgentApi}api/agencyBanking/accountStatement`,
+    BANK_ACCOUNT_OPENING: `${AgentApi}api/agencyBanking/accountOpen`,
     /**
      *
      */
@@ -317,7 +318,7 @@ const configUrl = {
     GET_ALL_SCREENS: `${AgentApi}api-internal/screens`,
 
     COMMISSION: `${AgentApi}api-internal/commissions`,
-    AGENT_USER: `${AgentApi}api-internal/agentUsers`
+    AGENT_USER: `${AgentApi}api-internal/agentUsers`,
   },
 };
 

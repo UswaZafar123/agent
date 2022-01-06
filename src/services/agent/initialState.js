@@ -125,6 +125,12 @@ const statementInquiryState = {
   error: false,
 };
 
+const bankAccountOpeningState = {
+  loading: false,
+  success: false,
+  error: false,
+};
+
 const initialState = {
   agentLoginstatus: false,
   linkingStatus: false,
@@ -236,10 +242,11 @@ const initialState = {
 
   addAgentUserStatus: false,
   addAgentUserData: null,
-  getAgentDataStatus : false,
-  getAgentData : null,
-  deleteAgentUserStatus : false,
-  updateAgentUserStatus : false,
+  getAgentDataStatus: false,
+  getAgentData: null,
+  deleteAgentUserStatus: false,
+  updateAgentUserStatus: false,
   updateAgentUserData: null,
+  bankAccountOpening: bankAccountOpeningState,
 };
 export default initialState;

@@ -1472,69 +1472,105 @@ const agentReducer = (state = initialState, action) => {
     case actionType.UPLOAD_PROOF_FETCH_SUCCESS:
       return {
         ...state,
-        uploadProofImage: action.payload
-      }
+        uploadProofImage: action.payload,
+      };
     case actionType.UPLOAD_PROOF_FETCH_FAILURE:
       return {
         ...state,
-        uploadProofImage: null
-      }
+        uploadProofImage: null,
+      };
     case actionType.ADDRESS_PROOF_FETCH_SUCCESS:
       return {
         ...state,
-        addressProofImage: action.payload
-      }
+        addressProofImage: action.payload,
+      };
     case actionType.ADDRESS_PROOF_FETCH_FAILURE:
       return {
         ...state,
-        addressProofImage: null
-      }
+        addressProofImage: null,
+      };
     case actionType.ADD_AGENTUSER_SUCCESS:
       return {
         ...state,
         addAgentUserStatus: true,
         addAgentUserData: action.payload,
-      }
+      };
     case actionType.ADD_AGENTUSER_FAILURE:
       return {
         ...state,
         addAgentUserStatus: false,
         addAgentUserData: null,
-      }
+      };
     case actionType.GET_AGENTUSER_SUCCESS:
       return {
         ...state,
         getAgentDataStatus: true,
         getAgentData: action.payload,
-      }
+      };
     case actionType.GET_AGENTUSER_FAILURE:
       return {
         ...state,
         getAgentDataStatus: false,
         getAgentData: null,
-      }
+      };
     case actionType.DELETE_AGENTUSER_SUCCESS:
       return {
         ...state,
-        deleteAgentUserStatus: true
-      }
+        deleteAgentUserStatus: true,
+      };
     case actionType.DELETE_AGENTUSER_FAILURE:
       return {
         ...state,
-        deleteAgentUserStatus: false
-      }
+        deleteAgentUserStatus: false,
+      };
     case actionType.UPDATE_AGENTUSER_SUCCESS:
       return {
         ...state,
         updateAgentUserStatus: true,
         updateAgentUserData: action.payload,
-      }
+      };
     case actionType.UPDATE_AGENTUSER_FAILURE:
       return {
         ...state,
         updateAgentUserStatus: false,
         updateAgentUserData: null,
-      }
+      };
+    case actionType.BANK_ACCOUNT_OPENING_FETCH:
+      return {
+        ...state,
+        bankAccountOpening: {
+          ...state.bankAccountOpening,
+          loading: true,
+        },
+      };
+    case actionType.BANK_ACCOUNT_OPENING_SUCCESS:
+      return {
+        ...state,
+        bankAccountOpening: {
+          ...state.bankAccountOpening,
+          loading: false,
+          success: true,
+        },
+      };
+    case actionType.BANK_ACCOUNT_OPENING_ERROR:
+      return {
+        ...state,
+        bankAccountOpening: {
+          ...state.bankAccountOpening,
+          loading: false,
+          error: true,
+        },
+      };
+    case actionType.BANK_ACCOUNT_OPENING_RESET:
+      return {
+        ...state,
+        bankAccountOpening: {
+          ...state.bankAccountOpening,
+          loading: false,
+          success: false,
+          error: false,
+        },
+      };
     default:
       return state;
   }
