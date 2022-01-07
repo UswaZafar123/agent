@@ -23,7 +23,7 @@ import AccessHistory from "./Component/AccessHistory/accessHistory";
 import Ticket from "./Component/Agent/Ticket";
 import AddTicket from "./Component/Agent/AddTicket";
 import Login from "./Component/Agent/login";
-import transfert from "./Component/Agent/walletOperation/transfert";
+import WalletTransfer from "./Component/Agent/walletOperation/transfert";
 import WalletToAccount3 from "./Component/Agent/walletOperation/WalletToAccount3";
 import WalletToAccount2 from "./Component/Agent/walletOperation/WalletToAccount2";
 import WalletToAccount1 from "./Component/Agent/walletOperation/WalletToAccount1";
@@ -184,7 +184,7 @@ export const App = (props) => {
 
                     <Route
                       path="/agent/walletOperation/transfert"
-                      component={transfert}
+                      component={WalletTransfer}
                     />
 
                     <Route path="/agent/assets" component={Assets} />
