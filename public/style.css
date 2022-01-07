@@ -2647,16 +2647,16 @@ input:checked + .slider:before {
 
 .langOption {
   position: absolute;
-  right: 3%;
-  top: 37%;
+  top: 50%;
+  transform: translateY(-50%);
   background: #dfdfdf;
   border: 1px solid rgba(189, 189, 189, 0.2);
   box-sizing: border-box;
   border-radius: 50px;
-  width: 130px;
+  width: 160px;
   display: flex;
   text-align: center;
-  height: 35px;
+  height: 44px;
   text-align-last: center;
 }
 
@@ -3292,20 +3292,7 @@ input:checked + .slider:before {
     overflow-x: hidden;
   }
 
-  .langOption {
-    position: absolute;
-    right: 3%;
-    top: 50%;
-    background: #dfdfdf;
-    border: 1px solid rgba(189, 189, 189, 0.2);
-    box-sizing: border-box;
-    border-radius: 50px;
-    width: 130px;
-    display: flex;
-    text-align: center;
-    height: 25px;
-    text-align-last: center;
-  }
+ 
 
   .imgThumbnailStyle {
     width: 70px;
@@ -3349,7 +3336,7 @@ input:checked + .slider:before {
     width: 130px;
     display: flex;
     text-align: center;
-    height: 25px;
+    height: 32px;
     text-align-last: center;
   }
 

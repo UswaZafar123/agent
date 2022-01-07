@@ -48,7 +48,7 @@ class NavBar extends Component {
           selected={this.state.selected} className="langOption navCountrySelect"
           onSelect={code => this.setSelected(code)}
         /> */}
-        <select value={this.state.language} className="langOption" name='langue' onChange={(e) => this.handleLanguage(e)}
+        <select value={this.state.language} className="langOption langOptionLogin" name='langue' onChange={(e) => this.handleLanguage(e)}
         >
           <option value='' disabled={true}> {this.state.language == "en-US" ? "Choose A Language" : "Choisir la langue"}</option>
           <option value='en-US'>English</option>

@@ -135,7 +135,7 @@ class Users extends Component {
             this.onCancelView();
         }
 
-        if (nextprops.getAgentData._embedded === undefined) {
+        if (nextprops.getAgentData._embedded === undefined || nextprops.getAgentData === null) {
             this.setState({
                 agentUserData: []
             });

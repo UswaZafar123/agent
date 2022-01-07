@@ -4,7 +4,7 @@ import Logo from "../../../Assets/images/logo.svg";
 import { Side_bar_data } from "./Sidebar_data";
 import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
-
+import { CloseOutlined } from "@ant-design/icons";
 import Skeleton from "@material-ui/lab/Skeleton";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -162,6 +162,12 @@ class Sidebar extends Component {
     }));
   };
 
+
+  toggleHandler = (VarVal) => {
+    this.props.toggleHandler(VarVal);
+  };
+
+
   renderSideBarLoading = () => {
     return (
       <div className="sideBar">
@@ -201,9 +207,11 @@ class Sidebar extends Component {
 
   renderSideBar = () => {
     return (
+      <>
       <div className="sideBar">
         <div className="sidebar_Inner">
           <div className="sideTop">
+          {this.props.isOpenLeftSide &&  <div className="closemenuBtn" onClick={(e) => this.toggleHandler(false)}><CloseOutlined /></div>}
             <div className="sideTopLogo">
               <img src={Logo} alt="" />
             </div>
@@ -286,6 +294,8 @@ class Sidebar extends Component {
           </div>
         </div>
       </div>
+        {this.props.isOpenLeftSide && <div className="overLayOnLeft" onClick={(e) => this.toggleHandler(false)}></div>}
+      </>
     );
   };
 
