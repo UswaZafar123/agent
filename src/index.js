@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
+import "./mediaQuery.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { I18nProvider, LOCALES } from "./Component/i18n";
@@ -16,7 +17,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import ReduxToastr from "react-redux-toastr";
 import "react-redux-toastr/lib/css/react-redux-toastr.min.css";
 
-// import Loader from "./Component/common/loader"
+import Loader from "./Component/common/loader"
 
 // import ReduxToastr from 'react-redux-toastr';
 import "react-redux-toastr/lib/css/react-redux-toastr.min.css";
@@ -42,14 +43,14 @@ else {
   const locale= localStorage.setItem('lang', 'en-US')
 } */
 
-const locale=localStorage.getItem("lang") ? localStorage.getItem("lang") : localStorage.setItem('lang', 'en-US') 
+// const locale = localStorage.getItem("lang") ? localStorage.getItem("lang") : localStorage.setItem('lang', 'en-US')
 
 ReactDOM.render(
-  <I18nProvider locale={locale}>
+  <I18nProvider locale={localStorage.getItem("lang")}>
     <Provider store={store}>
       {/* <Loader /> */}
       <PersistGate persistor={persistor}>
-        {/* <Loader/> */}
+        <Loader />
         <div>
           <ReduxToastr
             timeOut={4000}
@@ -66,7 +67,7 @@ ReactDOM.render(
           <App />
         </BrowserRouter>
       </PersistGate>
-    </Provider>,
+    </Provider>
   </I18nProvider>,
   document.getElementById("root")
 );

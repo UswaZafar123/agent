@@ -29,3 +29,10 @@ export const Logout = () => (dispatch) => {
     type: actionType.ADMIN_LOGIN_FAILURE,
   });
 };
+
+export const SetLanguage = (lang) => (dispatch) => {
+  dispatch({
+    type: actionType.SET_LANGUAGE_SUCCESS,
+    payload: lang
+  });
+};

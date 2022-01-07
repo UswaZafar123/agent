@@ -6,7 +6,6 @@ import axios from "axios";
 import { FormattedMessage, useIntl, injectIntl } from "react-intl";
 import Logo from "./../../Assets/images/logo.png";
 import NavBar from "./register/NavBar";
-import {loginMerchant} from "../../services/actions";
 
 class Login extends Component {
   constructor() {
@@ -437,7 +436,7 @@ class Login extends Component {
 
                     <span>
                         <input type="checkbox"/>
-                     <label> Remeber me</label>
+                     <label> Remember me</label>
                     </span>
                     <span>
                     <NavLink to="/ForgotPassword" className="forgetPass">

@@ -17,7 +17,6 @@
 .sidebar_Inner{
     width: 100%;
 }
-
 .sideTop{
     min-height: 110px;
     position: fixed;
@@ -39,6 +38,7 @@
     background: #343A40;
     overflow: auto;
 }
+
 .navigation::-webkit-scrollbar {
     width: 2px;
   }
@@ -83,6 +83,7 @@
     display: flex;
     align-items: center;
 }
+
 .nav_inner ul li a.active
 {
     background: #fff;

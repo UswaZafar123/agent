@@ -2,14 +2,24 @@ import React, { Component, Fragment } from "react";
 import Logo from "../../../Assets/images/logo.png";
 import ReactFlagsSelect from 'react-flags-select';
 import { AlternateEmailTwoTone } from "@material-ui/icons";
-import {LOCALES} from '../../i18n/locales';
+import { LOCALES } from '../../i18n/locales';
+import { connect } from "react-redux";
+import { SetLanguage } from "../../../services/common/action";
+import { isThisSecond } from "date-fns";
 class NavBar extends Component {
   constructor() {
     super();
     this.state = {
       selected: "",
-      langue: 'fr'
+      langue: 'fr',
+      language: ""
     };
+  }
+
+  componentDidMount = () => {
+    this.setState({
+      language: localStorage.getItem("lang")
+    })
   }
 
   setSelected = (code) => {
@@ -17,21 +27,12 @@ class NavBar extends Component {
   }
 
   handleLanguage(e) {
-    // //alert(localStorage.getItem("langue"))
-    // if (e.target.value == "fr") {
-    //  localStorage.setItem("langue", "fr")
-    //   localStorage.setItem("locale", LOCALES.FRENCH)
-    //   // window.location.reload()
-    // }
-    // else if (e.target.value == "en") {
-    //   localStorage.setItem("langue", "en-US")
-    //   localStorage.setItem("locale", LOCALES.ENGLISH)
-    //   // window.location.reload()
-    // }
-    // else alert('Veuillez choisir une langue valide')
-
-    localStorage.setItem("langue", e.target.value)
-    this.props.language(e.target.value)
+    localStorage.setItem("lang", e.target.value)
+    this.setState({
+      language: e.target.value
+    });
+    // this.props.language(e.target.value)
+    this.props.SetLanguage(e.target.value)
   }
 
   render() {
@@ -39,18 +40,18 @@ class NavBar extends Component {
     return (
 
       <div className="nav nav-default" style={{ position: "fixed !important" }}>
-        <div style={{ marginBottom: "auto", marginTop: "auto", marginLeft: "2%" }}>
-          <img alt="logo" src={Logo} style={{ height: "90px", width: "300px", }} />
+        <div className="navDefaultLogoHeader">
+          <img alt="logo" src={Logo} className="navDefaultLogo" />
         </div>
 
-        <ReactFlagsSelect
+        {/* <ReactFlagsSelect
           selected={this.state.selected} className="langOption navCountrySelect"
           onSelect={code => this.setSelected(code)}
-        />
-        <select className="langOption" name='langue' onChange={(e) => this.handleLanguage(e)}
+        /> */}
+        <select value={this.state.language} className="langOption" name='langue' onChange={(e) => this.handleLanguage(e)}
         >
-          <option value=''>Choisir la langue</option>
-          <option value='en'>English</option>
+          <option value='' disabled={true}> {this.state.language == "en-US" ? "Choose A Language" : "Choisir la langue"}</option>
+          <option value='en-US'>English</option>
           <option value='fr'>French</option>
         </select>
 
@@ -60,31 +61,18 @@ class NavBar extends Component {
   }
 }
 
-// function for mapping redux state values with props //
-// const mapStateToProps = ({ commonReducer, adminReducer }) => {
+// // function for mapping redux state values with props //
+const mapStateToProps = ({ commonReducer }) => {
+  return {
 
+  };
+};
 
+const mapDispatchToProps = (dispatch) => ({
 
-//   return {
-//     checkLogin: commonReducer.checkLogin,
-//     merchantLoginStatus: commonReducer.merchantLoginStatus,
-//     userDetails: commonReducer.userDetails,
-//     getGeneralInfoData: adminReducer.getGeneralInfoData,
-//     getGeneralInfoStatus: adminReducer.getGeneralInfoStatus,
-//     twoFactorVerifyOpen: commonReducer.twoFactorVerifyOpen,
-//     twoFactorVerifySuccess: commonReducer.twoFactorVerifySuccess,
-//     loginError: sessionStorage.getItem("error")
-//   };
-// };
+  SetLanguage: (lang) => dispatch(SetLanguage(lang))
 
-//function for maping with dispatched actions with props //
-// const mapDispatchToProps = (dispatch) => ({
-//   LoginService: (payLoad, accessPayload) =>
-//     dispatch(LoginService(payLoad, accessPayload)),
-//   getGeneralInfo: (title,token) => dispatch(getGeneralInfo(title,token)),
-//   twoFactAuth: (payLoad, accessPayload) =>
-//     dispatch(twoFactAuth(payLoad, accessPayload)),
-// });
+});
 
 //connect method is used for connecting react and redux //
-export default NavBar;
+export default connect(mapStateToProps, mapDispatchToProps)(NavBar);

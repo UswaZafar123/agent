@@ -11,7 +11,7 @@
     position: fixed;
     left: 313px;
     top: 0;
-    z-index: 999;
+    z-index: 9999;
 }
 .navBar_Inner{
     display: flex;

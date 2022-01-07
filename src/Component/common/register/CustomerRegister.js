@@ -19,7 +19,6 @@ import Back from  "../../../Assets/images/back.png";
 import { ReactCountryDropdown } from 'react-country-dropdown'
 import 'react-country-dropdown/dist/index.css'
 import validate from "../../resources/validation";
-import {RegisterService} from "../../../services/actions";
 import { counter } from "@fortawesome/fontawesome-svg-core";
 import Moment from 'moment';
 

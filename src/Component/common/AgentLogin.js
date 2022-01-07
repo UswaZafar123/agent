@@ -418,7 +418,7 @@ class Login extends Component {
 
                     <span>
                         <input type="checkbox"/>
-                     <label> Remeber me</label>
+                     <label> Remember me</label>
                     </span>
                     <span>
                     <NavLink to="/ForgotPassword" className="forgetPass">
@@ -464,7 +464,7 @@ class Login extends Component {
 //   };
 // };
 
-//function for maping with dispatched actions with props //
+//function for maping with dispatched   with props //
 // const mapDispatchToProps = (dispatch) => ({
 //   LoginService: (payLoad, accessPayload) =>
 //     dispatch(LoginService(payLoad, accessPayload)),

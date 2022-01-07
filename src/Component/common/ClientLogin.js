@@ -5,10 +5,9 @@ import validate from "./../resources/validation";
 import axios from "axios";
 import { FormattedMessage, useIntl, injectIntl } from "react-intl";
 import Logo from "./../../Assets/images/logo.png";
-import {login} from "../../services/client/actions";
-import { toastr } from 'react-redux-toastr'
-import NavBar from "./register/NavBar";
 
+import { toastr } from "react-redux-toastr";
+import NavBar from "./register/NavBar";
 
 class Login extends Component {
   constructor() {
@@ -32,8 +31,8 @@ class Login extends Component {
       loginFailed: "",
       storage: "",
       type: "password",
-      showLoginError:false,
-      loginType:""
+      showLoginError: false,
+      loginType: "",
     };
   }
 
@@ -43,9 +42,11 @@ class Login extends Component {
      * (C) viazenetti GmbH (Christian Ludwig)
      */
     // this.props.getGeneralInfo(document.title,sessionStorage.getItem("token"));
-  sessionStorage.setItem("error","");
-  this.setState({loginType:new URLSearchParams(this.props.location.search).get('type')})
-  
+    sessionStorage.setItem("error", "");
+    this.setState({
+      loginType: new URLSearchParams(this.props.location.search).get("type"),
+    });
+
     // this.setState({loginFailed:""})
 
     var unknown = "-";
@@ -164,11 +165,9 @@ class Login extends Component {
   handleChange = (e) => {
     let name = e.target.name;
     let value = e.target.value;
-    this.setState(
-      {
-        [name]: value,
-      }
-    );
+    this.setState({
+      [name]: value,
+    });
   };
 
   validateForm = () => {
@@ -219,35 +218,32 @@ class Login extends Component {
       this.props.twoFactAuth(payloadAuth, accessPayload);
     } else {
       localStorage.setItem("email", this.state.email);
-    //   this.props.LoginService(payload, accessPayload);
+      //   this.props.LoginService(payload, accessPayload);
     }
     localStorage.setItem("email", email);
   };
 
   componentWillReceiveProps = (nextProps) => {
-   if(nextProps.customerLoginStatus) {
-     window.location = "/dashboard";
-    toastr.success("Login Success");
-   }else{
-    toastr.error("Invalid Credentitals");
-   }
+    if (nextProps.customerLoginStatus) {
+      window.location = "/dashboard";
+      toastr.success("Login Success");
+    } else {
+      toastr.error("Invalid Credentitals");
+    }
   };
 
-
-
   setLogin = (e) => {
-    
     e.preventDefault();
-    sessionStorage.setItem("user_type","client");
+    sessionStorage.setItem("user_type", "client");
 
-    var payload= {
-      username:this.state.mobile,
+    var payload = {
+      username: this.state.mobile,
       password: this.state.password,
       client_id: "PUBLIC_CLIENT",
-      grant_type:"password"
+      grant_type: "password",
     };
 
-    console.log(payload)
+    console.log(payload);
     this.props.login(payload);
   };
 
@@ -266,137 +262,154 @@ class Login extends Component {
 
     // const { loginFailed } = this.props.loginStatus;
 
-    console.log(4586,this.props.merchantLoginStatus);
+    console.log(4586, this.props.merchantLoginStatus);
 
     return (
       //By using Fragment as parent div will not create an extra dom element //
       <Fragment>
         <section className="loginWrapper accountWrapper">
-        <NavBar/>
+          <NavBar />
 
+          <div className="col-md-12 loginContainer">
+            <div className="loginInner">
+              <div className="loginInform">
+                <h4 aria-label="vinod is working">Client Login</h4>
 
-        <div className="col-md-12 loginContainer">
-          <div className="loginInner">
+                <div style={{ color: "red" }}>{this.props.login}</div>
+                <div style={{ color: "red" }}></div>
 
-            <div className="loginInform">
-              <h4 aria-label="vinod is working">
-               Client Login
-              </h4>
-
-              <div style={{ color: "red" }}>{this.props.login}</div>
-              <div style={{ color: "red" }}></div>
-
-              <form onSubmit={this.setLogin}>
-                {twoFactorblock && (
-                  <div className="form-group">
-                    <label>Two Factor Authentication Code </label>
-                    <input
-                      type="text"
-                      name="code"
-                      value={code}
-                      maxLength="4"
-                      onChange={this.handleChange}
-                      className="form-control"
-                      placeholder="Two Factor Code"
-                    />
-                  </div>
-                )}
-                {!twoFactorblock && (
-                  <>
+                <form onSubmit={this.setLogin}>
+                  {twoFactorblock && (
                     <div className="form-group">
-                      <label>
-                        Mobile number
-                      </label>
+                      <label>Two Factor Authentication Code </label>
                       <input
                         type="text"
-                        name="mobile"
-                        autoComplete="off"
-                        value={this.state.mobile}
+                        name="code"
+                        value={code}
+                        maxLength="4"
                         onChange={this.handleChange}
                         className="form-control"
-                        placeholder="Mobile number"
+                        placeholder="Two Factor Code"
                       />
                     </div>
-                    <div style={{ color: "red" }}>Please enter your mobile number with country code without (+) sign</div>
-                    <div style={{ color: "red" }}>{emailError}</div>
-
-                    <div className="form-group" style={{marginTop:"5%", marginBottom:"5%"}}>
-                      <label>
-                        <FormattedMessage id="login.password" />{" "}
-                      </label>
-                      <div style={{ position: "relative", display: "flex" }}>
+                  )}
+                  {!twoFactorblock && (
+                    <>
+                      <div className="form-group">
+                        <label>Mobile number</label>
                         <input
-                          className="form-control" 
-                          type={this.state.type}
-                          name="password"
-                          value={this.state.password}
-                          placeholder="Password"
+                          type="text"
+                          name="mobile"
+                          autoComplete="off"
+                          value={this.state.mobile}
                           onChange={this.handleChange}
+                          className="form-control"
+                          placeholder="Mobile number"
                         />
-                        <div class="input-group-append" onClick={this.showHide}>
-                          {this.state.type === "input" && loginPassword != "" && (
-                            <div style={{ cursor: "pointer" }}>
-                              <i
-                                style={{
-                                  position: "absolute",
-                                  top: "32%",
-                                  right: "2%",
-                                }}
-                                className="fa fa-eye"
-                              ></i>
-                            </div>
-                          )}
+                      </div>
+                      <div style={{ color: "red" }}>
+                        Please enter your mobile number with country code
+                        without (+) sign
+                      </div>
+                      <div style={{ color: "red" }}>{emailError}</div>
 
-                          {this.state.type === "password" &&
-                            loginPassword != "" && (
-                              <div style={{ cursor: "pointer" }}>
-                                <i
-                                  style={{
-                                    position: "absolute",
-                                    top: "32%",
-                                    right: "2%",
-                                  }}
-                                  className="fa fa-eye-slash"
-                                ></i>
-                              </div>
-                            )}
+                      <div
+                        className="form-group"
+                        style={{ marginTop: "5%", marginBottom: "5%" }}
+                      >
+                        <label>
+                          <FormattedMessage id="login.password" />{" "}
+                        </label>
+                        <div style={{ position: "relative", display: "flex" }}>
+                          <input
+                            className="form-control"
+                            type={this.state.type}
+                            name="password"
+                            value={this.state.password}
+                            placeholder="Password"
+                            onChange={this.handleChange}
+                          />
+                          <div
+                            class="input-group-append"
+                            onClick={this.showHide}
+                          >
+                            {this.state.type === "input" &&
+                              loginPassword != "" && (
+                                <div style={{ cursor: "pointer" }}>
+                                  <i
+                                    style={{
+                                      position: "absolute",
+                                      top: "32%",
+                                      right: "2%",
+                                    }}
+                                    className="fa fa-eye"
+                                  ></i>
+                                </div>
+                              )}
+
+                            {this.state.type === "password" &&
+                              loginPassword != "" && (
+                                <div style={{ cursor: "pointer" }}>
+                                  <i
+                                    style={{
+                                      position: "absolute",
+                                      top: "32%",
+                                      right: "2%",
+                                    }}
+                                    className="fa fa-eye-slash"
+                                  ></i>
+                                </div>
+                              )}
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </>
-                )}
-                {
-                  this.state.showLoginError && 
+                    </>
+                  )}
+                  {this.state.showLoginError && (
                     <div style={{ color: "red" }}>{this.props.loginError}</div>
-                }
+                  )}
 
-                <div className="form-group">
-
+                  <div className="form-group">
                     <span>
-                        <input type="checkbox"/>
-                     <label> Remeber me</label>
+                      <input type="checkbox" />
+                      <label> Remember me</label>
                     </span>
                     <span>
-                    <NavLink to="/ForgotPassword" className="forgetPass">
-                    <FormattedMessage id="login.forogtpassword" />
+                      <NavLink to="/ForgotPassword" className="forgetPass">
+                        <FormattedMessage id="login.forogtpassword" />
+                      </NavLink>
+                    </span>
+                  </div>
+                  <div
+                    className="form-group"
+                    style={{
+                      marginTop: "8%",
+                      marginBottom: "8%",
+                      display: "flex",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <button
+                      type="submit"
+                      className="btn-default btn"
+                      style={{ width: "50%" }}
+                    >
+                      <FormattedMessage id="login.button" />
+                    </button>
+                  </div>
+                </form>
+
+                {/* <GoogleRecaptcha rechaptchaEnable={this.rechaptchaEnable} /> */}
+                <p>
+                  <FormattedMessage id="login.donthaveanaccount" />
+                  <NavLink to="/register">
+                    {" "}
+                    <FormattedMessage id="register" />
                   </NavLink>
-                    </span>
-                </div>
-                <div className="form-group" style={{marginTop:"8%", marginBottom:'8%',display:'flex', justifyContent:"center"}}>
-                  <button type="submit" className="btn-default btn" style={{width:"50%"}}>
-                    <FormattedMessage id="login.button" />
-                  </button>
-                </div>
-              </form>
-
-              {/* <GoogleRecaptcha rechaptchaEnable={this.rechaptchaEnable} /> */}
-              <p>
-                <FormattedMessage id="login.donthaveanaccount" /> 
-               <NavLink to="/register"> <FormattedMessage id="register"/></NavLink>
-              </p>
+                </p>
+              </div>
             </div>
           </div>
-        </div>
         </section>
       </Fragment>
     );
@@ -404,16 +417,15 @@ class Login extends Component {
 }
 
 const mapStateToProps = ({ commonReducer }) => {
-
-  console.log(commonReducer,'commonReducer');
+  console.log(commonReducer, "commonReducer");
 
   return {
-    customerLoginStatus:commonReducer.customerLoginStatus
+    customerLoginStatus: commonReducer.customerLoginStatus,
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  login:(payload)=>dispatch(login(payload))
+  login: (payload) => dispatch(login(payload)),
 });
 
 //connect method is used for connecting react and redux //

@@ -24,36 +24,41 @@ const commonReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
       };
-      case actionType.CUSTOMER_REGISTER_SUCCESS:
+    case actionType.CUSTOMER_REGISTER_SUCCESS:
       return {
         ...state,
-        customerregister:true
+        customerregister: true
       };
-      case actionType.CUSTOMER_REGISTER_FAIL:
-        return {
-          ...state,
-          customerregister:false
-        };
-      case actionType.ACCOUNT_VERIFIED:
-        return {
-          ...state,
-          accountVerified:true
-        };
-      case actionType.ACCOUNT_VERIFIED_FAIL:
-        return {
-          ...state,
-          accountVerified:false
-        };
-        case actionType.CLIENT_LOGIN_SUCCESS:
-        return {
-          ...state,
-          customerLoginStatus: true,
-        };
-      case actionType.CLIENT_LOGIN_FAILURE:
-        return {
-          ...state,
-          customerLoginStatus: false,
-        };
+    case actionType.CUSTOMER_REGISTER_FAIL:
+      return {
+        ...state,
+        customerregister: false
+      };
+    case actionType.ACCOUNT_VERIFIED:
+      return {
+        ...state,
+        accountVerified: true
+      };
+    case actionType.ACCOUNT_VERIFIED_FAIL:
+      return {
+        ...state,
+        accountVerified: false
+      };
+    case actionType.CLIENT_LOGIN_SUCCESS:
+      return {
+        ...state,
+        customerLoginStatus: true,
+      };
+    case actionType.CLIENT_LOGIN_FAILURE:
+      return {
+        ...state,
+        customerLoginStatus: false,
+      };
+    case actionType.SET_LANGUAGE_SUCCESS:
+      return {
+        ...state,
+        language: action.payload,
+      };
     default:
       return state;
   }

@@ -1,15 +1,10 @@
-// const API = "https://backoffice-dev.biapay.net/api/";
-// const API = "https://app.digitalbanking.groupebia.com/";
-
-// const GATEWAY_API = "http://localhost:8787/";
+const keyClock = process.env.REACT_APP_KEY_CLOACK;
+const userManagementHost = process.env.REACT_APP_KEY_USER_MANAGEMENT;
+const adminAPI = process.env.REACT_APP_ADMIN_API;
+const API = process.env.REACT_APP_API;
+const MerchantAPI = process.env.REACT_APP_MERCHANT_API;
+const AgentApi = process.env.REACT_APP_AGENT_BANKING_HOST;
 const GATEWAY_API = "http://gateway.biapay.net:9001/";
-const keyClock = "https://keycloak.digitalbanking.groupebia.com/";
-const userManagementHost =
-  "https://app.digitalbanking.groupebia.com/user-management/";
-const adminAPI = "https://app.digitalbanking.groupebia.com/";
-const API = "https://backoffice.digitalbanking.groupebia.com/";
-const MerchantAPI = "https://merchant.digitalbanking.groupebia.com/";
-const AgentApi = "https://app.digitalbanking.groupebia.com/agentms/";
 
 const configUrl = {
   common: {
@@ -43,7 +38,6 @@ const configUrl = {
     RECEOVER_SMS: `${API}auth/recovery/otp`,
   },
 
- 
   merchant: {
     MERCHANT_LINE_CHART_DATA: `${API}merchant/dashboard/lineChartData`,
     EDIT_POS_MANAGER: `${API}pos-manager/update`,
@@ -257,14 +251,73 @@ const configUrl = {
     PAY_EU_MOMO: `${API}eumomo/sendPaymentRequest`,
   },
   agent: {
+    AGENT_MEMBER_REGISTER: `${AgentApi}api-public/registration/agentRegistration`,
+    CREATE_PACKAGE: `${AgentApi}api-internal/agentPackages`,
+    GET_OPERATIONS: `${AgentApi}api-internal/operations`,
+    GET_ASSETS: `${AgentApi}api-internal/assets`,
+    GET_CURRENCIES: `${AgentApi}api-internal/currencies`,
+    GET_PACKAGES: `${AgentApi}api-internal/agentPackages`,
+    GET_PROFILE_IMAGE: `${AgentApi}api/agencyBanking/documents`,
+    GET_PROFILE: `${AgentApi}api-public/Agent/profile`,
     NON_EXISTING_BANK_CUSTOMER: `${AgentApi}api-public/registration/agentRegistration`,
     ACCOUNT_BALANCE_EU_MOMO: `${API}eumomo/getAccountBalance`,
     PAY_EU_MOMO: `${API}eumomo/sendPaymentRequest`,
     AGENT_LOGIN: `${keyClock}auth/realms/AFB_SARA/protocol/openid-connect/token`,
-    AGENT_LINKING_REQUEST:`${AgentApi}api-public/AgentRegistration/agentLinkingRequest`,
-    AGENT_LINKING_REQUEST_VERIFY:`${AgentApi}api-public/AgentRegistration/validateMFALinkingToken`
+    AGENT_LINKING_REQUEST: `${AgentApi}api-public/AgentRegistration/agentLinkingRequest`,
+    AGENT_LINKING_REQUEST_VERIFY: `${AgentApi}api-public/AgentRegistration/validateMFALinkingToken`,
+    AGENT_SEND_OTP: `${AgentApi}api-public/registration/resendPin`,
+    AGENT_VERIFY_OTP: `${AgentApi}api-public/registration/validatePin`,
+    AGENT_SET_PASSWORD: `${AgentApi}api-public/registration/setPassword`,
+    GET_TICKETS_PRIORITIES: `${API}agent/user/ticket/priority`,
+    UPLOAD_TICKETS_ATTACHMENT: `${API}agent/user/upload`,
+    GET_UPLOADED_FILE: `${API}agent/user/upload`,
+    ADD_TICKET: `${API}agent/user/ticket`,
+    TICKET_REPLY: `${API}agent/user/ticket/reply`,
+    GET_A_TICKET: `${API}agent/user/ticket`,
+    GET_TICKETS: `${API}agent/user/ticket`,
+    GET_TICKETS_SUMMARY: `${API}agent/user/ticket/summary`,
+    GET_TICKETS_STATUS: `${API}agent/user/ticket/status`,
+    UPDATE_KYC: `${AgentApi}api-public/AgentRegistration/agentKYC`,
 
-    
+    /**
+     *
+     */
+    FETCH_AGENT_PROFILE: `${AgentApi}api-public/Agent/profile`,
+    FETCH_AGENT_WALLET_ACCOUNT: `${AgentApi}api/agencyBanking/agentWalletBalance`,
+    FETCH_AGENT_BANK_ACCOUNT: `${AgentApi}api/agencyBanking/customerAccounts`,
+    FETCH_AGENT_DETAIL: `${AgentApi}api-public/Agent/getAgentDetails`,
+    SEND_LINKING_REQUEST: `${AgentApi}api-public/AgentRegistration/agentLinkingRequest`,
+    VALIDATE_SUPER_AGENT: `${AgentApi}api-public/AgentRegistration/validateMFALinkingToken`,
+    FETCH_LINKING_REQUESTS: `${AgentApi}api-public/AgentRegistration/getLinkingRequests`,
+    PROCESS_LINKING_REQUESTS: `${AgentApi}api-public/AgentRegistration/processLinkingRequest`,
+    CUSTOMER_VERIFICATION: `${AgentApi}api/walletTransfers/validateCustomer`,
+    AGENT_OTP_SEND: `${AgentApi}api-public/AgencyBanking/MFAGenerationForTransaction`,
+    CUSTOMER_OTP_SEND: `${AgentApi}api-public/AgencyBanking/MFAGenerationForTransaction`,
+    CUSTOMER_WALLET_CASH_DEPOSIT: `${AgentApi}api/walletTransfers/walletToWallet`,
+    CUSTOMER_WALLET_CASH_WITHDRAW: `${AgentApi}api/walletTransfers/walletToWallet`,
+    FETCH_CUSTOMER_BANK_ACCOUNTS: `${AgentApi}api/agencyBanking/customerAccounts`,
+    CUSTOMER_BANK_CASH_DEPOSIT: `${AgentApi}api/walletTransfers/walletCashOut`,
+    CUSTOMER_BANK_CASH_WITHDRAW: `${AgentApi}api/walletTransfers/walletCashIn`,
+    WALLET_CASH_IN_FROM_BANK: `${AgentApi}api/walletTransfers/walletCashIn`,
+    WALLET_CASH_OUT_FROM_BANK: `${AgentApi}api/walletTransfers/walletCashOut`,
+    CUSTOMER_DETAIL: `${AgentApi}api/walletTransfers/walletCustomerDetails`,
+    AGENT_SEND_MONEY: `${AgentApi}api/walletTransfers/walletToWallet`,
+    FEE_DETAIL: `${adminAPI}customer/transactionFees/calculate`,
+    WALLET_BALANCE_INQUIRY: `${AgentApi}api/walletTransfers/walletBalance`,
+    WALLET_STATEMENT_INQUIRY: `${AgentApi}api/walletTransfers/walletHistory`,
+    BANK_BALANCE_INQUIRY: `${AgentApi}api/agencyBanking/accountBalance`,
+    BANK_STATEMENT_INQUIRY: `${AgentApi}api/agencyBanking/accountStatement`,
+    /**
+     *
+     */
+
+    GET_KYC: `${AgentApi}api/agencyBanking/getKYC`,
+    GET_SCREEN_PERMISSIONS_BY_ROLE: `${AgentApi}api-internal/roleScreenPermissions`,
+    GET_ALL_USER_ROLES: `${AgentApi}api-internal/userRoles`,
+    GET_ALL_SCREENS: `${AgentApi}api-internal/screens`,
+
+    COMMISSION: `${AgentApi}api-internal/commissions`,
+    AGENT_USER: `${AgentApi}api-internal/agentUsers`
   },
 };
 

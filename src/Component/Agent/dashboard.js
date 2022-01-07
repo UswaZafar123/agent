@@ -9,10 +9,23 @@ import HighchartsMore from 'highcharts/highcharts-more';
 
 import highcharts3d from 'highcharts/highcharts-3d';
 import ProgressBar from "@ramonak/react-progress-bar";
+import { connect } from "react-redux";
+import Skeleton from '@material-ui/lab/Skeleton';
+import {
+  ListItem,
+  ListItemText
+} from '@material-ui/core';
+
+import {
+  getProfile,
+  fetchAgentWallet,
+  fetchAgentBankAccounts
+} from "../../../src/services/agent/action";
 
 
 import { Select, DatePicker } from 'antd';
 import moment from 'moment';
+import { FormattedMessage, IntlProvider } from 'react-intl';
 const dateFormat = 'YYYY/MM/DD';
 // const customFormat = value => `custom format: ${value.format(dateFormat)}`;
 const { Option } = Select;
@@ -25,8 +38,6 @@ variablePie(Highcharts);
 highcharts3d(Highcharts);
 HighchartsMore(ReactHighcharts.Highcharts);
 
-
-
 function handleChange(value) {
   console.log(`selected ${value}`);
 }
@@ -38,6 +49,7 @@ class Dashboard extends Component {
     super(props);
     this.state = {
       fromDivHeight: null,
+      profileImage: null,
 
       options: {
         chart: {
@@ -489,18 +501,18 @@ class Dashboard extends Component {
           },
           data: [90000, 40000, 15000, 1000, 20000, 50000, 80000, 40000, 12000, 13000, 18000, 49000]
         },
-        //  {
-        //   name: 'Cash ratio',
-        //   color: "#343A40",
-        //   marker: {
-        //     enabled: false,
-        //     radius: 4
-        //   },
-        //   dataLabels: {
-        //     enabled: false
-        //   },
-        //   data: [0, 8000, 80000, 90000, 20000, 35000, 80000, 40000, 12000, 13000, 18000, 49000]
-        // },
+          //  {
+          //   name: 'Cash ratio',
+          //   color: "#343A40",
+          //   marker: {
+          //     enabled: false,
+          //     radius: 4
+          //   },
+          //   dataLabels: {
+          //     enabled: false
+          //   },
+          //   data: [0, 8000, 80000, 90000, 20000, 35000, 80000, 40000, 12000, 13000, 18000, 49000]
+          // },
           // {
           //   name: 'Transfer',
           //   color: "#93F035",
@@ -624,14 +636,9 @@ class Dashboard extends Component {
         }
         ]
       },
-
-
-
       colors: Highcharts.setOptions({
         colors: ['#fff', 'red']
       }),
-
-
       chartRevenue: {
         chart: {
           zoomType: 'x',
@@ -714,10 +721,33 @@ class Dashboard extends Component {
         }]
 
 
-      }
+      },
+
+      messages: "",
+      language: ""
 
     }
   }
+
+  async translationHelperFunction() {
+
+    const messages = await this.loadLocaleData(localStorage.getItem("lang"));
+    this.setState({
+      messages: messages,
+      language: localStorage.getItem("lang")
+    });
+    // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
+
+  }
+
+  loadLocaleData = (locale) => {
+    switch (locale) {
+      case "fr":
+        return import("../i18n/messages/fr.js");
+      default:
+        return import("../i18n/messages/en.js");
+    }
+  };
 
   componentDidMount() {
     const fromDivHeight = document.querySelector('.getHeight').clientHeight
@@ -727,228 +757,267 @@ class Dashboard extends Component {
       console.log("test001", this.state.fromDivHeight)
     });
 
+    this.props.getProfile();
+
+    this.translationHelperFunction();
+
   }
 
+  componentDidUpdate(prevProps, nextProps) {
+    console.log('dashboard component did update.');
+  }
 
+  async componentWillReceiveProps(nextProps) {
+    if (nextProps.profileImageStatus) {
 
+      var blob = new Blob([nextProps.profileImage], { type: "application/octet-stream" });
+
+      const value = URL.createObjectURL(blob)
+      this.setState({
+        profileImage: value
+      })
+    }
+
+    if (nextProps.language) {
+      const messages = await this.loadLocaleData(nextProps.language);
+
+      this.setState({
+        messages: messages,
+        language: nextProps.language
+      });
+    }
+  }
+
+  loadingProfileName = () => {
+    return (
+      <React.Fragment>
+        <Skeleton variant="text" width={100} style={{ margin: 'auto' }} />
+      </React.Fragment>
+    );
+  }
 
   render() {
 
     return (
-      <div className="main_contain">
-        <div className="dashboard_wraps">
-          <div className="customdashboardwholerow">
+      <IntlProvider
+        messages={this.state.messages.default}
+        locale={this.state.language}
+      >
+        <div className="main_contain">
+          <div className="dashboard_wraps">
+            <div className="customdashboardwholerow">
 
-            <div className="customdashboardrow dashCards section_custom">
-              <div className="custom_row">
-                <div className="custom_col width3">
-                  <div className="dcard">
-                    <div className="icNa">
+              <div className="customdashboardrow dashCards section_custom">
+                <div className="custom_row">
+                  <div className="custom_col width3">
+                    <div className="dcard">
+                      <div className="icNa">
 
-                      <div className="cardrightVal width50p">
-                        <p>Total Agents</p>
-                        <div className="cardnumber">
-                          213
-                     </div>
+                        <div className="cardrightVal width50p">
+                          <p><FormattedMessage id="agent.TotalAgents" /></p>
+                          <div className="cardnumber">
+                            213
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="custom_col width3">
-                  <div className="dcard">
-                    <div className="icNa">
+                  <div className="custom_col width3">
+                    <div className="dcard">
+                      <div className="icNa">
 
-                      <div className="cardrightVal width50p">
-                        <p>Total Agent Member</p>
-                        <div className="cardnumber">
-                          213
-                     </div>
+                        <div className="cardrightVal width50p">
+                          <p><FormattedMessage id="agent.TotalAgentMember" /></p>
+                          <div className="cardnumber">
+                            213
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="custom_col width3">
-                  <div className="dcard">
-                    <div className="icNa">
+                  <div className="custom_col width3">
+                    <div className="dcard">
+                      <div className="icNa">
 
-                      <div className="cardrightVal width50p">
-                        <p>Total Plans</p>
-                        <div className="cardnumber">
-                          213
-                     </div>
+                        <div className="cardrightVal width50p">
+                          <p>Total Plans</p>
+                          <div className="cardnumber">
+                            213
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="custom_col width3">
-                  <div className="dcard">
-                    <div className="icNa">
+                  <div className="custom_col width3">
+                    <div className="dcard">
+                      <div className="icNa">
 
-                      <div className="cardrightVal width50p">
-                        <p>Liquidity Balance</p>
-                        <div className="cardnumber">
-                          300
-                     </div>
+                        <div className="cardrightVal width50p">
+                          <p><FormattedMessage id="agent.LiquidityBalance" /></p>
+                          <div className="cardnumber">
+                            300
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="custom_col width3">
-                  <div className="dcard">
-                    <div className="icNa">
+                  <div className="custom_col width3">
+                    <div className="dcard">
+                      <div className="icNa">
 
-                      <div className="cardrightVal width50p">
-                        <p>Total Tickets</p>
-                        <div className="cardnumber">
-                          100
-                     </div>
+                        <div className="cardrightVal width50p">
+                          <p>Total Tickets</p>
+                          <div className="cardnumber">
+                            100
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div className="custom_col width3">
-                  <div className="dcard">
-                    <div className="icNa">
+                  <div className="custom_col width3">
+                    <div className="dcard">
+                      <div className="icNa">
 
-                      <div className="cardrightVal width50p">
-                        <p>Total Clients</p>
-                        <div className="cardnumber">
-                          100
-                     </div>
+                        <div className="cardrightVal width50p">
+                          <p>Total Clients</p>
+                          <div className="cardnumber">
+                            100
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div className="customdashboardrow1">
-              <div className="customdashboardrow1-heading">
-                <h4>Agent Info</h4>
-              </div>
-              <div className="customdashboardrow1-image">
-                <img src="../../propic.jpg" />
-              </div>
-              <div className="customdashboardrow1-image-name">
-                Harry Jane
+              <div className="customdashboardrow1">
+                <div className="customdashboardrow1-heading">
+                  <h4><FormattedMessage id="agent.AgentInfo" /></h4>
+                </div>
+                <div className="customdashboardrow1-image">
+                  {/* <img src="../../propic.jpg" /> */}
+                  {this.props.profileImageStatus ? <img src={this.state.profileImage} alt="profile pic" /> : <img src="../../propic.jpg" />}
 
-          </div>
-              <div className="customdashboardrow1-label-whole">
-                <div className="customdashboardrow1-label">
-                  <label>Id Number:</label>
-                  <span>32890233</span>
                 </div>
-                <div className="line-separator"></div>
-                <div className="customdashboardrow1-label">
-                  <label>Phone No: </label>
-                  <span>3333333</span>
+                <div className="customdashboardrow1-image-name">
+                  {this.props.profile.loading ? this.loadingProfileName() : this.props.profile.data.firstName + " " + this.props.profile.data.lastName}
                 </div>
-                <div className="line-separator"></div>
-                <div className="customdashboardrow1-label">
-                  <label>Address:     </label>
-                  <span>xyz  </span>
-                </div>
-                <div className="line-separator"></div>
-                <div className="customdashboardrow1-label">
-                  <label>Geo localisation​: </label>
-                  <span>41° N & 28° E.</span>
-                </div>
-                <div className="location-btn">
-                  <button>
+                <div className="customdashboardrow1-label-whole">
+                  <div className="customdashboardrow1-label">
+                    <label><FormattedMessage id="agent.IDNumber" />:</label>
+                    <span>32890233</span>
+                  </div>
+                  <div className="line-separator"></div>
+                  <div className="customdashboardrow1-label">
+                    <label>Phone No: </label>
+                    <span>3333333</span>
+                  </div>
+                  <div className="line-separator"></div>
+                  <div className="customdashboardrow1-label">
+                    <label><FormattedMessage id="agent.Address" />:     </label>
+                    <span>xyz  </span>
+                  </div>
+                  <div className="line-separator"></div>
+                  <div className="customdashboardrow1-label">
+                    <label>Geo localisation​: </label>
+                    <span>41° N & 28° E.</span>
+                  </div>
+                  <div className="location-btn">
+                    <button>
 
-                    <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M8 1.67969C5.23969 1.67969 3 3.69563 3 6.17969C3 10.1797 8 15.6797 8 15.6797C8 15.6797 13 10.1797 13 6.17969C13 3.69563 10.7603 1.67969 8 1.67969ZM8 8.67969C7.60444 8.67969 7.21776 8.56239 6.88886 8.34263C6.55996 8.12286 6.30362 7.81051 6.15224 7.44505C6.00087 7.0796 5.96126 6.67747 6.03843 6.28951C6.1156 5.90155 6.30608 5.54518 6.58579 5.26547C6.86549 4.98577 7.22186 4.79529 7.60982 4.71812C7.99778 4.64095 8.39991 4.68055 8.76537 4.83193C9.13082 4.9833 9.44318 5.23965 9.66294 5.56855C9.8827 5.89745 10 6.28412 10 6.67969C9.99942 7.20994 9.78852 7.71831 9.41357 8.09326C9.03863 8.46821 8.53026 8.67911 8 8.67969Z" fill="white" />
-                    </svg>
-                    <span>See Location</span>
-                  </button>
-                </div>
-              </div>
-
-            </div>
-          </div>
-          <div className="section_custom">
-            <div className="sectionInn chartCardColumn" style={{height:"400px"}}>
-              <div className="chartCard_w width50p m_r24 getHeight" style={{marginTop:"-8%", height:"-webkit-fill-available"}}>
-                <div className="chartgraycard chartCardTop">
-
-                  <div>
-                    <h1 className="commonHeading">Transactions per Agent</h1>
-                    {/* <h6 className="commonHeadingSmall color6E6E70 changeSiz">Total Amount Collected</h6> */}
-                  </div>
-                  <div className="hSelect">
-                    <div className="antdSelect">
-                      <Select
-                        defaultValue="XAF"
-                        style={{ width: 114, height: 32 }}
-                        onChange={handleChange}
-                      >
-                        <Option value="EN">XAF</Option>
-                        <Option value="FR">Doller</Option>
-                      </Select>
-                    </div>
-                  </div>
-                </div>
-                <div className="chartCardMiddle">
-                  <div className="chartTabs">
-                    <ul>
-                      <li className="active">Today</li>
-                      <li>This Week</li>
-                      <li>7 Days</li>
-                      <li>This Month</li>
-                      <li>Last Month</li>
-                    </ul>
-                  </div>
-
-                  <div className="custom-top-spacing hichchartIn0">
-                    <HighchartsReact
-                      highcharts={Highcharts}
-                      options={this.state.chartMerchant}
-                    />
-                  </div>
-                </div>
-              </div>
-              <div className="chartCard_w width50p getHeight">
-                <div className="chartgraycard chartCardTop">
-                  <div>
-                    <h1 className="commonHeading">Transaction per Number</h1>
-                    {/* <h6 className="commonHeadingSmall color6E6E70 changeSiz">Total Amount Collected</h6> */}
-                  </div>
-
-                  <div className="hSelect">
-                    <div className="antdSelect">
-                      <Select
-                        defaultValue="XAF"
-                        style={{ width: 114, height: 32 }}
-                        onChange={handleChange}
-                      >
-                        <Option value="EN">XAF</Option>
-                        <Option value="FR">Doller</Option>
-                      </Select>
-                    </div>
-                  </div>
-                </div>
-                <div className="chartCardMiddle">
-                <div className="chartTabs">
-                    <ul>
-                      <li className="active">Today</li>
-                      <li>This Week</li>
-                      <li>7 Days</li>
-                      <li>This Month</li>
-                      <li>Last Month</li>
-                    </ul>
-                  </div>
-
-                <div className="custom-top-spacing hichchartIn0">
-                    <HighchartsReact
-                      highcharts={Highcharts}
-                      options={this.state.chartMerchant}
-                    />
+                      <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M8 1.67969C5.23969 1.67969 3 3.69563 3 6.17969C3 10.1797 8 15.6797 8 15.6797C8 15.6797 13 10.1797 13 6.17969C13 3.69563 10.7603 1.67969 8 1.67969ZM8 8.67969C7.60444 8.67969 7.21776 8.56239 6.88886 8.34263C6.55996 8.12286 6.30362 7.81051 6.15224 7.44505C6.00087 7.0796 5.96126 6.67747 6.03843 6.28951C6.1156 5.90155 6.30608 5.54518 6.58579 5.26547C6.86549 4.98577 7.22186 4.79529 7.60982 4.71812C7.99778 4.64095 8.39991 4.68055 8.76537 4.83193C9.13082 4.9833 9.44318 5.23965 9.66294 5.56855C9.8827 5.89745 10 6.28412 10 6.67969C9.99942 7.20994 9.78852 7.71831 9.41357 8.09326C9.03863 8.46821 8.53026 8.67911 8 8.67969Z" fill="white" />
+                      </svg>
+                      <span>See Location</span>
+                    </button>
                   </div>
                 </div>
 
               </div>
             </div>
-          </div>
-          {/* <div className="section_custom">
+            <div className="section_custom">
+              <div className="sectionInn chartCardColumn" style={{ height: "400px" }}>
+                <div className="chartCard_w width50p m_r24 getHeight" style={{ marginTop: "-8%", height: "-webkit-fill-available" }}>
+                  <div className="chartgraycard chartCardTop">
+
+                    <div>
+                      <h1 className="commonHeading"><FormattedMessage id="agent.TransactionsPerAgent" /></h1>
+                      {/* <h6 className="commonHeadingSmall color6E6E70 changeSiz">Total Amount Collected</h6> */}
+                    </div>
+                    <div className="hSelect">
+                      <div className="antdSelect">
+                        <Select
+                          defaultValue="XAF"
+                          style={{ width: 114, height: 32 }}
+                          onChange={handleChange}
+                        >
+                          <Option value="EN">XAF</Option>
+                          <Option value="FR">Doller</Option>
+                        </Select>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="chartCardMiddle">
+                    <div className="chartTabs">
+                      <ul>
+                        <li className="active"><FormattedMessage id="agent.Today" /></li>
+                        <li><FormattedMessage id="agent.ThisWeek" /></li>
+                        <li><FormattedMessage id="agent.7Days" /></li>
+                        <li>This Month</li>
+                        <li><FormattedMessage id="agent.LastMonth" /></li>
+                      </ul>
+                    </div>
+
+                    <div className="custom-top-spacing hichchartIn0">
+                      <HighchartsReact
+                        highcharts={Highcharts}
+                        options={this.state.chartMerchant}
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="chartCard_w width50p getHeight">
+                  <div className="chartgraycard chartCardTop">
+                    <div>
+                      <h1 className="commonHeading"><FormattedMessage id="agent.TransactionPerNumber" /></h1>
+                      {/* <h6 className="commonHeadingSmall color6E6E70 changeSiz">Total Amount Collected</h6> */}
+                    </div>
+
+                    <div className="hSelect">
+                      <div className="antdSelect">
+                        <Select
+                          defaultValue="XAF"
+                          style={{ width: 114, height: 32 }}
+                          onChange={handleChange}
+                        >
+                          <Option value="EN">XAF</Option>
+                          <Option value="FR">Doller</Option>
+                        </Select>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="chartCardMiddle">
+                    <div className="chartTabs">
+                      <ul>
+                      <li className="active"><FormattedMessage id="agent.Today" /></li>
+                        <li><FormattedMessage id="agent.ThisWeek" /></li>
+                        <li><FormattedMessage id="agent.7Days" /></li>
+                        <li>This Month</li>
+                        <li><FormattedMessage id="agent.LastMonth" /></li>
+                      </ul>
+                    </div>
+
+                    <div className="custom-top-spacing hichchartIn0">
+                      <HighchartsReact
+                        highcharts={Highcharts}
+                        options={this.state.chartMerchant}
+                      />
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+            {/* <div className="section_custom">
             <div className="sectionInn chartCardColumn">
               <div className="chartCard_w width50p m_r24 getHeight">
                 <div className="chartCardTop">
@@ -1046,258 +1115,278 @@ class Dashboard extends Component {
 
             </div>
           </div> */}
-        
-          <div className="section_custom">
-            <div className="sectionInn chartCardColumn">
-              <div className="amountcollectedcard chartCard_w width50p getHeight">
-                <div className="chartgraycard chartCardTop">
-                  <h1 className="commonHeading">Transactions % of Assets</h1>
-                  <div className="hSelect">
-                    <div className="antdSelect">
-                      <Select
-                        defaultValue="XAF"
-                        style={{ width: 114, height: 32 }}
-                        onChange={handleChange}
-                      >
-                        <Option value="EN">XAF</Option>
-                        <Option value="FR">Doller</Option>
-                      </Select>
+
+            <div className="section_custom">
+              <div className="sectionInn chartCardColumn">
+                <div className="amountcollectedcard chartCard_w width50p getHeight">
+                  <div className="chartgraycard chartCardTop">
+                    <h1 className="commonHeading"><FormattedMessage id="agent.Transactions%ofAssets" /></h1>
+                    <div className="hSelect">
+                      <div className="antdSelect">
+                        <Select
+                          defaultValue="XAF"
+                          style={{ width: 114, height: 32 }}
+                          onChange={handleChange}
+                        >
+                          <Option value="EN">XAF</Option>
+                          <Option value="FR">Doller</Option>
+                        </Select>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="chartCardMiddle">
+                    <div className="chartTabs">
+                      <ul>
+                      <li className="active"><FormattedMessage id="agent.Today" /></li>
+                        <li><FormattedMessage id="agent.ThisWeek" /></li>
+                        <li><FormattedMessage id="agent.7Days" /></li>
+                        <li>This Month</li>
+                        <li><FormattedMessage id="agent.LastMonth" /></li>
+                      </ul>
+                    </div>
+                    <HighchartsReact
+                      highcharts={Highcharts}
+                      options={this.state.transectionPerc}
+                    />
+                  </div>
+                </div>
+                <div className="amountcollectedcard chartCard_w width50p getHeight">
+                  <div className="chartgraycard chartCardTop">
+                    <h1 className="commonHeading"><FormattedMessage id="agent.Transactions%ofCategory" /></h1>
+                    <div className="hSelect">
+                      <div className="antdSelect">
+                        <Select
+                          defaultValue="XAF"
+                          style={{ width: 114, height: 32 }}
+                          onChange={handleChange}
+                        >
+                          <Option value="EN">XAF</Option>
+                          <Option value="FR">Doller</Option>
+                        </Select>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="chartCardMiddle">
+                    <div className="chartTabs">
+                      <ul>
+                      <li className="active"><FormattedMessage id="agent.Today" /></li>
+                        <li><FormattedMessage id="agent.ThisWeek" /></li>
+                        <li><FormattedMessage id="agent.7Days" /></li>
+                        <li>This Month</li>
+                        <li><FormattedMessage id="agent.LastMonth" /></li>
+                      </ul>
+                    </div>
+                    <HighchartsReact
+                      highcharts={Highcharts}
+                      options={this.state.transectionPerc1}
+                    />
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <div className="section_custom">
+              <div className="sectionInn">
+                <div className="chartCard_w m_r24 getHeight">
+                  <div className="chartgraycard chartCardTop">
+                    <div className="flCenterColumn">
+                      <h1 className="commonHeading textAlignCenter"><FormattedMessage id="agent.Last30DaysTransaction" /></h1>
+                      {/* <h6 className="commonHeadingSmall color6E6E70">as of 29 March 2021, 09:41 PM</h6> */}
+                    </div>
+                  </div>
+                  <div className="chartCardMiddle" style={{ padding: "12px" }}>
+                    <HighchartsReact
+                      highcharts={Highcharts}
+                      options={this.state.toAmountColl}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="section_custom">
+              <div className="sectionInn">
+                <div className="chartCard_w m_r24 getHeight">
+                  <div className="chartCardTop">
+                    <div className="flCenterColumn">
+                      <h1 className="commonHeading textAlignCenter"><FormattedMessage id="agent.Last12weeksFeesEarned" /></h1>
+                      {/* <h6 className="commonHeadingSmall color6E6E70">as of 29 March 2021, 09:41 PM</h6> */}
+                    </div>
+                  </div>
+                  <div className="chartCardMiddle" style={{ padding: "12px" }}>
+                    <HighchartsReact
+                      highcharts={Highcharts}
+                      options={this.state.toAmountColl1}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="section_custom">
+              <div className="sectionInn">
+                <div className="chartCard_w m_r24 getHeight">
+                  <div className="chartCardTop">
+                    <div className="flCenterColumn">
+                      <h1 className="commonHeading textAlignCenter"><FormattedMessage id="agent.Last30DaysLiquiditybalance" /></h1>
+                      {/* <h6 className="commonHeadingSmall color6E6E70">as of 29 March 2021, 09:41 PM</h6> */}
+                    </div>
+                  </div>
+                  <div className="chartCardMiddle" style={{ padding: "12px" }}>
+                    <HighchartsReact
+                      highcharts={Highcharts}
+                      options={this.state.toAmountColl1}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div className="section_custom">
+              <div className="sectionInn">
+                <div className="chartCard_w m_r24 getHeight">
+                  <div className="chartCardTop">
+                    <div className="flCenterColumn">
+                      <h1 className="commonHeading textAlignCenter"><FormattedMessage id="agent.Last12weeksFeesEarned" /></h1>
+                      {/* <h6 className="commonHeadingSmall color6E6E70">as of 29 March 2021, 09:41 PM</h6> */}
+                    </div>
+                  </div>
+                  <div className="chartCardMiddle" style={{ padding: "12px" }}>
+                    <HighchartsReact
+                      highcharts={Highcharts}
+                      options={this.state.toAmountColl1}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="section_custom">
+              <div className="sectionInn">
+                <div className="chartCard_w m_r24 getHeight">
+                  <div className="chartCardTop">
+                    <div className="flCenterColumn">
+                      <h1 className="commonHeading textAlignCenter"><FormattedMessage id="agent.RecentTransaction" /></h1>
+                    </div>
+                  </div>
+                  <div className="chartCardMiddle">
+                    <div className="recentTrans_w">
+                      <table>
+                        <thead>
+                          <tr>
+                            <th><FormattedMessage id="agent.User" /></th>
+                            <th>Type</th>
+                            <th>Date</th>
+                            <th><FormattedMessage id="agent.Amount" /></th>
+                            <th><FormattedMessage id="agent.Fee" /></th>
+                            <th>Total</th>
+                            <th><FormattedMessage id="agent.Currency" /></th>
+                            <th>Reciver</th>
+                            <th><FormattedMessage id="agent.Status" /></th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>Kyla watson</td>
+                            <td>Crypto Recieved</td>
+                            <td>13 Dec 2020 (4:00 PM)</td>
+                            <td className="amountColor">$75.67</td>
+                            <td>1.0000</td>
+                            <td className="cancelled_tr">-100.00</td>
+                            <td className="amountColor">USD</td>
+                            <td className="pending_tr">Kyla watson</td>
+                            <td className="pending_tr">Pending</td>
+                            <td className="actionBtn"><span class="icon-edit"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></span></td>
+                          </tr>
+                          <tr>
+                            <td>Kyla watson</td>
+                            <td>Crypto Recieved</td>
+                            <td>13 Dec 2020 (4:00 PM)</td>
+                            <td className="amountColor">$75.67</td>
+                            <td>1.0000</td>
+                            <td className="cancelled_tr">-100.00</td>
+                            <td className="amountColor">USD</td>
+                            <td className="pending_tr">Kyla watson</td>
+                            <td className="cancelled_tr">Cancelled</td>
+                            <td className="actionBtn"><span class="icon-edit"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></span></td>
+                          </tr>
+                          <tr>
+                            <td>Kyla watson</td>
+                            <td>Crypto Recieved</td>
+                            <td>13 Dec 2020 (4:00 PM)</td>
+                            <td className="amountColor">$75.67</td>
+                            <td>1.0000</td>
+                            <td className="success_tr">+100.00</td>
+                            <td className="amountColor">USD</td>
+                            <td className="pending_tr">Kyla watson</td>
+                            <td className="success_tr">Success</td>
+                            <td className="actionBtn"><span class="icon-edit"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></span></td>
+                          </tr>
+                          <tr>
+                            <td>Kyla watson</td>
+                            <td>Crypto Recieved</td>
+                            <td>13 Dec 2020 (4:00 PM)</td>
+                            <td className="amountColor">$75.67</td>
+                            <td>1.0000</td>
+                            <td className="cancelled_tr">-100.00</td>
+                            <td className="amountColor">USD</td>
+                            <td className="pending_tr">Kyla watson</td>
+                            <td className="cancelled_tr">Cancelled</td>
+                            <td className="actionBtn"><span class="icon-edit"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></span></td>
+                          </tr>
+                          <tr>
+                            <td>Kyla watson</td>
+                            <td>Crypto Recieved</td>
+                            <td>13 Dec 2020 (4:00 PM)</td>
+                            <td className="amountColor">$75.67</td>
+                            <td>1.0000</td>
+                            <td className="success_tr">+100.00</td>
+                            <td className="amountColor">USD</td>
+                            <td className="pending_tr">Kyla watson</td>
+                            <td className="success_tr">Success</td>
+                            <td className="actionBtn"><span class="icon-edit"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></span></td>
+                          </tr>
+
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                  <div className="cardFooter justify_content_end">
+                    <div className="allTic">
+                      <h3>All Tickets</h3>
+                      <span className="icon-Asset-1"></span>
                     </div>
                   </div>
                 </div>
-                <div className="chartCardMiddle">
-                  <div className="chartTabs">
-                    <ul>
-                      <li className="active">Today</li>
-                      <li>This Week</li>
-                      <li>7 Days</li>
-                      <li>This Month</li>
-                      <li>Last Month</li>
-                    </ul>
-                  </div>
-                  <HighchartsReact
-                    highcharts={Highcharts}
-                    options={this.state.transectionPerc}
-                  />
-                </div>
-              </div>
-              <div className="amountcollectedcard chartCard_w width50p getHeight">
-                <div className="chartgraycard chartCardTop">
-                  <h1 className="commonHeading">Transactions % of Category</h1>
-                  <div className="hSelect">
-                    <div className="antdSelect">
-                      <Select
-                        defaultValue="XAF"
-                        style={{ width: 114, height: 32 }}
-                        onChange={handleChange}
-                      >
-                        <Option value="EN">XAF</Option>
-                        <Option value="FR">Doller</Option>
-                      </Select>
-                    </div>
-                  </div>
-                </div>
-                <div className="chartCardMiddle">
-                  <div className="chartTabs">
-                    <ul>
-                      <li className="active">Today</li>
-                      <li>This Week</li>
-                      <li>7 Days</li>
-                      <li>This Month</li>
-                      <li>Last Month</li>
-                    </ul>
-                  </div>
-                  <HighchartsReact
-                    highcharts={Highcharts}
-                    options={this.state.transectionPerc1}
-                  />
-                </div>
-              </div>
-
-            </div>
-          </div>
-
-          <div className="section_custom">
-            <div className="sectionInn">
-              <div className="chartCard_w m_r24 getHeight">
-                <div className="chartgraycard chartCardTop">
-                  <div className="flCenterColumn">
-                    <h1 className="commonHeading textAlignCenter">Last 30 Days Transaction</h1>
-                    {/* <h6 className="commonHeadingSmall color6E6E70">as of 29 March 2021, 09:41 PM</h6> */}
-                  </div>
-                </div>
-                <div className="chartCardMiddle" style={{ padding: "12px" }}>
-                  <HighchartsReact
-                    highcharts={Highcharts}
-                    options={this.state.toAmountColl}
-                  />
-                </div>
               </div>
             </div>
+
+
           </div>
-          <div className="section_custom">
-            <div className="sectionInn">
-              <div className="chartCard_w m_r24 getHeight">
-                <div className="chartCardTop">
-                  <div className="flCenterColumn">
-                    <h1 className="commonHeading textAlignCenter">Last 12 weeks Fees Earned</h1>
-                    {/* <h6 className="commonHeadingSmall color6E6E70">as of 29 March 2021, 09:41 PM</h6> */}
-                  </div>
-                </div>
-                <div className="chartCardMiddle" style={{ padding: "12px" }}>
-                  <HighchartsReact
-                    highcharts={Highcharts}
-                    options={this.state.toAmountColl1}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="section_custom">
-            <div className="sectionInn">
-              <div className="chartCard_w m_r24 getHeight">
-                <div className="chartCardTop">
-                  <div className="flCenterColumn">
-                    <h1 className="commonHeading textAlignCenter">Last 30 Days Liquidity Balance</h1>
-                    {/* <h6 className="commonHeadingSmall color6E6E70">as of 29 March 2021, 09:41 PM</h6> */}
-                  </div>
-                </div>
-                <div className="chartCardMiddle" style={{ padding: "12px" }}>
-                  <HighchartsReact
-                    highcharts={Highcharts}
-                    options={this.state.toAmountColl1}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-
-
-          <div className="section_custom">
-            <div className="sectionInn">
-              <div className="chartCard_w m_r24 getHeight">
-                <div className="chartCardTop">
-                  <div className="flCenterColumn">
-                    <h1 className="commonHeading textAlignCenter">Last 12 weeks Fees Earned</h1>
-                    {/* <h6 className="commonHeadingSmall color6E6E70">as of 29 March 2021, 09:41 PM</h6> */}
-                  </div>
-                </div>
-                <div className="chartCardMiddle" style={{ padding: "12px" }}>
-                  <HighchartsReact
-                    highcharts={Highcharts}
-                    options={this.state.toAmountColl1}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-         
-          <div className="section_custom">
-            <div className="sectionInn">
-              <div className="chartCard_w m_r24 getHeight">
-                <div className="chartCardTop">
-                  <div className="flCenterColumn">
-                    <h1 className="commonHeading textAlignCenter">Recent Transaction</h1>
-                  </div>
-                </div>
-                <div className="chartCardMiddle">
-                  <div className="recentTrans_w">
-                    <table>
-                      <thead>
-                        <tr>
-                          <th>User</th>
-                          <th>Type</th>
-                          <th>Date</th>
-                          <th>Amount</th>
-                          <th>Fee</th>
-                          <th>Total</th>
-                          <th>Currency</th>
-                          <th>Reciver</th>
-                          <th>Status</th>
-                          <th>Action</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>Kyla watson</td>
-                          <td>Crypto Recieved</td>
-                          <td>13 Dec 2020 (4:00 PM)</td>
-                          <td className="amountColor">$75.67</td>
-                          <td>1.0000</td>
-                          <td className="cancelled_tr">-100.00</td>
-                          <td className="amountColor">USD</td>
-                          <td className="pending_tr">Kyla watson</td>
-                          <td className="pending_tr">Pending</td>
-                          <td className="actionBtn"><span class="icon-edit"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></span></td>
-                        </tr>
-                        <tr>
-                          <td>Kyla watson</td>
-                          <td>Crypto Recieved</td>
-                          <td>13 Dec 2020 (4:00 PM)</td>
-                          <td className="amountColor">$75.67</td>
-                          <td>1.0000</td>
-                          <td className="cancelled_tr">-100.00</td>
-                          <td className="amountColor">USD</td>
-                          <td className="pending_tr">Kyla watson</td>
-                          <td className="cancelled_tr">Cancelled</td>
-                          <td className="actionBtn"><span class="icon-edit"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></span></td>
-                        </tr>
-                        <tr>
-                          <td>Kyla watson</td>
-                          <td>Crypto Recieved</td>
-                          <td>13 Dec 2020 (4:00 PM)</td>
-                          <td className="amountColor">$75.67</td>
-                          <td>1.0000</td>
-                          <td className="success_tr">+100.00</td>
-                          <td className="amountColor">USD</td>
-                          <td className="pending_tr">Kyla watson</td>
-                          <td className="success_tr">Success</td>
-                          <td className="actionBtn"><span class="icon-edit"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></span></td>
-                        </tr>
-                        <tr>
-                          <td>Kyla watson</td>
-                          <td>Crypto Recieved</td>
-                          <td>13 Dec 2020 (4:00 PM)</td>
-                          <td className="amountColor">$75.67</td>
-                          <td>1.0000</td>
-                          <td className="cancelled_tr">-100.00</td>
-                          <td className="amountColor">USD</td>
-                          <td className="pending_tr">Kyla watson</td>
-                          <td className="cancelled_tr">Cancelled</td>
-                          <td className="actionBtn"><span class="icon-edit"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></span></td>
-                        </tr>
-                        <tr>
-                          <td>Kyla watson</td>
-                          <td>Crypto Recieved</td>
-                          <td>13 Dec 2020 (4:00 PM)</td>
-                          <td className="amountColor">$75.67</td>
-                          <td>1.0000</td>
-                          <td className="success_tr">+100.00</td>
-                          <td className="amountColor">USD</td>
-                          <td className="pending_tr">Kyla watson</td>
-                          <td className="success_tr">Success</td>
-                          <td className="actionBtn"><span class="icon-edit"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></span></td>
-                        </tr>
-
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-                <div className="cardFooter justify_content_end">
-                  <div className="allTic">
-                    <h3>All Tickets</h3>
-                    <span className="icon-Asset-1"></span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-
         </div>
-      </div>
+      </IntlProvider>
     );
   }
 }
-export default Dashboard
+
+const mapStateToProps = ({ agentReducer, commonReducer }) => {
+  const { profile, profileImage, profileImageStatus } = agentReducer;
+  const { language } = commonReducer
+
+  return {
+    profile,
+    profileImage,
+    profileImageStatus,
+    language
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getProfile: (token) => dispatch(getProfile(token)),
+  }
+
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)

@@ -1,789 +1,503 @@
-import React, { Component } from 'react';
-//import '../../css/dashboard.css';
-import Highcharts from 'highcharts';
-import variablePie from "highcharts/modules/variable-pie.js";
-import HighchartsReact from 'highcharts-react-official';
+import React, { useState, useEffect, useRef } from "react";
+import "../../../css/ag-grid-customization01.css";
+import "antd/dist/antd.css";
+import "../../page/Settings/General/formfromold.css";
+import "ag-grid-community/dist/styles/ag-grid.css";
+import "ag-grid-community/dist/styles/ag-theme-alpine.css";
+import validator from "validator";
 
-import ReactHighcharts from 'react-highcharts';
-import HighchartsMore from 'highcharts/highcharts-more';
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import OtpInput from "react-otp-input";
+import { Select } from "antd";
+import { useSelector, useDispatch } from "react-redux";
+import actionType from "../../../services/agent/actionType.js";
+import {
+  fetchAgentProfile,
+  verifyCustomer,
+  sendOtpToCustomer,
+  walletBalanceInquiryAction,
+} from "../../../services/agent/action.js";
 
-import highcharts3d from 'highcharts/highcharts-3d';
-import ProgressBar from "@ramonak/react-progress-bar";
-
-
-import { Select, DatePicker } from 'antd';
-import moment from 'moment';
-const dateFormat = 'YYYY/MM/DD';
-// const customFormat = value => `custom format: ${value.format(dateFormat)}`;
 const { Option } = Select;
+const resendTime = 30;
 
-function onChange(date, dateString) {
-  console.log(date, dateString);
-}
+const WalletAccountBalance = () => {
+  const firstUpdate = useRef(true);
+  const [step, setStep] = useState(1);
+  const idDocumentTypes = [
+    { name: "ID Card", value: "ID_CARD" },
+    { name: "Passport", value: "PASSPORT" },
+  ];
+  const otpTypes = [
+    { name: "Email", value: "EMAIL" },
+    { name: "SMS", value: "SMS" },
+  ];
+  const sendTypes = [
+    { name: "Email", value: "EMAIL" },
+    { name: "SMS", value: "SMS" },
+    { name: "Both", value: "BOTH" },
+  ];
 
-variablePie(Highcharts);
-highcharts3d(Highcharts);
-HighchartsMore(ReactHighcharts.Highcharts);
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [selectedDocumentType, setSelectedDocumentType] = useState(
+    idDocumentTypes[0].value
+  );
+  const [idDocumentNumber, setIdDocumentNumber] = useState("");
+  const [selectedOtpType, setSelectedOtpType] = useState(otpTypes[0].value);
+  const [selectedSendType, setSelectedSendType] = useState(sendTypes[0].value);
+  const [otpTimer, setOtpTimer] = React.useState(resendTime);
+  const [otp, setOtp] = useState("");
 
+  const dispatch = useDispatch();
+  const agentProfile = useSelector((state) => state.agentReducer.profile.data);
+  const loadingCustomerValidation = useSelector(
+    (state) => state.agentReducer.customerValidation.loading
+  );
+  const customerSuccess = useSelector(
+    (state) => state.agentReducer.customerValidation.success
+  );
+  const loadingCustomerOtp = useSelector(
+    (state) => state.agentReducer.customerOtpSend.loading
+  );
+  const customerOtpSuccess = useSelector(
+    (state) => state.agentReducer.customerOtpSend.success
+  );
+  const customerBalanceInquiryLoading = useSelector(
+    (state) => state.agentReducer.customerBalanceInquiry.loading
+  );
+  const customerBalanceInquirySuccess = useSelector(
+    (state) => state.agentReducer.customerBalanceInquiry.success
+  );
 
+  useEffect(() => {
+    //Reset States When leaving the page
+    return () => {
+      dispatch({
+        type: actionType.CUSTOMER_VALIDATION_RESET,
+      });
+      dispatch({
+        type: actionType.CUSTOMER_OTP_SEND_RESET,
+      });
+      dispatch({
+        type: actionType.CUSTOMER_BALANCE_INQUIRY_RESET,
+      });
+      setStep(1);
+    };
+  }, []);
 
-function handleChange(value) {
-  console.log(`selected ${value}`);
-}
-
-
-class AccountBalance extends Component { 
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      fromDivHeight: null,
-
-      options: {
-        chart: {
-          type: 'pie',
-          height: 300,
-          options3d: {
-            enabled: true,
-            alpha: 20,
-            beta: 25
-          }
-        },
-        credits: {
-          enabled: false
-        },
-        title: {
-          text: '',
-
-        },
-        accessibility: {
-          point: {
-            valueSuffix: '%'
-          }
-        },
-        accessibility: {
-          point: {
-            valueSuffix: '%'
-          }
-        },
-        tooltip: {
-          pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-        },
-        plotOptions: {
-          pie: {
-            allowPointSelect: true,
-            cursor: 'pointer',
-            depth: 20,
-            showInLegend: true,
-            dataLabels: {
-              enabled: false,
-              format: '{point.name}'
-            }
-          }
-        },
-        legend: {
-          align: 'left',
-          verticalAlign: 'bottom',
-          layout: 'horizontal',
-          // x: -50,
-          // y: 120,
-          symbolPadding: 0,
-          symbolWidth: 0.1,
-          symbolHeight: 0.1,
-          symbolRadius: 0,
-          useHTML: true,
-          symbolWidth: 0,
-          labelFormatter: function () {
-            return '<div><div class="dsFle"><span class="chartDot" style="border:2px solid ' + this.color + '"></span>' + this.name + ' (' + this.y + '%)</div></div>';
-          },
-          itemStyle: {
-            color: '#343A40',
-            fontWeight: 'bold',
-            fontSize: '14px',
-            lineHeight: "20px",
-            fontFamily: 'Lato'
-          }
-        },
-        series: [{
-          type: 'pie',
-          name: ' ',
-          slicedOffset: 15,
-          borderColor: 'white',
-          data: [
-
-            {
-              name: 'AGENT',
-              y: 20,
-              sliced: true,
-              color: "#FF3A2F"
-            },
-            {
-              name: 'MERCHANT',
-              y: 80,
-              sliced: true,
-              selected: true,
-              color: "#787878"
-            },
-
-          ]
-        }]
-      },
-      transectionPerc1: {
-        chart: {
-          type: 'pie',
-          height: 300,
-          options3d: {
-            enabled: true,
-            alpha: 20,
-            beta: 20
-          }
-        },
-        credits: {
-          enabled: false
-        },
-        title: {
-          text: '',
-
-        },
-        accessibility: {
-          point: {
-            valueSuffix: '%'
-          }
-        },
-        accessibility: {
-          point: {
-            valueSuffix: '%'
-          }
-        },
-        tooltip: {
-          pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-        },
-        plotOptions: {
-          pie: {
-            allowPointSelect: true,
-            cursor: 'pointer',
-            depth: 20,
-            showInLegend: true,
-            dataLabels: {
-              enabled: false,
-              format: '{point.name}'
-            }
-          }
-        },
-        legend: {
-          align: 'left',
-          verticalAlign: 'bottom',
-          layout: 'horizontal',
-          // x: -50,
-          // y: 120,
-          symbolPadding: 0,
-          symbolWidth: 0.1,
-          symbolHeight: 0.1,
-          symbolRadius: 0,
-          useHTML: true,
-          symbolWidth: 0,
-          labelFormatter: function () {
-            return '<div><div class="dsFle"><span class="chartDot" style="border:2px solid ' + this.color + '"></span>' + this.name + ' (' + this.y + '%)</div></div>';
-          },
-          itemStyle: {
-            color: '#343A40',
-            fontWeight: 'bold',
-            fontSize: '14px',
-            lineHeight: "20px",
-            fontFamily: 'Lato'
-          }
-        },
-        series: [{
-          type: 'pie',
-          name: ' ',
-          slicedOffset: 10,
-          borderColor: 'white',
-          data: [
-
-            {
-              name: 'Shop 1 (40%)',
-              y: 40,
-              sliced: true,
-              color: "#757575"
-            },
-            {
-              name: 'Shop 2 (20%)',
-              y: 40,
-              sliced: true,
-              color: "#ADAEB0"
-            },
-            {
-              name: 'Shop 3 (20%)',
-              y: 70,
-              sliced: true,
-              color: "#FE514E"
-            },
-            {
-              name: 'Shop 4  (20%)',
-              y: 60,
-              sliced: true,
-              color: "#434343"
-            },
-
-          ]
-        }]
-      },
-      transectionPerc: {
-        chart: {
-          type: 'pie',
-          height: 300,
-          options3d: {
-            enabled: true,
-            alpha: 20,
-            beta: 20
-          }
-        },
-        credits: {
-          enabled: false
-        },
-        title: {
-          text: '',
-
-        },
-        accessibility: {
-          point: {
-            valueSuffix: '%'
-          }
-        },
-        accessibility: {
-          point: {
-            valueSuffix: '%'
-          }
-        },
-        tooltip: {
-          pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-        },
-        plotOptions: {
-          pie: {
-            allowPointSelect: true,
-            cursor: 'pointer',
-            depth: 20,
-            showInLegend: true,
-            dataLabels: {
-              enabled: false,
-              format: '{point.name}'
-            }
-          }
-        },
-        legend: {
-          align: 'left',
-          verticalAlign: 'bottom',
-          layout: 'horizontal',
-          // x: -50,
-          // y: 120,
-          symbolPadding: 0,
-          symbolWidth: 0.1,
-          symbolHeight: 0.1,
-          symbolRadius: 0,
-          useHTML: true,
-          symbolWidth: 0,
-          labelFormatter: function () {
-            return '<div><div class="dsFle"><span class="chartDot" style="border:2px solid ' + this.color + '"></span>' + this.name + ' (' + this.y + '%)</div></div>';
-          },
-          itemStyle: {
-            color: '#343A40',
-            fontWeight: 'bold',
-            fontSize: '14px',
-            lineHeight: "20px",
-            fontFamily: 'Lato'
-          }
-        },
-        series: [{
-          type: 'pie',
-          name: ' ',
-          slicedOffset: 10,
-          borderColor: 'white',
-          data: [
-
-            {
-              name: 'DEPOSIT',
-              y: 40,
-              sliced: true,
-              color: "#757575"
-            },
-            {
-              name: 'PAYOUT',
-              y: 40,
-              sliced: true,
-              color: "#ADAEB0"
-            },
-            {
-              name: 'TRANSFER',
-              y: 70,
-              sliced: true,
-              color: "#FE514E"
-            },
-            {
-              name: 'OTHERS',
-              y: 60,
-              sliced: true,
-              color: "#434343"
-            },
-
-          ]
-        }]
-      },
-      toAmountColl: {
-        chart: {
-          type: 'line',
-          height: 400,
-        },
-        credits: {
-          enabled: false
-        },
-        title: {
-          text: ''
-        },
-        subtitle: {
-          text: ''
-        },
-        xAxis: {
-          categories: ['29 March', '30 March', '31 March', '1 Apr', '2 Apr', '3 Apr', '4 Apr', '5 Apr', '6 Apr', '7 Apr', '8 Apr', '9 Apr', '10 Apr', '11 Apr', '12 Apr', '13 Apr', '14 Apr', '15 Apr', '16 Apr', '17 Apr', '18 Apr', '19 Apr', '20 Apr', '21 Apr', '22 Apr', '23 Apr', '24 Apr'],
-          crosshair: true,
-          // minorTickLength: 0,
-          // tickLength: 0
-
-        },
-        yAxis: {
-          title: {
-            text: ''
-          },
-          opposite: false,
-          max: 150000
-        },
-        plotOptions: {
-          line: {
-            dataLabels: {
-              enabled: true
-            },
-            enableMouseTracking: false
-          }
-        },
-        legend: {
-          labelFormatter: function () {
-            return '<span class="lineCircleSty"><span class=""></span>' + this.name + '</span>';
-          },
-          layout: 'horizontal',
-          align: 'left',
-          verticalAlign: 'bottom',
-          // symbolWidth: 20,
-          // symbolHeight: 20,
-          itemStyle: {
-            color: 'red',
-            fontWeight: 'bold',
-            fontSize: "14px",
-            lineHeight: "20px",
-            fontWeight: "500",
-            color: "#343A40",
-            textTransform: "uppercase",
-          },
-
-        },
-        series: [{
-          name: 'Quick Ratio',
-          color: "#E64C43",
-          marker: {
-            enabled: false,
-            radius: 4
-          },
-          dataLabels: {
-            enabled: false
-          },
-          data: [90000, 40000, 15000, 1000, 20000, 50000, 80000, 40000, 12000, 13000, 18000, 49000]
-        }, {
-          name: 'Cash ratio',
-          color: "#343A40",
-          marker: {
-            enabled: false,
-            radius: 4
-          },
-          dataLabels: {
-            enabled: false
-          },
-          data: [0, 8000, 80000, 90000, 20000, 35000, 80000, 40000, 12000, 13000, 18000, 49000]
-        },
-          // {
-          //   name: 'Transfer',
-          //   color: "#93F035",
-          //   marker: {
-          //     enabled: false,
-          //     radius: 4
-          //   },
-          //   dataLabels: {
-          //     enabled: false
-          //   },
-          //   data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-          // }
-        ]
-      },
-      toAmountColl1: {
-        chart: {
-          type: 'line',
-          height: 400,
-        },
-        credits: {
-          enabled: false
-        },
-        title: {
-          text: ''
-        },
-        subtitle: {
-          text: ''
-        },
-        xAxis: {
-          categories: ['29 March', '30 March', '31 March', '1 Apr', '2 Apr', '3 Apr', '4 Apr', '5 Apr', '6 Apr', '7 Apr', '8 Apr', '9 Apr', '10 Apr', '11 Apr', '12 Apr', '13 Apr', '14 Apr', '15 Apr', '16 Apr', '17 Apr', '18 Apr', '19 Apr', '20 Apr', '21 Apr', '22 Apr', '23 Apr', '24 Apr'],
-          crosshair: true,
-          // minorTickLength: 0,
-          // tickLength: 0
-
-        },
-        yAxis: {
-          title: {
-            text: ''
-          },
-          opposite: false,
-          max: 150000
-        },
-        plotOptions: {
-          line: {
-            dataLabels: {
-              enabled: true
-            },
-            enableMouseTracking: false
-          }
-        },
-        legend: {
-          labelFormatter: function () {
-            return '<span class="lineCircleSty"><span class=""></span>' + this.name + '</span>';
-          },
-          layout: 'horizontal',
-          align: 'left',
-          verticalAlign: 'bottom',
-          // symbolWidth: 20,
-          // symbolHeight: 20,
-          itemStyle: {
-            color: 'red',
-            fontWeight: 'bold',
-            fontSize: "14px",
-            lineHeight: "20px",
-            fontWeight: "500",
-            color: "#343A40",
-            textTransform: "uppercase",
-          },
-
-        },
-        series: [{
-          name: 'Earned',
-          color: "#DA4139",
-          marker: {
-            enabled: false,
-            radius: 4
-          },
-          dataLabels: {
-            enabled: false
-          },
-          data: [90000, 40000, 15000, 1000, 20000, 50000, 80000, 40000, 12000, 13000, 18000, 49000]
-        },
-        //  {
-        //   name: 'Cash ratio',
-        //   color: "#343A40",
-        //   marker: {
-        //     enabled: false,
-        //     radius: 4
-        //   },
-        //   dataLabels: {
-        //     enabled: false
-        //   },
-        //   data: [0, 8000, 80000, 90000, 20000, 35000, 80000, 40000, 12000, 13000, 18000, 49000]
-        // },
-          // {
-          //   name: 'Transfer',
-          //   color: "#93F035",
-          //   marker: {
-          //     enabled: false,
-          //     radius: 4
-          //   },
-          //   dataLabels: {
-          //     enabled: false
-          //   },
-          //   data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-          // }
-        ]
-      },
-      chartMerchant: {
-
-        chart: {
-          type: 'column',
-          height: 200,
-        },
-        title: {
-          text: ''
-        },
-        yAxis: {
-          title: {
-            text: ''
-          },
-          // min: 25000,
-          max: 50000
-        },
-        xAxis: {
-          labels: {
-            enabled: false
-          },
-
-          type: 'category',
-          lineWidth: 0,
-          minorGridLineWidth: 0,
-          lineColor: 'transparent',
-          minorTickLength: 0,
-          tickLength: 0
-
-        },
-        credits: {
-          enabled: false
-        },
-        legend: {
-          enabled: false,
-        },
-        plotOptions: {
-          series: {
-            groupPadding: 0.15,
-            borderRadius: 8
-          },
-          column: {
-            grouping: true,
-            borderRadiusTopLeft: 10,
-            borderRadiusTopRight: 10
-          }
-        },
-        series: [{
-          color: "#E65354",
-          data: [26000, 50000, 45000, 28000],
-
-        },
-          //  {
-          //   color: "#716D6C",
-          //   data: [32000, 35000, 28000, 35000, 31000]
-          // }
-        ]
-      },
-      chartAgent: {
-
-        chart: {
-          type: 'column',
-          height: 200,
-        },
-        title: {
-          text: ''
-        },
-        yAxis: {
-          title: {
-            text: ''
-          },
-          // min: 25000,
-          max: 50000
-        },
-        xAxis: {
-          labels: {
-            enabled: true
-          },
-          type: 'category',
-          lineWidth: 0,
-          minorGridLineWidth: 0,
-          lineColor: 'transparent',
-          minorTickLength: 0,
-          tickLength: 0
-
-        },
-        credits: {
-          enabled: false
-        },
-        // legend: {
-        //   enabled: true,
-        // },
-        plotOptions: {
-          series: {
-            groupPadding: 0.15,
-            borderRadius: 8
-          },
-          column: {
-            grouping: true,
-          }
-        },
-        series: [{
-          color: "#423939",
-          data: [25000, 35000, 30000, 28000, 26000]
-        }, {
-          color: "#716D6C",
-          data: [32000, 35000, 28000, 35000, 31000]
-        }
-        ]
-      },
-
-
-
-      colors: Highcharts.setOptions({
-        colors: ['#fff', 'red']
-      }),
-
-
-      chartRevenue: {
-        chart: {
-          zoomType: 'x',
-          height: 200,
-          type: 'area'
-        },
-        credits: {
-          enabled: false
-        },
-        title: {
-          text: ''
-        },
-        subtitle: {
-          text: document.ontouchstart === undefined ?
-            'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
-        },
-        xAxis: {
-          lineWidth: 0,
-          minorGridLineWidth: 0,
-          lineColor: 'transparent',
-          minorTickLength: 0,
-          tickLength: 0,
-          labels: {
-            enabled: false
-          },
-        },
-        yAxis: {
-          title: {
-            text: ''
-          },
-          // min: 0,
-          // max:40
-        },
-        legend: {
-          enabled: false
-        },
-
-        plotOptions: {
-          area: {
-            fillColor: {
-              linearGradient: {
-                x1: 0,
-                y1: 0,
-                x2: 0,
-                y2: 1
-              },
-              stops: [
-                [0, '#FF0000'],
-                [1, Highcharts.color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-              ]
-            },
-
-            marker: {
-              radius: 2,
-              enabled: false,
-            },
-            lineWidth: 1,
-            states: {
-              hover: {
-                lineWidth: 1
-              }
-            },
-            threshold: null
-          }
-        },
-
-        series: [{
-          type: 'area',
-          name: '',
-          data: [
-            null, null, null, null, null, 6, 11, 32, 110, 235,
-            369, 640, 1005, 1436, 2063, 3057, 4618, 6444, 9822, 15468,
-            20434, 24126, 27387, 29459, 31056, 31982, 32040, 31233, 29224, 27342,
-            26662, 26956, 27912, 28999, 28965, 27826, 25579, 25722, 24826, 24605,
-            24304, 23464, 23708, 24099, 24357, 24237, 24401, 24344, 23586, 22380,
-            21004, 17287, 14747, 13076, 12555, 12144, 11009, 10950, 10871, 10824,
-            10577, 10527, 10475, 10421, 10358, 10295, 10104, 9914, 9620, 9326,
-            5113, 5113, 4954, 4804, 4761, 4717, 4368, 4018
-          ]
-        }]
-
-
-      }
-
+  useEffect(() => {
+    if (!agentProfile) {
+      dispatch(fetchAgentProfile(sessionStorage.getItem("token")));
     }
-  }
+  }, [agentProfile, dispatch]);
 
-  componentDidMount() {
-    const fromDivHeight = document.querySelector('.getHeight').clientHeight
-    this.setState({
-      fromDivHeight: fromDivHeight
-    }, () => {
-      console.log("test001", this.state.fromDivHeight)
+  useEffect(() => {
+    if (step === 4) {
+      if (otpTimer > 0) {
+        setTimeout(() => setOtpTimer(otpTimer - 1), 1000);
+      }
+    }
+  }, [otpTimer, step]);
+
+  useEffect(() => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+      return;
+    }
+    if (step === 1 && customerSuccess) {
+      setStep(2);
+    }
+    if (step === 2 && customerOtpSuccess) {
+      setStep(3);
+    }
+    if (step === 3 && customerBalanceInquirySuccess) {
+      setStep(4);
+    }
+  }, [
+    step,
+    customerSuccess,
+    customerOtpSuccess,
+    customerBalanceInquirySuccess,
+  ]);
+
+  const stepOneValidated = () => {
+    return !(
+      validator.isEmpty(phoneNumber) ||
+      validator.isEmpty(selectedDocumentType) ||
+      validator.isEmpty(idDocumentNumber) ||
+      validator.isEmpty(selectedSendType) ||
+      loadingCustomerValidation
+    );
+  };
+
+  const stepTwoValidated = () => {
+    return !(validator.isEmpty(selectedOtpType) || loadingCustomerOtp);
+  };
+
+  const stepThreeValidated = () => {
+    return !(
+      validator.isEmpty(otp) ||
+      otp.length !== 6 ||
+      customerBalanceInquiryLoading
+    );
+  };
+
+  const isFormValidated = () => {
+    switch (step) {
+      case 1:
+        return stepOneValidated();
+      case 2:
+        return stepTwoValidated();
+      case 3:
+        return stepThreeValidated();
+      case 4:
+        return true;
+      default:
+        return false;
+    }
+  };
+
+  const formSubmitAction = () => {
+    if (step === 1) {
+      verifyCustomerSubmit();
+    } else if (step === 2) {
+      sendCustomerOTP();
+    } else if (step === 3) {
+      sendBalanceInquiryRequest();
+    } else {
+      resetForm();
+      setStep(1);
+    }
+  };
+
+  const prevStep = () => {
+    if (step === 2) {
+      dispatch({
+        type: actionType.CUSTOMER_VALIDATION_RESET,
+      });
+    }
+    if (step === 3) {
+      dispatch({
+        type: actionType.CUSTOMER_OTP_SEND_RESET,
+      });
+    }
+    setStep(step - 1);
+  };
+
+  const resetForm = () => {
+    dispatch({
+      type: actionType.CUSTOMER_VALIDATION_RESET,
     });
+    dispatch({
+      type: actionType.CUSTOMER_OTP_SEND_RESET,
+    });
+    dispatch({
+      type: actionType.CUSTOMER_BALANCE_INQUIRY_RESET,
+    });
+    setPhoneNumber("");
+    setIdDocumentNumber("");
+    setOtp("");
+  };
 
-  }
+  const verifyCustomerSubmit = () => {
+    var requestObj = {
+      type: "WALLET",
+      phoneNumber: phoneNumber,
+      idDocumentType: selectedDocumentType,
+      idDocumentNumber: idDocumentNumber,
+    };
+    dispatch(verifyCustomer(sessionStorage.getItem("token"), requestObj));
+  };
 
+  const sendCustomerOTP = () => {
+    var requestObj = {
+      customerMobile: phoneNumber,
+      customerType: "WALLET",
+      mfaChannel: selectedOtpType,
+    };
+    dispatch(sendOtpToCustomer(sessionStorage.getItem("token"), requestObj));
+  };
 
+  const resendCustomerOtp = () => {
+    setOtpTimer(resendTime);
+    sendCustomerOTP();
+  };
 
+  const sendBalanceInquiryRequest = () => {
+    var requestObj = {
+      mobileNumber: phoneNumber,
+      sendType: selectedSendType,
+      mfaToken: otp,
+    };
+    dispatch(walletBalanceInquiryAction(requestObj));
+  };
 
-  render() {
-
+  const walletVerificationForm = () => {
     return (
-      <div className="main_contain">
-        <div className="dashboard_wraps">
-         
-        <div className="section_custom">
-            <div className="sectionInn">
-              <div className="chartCard_w m_r24 getHeight">
-                <div className="chartgraycard chartCardTop">
-                  <div className="flCenterColumn">
-                    <h1 className="commonHeading textAlignCenter">Transfer</h1>
-                    {/* <h6 className="commonHeadingSmall color6E6E70">as of 29 March 2021, 09:41 PM</h6> */}
-                  </div>
-                </div>
-                <div className="chartCardMiddle" style={{ padding: "12px" }}>
-                <div className="customdashboardrow dashCards section_custom">
-              <div className="custom_row">
-                <div className="custom_col width3">
-                  <div className="dcard">
-                    <div className="icNa">
-
-                      <div className="cardrightVal width50p">
-                        <p>Wallet to Wallet</p>
-                       
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="custom_col width3">
-                  <div className="dcard">
-                    <div className="icNa">
-
-                      <div className="cardrightVal width50p">
-                        <p>Wallet to Account</p>
-                       
-                      </div>
-                    </div>
-                  </div>
-                </div>
+      <>
+        <div className="containerBiaN_form">
+          <div className="containerBiaN_f_row">
+            <div className="containerBiaN_f_col width30percent textAlignRight">
+              <label>
+                Phone number(Wallet ID) <span className="mantdat">*</span>
+              </label>
+            </div>
+            <div className="containerBiaN_f_col width70percent">
+              <input
+                placeholder="Enter Phone number"
+                type="number"
+                value={phoneNumber}
+                onChange={(e) => setPhoneNumber(e.target.value)}
+              />
+            </div>
+          </div>
+          <div className="containerBiaN_f_row">
+            <div className="containerBiaN_f_col width30percent textAlignRight">
+              <label>
+                Document Type <span className="mantdat">*</span>
+              </label>
+            </div>
+            <div className="containerBiaN_f_col width70percent">
+              <div className="categorySelect">
+                <Select
+                  style={{ width: 100 + "%", height: 52 }}
+                  value={selectedDocumentType}
+                  onChange={(value) => setSelectedDocumentType(value)}
+                >
+                  {idDocumentTypes.map((type) => {
+                    return <Option value={type.value}>{type.name}</Option>;
+                  })}
+                </Select>
               </div>
             </div>
+          </div>
+          <div className="containerBiaN_f_row">
+            <div className="containerBiaN_f_col width30percent textAlignRight">
+              <label>
+                ID Document Number <span className="mantdat">*</span>
+              </label>
+            </div>
+            <div className="containerBiaN_f_col width70percent">
+              <input
+                placeholder="Enter ID document number"
+                value={idDocumentNumber}
+                onChange={(e) => setIdDocumentNumber(e.target.value)}
+              />
+            </div>
+          </div>
+          <div className="containerBiaN_f_row">
+            <div className="containerBiaN_f_col width30percent textAlignRight">
+              <label>
+                Send By <span className="mantdat">*</span>
+              </label>
+            </div>
+            <div className="containerBiaN_f_col width70percent">
+              <div className="categorySelect">
+                <Select
+                  style={{ width: 100 + "%", height: 52 }}
+                  value={selectedSendType}
+                  onChange={(value) => setSelectedSendType(value)}
+                >
+                  {sendTypes.map((type) => {
+                    return <Option value={type.value}>{type.name}</Option>;
+                  })}
+                </Select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  };
+
+  const customerOTPType = () => {
+    return (
+      <>
+        <div className="containerBiaN_form">
+          <RadioGroup
+            aria-label="Gender"
+            value={selectedOtpType}
+            onChange={(e) => {
+              setSelectedOtpType(e.target.value);
+            }}
+          >
+            {otpTypes.map((type) => {
+              return (
+                <FormControlLabel
+                  value={type.value}
+                  control={<Radio />}
+                  label={type.name}
+                />
+              );
+            })}
+          </RadioGroup>
+        </div>
+      </>
+    );
+  };
+
+  const customerOTP = () => {
+    return (
+      <>
+        <div className="containerBiaN_form">
+          <div className="containerBiaN_f_row">
+            <div className="containerBiaN_f_col width30percent textAlignRight">
+              <label>
+                Enter OTP <span className="mantdat">*</span>
+              </label>
+            </div>
+            <div className="containerBiaN_f_col width70percent">
+              <OtpInput
+                value={otp}
+                shouldAutoFocus={true}
+                onChange={(value) => setOtp(value)}
+                numInputs={6}
+                seperator={<span></span>}
+                isInputNum={true}
+                inputStyle={{
+                  width: "50px",
+                  marginRight: "10px",
+                  marginLeft: "10px",
+                  fontWeight: "600",
+                  fontSize: "16px",
+                  lineHeight: "20px",
+                  padding: "15px 20px",
+                  borderRadius: "5px",
+                  border: "1px solid transparent",
+                  color: "#00000",
+                  background: "#F2F2F2",
+                  display: "inline-block",
+                  boxShadow: "0px 8px 8px rgba(37, 51, 66, 0.15)",
+                }}
+              />
+            </div>
+          </div>
+
+          <div className="containerBiaN_f_row">
+            <div className="containerBiaN_f_col width30percent textAlignRight"></div>
+            <div
+              className="containerBiaN_f_col width70percent"
+              style={{ padding: "0px 0px 0px 20px" }}
+            >
+              <div style={{ display: "flex" }}>
+                {otpTimer !== 0 ? (
+                  <p>Resend OTP in {otpTimer}</p>
+                ) : (
+                  <p>
+                    Didn't receive OTP{" "}
+                    <span
+                      onClick={() => resendCustomerOtp()}
+                      style={{
+                        color: "rgb(191 21 21)",
+                        cursor: "pointer",
+                        textDecoration: "underline",
+                      }}
+                    >
+                      resend
+                    </span>
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  };
+
+  const transactionSuccess = () => {
+    return (
+      <>
+        <div className="containerBiaN_form">
+          <div className="containerBiaN_f_row">
+            <div className="containerBiaN_f_col width30percent textAlignRight"></div>
+            <div className="containerBiaN_f_col width70percent">
+              <h2>Congratulations</h2>
+              <p>Transaction was Successful</p>
+            </div>
+          </div>
+          <div className="containerBiaN_f_row">
+            <div className="containerBiaN_f_col width30percent textAlignRight"></div>
+            <div className="containerBiaN_f_col width70percent">
+              <div style={{ display: "flex" }}>
+                <p style={{ marginRight: "16px", color: "gray" }}>
+                  Balance Detail has been send to this phone Number:{" "}
+                  <span style={{ fontWeight: "bold", color: "#000" }}>
+                    {phoneNumber}
+                  </span>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  };
+
+  return (
+    <div className="main_contain agentformCenter">
+      <div className="merch_m_list_w">
+        <div className="merch_list_card" id="merch_list_card">
+          <div className="section_custom">
+            <div className="sectionInn">
+              <div className="chartCard_w">
+                <div className="chartCardTop">
+                  <div className="kyccustomformheading">
+                    <h1
+                      className="list_top_heading textAlignCenter text-center"
+                      style={{ paddingLeft: "0px" }}
+                    >
+                      Customer Wallet Balance Inquiry
+                    </h1>
+                  </div>
+                </div>
+                <div className="chartCardMiddle" style={{ padding: "24px" }}>
+                  {(() => {
+                    switch (step) {
+                      case 1:
+                        return walletVerificationForm();
+                      case 2:
+                        return customerOTPType();
+                      case 3:
+                        return customerOTP();
+                      case 4:
+                        return transactionSuccess();
+                      default:
+                        return <div></div>;
+                    }
+                  })()}
+                </div>
+                <div style={{ width: "100%", float: "left" }}>
+                  <div className="confirm_p_w mTB00 button-container rspacing">
+                    {(step !== 1) & (step !== 4) ? (
+                      <button
+                        className="blackbtn aryousureBTN confirmBtnR"
+                        onClick={() => prevStep()}
+                      >
+                        Back
+                      </button>
+                    ) : (
+                      ""
+                    )}
+                    <button
+                      className="aryousureBTN confirmBtnR"
+                      style={{ opacity: isFormValidated() ? "1" : "0.5" }}
+                      disabled={isFormValidated() ? false : true}
+                      onClick={() => formSubmitAction()}
+                    >
+                      {step === 3 ? "Submit" : step === 4 ? "Done" : "Next"}
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-
         </div>
       </div>
-    );
-  }
-}
-export default AccountBalance
+    </div>
+  );
+};
 
+export default WalletAccountBalance;
