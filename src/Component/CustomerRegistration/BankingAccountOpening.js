@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { useState } from "react";
 import "../../css/dashboard.css";
 import "../../css/merchant_management.css";
 import "../../css/ag-grid-customization01.css";
@@ -8,27 +7,10 @@ import "../Agent/antDcustom.css";
 import "../../css/customer_registration.css";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
-import Button from "@material-ui/core/Button";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import Grid from "@material-ui/core/Grid";
 import moment from "moment";
-import {
-  Card,
-  CardBody,
-  CardHeader,
-  Col,
-  Row,
-  Table,
-  Form,
-  FormGroup,
-  FormText,
-  Input,
-  Label,
-} from "reactstrap";
-import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import CountrySelector from "../common/CountrySelector";
-import { Select, DatePicker, Upload } from "antd";
+import { Input } from "reactstrap";
+import { Select, DatePicker, Upload, Modal } from "antd";
 
 import { connect } from "react-redux";
 
@@ -49,10 +31,10 @@ class BankingAccountOpening extends Component {
       dateOfBirth: new Date(),
       countryCode: africanCountries[0].dial_code,
       mobileNumber: "",
-      selfiePhoto: [],
-      selfiePhotoImage: null,
+      selfiePhoto: null,
+      selfiePhotoImage: [],
 
-      idDocumentType: "",
+      idDocumentType: "ID_CARD",
       idDocumentNumber: "",
       idDocumentExpiryDate: new Date(),
 
@@ -75,7 +57,8 @@ class BankingAccountOpening extends Component {
   }
   componentWillReceiveProps(nextprops) {
     if (nextprops.bankAccountOpening.success) {
-      window.location.reload(false);
+      // window.location.reload(false);
+      this.resetForm();
     }
   }
 
@@ -90,9 +73,6 @@ class BankingAccountOpening extends Component {
   };
 
   handleSelfieUpload = ({ fileList }) => {
-    if (fileList[0]) {
-      console.log("if (fileList[0]) {");
-    }
     this.setState({
       selfiePhoto: fileList[0] ? fileList[0].originFileObj : null,
       selfiePhotoImage: fileList,
@@ -120,6 +100,25 @@ class BankingAccountOpening extends Component {
         IdDocumentsFilesImages: fileList,
       });
     }
+  };
+
+  isFormValid = () => {
+    return (
+      this.state.firstName &&
+      this.state.lastName &&
+      this.state.email &&
+      this.state.countryCode &&
+      this.state.phoneNumber &&
+      this.state.dateOfBirth &&
+      this.state.idDocumentType &&
+      this.state.idDocumentNumber &&
+      this.state.idDocumentExpiryDate &&
+      this.state.city &&
+      this.state.address &&
+      this.state.selfiePhoto &&
+      this.state.IdDocumentsFiles &&
+      !this.props.bankAccountOpening.loading
+    );
   };
 
   handleFormSubmit = () => {
@@ -164,6 +163,37 @@ class BankingAccountOpening extends Component {
     formData.append("locale", "en");
     formData.append("agentBankerPhoneNumber", this.props.profile.data.phoneNo);
     this.props.sendBankAccountOpening(formData);
+  };
+
+  resetForm = () => {
+    this.setState({
+      firstName: "",
+      lastName: "",
+      email: "",
+      dateOfBirth: new Date(),
+      countryCode: africanCountries[0].dial_code,
+      mobileNumber: "",
+      selfiePhoto: null,
+      selfiePhotoImage: [],
+
+      idDocumentType: "ID_CARD",
+      idDocumentNumber: "",
+      idDocumentExpiryDate: new Date(),
+
+      address: "",
+      city: "",
+      uin: "",
+
+      selfiePreviewVisible: false,
+      previewSelfieImage: "",
+
+      IdDocumentsFiles: [],
+      IdDocumentsFilesImages: [],
+
+      documentPreviewVisible: false,
+      previewDocumentImage: "",
+    });
+    this.props.resetSendState();
   };
 
   render() {
@@ -273,7 +303,7 @@ class BankingAccountOpening extends Component {
                                           src={`data:image/png;base64,${country.flag}`}
                                         />
                                       </span>
-                                      {`(${country.name}) ${country.dial_code}`}
+                                      {`${country.name} (${country.dial_code})`}
                                     </div>
                                   </Option>
                                 );
@@ -323,9 +353,11 @@ class BankingAccountOpening extends Component {
                             fileList={this.state.selfiePhotoImage}
                             onPreview={this.handleSelfiePreview}
                             onChange={this.handleSelfieUpload}
-                            beforeUpload={() => false} // return false so that antd doesn't upload the picture right away
+                            beforeUpload={() => false}
+                            maxCount={1}
                           >
-                            {uploadButton}
+                            {this.state.selfiePhotoImage.length < 1 &&
+                              "+ Upload"}
                           </Upload>
 
                           <Modal
@@ -406,7 +438,7 @@ class BankingAccountOpening extends Component {
                         style={{ marginBottom: "50px" }}
                       >
                         <label className="non-afb-label">
-                          Upload document files
+                          Upload document files(MAX: 2)
                         </label>
                         <div className="inputFlash">
                           <Upload
@@ -416,8 +448,10 @@ class BankingAccountOpening extends Component {
                             onPreview={this.handleDocumentPreview}
                             onChange={this.handleDocumentUpload}
                             beforeUpload={() => false}
+                            maxCount={2}
                           >
-                            {uploadButton}
+                            {this.state.IdDocumentsFilesImages.length < 2 &&
+                              "+ Upload"}
                           </Upload>
 
                           <Modal
@@ -462,7 +496,7 @@ class BankingAccountOpening extends Component {
                         </div>
                       </Grid>
 
-                      <Grid item xs={12}>
+                      {/* <Grid item xs={12}>
                         <FormControlLabel
                           control={
                             <Checkbox
@@ -473,21 +507,23 @@ class BankingAccountOpening extends Component {
                           }
                           label="I AGREE TO I AGREE TO THE TERMs & CONDITIONS AND PRIVACY POLICY OF SARA BANKING  "
                         ></FormControlLabel>
-                      </Grid>
-
-                      <Grid item xs={12} sm={6}>
-                        <button className="btn-cancel-non-afb"> Cancel</button>
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <button
-                          className="btn-submit-non-afb "
-                          onClick={() => this.handleFormSubmit()}
-                        >
-                          {" "}
-                          Submit
-                        </button>
-                      </Grid>
+                      </Grid> */}
                     </Grid>
+                  </div>
+                  <div style={{ width: "100%" }}>
+                    <div
+                      className="confirm_p_w button-container rspacing"
+                      style={{ justifyContent: "flex-end" }}
+                    >
+                      <button
+                        className="aryousureBTN confirmBtnR"
+                        style={{ opacity: this.isFormValid() ? "1" : "0.5" }}
+                        disabled={this.isFormValid() ? false : true}
+                        onClick={() => this.handleFormSubmit()}
+                      >
+                        Submit
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>

@@ -208,3 +208,141 @@ export const walletStatementInquiryAction = (payload) => (dispatch) => {
       });
     });
 };
+
+export const walletAccountOpeningAction = (payload) => (dispatch) => {
+  const config = {
+    method: "POST",
+    url: URL.agent.WALLET_ACCOUNT_OPENING,
+    data: payload,
+    headers: {
+      // "Content-Type": "application/json",
+      "Content-Type": "multipart/form-data",
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+  dispatch({
+    type: actionType.WALLET_ACCOUNT_OPENING_FETCH,
+  });
+  axios(config)
+    .then((res) => {
+      if (res.status === 200) {
+        dispatch({
+          type: actionType.WALLET_ACCOUNT_OPENING_SUCCESS,
+        });
+      }
+    })
+    .catch((error) => {
+      if (error.response.data.detail) {
+        toastr.error(error.response.data.detail);
+      } else {
+        toastr.error("Unable to process the request");
+      }
+      dispatch({
+        type: actionType.WALLET_ACCOUNT_OPENING_ERROR,
+        payload: error,
+      });
+    });
+};
+
+export const walletAccountOpeningResendPinAction = (payload) => (dispatch) => {
+  const config = {
+    method: "POST",
+    url: URL.agent.WALLET_ACCOUNT_OPENING_RESEND_PIN,
+    data: payload,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+  dispatch({
+    type: actionType.WALLET_ACCOUNT_OPENING_FETCH,
+  });
+  axios(config)
+    .then((res) => {
+      if (res.status === 200) {
+        dispatch({
+          type: actionType.WALLET_ACCOUNT_OPENING_SUCCESS,
+        });
+      }
+    })
+    .catch((error) => {
+      if (error.response.data.detail) {
+        toastr.error(error.response.data.detail);
+      } else {
+        toastr.error("Unable to process the request");
+      }
+      dispatch({
+        type: actionType.WALLET_ACCOUNT_OPENING_ERROR,
+        payload: error,
+      });
+    });
+};
+
+export const walletAccountOpeningVerifyPinAction = (payload) => (dispatch) => {
+  const config = {
+    method: "POST",
+    url: URL.agent.WALLET_ACCOUNT_OPENING_VERIFY_PIN,
+    Authorization: "Bearer " + sessionStorage.getItem("token"),
+    data: payload,
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  dispatch({
+    type: actionType.WALLET_ACCOUNT_OPENING_FETCH,
+  });
+  axios(config)
+    .then((res) => {
+      if (res.status === 200) {
+        dispatch({
+          type: actionType.WALLET_ACCOUNT_OPENING_SUCCESS,
+        });
+      }
+    })
+    .catch((error) => {
+      if (error.response.data.detail) {
+        toastr.error(error.response.data.detail);
+      } else {
+        toastr.error("Unable to process the request");
+      }
+      dispatch({
+        type: actionType.WALLET_ACCOUNT_OPENING_ERROR,
+        payload: error,
+      });
+    });
+};
+
+export const walletAccountOpeningSetPasswordAction =
+  (payload) => (dispatch) => {
+    const config = {
+      method: "POST",
+      url: URL.agent.WALLET_ACCOUNT_OPENING_SET_PASSWORD,
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+      data: payload,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    dispatch({
+      type: actionType.WALLET_ACCOUNT_OPENING_FETCH,
+    });
+    axios(config)
+      .then((res) => {
+        if (res.status === 200) {
+          dispatch({
+            type: actionType.WALLET_ACCOUNT_OPENING_SUCCESS,
+          });
+        }
+      })
+      .catch((error) => {
+        if (error.response.data.detail) {
+          toastr.error(error.response.data.detail);
+        } else {
+          toastr.error("Unable to process the request");
+        }
+        dispatch({
+          type: actionType.WALLET_ACCOUNT_OPENING_ERROR,
+          payload: error,
+        });
+      });
+  };

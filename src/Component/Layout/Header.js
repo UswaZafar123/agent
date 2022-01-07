@@ -4,6 +4,7 @@ import prifilePics from "../../Assets/images/p01.jpg";
 import mobileLogo from "../../Assets/images/biapay_logo_mobile.png";
 import { Logout, SetLanguage } from "../../services/common/action";
 import { Select, Menu, Dropdown } from "antd";
+import { MenuOutlined } from "@ant-design/icons";
 import { connect } from "react-redux";
 import { getRefreshToken, getProfile } from "../../services/agent/action";
 
@@ -15,7 +16,9 @@ class Header extends Component {
 
     this.state = {
       profileImage: null,
-      language: ""
+      language: "",
+      marginLeft:window.innerWidth,
+      mediaWidth:1023
     };
   }
 
@@ -75,16 +78,49 @@ class Header extends Component {
     this.props.SetLanguage(e.target.value)
   }
 
+
+  toggleHandler01(VarVal) {
+    this.props.toggleHandler01(VarVal);
+  }
+
+
+
+  updateDimensions=()=> {
+    this.setState({ marginLeft: window.innerWidth});
+    console.log("marginTest",this.state.marginLeft)
+    
+  };
+  componentDidMount() {
+    window.addEventListener('resize', this.updateDimensions);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateDimensions);
+  }
+
+
+
   render() {
+    const merginLeft = this.state.marginLeft - (313+150+180+20)
+    const mediaWidth = this.state.mediaWidth
+    const windowWidth = window.innerWidth
+
+    console.log("media width",windowWidth,mediaWidth)
     return (
       <div className="navBar">
         <div className="navBar_Inner">
+          <div className="menuBtn" onClick={(e) => this.toggleHandler01(true)}>
+            <span>
+              {" "}
+              <MenuOutlined />
+            </span>
+          </div>
           <div className="search_w">
             <input type="search" placeholder="Search" />
           </div>
-          <div className="lnp">
+          <div className="lnp lnpAgent">
+          <div class="arrow-down"></div>
             {/* <h2 className="langue">English</h2> */}
-            <select value={this.state.language} onChange={(e) => this.handleLanguage(e)} className="langOption" name='langue' style={{ right: "12%", top: "30%" }}>
+            <select value={this.state.language} onChange={(e) => this.handleLanguage(e)} className="langOption" name='langue' style={windowWidth>mediaWidth ? { left: `${merginLeft}px`} : {left: "auto",right:"155px"}}>
               <option value='' disabled={true}>{this.state.language == "en-US" ? "Choose A Language" : "Choisir la langue"}</option>
               <option value='en-US'>English</option>
               <option value='fr'>French</option>

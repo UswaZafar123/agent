@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import "./Assets/icomoon/style.css";
 import "antd/dist/antd.css";
 import Sidebar from "./Component/Agent/sidebar/Sidebar";
@@ -107,6 +107,14 @@ import Operations from "./Component/Agent/Operations";
 import Users from "./Component/page/Settings/General/Users";
 
 export const App = (props) => {
+  const [toggleMenuVar,setToggleMenuVar] = useState(false)
+
+  const toggleMenu = (booleanVal) => {
+    setToggleMenuVar(booleanVal)
+  };
+
+
+
   return (
     <>
       <Switch>
@@ -121,13 +129,22 @@ export const App = (props) => {
       </Switch>
       {sessionStorage.getItem("token") &&
         window.location.pathname !== "/agent/login" && (
-          <div className="app_wrapper">
+          <div 
+            className={
+              toggleMenuVar
+                ? "app_wrapper"
+                : "app_wrapper responsiveParents"
+            }
+          >
             <div className="left_wrapper">
-              <Sidebar />
+              <Sidebar 
+                 toggleHandler={toggleMenu}
+                 isOpenLeftSide={toggleMenuVar}
+              />
             </div>
 
             <div className="right_wrapper">
-              <Header />
+              <Header toggleHandler01={toggleMenu} />
               <div className="main_wrapper">
                 <div
                   className="main_wr_in"

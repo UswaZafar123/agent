@@ -21,7 +21,6 @@ export const Side_bar_data = [
   //   id: 3,
   //   subMenu: [
 
-
   //   ],
   // },
   {
@@ -58,7 +57,7 @@ export const Side_bar_data = [
   // },
   {
     title: "Send Money",
-    path: "/agent/sendmoney",
+    path: "/agent/send-money",
     iconClass: "icon-Asset-47",
     id: 5,
     subMenu: [
@@ -74,7 +73,7 @@ export const Side_bar_data = [
   },
   {
     title: "Account Opening",
-    path: "/admin/agents",
+    path: "/agent/walletAccountOpening",
     iconClass: "icon-Asset-2",
     id: 8,
     subMenu: [
@@ -83,7 +82,7 @@ export const Side_bar_data = [
         path: "/agent/walletAccountOpening",
       },
       {
-        title: "Banking Account Opening",
+        title: "Bank Account Opening",
         path: "/agent/BankingAccountOpening",
       },
     ],
@@ -130,7 +129,7 @@ export const Side_bar_data = [
   },
   {
     title: "Wallet Operation",
-    path: "/Agent/walletOperation/",
+    path: "/Agent/walletOperation/transfert",
     id: 10,
     iconClass: "icon-Asset-3",
     subMenu: [

@@ -1571,6 +1571,150 @@ const agentReducer = (state = initialState, action) => {
           error: false,
         },
       };
+    case actionType.WALLET_ACCOUNT_OPENING_FETCH:
+      return {
+        ...state,
+        walletAccountOpening: {
+          ...state.walletAccountOpening,
+          loading: true,
+        },
+      };
+    case actionType.WALLET_ACCOUNT_OPENING_SUCCESS:
+      return {
+        ...state,
+        walletAccountOpening: {
+          ...state.walletAccountOpening,
+          loading: false,
+          success: true,
+        },
+      };
+    case actionType.WALLET_ACCOUNT_OPENING_ERROR:
+      return {
+        ...state,
+        walletAccountOpening: {
+          ...state.walletAccountOpening,
+          loading: false,
+          error: true,
+        },
+      };
+    case actionType.WALLET_ACCOUNT_OPENING_RESET:
+      return {
+        ...state,
+        walletAccountOpening: {
+          ...state.walletAccountOpening,
+          loading: false,
+          success: false,
+          error: false,
+        },
+      };
+    case actionType.WALLET_ACCOUNT_RESEND_PIN_FETCH:
+      return {
+        ...state,
+        walletAccountOpeningResendPin: {
+          ...state.walletAccountOpeningResendPin,
+          loading: true,
+        },
+      };
+    case actionType.WALLET_ACCOUNT_RESEND_PIN_SUCCESS:
+      return {
+        ...state,
+        walletAccountOpeningResendPin: {
+          ...state.walletAccountOpeningResendPin,
+          loading: false,
+          success: true,
+        },
+      };
+    case actionType.WALLET_ACCOUNT_RESEND_PIN_ERROR:
+      return {
+        ...state,
+        walletAccountOpeningResendPin: {
+          ...state.walletAccountOpeningResendPin,
+          loading: false,
+          error: true,
+        },
+      };
+    case actionType.WALLET_ACCOUNT_RESEND_PIN_RESET:
+      return {
+        ...state,
+        walletAccountOpeningResendPin: {
+          ...state.walletAccountOpeningResendPin,
+          loading: false,
+          success: false,
+          error: false,
+        },
+      };
+    case actionType.WALLET_ACCOUNT_VERIFY_PIN_FETCH:
+      return {
+        ...state,
+        walletAccountOpeningVerifyPin: {
+          ...state.walletAccountOpeningVerifyPin,
+          loading: true,
+        },
+      };
+    case actionType.WALLET_ACCOUNT_VERIFY_PIN_SUCCESS:
+      return {
+        ...state,
+        walletAccountOpeningVerifyPin: {
+          ...state.walletAccountOpeningVerifyPin,
+          loading: false,
+          success: true,
+        },
+      };
+    case actionType.WALLET_ACCOUNT_VERIFY_PIN_ERROR:
+      return {
+        ...state,
+        walletAccountOpeningVerifyPin: {
+          ...state.walletAccountOpeningVerifyPin,
+          loading: false,
+          error: true,
+        },
+      };
+    case actionType.WALLET_ACCOUNT_VERIFY_PIN_RESET:
+      return {
+        ...state,
+        walletAccountOpeningVerifyPin: {
+          ...state.walletAccountOpeningVerifyPin,
+          loading: false,
+          success: false,
+          error: false,
+        },
+      };
+    case actionType.WALLET_ACCOUNT_SET_PASSWORD_FETCH:
+      return {
+        ...state,
+        walletAccountOpeningSetPassword: {
+          ...state.walletAccountOpeningSetPassword,
+          loading: true,
+        },
+      };
+    case actionType.WALLET_ACCOUNT_SET_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        walletAccountOpeningSetPassword: {
+          ...state.walletAccountOpeningSetPassword,
+          loading: false,
+          success: true,
+        },
+      };
+    case actionType.WALLET_ACCOUNT_SET_PASSWORD_ERROR:
+      return {
+        ...state,
+        walletAccountOpeningSetPassword: {
+          ...state.walletAccountOpeningSetPassword,
+          loading: false,
+          error: true,
+        },
+      };
+    case actionType.WALLET_ACCOUNT_SET_PASSWORD_RESET:
+      return {
+        ...state,
+        walletAccountOpeningSetPassword: {
+          ...state.walletAccountOpeningSetPassword,
+          loading: false,
+          success: false,
+          error: false,
+        },
+      };
     default:
       return state;
   }
