@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { useState } from "react";
 import "../../css/dashboard.css";
 import "../../css/merchant_management.css";
 import "../../css/ag-grid-customization01.css";
@@ -8,8 +7,6 @@ import "../Agent/antDcustom.css";
 import "../../css/customer_registration.css";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import Grid from "@material-ui/core/Grid";
 import moment from "moment";
 import { Input } from "reactstrap";

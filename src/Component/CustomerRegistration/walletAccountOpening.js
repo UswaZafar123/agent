@@ -5,15 +5,11 @@ import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import validator from "validator";
 
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import OtpInput from "react-otp-input";
 import { useSelector, useDispatch } from "react-redux";
 import actionType from "../../services/agent/actionType.js";
 import Grid from "@material-ui/core/Grid";
 import moment from "moment";
-import { Input } from "reactstrap";
 import { Select, DatePicker, Upload, Modal } from "antd";
 
 import {
