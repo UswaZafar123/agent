@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import '../../css/transfer.css';
 import '../../css/banking_operattion.css';
 
@@ -15,7 +15,7 @@ import ReactHighcharts from 'react-highcharts';
 import HighchartsMore from 'highcharts/highcharts-more';
 import highcharts3d from 'highcharts/highcharts-3d';
 import ProgressBar from "@ramonak/react-progress-bar";
-import {makeStyles} from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import Paper from '@material-ui/core/Paper';
@@ -26,12 +26,12 @@ import InboxIcon from '@material-ui/icons/Inbox';
 import DraftsIcon from '@material-ui/icons/Drafts';
 import Button from '@material-ui/core/Button';
 
-import {Select, DatePicker} from 'antd';
+import { Select, DatePicker } from 'antd';
 import moment from 'moment';
 import Sidebar from "../Agent/sidebar/Sidebar";
 import Logo from "../../Assets/images/logo.svg";
-import {Side_bar_data} from "../Agent/sidebar/Sidebar_data";
-import {NavLink} from "react-router-dom";
+import { Side_bar_data } from "../Agent/sidebar/Sidebar_data";
+import { NavLink } from "react-router-dom";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 import success from '../../Assets/images/confirm.svg';
@@ -39,11 +39,11 @@ import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import Typography from "@material-ui/core/Typography";
-import {Card} from "reactstrap";
+import { Card } from "reactstrap";
 
 const dateFormat = 'YYYY/MM/DD';
 // const customFormat = value => `custom format: ${value.format(dateFormat)}`;
-const {Option} = Select;
+const { Option } = Select;
 
 function onChange(date, dateString) {
     console.log(date, dateString);
@@ -135,17 +135,17 @@ export default function Transfer() {
                     <Paper>
                         <List component="nav" aria-label="secondary mailbox folders">
                             <ListItem>
-                                <ListItemText primary="Transfer"/>
+                                <ListItemText primary="Transfer" />
                             </ListItem>
-                            <Divider/>
+                            <Divider />
                             <ListItemLink href="#simple-list" button selected={selectedIndex === 0}
-                                          onClick={(event) => handleListItemClick(event, 0)}>
-                                <ListItemText secondary="Account To Account"/>
+                                onClick={(event) => handleListItemClick(event, 0)}>
+                                <ListItemText secondary="Account To Account" />
                             </ListItemLink>
-                            <Divider/>
+                            <Divider />
                             <ListItemLink href="#simple-list" button selected={selectedIndex === 1}
-                                          onClick={(event) => handleListItemClick(event, 1)}>
-                                <ListItemText secondary="Account To Wallet"/>
+                                onClick={(event) => handleListItemClick(event, 1)}>
+                                <ListItemText secondary="Account To Wallet" />
                             </ListItemLink>
                         </List>
                     </Paper>
@@ -293,19 +293,21 @@ export default function Transfer() {
                                             />
                                         </Grid>
                                         <Grid item xs={12} sm={6} container justify={"flex-start"}>
-                                        <Button className="btn-cancel-non-afb"style={{borderRadius:20, width:'135px',borderBlockColor:'white'}}  >
-                                        Back
-                                        </Button>
-                                       {/* <Button variant="contained" color="secondary"> Back</Button> */}
+                                            <Button className="btn-cancel-non-afb" style={{ borderRadius: 20, width: '135px', borderBlockColor: 'white' }}  >
+                                                Back
+                                            </Button>
+                                            {/* <Button variant="contained" color="secondary"> Back</Button> */}
                                         </Grid>
                                         <Grid item xs={12} sm={6} container justify={"flex-end"}>
-                                        <Button className="btn-submit-non-afb" 
-                                                      onClick={(event) => handleListItemClick(event, 2)}
-                                                      style={{borderRadius:20, width:'135px',
-                                                      backgroundColor:'red',borderBlockColor:'white'}} > 
-                                                 Submit
-                                             </Button>
-                                           {/*  <Button variant="contained" color="primary" onClick={(event) => handleListItemClick(event, 2)}> Submit</Button>
+                                            <Button className="btn-submit-non-afb"
+                                                onClick={(event) => handleListItemClick(event, 2)}
+                                                style={{
+                                                    borderRadius: 20, width: '135px',
+                                                    backgroundColor: 'red', borderBlockColor: 'white'
+                                                }} >
+                                                Submit
+                                            </Button>
+                                            {/*  <Button variant="contained" color="primary" onClick={(event) => handleListItemClick(event, 2)}> Submit</Button>
                                         */} </Grid>
                                     </Grid>
                                 </div>
@@ -392,20 +394,22 @@ export default function Transfer() {
                                         </Grid>
 
                                         <Grid item xs={12} sm={6} container justify={"flex-start"}>
-                                        <Button className="btn-cancel-non-afb"style={{borderRadius:20, width:'135px',borderBlockColor:'white'}}  >
-                                        Back
-                                        </Button>
-                                           {/*  <Button variant="contained" color="secondary"> Back</Button> */}
+                                            <Button className="btn-cancel-non-afb" style={{ borderRadius: 20, width: '135px', borderBlockColor: 'white' }}  >
+                                                Back
+                                            </Button>
+                                            {/*  <Button variant="contained" color="secondary"> Back</Button> */}
                                         </Grid>
 
                                         <Grid item xs={12} sm={6} container justify={"flex-end"}>
-                                        <Button className="btn-submit-non-afb" 
-                                                     onClick={(event) => handleListItemClick(event, 2)}
-                                                      style={{borderRadius:20, width:'135px',
-                                                      backgroundColor:'red',borderBlockColor:'white'}} > 
-                                                 Submit
-                                             </Button>
-                                           {/*  <Button variant="contained" color="primary" onClick={(event) => handleListItemClick(event, 2)}> Submit</Button>
+                                            <Button className="btn-submit-non-afb"
+                                                onClick={(event) => handleListItemClick(event, 2)}
+                                                style={{
+                                                    borderRadius: 20, width: '135px',
+                                                    backgroundColor: 'red', borderBlockColor: 'white'
+                                                }} >
+                                                Submit
+                                            </Button>
+                                            {/*  <Button variant="contained" color="primary" onClick={(event) => handleListItemClick(event, 2)}> Submit</Button>
                                         */} </Grid>
 
 
@@ -441,54 +445,54 @@ export default function Transfer() {
                                         {/*    Cash Deposit Successful*/}
                                         {/*</h1>*/}
 
-                                        <h1  className="success_header">
+                                        <h1 className="success_header">
                                             Cash Deposit Successful
                                         </h1>
-                                        <Card  className="success_card">
-                                            <ListItem button  style={{ height: "70px" }}>
+                                        <Card className="success_card">
+                                            <ListItem button style={{ height: "70px" }}>
                                                 <ListItemText className="success_text" primary="Date:     03-03-2021   3:00PM"
-                                                    // secondary={ this.state.date}
+                                                // secondary={ this.state.date}
                                                 />
 
                                             </ListItem>
 
                                             <Divider />
-                                            <ListItem  divider  style={{ height: "70px" }}>
+                                            <ListItem divider style={{ height: "70px" }}>
                                                 <ListItemText primary="Account Number:      12221-12221-122212212221-22"
 
-                                                              // secondary={ this.state.accountNumber}
+                                                // secondary={ this.state.accountNumber}
                                                 />
                                             </ListItem>
                                             <ListItem style={{ height: "70px" }}>
                                                 <ListItemText primary="Amount      $1000"
-                                                    // secondary={ this.state.amount
+                                                // secondary={ this.state.amount
                                                 />
                                             </ListItem>
                                             <Divider light />
-                                            <ListItem  style={{ height: "70px" }}>
+                                            <ListItem style={{ height: "70px" }}>
                                                 <ListItemText primary="Fees      $20"
-                                                    // secondary={ this.state.fees}
+                                                // secondary={ this.state.fees}
                                                 />
                                             </ListItem>
                                             <Divider light />
-                                            <ListItem  style={{ height: "70px" }}>
+                                            <ListItem style={{ height: "70px" }}>
                                                 <ListItemText primary="Total        $1200"
-                                                    //secondary={ this.state.total}
+                                                //secondary={ this.state.total}
                                                 />
                                             </ListItem>
                                             <Divider light />
-                                            <ListItem  style={{ height: "70px" }}>
+                                            <ListItem style={{ height: "70px" }}>
                                                 <ListItemText primary="Reason:         Test"
-                                                    // secondary={ this.state.reason}
+                                                // secondary={ this.state.reason}
                                                 />
                                             </ListItem>
                                             <Divider light />
-                                            <ListItem  style={{ height: "70px" }}>
+                                            <ListItem style={{ height: "70px" }}>
 
                                             </ListItem>
 
 
-                                            <ListItem  style={{ height: "70px" }}>
+                                            <ListItem style={{ height: "70px" }}>
                                                 <button className="btn_print">Print</button>
                                                 <button className="btn_done">Done</button>
 
