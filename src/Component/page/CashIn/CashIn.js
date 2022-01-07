@@ -1,445 +1,576 @@
-import React, { useState, useEffect, useRef } from 'react';
-import '../../../css/ag-grid-customization01.css';
-import 'antd/dist/antd.css';
-import '../Settings/General/formfromold.css'
-import 'ag-grid-community/dist/styles/ag-grid.css';
-import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
+import React, { useState, useEffect, useRef } from "react";
+import "../../../css/ag-grid-customization01.css";
+import "antd/dist/antd.css";
+import "../Settings/General/formfromold.css";
+import "ag-grid-community/dist/styles/ag-grid.css";
+import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import validator from "validator";
 
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel'
+import Radio from "@material-ui/core/Radio";
+import RadioGroup from "@material-ui/core/RadioGroup";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 import OtpInput from "react-otp-input";
-import { Select } from 'antd';
-import { useSelector, useDispatch } from 'react-redux'
-import { Card } from 'react-bootstrap';
-import CircularProgress from '@material-ui/core/CircularProgress';
+import { Select } from "antd";
+import { useSelector, useDispatch } from "react-redux";
+import { Card } from "react-bootstrap";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import actionType from "../../../services/agent/actionType.js";
 
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
+import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
+import AppBar from "@material-ui/core/AppBar";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import Typography from "@material-ui/core/Typography";
 
-import { fetchAgentBankAccounts, sendOtpToAgent, walletCashInFromBank } from "../../../services/agent/action.js";
+import {
+  fetchAgentBankAccounts,
+  sendOtpToAgent,
+  walletCashInFromBank,
+} from "../../../services/agent/action.js";
 
 function TabContainer(props) {
-    return (
-      <Typography component="div" style={{ padding: 8 * 3 }}>
-        {props.children}
-      </Typography>
-    );
+  return (
+    <Typography component="div" style={{ padding: 8 * 3 }}>
+      {props.children}
+    </Typography>
+  );
 }
-  
+
 TabContainer.propTypes = {
-    children: PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired,
 };
 
-const useStyles = theme => ({
-    root: {
-        flexGrow: 1,
-        width: '60%',
-        margin: 'auto'
-    },
+const useStyles = (theme) => ({
+  root: {
+    flexGrow: 1,
+    width: "60%",
+    margin: "auto",
+  },
 });
 
 const { Option } = Select;
 const resendTime = 30;
 
 const CashIn = () => {
-  
-    const classes = useStyles();
-    const firstUpdate = useRef(true);
-    const [step, setStep] = useState(1);
-    const otpTypes = [
-        {name: "Email", value: "EMAIL"},
-        {name: "SMS", value: "SMS"}
-    ];
-    
-    const [selectedBankAccount, setSelectedBankAccount] = useState({});
-    const [amount, setAmount] = useState('');
-    const [reason, setReason] = useState('');
-    const [selectedOtpType, setSelectedOtpType] = useState(otpTypes[0].value);
-    const [otpTimer, setOtpTimer] = React.useState(resendTime);
-    const [otp, setOtp] = useState('');
-    const [selectedTab, setSelectedTab] = useState(0);
+  const classes = useStyles();
+  const firstUpdate = useRef(true);
+  const [step, setStep] = useState(1);
+  const otpTypes = [
+    { name: "Email", value: "EMAIL" },
+    { name: "SMS", value: "SMS" },
+  ];
 
-    const dispatch = useDispatch();
-    const agentProfile = useSelector(state => state.agentReducer.profile.data);
+  const [selectedBankAccount, setSelectedBankAccount] = useState({});
+  const [amount, setAmount] = useState("");
+  const [reason, setReason] = useState("");
+  const [selectedOtpType, setSelectedOtpType] = useState(otpTypes[0].value);
+  const [otpTimer, setOtpTimer] = React.useState(resendTime);
+  const [otp, setOtp] = useState("");
+  const [selectedTab, setSelectedTab] = useState(0);
 
-    const agentBankAccountsLoading = useSelector(state => state.agentReducer.bankAccounts.loading);
-    const agentBankAccounts = useSelector(state => state.agentReducer.bankAccounts.list);
-    
-    const agentOtpLoading = useSelector(state => state.agentReducer.agentOtpSend.loading);
-    const agentOtpSuccess = useSelector(state => state.agentReducer.agentOtpSend.success);
+  const dispatch = useDispatch();
+  const agentProfile = useSelector((state) => state.agentReducer.profile.data);
 
-    const walletCashInLoading = useSelector(state => state.agentReducer.agentWalletCashIn.loading);
-    const walletCashInSuccess = useSelector(state => state.agentReducer.agentWalletCashIn.success);
+  const agentBankAccountsLoading = useSelector(
+    (state) => state.agentReducer.bankAccounts.loading
+  );
+  const agentBankAccounts = useSelector(
+    (state) => state.agentReducer.bankAccounts.list
+  );
 
-    useEffect(() => {
+  const agentOtpLoading = useSelector(
+    (state) => state.agentReducer.agentOtpSend.loading
+  );
+  const agentOtpSuccess = useSelector(
+    (state) => state.agentReducer.agentOtpSend.success
+  );
+
+  const walletCashInLoading = useSelector(
+    (state) => state.agentReducer.agentWalletCashIn.loading
+  );
+  const walletCashInSuccess = useSelector(
+    (state) => state.agentReducer.agentWalletCashIn.success
+  );
+
+  useEffect(() => {
     return () => {
-        dispatch({
-            type: actionType.AGENT_OTP_SEND_RESET,
-        });
-        dispatch({
-            type: actionType.AGENT_WALLET_CASH_IN_RESET,
-        });
+      dispatch({
+        type: actionType.AGENT_OTP_SEND_RESET,
+      });
+      dispatch({
+        type: actionType.AGENT_WALLET_CASH_IN_RESET,
+      });
+    };
+  }, []);
+
+  useEffect(() => {
+    if (agentBankAccounts.length === 0) {
+      dispatch(
+        fetchAgentBankAccounts(
+          sessionStorage.getItem("token"),
+          agentProfile.bankCustomerId
+        )
+      );
+    } else {
+      setSelectedBankAccount(agentBankAccounts[0]);
     }
-    }, []);
+  }, [agentBankAccounts]);
 
-    useEffect(() => {
-        if(agentBankAccounts.length === 0) {
-            dispatch(fetchAgentBankAccounts(sessionStorage.getItem("token"), agentProfile.bankCustomerId));
-        } else {
-            setSelectedBankAccount(agentBankAccounts[0]);
-        }
-    }, [agentBankAccounts]);
+  React.useEffect(() => {
+    if (step === 4) {
+      if (otpTimer > 0) {
+        setTimeout(() => setOtpTimer(otpTimer - 1), 1000);
+      }
+    }
+  }, [otpTimer, step]);
 
-    React.useEffect(() => {
-        if(step === 4) {
-            if (otpTimer > 0) {
-                setTimeout(() => setOtpTimer(otpTimer - 1), 1000);
-            }
-        }
-    }, [otpTimer, step]);
+  useEffect(() => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+      return;
+    }
+    if (step === 3 && agentOtpSuccess) {
+      setOtpTimer(resendTime);
+      setStep(4);
+    }
+    if (step === 4 && walletCashInSuccess) {
+      setStep(5);
+    }
+  }, [step, agentOtpSuccess, walletCashInSuccess]);
 
-    useEffect(() => {
-        if (firstUpdate.current) {
-        firstUpdate.current = false;
-            return;
-        }
-        if(step === 3 && agentOtpSuccess) {
-            setOtpTimer(resendTime);
-            setStep(4);
-        }
-        if(step === 4 && walletCashInSuccess) {
-            setStep(5)
-        }
-    
-    }, [step, agentOtpSuccess, walletCashInSuccess]);
+  const handleTabChange = (event, value) => {
+    setSelectedTab(value);
+  };
 
-    const handleTabChange = (event, value) => {
-        setSelectedTab(value);
-    };
+  const stepOneValidated = () => {
+    return !(validator.isEmpty(amount) || !selectedBankAccount);
+  };
 
-    const stepOneValidated = () => {
-        return !(validator.isEmpty(amount) || selectedBankAccount);
-    };
+  const stepTwoValidated = () => {
+    return true;
+  };
 
-    const stepTwoValidated = () => {
+  const stepThreeValidated = () => {
+    return !(validator.isEmpty(selectedOtpType) || agentOtpLoading);
+  };
+
+  const stepFourValidated = () => {
+    return !(validator.isEmpty(otp) || otp.length !== 6 || walletCashInLoading);
+  };
+
+  const isFormValidated = () => {
+    switch (step) {
+      case 1:
+        return stepOneValidated();
+      case 2:
+        return stepTwoValidated();
+      case 3:
+        return stepThreeValidated();
+      case 4:
+        return stepFourValidated();
+      case 5:
         return true;
+      default:
+        return false;
+    }
+  };
+
+  const formSubmitAction = () => {
+    if (step === 1) {
+      setStep(step + 1);
+    } else if (step === 2) {
+      setStep(step + 1);
+    } else if (step === 3) {
+      sendAgentOtp();
+    } else if (step === 4) {
+      sendCashInRequest();
+    } else {
+      resetForm();
+      setStep(1);
+    }
+  };
+
+  const prevStep = () => {
+    if (step === 4) {
+      dispatch({
+        type: actionType.AGENT_OTP_SEND_RESET,
+      });
+    }
+    setStep(step - 1);
+  };
+
+  const resetForm = () => {
+    dispatch({
+      type: actionType.AGENT_OTP_SEND_RESET,
+    });
+    dispatch({
+      type: actionType.AGENT_WALLET_CASH_IN_RESET,
+    });
+    setAmount("");
+    setOtp("");
+  };
+
+  const sendAgentOtp = () => {
+    var requestObj = {
+      customerType: "AGENT",
+      mfaChannel: selectedOtpType,
     };
+    dispatch(sendOtpToAgent(sessionStorage.getItem("token"), requestObj));
+  };
 
-    const stepThreeValidated = () => {
-        return !(validator.isEmpty(selectedOtpType) || agentOtpLoading);
+  const resendAgentOtp = () => {
+    setOtpTimer(resendTime);
+    sendAgentOtp();
+  };
+
+  const sendCashInRequest = () => {
+    var requestObj = {
+      bankCustomerId: agentProfile.bankCustomerId,
+      debtorBankAccountNumber: selectedBankAccount.accNo,
+      amount: amount,
+      reason: "",
+      mfaToken: otp,
+      currencyName: "xaf",
+      // "fee": transactionFee.value,
+      // "feeId": feeId.value,
+      type: "CASH_IN",
     };
+    dispatch(walletCashInFromBank(requestObj));
+  };
 
-    const stepFourValidated = () => {
-        return !(validator.isEmpty(otp) || otp.length !== 6 || walletCashInLoading);
-    };
-
-    const isFormValidated = () => {
-        switch(step) {
-        case 1:
-            return stepOneValidated();
-        case 2:
-            return stepTwoValidated();
-        case 3:
-            return stepThreeValidated();
-        case 4:
-            return stepFourValidated();
-        case 5:
-            return true;
-        default:
-            return false;
-        }
-    }
-
-    const formSubmitAction = () => {
-        if(step === 1) {
-            setStep(step + 1);
-        } else if(step === 2) {
-            setStep(step + 1);
-        } else if(step === 3) {
-            sendAgentOtp();
-        } else if(step === 4 )  {
-            sendCashInRequest();
-        } else {
-            resetForm();
-            setStep(1);
-        }
-    };
-
-    const prevStep = () => {
-        if(step === 4) {
-            dispatch({
-                type: actionType.AGENT_OTP_SEND_RESET,
-            });
-        }
-        setStep(step - 1);
-    };
-
-    const resetForm = () => {
-        dispatch({
-            type: actionType.AGENT_OTP_SEND_RESET,
-        });
-        dispatch({
-            type: actionType.AGENT_WALLET_CASH_IN_RESET,
-        });
-        setAmount('');
-        setOtp('');
-    }
-
-    const sendAgentOtp = () => {
-        var requestObj = {
-            "customerType": "AGENT",
-            "mfaChannel" : selectedOtpType
-        };
-        dispatch(sendOtpToAgent(sessionStorage.getItem("token"), requestObj));
-    }
-
-    const resendAgentOtp = () => {
-        setOtpTimer(resendTime);
-        sendAgentOtp();
-    }
-
-    const sendCashInRequest = () => {
-        var requestObj = {
-        "bankCustomerId": agentProfile.bankCustomerId,
-        "debtorBankAccountNumber": selectedBankAccount.accNo,
-        "amount": amount,
-        "reason": '',
-        "mfaToken": otp,
-        "currencyName": 'xaf',
-        // "fee": transactionFee.value,
-        // "feeId": feeId.value,
-        "type": "CASH_IN",
-        };
-        dispatch(walletCashInFromBank(requestObj));
-    }
-
-    const bankCashInForm = () => {
-        return (
-        <>
-            <div>
-                <div style={{ display: 'flex', overflowX: 'auto', whiteSpace: 'nowrap' }}>
-                    {agentBankAccountsLoading ? <CircularProgress style={{ margin: 'auto', color: 'rgb(191 21 21)' }}/> : agentBankAccounts.length == 0  ? <p>Bank Accounts not available</p> : agentBankAccounts.map((bankAccount) => {
-                        return <Card onClick={() => setSelectedBankAccount(bankAccount)} style={{ width: '50%', float: 'left', minWidth: 'unset', margin: '4px 4px', cursor: 'pointer', border: selectedBankAccount.accNo === bankAccount.accNo ? '2px solid rgb(191 21 21)': '' }}>
-                            <Card.Body style={{ padding: '0.5rem' }}>
-                                <Card.Title>{bankAccount.accNo}</Card.Title>
-                                <Card.Text>
-                                {bankAccount.owner}
-                                </Card.Text>
-                            </Card.Body>
-                            </Card>
-                    })}
-                </div>
-                <div className="containerBiaN_f_col" style={{ padding: '0px' }}>
-                    <label>Amount <span className="mantdat">*</span></label>
-                </div>
-                <div className="containerBiaN_f_col" style={{ padding: '0px' }}>
-                    <input placeholder="Enter amount" type="number" value={amount} onChange={(e) => setAmount(e.target.value)}/>
-                </div>
-            </div>
-        </>
-        );
-    }
-    
-    const transactionDetails = () => {
-        return (
-        <>
-            <div className="containerBiaN_form">
-            <div className="containerBiaN_f_row">
-                <div className="containerBiaN_f_col">
-                    <h2>Transaction Detail</h2>
-                </div>
-            </div>
-            <div className="containerBiaN_f_row">
-                <div className="containerBiaN_f_col">
-                    <div style={{ display: 'flex' }}>
-                      <p style={{ marginRight: '16px', color:"gray" }}>Sender Account</p>
-                      <p style={{ fontWeight: 'bold' }}>{selectedBankAccount.accNo}</p>
-                    </div>
-                    <div style={{ display: 'flex' }}>
-                      <p style={{ marginRight: '16px', color:"gray"}}>Receiver Account</p>
-                      <p style={{ fontWeight: 'bold' }}>{agentProfile.phoneNo}</p>
-                    </div>
-                    <div style={{ display: 'flex' }}>
-                      <p style={{ marginRight: '16px', color:"gray" }}>Amount</p>
-                      <p style={{ fontWeight: 'bold' }}>{`${amount} XAF`}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </>
-        );
-    }
-    
-    const agentOtpType = () => {
-        return (
-        <>
-            <div className="containerBiaN_form">
-            <RadioGroup
-                aria-label="Gender"
-                value={selectedOtpType}
-                onChange={(e) => {setSelectedOtpType(e.target.value)}}
-                >
-                {otpTypes.map((type) => {
-                    return <FormControlLabel value={type.value} control={<Radio />} label={type.name} />
-                })}
-                </RadioGroup>
-            </div>
-        </>
-        );
-    }
-    
-    const agentOtp = () => {
-        return (
-        <>
-            <div className="containerBiaN_form">
-                <div className="containerBiaN_f_row">
-                    <div className="containerBiaN_f_col width30percent textAlignRight">
-                        <label>Enter OTP <span className="mantdat">*</span></label>
-                    </div>
-                    <div className="containerBiaN_f_col width70percent">
-                    <OtpInput
-                    value={otp}
-                    shouldAutoFocus={true}
-                    onChange={(value) => setOtp(value)}
-                    numInputs={6}
-                    seperator={<span></span>}
-                    isInputNum={true}
-                    inputStyle={{
-                        width: "50px",
-                        marginRight: "10px",
-                        marginLeft: "10px",
-                        fontWeight: '600',
-                        fontSize: '16px',
-                        lineHeight: '20px',
-                        padding: '15px 20px',
-                        borderRadius: '5px',
-                        border: '1px solid transparent',
-                        color: '#00000',
-                        background: '#F2F2F2',
-                        display: 'inline-block',
-                        boxShadow: "0px 8px 8px rgba(37, 51, 66, 0.15)"
-                    }}
-                    />
-                    </div>
-                </div>
-                <div className="containerBiaN_f_row">
-                    <div className="containerBiaN_f_col width30percent textAlignRight">
-                    </div>
-                    <div className="containerBiaN_f_col width70percent" style={{padding: '0px 0px 0px 20px'}}>
-                        <div style={{ display: 'flex' }}>
-                        {otpTimer !== 0 ? <p>Resend OTP in {otpTimer}</p> : <p>Didn't receive OTP <span onClick={() => resendAgentOtp()} style={{ color: 'rgb(191 21 21)', cursor: 'pointer', textDecoration: 'underline' }}>resend</span></p>}
-                        
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </>
-        );
-    }
-
-    const transactionSuccess = () => {
-        return (
-        <>
-            <div className="containerBiaN_form">
-            <div className="containerBiaN_f_row">
-                <div className="containerBiaN_f_col">
-                    <h2>Congratulations</h2>
-                    <p>Transaction was Successful</p>
-                </div>
-            </div>
-            <div className="containerBiaN_f_row">
-                <div className="containerBiaN_f_col">
-                    <div style={{ display: 'flex' }}>
-                      <p style={{ marginRight: '16px', color:"gray" }}>Sender Account</p>
-                      <p style={{ fontWeight: 'bold' }}>{selectedBankAccount.accNo}</p>
-                    </div>
-                    <div style={{ display: 'flex' }}>
-                      <p style={{ marginRight: '16px', color:"gray"}}>Receiver Account</p>
-                      <p style={{ fontWeight: 'bold' }}>{agentProfile.phoneNo}</p>
-                    </div>
-                    <div style={{ display: 'flex' }}>
-                      <p style={{ marginRight: '16px', color:"gray" }}>Amount</p>
-                      <p style={{ fontWeight: 'bold' }}>{`${amount} XAF`}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </>
-        );
-    }
-
+  const bankCashInForm = () => {
     return (
-        <div className="main_contain agentformCenter">
-        <div className="merch_m_list_w">
-            <div className="merch_list_card" id="merch_list_card">
-                <div className="section_custom">
-                    <div className="sectionInn">
-                        <div className="chartCard_w">
-                            <div className="chartCardTop">
-                                <div className="kyccustomformheading">
-                                    <h1 className="list_top_heading textAlignCenter text-center" style={{paddingLeft:"0px"}}>
-                                        Wallet Cash In
-                                    </h1>
-                                </div>
-                            </div>
-                            <div className="chartCardMiddle" style={{ padding: "24px" }}>
-
-                            <div className={classes.root} style={{  width: '60%',margin: 'auto' }}>
-                                {step === 1 && <AppBar position="static" style={{ backgroundColor: 'rgb(52 58 64 / 100%)' }}>
-                                    <Tabs variant="fullWidth" value={selectedTab} onChange={handleTabChange}>
-                                        {agentProfile.registrationType === 'EXISTING_BANK_CUSTOMER' && <Tab label="Credit/Debit Card" />}
-                                        <Tab label="Bank Account" />
-                                    </Tabs>
-                                </AppBar>}
-
-                                {selectedTab === 0 && <TabContainer>
-                                    <div>
-                                        <p>This feature will be available soon</p>
-                                    </div></TabContainer>}
-                                
-                                {agentProfile.registrationType === 'EXISTING_BANK_CUSTOMER' && selectedTab === 1 && <div style={{ margin: '16px 0px' }}>
-                                    {(() => {
-                                        switch(step) {
-                                        case 1: return bankCashInForm();
-                                        case 2: return transactionDetails();
-                                        case 3: return agentOtpType();
-                                        case 4: return agentOtp();
-                                        case 5: return transactionSuccess();
-                                        default: return <div></div>
-                                        }
-                                    })()}
-                                    <div>
-                                        <div className="confirm_p_w button-container rspacing">
-                                            {step !== 1 & step !== 5 ? <button className="blackbtn aryousureBTN confirmBtnR" onClick={() => prevStep()}>Back</button> : ''}
-                                            <button 
-                                                className="aryousureBTN confirmBtnR" 
-                                                style={{ opacity: isFormValidated() ? '1' : '0.5' }}
-                                                disabled={isFormValidated() ? false : true}
-                                                onClick={() => formSubmitAction()}
-                                            >
-                                                {step === 4 ? "Submit" : step === 5 ? "Done" : "Next"}
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>}
-                                
-                            </div>
-                            </div>
-                            
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <>
+        <div>
+          <div
+            style={{ display: "flex", overflowX: "auto", whiteSpace: "nowrap" }}
+          >
+            {agentBankAccountsLoading ? (
+              <CircularProgress
+                style={{ margin: "auto", color: "rgb(191 21 21)" }}
+              />
+            ) : agentBankAccounts.length == 0 ? (
+              <p>Bank Accounts not available</p>
+            ) : (
+              agentBankAccounts.map((bankAccount) => {
+                return (
+                  <Card
+                    onClick={() => setSelectedBankAccount(bankAccount)}
+                    style={{
+                      width: "50%",
+                      float: "left",
+                      minWidth: "unset",
+                      margin: "4px 4px",
+                      cursor: "pointer",
+                      border:
+                        selectedBankAccount.accNo === bankAccount.accNo
+                          ? "2px solid rgb(191 21 21)"
+                          : "",
+                    }}
+                  >
+                    <Card.Body style={{ padding: "0.5rem" }}>
+                      <Card.Title>{bankAccount.accNo}</Card.Title>
+                      <Card.Text>{bankAccount.owner}</Card.Text>
+                    </Card.Body>
+                  </Card>
+                );
+              })
+            )}
+          </div>
+          <div className="containerBiaN_f_col" style={{ padding: "0px" }}>
+            <label>
+              Amount <span className="mantdat">*</span>
+            </label>
+          </div>
+          <div className="containerBiaN_f_col" style={{ padding: "0px" }}>
+            <input
+              placeholder="Enter amount"
+              type="number"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+            />
+          </div>
         </div>
-    </div>
+      </>
     );
+  };
+
+  const transactionDetails = () => {
+    return (
+      <>
+        <div className="containerBiaN_form">
+          <div className="containerBiaN_f_row">
+            <div className="containerBiaN_f_col">
+              <h2>Transaction Detail</h2>
+            </div>
+          </div>
+          <div className="containerBiaN_f_row">
+            <div className="containerBiaN_f_col">
+              <div style={{ display: "flex" }}>
+                <p style={{ marginRight: "16px", color: "gray" }}>
+                  Sender Account
+                </p>
+                <p style={{ fontWeight: "bold" }}>
+                  {selectedBankAccount.accNo}
+                </p>
+              </div>
+              <div style={{ display: "flex" }}>
+                <p style={{ marginRight: "16px", color: "gray" }}>
+                  Receiver Account
+                </p>
+                <p style={{ fontWeight: "bold" }}>{agentProfile.phoneNo}</p>
+              </div>
+              <div style={{ display: "flex" }}>
+                <p style={{ marginRight: "16px", color: "gray" }}>Amount</p>
+                <p style={{ fontWeight: "bold" }}>{`${amount} XAF`}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  };
+
+  const agentOtpType = () => {
+    return (
+      <>
+        <div className="containerBiaN_form">
+          <RadioGroup
+            aria-label="Gender"
+            value={selectedOtpType}
+            onChange={(e) => {
+              setSelectedOtpType(e.target.value);
+            }}
+          >
+            {otpTypes.map((type) => {
+              return (
+                <FormControlLabel
+                  value={type.value}
+                  control={<Radio />}
+                  label={type.name}
+                />
+              );
+            })}
+          </RadioGroup>
+        </div>
+      </>
+    );
+  };
+
+  const agentOtp = () => {
+    return (
+      <>
+        <div className="containerBiaN_form">
+          <div className="containerBiaN_f_row">
+            <div className="containerBiaN_f_col width30percent textAlignRight">
+              <label>
+                Enter OTP <span className="mantdat">*</span>
+              </label>
+            </div>
+            <div className="containerBiaN_f_col width70percent">
+              <OtpInput
+                value={otp}
+                shouldAutoFocus={true}
+                onChange={(value) => setOtp(value)}
+                numInputs={6}
+                seperator={<span></span>}
+                isInputNum={true}
+                inputStyle={{
+                  width: "50px",
+                  marginRight: "10px",
+                  marginLeft: "10px",
+                  fontWeight: "600",
+                  fontSize: "16px",
+                  lineHeight: "20px",
+                  padding: "15px 20px",
+                  borderRadius: "5px",
+                  border: "1px solid transparent",
+                  color: "#00000",
+                  background: "#F2F2F2",
+                  display: "inline-block",
+                  boxShadow: "0px 8px 8px rgba(37, 51, 66, 0.15)",
+                }}
+              />
+            </div>
+          </div>
+          <div className="containerBiaN_f_row">
+            <div className="containerBiaN_f_col width30percent textAlignRight"></div>
+            <div
+              className="containerBiaN_f_col width70percent"
+              style={{ padding: "0px 0px 0px 20px" }}
+            >
+              <div style={{ display: "flex" }}>
+                {otpTimer !== 0 ? (
+                  <p>Resend OTP in {otpTimer}</p>
+                ) : (
+                  <p>
+                    Didn't receive OTP{" "}
+                    <span
+                      onClick={() => resendAgentOtp()}
+                      style={{
+                        color: "rgb(191 21 21)",
+                        cursor: "pointer",
+                        textDecoration: "underline",
+                      }}
+                    >
+                      resend
+                    </span>
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  };
+
+  const transactionSuccess = () => {
+    return (
+      <>
+        <div className="containerBiaN_form">
+          <div className="containerBiaN_f_row">
+            <div className="containerBiaN_f_col">
+              <h2>Congratulations</h2>
+              <p>Transaction was Successful</p>
+            </div>
+          </div>
+          <div className="containerBiaN_f_row">
+            <div className="containerBiaN_f_col">
+              <div style={{ display: "flex" }}>
+                <p style={{ marginRight: "16px", color: "gray" }}>
+                  Sender Account
+                </p>
+                <p style={{ fontWeight: "bold" }}>
+                  {selectedBankAccount.accNo}
+                </p>
+              </div>
+              <div style={{ display: "flex" }}>
+                <p style={{ marginRight: "16px", color: "gray" }}>
+                  Receiver Account
+                </p>
+                <p style={{ fontWeight: "bold" }}>{agentProfile.phoneNo}</p>
+              </div>
+              <div style={{ display: "flex" }}>
+                <p style={{ marginRight: "16px", color: "gray" }}>Amount</p>
+                <p style={{ fontWeight: "bold" }}>{`${amount} XAF`}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  };
+
+  return (
+    <div className="main_contain agentformCenter">
+      <div className="merch_m_list_w">
+        <div className="merch_list_card" id="merch_list_card">
+          <div className="section_custom">
+            <div className="sectionInn">
+              <div className="chartCard_w">
+                <div className="chartCardTop">
+                  <div className="kyccustomformheading">
+                    <h1
+                      className="list_top_heading textAlignCenter text-center"
+                      style={{ paddingLeft: "0px" }}
+                    >
+                      Wallet Cash In
+                    </h1>
+                  </div>
+                </div>
+                <div className="chartCardMiddle" style={{ padding: "24px" }}>
+                  <div
+                    className={classes.root}
+                    style={{ width: "60%", margin: "auto" }}
+                  >
+                    {step === 1 && (
+                      <AppBar
+                        position="static"
+                        style={{ backgroundColor: "rgb(52 58 64 / 100%)" }}
+                      >
+                        <Tabs
+                          variant="fullWidth"
+                          value={selectedTab}
+                          onChange={handleTabChange}
+                        >
+                          {agentProfile.registrationType ===
+                            "EXISTING_BANK_CUSTOMER" && (
+                            <Tab label="Credit/Debit Card" />
+                          )}
+                          <Tab label="Bank Account" />
+                        </Tabs>
+                      </AppBar>
+                    )}
+
+                    {selectedTab === 0 && (
+                      <TabContainer>
+                        <div>
+                          <p>This feature will be available soon</p>
+                        </div>
+                      </TabContainer>
+                    )}
+
+                    {agentProfile.registrationType ===
+                      "EXISTING_BANK_CUSTOMER" &&
+                      selectedTab === 1 && (
+                        <div style={{ margin: "16px 0px" }}>
+                          {(() => {
+                            switch (step) {
+                              case 1:
+                                return bankCashInForm();
+                              case 2:
+                                return transactionDetails();
+                              case 3:
+                                return agentOtpType();
+                              case 4:
+                                return agentOtp();
+                              case 5:
+                                return transactionSuccess();
+                              default:
+                                return <div></div>;
+                            }
+                          })()}
+                          <div>
+                            <div className="confirm_p_w button-container rspacing">
+                              {(step !== 1) & (step !== 5) ? (
+                                <button
+                                  className="blackbtn aryousureBTN confirmBtnR"
+                                  onClick={() => prevStep()}
+                                >
+                                  Back
+                                </button>
+                              ) : (
+                                ""
+                              )}
+                              <button
+                                className="aryousureBTN confirmBtnR"
+                                style={{
+                                  opacity: isFormValidated() ? "1" : "0.5",
+                                }}
+                                disabled={isFormValidated() ? false : true}
+                                onClick={() => formSubmitAction()}
+                              >
+                                {step === 4
+                                  ? "Submit"
+                                  : step === 5
+                                  ? "Done"
+                                  : "Next"}
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
- 
+
 export default CashIn;
