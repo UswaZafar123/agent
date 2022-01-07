@@ -308,6 +308,10 @@ const configUrl = {
     BANK_BALANCE_INQUIRY: `${AgentApi}api/agencyBanking/accountBalance`,
     BANK_STATEMENT_INQUIRY: `${AgentApi}api/agencyBanking/accountStatement`,
     BANK_ACCOUNT_OPENING: `${AgentApi}api/agencyBanking/accountOpen`,
+    WALLET_ACCOUNT_OPENING: `${AgentApi}api-public/WalletTransactions/walletAccountOpening`,
+    WALLET_ACCOUNT_OPENING_VERIFY_PIN: `${AgentApi}api-public/WalletTransactions/verifyPin`,
+    WALLET_ACCOUNT_OPENING_RESEND_PIN: `${AgentApi}api-public/WalletTransactions/resendPin`,
+    WALLET_ACCOUNT_OPENING_SET_PASSWORD: `${AgentApi}api-public/WalletTransactions/setPassword`,
     /**
      *
      */

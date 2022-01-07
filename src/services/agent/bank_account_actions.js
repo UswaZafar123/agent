@@ -86,7 +86,7 @@ export const bankBalanceInquiryAction = (payload) => (dispatch) => {
       }
     })
     .catch((error) => {
-      if (error.response.data.detail) {
+      if (error.response.data && error.response.data.detail) {
         toastr.error(error.response.data.detail);
       } else {
         toastr.error("Unable to process the request");
@@ -121,7 +121,7 @@ export const bankStatementInquiryAction = (payload) => (dispatch) => {
       }
     })
     .catch((error) => {
-      if (error.response.data.detail) {
+      if (error.response.data && error.response.data.detail) {
         toastr.error(error.response.data.detail);
       } else {
         toastr.error("Unable to process the request");
@@ -157,7 +157,7 @@ export const bankAccountOpeningAction = (payload) => (dispatch) => {
       }
     })
     .catch((error) => {
-      if (error.response.data.detail) {
+      if (error.response.data && error.response.data.detail) {
         toastr.error(error.response.data.detail);
       } else {
         toastr.error("Unable to process the request");
