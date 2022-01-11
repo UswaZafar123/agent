@@ -118,7 +118,6 @@ export const App = (props) => {
   return (
     <>
       {/* Switch Case */}
-      {/*  */}
       <Switch>
         <Redirect exact from="/" to="/agent/login" />
         <Route path="/agent/login" component={Login} />
