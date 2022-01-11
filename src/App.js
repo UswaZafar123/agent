@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import "./Assets/icomoon/style.css";
 import "antd/dist/antd.css";
 import Sidebar from "./Component/Agent/sidebar/Sidebar";
@@ -107,7 +107,7 @@ import Operations from "./Component/Agent/Operations";
 import Users from "./Component/page/Settings/General/Users";
 
 export const App = (props) => {
-  const [toggleMenuVar,setToggleMenuVar] = useState(false)
+  const [toggleMenuVar, setToggleMenuVar] = useState(false)
 
   const toggleMenu = (booleanVal) => {
     setToggleMenuVar(booleanVal)
@@ -117,19 +117,19 @@ export const App = (props) => {
 
   return (
     <>
+      {/* Switch Case */}
       <Switch>
         <Redirect exact from="/" to="/agent/login" />
         <Route path="/agent/login" component={Login} />
         <Route path="/agent/register" component={AgentRegister} />
         <Route path="/agent/registration" component={Registration} />
         <Route exact path="/agent/otp-verification" component={AgentOTP} />
-        {/* <Route path="/registration" component={ChooseRegistrationAccount} /> */}
         <Route path="/agent/registrationSuccess" component={AgentRegSuccess} />
         <Route path="/agent/forgotPassword" component={ForgotPassword} />
       </Switch>
       {sessionStorage.getItem("token") &&
         window.location.pathname !== "/agent/login" && (
-          <div 
+          <div
             className={
               toggleMenuVar
                 ? "app_wrapper"
@@ -137,9 +137,9 @@ export const App = (props) => {
             }
           >
             <div className="left_wrapper">
-              <Sidebar 
-                 toggleHandler={toggleMenu}
-                 isOpenLeftSide={toggleMenuVar}
+              <Sidebar
+                toggleHandler={toggleMenu}
+                isOpenLeftSide={toggleMenuVar}
               />
             </div>
 
