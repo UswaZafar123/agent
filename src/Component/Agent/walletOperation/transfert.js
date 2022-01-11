@@ -117,6 +117,7 @@ function WalletTransfer() {
     const [phoneNumber, setPhoneNumber] = useState('');
     const [selectedDocumentType, setSelectedDocumentType] = useState("ID_DOCUMENT");
     const [idDocumentNumber, setIdDocumentNumber] = useState('');
+    const [step, setStep] = useState(0);
 
     const dispatch = useDispatch();
     const agentProfile = useSelector(state => state.agentReducer.profile.data);
@@ -139,10 +140,18 @@ function WalletTransfer() {
             "phoneNumber": phoneNumber,
             "idDocumentType": selectedDocumentType,
             "idDocumentNumber": idDocumentNumber,
-            "bankCustomerId": ""
+            "bankCustomerId": "0466045"
         };
 
         dispatch(verifyCustomer(sessionStorage.getItem("token"), requestObj));
+
+        if (phoneNumber === agentProfile.phoneNo &&
+            selectedDocumentType === agentProfile.idDocuments[0].documentType &&
+            idDocumentNumber === agentProfile.idDocuments[0].documentIdNumber) {
+            setStep(1);
+        } else {
+            console.log("failed")
+        }
 
     }
 
@@ -187,57 +196,61 @@ function WalletTransfer() {
                             </div>
                             <div className="chartCardMiddle">
                                 <div className="recentTrans_w2">
-                                    <div className="containerBiaN_form" style={{ marginLeft: "10%" }}>
-                                        <div className="containerBiaN_f_row">
-                                            <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                <label>Phone Number: <span className="mantdat">*</span></label>
-                                            </div>
-                                            <div className="containerBiaN_f_col width70percent">
-                                                <input placeholder="Enter Phone number" type="number" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
-                                            </div>
-                                        </div>
-                                        <div className="containerBiaN_f_row">
-                                            <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                <label>Document Type: <span className="mantdat">*</span></label>
-                                            </div>
-                                            <div className="containerBiaN_f_col width70percent">
-                                                <TextField
-                                                    select
-                                                    label="Select"
-                                                    value={selectedDocumentType}
-                                                    onChange={(e) => setSelectedDocumentType(e.target.value)}
-                                                    fullWidth
-                                                >
-                                                    {idDocumentTypes.map((option) => (
-                                                        <MenuItem key={option.value} value={option.value}>
-                                                            {option.name}
-                                                        </MenuItem>
-                                                    ))}
-                                                </TextField>
-                                            </div>
-                                        </div>
-                                        <div className="containerBiaN_f_row">
-                                            <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                <label>ID Document Number: <span className="mantdat">*</span></label>
-                                            </div>
-                                            <div className="containerBiaN_f_col width70percent">
-                                                <input placeholder="Enter ID document number" value={idDocumentNumber} onChange={(e) => setIdDocumentNumber(e.target.value)} />
-                                            </div>
-                                        </div>
+                                    {step === 0 && (
+                                        <>
+                                            <div className="containerBiaN_form" style={{ marginLeft: "10%" }}>
+                                                <div className="containerBiaN_f_row">
+                                                    <div className="containerBiaN_f_col width30percent textAlignRight">
+                                                        <label>Phone Number: <span className="mantdat">*</span></label>
+                                                    </div>
+                                                    <div className="containerBiaN_f_col width70percent">
+                                                        <input placeholder="Enter Phone number" type="number" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
+                                                    </div>
+                                                </div>
+                                                <div className="containerBiaN_f_row">
+                                                    <div className="containerBiaN_f_col width30percent textAlignRight">
+                                                        <label>Document Type: <span className="mantdat">*</span></label>
+                                                    </div>
+                                                    <div className="containerBiaN_f_col width70percent">
+                                                        <TextField
+                                                            select
+                                                            label="Select"
+                                                            value={selectedDocumentType}
+                                                            onChange={(e) => setSelectedDocumentType(e.target.value)}
+                                                            fullWidth
+                                                        >
+                                                            {idDocumentTypes.map((option) => (
+                                                                <MenuItem key={option.value} value={option.value}>
+                                                                    {option.name}
+                                                                </MenuItem>
+                                                            ))}
+                                                        </TextField>
+                                                    </div>
+                                                </div>
+                                                <div className="containerBiaN_f_row">
+                                                    <div className="containerBiaN_f_col width30percent textAlignRight">
+                                                        <label>ID Document Number: <span className="mantdat">*</span></label>
+                                                    </div>
+                                                    <div className="containerBiaN_f_col width70percent">
+                                                        <input placeholder="Enter ID document number" value={idDocumentNumber} onChange={(e) => setIdDocumentNumber(e.target.value)} />
+                                                    </div>
+                                                </div>
 
-                                        <div className="containerBiaN_f_row" style={{ textAlign: "center", marginTop: "5%" }}>
-                                            <div className="containerBiaN_f_col width100percent">
-                                                <button
-                                                    className="aryousureBTN confirmBtnR"
-                                                    onClick={() => firstNext()}
-                                                >
-                                                    Next
-                                                </button>
+                                                <div className="containerBiaN_f_row" style={{ textAlign: "center", marginTop: "5%" }}>
+                                                    <div className="containerBiaN_f_col width100percent">
+                                                        <button
+                                                            className="aryousureBTN confirmBtnR"
+                                                            onClick={() => firstNext()}
+                                                        >
+                                                            Next
+                                                        </button>
+                                                    </div>
+
+                                                </div>
+
                                             </div>
-
-                                        </div>
-
-                                    </div>
+                                        </>
+                                    )}
                                     {/* <Grid container spacing={6} container justify={"center"}>
 
                                         <Grid item xs={12} sm={10}>
@@ -379,9 +392,6 @@ function WalletTransfer() {
                                         </Grid>
                                     </Grid> */}
                                 </div>
-                            </div>
-                            <div className="cardFooter justify_content_end">
-
                             </div>
                         </div>
                     </div>
