@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux'
 import '../../../css/transfer.css';
 import '../../../css/banking_operattion.css';
 
@@ -32,7 +33,9 @@ import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import Typography from "@material-ui/core/Typography";
 import { Card } from "reactstrap";
-
+import { Select } from '@material-ui/core';
+import { verifyCustomer } from '../../../services/agent/customer_verification_actions';
+import { fetchAgentProfile } from '../../../services/agent/profile_actions';
 
 function ListItemLink(props) {
     return <ListItem button component="a" {...props} />;
@@ -86,6 +89,13 @@ function WalletTransfer() {
 
     const classes = useStyles();
 
+    const idDocumentTypes = [
+        { name: "ID Card", value: "ID_DOCUMENT" },
+        { name: "Passport", value: "PASSPORT" }
+    ];
+
+    const { Option } = Select;
+
     const [selectedIndex, setSelectedIndex] = React.useState(1);
 
     const handleListItemClick = (event, index) => {
@@ -103,6 +113,39 @@ function WalletTransfer() {
     const handleChange2 = (event) => {
         setAccount(event.target.value);
     };
+
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [selectedDocumentType, setSelectedDocumentType] = useState("ID_DOCUMENT");
+    const [idDocumentNumber, setIdDocumentNumber] = useState('');
+
+    const dispatch = useDispatch();
+    const agentProfile = useSelector(state => state.agentReducer.profile.data);
+    const customerSuccess = useSelector(state => state.agentReducer.customerValidation.success);
+
+    useEffect(() => {
+        if (!agentProfile) {
+            dispatch(fetchAgentProfile(sessionStorage.getItem("token")));
+        }
+        console.log(agentProfile, "AGENT PROFILE");
+    }, [agentProfile, dispatch]);
+
+    useEffect(() => {
+        console.log(customerSuccess, "customer success")
+    }, [customerSuccess, dispatch])
+
+    const firstNext = () => {
+
+        var requestObj = {
+            "phoneNumber": phoneNumber,
+            "idDocumentType": selectedDocumentType,
+            "idDocumentNumber": idDocumentNumber,
+            "bankCustomerId": ""
+        };
+
+        dispatch(verifyCustomer(sessionStorage.getItem("token"), requestObj));
+
+    }
+
 
 
     return (
@@ -144,7 +187,58 @@ function WalletTransfer() {
                             </div>
                             <div className="chartCardMiddle">
                                 <div className="recentTrans_w2">
-                                    <Grid container spacing={6} container justify={"center"}>
+                                    <div className="containerBiaN_form" style={{ marginLeft: "10%" }}>
+                                        <div className="containerBiaN_f_row">
+                                            <div className="containerBiaN_f_col width30percent textAlignRight">
+                                                <label>Phone Number: <span className="mantdat">*</span></label>
+                                            </div>
+                                            <div className="containerBiaN_f_col width70percent">
+                                                <input placeholder="Enter Phone number" type="number" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
+                                            </div>
+                                        </div>
+                                        <div className="containerBiaN_f_row">
+                                            <div className="containerBiaN_f_col width30percent textAlignRight">
+                                                <label>Document Type: <span className="mantdat">*</span></label>
+                                            </div>
+                                            <div className="containerBiaN_f_col width70percent">
+                                                <TextField
+                                                    select
+                                                    label="Select"
+                                                    value={selectedDocumentType}
+                                                    onChange={(e) => setSelectedDocumentType(e.target.value)}
+                                                    fullWidth
+                                                >
+                                                    {idDocumentTypes.map((option) => (
+                                                        <MenuItem key={option.value} value={option.value}>
+                                                            {option.name}
+                                                        </MenuItem>
+                                                    ))}
+                                                </TextField>
+                                            </div>
+                                        </div>
+                                        <div className="containerBiaN_f_row">
+                                            <div className="containerBiaN_f_col width30percent textAlignRight">
+                                                <label>ID Document Number: <span className="mantdat">*</span></label>
+                                            </div>
+                                            <div className="containerBiaN_f_col width70percent">
+                                                <input placeholder="Enter ID document number" value={idDocumentNumber} onChange={(e) => setIdDocumentNumber(e.target.value)} />
+                                            </div>
+                                        </div>
+
+                                        <div className="containerBiaN_f_row" style={{ textAlign: "center", marginTop: "5%" }}>
+                                            <div className="containerBiaN_f_col width100percent">
+                                                <button
+                                                    className="aryousureBTN confirmBtnR"
+                                                    onClick={() => firstNext()}
+                                                >
+                                                    Next
+                                                </button>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                    {/* <Grid container spacing={6} container justify={"center"}>
 
                                         <Grid item xs={12} sm={10}>
                                             <Typography variant="h6"> From Account </Typography>
@@ -283,7 +377,7 @@ function WalletTransfer() {
                                                 Submit
                                             </Button>
                                         </Grid>
-                                    </Grid>
+                                    </Grid> */}
                                 </div>
                             </div>
                             <div className="cardFooter justify_content_end">
