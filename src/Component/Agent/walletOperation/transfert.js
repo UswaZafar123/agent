@@ -36,6 +36,7 @@ import { Card } from "reactstrap";
 import { Select } from '@material-ui/core';
 import { verifyCustomer } from '../../../services/agent/customer_verification_actions';
 import { fetchAgentProfile } from '../../../services/agent/profile_actions';
+import { toastr } from 'react-redux-toastr';
 
 function ListItemLink(props) {
     return <ListItem button component="a" {...props} />;
@@ -56,20 +57,8 @@ const useStyles = makeStyles((theme) => ({
 
 const currencies = [
     {
-        value: 'USD',
-        label: '$',
-    },
-    {
-        value: 'EUR',
-        label: '€',
-    },
-    {
-        value: 'BTC',
-        label: '฿',
-    },
-    {
-        value: 'JPY',
-        label: '¥',
+        value: 'XAF',
+        label: 'XAF',
     },
 ];
 
@@ -96,13 +85,13 @@ function WalletTransfer() {
 
     const { Option } = Select;
 
-    const [selectedIndex, setSelectedIndex] = React.useState(1);
+    const [selectedIndex, setSelectedIndex] = React.useState(0);
 
     const handleListItemClick = (event, index) => {
         setSelectedIndex(index);
     };
 
-    const [currency, setCurrency] = React.useState('EUR');
+    const [currency, setCurrency] = React.useState('XAF');
 
     const [account, setAccount] = React.useState('EUR');
 
@@ -114,10 +103,13 @@ function WalletTransfer() {
         setAccount(event.target.value);
     };
 
-    const [phoneNumber, setPhoneNumber] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('999484994');
     const [selectedDocumentType, setSelectedDocumentType] = useState("ID_DOCUMENT");
-    const [idDocumentNumber, setIdDocumentNumber] = useState('');
+    const [idDocumentNumber, setIdDocumentNumber] = useState('21432421');
     const [step, setStep] = useState(0);
+    const [amount, setAmount] = useState('');
+    const [reason, setReason] = useState('');
+    const [fee, setFee] = useState('');
 
     const dispatch = useDispatch();
     const agentProfile = useSelector(state => state.agentReducer.profile.data);
@@ -143,19 +135,26 @@ function WalletTransfer() {
             "bankCustomerId": "0466045"
         };
 
-        dispatch(verifyCustomer(sessionStorage.getItem("token"), requestObj));
+        // dispatch(verifyCustomer(sessionStorage.getItem("token"), requestObj));
 
         if (phoneNumber === agentProfile.phoneNo &&
             selectedDocumentType === agentProfile.idDocuments[0].documentType &&
             idDocumentNumber === agentProfile.idDocuments[0].documentIdNumber) {
+            toastr.success("Valid");
             setStep(1);
         } else {
-            console.log("failed")
+            toastr.warning("Invalid Details");
         }
 
     }
 
+    const secondNext = () => {
 
+        if (amount !== "" && reason !== "" && step === 1) {
+            setStep(2);
+        }
+
+    }
 
     return (
         <div className="main_contain">
@@ -169,13 +168,25 @@ function WalletTransfer() {
                             </ListItem>
                             <Divider />
                             <ListItemLink href="#simple-list" button selected={selectedIndex === 0}
-                                onClick={(event) => handleListItemClick(event, 0)}>
-                                <ListItemText secondary="Account To Account" />
+                                onClick={(event) => {
+                                    handleListItemClick(event, 0)
+                                    setStep(0);
+                                    setPhoneNumber("999484994");
+                                    setSelectedDocumentType("ID_DOCUMENT");
+                                    setIdDocumentNumber("21432421");
+                                }}>
+                                <ListItemText secondary="Wallet To Account" />
                             </ListItemLink>
                             <Divider />
                             <ListItemLink href="#simple-list" button selected={selectedIndex === 1}
-                                onClick={(event) => handleListItemClick(event, 1)}>
-                                <ListItemText secondary="Account To Wallet" />
+                                onClick={(event) => {
+                                    handleListItemClick(event, 1)
+                                    setStep(0);
+                                    setPhoneNumber("999484994");
+                                    setSelectedDocumentType("ID_DOCUMENT");
+                                    setIdDocumentNumber("21432421");
+                                }}>
+                                <ListItemText secondary="Wallet To Wallet" />
                             </ListItemLink>
                         </List>
                     </Paper>
@@ -191,7 +202,7 @@ function WalletTransfer() {
                         <div className="chartCard_w m_r100 getHeight">
                             <div className="chartCardTop">
                                 <div className="flCenterColumn">
-                                    <h1 className="commonHeading textAlignCenter">Account to Account</h1>
+                                    <h1 className="commonHeading textAlignCenter">Wallet to Account</h1>
                                 </div>
                             </div>
                             <div className="chartCardMiddle">
@@ -251,146 +262,150 @@ function WalletTransfer() {
                                             </div>
                                         </>
                                     )}
-                                    {/* <Grid container spacing={6} container justify={"center"}>
+                                    {step === 1 && (
+                                        <>
+                                            <Grid container spacing={6} container justify={"center"}>
 
-                                        <Grid item xs={12} sm={10}>
-                                            <Typography variant="h6"> From Account </Typography>
-                                            <TextField
-                                                select
-                                                label="Select"
-                                                value={account}
-                                                onChange={handleChange2}
-                                                fullWidth
-                                                helperText="Please select your account"
+                                                <Grid item xs={12} sm={10}>
+                                                    <Typography variant="h6"> From Wallet Account </Typography>
+                                                    <TextField
+                                                        type="text"
+                                                        // value={amount}
+                                                        required
+                                                        name="fromaccount"
+                                                        fullWidth
+                                                        placeholder="From Wallet Account"
+                                                    // onChange={(e) => setAmount(e.target.value)}
 
-                                            >
-                                                {accounts.map((option) => (
-                                                    <MenuItem key={option.value} value={option.value}>
-                                                        {option.label}
-                                                    </MenuItem>
-                                                ))}
-                                            </TextField>
-                                        </Grid>
+                                                    />
+                                                </Grid>
 
-                                        <Grid item xs={12} sm={10}>
-                                            <Typography variant="h6"> To Account </Typography>
-                                            <TextField
-                                                select
-                                                label="Select"
-                                                value={account}
-                                                onChange={handleChange2}
-                                                fullWidth
-                                                helperText="Please select your account"
+                                                {/* <Grid item xs={12} sm={10}>
+                                                    <Typography variant="h6"> To Bank Account </Typography>
+                                                    <TextField
+                                                        select
+                                                        label="Select"
+                                                        // value={account}
+                                                        // onChange={handleChange2}
+                                                        fullWidth
+                                                        helperText="Please select your account"
 
-                                            >
-                                                {accounts.map((option) => (
-                                                    <MenuItem key={option.value} value={option.value}>
-                                                        {option.label}
-                                                    </MenuItem>
-                                                ))}
-                                            </TextField>
-                                        </Grid>
-                                        <Grid item xs={12} sm={10}>
-                                            <Typography variant="h6"> Amount </Typography>
-                                            <TextField
-                                                type="text"
-                                                required
-                                                name="fromaccount"
-                                                fullWidth
-                                                placeholder="Amount"
+                                                    >
+                                                        {accounts.map((option) => (
+                                                            <MenuItem key={option.value} value={option.value}>
+                                                                {option.label}
+                                                            </MenuItem>
+                                                        ))}
+                                                    </TextField>
+                                                </Grid> */}
+                                                <Grid item xs={12} sm={10}>
+                                                    <Typography variant="h6"> Amount </Typography>
+                                                    <TextField
+                                                        type="text"
+                                                        value={amount}
+                                                        required
+                                                        name="fromaccount"
+                                                        fullWidth
+                                                        placeholder="Amount"
+                                                        onChange={(e) => setAmount(e.target.value)}
 
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12} sm={10}>
-                                            <Typography variant="h6"> Bank Code </Typography>
-                                            <TextField
-                                                type="text"
-                                                required
-                                                name="fromaccount"
-                                                fullWidth
-                                                placeholder="Bank Code"
+                                                    />
+                                                </Grid>
+                                                <Grid item xs={12} sm={10}>
+                                                    <Typography variant="h6"> Bank Code </Typography>
+                                                    <TextField
+                                                        type="text"
+                                                        required
+                                                        name="fromaccount"
+                                                        fullWidth
+                                                        placeholder="Bank Code"
 
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12} sm={10}>
-                                            <Typography variant="h6"> Branch Code </Typography>
-                                            <TextField
-                                                type="text"
-                                                required
-                                                name="fromaccount"
-                                                fullWidth
-                                                placeholder="Branch Code"
+                                                    />
+                                                </Grid>
+                                                <Grid item xs={12} sm={10}>
+                                                    <Typography variant="h6"> Branch Code </Typography>
+                                                    <TextField
+                                                        type="text"
+                                                        required
+                                                        name="fromaccount"
+                                                        fullWidth
+                                                        placeholder="Branch Code"
 
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12} sm={10}>
-                                            <Typography variant="h6"> Account Number </Typography>
-                                            <TextField
-                                                type="text"
-                                                required
-                                                name="fromaccount"
-                                                fullWidth
-                                                placeholder="Account Number"
+                                                    />
+                                                </Grid>
+                                                <Grid item xs={12} sm={10}>
+                                                    <Typography variant="h6"> Account Number </Typography>
+                                                    <TextField
+                                                        type="text"
+                                                        required
+                                                        name="fromaccount"
+                                                        fullWidth
+                                                        placeholder="Account Number"
 
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12} sm={10}>
-                                            <Typography variant="h6"> Key </Typography>
-                                            <TextField
-                                                type="text"
-                                                required
-                                                name="fromaccount"
-                                                fullWidth
-                                                placeholder="Key"
+                                                    />
+                                                </Grid>
+                                                <Grid item xs={12} sm={10}>
+                                                    <Typography variant="h6"> Key </Typography>
+                                                    <TextField
+                                                        type="text"
+                                                        required
+                                                        name="fromaccount"
+                                                        fullWidth
+                                                        placeholder="Key"
 
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12} sm={10}>
-                                            <Typography variant="h6"> Currency </Typography>
-                                            <TextField
-                                                select
-                                                label="Select"
-                                                value={currency}
-                                                onChange={handleChange}
-                                                fullWidth
-                                                helperText="Please select your currency"
+                                                    />
+                                                </Grid>
+                                                <Grid item xs={12} sm={10}>
+                                                    <Typography variant="h6"> Currency </Typography>
+                                                    <TextField
+                                                        select
+                                                        label="Select"
+                                                        value={currency}
+                                                        onChange={(e) => setCurrency(e.target.value)}
+                                                        fullWidth
+                                                        helperText="Please select your currency"
 
-                                            >
-                                                {currencies.map((option) => (
-                                                    <MenuItem key={option.value} value={option.value}>
-                                                        {option.label}
-                                                    </MenuItem>
-                                                ))}
-                                            </TextField>
-                                        </Grid>
+                                                    >
+                                                        {currencies.map((option) => (
+                                                            <MenuItem key={option.value} value={option.value}>
+                                                                {option.label}
+                                                            </MenuItem>
+                                                        ))}
+                                                    </TextField>
+                                                </Grid>
 
-                                        <Grid item xs={12} sm={10}>
-                                            <Typography variant="h6"> Reason </Typography>
-                                            <TextField
-                                                type="text"
-                                                required
-                                                name="fromaccount"
-                                                fullWidth
-                                                placeholder="Reason of Transaction"
+                                                <Grid item xs={12} sm={10}>
+                                                    <Typography variant="h6"> Reason </Typography>
+                                                    <TextField
+                                                        type="text"
+                                                        required
+                                                        name="fromaccount"
+                                                        value={reason}
+                                                        onChange={(e) => setReason(e.target.value)}
+                                                        fullWidth
+                                                        placeholder="Reason of Transaction"
 
-                                            />
-                                        </Grid>
-                                        <Grid item xs={12} sm={6} container justify={"flex-start"}>
-                                            <Button className="btn-cancel-non-afb" style={{ borderRadius: 20, width: '135px', borderBlockColor: 'white' }}  >
-                                                Back
-                                            </Button>
-                                        </Grid>
-                                        <Grid item xs={12} sm={6} container justify={"flex-end"}>
-                                            <Button className="btn-submit-non-afb"
-                                                onClick={(event) => handleListItemClick(event, 2)}
-                                                style={{
-                                                    borderRadius: 20, width: '135px',
-                                                    backgroundColor: 'red', borderBlockColor: 'white'
-                                                }} >
-                                                Submit
-                                            </Button>
-                                        </Grid>
-                                    </Grid> */}
+                                                    />
+                                                </Grid>
+                                                <Grid item xs={12} sm={6} container justify={"flex-start"}>
+                                                    <Button className="btn-cancel-non-afb" style={{ borderRadius: 20, width: '135px', borderBlockColor: 'white' }} onClick={() => setStep(0)}>
+                                                        Back
+                                                    </Button>
+                                                </Grid>
+                                                <Grid item xs={12} sm={6} container justify={"flex-end"}>
+                                                    <Button className="btn-submit-non-afb"
+                                                        onClick={(event) => handleListItemClick(event, 2)}
+                                                        style={{
+                                                            borderRadius: 20, width: '135px',
+                                                            backgroundColor: 'red', borderBlockColor: 'white',
+                                                            color: 'white'
+                                                        }} >
+                                                        Submit
+                                                    </Button>
+                                                </Grid>
+                                            </Grid>
+                                        </>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -402,186 +417,210 @@ function WalletTransfer() {
                         <div className="chartCard_w m_r100 getHeight">
                             <div className="chartCardTop">
                                 <div className="flCenterColumn">
-                                    <h1 className="commonHeading textAlignCenter">Account to Wallet</h1>
+                                    <h1 className="commonHeading textAlignCenter">Wallet to Wallet</h1>
                                 </div>
                             </div>
                             <div className="chartCardMiddle">
                                 <div className="recentTrans_w2">
-                                    <Grid container spacing={6} container justify={"center"}>
+                                    {step === 0 && (
+                                        <>
+                                            <div className="containerBiaN_form" style={{ marginLeft: "10%" }}>
+                                                <div className="containerBiaN_f_row">
+                                                    <div className="containerBiaN_f_col width30percent textAlignRight">
+                                                        <label>Phone Number: <span className="mantdat">*</span></label>
+                                                    </div>
+                                                    <div className="containerBiaN_f_col width70percent">
+                                                        <input placeholder="Enter Phone number" type="number" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
+                                                    </div>
+                                                </div>
+                                                <div className="containerBiaN_f_row">
+                                                    <div className="containerBiaN_f_col width30percent textAlignRight">
+                                                        <label>Document Type: <span className="mantdat">*</span></label>
+                                                    </div>
+                                                    <div className="containerBiaN_f_col width70percent">
+                                                        <TextField
+                                                            select
+                                                            label="Select"
+                                                            value={selectedDocumentType}
+                                                            onChange={(e) => setSelectedDocumentType(e.target.value)}
+                                                            fullWidth
+                                                        >
+                                                            {idDocumentTypes.map((option) => (
+                                                                <MenuItem key={option.value} value={option.value}>
+                                                                    {option.name}
+                                                                </MenuItem>
+                                                            ))}
+                                                        </TextField>
+                                                    </div>
+                                                </div>
+                                                <div className="containerBiaN_f_row">
+                                                    <div className="containerBiaN_f_col width30percent textAlignRight">
+                                                        <label>ID Document Number: <span className="mantdat">*</span></label>
+                                                    </div>
+                                                    <div className="containerBiaN_f_col width70percent">
+                                                        <input placeholder="Enter ID document number" value={idDocumentNumber} onChange={(e) => setIdDocumentNumber(e.target.value)} />
+                                                    </div>
+                                                </div>
 
-                                        <Grid item xs={12} sm={10}>
-                                            <Typography variant="h6"> From Account </Typography>
-                                            <TextField
-                                                select
-                                                label="Select"
-                                                value={account}
-                                                onChange={handleChange2}
-                                                fullWidth
-                                                helperText="Please select your account"
+                                                <div className="containerBiaN_f_row" style={{ textAlign: "center", marginTop: "5%" }}>
+                                                    <div className="containerBiaN_f_col width100percent">
+                                                        <button
+                                                            className="aryousureBTN confirmBtnR"
+                                                            onClick={() => firstNext()}
+                                                        >
+                                                            Next
+                                                        </button>
+                                                    </div>
 
-                                            >
-                                                {accounts.map((option) => (
-                                                    <MenuItem key={option.value} value={option.value}>
-                                                        {option.label}
-                                                    </MenuItem>
-                                                ))}
-                                            </TextField>
-                                        </Grid>
+                                                </div>
 
-                                        <Grid item xs={12} sm={10}>
-                                            <Typography variant="h6"> To Account </Typography>
-                                            <TextField
-                                                select
-                                                label="Select"
-                                                value={account}
-                                                onChange={handleChange2}
-                                                fullWidth
-                                                helperText="Please select your account"
+                                            </div>
+                                        </>
+                                    )}
 
-                                            >
-                                                {accounts.map((option) => (
-                                                    <MenuItem key={option.value} value={option.value}>
-                                                        {option.label}
-                                                    </MenuItem>
-                                                ))}
-                                            </TextField>
-                                        </Grid>
+                                    {step === 1 && (
+                                        <>
+                                            <Grid container spacing={6} container justify={"center"}>
 
-                                        <Grid item xs={12} sm={10}>
-                                            <Typography variant="h6"> Amount </Typography>
-                                            <TextField
-                                                type="text"
-                                                required
-                                                name="fromaccount"
-                                                fullWidth
-                                                placeholder="Amount"
+                                                <Grid item xs={12} sm={10}>
+                                                    <Typography variant="h6"> From Wallet Account </Typography>
+                                                    <TextField
+                                                        type="text"
+                                                        // value={amount}
+                                                        required
+                                                        name="fromaccount"
+                                                        fullWidth
+                                                        placeholder="From Wallet Account"
+                                                    // onChange={(e) => setAmount(e.target.value)}
 
-                                            />
-                                        </Grid>
+                                                    />
+                                                </Grid>
 
-                                        <Grid item xs={12} sm={10}>
-                                            <Typography variant="h6"> Reason </Typography>
-                                            <TextField
-                                                type="text"
-                                                required
-                                                name="fromaccount"
-                                                fullWidth
-                                                placeholder="Reason of Transaction"
+                                                <Grid item xs={12} sm={10}>
+                                                    <Typography variant="h6"> To Wallet Account </Typography>
+                                                    <TextField
+                                                        type="text"
+                                                        // value={amount}
+                                                        required
+                                                        name="fromaccount"
+                                                        fullWidth
+                                                        placeholder="To Wallet Account"
+                                                    // onChange={(e) => setAmount(e.target.value)}
 
-                                            />
-                                        </Grid>
+                                                    />
+                                                </Grid>
+                                                <Grid item xs={12} sm={10}>
+                                                    <Typography variant="h6"> Amount </Typography>
+                                                    <TextField
+                                                        type="text"
+                                                        value={amount}
+                                                        required
+                                                        name="fromaccount"
+                                                        fullWidth
+                                                        placeholder="Amount"
+                                                        onChange={(e) => setAmount(e.target.value)}
 
-                                        <Grid item xs={12} sm={6} container justify={"flex-start"}>
-                                            <Button className="btn-cancel-non-afb" style={{ borderRadius: 20, width: '135px', borderBlockColor: 'white' }}  >
-                                                Back
-                                            </Button>
-                                        </Grid>
+                                                    />
+                                                </Grid>
+                                                {/* <Grid item xs={12} sm={10}>
+                                                    <Typography variant="h6"> Bank Code </Typography>
+                                                    <TextField
+                                                        type="text"
+                                                        required
+                                                        name="fromaccount"
+                                                        fullWidth
+                                                        placeholder="Bank Code"
 
-                                        <Grid item xs={12} sm={6} container justify={"flex-end"}>
-                                            <Button className="btn-submit-non-afb"
-                                                onClick={(event) => handleListItemClick(event, 2)}
-                                                style={{
-                                                    borderRadius: 20, width: '135px',
-                                                    backgroundColor: 'red', borderBlockColor: 'white'
-                                                }} >
-                                                Submit
-                                            </Button>
-                                        </Grid>
+                                                    />
+                                                </Grid>
+                                                <Grid item xs={12} sm={10}>
+                                                    <Typography variant="h6"> Branch Code </Typography>
+                                                    <TextField
+                                                        type="text"
+                                                        required
+                                                        name="fromaccount"
+                                                        fullWidth
+                                                        placeholder="Branch Code"
 
+                                                    />
+                                                </Grid>
+                                                <Grid item xs={12} sm={10}>
+                                                    <Typography variant="h6"> Account Number </Typography>
+                                                    <TextField
+                                                        type="text"
+                                                        required
+                                                        name="fromaccount"
+                                                        fullWidth
+                                                        placeholder="Account Number"
 
-                                    </Grid>
+                                                    />
+                                                </Grid>
+                                                <Grid item xs={12} sm={10}>
+                                                    <Typography variant="h6"> Key </Typography>
+                                                    <TextField
+                                                        type="text"
+                                                        required
+                                                        name="fromaccount"
+                                                        fullWidth
+                                                        placeholder="Key"
+
+                                                    />
+                                                </Grid> */}
+                                                <Grid item xs={12} sm={10}>
+                                                    <Typography variant="h6"> Currency </Typography>
+                                                    <TextField
+                                                        select
+                                                        label="Select"
+                                                        value={currency}
+                                                        onChange={(e) => setCurrency(e.target.value)}
+                                                        fullWidth
+                                                        helperText="Please select your currency"
+
+                                                    >
+                                                        {currencies.map((option) => (
+                                                            <MenuItem key={option.value} value={option.value}>
+                                                                {option.label}
+                                                            </MenuItem>
+                                                        ))}
+                                                    </TextField>
+                                                </Grid>
+
+                                                <Grid item xs={12} sm={10}>
+                                                    <Typography variant="h6"> Reason </Typography>
+                                                    <TextField
+                                                        type="text"
+                                                        required
+                                                        name="fromaccount"
+                                                        value={reason}
+                                                        onChange={(e) => setReason(e.target.value)}
+                                                        fullWidth
+                                                        placeholder="Reason of Transaction"
+
+                                                    />
+                                                </Grid>
+                                                <Grid item xs={12} sm={6} container justify={"flex-start"}>
+                                                    <Button className="btn-cancel-non-afb" style={{
+                                                        borderRadius: 20, width: '135px', borderBlockColor: 'white',
+                                                        backgroundColor: 'darkgray'
+                                                    }} onClick={() => setStep(0)}  >
+                                                        Back
+                                                    </Button>
+                                                </Grid>
+                                                <Grid item xs={12} sm={6} container justify={"flex-end"}>
+                                                    <Button className="btn-submit-non-afb"
+                                                        onClick={(event) => handleListItemClick(event, 2)}
+                                                        style={{
+                                                            borderRadius: 20, width: '135px',
+                                                            backgroundColor: 'red', borderBlockColor: 'white',
+                                                            color: 'white'
+                                                        }} >
+                                                        Submit
+                                                    </Button>
+                                                </Grid>
+                                            </Grid>
+                                        </>
+                                    )}
                                 </div>
-                            </div>
-                            <div className="cardFooter justify_content_end">
-
-                            </div>
-                        </div>
-                    </div>
-                </div> : null}
-
-                {selectedIndex === 2 ? <div className="section_custom">
-                    <div className="sectionInn">
-                        <div className="chartCard_w m_r100 getHeight">
-                            <div className="chartCardTop">
-                                <div className="flCenterColumn">
-                                    <h1 className="commonHeading textAlignCenter">Success</h1>
-                                </div>
-                            </div>
-                            <div className="chartCardMiddle">
-                                <div className="recentTrans_w2">
-                                    <div className="transactioncardmiddle" style={{ height: "800px" }}>
-                                        <div className="kyccustomformheading">
-                                            <div className="success_pic">
-                                                <img src={success} alt="success" />
-                                            </div >
-
-                                        </div>
-                                        {/*<h1*/}
-                                        {/*    className="list_top_heading textAlignCenter text-center">*/}
-                                        {/*    Cash Deposit Successful*/}
-                                        {/*</h1>*/}
-
-                                        <h1 className="success_header">
-                                            Cash Deposit Successful
-                                        </h1>
-                                        <Card className="success_card">
-                                            <ListItem button style={{ height: "70px" }}>
-                                                <ListItemText className="success_text" primary="Date:     03-03-2021   3:00PM"
-                                                // secondary={ this.state.date}
-                                                />
-
-                                            </ListItem>
-
-                                            <Divider />
-                                            <ListItem divider style={{ height: "70px" }}>
-                                                <ListItemText primary="Account Number:      12221-12221-122212212221-22"
-
-                                                // secondary={ this.state.accountNumber}
-                                                />
-                                            </ListItem>
-                                            <ListItem style={{ height: "70px" }}>
-                                                <ListItemText primary="Amount      $1000"
-                                                // secondary={ this.state.amount
-                                                />
-                                            </ListItem>
-                                            <Divider light />
-                                            <ListItem style={{ height: "70px" }}>
-                                                <ListItemText primary="Fees      $20"
-                                                // secondary={ this.state.fees}
-                                                />
-                                            </ListItem>
-                                            <Divider light />
-                                            <ListItem style={{ height: "70px" }}>
-                                                <ListItemText primary="Total        $1200"
-                                                //secondary={ this.state.total}
-                                                />
-                                            </ListItem>
-                                            <Divider light />
-                                            <ListItem style={{ height: "70px" }}>
-                                                <ListItemText primary="Reason:         Test"
-                                                // secondary={ this.state.reason}
-                                                />
-                                            </ListItem>
-                                            <Divider light />
-                                            <ListItem style={{ height: "70px" }}>
-
-                                            </ListItem>
-
-
-                                            <ListItem style={{ height: "70px" }}>
-                                                <button className="btn_print">Print</button>
-                                                <button className="btn_done">Done</button>
-
-                                            </ListItem>
-
-                                        </Card>
-
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="cardFooter justify_content_end">
-
                             </div>
                         </div>
                     </div>
