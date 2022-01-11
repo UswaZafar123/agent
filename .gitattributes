@@ -1,0 +1,4 @@
+deployment.yml merge = ours
+ingress.yml merge = ours
+package.json merge = ours
+Dockerfile merge = ours
