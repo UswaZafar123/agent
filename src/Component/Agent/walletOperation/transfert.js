@@ -37,6 +37,10 @@ import { Select } from '@material-ui/core';
 import { verifyCustomer } from '../../../services/agent/customer_verification_actions';
 import { fetchAgentProfile } from '../../../services/agent/profile_actions';
 import { toastr } from 'react-redux-toastr';
+import OtpInput from 'react-otp-input';
+import { sendOtpToCustomer } from '../../../services/agent/customer_otp_actions';
+import { walletCashOutFromBank } from '../../../services/agent/wallet_account_actions';
+import { initiateWalletCashDeposit } from '../../../services/agent/cash_deposit_actions';
 
 function ListItemLink(props) {
     return <ListItem button component="a" {...props} />;
@@ -79,7 +83,7 @@ function WalletTransfer() {
     const classes = useStyles();
 
     const idDocumentTypes = [
-        { name: "ID Card", value: "ID_DOCUMENT" },
+        { name: "ID Card", value: "ID_CARD" },
         { name: "Passport", value: "PASSPORT" }
     ];
 
@@ -103,28 +107,65 @@ function WalletTransfer() {
         setAccount(event.target.value);
     };
 
-    const [phoneNumber, setPhoneNumber] = useState('999484994');
-    const [selectedDocumentType, setSelectedDocumentType] = useState("ID_DOCUMENT");
-    const [idDocumentNumber, setIdDocumentNumber] = useState('21432421');
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [selectedDocumentType, setSelectedDocumentType] = useState("ID_CARD");
+    const [idDocumentNumber, setIdDocumentNumber] = useState('');
     const [step, setStep] = useState(0);
+    const [bcID, setBCID] = useState("");
+    const [bankCode, setBankCode] = useState("");
+    const [branchCode, setBranchCode] = useState("");
+    const [accNum, setAccNum] = useState("");
+    const [key, setKey] = useState("");
     const [amount, setAmount] = useState('');
     const [reason, setReason] = useState('');
     const [fee, setFee] = useState('');
+    const [otp, setOtp] = useState('');
+    const [otpTimer, setOtpTimer] = React.useState(10);
+
+    const [fromWallet, setFromWallet] = useState("");
+    const [toWallet, setToWallet] = useState("");
 
     const dispatch = useDispatch();
-    const agentProfile = useSelector(state => state.agentReducer.profile.data);
+    // const agentProfile = useSelector(state => state.agentReducer.profile.data);
     const customerSuccess = useSelector(state => state.agentReducer.customerValidation.success);
 
-    useEffect(() => {
-        if (!agentProfile) {
-            dispatch(fetchAgentProfile(sessionStorage.getItem("token")));
-        }
-        console.log(agentProfile, "AGENT PROFILE");
-    }, [agentProfile, dispatch]);
+    // useEffect(() => {
+    //     if (!agentProfile) {
+    //         dispatch(fetchAgentProfile(sessionStorage.getItem("token")));
+    //     }
+    //     console.log(agentProfile, "AGENT PROFILE");
+    // }, [agentProfile, dispatch]);
 
     useEffect(() => {
         console.log(customerSuccess, "customer success")
+        if (step === 0 && customerSuccess) {
+            toastr.success("Valid Customer Details.")
+            setStep(1);
+        }
     }, [customerSuccess, dispatch])
+
+    useEffect(() => {
+        if (step === 2) {
+            if (otpTimer > 0) {
+                setTimeout(() => setOtpTimer(otpTimer - 1), 1000);
+            }
+        }
+    }, [otpTimer, step]);
+
+    const resendCustomerOtp = () => {
+        setOtpTimer(10);
+        sendCustomerOTP();
+        setOtp("");
+    }
+
+    const sendCustomerOTP = () => {
+        var requestObj = {
+            "customerMobile": phoneNumber,
+            "customerType": "WALLET",
+            "mfaChannel": "SMS"
+        };
+        dispatch(sendOtpToCustomer(sessionStorage.getItem("token"), requestObj));
+    }
 
     const firstNext = () => {
 
@@ -132,28 +173,78 @@ function WalletTransfer() {
             "phoneNumber": phoneNumber,
             "idDocumentType": selectedDocumentType,
             "idDocumentNumber": idDocumentNumber,
-            "bankCustomerId": "0466045"
         };
 
-        // dispatch(verifyCustomer(sessionStorage.getItem("token"), requestObj));
-
-        if (phoneNumber === agentProfile.phoneNo &&
-            selectedDocumentType === agentProfile.idDocuments[0].documentType &&
-            idDocumentNumber === agentProfile.idDocuments[0].documentIdNumber) {
-            toastr.success("Valid");
-            setStep(1);
-        } else {
-            toastr.warning("Invalid Details");
-        }
+        dispatch(verifyCustomer(sessionStorage.getItem("token"), requestObj));
 
     }
 
-    const secondNext = () => {
+    const walletToAccountSecondNext = () => {
+        sendCustomerOTP();
+        setOtp("");
+        setStep(2);
+    }
 
-        if (amount !== "" && reason !== "" && step === 1) {
-            setStep(2);
+    const walletToWalletSecondNext = () => {
+        sendCustomerOTP();
+        setOtp("");
+        setStep(2);
+    }
+
+    const finalSubmit = () => {
+
+        if (selectedIndex === 0 && step === 2) {
+            let data = {
+                "bankCustomerId": bcID,
+                "toAccountNumber": bankCode + "-" + branchCode + "-" + accNum + "-" + key,
+                "amount": amount,
+                "reason": reason,
+                "mfaToken": otp,
+                "currencyName": currency,
+                "fee": 50,
+                "type": "CASH_OUT"
+            }
+
+            console.log(data, "WALLET TO ACCOUNT DATA");
+
+            dispatch(walletCashOutFromBank(data));
+
+        } else if (selectedIndex === 1 && step === 2) {
+
+            let data = {
+                "debtorUserType": "AGENT",
+                "debtorUserId": fromWallet,
+                "currencyName": currency,
+                "amount": amount,
+                "reason": reason,
+                "creditorUserType": "CUSTOMER",
+                "creditorUserId": toWallet,
+                "fee": 50,
+                "type": "WALLET_TRANSFER",
+                "mfaToken": otp
+            }
+
+            // dispatch(initiateWalletCashDeposit(sessionStorage.getItem("token"), data));
+            console.log(data, "WALLET TO WALLET DATA");
+
         }
+    }
 
+    const resetAll = () => {
+        setStep(0);
+        setSelectedDocumentType("ID_CARD");
+        setPhoneNumber("");
+        setIdDocumentNumber("");
+        setBCID("");
+        setAmount("");
+        setBankCode("");
+        setBranchCode("");
+        setAccNum("");
+        setKey("");
+        setReason("");
+        setOtp("");
+        setFromWallet("");
+        setToWallet("");
     }
 
     return (
@@ -169,11 +260,8 @@ function WalletTransfer() {
                             <Divider />
                             <ListItemLink href="#simple-list" button selected={selectedIndex === 0}
                                 onClick={(event) => {
-                                    handleListItemClick(event, 0)
-                                    setStep(0);
-                                    setPhoneNumber("999484994");
-                                    setSelectedDocumentType("ID_DOCUMENT");
-                                    setIdDocumentNumber("21432421");
+                                    handleListItemClick(event, 0);
+                                    resetAll();
                                 }}>
                                 <ListItemText secondary="Wallet To Account" />
                             </ListItemLink>
@@ -181,10 +269,7 @@ function WalletTransfer() {
                             <ListItemLink href="#simple-list" button selected={selectedIndex === 1}
                                 onClick={(event) => {
                                     handleListItemClick(event, 1)
-                                    setStep(0);
-                                    setPhoneNumber("999484994");
-                                    setSelectedDocumentType("ID_DOCUMENT");
-                                    setIdDocumentNumber("21432421");
+                                    resetAll();
                                 }}>
                                 <ListItemText secondary="Wallet To Wallet" />
                             </ListItemLink>
@@ -238,7 +323,7 @@ function WalletTransfer() {
                                                         </TextField>
                                                     </div>
                                                 </div>
-                                                <div className="containerBiaN_f_row">
+                                                <div className="containerBiaN_f_row" style={{ marginBottom: "3%" }}>
                                                     <div className="containerBiaN_f_col width30percent textAlignRight">
                                                         <label>ID Document Number: <span className="mantdat">*</span></label>
                                                     </div>
@@ -247,17 +332,21 @@ function WalletTransfer() {
                                                     </div>
                                                 </div>
 
-                                                <div className="containerBiaN_f_row" style={{ textAlign: "center", marginTop: "5%" }}>
-                                                    <div className="containerBiaN_f_col width100percent">
-                                                        <button
-                                                            className="aryousureBTN confirmBtnR"
-                                                            onClick={() => firstNext()}
-                                                        >
+                                                <Grid container spacing={6} container justify={"center"}>
+                                                    <Grid item xs={12} sm={6} container justify={"center"}>
+                                                        <Button className="btn-submit-non-afb"
+                                                            onClick={(event) => {
+                                                                firstNext();
+                                                            }}
+                                                            style={{
+                                                                borderRadius: 20, width: '135px',
+                                                                backgroundColor: 'red', borderBlockColor: 'white',
+                                                                color: 'white'
+                                                            }} >
                                                             Next
-                                                        </button>
-                                                    </div>
-
-                                                </div>
+                                                        </Button>
+                                                    </Grid>
+                                                </Grid>
 
                                             </div>
                                         </>
@@ -267,37 +356,18 @@ function WalletTransfer() {
                                             <Grid container spacing={6} container justify={"center"}>
 
                                                 <Grid item xs={12} sm={10}>
-                                                    <Typography variant="h6"> From Wallet Account </Typography>
+                                                    <Typography variant="h6"> Bank Customer ID </Typography>
                                                     <TextField
                                                         type="text"
-                                                        // value={amount}
+                                                        value={bcID}
                                                         required
                                                         name="fromaccount"
                                                         fullWidth
-                                                        placeholder="From Wallet Account"
-                                                    // onChange={(e) => setAmount(e.target.value)}
+                                                        placeholder="Bank Customer ID"
+                                                        onChange={(e) => setBCID(e.target.value)}
 
                                                     />
                                                 </Grid>
-
-                                                {/* <Grid item xs={12} sm={10}>
-                                                    <Typography variant="h6"> To Bank Account </Typography>
-                                                    <TextField
-                                                        select
-                                                        label="Select"
-                                                        // value={account}
-                                                        // onChange={handleChange2}
-                                                        fullWidth
-                                                        helperText="Please select your account"
-
-                                                    >
-                                                        {accounts.map((option) => (
-                                                            <MenuItem key={option.value} value={option.value}>
-                                                                {option.label}
-                                                            </MenuItem>
-                                                        ))}
-                                                    </TextField>
-                                                </Grid> */}
                                                 <Grid item xs={12} sm={10}>
                                                     <Typography variant="h6"> Amount </Typography>
                                                     <TextField
@@ -315,10 +385,12 @@ function WalletTransfer() {
                                                     <Typography variant="h6"> Bank Code </Typography>
                                                     <TextField
                                                         type="text"
+                                                        value={bankCode}
                                                         required
                                                         name="fromaccount"
                                                         fullWidth
                                                         placeholder="Bank Code"
+                                                        onChangeCapture={(e) => setBankCode(e.target.value)}
 
                                                     />
                                                 </Grid>
@@ -330,6 +402,8 @@ function WalletTransfer() {
                                                         name="fromaccount"
                                                         fullWidth
                                                         placeholder="Branch Code"
+                                                        value={branchCode}
+                                                        onChange={(e) => setBranchCode(e.target.value)}
 
                                                     />
                                                 </Grid>
@@ -341,6 +415,8 @@ function WalletTransfer() {
                                                         name="fromaccount"
                                                         fullWidth
                                                         placeholder="Account Number"
+                                                        value={accNum}
+                                                        onChange={(e) => setAccNum(e.target.value)}
 
                                                     />
                                                 </Grid>
@@ -352,6 +428,8 @@ function WalletTransfer() {
                                                         name="fromaccount"
                                                         fullWidth
                                                         placeholder="Key"
+                                                        value={key}
+                                                        onChange={(e) => setKey(e.target.value)}
 
                                                     />
                                                 </Grid>
@@ -388,22 +466,87 @@ function WalletTransfer() {
                                                     />
                                                 </Grid>
                                                 <Grid item xs={12} sm={6} container justify={"flex-start"}>
-                                                    <Button className="btn-cancel-non-afb" style={{ borderRadius: 20, width: '135px', borderBlockColor: 'white' }} onClick={() => setStep(0)}>
+                                                    <Button className="btn-cancel-non-afb" style={{ backgroundColor: 'darkgray', borderRadius: 20, width: '135px', borderBlockColor: 'white' }} onClick={() => setStep(0)}>
                                                         Back
                                                     </Button>
                                                 </Grid>
                                                 <Grid item xs={12} sm={6} container justify={"flex-end"}>
                                                     <Button className="btn-submit-non-afb"
-                                                        onClick={(event) => handleListItemClick(event, 2)}
+                                                        onClick={(event) => {
+                                                            walletToAccountSecondNext();
+                                                        }}
                                                         style={{
                                                             borderRadius: 20, width: '135px',
                                                             backgroundColor: 'red', borderBlockColor: 'white',
                                                             color: 'white'
                                                         }} >
-                                                        Submit
+                                                        Next
                                                     </Button>
                                                 </Grid>
                                             </Grid>
+                                        </>
+                                    )}
+                                    {step === 2 && (
+                                        <>
+                                            <div className="containerBiaN_form" style={{ width: "100%" }}>
+                                                <div className="containerBiaN_f_row">
+                                                    <div className="containerBiaN_f_col width30percent textAlignRight">
+                                                        <label>Enter OTP <span className="mantdat">*</span></label>
+                                                    </div>
+                                                    <div className="containerBiaN_f_col width70percent">
+                                                        <OtpInput
+                                                            value={otp}
+                                                            shouldAutoFocus={true}
+                                                            onChange={(value) => setOtp(value)}
+                                                            numInputs={6}
+                                                            seperator={<span></span>}
+                                                            isInputNum={true}
+                                                            inputStyle={{
+                                                                width: "60px",
+                                                                marginRight: "10px",
+                                                                marginLeft: "10px",
+                                                                fontWeight: '600',
+                                                                fontSize: '16px',
+                                                                lineHeight: '20px',
+                                                                padding: '15px 20px',
+                                                                borderRadius: '5px',
+                                                                border: '1px solid transparent',
+                                                                color: '#00000',
+                                                                background: '#F2F2F2',
+                                                                display: 'inline-block',
+                                                                boxShadow: "0px 8px 8px rgba(37, 51, 66, 0.15)"
+                                                            }}
+                                                        />
+                                                    </div>
+
+                                                </div>
+
+                                                <div className="containerBiaN_f_row" style={{ marginBottom: "3%" }}>
+                                                    <div className="containerBiaN_f_col width30percent textAlignRight">
+                                                    </div>
+                                                    <div className="containerBiaN_f_col width70percent" style={{ padding: '0px 0px 0px 20px' }}>
+                                                        <div style={{ display: 'flex' }}>
+                                                            {otpTimer !== 0 ? <p>Resend OTP in {otpTimer}</p> : <p>Didn't receive OTP? <span onClick={() => resendCustomerOtp()} style={{ color: 'rgb(191 21 21)', cursor: 'pointer', textDecoration: 'underline' }}>Resend</span></p>}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <Grid container spacing={6} container justify={"center"}>
+                                                    <Grid item xs={12} sm={6} container justify={"center"}>
+                                                        <Button className="btn-submit-non-afb"
+                                                            onClick={(event) => {
+                                                                finalSubmit();
+                                                            }}
+                                                            style={{
+                                                                borderRadius: 20, width: '135px',
+                                                                backgroundColor: 'red', borderBlockColor: 'white',
+                                                                color: 'white'
+                                                            }} >
+                                                            Submit
+                                                        </Button>
+                                                    </Grid>
+                                                </Grid>
+                                            </div>
                                         </>
                                     )}
                                 </div>
@@ -453,7 +596,7 @@ function WalletTransfer() {
                                                         </TextField>
                                                     </div>
                                                 </div>
-                                                <div className="containerBiaN_f_row">
+                                                <div className="containerBiaN_f_row" style={{ marginBottom: "3%" }}>
                                                     <div className="containerBiaN_f_col width30percent textAlignRight">
                                                         <label>ID Document Number: <span className="mantdat">*</span></label>
                                                     </div>
@@ -462,17 +605,21 @@ function WalletTransfer() {
                                                     </div>
                                                 </div>
 
-                                                <div className="containerBiaN_f_row" style={{ textAlign: "center", marginTop: "5%" }}>
-                                                    <div className="containerBiaN_f_col width100percent">
-                                                        <button
-                                                            className="aryousureBTN confirmBtnR"
-                                                            onClick={() => firstNext()}
-                                                        >
+                                                <Grid container spacing={6} container justify={"center"}>
+                                                    <Grid item xs={12} sm={6} container justify={"center"}>
+                                                        <Button className="btn-submit-non-afb"
+                                                            onClick={(event) => {
+                                                                firstNext();
+                                                            }}
+                                                            style={{
+                                                                borderRadius: 20, width: '135px',
+                                                                backgroundColor: 'red', borderBlockColor: 'white',
+                                                                color: 'white'
+                                                            }} >
                                                             Next
-                                                        </button>
-                                                    </div>
-
-                                                </div>
+                                                        </Button>
+                                                    </Grid>
+                                                </Grid>
 
                                             </div>
                                         </>
@@ -486,12 +633,12 @@ function WalletTransfer() {
                                                     <Typography variant="h6"> From Wallet Account </Typography>
                                                     <TextField
                                                         type="text"
-                                                        // value={amount}
+                                                        value={fromWallet}
                                                         required
                                                         name="fromaccount"
                                                         fullWidth
                                                         placeholder="From Wallet Account"
-                                                    // onChange={(e) => setAmount(e.target.value)}
+                                                        onChange={(e) => setFromWallet(e.target.value)}
 
                                                     />
                                                 </Grid>
@@ -500,12 +647,12 @@ function WalletTransfer() {
                                                     <Typography variant="h6"> To Wallet Account </Typography>
                                                     <TextField
                                                         type="text"
-                                                        // value={amount}
+                                                        value={toWallet}
                                                         required
                                                         name="fromaccount"
                                                         fullWidth
                                                         placeholder="To Wallet Account"
-                                                    // onChange={(e) => setAmount(e.target.value)}
+                                                        onChange={(e) => setToWallet(e.target.value)}
 
                                                     />
                                                 </Grid>
@@ -522,50 +669,6 @@ function WalletTransfer() {
 
                                                     />
                                                 </Grid>
-                                                {/* <Grid item xs={12} sm={10}>
-                                                    <Typography variant="h6"> Bank Code </Typography>
-                                                    <TextField
-                                                        type="text"
-                                                        required
-                                                        name="fromaccount"
-                                                        fullWidth
-                                                        placeholder="Bank Code"
-
-                                                    />
-                                                </Grid>
-                                                <Grid item xs={12} sm={10}>
-                                                    <Typography variant="h6"> Branch Code </Typography>
-                                                    <TextField
-                                                        type="text"
-                                                        required
-                                                        name="fromaccount"
-                                                        fullWidth
-                                                        placeholder="Branch Code"
-
-                                                    />
-                                                </Grid>
-                                                <Grid item xs={12} sm={10}>
-                                                    <Typography variant="h6"> Account Number </Typography>
-                                                    <TextField
-                                                        type="text"
-                                                        required
-                                                        name="fromaccount"
-                                                        fullWidth
-                                                        placeholder="Account Number"
-
-                                                    />
-                                                </Grid>
-                                                <Grid item xs={12} sm={10}>
-                                                    <Typography variant="h6"> Key </Typography>
-                                                    <TextField
-                                                        type="text"
-                                                        required
-                                                        name="fromaccount"
-                                                        fullWidth
-                                                        placeholder="Key"
-
-                                                    />
-                                                </Grid> */}
                                                 <Grid item xs={12} sm={10}>
                                                     <Typography variant="h6"> Currency </Typography>
                                                     <TextField
@@ -608,16 +711,82 @@ function WalletTransfer() {
                                                 </Grid>
                                                 <Grid item xs={12} sm={6} container justify={"flex-end"}>
                                                     <Button className="btn-submit-non-afb"
-                                                        onClick={(event) => handleListItemClick(event, 2)}
+                                                        onClick={(event) => {
+                                                            walletToWalletSecondNext();
+                                                        }}
                                                         style={{
                                                             borderRadius: 20, width: '135px',
                                                             backgroundColor: 'red', borderBlockColor: 'white',
                                                             color: 'white'
                                                         }} >
-                                                        Submit
+                                                        Next
                                                     </Button>
                                                 </Grid>
                                             </Grid>
+                                        </>
+                                    )}
+
+                                    {step === 2 && (
+                                        <>
+                                            <div className="containerBiaN_form" style={{ width: "100%" }}>
+                                                <div className="containerBiaN_f_row">
+                                                    <div className="containerBiaN_f_col width30percent textAlignRight">
+                                                        <label>Enter OTP <span className="mantdat">*</span></label>
+                                                    </div>
+                                                    <div className="containerBiaN_f_col width70percent">
+                                                        <OtpInput
+                                                            value={otp}
+                                                            shouldAutoFocus={true}
+                                                            onChange={(value) => setOtp(value)}
+                                                            numInputs={6}
+                                                            seperator={<span></span>}
+                                                            isInputNum={true}
+                                                            inputStyle={{
+                                                                width: "60px",
+                                                                marginRight: "10px",
+                                                                marginLeft: "10px",
+                                                                fontWeight: '600',
+                                                                fontSize: '16px',
+                                                                lineHeight: '20px',
+                                                                padding: '15px 20px',
+                                                                borderRadius: '5px',
+                                                                border: '1px solid transparent',
+                                                                color: '#00000',
+                                                                background: '#F2F2F2',
+                                                                display: 'inline-block',
+                                                                boxShadow: "0px 8px 8px rgba(37, 51, 66, 0.15)"
+                                                            }}
+                                                        />
+                                                    </div>
+
+                                                </div>
+
+                                                <div className="containerBiaN_f_row" style={{ marginBottom: "3%" }}>
+                                                    <div className="containerBiaN_f_col width30percent textAlignRight">
+                                                    </div>
+                                                    <div className="containerBiaN_f_col width70percent" style={{ padding: '0px 0px 0px 20px' }}>
+                                                        <div style={{ display: 'flex' }}>
+                                                            {otpTimer !== 0 ? <p>Resend OTP in {otpTimer}</p> : <p>Didn't receive OTP? <span onClick={() => resendCustomerOtp()} style={{ color: 'rgb(191 21 21)', cursor: 'pointer', textDecoration: 'underline' }}>Resend</span></p>}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <Grid container spacing={6} container justify={"center"}>
+                                                    <Grid item xs={12} sm={6} container justify={"center"}>
+                                                        <Button className="btn-submit-non-afb"
+                                                            onClick={(event) => {
+                                                                finalSubmit();
+                                                            }}
+                                                            style={{
+                                                                borderRadius: 20, width: '135px',
+                                                                backgroundColor: 'red', borderBlockColor: 'white',
+                                                                color: 'white'
+                                                            }} >
+                                                            Submit
+                                                        </Button>
+                                                    </Grid>
+                                                </Grid>
+                                            </div>
                                         </>
                                     )}
                                 </div>

@@ -89,14 +89,14 @@ export const Side_bar_data = [
   },
   {
     title: "Banking Operation",
-    path: "/admin/banking/transfer",
+    path: "/admin/bankingOperation",
     id: 9,
     iconClass: "icon-Asset-4",
     subMenu: [
-      {
-        title: "Transfer",
-        path: "/admin/banking/transfer",
-      },
+      // {
+      //   title: "Transfer",
+      //   path: "/admin/banking/transfer",
+      // },
       {
         title: "Cash Deposit To Bank",
         path: "/agent/cash_deposit/bank",
@@ -121,22 +121,22 @@ export const Side_bar_data = [
       //   title: "Cash Withdrawal From Bank",
       //   path: "/admin/banking/cash_withdrawal_bank",
       // },
-      {
-        title: "Service Payments",
-        path: "/admin/banking/service_payments",
-      },
+      // {
+      //   title: "Service Payments",
+      //   path: "/admin/banking/service_payments",
+      // },
     ],
   },
   {
     title: "Wallet Operation",
-    path: "/Agent/walletOperation/transfert",
+    path: "/agent/walletOperation",
     id: 10,
     iconClass: "icon-Asset-3",
     subMenu: [
-      {
-        title: "Transfert",
-        path: "/Agent/walletOperation/transfert",
-      },
+      // {
+      //   title: "Transfer",
+      //   path: "/Agent/walletOperation/transfert",
+      // },
       {
         title: "Cash Deposit To Wallet",
         path: "/agent/cash_deposit/wallet",
@@ -153,10 +153,10 @@ export const Side_bar_data = [
         title: "Account Statement",
         path: "/Agent/walletOperation/AccountStatement",
       },
-      {
-        title: "Service Payment",
-        path: "/Agent/walletOperation/ServicePayment",
-      },
+      // {
+      //   title: "Service Payment",
+      //   path: "/Agent/walletOperation/ServicePayment",
+      // },
     ],
   },
   // {
@@ -255,12 +255,12 @@ export const Side_bar_data = [
   //     path:"/Analytics",
   //     iconClass:"icon-Asset-29"
   // },
-  {
-    title: "Access History",
-    path: "/agent/access-history",
-    id: 17,
-    iconClass: "icon-Asset-25",
-  },
+  // {
+  //   title: "Access History",
+  //   path: "/agent/access-history",
+  //   id: 17,
+  //   iconClass: "icon-Asset-25",
+  // },
   {
     title: "KYC",
     path: "/agent/kyc",
