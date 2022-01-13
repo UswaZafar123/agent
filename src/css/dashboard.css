@@ -551,7 +551,7 @@ table.dashTable.dashTable01 td{
 }
 
 
-.recentTrans_w::-webkit-scrollbar {
+/* .recentTrans_w::-webkit-scrollbar {
     width: 4px;
     height: 4px;
   }
@@ -563,7 +563,7 @@ table.dashTable.dashTable01 td{
   .recentTrans_w::-webkit-scrollbar-thumb {
     background-color: #2688FA;
     outline: 1px solid #2688FA;
-  }
+  } */
 .lineCircleSty{
     background-color: red;
     width: 22px;

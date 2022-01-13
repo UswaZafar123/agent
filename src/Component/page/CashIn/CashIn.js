@@ -44,7 +44,7 @@ TabContainer.propTypes = {
 const useStyles = (theme) => ({
   root: {
     flexGrow: 1,
-    width: "60%",
+    width: "100%",
     margin: "auto",
   },
 });
@@ -483,7 +483,7 @@ const CashIn = () => {
                 <div className="chartCardMiddle" style={{ padding: "24px" }}>
                   <div
                     className={classes.root}
-                    style={{ width: "60%", margin: "auto" }}
+                    style={{ width: "100%", margin: "auto" }}
                   >
                     {step === 1 && (
                       <AppBar
