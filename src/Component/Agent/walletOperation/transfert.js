@@ -176,8 +176,7 @@ function WalletTransfer() {
         };
 
         dispatch(verifyCustomer(sessionStorage.getItem("token"), requestObj));
-
-];
+    }
 
     const walletToAccountSecondNext = () => {
         sendCustomerOTP();
