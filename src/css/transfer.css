@@ -80,7 +80,7 @@
     background: #343A40;
     overflow: auto;
 }
-.navigation::-webkit-scrollbar {
+/* .navigation::-webkit-scrollbar {
     width: 2px;
 }
 
@@ -92,7 +92,7 @@
     background-color: #FF4F4F;
     outline: 1px solid #FF4F4F;
 
-}
+} */
 .nav_inner2 ul{
     margin: 0;
     margin: 0
@@ -203,28 +203,28 @@
     overflow-y: scroll;
 }
 
-::-webkit-scrollbar {
+/* ::-webkit-scrollbar {
     width: 3px;
 
-}
+} */
 
 /* Track */
-::-webkit-scrollbar-track {
+/* ::-webkit-scrollbar-track {
     box-shadow: inset 0 0 5px black;
     border-radius: 10px;
-}
+} */
 
 /* Handle */
-::-webkit-scrollbar-thumb {
+/* ::-webkit-scrollbar-thumb {
     background: #FF4F4F;
     border-radius: 10px;
 
-}
+} */
 
 /* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
+/* ::-webkit-scrollbar-thumb:hover {
     background: #FF4F4F;
-}
+} */
 
 .subNav li {
     border-bottom: 1px solid #dde1e3;

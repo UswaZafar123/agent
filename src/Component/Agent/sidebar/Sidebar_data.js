@@ -21,7 +21,6 @@ export const Side_bar_data = [
   //   id: 3,
   //   subMenu: [
 
-
   //   ],
   // },
   {
@@ -40,25 +39,25 @@ export const Side_bar_data = [
       },
     ],
   },
-  {
-    title: "Send / Request Money",
-    path: "/agent/send-request-money",
-    iconClass: "icon-Asset-47",
-    id: 21,
-    subMenu: [
-      {
-        title: "Cash In",
-        path: "/agent/cash_in",
-      },
-      {
-        title: "Cash out",
-        path: "/agent/cash_out",
-      },
-    ],
-  },
+  // {
+  //   title: "Send / Request Money",
+  //   path: "/agent/send-request-money",
+  //   iconClass: "icon-Asset-47",
+  //   id: 21,
+  //   subMenu: [
+  //     {
+  //       title: "Cash In",
+  //       path: "/agent/cash_in",
+  //     },
+  //     {
+  //       title: "Cash out",
+  //       path: "/agent/cash_out",
+  //     },
+  //   ],
+  // },
   {
     title: "Send Money",
-    path: "/agent/sendmoney",
+    path: "/agent/send-money",
     iconClass: "icon-Asset-47",
     id: 5,
     subMenu: [
@@ -74,7 +73,7 @@ export const Side_bar_data = [
   },
   {
     title: "Account Opening",
-    path: "/admin/agents",
+    path: "/agent/walletAccountOpening",
     iconClass: "icon-Asset-2",
     id: 8,
     subMenu: [
@@ -83,7 +82,7 @@ export const Side_bar_data = [
         path: "/agent/walletAccountOpening",
       },
       {
-        title: "Banking Account Opening",
+        title: "Bank Account Opening",
         path: "/agent/BankingAccountOpening",
       },
     ],
@@ -114,14 +113,14 @@ export const Side_bar_data = [
         title: "Account Statement",
         path: "/admin/banking/account_statement",
       },
-      {
-        title: "Cash Deposit In Bank",
-        path: "/admin/banking/cash_deposit_bank",
-      },
-      {
-        title: "Cash Withdrawal From Bank",
-        path: "/admin/banking/cash_withdrawal_bank",
-      },
+      // {
+      //   title: "Cash Deposit In Bank",
+      //   path: "/admin/banking/cash_deposit_bank",
+      // },
+      // {
+      //   title: "Cash Withdrawal From Bank",
+      //   path: "/admin/banking/cash_withdrawal_bank",
+      // },
       {
         title: "Service Payments",
         path: "/admin/banking/service_payments",
@@ -130,7 +129,7 @@ export const Side_bar_data = [
   },
   {
     title: "Wallet Operation",
-    path: "/Agent/walletOperation/",
+    path: "/Agent/walletOperation/transfert",
     id: 10,
     iconClass: "icon-Asset-3",
     subMenu: [

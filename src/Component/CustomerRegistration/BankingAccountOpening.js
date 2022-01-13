@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { useState } from "react";
 import "../../css/dashboard.css";
 import "../../css/merchant_management.css";
 import "../../css/ag-grid-customization01.css";
@@ -8,29 +7,17 @@ import "../Agent/antDcustom.css";
 import "../../css/customer_registration.css";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
-import Button from "@material-ui/core/Button";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
 import Grid from "@material-ui/core/Grid";
 import moment from "moment";
-import {
-  Card,
-  CardBody,
-  CardHeader,
-  Col,
-  Row,
-  Table,
-  Form,
-  FormGroup,
-  FormText,
-  Input,
-  Label,
-} from "reactstrap";
-import { Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import { Select, DatePicker } from "antd";
+import { Input } from "reactstrap";
+import { Select, DatePicker, Upload, Modal } from "antd";
 
 import { connect } from "react-redux";
 
+import { bankAccountOpeningAction } from "../../../src/services/agent/action";
+import actionType from "../../services/agent/actionType.js";
+
+var africanCountries = require("../../Assets/data/african_countries.json");
 const { Option } = Select;
 
 class BankingAccountOpening extends Component {
@@ -38,32 +25,190 @@ class BankingAccountOpening extends Component {
     super(props);
 
     this.state = {
-      bankCustomerId: "",
       firstName: "",
       lastName: "",
-      dateOfBirth: new Date(),
       email: "",
+      dateOfBirth: new Date(),
+      countryCode: africanCountries[0].dial_code,
       mobileNumber: "",
-      address1: "",
-      address2: "",
+      selfiePhoto: null,
+      selfiePhotoImage: [],
+
+      idDocumentType: "ID_CARD",
+      idDocumentNumber: "",
+      idDocumentExpiryDate: new Date(),
+
+      address: "",
       city: "",
-      state: "",
-      country: "",
-      zipCode: "",
-      longitude: "",
-      latitude: "",
-      identification: "",
       uin: "",
-      expiryDate: new Date(),
-      modal: false,
-      number: "",
+
+      selfiePreviewVisible: false,
+      previewSelfieImage: "",
+
+      IdDocumentsFiles: [],
+      IdDocumentsFilesImages: [],
+
+      documentPreviewVisible: false,
+      previewDocumentImage: "",
     };
   }
-  componentDidMount() {}
-  componentWillReceiveProps(nextprops) {}
+  componentDidMount() {
+    this.props.resetSendState();
+  }
+  componentWillReceiveProps(nextprops) {
+    if (nextprops.bankAccountOpening.success) {
+      // window.location.reload(false);
+      this.resetForm();
+    }
+  }
+
+  handleSelfiePreviewCancel = () =>
+    this.setState({ selfiePreviewVisible: false });
+
+  handleSelfiePreview = (file) => {
+    this.setState({
+      previewSelfieImage: file.thumbUrl,
+      selfiePreviewVisible: true,
+    });
+  };
+
+  handleSelfieUpload = ({ fileList }) => {
+    this.setState({
+      selfiePhoto: fileList[0] ? fileList[0].originFileObj : null,
+      selfiePhotoImage: fileList,
+    });
+  };
+
+  handleDocumentPreviewCancel = () =>
+    this.setState({ documentPreviewVisible: false });
+
+  handleDocumentPreview = (file) => {
+    this.setState({
+      previewDocumentImage: file.thumbUrl,
+      documentPreviewVisible: true,
+    });
+  };
+
+  handleDocumentUpload = ({ fileList }) => {
+    if (fileList) {
+      var filesObj = [];
+      for (var i = 0; i < fileList.length; i++) {
+        filesObj.push(fileList[i].originFileObj);
+      }
+      this.setState({
+        IdDocumentsFiles: fileList[0] ? fileList[0].originFileObj : null,
+        IdDocumentsFilesImages: fileList,
+      });
+    }
+  };
+
+  isFormValid = () => {
+    return (
+      this.state.firstName &&
+      this.state.lastName &&
+      this.state.email &&
+      this.state.countryCode &&
+      this.state.phoneNumber &&
+      this.state.dateOfBirth &&
+      this.state.idDocumentType &&
+      this.state.idDocumentNumber &&
+      this.state.idDocumentExpiryDate &&
+      this.state.city &&
+      this.state.address &&
+      this.state.selfiePhoto &&
+      this.state.IdDocumentsFiles &&
+      !this.props.bankAccountOpening.loading
+    );
+  };
+
+  handleFormSubmit = () => {
+    const {
+      firstName,
+      lastName,
+      email,
+      countryCode,
+      phoneNumber,
+      dateOfBirth,
+      selfiePhoto,
+      idDocumentType,
+      idDocumentNumber,
+      idDocumentExpiryDate,
+      IdDocumentsFiles,
+      city,
+      address,
+    } = this.state;
+    const selectedCountry = africanCountries.find(
+      (country) => country.dial_code === countryCode
+    );
+    let formData = new FormData();
+
+    formData.append("firstName", firstName);
+    formData.append("lastName", lastName);
+    formData.append("emailAddress", email);
+    formData.append("phoneNumberCountryCode", countryCode);
+    formData.append("phoneNumber", phoneNumber);
+    formData.append("dateOfBirth", dateOfBirth);
+    formData.append("selfiePhoto", selfiePhoto);
+    // formData.append("idDocumentType", idDocumentType);
+    formData.append("idDocumentType", "ID_DOCUMENT");
+    formData.append("idDocumentNumber", idDocumentNumber);
+    formData.append("idDocumentExpiryDate", idDocumentExpiryDate);
+    formData.append("identityDocuments", IdDocumentsFiles);
+    formData.append("address", address);
+    formData.append("cityOfResidence", city);
+    formData.append("uin", "12345");
+    formData.append("tcAccepted", true);
+    formData.append("countryCode", selectedCountry.code);
+    formData.append("currencyCode", "xaf");
+    formData.append("locale", "en");
+    formData.append("agentBankerPhoneNumber", this.props.profile.data.phoneNo);
+    this.props.sendBankAccountOpening(formData);
+  };
+
+  resetForm = () => {
+    this.setState({
+      firstName: "",
+      lastName: "",
+      email: "",
+      dateOfBirth: new Date(),
+      countryCode: africanCountries[0].dial_code,
+      mobileNumber: "",
+      selfiePhoto: null,
+      selfiePhotoImage: [],
+
+      idDocumentType: "ID_CARD",
+      idDocumentNumber: "",
+      idDocumentExpiryDate: new Date(),
+
+      address: "",
+      city: "",
+      uin: "",
+
+      selfiePreviewVisible: false,
+      previewSelfieImage: "",
+
+      IdDocumentsFiles: [],
+      IdDocumentsFilesImages: [],
+
+      documentPreviewVisible: false,
+      previewDocumentImage: "",
+    });
+    this.props.resetSendState();
+  };
 
   render() {
-    // console.log("jai",this.state.paginationGetCurrentPage)
+    const {
+      selfiePreviewVisible,
+      previewSelfieImage,
+      documentPreviewVisible,
+      previewDocumentImage,
+    } = this.state;
+    const uploadButton = (
+      <div>
+        {/* <Icon type="plus" /> */}
+        <div className="ant-upload-text">Upload</div>
+      </div>
+    );
     return (
       <div className="main_contain">
         <div className="merch_m_list_w">
@@ -87,23 +232,6 @@ class BankingAccountOpening extends Component {
                   </div>
                   <div className=" chartCardMiddle" style={{ padding: "24px" }}>
                     <Grid container spacing={3}>
-                      <Grid item xs={12} sm={6}>
-                        <label className="non-afb-label">
-                          {" "}
-                          Bank Customer Id{" "}
-                        </label>
-                        <div className="inputFlash">
-                          <Input
-                            placeholder="Enter Bank Customer Id"
-                            name="bankCustomerId"
-                            value={this.state.bankCustomerId}
-                            type="number"
-                            onChange={(e) => {
-                              this.setState({ bankCustomerId: e.target.value });
-                            }}
-                          ></Input>
-                        </div>
-                      </Grid>
                       <Grid item xs={12} sm={6}>
                         <label className="non-afb-label"> First Name </label>
                         <div className="inputFlash">
@@ -147,15 +275,53 @@ class BankingAccountOpening extends Component {
                         </div>
                       </Grid>
                       <Grid item xs={12} sm={6}>
+                        <label className="non-afb-label">Country Code</label>
+                        <div className="inputFlash">
+                          <div className="categorySelect">
+                            <Select
+                              style={{ width: 100 + "%", height: 52 }}
+                              // defaultValue={africanCountries[0].dial_code}
+                              value={this.state.countryCode}
+                              onChange={(value) => {
+                                this.setState({ countryCode: value });
+                              }}
+                            >
+                              {africanCountries.map((country) => {
+                                return (
+                                  <Option value={country.dial_code}>
+                                    <div>
+                                      <span
+                                        role="img"
+                                        aria-label="country-flag"
+                                      >
+                                        <img
+                                          style={{
+                                            height: "20px",
+                                            width: "20px",
+                                            marginRight: "8px",
+                                          }}
+                                          src={`data:image/png;base64,${country.flag}`}
+                                        />
+                                      </span>
+                                      {`${country.name} (${country.dial_code})`}
+                                    </div>
+                                  </Option>
+                                );
+                              })}
+                            </Select>
+                          </div>
+                        </div>
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
                         <label className="non-afb-label">Mobile Number </label>
                         <div className="inputFlash">
                           <Input
                             type="text"
                             placeholder="Mobile no"
                             name="mobileNumber"
-                            value={this.state.mobileNumber}
+                            value={this.state.phoneNumber}
                             onChange={(e) => {
-                              this.setState({ mobileNumber: e.target.value });
+                              this.setState({ phoneNumber: e.target.value });
                             }}
                           ></Input>
                         </div>
@@ -173,12 +339,38 @@ class BankingAccountOpening extends Component {
                           />
                         </div>
                       </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <label className="non-afb-label">
-                          Customer Picture
-                        </label>
+                      <Grid
+                        item
+                        xs={12}
+                        sm={6}
+                        style={{ marginBottom: "50px" }}
+                      >
+                        <label className="non-afb-label">Picture(Selfie)</label>
                         <div className="inputFlash">
-                          <Input type="file" name="addressProof"></Input>
+                          <Upload
+                            listType="picture-card"
+                            multiple={false}
+                            fileList={this.state.selfiePhotoImage}
+                            onPreview={this.handleSelfiePreview}
+                            onChange={this.handleSelfieUpload}
+                            beforeUpload={() => false}
+                            maxCount={1}
+                          >
+                            {this.state.selfiePhotoImage.length < 1 &&
+                              "+ Upload"}
+                          </Upload>
+
+                          <Modal
+                            visible={selfiePreviewVisible}
+                            footer={null}
+                            onCancel={this.handleSelfiePreviewCancel}
+                          >
+                            <img
+                              alt="example"
+                              style={{ width: "100%" }}
+                              src={previewSelfieImage}
+                            />
+                          </Modal>
                         </div>
                       </Grid>
                       <Grid item xs={12} sm={6}>
@@ -188,6 +380,10 @@ class BankingAccountOpening extends Component {
                             <Select
                               style={{ width: 100 + "%", height: 52 }}
                               defaultValue="ID_CARD"
+                              value={this.state.idDocumentType}
+                              onChange={(value) => {
+                                this.setState({ idDocumentType: value });
+                              }}
                             >
                               <Option value="ID_CARD">ID CARD</Option>
                               <Option value="PASSPORT">Passport</Option>
@@ -202,7 +398,12 @@ class BankingAccountOpening extends Component {
                             type="text"
                             placeholder="Number"
                             name="number"
-                            value={this.state.uin}
+                            value={this.state.idDocumentNumber}
+                            onChange={(e) => {
+                              this.setState({
+                                idDocumentNumber: e.target.value,
+                              });
+                            }}
                           ></Input>
                         </div>
                       </Grid>
@@ -219,25 +420,53 @@ class BankingAccountOpening extends Component {
                                 current < moment(customDate, "YYYY-MM-DD")
                               );
                             }}
+                            value={moment(this.state.idDocumentExpiryDate)}
                             style={{ width: "100%", background: "#f3f3f3" }}
+                            onChange={(date, dateString) => {
+                              this.setState({
+                                idDocumentExpiryDate: dateString,
+                              });
+                            }}
                           />
                         </div>
                       </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <label className="non-afb-label">Address </label>
+
+                      <Grid
+                        item
+                        xs={12}
+                        sm={6}
+                        style={{ marginBottom: "50px" }}
+                      >
+                        <label className="non-afb-label">
+                          Upload document files(MAX: 2)
+                        </label>
                         <div className="inputFlash">
-                          <Input
-                            type="text"
-                            placeholder="Address 1"
-                            name="address1"
-                            value={this.state.address1}
-                            onChange={(e) => {
-                              this.setState({ address1: e.target.value });
-                            }}
-                          ></Input>
+                          <Upload
+                            listType="picture-card"
+                            multiple={true}
+                            fileList={this.state.IdDocumentsFilesImages}
+                            onPreview={this.handleDocumentPreview}
+                            onChange={this.handleDocumentUpload}
+                            beforeUpload={() => false}
+                            maxCount={2}
+                          >
+                            {this.state.IdDocumentsFilesImages.length < 2 &&
+                              "+ Upload"}
+                          </Upload>
+
+                          <Modal
+                            visible={documentPreviewVisible}
+                            footer={null}
+                            onCancel={this.handleDocumentPreviewCancel}
+                          >
+                            <img
+                              alt="example"
+                              style={{ width: "100%" }}
+                              src={previewDocumentImage}
+                            />
+                          </Modal>
                         </div>
                       </Grid>
-
                       <Grid item xs={12} sm={6}>
                         <label className="non-afb-label">City </label>
                         <div className="inputFlash">
@@ -252,129 +481,22 @@ class BankingAccountOpening extends Component {
                           ></Input>
                         </div>
                       </Grid>
-
                       <Grid item xs={12} sm={6}>
-                        <label className="non-afb-label">State </label>
+                        <label className="non-afb-label">Address </label>
                         <div className="inputFlash">
                           <Input
                             type="text"
-                            placeholder="state"
-                            name="state"
-                            value={this.state.state}
+                            placeholder="Address"
+                            name="address"
+                            value={this.state.address}
                             onChange={(e) => {
-                              this.setState({ state: e.target.value });
-                            }}
-                          ></Input>
-                        </div>
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <label className="non-afb-label">Country </label>
-                        <div className="inputFlash">
-                          <Input
-                            type="text"
-                            placeholder="country"
-                            name="country"
-                            value={this.state.country}
-                            onChange={(e) => {
-                              this.setState({ country: e.target.value });
-                            }}
-                          ></Input>
-                        </div>
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <label className="non-afb-label">Zip Code </label>
-                        <div className="inputFlash">
-                          <Input
-                            type="text"
-                            placeholder="zip code"
-                            name="zipCode"
-                            value={this.state.zipCode}
-                            onChange={(e) => {
-                              this.setState({ zipCode: e.target.value });
+                              this.setState({ address: e.target.value });
                             }}
                           ></Input>
                         </div>
                       </Grid>
 
-                      <Grid item xs={12} sm={6}>
-                        <label className="non-afb-label">Identification </label>
-                        <div className="inputFlash">
-                          <Input
-                            type="text"
-                            placeholder="Enterprise"
-                            name="identification"
-                            value={this.state.identification}
-                          ></Input>
-                        </div>
-                      </Grid>
-
-                      <Grid item xs={12} sm={6}>
-                        <label className="non-afb-label">UIN</label>
-                        <div className="inputFlash">
-                          <Input
-                            type="text"
-                            name="uin"
-                            value={this.state.uin}
-                          ></Input>
-                        </div>
-                      </Grid>
-
-                      <Grid item xs={12} sm={6}>
-                        <label> </label>
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <label> </label>
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <label> </label>
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <label> </label>
-                      </Grid>
-
-                      <Grid item xs={12} sm={6}>
-                        <label className="non-afb-label">Address Proof</label>
-                        <div className="inputFlash">
-                          <Input type="file" name="addressProof"></Input>
-                        </div>
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <label className="non-afb-label">
-                          Identification Document
-                        </label>
-                        <div className="inputFlash">
-                          <Input
-                            type="file"
-                            name="identificationDocument"
-                          ></Input>
-                        </div>
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <label> </label>
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <button className="btn_1_view_proof_banking_opening">
-                          {" "}
-                          View Proof
-                        </button>
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <button className="btn_1_view_proof_banking_opening">
-                          {" "}
-                          View Proof
-                        </button>
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <label> </label>
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <label> </label>
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <label> </label>
-                      </Grid>
-
-                      <Grid item xs={12}>
+                      {/* <Grid item xs={12}>
                         <FormControlLabel
                           control={
                             <Checkbox
@@ -385,21 +507,23 @@ class BankingAccountOpening extends Component {
                           }
                           label="I AGREE TO I AGREE TO THE TERMs & CONDITIONS AND PRIVACY POLICY OF SARA BANKING  "
                         ></FormControlLabel>
-                      </Grid>
-
-                      <Grid item xs={12} sm={6}>
-                        <button className="btn-cancel-non-afb"> Cancel</button>
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <button
-                          className="btn-submit-non-afb "
-                          onClick={() => this.showModal()}
-                        >
-                          {" "}
-                          Submit
-                        </button>
-                      </Grid>
+                      </Grid> */}
                     </Grid>
+                  </div>
+                  <div style={{ width: "100%" }}>
+                    <div
+                      className="confirm_p_w button-container rspacing"
+                      style={{ justifyContent: "flex-end" }}
+                    >
+                      <button
+                        className="aryousureBTN confirmBtnR"
+                        style={{ opacity: this.isFormValid() ? "1" : "0.5" }}
+                        disabled={this.isFormValid() ? false : true}
+                        onClick={() => this.handleFormSubmit()}
+                      >
+                        Submit
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -411,9 +535,25 @@ class BankingAccountOpening extends Component {
   }
 }
 
-const mapStateToProps = ({ merchantReducer }) => {};
+const mapStateToProps = ({ agentReducer }) => {
+  const { profile, bankAccountOpening, customerStatementInquiry } =
+    agentReducer;
 
-const mapDispatchToProps = (dispatch) => {};
+  return {
+    profile,
+    bankAccountOpening,
+    customerStatementInquiry,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    sendBankAccountOpening: (payload) =>
+      dispatch(bankAccountOpeningAction(payload)),
+    resetSendState: () =>
+      dispatch({ type: actionType.BANK_ACCOUNT_OPENING_RESET }),
+  };
+};
 
 export default connect(
   mapStateToProps,

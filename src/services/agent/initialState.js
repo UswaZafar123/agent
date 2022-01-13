@@ -125,6 +125,34 @@ const statementInquiryState = {
   error: false,
 };
 
+const bankAccountOpeningState = {
+  loading: false,
+  success: false,
+  error: false,
+};
+
+const walletAccountOpeningState = {
+  loading: false,
+  success: false,
+  error: false,
+};
+
+const walletAccountOpeningResendPinState = {
+  loading: false,
+  success: false,
+  error: false,
+};
+const walletAccountOpeningVerifyPinState = {
+  loading: false,
+  success: false,
+  error: false,
+};
+const walletAccountOpeningSetPasswordState = {
+  loading: false,
+  success: false,
+  error: false,
+};
+
 const initialState = {
   agentLoginstatus: false,
   linkingStatus: false,
@@ -236,10 +264,15 @@ const initialState = {
 
   addAgentUserStatus: false,
   addAgentUserData: null,
-  getAgentDataStatus : false,
-  getAgentData : null,
-  deleteAgentUserStatus : false,
-  updateAgentUserStatus : false,
+  getAgentDataStatus: false,
+  getAgentData: null,
+  deleteAgentUserStatus: false,
+  updateAgentUserStatus: false,
   updateAgentUserData: null,
+  bankAccountOpening: bankAccountOpeningState,
+  walletAccountOpening: walletAccountOpeningState,
+  walletAccountOpeningResendPin: walletAccountOpeningResendPinState,
+  walletAccountOpeningVerifyPin: walletAccountOpeningVerifyPinState,
+  walletAccountOpeningSetPassword: walletAccountOpeningSetPasswordState,
 };
 export default initialState;
