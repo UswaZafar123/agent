@@ -1723,7 +1723,12 @@ const agentReducer = (state = initialState, action) => {
     case actionType.GET_AGENT_MEMBER_LIST_FAILURE:
       return {
         ...state,
-        getAllAgentMemberList: null
+        getAllAgentMemberList: null,
+      };
+    case actionType.GETAGENTS:
+      return {
+        ...state,
+        getAllAgentMemberList: null,
       };
     default:
       return state;

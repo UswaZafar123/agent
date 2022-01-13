@@ -1860,7 +1860,7 @@ export const updateAgentUser = (id, payload) => (dispatch) => {
     });
 };
 
-export const getAllAgentMemberList = () => (dispatch) => {
+export const getAllAgentMemberLists = () => (dispatch) => {
   dispatch(ShowLoading());
   const config = {
     method: "GET",
