@@ -261,10 +261,11 @@ class AgentMember extends Component {
 
         let formData = new FormData();
         formData.append("firstName", this.state.firstName)
-        formData.append("lastName", this.state.firstName)
+        formData.append("lastName", this.state.lastName)
         formData.append("registrationChannel", "AGENCY_BANKING_APP")
         formData.append("registrationSubChannel", "AGENCY_BANKING_APP")
         formData.append("busincessType", this.state.businessType)
+        formData.append("agentEmailAddress", this.state.email);
         var phoneNumberSplit = this.state.phoneNumber.split(" ");
 
         formData.append("countryCode", this.state.countryCode);
@@ -277,7 +278,7 @@ class AgentMember extends Component {
 
         formData.append("phoneNo", phoneNumberSplit.join(""));
 
-        formData.append("countryCode", this.state.countrycode)
+        formData.append("countryCode", this.state.countryCode)
         formData.append("locale", "en")
         formData.append("mobileOperator", "UNINOR")
         formData.append("idDocumentName", this.state.idName)
@@ -325,12 +326,14 @@ class AgentMember extends Component {
             })
         }
 
-        if (nextprops.packagesStatus && nextprops.packagesDetails._embedded) {
-            this.setState({
-                agentPackagesData: nextprops.packagesDetails._embedded.agentPackageDtoList
-            }, () => {
-                console.log(this.state.agentPackagesData, "AGENT PACKAGES DATA")
-            });
+        if (nextprops.packagesStatus && nextprops.packagesDetails) {
+            if (nextprops.packagesDetails._embedded) {
+                this.setState({
+                    agentPackagesData: nextprops.packagesDetails._embedded.agentPackageDtoList
+                }, () => {
+                    console.log(this.state.agentPackagesData, "AGENT PACKAGES DATA")
+                });
+            }
         }
     }
 
