@@ -323,6 +323,7 @@ const configUrl = {
 
     COMMISSION: `${AgentApi}api-internal/commissions`,
     AGENT_USER: `${AgentApi}api-internal/agentUsers`,
+    GET_ALL_AGENT_MEMBER_LIST : `${AgentApi}api-internal/backoffice/getAgentMemberList`,
   },
 };
 

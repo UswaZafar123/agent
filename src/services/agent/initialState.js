@@ -274,5 +274,7 @@ const initialState = {
   walletAccountOpeningResendPin: walletAccountOpeningResendPinState,
   walletAccountOpeningVerifyPin: walletAccountOpeningVerifyPinState,
   walletAccountOpeningSetPassword: walletAccountOpeningSetPasswordState,
+
+  getAllAgentMemberList: null,
 };
 export default initialState;
