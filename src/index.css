@@ -1065,6 +1065,7 @@ ul.pDropDown_W li a:hover {
   }
   .addRicketP.responsive_p label.formColLabel.formCladdT {
     margin-left: 0px !important;
+    text-align: left !important;
   }
   .kyc_parent_m .kyccustomformheading .list_top_heading {
     width: initial;
@@ -3276,10 +3277,9 @@ input[type="file"],
 .subNav{
   left: 140px;
 }
-}
+
 /* MEDIA QUERY NEW*/
 
-@media screen and (max-width: 767px) {
   .p_d_all_24 {
     padding: 12px !important;
   }
@@ -3725,6 +3725,9 @@ input[type="file"],
 /* MEDIA QUERY NEW*/
 
 @media screen and (max-width: 767px) {
+  .subNav{
+    left: 40px !important;
+  }
   .p_d_all_24 {
     padding: 12px !important;
   }
@@ -4100,10 +4103,10 @@ input[type="file"],
 .kyccustomformheading{
   flex-direction: initial;
  }
- .subNav{
-  left: 50px !important;
-}
 
+.main_contain.agentdashboardStyle .customdashboardrow .custom_col.width3{
+  width: 100% !important;
+}
 @media screen and (max-width: 600px) {
   
   .custom_col.width3.wewe{

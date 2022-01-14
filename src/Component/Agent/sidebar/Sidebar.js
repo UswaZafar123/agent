@@ -171,7 +171,7 @@ class Sidebar extends Component {
 
   renderSideBarLoading = () => {
     return (
-      <div className="sideBar">
+      <div className="sideBar SidebarScroll">
         <div className="sidebar_Inner">
           <div className="sideTop">
             <div className="sideTopLogo">
@@ -210,7 +210,7 @@ class Sidebar extends Component {
   renderSideBar = () => {
     return (
       <>
-      <div className="sideBar">
+      <div className="sideBar SidebarScroll">
         <div className="sidebar_Inner">
           <div className="sideTop">
           {this.props.isOpenLeftSide &&  <div className="closemenuBtn" onClick={(e) => this.toggleHandler(false)}><CloseOutlined /></div>}

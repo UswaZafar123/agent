@@ -39,19 +39,19 @@
     overflow: auto;
 }
 
-/* .navigation::-webkit-scrollbar {
+.SidebarScroll .navigation::-webkit-scrollbar {
     width: 2px;
   }
    
-  .navigation::-webkit-scrollbar-track {
+  .SidebarScroll .navigation::-webkit-scrollbar-track {
     box-shadow: inset 0 0 2px #FF4F4F;
   }
    
-  .navigation::-webkit-scrollbar-thumb {
+  .SidebarScroll .navigation::-webkit-scrollbar-thumb {
     background-color: #FF4F4F;
     outline: 1px solid #FF4F4F;
 
-  } */
+  }
 .nav_inner ul{
     margin: 0;
     margin: 0
