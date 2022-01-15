@@ -1859,3 +1859,41 @@ export const updateAgentUser = (id, payload) => (dispatch) => {
       });
     });
 };
+
+export const getAllAgentMemberLists = () => (dispatch) => {
+  dispatch(ShowLoading());
+  const config = {
+    method: "GET",
+    url: URL.agent.GET_ALL_AGENT_MEMBER_LIST,
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+  axios(config)
+    .then((res) => {
+      dispatch(HideLoading());
+      if (res.status === 200) {
+        toastr.success(
+          "Agent Member List Retrieval Successful"
+        );
+        dispatch({
+          type: actionType.GET_AGENT_MEMBER_LIST_SUCCESS,
+          payload: res.data,
+        });
+      } else {
+        toastr.warning(
+          "Agent Member List Retrieval Warning!"
+        );
+        dispatch({
+          type: actionType.GET_AGENT_MEMBER_LIST_FAILURE,
+        });
+      }
+    })
+    .catch((err) => {
+      dispatch(HideLoading());
+      toastr.error("Error Retrieving Agent Member List.");
+      dispatch({
+        type: actionType.GET_AGENT_MEMBER_LIST_FAILURE,
+      });
+    });
+};

@@ -1715,6 +1715,21 @@ const agentReducer = (state = initialState, action) => {
           error: false,
         },
       };
+    case actionType.GET_AGENT_MEMBER_LIST_SUCCESS:
+      return {
+        ...state,
+        getAllAgentMemberList: action.payload,
+      };
+    case actionType.GET_AGENT_MEMBER_LIST_FAILURE:
+      return {
+        ...state,
+        getAllAgentMemberList: null,
+      };
+    case actionType.GETAGENTS:
+      return {
+        ...state,
+        getAllAgentMemberList: null,
+      };
     default:
       return state;
   }

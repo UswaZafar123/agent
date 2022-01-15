@@ -15,11 +15,11 @@ class Sidebar extends Component{
         this.setState({submenu:id})
     }
 
-    toggleSubmenu2 = () => {
-        this.setState(state => ({
-            subMenu2: !state.subMenu2
-          }));
-    }
+    // toggleSubmenu2 = () => {
+    //     this.setState(state => ({
+    //         subMenu2: !state.subMenu2
+    //       }));
+    // }
 
     
 
@@ -52,7 +52,7 @@ render(){
                                                      {
                                                          submenuList.subMenu && this.state.subMenu2 ? 
                                                             <ul className="subNav">
-                                                                <li><h2 className="adminiH subTitleUl" style={{color:"black"}}>General</h2></li>
+                                                                <li><h2 className="adminiH subTitleUl" style={{color:"green"}}>General</h2></li>
                                                                 {
                                                                     submenuList.subMenu.map((sub) => {
                                                                         return (

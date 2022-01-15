@@ -4,7 +4,7 @@ import Logo from "../../../Assets/images/logo.svg";
 import { Side_bar_data } from "./Sidebar_data";
 import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
-import { CloseOutlined } from "@ant-design/icons";
+import { CloseOutlined, PlusCircleOutlined } from "@ant-design/icons";
 import Skeleton from "@material-ui/lab/Skeleton";
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -156,10 +156,11 @@ class Sidebar extends Component {
     this.setState({ submenu: id });
   };
 
-  toggleSubmenu2 = () => {
+  toggleSubmenu2 = (param) => {
     this.setState((state) => ({
-      subMenu2: !state.subMenu2,
+      subMenu2: param,
     }));
+    console.log("paramCheck",param)
   };
 
 
@@ -170,7 +171,7 @@ class Sidebar extends Component {
 
   renderSideBarLoading = () => {
     return (
-      <div className="sideBar">
+      <div className="sideBar SidebarScroll">
         <div className="sidebar_Inner">
           <div className="sideTop">
             <div className="sideTopLogo">
@@ -182,6 +183,7 @@ class Sidebar extends Component {
             <div className="nav_inner">
               <ul>
                 {Side_bar_data.map((item, index) => {
+                  
                   return (
                     <li key={index}>
                       <Skeleton
@@ -208,7 +210,7 @@ class Sidebar extends Component {
   renderSideBar = () => {
     return (
       <>
-      <div className="sideBar">
+      <div className="sideBar SidebarScroll">
         <div className="sidebar_Inner">
           <div className="sideTop">
           {this.props.isOpenLeftSide &&  <div className="closemenuBtn" onClick={(e) => this.toggleHandler(false)}><CloseOutlined /></div>}
@@ -243,21 +245,44 @@ class Sidebar extends Component {
                       {item.subMenu && this.state.submenu === item.id ? (
                         <ul>
                           {item.subMenu.map((submenuList) => {
+                            console.log("checking sub path",submenuList.path)
                             return (
                               <li>
+                                {submenuList.path==="/Settings/General" ?
                                 <NavLink
                                   exact
                                   to={submenuList.path}
                                   onClick={
-                                    submenuList.subMenu && this.toggleSubmenu2
+                                    (e) => this.toggleSubmenu2(true)
+                                  }
+                                >
+                                  <span className="icon-Asset-48 subMDot"></span>{" "}
+                                  {submenuList.title}
+                                  {submenuList.path==="/Settings/General" &&
+                                  <div className="toggleGenralBTN" onClick={(e) => this.toggleSubmenu2(true)}><PlusCircleOutlined /></div>
+                                }
+                                </NavLink>
+                              : 
+                              <NavLink
+                                  exact
+                                  to={submenuList.path}
+                                  onClick={
+                                    (e) => this.toggleSubmenu2(false)
                                   }
                                 >
                                   <span className="icon-Asset-48 subMDot"></span>{" "}
                                   {submenuList.title}
                                 </NavLink>
+                                  
+                              }
 
                                 {submenuList.subMenu && this.state.subMenu2 ? (
                                   <ul className="subNav">
+                                    <div className="submenu-close-btn" onClick={
+                                    (e) => this.toggleSubmenu2(false)
+                                  }>
+                                      <CloseOutlined />
+                                    </div>
                                     <li>
                                       <h2
                                         className="adminiH subTitleUl"

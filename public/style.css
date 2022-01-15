@@ -45,7 +45,7 @@ body {
 .loginContainer {
   /* background: linear-gradient(90deg, rgba(42, 69, 125, 0.9), rgba(150, 201, 57, 0.9)), url(../images/wallet-2125548_1920.jpg) !important; */
   width: 100%;
-  min-height: 120vh;
+  min-height: calc(100vh - 100px);
   /* height: 1%; */
   background-image: url(./images/BG-2.png) !important;
   background-position: center;
@@ -58,7 +58,7 @@ body {
 .indAccountRegContainer {
   /* background: linear-gradient(90deg, rgba(42, 69, 125, 0.9), rgba(150, 201, 57, 0.9)), url(../images/wallet-2125548_1920.jpg) !important; */
   width: 100%;
-  min-height: 520vh;
+  min-height: calc(100vh - 100px);
   /* height: 100%; */
   background-image: url(./images/BG-2.png) !important;
   background-position: center;
@@ -72,7 +72,7 @@ body {
 .agent-registration-container {
   /* background: linear-gradient(90deg, rgba(42, 69, 125, 0.9), rgba(150, 201, 57, 0.9)), url(../images/wallet-2125548_1920.jpg) !important; */
   width: 100%;
-  min-height: 100vh;
+  min-height: calc(100vh - 100px);
   /* height: 100%; */
   background-image: url(./images/BG-2.png) !important;
   background-position: center;
@@ -105,22 +105,24 @@ body {
   /* display: flex; */
   align-items: center;
   /* justify-content: center; */
-  padding-top: 8%;
+  padding-top: 100px;
   overflow-x: hidden;
 }
 
 .loginInner {
-  margin-bottom: 24px;
   border: none;
   -webkit-box-shadow: 0px 0px 3px rgba(31, 30, 47, 0.05);
   box-shadow: 0px 0px 3px rgba(31, 30, 47, 0.05);
   border-radius: 6px;
   background-color: #ffffff;
-  width: 700px;
-  padding: 4.25rem;
-  position: absolute;
-  top: 1%;
-  margin: auto;
+  width: 100%;
+  max-width: 700px;
+  padding: 30px;
+  position: relative;
+  margin: 0 auto;
+  margin-top: 30px;
+  margin-bottom: 24px;
+  height: 100%;
 }
 
 .paymentInner {
@@ -1958,6 +1960,21 @@ input[type="checkbox"]:disabled {
   .pageWrapper .pageContent .col-12 {
     padding: 0;
   }
+  .dIHUwV{
+    margin-top: 60px !important;
+  }
+  .loginInner{
+    width: 100% !important;
+    height: 100%;
+  }
+  .indAccountRegContainer {
+    min-height: calc(100vh - 60px) !important;
+  }
+  .loginContainer{
+    min-height: calc(100vh - 60px);
+
+  }
+  
 }
 
 @media screen and (min-width: 320px) and (max-width: 479px) {
@@ -2333,7 +2350,7 @@ footer {
 }
 .nav-default {
   width: 100%;
-  height: 7em;
+  height: 100px;
   background: #fff;
   position: absolute;
   top: 0;
@@ -2352,6 +2369,9 @@ footer {
 .dropzone > div > p {
   color: #9e9e9e;
   margin-top: 1rem;
+}
+.nav.nav-default{
+  flex-wrap: nowrap !important;
 }
 .switch {
   cursor: pointer;
@@ -3160,7 +3180,7 @@ input:checked + .slider:before {
 .navDefaultLogoHeader {
   margin-bottom: auto;
   margin-top: auto;
-  margin-left: 2%;
+  margin-left: 12px;
 }
 
 .navDefaultLogo {
@@ -3190,9 +3210,9 @@ input:checked + .slider:before {
 @media screen and (max-width: 600px) {
   .nav-default {
     width: 100%;
-    height: 2em;
+    height: 60px;
   }
-
+ 
   .navDefaultLogo {
     height: 60px;
     width: 200px;
@@ -3210,7 +3230,7 @@ input:checked + .slider:before {
     /* display: flex; */
     align-items: center;
     /* justify-content: center; */
-    padding-top: 15%;
+    padding-top: 60px;
     overflow-x: hidden;
   }
 
@@ -3232,7 +3252,7 @@ input:checked + .slider:before {
   .agent-registration-container {
     /* background: linear-gradient(90deg, rgba(42, 69, 125, 0.9), rgba(150, 201, 57, 0.9)), url(../images/wallet-2125548_1920.jpg) !important; */
     width: 100%;
-    min-height: 100vh;
+    min-height: calc(100vh - 100px);
     /* height: 100%; */
     background-image: url(./images/BG-2.png) !important;
     background-position: center;
@@ -3288,7 +3308,7 @@ input:checked + .slider:before {
     /* display: flex; */
     align-items: center;
     /* justify-content: center; */
-    padding-top: 13%;
+
     overflow-x: hidden;
   }
 
@@ -3303,7 +3323,6 @@ input:checked + .slider:before {
 @media screen and (min-width: 320px) and (max-width: 568px) {
   .nav-default {
     width: 100%;
-    height: 2em;
   }
 
   .navDefaultLogo {
@@ -3321,10 +3340,12 @@ input:checked + .slider:before {
     right: 0;
     margin: auto;
     align-items: center;
-    padding-top: 15%;
+    padding-top: 60px;
     overflow-x: hidden;
   }
-
+  .langOption.langOptionLogin{
+    right: 20px !important; 
+  }
   .langOption {
     position: absolute;
     right: 3%;
@@ -3392,4 +3413,7 @@ input:checked + .slider:before {
     width: 70px;
     height: 70px;
   }
+}
+.card{
+  border: none !important;
 }

@@ -803,7 +803,7 @@ class Dashboard extends Component {
         messages={this.state.messages.default}
         locale={this.state.language}
       >
-        <div className="main_contain">
+        <div className="main_contain agentdashboardStyle">
           <div className="dashboard_wraps">
             <div className="customdashboardwholerow">
 

@@ -51,7 +51,7 @@
     align-items: flex-start;
     justify-content: flex-start;
     flex-wrap: wrap;
-    height: 350px;
+    /* height: 350px; */
 }
 .custom_col{
     padding: 16px;
@@ -551,7 +551,7 @@ table.dashTable.dashTable01 td{
 }
 
 
-.recentTrans_w::-webkit-scrollbar {
+/* .recentTrans_w::-webkit-scrollbar {
     width: 4px;
     height: 4px;
   }
@@ -563,7 +563,7 @@ table.dashTable.dashTable01 td{
   .recentTrans_w::-webkit-scrollbar-thumb {
     background-color: #2688FA;
     outline: 1px solid #2688FA;
-  }
+  } */
 .lineCircleSty{
     background-color: red;
     width: 22px;
@@ -723,7 +723,7 @@ h1.commonHeading span{
 }
 .customdashboardrow .custom_col.width3 {
     width: 32%;
-    height: 105px;
+    /* height: 105px; */
     margin-right: 0;
     padding-right: 0;
     margin-bottom: 27.5px;
@@ -1273,4 +1273,25 @@ table.dashTable.dashTable_shopfor td:nth-child(2) span{
 }
 .adress_withico :last-child{
     margin-left: 24px;
+}
+
+
+
+/* new style */
+.main_contain.agentdashboardStyle .customdashboardrow .custom_col.width3{
+    width: 32% !important;
+    margin-bottom: 27.5px
+}
+.main_contain.agentdashboardStyle .customdashboardrow .custom_col.width3 .dcard{
+    min-height: 120px;
+}
+.main_contain.agentdashboardStyle .section_custom{
+    margin-bottom: 24px;
+}
+
+@media screen and (max-width: 767px) {
+    .main_contain.agentdashboardStyle .customdashboardrow .custom_col.width3{
+        width: 100% !important;
+      }
+
 }

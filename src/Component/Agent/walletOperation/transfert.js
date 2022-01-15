@@ -176,7 +176,6 @@ function WalletTransfer() {
         };
 
         dispatch(verifyCustomer(sessionStorage.getItem("token"), requestObj));
-
     }
 
     const walletToAccountSecondNext = () => {
@@ -550,6 +549,9 @@ function WalletTransfer() {
                                         </>
                                     )}
                                 </div>
+                            </div>
+                            <div className="cardFooter justify_content_end">
+
                             </div>
                         </div>
                     </div>
