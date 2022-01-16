@@ -1897,3 +1897,42 @@ export const getAllAgentMemberLists = () => (dispatch) => {
       });
     });
 };
+
+export const getFee = (payload) => (dispatch) => {
+  dispatch(ShowLoading());
+  const config = {
+    method: "POST",
+    data: payload,
+    url: URL.agent.CALCULATE_FEE,
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+  axios(config)
+    .then((res) => {
+      dispatch(HideLoading());
+      if (res.status === 200) {
+        toastr.success(
+          "Agent Fee Calculated"
+        );
+        dispatch({
+          type: actionType.GET_FEE_SUCCESS,
+          payload: res.data,
+        });
+      } else {
+        toastr.warning(
+          "Agent Fee Warning!"
+        );
+        dispatch({
+          type: actionType.GET_FEE_FAILURE,
+        });
+      }
+    })
+    .catch((err) => {
+      dispatch(HideLoading());
+      toastr.error("Error Calculating Fee..");
+      dispatch({
+        type: actionType.GET_FEE_FAILURE,
+      });
+    });
+}
