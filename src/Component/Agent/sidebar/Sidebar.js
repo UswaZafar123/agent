@@ -34,6 +34,7 @@ class Sidebar extends Component {
     linkingDialogOpen: false,
     linkingDialogTitle: "",
     linkingDialogBody: "",
+    agentType: "",
   };
 
   componentDidMount() {
@@ -46,6 +47,9 @@ class Sidebar extends Component {
   componentWillReceiveProps(nextProps) {
     if (Object.keys(nextProps.profile.data).length !== 0) {
       this.filterSubmenuLinks(nextProps.profile.data);
+      this.setState({
+        agentType: nextProps.profile.data.agentType
+      })
       this.props.fetchAgentWallet(sessionStorage.getItem("token"));
       if (
         nextProps.profile.data.registrationType === "EXISTING_BANK_CUSTOMER"
@@ -62,23 +66,70 @@ class Sidebar extends Component {
     }
   }
 
-  componentDidUpdate(prevProps, nextProps) {}
-
   filterSubmenuLinks = (profileData) => {
-    var result = Side_bar_data.map((data) => {
+
+    let agentMainPanel = Side_bar_data.filter((data) => {
+
+      if (profileData.agentType === "AGENT") {
+        return (
+          data.path !== "/admin/bankingOperation"
+        )
+      } else if (profileData.agentType === "AGENT_MEMBER") {
+        return (
+          data.path !== "/agent/cash_in" &&
+          data.path !== "/agent/send-money" &&
+          data.path !== "/agent/walletAccountOpening" &&
+          data.path !== "/admin/bankingOperation" &&
+          data.path !== "/agent/kyc" &&
+          data.path !== "/agents/Settings"
+        )
+      }
+      else {
+        return data;
+      }
+
+    })
+
+    var result = agentMainPanel.map((data) => {
       if (data.subMenu) {
         var subMenu = data.subMenu.filter((subMenuOption) => {
           if (profileData && profileData.agentType === "AGENT_BANKER") {
             console.log("Agent Banker");
-            return subMenuOption.path !== "/profile/account/link";
+            return (
+              subMenuOption.path !== "/profile/account/link" &&
+              subMenuOption.path !== "/profile/account/validate_id" &&
+              subMenuOption.path !== "/Profile/link-agentbanker" &&
+              subMenuOption.path !== "/Profile/upgrade-agentbanker"
+
+            );
           } else if (profileData && profileData.agentType === "AGENT") {
             console.log("Agent");
+
             return (
               subMenuOption.path !== "/agent/cash_deposit/bank" &&
               subMenuOption.path !== "/agent/cash_withdraw/bank" &&
-              subMenuOption.path !== "/profile/account/validate_id"
+              subMenuOption.path !== "/profile/account/validate_id" &&
+              subMenuOption.path !== "/profile/account/link" &&
+              subMenuOption.path !== "/Profile/bank-account" &&
+              subMenuOption.path !== "/Profile/linked-agents" &&
+              subMenuOption.path !== "/Profile/linking-requests" &&
+              subMenuOption.path !== "/Profile/validate-bank-account"
+
             );
-          } else {
+          } else if (profileData && profileData.agentType === "AGENT_MEMBER") {
+            return (
+              subMenuOption.path !== "/Profile/link-agentbanker" &&
+              subMenuOption.path !== "/Profile/upgrade-agentbanker" &&
+              subMenuOption.path !== "/profile/account/link" &&
+              subMenuOption.path !== "/profile/account/validate_id" &&
+              subMenuOption.path !== "/Profile/bank-account" &&
+              subMenuOption.path !== "/Profile/linked-agents" &&
+              subMenuOption.path !== "/Profile/linking-requests" &&
+              subMenuOption.path !== "/Profile/validate-bank-account"
+
+            )
+          }
+          else {
             return subMenuOption;
           }
         });
@@ -160,7 +211,7 @@ class Sidebar extends Component {
     this.setState((state) => ({
       subMenu2: param,
     }));
-    console.log("paramCheck",param)
+    console.log("paramCheck", param)
   };
 
 
@@ -179,11 +230,25 @@ class Sidebar extends Component {
             </div>
           </div>
           <div className="navigation">
-            <h2 className="adminiH"> Agent Panel</h2>
+            {this.state.agentType === "AGENT" ?
+              <>
+                <h2 className="adminiH">Agent</h2>
+              </> : this.state.agentType === "AGENT_MEMBER" ?
+                <>
+                  <h2 className="adminiH">Agent Member</h2>
+                </>
+                :
+                this.state.agentType === "AGENT_BANKER" ?
+                  <>
+                    <h2 className="adminiH">Agent Banker</h2>
+                  </>
+                  :
+                  <></>}
+            {/* <h2 className="adminiH"> Agent Panel</h2> */}
             <div className="nav_inner">
               <ul>
                 {Side_bar_data.map((item, index) => {
-                  
+
                   return (
                     <li key={index}>
                       <Skeleton
@@ -210,115 +275,127 @@ class Sidebar extends Component {
   renderSideBar = () => {
     return (
       <>
-      <div className="sideBar SidebarScroll">
-        <div className="sidebar_Inner">
-          <div className="sideTop">
-          {this.props.isOpenLeftSide &&  <div className="closemenuBtn" onClick={(e) => this.toggleHandler(false)}><CloseOutlined /></div>}
-            <div className="sideTopLogo">
-              <img src={Logo} alt="" />
+        <div className="sideBar SidebarScroll">
+          <div className="sidebar_Inner">
+            <div className="sideTop">
+              {this.props.isOpenLeftSide && <div className="closemenuBtn" onClick={(e) => this.toggleHandler(false)}><CloseOutlined /></div>}
+              <div className="sideTopLogo">
+                <img src={Logo} alt="" />
+              </div>
             </div>
-          </div>
-          <div className="navigation">
-            <h2 className="adminiH"> Agent Panel</h2>
-            <div className="nav_inner">
-              <ul>
-                {this.state.filteredMenu.map((item, index) => {
-                  return (
-                    <li key={index}>
-                      <NavLink
-                        exact
-                        to={item.path}
-                        onClick={() => {
-                          this.toggleSubmenu(item.id);
-                        }}
-                      >
-                        <span className={item.iconClass}></span>
-                        {item.title}
-                        {item.subMenu && (
-                          <span
-                            className={`icon-Asset-1 arrowOpenClosed ${
-                              this.state.submenu === item.id ? "openSubM" : ""
-                            }`}
-                          ></span>
-                        )}
-                      </NavLink>
-                      {item.subMenu && this.state.submenu === item.id ? (
-                        <ul>
-                          {item.subMenu.map((submenuList) => {
-                            console.log("checking sub path",submenuList.path)
-                            return (
-                              <li>
-                                {submenuList.path==="/Settings/General" ?
-                                <NavLink
-                                  exact
-                                  to={submenuList.path}
-                                  onClick={
-                                    (e) => this.toggleSubmenu2(true)
-                                  }
-                                >
-                                  <span className="icon-Asset-48 subMDot"></span>{" "}
-                                  {submenuList.title}
-                                  {submenuList.path==="/Settings/General" &&
-                                  <div className="toggleGenralBTN" onClick={(e) => this.toggleSubmenu2(true)}><PlusCircleOutlined /></div>
-                                }
-                                </NavLink>
-                              : 
-                              <NavLink
-                                  exact
-                                  to={submenuList.path}
-                                  onClick={
-                                    (e) => this.toggleSubmenu2(false)
-                                  }
-                                >
-                                  <span className="icon-Asset-48 subMDot"></span>{" "}
-                                  {submenuList.title}
-                                </NavLink>
-                                  
-                              }
+            <div className="navigation">
+              {this.state.agentType === "AGENT" ?
+                <>
+                  <h2 className="adminiH">Agent</h2>
+                </> : this.state.agentType === "AGENT_MEMBER" ?
+                  <>
+                    <h2 className="adminiH">Agent Member</h2>
+                  </>
+                  :
+                  this.state.agentType === "AGENT_BANKER" ?
+                    <>
+                      <h2 className="adminiH">Agent Banker</h2>
+                    </>
+                    :
+                    <></>}
+              <div className="nav_inner">
+                <ul>
+                  {this.state.filteredMenu.map((item, index) => {
+                    return (
+                      <li key={index}>
+                        <NavLink
+                          exact
+                          to={item.path}
+                          onClick={() => {
+                            this.toggleSubmenu(item.id);
+                          }}
+                        >
+                          <span className={item.iconClass}></span>
+                          {item.title}
+                          {item.subMenu && (
+                            <span
+                              className={`icon-Asset-1 arrowOpenClosed ${this.state.submenu === item.id ? "openSubM" : ""
+                                }`}
+                            ></span>
+                          )}
+                        </NavLink>
+                        {item.subMenu && this.state.submenu === item.id ? (
+                          <ul>
+                            {item.subMenu.map((submenuList) => {
+                              console.log("checking sub path", submenuList.path)
+                              return (
+                                <li>
+                                  {submenuList.path === "/Settings/General" ?
+                                    <NavLink
+                                      exact
+                                      to={submenuList.path}
+                                      onClick={
+                                        (e) => this.toggleSubmenu2(true)
+                                      }
+                                    >
+                                      <span className="icon-Asset-48 subMDot"></span>{" "}
+                                      {submenuList.title}
+                                      {submenuList.path === "/Settings/General" &&
+                                        <div className="toggleGenralBTN" onClick={(e) => this.toggleSubmenu2(true)}><PlusCircleOutlined /></div>
+                                      }
+                                    </NavLink>
+                                    :
+                                    <NavLink
+                                      exact
+                                      to={submenuList.path}
+                                      onClick={
+                                        (e) => this.toggleSubmenu2(false)
+                                      }
+                                    >
+                                      <span className="icon-Asset-48 subMDot"></span>{" "}
+                                      {submenuList.title}
+                                    </NavLink>
 
-                                {submenuList.subMenu && this.state.subMenu2 ? (
-                                  <ul className="subNav">
-                                    <div className="submenu-close-btn" onClick={
-                                    (e) => this.toggleSubmenu2(false)
-                                  }>
-                                      <CloseOutlined />
-                                    </div>
-                                    <li>
-                                      <h2
-                                        className="adminiH subTitleUl"
-                                        style={{ color: "black" }}
-                                      >
-                                        General
-                                      </h2>
-                                    </li>
-                                    {submenuList.subMenu.map((sub) => {
-                                      return (
-                                        <li>
-                                          <NavLink exact to={sub.path}>
-                                            {" "}
-                                            <span
-                                              className={sub.iconClass}
-                                            ></span>{" "}
-                                            {sub.title}
-                                          </NavLink>
-                                        </li>
-                                      );
-                                    })}
-                                  </ul>
-                                ) : null}
-                              </li>
-                            );
-                          })}
-                        </ul>
-                      ) : null}
-                    </li>
-                  );
-                })}
-              </ul>
+                                  }
+
+                                  {submenuList.subMenu && this.state.subMenu2 ? (
+                                    <ul className="subNav">
+                                      <div className="submenu-close-btn" onClick={
+                                        (e) => this.toggleSubmenu2(false)
+                                      }>
+                                        <CloseOutlined />
+                                      </div>
+                                      <li>
+                                        <h2
+                                          className="adminiH subTitleUl"
+                                          style={{ color: "black" }}
+                                        >
+                                          General
+                                        </h2>
+                                      </li>
+                                      {submenuList.subMenu.map((sub) => {
+                                        return (
+                                          <li>
+                                            <NavLink exact to={sub.path}>
+                                              {" "}
+                                              <span
+                                                className={sub.iconClass}
+                                              ></span>{" "}
+                                              {sub.title}
+                                            </NavLink>
+                                          </li>
+                                        );
+                                      })}
+                                    </ul>
+                                  ) : null}
+                                </li>
+                              );
+                            })}
+                          </ul>
+                        ) : null}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
             </div>
           </div>
         </div>
-      </div>
         {this.props.isOpenLeftSide && <div className="overLayOnLeft" onClick={(e) => this.toggleHandler(false)}></div>}
       </>
     );
