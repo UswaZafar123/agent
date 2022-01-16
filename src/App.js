@@ -105,6 +105,7 @@ import Assets from "./Component/Agent/assets";
 import ForgotPassword from "./Component/Agent/ForgotPassword"
 import Operations from "./Component/Agent/Operations";
 import Users from "./Component/page/Settings/General/Users";
+import AgentSendMoneyToAgentMember from "./Component/page/AgentSendMoney/AgentSendMoneyToAgentMember";
 
 export const App = (props) => {
   const [toggleMenuVar, setToggleMenuVar] = useState(false)
@@ -191,6 +192,11 @@ export const App = (props) => {
                       exact
                       path="/agent/send-money"
                       component={AgentSendMoney}
+                    />
+                    <Route
+                      exact
+                      path="/agent/send-money-agentMember"
+                      component={AgentSendMoneyToAgentMember}
                     />
 
                     <Route

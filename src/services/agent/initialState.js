@@ -276,5 +276,7 @@ const initialState = {
   walletAccountOpeningSetPassword: walletAccountOpeningSetPasswordState,
 
   getAllAgentMemberList: null,
+  feeStatus : false,
+  feeData : null,
 };
 export default initialState;
