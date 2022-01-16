@@ -233,13 +233,13 @@ const AgentSendMoney = () => {
         <div>
           <div className="containerBiaN_f_col" style={{ padding: "0px" }}>
             <label>
-              Agent Id(Phone without country code){" "}
+              Agent ID <span style={{ fontSize: "13px" }}>(without country code)</span>{" "}
               <span className="mantdat">*</span>
             </label>
           </div>
           <div className="containerBiaN_f_col" style={{ padding: "0px" }}>
             <input
-              placeholder="Enter Agent Id(Phone without country code"
+              placeholder="Agent ID"
               type="number"
               value={agentId}
               onChange={(e) => setAgentId(e.target.value)}
@@ -504,8 +504,8 @@ const AgentSendMoney = () => {
                             {step === 4
                               ? "Submit"
                               : step === 5
-                              ? "Done"
-                              : "Next"}
+                                ? "Done"
+                                : "Next"}
                           </button>
                         </div>
                       </div>

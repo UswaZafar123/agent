@@ -1730,6 +1730,18 @@ const agentReducer = (state = initialState, action) => {
         ...state,
         getAllAgentMemberList: null,
       };
+    case actionType.GET_FEE_SUCCESS:
+      return {
+        ...state,
+        feeStatus: true,
+        feeData: action.payload,
+      };
+    case actionType.GET_FEE_FAILURE:
+      return {
+        ...state,
+        feeStatus: false,
+        feeData: null,
+      };
     default:
       return state;
   }
