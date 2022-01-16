@@ -255,12 +255,12 @@ export const Side_bar_data = [
   //     path:"/Analytics",
   //     iconClass:"icon-Asset-29"
   // },
-  // {
-  //   title: "Access History",
-  //   path: "/agent/access-history",
-  //   id: 17,
-  //   iconClass: "icon-Asset-25",
-  // },
+  {
+    title: "Access History",
+    path: "/agent/access-history",
+    id: 17,
+    iconClass: "icon-Asset-25",
+  },
   {
     title: "KYC",
     path: "/agent/kyc",
@@ -447,6 +447,22 @@ export const Side_bar_data = [
         title: "Profile",
         path: "/Profile/Profile",
       },
+      {
+        title: "Bank Account",
+        path: "/Profile/bank-account",
+      },
+      {
+        title: "Linked Agents",
+        path: "/Profile/linked-agents",
+      },
+      {
+        title: "Linking Requests",
+        path: "/Profile/linking-requests",
+      },
+      {
+        title: "Validate Bank Account",
+        path: "/Profile/validate-bank-account",
+      },
       // {
       //   title: "Accounts",
       //   path: "/Profile/Accounts",
@@ -458,6 +474,14 @@ export const Side_bar_data = [
       {
         title: "Change Password",
         path: "/Profile/change-password",
+      },
+      {
+        title: "Link to Agent Banker",
+        path: "/Profile/link-agentbanker",
+      },
+      {
+        title: "Upgrade to Agent Banker",
+        path: "/Profile/upgrade-agentbanker",
       },
       {
         title: "Account Linking",
