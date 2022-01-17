@@ -1936,3 +1936,38 @@ export const getFee = (payload) => (dispatch) => {
       });
     });
 }
+
+export const agentToAgentBankerUpgradeRequest = (payload) => (dispatch) => {
+  dispatch({
+    type: actionType.AGENT_BANKER_UPGRADE_REQUEST_FAILURE,
+  });
+  dispatch(ShowLoading());
+  const config = {
+    method: "POST",
+    data: payload,
+    url: URL.agent.AGENT_TO_AGENT_BANKER_UPGRADE_REQUEST,
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+  axios(config)
+    .then((res) => {
+      dispatch(HideLoading());
+      if (res.status === 200) {
+        toastr.success(
+          "Upgrade Successful."
+        );
+        dispatch({
+          type: actionType.AGENT_BANKER_UPGRADE_REQUEST_SUCCESS,
+          payload: res.data,
+        });
+      }
+    })
+    .catch((err) => {
+      dispatch(HideLoading());
+      toastr.error("Error Sending Upgrade Request..");
+      dispatch({
+        type: actionType.AGENT_BANKER_UPGRADE_REQUEST_FAILURE,
+      });
+    });
+}

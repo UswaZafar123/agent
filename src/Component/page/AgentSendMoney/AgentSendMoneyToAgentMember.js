@@ -21,6 +21,7 @@ import {
     sendOtpToAgent,
     agentSendMoneyAction,
     getFee,
+    getAllAgentMemberLists,
 } from "../../../services/agent/action.js";
 
 const { Option } = Select;
@@ -34,7 +35,7 @@ const AgentSendMoneyToAgentMember = () => {
         { name: "SMS", value: "SMS" },
     ];
 
-    const [agentId, setAgentId] = useState("");
+    const [agentId, setAgentId] = useState("DEFAULT");
     const [amount, setAmount] = useState("");
     const [reason, setReason] = useState("");
     const [selectedOtpType, setSelectedOtpType] = useState(otpTypes[0].value);
@@ -65,7 +66,12 @@ const AgentSendMoneyToAgentMember = () => {
         (state) => state.agentReducer.feeData
     );
 
+    const getAllAgentMemberList = useSelector(
+        (state) => state.agentReducer.getAllAgentMemberList
+    );
+
     useEffect(() => {
+        dispatch(getAllAgentMemberLists());
         return () => {
             dispatch({
                 type: actionType.FEE_DETAIL_RESET,
@@ -99,7 +105,7 @@ const AgentSendMoneyToAgentMember = () => {
             firstUpdate.current = false;
             return;
         }
-        if (step === 1 && Object.keys(feeData).length) {
+        if (step === 1 && (feeData !== null && feeData !== undefined) && Object.keys(feeData).length) {
             setStep(2);
         }
         if (step === 3 && agentOtpSuccess) {
@@ -253,12 +259,26 @@ const AgentSendMoneyToAgentMember = () => {
                         </label>
                     </div>
                     <div className="containerBiaN_f_col" style={{ padding: "0px" }}>
-                        <input
-                            placeholder="Agent Member ID"
-                            type="number"
-                            value={agentId}
-                            onChange={(e) => setAgentId(e.target.value)}
-                        />
+                        <div className="categorySelect">
+                            <Select
+                                value={agentId}
+                                style={{ width: 100 + "%", height: 42, marginBottom: "5px" }}
+                                onChange={(e) => {
+                                    setAgentId(e)
+                                }}
+                                id={'page-size'}
+                            >
+                                <Option value="DEFAULT" disabled={true}>Select an Agent Member</Option>
+                                {
+                                    getAllAgentMemberList !== null && getAllAgentMemberList.length > 0 & getAllAgentMemberList !== undefined &&
+                                    getAllAgentMemberList.map((agentMember) => {
+                                        return (
+                                            <Option value={agentMember.phoneNo}>{agentMember.firstName + " " + agentMember.lastName + " : " + agentMember.phoneNo}</Option>
+                                        );
+                                    })
+                                }
+                            </Select>
+                        </div>
                     </div>
                 </div>
                 <div>
