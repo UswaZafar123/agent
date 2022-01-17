@@ -278,5 +278,8 @@ const initialState = {
   getAllAgentMemberList: null,
   feeStatus : false,
   feeData : null,
+  agentBankerUpgradeStatus : false,
+  agentBankerUpgradeData : null,
+  linkingRequestsData : null,
 };
 export default initialState;

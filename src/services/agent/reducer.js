@@ -394,6 +394,8 @@ const agentReducer = (state = initialState, action) => {
         linkingRequests: {
           ...state.linkingRequests,
           loading: true,
+          data: null,
+          linkingRequestsData: null
         },
       };
     case actionType.LINKING_REQUESTS_DATA:
@@ -403,6 +405,7 @@ const agentReducer = (state = initialState, action) => {
           ...state.linkingRequests,
           loading: false,
           data: action.payload,
+          linkingRequestsData: action.payload,
         },
       };
     case actionType.LINKING_REQUESTS_ERROR:
@@ -411,6 +414,8 @@ const agentReducer = (state = initialState, action) => {
         linkingRequests: {
           ...state.linkingRequests,
           loading: false,
+          data: null,
+          linkingRequestsData: null
         },
       };
     /**
@@ -1741,6 +1746,18 @@ const agentReducer = (state = initialState, action) => {
         ...state,
         feeStatus: false,
         feeData: null,
+      };
+    case actionType.AGENT_BANKER_UPGRADE_REQUEST_SUCCESS:
+      return {
+        ...state,
+        agentBankerUpgradeStatus: true,
+        agentBankerUpgradeData: action.payload,
+      };
+    case actionType.AGENT_BANKER_UPGRADE_REQUEST_FAILURE:
+      return {
+        ...state,
+        agentBankerUpgradeStatus: false,
+        agentBankerUpgradeData: null,
       };
     default:
       return state;

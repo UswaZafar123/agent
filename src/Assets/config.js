@@ -326,6 +326,7 @@ const configUrl = {
     GET_ALL_AGENT_MEMBER_LIST: `${AgentApi}api-internal/backoffice/getAgentMemberList`,
 
     CALCULATE_FEE: `${adminAPI}agent/transactionFees/calculate`,
+    AGENT_TO_AGENT_BANKER_UPGRADE_REQUEST: `${AgentApi}api-public/AgentRegistration/agentToAgentBankerRequest`
   },
 };
 
