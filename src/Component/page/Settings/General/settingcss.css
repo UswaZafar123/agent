@@ -230,6 +230,12 @@
     background-color: #EA5455 !important;
     color: #fff !important;
 }
+
+.ac-view button.success{
+    background-color: #2E8B57 !important;
+    color: #fff !important;
+}
+
 .ac-view button.clone{
     background-color: #20B508 !important;
     color: #fff !important;

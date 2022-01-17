@@ -106,6 +106,9 @@ import ForgotPassword from "./Component/Agent/ForgotPassword"
 import Operations from "./Component/Agent/Operations";
 import Users from "./Component/page/Settings/General/Users";
 import AgentSendMoneyToAgentMember from "./Component/page/AgentSendMoney/AgentSendMoneyToAgentMember";
+import UpgradeToAgentBanker from "./Component/page/Profile/UpgradeToAgentBanker";
+import LinkToAgentBanker from "./Component/page/Profile/LinkToAgentBanker";
+import LinkingRequests from "./Component/page/Profile/LinkingRequests";
 
 export const App = (props) => {
   const [toggleMenuVar, setToggleMenuVar] = useState(false)
@@ -407,10 +410,22 @@ export const App = (props) => {
                       component={ChangePassword}
                     />
                     <Route
+                      path="/Profile/link-agentbanker"
+                      component={AgentAccountLinking}
+                    />
+                    <Route
+                      path="/Profile/linking-requests"
+                      component={LinkingRequests}
+                    />
+                    <Route
+                      path="/Profile/upgrade-agentbanker"
+                      component={UpgradeToAgentBanker}
+                    />
+                    {/* <Route
                       exact
                       path="/profile/account/link"
                       component={AgentAccountLinking}
-                    />
+                    /> */}
                     <Route
                       exact
                       path="/profile/account/validate_id"
