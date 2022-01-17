@@ -41,7 +41,7 @@ class AccessHistoryAdmin extends Component {
                                 {"Approve"}
                             </button>
                             &ensp;
-                            <button className="delete">
+                            <button className="delete" onClick={() => this.onRejectRequest(params.data)}>
                                 {"Reject"}
                             </button>
                         </div>
