@@ -781,7 +781,7 @@ class Dashboard extends Component {
       })
     }
 
-    if (nextProps.profile) {
+    if (nextProps.profile.data !== null) {
       // console.log(nextProps.profile.data.agentType, "PROFILE");
 
       this.setState({
