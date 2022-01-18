@@ -229,7 +229,7 @@ const CashIn = () => {
       bankCustomerId: agentProfile.bankCustomerId,
       debtorBankAccountNumber: selectedBankAccount.accNo,
       amount: amount,
-      reason: "",
+      reason: "Test Cash In",
       mfaToken: otp,
       currencyName: "xaf",
       // "fee": transactionFee.value,

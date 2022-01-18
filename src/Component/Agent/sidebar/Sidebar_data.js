@@ -487,10 +487,10 @@ export const Side_bar_data = [
         title: "Account Linking",
         path: "/profile/account/link",
       },
-      {
-        title: "validate Bank Id",
-        path: "/profile/account/validate_id",
-      },
+      // {
+      //   title: "validate Bank Id",
+      //   path: "/profile/account/validate_id",
+      // },
     ],
   },
 ];

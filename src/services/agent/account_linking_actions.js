@@ -3,6 +3,7 @@ import actionType from "./actionType.js";
 import URL from "../../Assets/config";
 import { toastr } from "react-redux-toastr";
 import { HideLoading, ShowLoading } from "../common/action.js";
+import { getProfile } from "./action.js";
 
 export const fetchSuperAgentDetail = (token, payload) => (dispatch) => {
   const config = {
@@ -35,6 +36,7 @@ export const fetchSuperAgentDetail = (token, payload) => (dispatch) => {
 };
 
 export const sendLinkingRequestToSuperAgent = (token, payload) => (dispatch) => {
+  dispatch(ShowLoading());
   const config = {
     method: "POST",
     url: URL.agent.SEND_LINKING_REQUEST,
@@ -50,6 +52,7 @@ export const sendLinkingRequestToSuperAgent = (token, payload) => (dispatch) => 
   axios(config)
     .then((res) => {
       if (res.status === 200) {
+        dispatch(HideLoading());
         toastr.success("SUCCESS", "Linking Request sent successfully.");
         dispatch({
           type: actionType.SEND_LINKING_REQUEST_SUCCESS,

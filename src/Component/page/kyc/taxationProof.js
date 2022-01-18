@@ -631,6 +631,9 @@ class KYC extends Component {
 
   showOTPModal = () => {
 
+    this.setState({
+      otp : "",
+    })
     if (this.state.addressone === "" || this.state.addresstwo === "" || this.state.city === "" || this.state.identification === "" || this.state.number === "") {
       toastr.error("Please fill required fields");
     } else if (this.state.zipcode === "" || this.state.zipcode instanceof String) {

@@ -45,24 +45,26 @@ class Sidebar extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (Object.keys(nextProps.profile.data).length !== 0) {
-      this.filterSubmenuLinks(nextProps.profile.data);
-      this.setState({
-        agentType: nextProps.profile.data.agentType
-      })
-      this.props.fetchAgentWallet(sessionStorage.getItem("token"));
-      if (
-        nextProps.profile.data.registrationType === "EXISTING_BANK_CUSTOMER"
-      ) {
-        this.props.fetchAgentBankAccounts(
-          sessionStorage.getItem("token"),
-          nextProps.profile.data.bankCustomerId
+    if (nextProps.profile.data !== null) {
+      if (Object.keys(nextProps.profile.data).length !== 0) {
+        this.filterSubmenuLinks(nextProps.profile.data);
+        this.setState({
+          agentType: nextProps.profile.data.agentType
+        })
+        this.props.fetchAgentWallet(sessionStorage.getItem("token"));
+        if (
+          nextProps.profile.data.registrationType === "EXISTING_BANK_CUSTOMER"
+        ) {
+          this.props.fetchAgentBankAccounts(
+            sessionStorage.getItem("token"),
+            nextProps.profile.data.bankCustomerId
+          );
+        }
+        this.checkAccountStatus(
+          nextProps.profile.data.agentType,
+          nextProps.profile.data.status
         );
       }
-      this.checkAccountStatus(
-        nextProps.profile.data.agentType,
-        nextProps.profile.data.status
-      );
     }
   }
 
@@ -93,16 +95,24 @@ class Sidebar extends Component {
     var result = agentMainPanel.map((data) => {
       if (data.subMenu) {
         var subMenu = data.subMenu.filter((subMenuOption) => {
-          if (profileData && profileData.agentType === "AGENT_BANKER") {
+          if (profileData && profileData.agentType === "AGENT_BANKER" && profileData.status !== "ACTIVE") {
             console.log("Agent Banker");
             return (
               subMenuOption.path !== "/profile/account/link" &&
               subMenuOption.path !== "/profile/account/validate_id" &&
               subMenuOption.path !== "/Profile/link-agentbanker" &&
               subMenuOption.path !== "/Profile/upgrade-agentbanker"
-
             );
-          } else if (profileData && profileData.agentType === "AGENT") {
+          } else if (profileData && profileData.agentType === "AGENT_BANKER" && profileData.status === "ACTIVE") {
+            return (
+              subMenuOption.path !== "/profile/account/link" &&
+              subMenuOption.path !== "/profile/account/validate_id" &&
+              subMenuOption.path !== "/Profile/link-agentbanker" &&
+              subMenuOption.path !== "/Profile/upgrade-agentbanker" &&
+              subMenuOption.path !== "/Profile/validate-bank-account"
+            );
+          }
+          else if (profileData && profileData.agentType === "AGENT" && profileData.status !== "AGENT_LINKING_REQUESTED" && profileData.status !== "ACTIVE") {
             console.log("Agent");
 
             return (
@@ -116,7 +126,20 @@ class Sidebar extends Component {
               subMenuOption.path !== "/Profile/validate-bank-account"
 
             );
-          } else if (profileData && profileData.agentType === "AGENT_MEMBER") {
+          } else if (profileData && profileData.agentType === "AGENT" && (profileData.status === "AGENT_LINKING_REQUESTED" || profileData.status === "ACTIVE")) {
+            return (
+              subMenuOption.path !== "/agent/cash_deposit/bank" &&
+              subMenuOption.path !== "/agent/cash_withdraw/bank" &&
+              subMenuOption.path !== "/profile/account/validate_id" &&
+              subMenuOption.path !== "/profile/account/link" &&
+              subMenuOption.path !== "/Profile/bank-account" &&
+              subMenuOption.path !== "/Profile/linked-agents" &&
+              subMenuOption.path !== "/Profile/linking-requests" &&
+              subMenuOption.path !== "/Profile/validate-bank-account" &&
+              subMenuOption.path !== "/Profile/link-agentbanker"
+            );
+          }
+          else if (profileData && profileData.agentType === "AGENT_MEMBER") {
             return (
               subMenuOption.path !== "/Profile/link-agentbanker" &&
               subMenuOption.path !== "/Profile/upgrade-agentbanker" &&
@@ -188,7 +211,7 @@ class Sidebar extends Component {
           "Account Linking",
           agentType === "AGENT_BANKER"
             ? "Your account is not active, you need to link your Bank Customer ID."
-            : "Your account is not active, you need to link your account to super agent."
+            : agentType === "AGENT" ? "Your account is not active yet, the linking request was rejected by the requested Agent Banker. You still need to link your account to super agent to proceed." : ""
         );
         break;
       default:
