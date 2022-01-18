@@ -11,7 +11,7 @@ import { fetchAgentProfile, fetchSuperAgentDetail, sendLinkingRequestToSuperAgen
 import actionType from "../../../services/agent/actionType.js";
 import { FormattedMessage, IntlProvider } from 'react-intl';
 
-const ValidateSuperAgentId = () => {
+const ValidateSuperAgentId = (props) => {
 
   const [step, setStep] = useState(1);
 
@@ -30,6 +30,9 @@ const ValidateSuperAgentId = () => {
   const sendLinkingRequestSuccess = useSelector(state => state.agentReducer.sendLinkingRequest.success);
 
   React.useEffect(async () => {
+    dispatch({
+      type: actionType.SUPER_AGENT_DETAIL_RESET
+    });
 
     const messages = await loadLocaleData(localStorage.getItem("lang"));
     setMessages(messages);
@@ -65,11 +68,15 @@ const ValidateSuperAgentId = () => {
   }, [agentProfile, dispatch]);
 
   React.useEffect(() => {
-    if (Object.keys(superAgentDetail).length && step === 1) {
-      setStep(step + 1);
-    } else if (sendLinkingRequestSuccess && step === 2) {
-      setStep(step + 1);
+    // console.log(superAgentDetail, "SUPER AGENT DETAILS")
+    if (superAgentDetail !== {}) {
+      if (Object.keys(superAgentDetail).length && step === 1) {
+        setStep(step + 1);
+      } else if (sendLinkingRequestSuccess && step === 2) {
+        setStep(step + 1);
+      }
     }
+
   }, [step, superAgentDetail, sendLinkingRequestSuccess]);
 
   const stepOneValidated = () => {
@@ -99,7 +106,8 @@ const ValidateSuperAgentId = () => {
       fetchAgentDetail();
     } else if (step === 2) {
       sendlinkingRequestToSuperAgent();
-    } else {
+    }
+    else {
       resetForm();
       setStep(1);
       dispatch({
@@ -145,7 +153,7 @@ const ValidateSuperAgentId = () => {
         <div className="containerBiaN_form">
           <div className="containerBiaN_f_row">
             <div className="containerBiaN_f_col width30percent textAlignRight">
-              <label>Super Agent Id(Phone number without country code) <span className="mantdat">*</span></label>
+              <label>Super Agent ID <span className="mantdat">*</span> <br /><span style={{ fontSize: "13px", color: "darkgray" }}>(Phone Number without country code)</span> </label>
             </div>
             <div className="containerBiaN_f_col width70percent">
               <input placeholder="Enter Phone number" type="number" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
@@ -305,7 +313,7 @@ const ValidateSuperAgentId = () => {
                   <div style={{ width: "100%", float: "left" }}>
                     <div className="confirm_p_w mTB00 button-container rspacing">
                       {step !== 1 & step !== 3 ? <button className="blackbtn aryousureBTN confirmBtnR" onClick={() => prevStep()}>
-                        <FormattedMessage id="agent.Back" />
+                        Back
 
                       </button> : ''}
                       <button

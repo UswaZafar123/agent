@@ -109,6 +109,7 @@ import AgentSendMoneyToAgentMember from "./Component/page/AgentSendMoney/AgentSe
 import UpgradeToAgentBanker from "./Component/page/Profile/UpgradeToAgentBanker";
 import LinkToAgentBanker from "./Component/page/Profile/LinkToAgentBanker";
 import LinkingRequests from "./Component/page/Profile/LinkingRequests";
+import LinkedAgents from "./Component/page/Profile/LinkedAgents";
 
 export const App = (props) => {
   const [toggleMenuVar, setToggleMenuVar] = useState(false)
@@ -421,6 +422,10 @@ export const App = (props) => {
                       path="/Profile/upgrade-agentbanker"
                       component={UpgradeToAgentBanker}
                     />
+                    <Route
+                      path="/Profile/linked-agents"
+                      component={LinkedAgents}
+                    />
                     {/* <Route
                       exact
                       path="/profile/account/link"
@@ -428,7 +433,7 @@ export const App = (props) => {
                     /> */}
                     <Route
                       exact
-                      path="/profile/account/validate_id"
+                      path="/Profile/validate-bank-account"
                       component={ValidateSuperAgentId}
                     />
                     {/* Cash Operations Routing */}

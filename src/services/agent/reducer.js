@@ -179,6 +179,7 @@ const agentReducer = (state = initialState, action) => {
         profile: {
           ...state.profile,
           loading: true,
+          data : null,
         },
       };
     case actionType.AGENT_PROFILE_DATA:
@@ -196,6 +197,7 @@ const agentReducer = (state = initialState, action) => {
         profile: {
           ...state.profile,
           loading: false,
+          data : null
         },
       };
     /**

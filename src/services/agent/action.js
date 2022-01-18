@@ -1874,7 +1874,7 @@ export const getAllAgentMemberLists = () => (dispatch) => {
       dispatch(HideLoading());
       if (res.status === 200) {
         toastr.success(
-          "Agent Member List Retrieval Successful"
+          "Linked List Retrieval Successful"
         );
         dispatch({
           type: actionType.GET_AGENT_MEMBER_LIST_SUCCESS,
@@ -1882,7 +1882,7 @@ export const getAllAgentMemberLists = () => (dispatch) => {
         });
       } else {
         toastr.warning(
-          "Agent Member List Retrieval Warning!"
+          "Linked List Retrieval Warning!"
         );
         dispatch({
           type: actionType.GET_AGENT_MEMBER_LIST_FAILURE,
@@ -1891,7 +1891,7 @@ export const getAllAgentMemberLists = () => (dispatch) => {
     })
     .catch((err) => {
       dispatch(HideLoading());
-      toastr.error("Error Retrieving Agent Member List.");
+      toastr.error("Error Retrieving Linked List.");
       dispatch({
         type: actionType.GET_AGENT_MEMBER_LIST_FAILURE,
       });
