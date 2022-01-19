@@ -26,7 +26,7 @@ export const Side_bar_data = [
   {
     title: "Cash In/Cash Out",
     path: "/agent/cash_in",
-    iconClass: "icon-Asset-47",
+    iconClass: "icon-Asset-6",
     id: 4,
     subMenu: [
       {
@@ -58,7 +58,7 @@ export const Side_bar_data = [
   {
     title: "Send Money",
     path: "/agent/send-money",
-    iconClass: "icon-Asset-47",
+    iconClass: "icon-Asset-28",
     id: 5,
     subMenu: [
       {

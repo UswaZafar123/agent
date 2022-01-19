@@ -125,10 +125,10 @@ class Header extends Component {
               <option value='en-US'>English</option>
               <option value='fr'>French</option>
             </select>
-            <div className="hBell dFlexAllCenter">
+            {/* <div className="hBell dFlexAllCenter">
               <span className="icon-Asset-41 fSize20"></span>
               <div className="notificationMark">4</div>
-            </div>
+            </div> */}
             <div className="nameDesig">
               <h3>Agent</h3>
               <h4>Agent</h4>
