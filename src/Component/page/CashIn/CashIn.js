@@ -27,7 +27,9 @@ import {
   fetchAgentBankAccounts,
   sendOtpToAgent,
   walletCashInFromBank,
+  getFee,
 } from "../../../services/agent/action.js";
+import feeConstants from "../../../Assets/feeConstants";
 
 function TabContainer(props) {
   return (
@@ -63,6 +65,7 @@ const CashIn = () => {
 
   const [selectedBankAccount, setSelectedBankAccount] = useState({});
   const [amount, setAmount] = useState("");
+  const [fee, setFee] = useState("");
   const [reason, setReason] = useState("");
   const [selectedOtpType, setSelectedOtpType] = useState(otpTypes[0].value);
   const [otpTimer, setOtpTimer] = React.useState(resendTime);
@@ -93,6 +96,8 @@ const CashIn = () => {
     (state) => state.agentReducer.agentWalletCashIn.success
   );
 
+  const feeData = useSelector((state) => state.agentReducer.feeData);
+
   useEffect(() => {
     return () => {
       dispatch({
@@ -103,6 +108,15 @@ const CashIn = () => {
       });
     };
   }, []);
+
+  useEffect(() => {
+    console.log(feeData, "FEE");
+
+    if (feeData !== null) {
+      setFee(feeData.transactionFee);
+    }
+
+  }, [feeData])
 
   useEffect(() => {
     if (agentBankAccounts.length === 0) {
@@ -177,9 +191,11 @@ const CashIn = () => {
   };
 
   const formSubmitAction = () => {
-    if (step === 1) {
+    if (step === 1 && amount !== "") {
+      calculateFees();
       setStep(step + 1);
     } else if (step === 2) {
+      console.log(fee, "FEE")
       setStep(step + 1);
     } else if (step === 3) {
       sendAgentOtp();
@@ -190,6 +206,21 @@ const CashIn = () => {
       setStep(1);
     }
   };
+
+  const calculateFees = () => {
+    let subscriptionID = feeConstants.getAgentSubscriptionId(agentProfile.status);
+    console.log(subscriptionID, "SUBSCRIPTION ID");
+
+    var requestObj = {
+      paymentMethodId:
+        feeConstants.constants.CASHIN_AGENT,
+      subscriptionPlanId: subscriptionID,
+      currencyCode: "XAF",
+      transactionAmount: amount,
+    };
+    dispatch(getFee(requestObj));
+
+  }
 
   const prevStep = () => {
     if (step === 4) {
@@ -228,12 +259,11 @@ const CashIn = () => {
     var requestObj = {
       bankCustomerId: agentProfile.bankCustomerId,
       debtorBankAccountNumber: selectedBankAccount.accNo,
-      amount: amount,
-      reason: "Test Cash In",
+      amount: parseFloat(amount),
+      reason: reason,
       mfaToken: otp,
-      currencyName: "xaf",
-      // "fee": transactionFee.value,
-      // "feeId": feeId.value,
+      currencyName: "XAF",
+      fee: fee,
       type: "CASH_IN",
     };
     dispatch(walletCashInFromBank(requestObj));
@@ -291,6 +321,19 @@ const CashIn = () => {
               onChange={(e) => setAmount(e.target.value)}
             />
           </div>
+          <div className="containerBiaN_f_col" style={{ padding: "0px" }}>
+            <label>
+              Reason <span className="mantdat">*</span>
+            </label>
+          </div>
+          <div className="containerBiaN_f_col" style={{ padding: "0px" }}>
+            <input
+              placeholder="Enter Reason"
+              type="text"
+              value={reason}
+              onChange={(e) => setReason(e.target.value)}
+            />
+          </div>
         </div>
       </>
     );
@@ -322,8 +365,16 @@ const CashIn = () => {
                 <p style={{ fontWeight: "bold" }}>{agentProfile.phoneNo}</p>
               </div>
               <div style={{ display: "flex" }}>
-                <p style={{ marginRight: "16px", color: "gray" }}>Amount</p>
+                <p style={{ marginRight: "16px", color: "gray" }}>Fee</p>
+                <p style={{ fontWeight: "bold" }}>{`${fee} XAF`}</p>
+              </div>
+              <div style={{ display: "flex" }}>
+                <p style={{ marginRight: "16px", color: "gray" }}>Transfer Amount</p>
                 <p style={{ fontWeight: "bold" }}>{`${amount} XAF`}</p>
+              </div>
+              <div style={{ display: "flex" }}>
+                <p style={{ marginRight: "16px", color: "gray" }}>Total Amount</p>
+                <p style={{ fontWeight: "bold" }}>{parseFloat(amount) + parseFloat(fee) + " XAF"}</p>
               </div>
             </div>
           </div>
@@ -495,10 +546,10 @@ const CashIn = () => {
                           value={selectedTab}
                           onChange={handleTabChange}
                         >
-                          {agentProfile.registrationType ===
+                          {agentProfile !== null && agentProfile !== undefined && agentProfile.registrationType ===
                             "EXISTING_BANK_CUSTOMER" && (
-                            <Tab label="Credit/Debit Card" />
-                          )}
+                              <Tab label="Credit/Debit Card" />
+                            )}
                           <Tab label="Bank Account" />
                         </Tabs>
                       </AppBar>
@@ -512,7 +563,7 @@ const CashIn = () => {
                       </TabContainer>
                     )}
 
-                    {agentProfile.registrationType ===
+                    {agentProfile !== null && agentProfile !== undefined && agentProfile.registrationType ===
                       "EXISTING_BANK_CUSTOMER" &&
                       selectedTab === 1 && (
                         <div style={{ margin: "16px 0px" }}>
@@ -555,8 +606,8 @@ const CashIn = () => {
                                 {step === 4
                                   ? "Submit"
                                   : step === 5
-                                  ? "Done"
-                                  : "Next"}
+                                    ? "Done"
+                                    : "Next"}
                               </button>
                             </div>
                           </div>

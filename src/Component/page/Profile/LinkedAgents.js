@@ -92,9 +92,20 @@ class AgentMember extends Component {
 
     componentWillReceiveProps = (nextprops) => {
         if (nextprops.getAllAgentMemberList) {
-            this.setState({
-                rowData: nextprops.getAllAgentMemberList
+            let filteredAgentList = nextprops.getAllAgentMemberList.filter((data) => {
+                if (data.agentType === "AGENT") {
+                    return data;
+                }
             })
+            if (filteredAgentList.length > 0) {
+                this.setState({
+                    rowData: filteredAgentList
+                })
+            } else {
+                this.setState({
+                    rowData: []
+                })
+            }
         }
     }
 
