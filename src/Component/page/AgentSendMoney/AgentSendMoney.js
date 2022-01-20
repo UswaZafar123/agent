@@ -189,7 +189,7 @@ const AgentSendMoney = () => {
     );
     var requestObj = {
       paymentMethodId:
-        feeConstants.constants.WALLET_TO_WALLET_TRANSFER_METHOD_ID,
+        feeConstants.constants.AGENT_WALLET_TO_AGENT_WALLET,
       subscriptionPlanId: subscriptionId,
       currencyCode: "XAF",
       transactionAmount: amount,

@@ -22,11 +22,13 @@ import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
+import feeConstants from "../../../Assets/feeConstants";
 
 import {
   fetchAgentBankAccounts,
   sendOtpToAgent,
   walletCashOutFromBank,
+  getFee
 } from "../../../services/agent/action.js";
 
 function TabContainer(props) {
@@ -64,6 +66,7 @@ const CashOut = () => {
   const [selectedBankAccount, setSelectedBankAccount] = useState({});
   const [amount, setAmount] = useState("");
   const [reason, setReason] = useState("");
+  const [fee, setFee] = useState("");
   const [selectedOtpType, setSelectedOtpType] = useState(otpTypes[0].value);
   const [otpTimer, setOtpTimer] = React.useState(resendTime);
   const [otp, setOtp] = useState("");
@@ -93,6 +96,9 @@ const CashOut = () => {
     (state) => state.agentReducer.agentWalletCashOut.success
   );
 
+  const feeData = useSelector((state) => state.agentReducer.feeData);
+
+
   useEffect(() => {
     return () => {
       dispatch({
@@ -103,6 +109,15 @@ const CashOut = () => {
       });
     };
   }, []);
+
+  useEffect(() => {
+    console.log(feeData, "FEE");
+
+    if (feeData !== null) {
+      setFee(feeData.transactionFee);
+    }
+
+  }, [feeData])
 
   useEffect(() => {
     if (agentBankAccounts.length === 0) {
@@ -181,9 +196,11 @@ const CashOut = () => {
   };
 
   const formSubmitAction = () => {
-    if (step === 1) {
+    if (step === 1 && amount !== "") {
+      calculateFees();
       setStep(step + 1);
     } else if (step === 2) {
+      console.log(fee, "FEE");
       setStep(step + 1);
     } else if (step === 3) {
       sendAgentOtp();
@@ -232,16 +249,31 @@ const CashOut = () => {
     var requestObj = {
       bankCustomerId: agentProfile.bankCustomerId,
       toAccountNumber: selectedBankAccount.accNo,
-      amount: amount,
-      reason: "",
+      amount: parseFloat(amount),
+      reason: reason,
       mfaToken: otp,
-      currencyName: "xaf",
-      // "fee": transactionFee.value,
+      currencyName: "XAF",
+      fee: fee,
       // "feeId": feeId.value,
       type: "CASH_OUT",
     };
     dispatch(walletCashOutFromBank(requestObj));
   };
+
+  const calculateFees = () => {
+    let subscriptionID = feeConstants.getAgentSubscriptionId(agentProfile.status);
+    console.log(subscriptionID, "SUBSCRIPTION ID");
+
+    var requestObj = {
+      paymentMethodId:
+        feeConstants.constants.CASHOUT_AGENT,
+      subscriptionPlanId: subscriptionID,
+      currencyCode: "XAF",
+      transactionAmount: amount,
+    };
+    dispatch(getFee(requestObj));
+
+  }
 
   const bankCashOutForm = () => {
     return (
@@ -295,6 +327,19 @@ const CashOut = () => {
               onChange={(e) => setAmount(e.target.value)}
             />
           </div>
+          <div className="containerBiaN_f_col" style={{ padding: "0px" }}>
+            <label>
+              Reason <span className="mantdat">*</span>
+            </label>
+          </div>
+          <div className="containerBiaN_f_col" style={{ padding: "0px" }}>
+            <input
+              placeholder="Enter Reason"
+              type="text"
+              value={reason}
+              onChange={(e) => setReason(e.target.value)}
+            />
+          </div>
         </div>
       </>
     );
@@ -326,8 +371,16 @@ const CashOut = () => {
                 </p>
               </div>
               <div style={{ display: "flex" }}>
-                <p style={{ marginRight: "16px", color: "gray" }}>Amount</p>
+                <p style={{ marginRight: "16px", color: "gray" }}>Fee</p>
+                <p style={{ fontWeight: "bold" }}>{`${fee} XAF`}</p>
+              </div>
+              <div style={{ display: "flex" }}>
+                <p style={{ marginRight: "16px", color: "gray" }}>Transfer Amount</p>
                 <p style={{ fontWeight: "bold" }}>{`${amount} XAF`}</p>
+              </div>
+              <div style={{ display: "flex" }}>
+                <p style={{ marginRight: "16px", color: "gray" }}>Total Amount</p>
+                <p style={{ fontWeight: "bold" }}>{parseFloat(amount) + parseFloat(fee) + " XAF"}</p>
               </div>
             </div>
           </div>
@@ -502,8 +555,8 @@ const CashOut = () => {
                           <Tab label="Credit/Debit Card" />
                           {agentProfile.registrationType ===
                             "EXISTING_BANK_CUSTOMER" && (
-                            <Tab label="Bank Account" />
-                          )}
+                              <Tab label="Bank Account" />
+                            )}
                         </Tabs>
                       </AppBar>
                     )}
@@ -559,8 +612,8 @@ const CashOut = () => {
                                 {step === 4
                                   ? "Submit"
                                   : step === 5
-                                  ? "Done"
-                                  : "Next"}
+                                    ? "Done"
+                                    : "Next"}
                               </button>
                             </div>
                           </div>

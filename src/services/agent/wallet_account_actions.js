@@ -17,6 +17,7 @@ export const fetchAgentWallet = (token) => (dispatch) => {
   });
   axios(config)
     .then((res) => {
+      toastr.success("Wallet Balance Fetched.")
       if (res.status === 200) {
         var walletData = res.data.find((wallet) => {
           return wallet.currencyCode.toLowerCase() === "xaf";
