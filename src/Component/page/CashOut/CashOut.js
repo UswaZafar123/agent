@@ -22,6 +22,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
+import { FormattedMessage, IntlProvider } from 'react-intl';
 
 import {
   fetchAgentBankAccounts,
@@ -68,6 +69,11 @@ const CashOut = () => {
   const [otpTimer, setOtpTimer] = React.useState(resendTime);
   const [otp, setOtp] = useState("");
   const [selectedTab, setSelectedTab] = useState(0);
+
+  const [messages, setMessages] = useState("");
+  const [language, setLanguage] = useState("");
+
+  const lan = useSelector(state => state.commonReducer.language);
 
   const dispatch = useDispatch();
   const agentProfile = useSelector((state) => state.agentReducer.profile.data);
@@ -124,6 +130,36 @@ const CashOut = () => {
       }
     }
   }, [otpTimer, step]);
+
+  
+  useEffect(async () => {
+
+    const messages = await loadLocaleData(localStorage.getItem("lang"));
+    setMessages(messages);
+
+    setLanguage(localStorage.getItem("lang"));
+
+    // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
+
+  }, [])
+
+  const loadLocaleData = (locale) => {
+    switch (locale) {
+      case "fr":
+        return import("../../i18n/messages/fr.js");
+      default:
+        return import("../../i18n/messages/en.js");
+    }
+  };
+
+  useEffect(async () => {
+
+    const messages = await loadLocaleData(lan);
+    setMessages(messages);
+
+    setLanguage(lan);
+
+  }, [lan])
 
   useEffect(() => {
     if (firstUpdate.current) {
@@ -468,6 +504,10 @@ const CashOut = () => {
   };
 
   return (
+    <IntlProvider
+    messages={messages.default}
+    locale={language}
+  >
     <div className="main_contain agentformCenter">
       <div className="merch_m_list_w">
         <div className="merch_list_card" id="merch_list_card">
@@ -480,7 +520,7 @@ const CashOut = () => {
                       className="list_top_heading textAlignCenter text-center"
                       style={{ paddingLeft: "0px" }}
                     >
-                      Wallet Cash Out
+                      <FormattedMessage id="agent.WalletCashOut" />
                     </h1>
                   </div>
                 </div>
@@ -499,10 +539,10 @@ const CashOut = () => {
                           value={selectedTab}
                           onChange={handleTabChange}
                         >
-                          <Tab label="Credit/Debit Card" />
+                          <Tab label={<FormattedMessage id="agent.Credit/DebitCard" />} />
                           {agentProfile.registrationType ===
                             "EXISTING_BANK_CUSTOMER" && (
-                            <Tab label="Bank Account" />
+                            <Tab label={<FormattedMessage id="agent.BankAccount" />} />
                           )}
                         </Tabs>
                       </AppBar>
@@ -511,7 +551,7 @@ const CashOut = () => {
                     {selectedTab === 0 && (
                       <TabContainer>
                         <div>
-                          <p>This feature will be available soon</p>
+                          <p><FormattedMessage id="agent.Thisfeaturewillbeavailablesoon" /></p>
                         </div>
                       </TabContainer>
                     )}
@@ -574,6 +614,7 @@ const CashOut = () => {
         </div>
       </div>
     </div>
+    </IntlProvider>
   );
 };
 

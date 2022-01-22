@@ -24,8 +24,8 @@ const WalletCashDeposit = () => {
   const firstUpdate = useRef(true);
   const [step, setStep] = useState(1);
   const idDocumentTypes = [
-    { name: "ID Card", value: "ID_CARD" },
-    { name: "Passport", value: "PASSPORT" }
+    { name: "agent.IDCard", value: "ID_CARD" },
+    { name: "agent.Passport", value: "PASSPORT" }
   ];
   const otpTypes = [
     { name: "Email", value: "EMAIL" },
@@ -275,7 +275,7 @@ const WalletCashDeposit = () => {
                 <Select
                   style={{ width: 100 + "%", height: 52 }} value={selectedDocumentType} onChange={(value) => setSelectedDocumentType(value)}>
                   {idDocumentTypes.map((type) => {
-                    return <Option value={type.value}>{type.name}</Option>
+                    return <Option value={type.value}><FormattedMessage id={type.name} /></Option>
                   })}
                 </Select>
               </div>
@@ -468,7 +468,7 @@ const WalletCashDeposit = () => {
                         disabled={isFormValidated() ? false : true}
                         onClick={() => formSubmitAction()}
                       >
-                        {step === 4 ? "Submit" : step === 5 ? "Done" : "Next"}
+                        {step === 4 ? "Submit" : step === 5 ? "Done" : <FormattedMessage id="agent.Next"/>}
                       </button>
                     </div>
                   </div>

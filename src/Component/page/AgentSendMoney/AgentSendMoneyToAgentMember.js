@@ -23,6 +23,7 @@ import {
     getFee,
     getAllAgentMemberLists,
 } from "../../../services/agent/action.js";
+import { FormattedMessage, IntlProvider } from 'react-intl';
 
 const { Option } = Select;
 const resendTime = 30;
@@ -41,6 +42,11 @@ const AgentSendMoneyToAgentMember = () => {
     const [selectedOtpType, setSelectedOtpType] = useState(otpTypes[0].value);
     const [otpTimer, setOtpTimer] = React.useState(resendTime);
     const [otp, setOtp] = useState("");
+
+    const [messages, setMessages] = useState("");
+    const [language, setLanguage] = useState("");
+  
+    const lan = useSelector(state => state.commonReducer.language);
 
     const dispatch = useDispatch();
     const agentProfile = useSelector((state) => state.agentReducer.profile.data);
@@ -99,6 +105,35 @@ const AgentSendMoneyToAgentMember = () => {
             }
         }
     }, [otpTimer, step]);
+
+    useEffect(async () => {
+
+        const messages = await loadLocaleData(localStorage.getItem("lang"));
+        setMessages(messages);
+    
+        setLanguage(localStorage.getItem("lang"));
+    
+        // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
+    
+      }, [])
+    
+      const loadLocaleData = (locale) => {
+        switch (locale) {
+          case "fr":
+            return import("../../i18n/messages/fr.js");
+          default:
+            return import("../../i18n/messages/en.js");
+        }
+      };
+    
+      useEffect(async () => {
+    
+        const messages = await loadLocaleData(lan);
+        setMessages(messages);
+    
+        setLanguage(lan);
+    
+      }, [lan])
 
     useEffect(() => {
         if (firstUpdate.current) {
@@ -250,11 +285,15 @@ const AgentSendMoneyToAgentMember = () => {
 
     const sendMoneyForm = () => {
         return (
+            <IntlProvider
+            messages={messages.default}
+            locale={language}
+          >
             <>
                 <div>
                     <div className="containerBiaN_f_col" style={{ padding: "0px" }}>
                         <label>
-                            Agent Member ID <span style={{ fontSize: "13px" }}>(without country code)</span>{" "}
+                            <FormattedMessage id="agent.AgentMemberID" /><span style={{ fontSize: "13px" }}><FormattedMessage id="agent.(withoutcountrycode)" /></span>{" "}
                             <span className="mantdat">*</span>
                         </label>
                     </div>
@@ -268,7 +307,7 @@ const AgentSendMoneyToAgentMember = () => {
                                 }}
                                 id={'page-size'}
                             >
-                                <Option value="DEFAULT" disabled={true}>Select an Agent Member</Option>
+                                <Option value="DEFAULT" disabled={true}><FormattedMessage id="agent.SelectanAgentMember" /></Option>
                                 {
                                     getAllAgentMemberList !== null && getAllAgentMemberList.length > 0 & getAllAgentMemberList !== undefined &&
                                     getAllAgentMemberList.map((agentMember) => {
@@ -284,36 +323,43 @@ const AgentSendMoneyToAgentMember = () => {
                 <div>
                     <div className="containerBiaN_f_col" style={{ padding: "0px" }}>
                         <label>
-                            Amount <span className="mantdat">*</span>
+                            <FormattedMessage id="agent.Amount" /> <span className="mantdat">*</span>
                         </label>
                     </div>
                     <div className="containerBiaN_f_col" style={{ padding: "0px" }}>
+                    <FormattedMessage id="agent.EnterAmount">
+                        {placeholder =>
                         <input
-                            placeholder="Enter amount"
+                            placeholder={placeholder}
                             type="number"
                             value={amount}
                             onChange={(e) => setAmount(e.target.value)}
-                        />
+                        />}
+                    </FormattedMessage>
                     </div>
                 </div>
                 <div>
                     <div className="containerBiaN_f_col" style={{ padding: "0px" }}>
                         <label>
-                            Reason <span className="mantdat">*</span>
+                        <FormattedMessage id="agent.Reason" /> <span className="mantdat">*</span>
                         </label>
                     </div>
                     <div className="containerBiaN_f_col" style={{ padding: "0px" }}>
+                    <FormattedMessage id="agent.Reason">
+                        {placeholder =>
                         <textarea
-                            placeholder="Reason"
+                            placeholder={placeholder}
                             id="w3review"
                             rows="4"
                             cols="50"
                             value={reason}
                             onChange={(e) => setReason(e.target.value)}
-                        ></textarea>
+                        ></textarea>}
+                    </FormattedMessage>
                     </div>
                 </div>
             </>
+            </IntlProvider>
         );
     };
 
@@ -493,6 +539,10 @@ const AgentSendMoneyToAgentMember = () => {
     };
 
     return (
+        <IntlProvider
+        messages={messages.default}
+        locale={language}
+      >
         <div className="main_contain agentformCenter">
             <div className="merch_m_list_w">
                 <div className="merch_list_card" id="merch_list_card">
@@ -505,7 +555,7 @@ const AgentSendMoneyToAgentMember = () => {
                                             className="list_top_heading textAlignCenter text-center"
                                             style={{ paddingLeft: "0px" }}
                                         >
-                                            Send Money to Agent Member
+                                            <FormattedMessage id="agent.SendMoneytoAgentMember" />
                                         </h1>
                                     </div>
                                 </div>
@@ -553,7 +603,7 @@ const AgentSendMoneyToAgentMember = () => {
                                                             ? "Submit"
                                                             : step === 5
                                                                 ? "Done"
-                                                                : "Next"}
+                                                                : <FormattedMessage id="agent.Next" />}
                                                     </button>
                                                 </div>
                                             </div>
@@ -566,6 +616,7 @@ const AgentSendMoneyToAgentMember = () => {
                 </div>
             </div>
         </div>
+        </IntlProvider>
     );
 };
 

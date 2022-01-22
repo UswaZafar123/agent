@@ -1,6 +1,6 @@
 export const Side_bar_data = [
   {
-    title: "Dashboard",
+    title: "agent.Dashboard",
     path: "/agent/dashboard",
     iconClass: "icon-Asset-47",
     id: 1,
@@ -24,17 +24,17 @@ export const Side_bar_data = [
   //   ],
   // },
   {
-    title: "Cash In/Cash Out",
+    title: "agent.CashIn/CashOut",
     path: "/agent/cash_in",
     iconClass: "icon-Asset-6",
     id: 4,
     subMenu: [
       {
-        title: "Cash In",
+        title: "agent.CashIn",
         path: "/agent/cash_in",
       },
       {
-        title: "Cash out",
+        title: "agent.CashOut",
         path: "/agent/cash_out",
       },
     ],
@@ -56,39 +56,39 @@ export const Side_bar_data = [
   //   ],
   // },
   {
-    title: "Send Money",
+    title: "agent.SendMoney",
     path: "/agent/send-money",
     iconClass: "icon-Asset-28",
     id: 5,
     subMenu: [
       {
-        title: "To Agent Wallet",
+        title: "agent.ToAgentWallet",
         path: "/agent/send-money",
       },
       {
-        title: "To Agent Member",
+        title: "agent.ToAgentMember",
         path: "/agent/send-money-agentMember",
       },
     ],
   },
   {
-    title: "Account Opening",
+    title: "agent.AccountOpening",
     path: "/agent/walletAccountOpening",
     iconClass: "icon-Asset-2",
     id: 8,
     subMenu: [
       {
-        title: "Wallet Account Opening",
+        title: "agent.WalletAccountOpening",
         path: "/agent/walletAccountOpening",
       },
       {
-        title: "Bank Account Opening",
+        title: "agent.BankingAccountOpening",
         path: "/agent/BankingAccountOpening",
       },
     ],
   },
   {
-    title: "Banking Operation",
+    title: "agent.BankingOperation",
     path: "/admin/bankingOperation",
     id: 9,
     iconClass: "icon-Asset-4",
@@ -98,19 +98,19 @@ export const Side_bar_data = [
       //   path: "/admin/banking/transfer",
       // },
       {
-        title: "Cash Deposit To Bank",
+        title: "agent.CashDepositToBank",
         path: "/agent/cash_deposit/bank",
       },
       {
-        title: "Cash Withdraw From Bank",
+        title: "agent.CashWithdrawalFromBank",
         path: "/agent/cash_withdraw/bank",
       },
       {
-        title: "Account Balance",
+        title: "agent.AccountBalance",
         path: "/admin/banking/account_balance",
       },
       {
-        title: "Account Statement",
+        title: "agent.AccountStatement",
         path: "/admin/banking/account_statement",
       },
       // {
@@ -128,7 +128,7 @@ export const Side_bar_data = [
     ],
   },
   {
-    title: "Wallet Operation",
+    title: "agent.WalletOperation",
     path: "/agent/walletOperation",
     id: 10,
     iconClass: "icon-Asset-3",
@@ -138,19 +138,19 @@ export const Side_bar_data = [
       //   path: "/Agent/walletOperation/transfert",
       // },
       {
-        title: "Cash Deposit To Wallet",
+        title: "agent.CashDeposittoWallet",
         path: "/agent/cash_deposit/wallet",
       },
       {
-        title: "Cash Withdraw From Wallet",
+        title: "agent.CashWithdrawFromWallet",
         path: "/agent/cash_withdraw/wallet",
       },
       {
-        title: "Account Balance",
+        title: "agent.AccountBalance",
         path: "/Agent/walletOperation/AccountBalance",
       },
       {
-        title: "Account Statement",
+        title: "agent.AccountStatement",
         path: "/Agent/walletOperation/AccountStatement",
       },
       // {
@@ -193,7 +193,7 @@ export const Side_bar_data = [
   //   ],
   // },
   {
-    title: "Transactions",
+    title: "agent.Transactions",
     path: "/agent/transcations",
     id: 13,
     iconClass: "icon-Asset-33",
@@ -240,7 +240,7 @@ export const Side_bar_data = [
   //     iconClass:"icon-Asset-28"
   // },
   {
-    title: "Ticket Management",
+    title: "agent.TicketManagement",
     path: "/agent/tickets",
     id: 16,
     iconClass: "icon-Asset-26",
@@ -256,7 +256,7 @@ export const Side_bar_data = [
   //     iconClass:"icon-Asset-29"
   // },
   {
-    title: "Access History",
+    title: "agent.AccessHistory",
     path: "/agent/access-history",
     id: 17,
     iconClass: "icon-Asset-25",
@@ -275,13 +275,13 @@ export const Side_bar_data = [
   },
 
   {
-    title: "Settings",
+    title: "agent.Settings",
     path: "/agents/Settings",
     iconClass: "icon-Asset-23",
     id: 19,
     subMenu: [
       {
-        title: "General",
+        title: "agent.General",
         path: "/Settings/General",
         subMenu: [
           // {
@@ -335,17 +335,17 @@ export const Side_bar_data = [
           //     iconClass:"icon-Asset-11"
           // },
           {
-            title: "Agent Users",
+            title: "agent.AgentUsers",
             path: "/settings/general/users",
             iconClass: "icon-Asset-2",
           },
           {
-            title: "Package Management",
+            title: "agent.PackageManagement",
             path: "/settings/general/package-management",
             iconClass: "icon-Asset-4",
           },
           {
-            title: "Roles Management",
+            title: "agent.RolesManagement",
             path: "/settings/general/roles-management",
             iconClass: "icon-Asset-9",
           },
@@ -377,7 +377,7 @@ export const Side_bar_data = [
         ],
       },
       {
-        title: "Agent Member",
+        title: "agent.AgentMember",
         path: "/settings/agent-member",
         iconClass: "icon-Asset-35",
       },
@@ -420,15 +420,15 @@ export const Side_bar_data = [
       //     path:"/Settings/Loan_Management",
       // },
       {
-        title: "Commissions management",
+        title: "agent.CommissionsManagement",
         path: "/settings/Commissions-management",
       },
       {
-        title: "Assets",
+        title: "agent.Assets",
         path: "/agent/assets",
       },
       {
-        title: "Operations",
+        title: "agent.Operations",
         path: "/agent/operations",
       },
       // {
@@ -438,29 +438,29 @@ export const Side_bar_data = [
     ],
   },
   {
-    title: "Profile",
+    title: "agent.Profile",
     path: "/Profile/Profile",
     id: 20,
     iconClass: "icon-Asset-22",
     subMenu: [
       {
-        title: "Profile",
+        title: "agent.Profile",
         path: "/Profile/Profile",
       },
       {
-        title: "Bank Account",
+        title: "agent.BankAccount",
         path: "/Profile/bank-account",
       },
       {
-        title: "Linked Agents",
+        title: "agent.LinkedAgents",
         path: "/Profile/linked-agents",
       },
       {
-        title: "Linking Requests",
+        title: "agent.LinkingRequests",
         path: "/Profile/linking-requests",
       },
       {
-        title: "Validate Bank Account",
+        title: "agent.ValidateBankAccount",
         path: "/Profile/validate-bank-account",
       },
       // {
@@ -472,19 +472,19 @@ export const Side_bar_data = [
       //   path: "/Profile/qr-code",
       // },
       {
-        title: "Change Password",
+        title: "agent.ChangePasswords",
         path: "/Profile/change-password",
       },
       {
-        title: "Link to Agent Banker",
+        title: "agent.LinktoAgentBanker",
         path: "/Profile/link-agentbanker",
       },
       {
-        title: "Upgrade to Agent Banker",
+        title: "agent.UpgradetoAgentBanker",
         path: "/Profile/upgrade-agentbanker",
       },
       {
-        title: "Account Linking",
+        title: "agent.AccountLinking",
         path: "/profile/account/link",
       },
       // {

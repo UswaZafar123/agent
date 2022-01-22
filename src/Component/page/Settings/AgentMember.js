@@ -6,7 +6,7 @@ import '../Settings/General/formfromold.css'
 import { AgGridColumn, AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
-import { FormattedMessage, useIntl, injectIntl } from "react-intl";
+import { FormattedMessage, useIntl, injectIntl, IntlProvider } from "react-intl";
 import { getAllAgentMemberLists, registerAgentMember, getAllAgentMemberPackages } from "../../../services/agent/action"
 // import libphonenumber from 'google-libphonenumber';
 
@@ -123,7 +123,9 @@ class AgentMember extends Component {
             agentPackagesData: [],
             selectedPackage: "DEFAULT",
             password: "",
-            agentMemberActiveStatus: "INACTIVE"
+            agentMemberActiveStatus: "INACTIVE",
+            messages: "",
+            language: ""
         };
     }
 
@@ -313,12 +315,34 @@ class AgentMember extends Component {
         // console.log((this.state.mobileNumber).split(" "),"Mobile Num")
     };
 
+    async translationHelperFunction() {
+
+        const messages = await this.loadLocaleData(localStorage.getItem("lang"));
+        this.setState({
+          messages: messages,
+          language: localStorage.getItem("lang")
+        });
+        // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
+    
+      }
+    
+      loadLocaleData = (locale) => {
+        switch (locale) {
+          case "fr":
+            return import("../../i18n/messages/fr.js");
+          default:
+            return import("../../i18n/messages/en.js");
+        }
+      };
+
     componentDidMount = () => {
         this.props.getAllAgentMemberLists();
         this.props.getAllAgentMemberPackages();
+
+        this.translationHelperFunction();
     }
 
-    componentWillReceiveProps = (nextprops) => {
+    componentWillReceiveProps = async (nextprops) => {
         // console.log(nextprops.getAllAgentMemberList, "next");
         if (nextprops.getAllAgentMemberList) {
             let filteredAgentMembersList = nextprops.getAllAgentMemberList.filter((data) => {
@@ -347,6 +371,62 @@ class AgentMember extends Component {
                 });
             }
         }
+
+        if (nextprops.language) {
+            const messages = await this.loadLocaleData(nextprops.language);
+      
+            this.setState({
+              messages: messages,
+              language: nextprops.language
+            });
+          }
+
+          if(nextprops.language=="fr"){
+            this.setState({
+                columnDefs: [
+                    { headerName: "Nom", field: "agentName", width: 250 },
+                    { headerName: "E-mail", field: "agentEmailAddress" },
+                    { headerName: "Téléphone ", field: "phoneNo" },
+                    {
+                        headerName: "État", field: "status",
+                        // cellRendererFramework: (params) => <div className="ac-inactiveBTN">
+                        //     <button className={!this.state.activeStatus ? "INACTIVE" : ""}>{this.state.activeStatus ? "ACTIVE" : "INACTIVE"}</button>
+                        // </div>,
+                        // cellStyle: (params) => { return { textAlign: "center" } },
+                    },
+    
+                    {
+                        headerName: "Action", field: "Action",
+                        cellRendererFramework: (params) => <div className="ac-view">
+                            <span className="icon-edit-2" style={{ cursor: "pointer" }} style={{ marginLeft: "5%" }} onClick={this.editNewMember}></span>
+                        </div>,
+                        cellStyle: (params) => { return { textAlign: "center" } },
+                    }
+                ]});
+        }else{
+            this.setState({
+                columnDefs: [
+                    { headerName: "Name", field: "agentName", width: 250 },
+                    { headerName: "Email", field: "agentEmailAddress" },
+                    { headerName: "Telephone ", field: "phoneNo" },
+                    {
+                        headerName: "Status", field: "status",
+                        // cellRendererFramework: (params) => <div className="ac-inactiveBTN">
+                        //     <button className={!this.state.activeStatus ? "INACTIVE" : ""}>{this.state.activeStatus ? "ACTIVE" : "INACTIVE"}</button>
+                        // </div>,
+                        // cellStyle: (params) => { return { textAlign: "center" } },
+                    },
+    
+                    {
+                        headerName: "Action", field: "Action",
+                        cellRendererFramework: (params) => <div className="ac-view">
+                            <span className="icon-edit-2" style={{ cursor: "pointer" }} style={{ marginLeft: "5%" }} onClick={this.editNewMember}></span>
+                        </div>,
+                        cellStyle: (params) => { return { textAlign: "center" } },
+                    }
+                ]});
+        }  
+
     }
 
     render() {
@@ -359,6 +439,10 @@ class AgentMember extends Component {
             </div>
         );
         return (
+            <IntlProvider
+            messages={this.state.messages.default}
+            locale={this.state.language}
+          >
             <>
                 {!this.state.addNewMember && !this.state.editNewMember &&
                     <div className="main_contain">
@@ -370,16 +454,16 @@ class AgentMember extends Component {
                                             <div className="chartCardTop">
                                                 <div className="kyccustomformheading">
                                                     <h1 className="list_top_heading textAlignCenter text-center">
-                                                        Agent Member
+                                                    <FormattedMessage id="agent.AgentMembers" />
                                                     </h1>
-                                                    <button className="addposbtn c_first_pending_BTN" onClick={this.addNewMember}>Add New Member</button>
+                                                    <button className="addposbtn c_first_pending_BTN" onClick={this.addNewMember}><FormattedMessage id="agent.AddNewMember" /></button>
                                                 </div>
                                             </div>
                                             <div className="chartCardMiddle" style={{ padding: "24px" }}>
 
                                                 <div className="tableTop_wrapper">
                                                     <div className="disFl">
-                                                        <h5 className="show_pp margin_right8">Show</h5>
+                                                        <h5 className="show_pp margin_right8"><FormattedMessage id="agent.Show" /></h5>
                                                         <div className="tableShowRecordPerPage">
                                                             <Select
                                                                 defaultValue="10"
@@ -395,7 +479,7 @@ class AgentMember extends Component {
                                                         </div>
 
                                                         <h5 className="show_pp margin_left8">
-                                                            Entries
+                                                        <FormattedMessage id="agent.Entries" />
                                                         </h5>
                                                         <div
                                                             className="margin-left-auto"
@@ -403,7 +487,7 @@ class AgentMember extends Component {
                                                         >
                                                             <div className="shortCustom">
                                                                 <span className="icon-Asset-55"></span>
-                                                                <h6>Sort</h6>
+                                                                <h6> <FormattedMessage id="agent.Sort" /></h6>
                                                             </div>
                                                             <div className="shortCustom">
                                                                 <Dropdown
@@ -411,17 +495,17 @@ class AgentMember extends Component {
                                                                         <ul class="filterDrd">
                                                                             <li>
                                                                                 <a href="#">
-                                                                                    <span class="icon-logout"></span>All
+                                                                                    <span class="icon-logout"></span> <FormattedMessage id="agent.All" />
                                                                                 </a>
                                                                             </li>
                                                                             <li>
                                                                                 <a href="#">
-                                                                                    <span class="icon-logout"></span>Inactive
+                                                                                    <span class="icon-logout"></span> <FormattedMessage id="agent.Inactive" />
                                                                                 </a>
                                                                             </li>
                                                                             <li>
                                                                                 <a href="#">
-                                                                                    <span class="icon-logout"></span>Active
+                                                                                    <span class="icon-logout"></span> <FormattedMessage id="agent.Active" />
                                                                                 </a>
                                                                             </li>
                                                                         </ul>
@@ -431,7 +515,7 @@ class AgentMember extends Component {
                                                                 >
                                                                     <div className="shortCustom01">
                                                                         <span className="icon-Asset-54"></span>
-                                                                        <h6>Filter</h6>
+                                                                        <h6><FormattedMessage id="agent.Filter" /></h6>
                                                                     </div>
                                                                 </Dropdown>
                                                             </div>
@@ -439,7 +523,11 @@ class AgentMember extends Component {
                                                                 className="search_w_merchant_m"
                                                                 style={{ width: "270px" }}
                                                             >
-                                                                <input type="search" placeholder="Search" />
+                                                                <FormattedMessage id="agent.Search">
+                                                                {placeholder =>
+                                                                <input type="search" placeholder={placeholder} />
+                                                                }
+                                                                </FormattedMessage>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -483,18 +571,18 @@ class AgentMember extends Component {
                                                 <div className="customAgFooter">
 
                                                     <div className="showingFooter">
-                                                        <span>Showing</span>
+                                                        <span><FormattedMessage id="agent.Showing" /></span>
                                                         <span id="bTo"> </span>
-                                                        <span>to</span>
+                                                        <span><FormattedMessage id="agent.To" /></span>
                                                         <span id="afterTo"></span>
-                                                        <span>of</span>
+                                                        <span><FormattedMessage id="agent.Of" /></span>
                                                         <span id="totalPageSize"></span>
-                                                        <span>entries</span>
+                                                        <span><FormattedMessage id="agent.Entries" /></span>
                                                     </div>
                                                     <div className="NextPrevW">
-                                                        <button className="NextPrev" onClick={() => this.onBtPrevious()}>Prev</button>
+                                                        <button className="NextPrev" onClick={() => this.onBtPrevious()}><FormattedMessage id="agent.Prev" /></button>
                                                         <span className="valueNextPrev" id="lbCurrentPage"></span>
-                                                        <button className="NextPrev" onClick={() => this.onBtNext()}>Next</button>
+                                                        <button className="NextPrev" onClick={() => this.onBtNext()}><FormattedMessage id="agent.Next" /></button>
                                                     </div>
 
                                                 </div>
@@ -551,7 +639,7 @@ class AgentMember extends Component {
                                             <div className="chartCardTop">
                                                 <div className="kyccustomformheading">
                                                     <h1 className="list_top_heading textAlignCenter text-center">
-                                                        Add New Member
+                                                        <FormattedMessage id="agent.AddNewMember" />
                                                     </h1>
                                                 </div>
                                             </div>
@@ -560,23 +648,29 @@ class AgentMember extends Component {
                                                 <div className="containerBiaN_form">
                                                     <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                            <label>First Name</label>
+                                                            <label><FormattedMessage id="agent.FirstName" /></label>
                                                         </div>
                                                         <div className="containerBiaN_f_col width70percent">
-                                                            <input type="text" name="firstName" placeholder="Enter first Name" onChange={this.handleChangeInput} />
+                                                        <FormattedMessage id="agent.enterFirstName">
+                                                            {placeholder =>
+                                                            <input type="text" name="firstName" placeholder={placeholder} onChange={this.handleChangeInput} />}
+                                                            </FormattedMessage>
                                                         </div>
                                                     </div>
                                                     <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                            <label>Last Name</label>
+                                                            <label><FormattedMessage id="agent.LastName" /></label>
                                                         </div>
                                                         <div className="containerBiaN_f_col width70percent">
-                                                            <input type="text" name="lastName" placeholder="Enter last Name" onChange={this.handleChangeInput} />
+                                                        <FormattedMessage id="agent.enterLastName">
+                                                            {placeholder =>
+                                                            <input type="text" name="lastName" placeholder={placeholder} onChange={this.handleChangeInput} />}
+                                                            </FormattedMessage>
                                                         </div>
                                                     </div>
                                                     <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                            <label>Date of Birth</label>
+                                                            <label><FormattedMessage id="agent.dob" /></label>
                                                         </div>
                                                         <div className="containerBiaN_f_col width70percent">
                                                             <DatePicker onChange={(date, dateString) => this.onChangeDate(date, dateString, "dateOfBirth")} className="form-control" style={{ width: 100 + "%" }} />
@@ -585,19 +679,25 @@ class AgentMember extends Component {
                                                     </div>
                                                     <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                            <label>Email</label>
+                                                            <label><FormattedMessage id="agent.Email" /></label>
                                                         </div>
                                                         <div className="containerBiaN_f_col width70percent">
-                                                            <input type="text" placeholder="Enter Email" name="email" onChange={this.handleChangeInput} />
+                                                        <FormattedMessage id="agent.EnterEmailAddress">
+                                                            {placeholder =>
+                                                            <input type="text" placeholder={placeholder} name="email" onChange={this.handleChangeInput} />}
+                                                            </FormattedMessage>
                                                         </div>
                                                     </div>
 
                                                     <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                            <label>Country Code</label>
+                                                            <label><FormattedMessage id="agent.CountryCode" /></label>
                                                         </div>
                                                         <div className="containerBiaN_f_col width70percent">
-                                                            <input type="text" placeholder="Enter country code" name="countryCode" onChange={this.handleChangeInput} />
+                                                            <FormattedMessage id="agent.Entercountrycode">
+                                                                {placeholder =>
+                                                            <input type="text" placeholder={placeholder} name="countryCode" onChange={this.handleChangeInput} />}
+                                                            </FormattedMessage>
                                                         </div>
                                                     </div>
 
@@ -611,7 +711,7 @@ class AgentMember extends Component {
                                             </div> */}
                                                     <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                            <label>Mobile Number</label>
+                                                            <label><FormattedMessage id="agent.MobileNumber" /></label>
                                                         </div>
                                                         <div className="containerBiaN_f_col width70percent">
                                                             <div className="inputSt">
@@ -683,7 +783,7 @@ class AgentMember extends Component {
                                             </div> */}
                                                     <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                            <label>Upload Photo or Selfie</label>
+                                                            <label><FormattedMessage id="agent.UploadPhotoorSelfie" /></label>
                                                         </div>
                                                         <div className="containerBiaN_f_col width70percent">
                                                             <Upload
@@ -710,7 +810,7 @@ class AgentMember extends Component {
                                                     </div>
                                                     <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                            <label>Gender</label>
+                                                            <label><FormattedMessage id="agent.Gender" /></label>
                                                         </div>
                                                         <div className="containerBiaN_f_col width70percent">
                                                             <div className="categorySelect">
@@ -720,9 +820,9 @@ class AgentMember extends Component {
                                                                     onChange={(e) => this.handleChangeSelect(e, "gender")}
                                                                     id={'page-size'}
                                                                 >
-                                                                    <Option value="">Select Gender</Option>
-                                                                    <Option value="Male">Male</Option>
-                                                                    <Option value="Female">Female</Option>
+                                                                    <Option value=""><FormattedMessage id="agent.SelectGender" /></Option>
+                                                                    <Option value="Male"><FormattedMessage id="agent.Male" /></Option>
+                                                                    <Option value="Female"><FormattedMessage id="agent.Female" /></Option>
                                                                 </Select>
                                                             </div>
                                                         </div>
@@ -730,7 +830,7 @@ class AgentMember extends Component {
 
                                                     <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                            <label>Business Type</label>
+                                                            <label><FormattedMessage id="agent.BusinessType" /></label>
                                                         </div>
                                                         <div className="containerBiaN_f_col width70percent">
                                                             <div className="categorySelect">
@@ -740,7 +840,7 @@ class AgentMember extends Component {
                                                                     onChange={(e) => this.handleChangeSelect(e, "businessType")}
                                                                     id={'page-size'}
                                                                 >
-                                                                    <Option value="">Select Business Type</Option>
+                                                                    <Option value=""><FormattedMessage id="agent.SelectBusinessType" /></Option>
                                                                     <Option value="INDIVIDUAL">INDIVIDUAL</Option>
                                                                     <Option value="EL">EL</Option>
                                                                     <Option value="SAL">SAL</Option>
@@ -752,7 +852,7 @@ class AgentMember extends Component {
                                                     </div>
                                                     <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                            <label>ID Type</label>
+                                                            <label><FormattedMessage id="agent.idType" /></label>
                                                         </div>
                                                         <div className="containerBiaN_f_col width70percent">
                                                             <div className="categorySelect">
@@ -762,8 +862,8 @@ class AgentMember extends Component {
                                                                     onChange={(e) => this.handleChangeSelect(e, "idDocumentType")}
                                                                     id={'page-size'}
                                                                 >
-                                                                    <Option value="ID_DOCUMENT">Identity card</Option>
-                                                                    <Option value="PASSPORT">Passport</Option>
+                                                                    <Option value="ID_DOCUMENT"><FormattedMessage id="agent.IdentityCard" /></Option>
+                                                                    <Option value="PASSPORT"><FormattedMessage id="agent.Passport" /></Option>
                                                                 </Select>
                                                             </div>
                                                         </div>
@@ -772,24 +872,30 @@ class AgentMember extends Component {
 
                                                     <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                            <label>ID Name</label>
+                                                            <label><FormattedMessage id="agent.IDName" /></label>
                                                         </div>
                                                         <div className="containerBiaN_f_col width70percent">
-                                                            <input type="text" placeholder="Enter ID name" name="idName" onChange={this.handleChangeInput} />
+                                                            <FormattedMessage id="agent.EnterIDname">
+                                                            {placeholder =>
+                                                            <input type="text" placeholder={placeholder} name="idName" onChange={this.handleChangeInput} />}
+                                                            </FormattedMessage>
                                                         </div>
                                                     </div>
 
                                                     <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                            <label>ID Number</label>
+                                                            <label><FormattedMessage id="agent.IDNumber" /></label>
                                                         </div>
                                                         <div className="containerBiaN_f_col width70percent">
-                                                            <input type="text" placeholder="Enter ID Number" name="idNumber" onChange={this.handleChangeInput} />
+                                                        <FormattedMessage id="agent.EnterIDNumber">
+                                                            {placeholder =>
+                                                            <input type="text" placeholder={placeholder} name="idNumber" onChange={this.handleChangeInput} />}
+                                                        </FormattedMessage>
                                                         </div>
                                                     </div>
                                                     <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                            <label>Upload ID Image (front and back)</label>
+                                                            <label><FormattedMessage id="agent.UploadIDImage(frontandback)" /></label>
                                                         </div>
                                                         <div className="containerBiaN_f_col width70percent">
                                                             <Upload
@@ -815,7 +921,7 @@ class AgentMember extends Component {
                                                     </div>
                                                     <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                            <label>ID Expired Date</label>
+                                                            <label><FormattedMessage id="agent.Idexpireddate" /></label>
                                                         </div>
                                                         <div className="containerBiaN_f_col width70percent">
                                                             <DatePicker onChange={(date, dateString) => this.onChangeDate(date, dateString, "expiredDate")} className="form-control" style={{ width: 100 + "%" }} />
@@ -824,7 +930,7 @@ class AgentMember extends Component {
                                                     </div>
                                                     <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                            <label>Unique Identification Number</label>
+                                                            <label><FormattedMessage id="agent.UniqueIdentificationNumber" /></label>
                                                         </div>
                                                         <div className="containerBiaN_f_col width70percent">
                                                             <input type="text" placeholder="Enter UIN" name="uin" />
@@ -832,7 +938,7 @@ class AgentMember extends Component {
                                                     </div>
                                                     <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                            <label>Package Type</label>
+                                                            <label><FormattedMessage id="agent.PackageType" /></label>
                                                         </div>
                                                         <div className="containerBiaN_f_col width70percent">
                                                             <div className="categorySelect">
@@ -842,7 +948,7 @@ class AgentMember extends Component {
                                                                     onChange={(e) => this.handleChangeSelect(e, "selectedPackage")}
                                                                     id={'page-size'}
                                                                 >
-                                                                    <Option value="DEFAULT">Select Package</Option>
+                                                                    <Option value="DEFAULT"><FormattedMessage id="agent.SelectPackage" /></Option>
                                                                     {
                                                                         this.state.agentPackagesData && this.state.agentPackagesData.map((data) => {
                                                                             if (data.agentType === "AGENT_MEMBER") {
@@ -866,16 +972,19 @@ class AgentMember extends Component {
 
                                                     <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                            <label>Password</label>
+                                                            <label><FormattedMessage id="login.password" /></label>
                                                         </div>
                                                         <div className="containerBiaN_f_col width70percent">
-                                                            <input type="text" placeholder="Enter Password" name="password" value={this.state.password} onChange={(e) => this.setState({ password: e.target.value })} />
+                                                            <FormattedMessage id="agent.EnterPassword">
+                                                                {placeholder =>
+                                                            <input type="text" placeholder={placeholder} name="password" value={this.state.password} onChange={(e) => this.setState({ password: e.target.value })} />}
+                                                            </FormattedMessage>
                                                         </div>
                                                     </div>
 
                                                     <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                            <label>Registration Applied Place</label>
+                                                            <label><FormattedMessage id="agent.RegistrationAppliedPlace" /></label>
                                                         </div>
                                                         <div className="containerBiaN_f_col width70percent">
                                                             <input type="text" placeholder="Enter registartion place" name="place" onChange={this.handleChangeInput} />
@@ -883,7 +992,7 @@ class AgentMember extends Component {
                                                     </div>
                                                     <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                            <label>Business Name (Optional)</label>
+                                                            <label><FormattedMessage id="agent.BusinessName(Optional)" /></label>
                                                         </div>
                                                         <div className="containerBiaN_f_col width70percent">
                                                             <input type="text" placeholder="Enter Business Name" name="businessName" />
@@ -891,23 +1000,29 @@ class AgentMember extends Component {
                                                     </div>
                                                     <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                            <label>City</label>
+                                                            <label><FormattedMessage id="city" /></label>
                                                         </div>
                                                         <div className="containerBiaN_f_col width70percent">
-                                                            <input type="text" placeholder="Enter City" name="city" onChange={this.handleChangeInput} />
+                                                        <FormattedMessage id="agent.EnterCity">
+                                                            {placeholder =>
+                                                            <input type="text" placeholder={placeholder} name="city" onChange={this.handleChangeInput} />}
+                                                        </FormattedMessage>
                                                         </div>
                                                     </div>
                                                     <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                            <label>Address</label>
+                                                            <label><FormattedMessage id="address" /></label>
                                                         </div>
                                                         <div className="containerBiaN_f_col width70percent">
-                                                            <input type="text" placeholder="Enter Address" name="address" onChange={this.handleChangeInput} />
+                                                        <FormattedMessage id="agent.EnterAddress">
+                                                            {placeholder =>
+                                                            <input type="text" placeholder={placeholder} name="address" onChange={this.handleChangeInput} />}
+                                                        </FormattedMessage>
                                                         </div>
                                                     </div>
                                                     <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                            <label>Address Proof</label>
+                                                            <label><FormattedMessage id="agent.AddressProof" /></label>
                                                         </div>
                                                         <div className="containerBiaN_f_col width70percent">
                                                             <Upload
@@ -943,8 +1058,8 @@ class AgentMember extends Component {
                                                                     onChange={(e) => this.handleChangeSelect(e, "agentMemberActiveStatus")}
                                                                     id={'page-size'}
                                                                 >
-                                                                    <Option value="ACTIVE">ACTIVE</Option>
-                                                                    <Option value="INACTIVE">INACTIVE</Option>
+                                                                    <Option value="ACTIVE"><FormattedMessage id="agent.Active" /></Option>
+                                                                    <Option value="INACTIVE"><FormattedMessage id="agent.Inactive" /></Option>
                                                                 </Select>
                                                             </div>
                                                         </div>
@@ -977,8 +1092,8 @@ class AgentMember extends Component {
 
                                                 <div style={{ width: "100%", float: "left" }}>
                                                     <div className="custom-d-flex confirm_p_w mTB00 button-container rspacing">
-                                                        <button className="blackbtn aryousureBTN confirmBtnR" onClick={this.back5}>Cancel</button>
-                                                        <button className="aryousureBTN confirmBtnR" onClick={this.Review}>Review</button>
+                                                        <button className="blackbtn aryousureBTN confirmBtnR" onClick={this.back5}><FormattedMessage id="cancel" /></button>
+                                                        <button className="aryousureBTN confirmBtnR" onClick={this.Review}><FormattedMessage id="agent.Review" /></button>
                                                     </div>
                                                 </div>
 
@@ -1008,35 +1123,35 @@ class AgentMember extends Component {
 
                                     <tbody>
                                         <tr>
-                                            <td>First Name</td>
+                                            <td><FormattedMessage id="agent.FirstName" /></td>
                                             <td>{this.state.firstName}</td>
                                         </tr>
                                         <tr>
-                                            <td>Last Name</td>
+                                            <td><FormattedMessage id="agent.LastName" /></td>
                                             <td>{this.state.lastName}</td>
                                         </tr>
                                         <tr>
-                                            <td>Date of Birth</td>
+                                            <td><FormattedMessage id="agent.dob" /></td>
                                             <td>{this.state.dateOfBirth}</td>
                                         </tr>
                                         <tr>
-                                            <td>Email</td>
+                                            <td><FormattedMessage id="agent.Email" /></td>
                                             <td>{this.state.email}</td>
                                         </tr>
                                         <tr>
-                                            <td>Country Code</td>
+                                            <td><FormattedMessage id="agent.CountryCode" /></td>
                                             <td>{this.state.countryCode}</td>
                                         </tr>
                                         <tr>
-                                            <td>Mobile Number</td>
+                                            <td><FormattedMessage id="agent.MobileNumber" /></td>
                                             <td>{this.state.phoneNumber}</td>
                                         </tr>
                                         <tr>
-                                            <td>Address</td>
+                                            <td><FormattedMessage id="agent.Address" /></td>
                                             <td>{this.state.address}</td>
                                         </tr>
                                         <tr>
-                                            <td>City</td>
+                                            <td><FormattedMessage id="agent.City" /></td>
                                             <td>{this.state.city}</td>
                                         </tr>
                                         <tr>
@@ -1044,11 +1159,11 @@ class AgentMember extends Component {
                                             <td>{this.state.place}</td>
                                         </tr>
                                         <tr>
-                                            <td>ID Document Number</td>
+                                            <td><FormattedMessage id="agent.IDDocumentNumber" /></td>
                                             <td>{this.state.idNumber}</td>
                                         </tr>
                                         <tr>
-                                            <td>ID Expired Date</td>
+                                            <td><FormattedMessage id="agent.Idexpireddate" /></td>
                                             <td>{this.state.expiredDate}</td>
                                         </tr>
                                         <tr>
@@ -1066,7 +1181,7 @@ class AgentMember extends Component {
                                             <td>{this.state.selfie && this.state.selfie.thumbUrl !== "" && <img style={{ height: "80px", width: "80px" }} src={this.state.selfie.thumbUrl} />}</td>
                                         </tr>
                                         <tr>
-                                            <td>Address Proof</td>
+                                            <td><FormattedMessage id="agent.AddressProof" /></td>
                                             <td>{this.state.addressProof && this.state.addressProof.thumbUrl !== "" && <img style={{ height: "80px", width: "80px" }} src={this.state.addressProof.thumbUrl} />}</td>
                                         </tr>
 
@@ -1380,22 +1495,26 @@ class AgentMember extends Component {
 
 
             </>
+            </IntlProvider>
         );
     }
 }
 
-const mapStateToProps = ({ agentReducer }) => {
+const mapStateToProps = ({ agentReducer, commonReducer }) => {
     const {
         getAllAgentMemberList,
         packagesDetails,
         packagesStatus
-    } = agentReducer
+    } = agentReducer;
+
+    const { language } = commonReducer;
 
     console.log(agentReducer, "AGENT REDUCER")
     return {
         getAllAgentMemberList,
         packagesDetails,
-        packagesStatus
+        packagesStatus,
+        language,
     }
 
 }

@@ -13,6 +13,7 @@ import activeUser from '../../Assets/images/confirm.svg'
 import { Select, Menu, Dropdown, Modal } from 'antd';
 
 import { connect } from "react-redux";
+import { FormattedMessage, IntlProvider } from 'react-intl';
 
 
 const { Option } = Select;
@@ -49,7 +50,9 @@ class Transaction extends Component {
             rowData: [
               
 
-            ]
+            ],
+            messages: "",
+            language: ""
 
         };
     }
@@ -90,8 +93,28 @@ class Transaction extends Component {
         // console.log("get",params.api.getDisplayedRowCount())
     }
 
+    async translationHelperFunction() {
+
+        const messages = await this.loadLocaleData(localStorage.getItem("lang"));
+        this.setState({
+          messages: messages,
+          language: localStorage.getItem("lang")
+        });
+        // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
+    
+      }
+    
+      loadLocaleData = (locale) => {
+        switch (locale) {
+          case "fr":
+            return import("../i18n/messages/fr.js");
+          default:
+            return import("../i18n/messages/en.js");
+        }
+      };
+
     componentDidMount () {
-        
+        this.translationHelperFunction();
     }
     handleChange = (value) => {
         this.state.gridApi.paginationSetPageSize(Number(value))
@@ -123,10 +146,54 @@ class Transaction extends Component {
     };
 
 
-    componentWillReceiveProps (nextprops) {
+   async componentWillReceiveProps (nextprops) {
        this.setState({rowData:nextprops.transactionResponseList})
     //    this.setState({currencies:nextprops.getCurencyListData.currency})
-    }
+    if (nextprops.language) {
+        const messages = await this.loadLocaleData(nextprops.language);
+  
+        this.setState({
+          messages: messages,
+          language: nextprops.language,
+        });
+
+        if(nextprops.language=="fr"){
+            this.setState({
+                columnDefs: [
+                    { headerName: "Date de transaction", field: "Transaction_Date", width: 250 },
+                    { headerName: "Numéro de téléphone du client", field: "Client_Phone_Number" },
+                    { headerName: "Mode de paiement", field: "Payment_method" },
+    
+                    { headerName: "Numéro de référence", field: "Reference_Number" },
+                    { headerName: "Monnaie" , field: "Currency" },
+                    { headerName: "Montant", field: "Amount" },
+                    { headerName: "Frais de transaction", field: "Transaction_Fee" },
+    
+                    { headerName: "Montant total ", field: "Total_Amount" },
+                    { headerName: "État", field: "Status" },
+                    { headerName: "Transaction", field: "Transaction" },
+                ]}) 
+        }
+        else{
+            this.setState({
+                columnDefs: [
+                    { headerName: "Transaction Date", field: "Transaction_Date", width: 250 },
+                    { headerName: "Client Phone Number", field: "Client_Phone_Number" },
+                    { headerName: "Payment method", field: "Payment_method" },
+    
+                    { headerName: "Reference Number", field: "Reference_Number" },
+                    { headerName: "Currency" , field: "Currency" },
+                    { headerName: "Amount", field: "Amount" },
+                    { headerName: "Transaction Fee", field: "Transaction_Fee" },
+    
+                    { headerName: "Total Amount ", field: "Total_Amount" },
+                    { headerName: "Status ", field: "Status" },
+                    { headerName: "Transaction ", field: "Transaction" },
+                ]}) 
+        }
+      }    
+
+}
 
     onPaginationChanged = () => {
         console.log('onPaginationPageLoaded');
@@ -178,6 +245,10 @@ class Transaction extends Component {
     render() {
         // console.log("jai",this.state.paginationGetCurrentPage)
         return (
+            <IntlProvider
+            messages={this.state.messages.default}
+            locale={this.state.language}
+          >
             <div className="main_contain">
                 <div className="merch_m_list_w">
                     <div className="merch_list_card" id="merch_list_card">
@@ -187,7 +258,7 @@ class Transaction extends Component {
                                     <div className="chartCardTop">
                                         <div className="kyccustomformheading">
                                             <h1 className="list_top_heading textAlignCenter text-center">
-                                            Transactions
+                                            <FormattedMessage id="agent.Transactions" />
                       </h1>
                                             {/* <button className="addposbtn c_first_pending_BTN" onClick={this.addChange}>Add a new Point of Sale</button> */}
                                         </div>
@@ -195,7 +266,7 @@ class Transaction extends Component {
                                     <div className=" chartCardMiddle" style={{ padding: "24px" }}>
                                         <div className="transactioncardmiddle">
                                         <div className="transactionformcol posformcol formCol">
-                                            <label className="formColLabel">From</label>
+                                            <label className="formColLabel"><FormattedMessage id="from" /></label>
                                             <div className="customdatepicker categorySelect" >
                                                 {/* <Select
 
@@ -215,7 +286,7 @@ class Transaction extends Component {
                                             </div>
                                         </div>
                                         <div className="transactionformcol posformcol formCol">
-                                            <label className="formColLabel">To</label>
+                                            <label className="formColLabel"><FormattedMessage id="to" /></label>
                                             <div className="customdatepicker categorySelect" >
                                                 {/* <Select
 
@@ -235,7 +306,7 @@ class Transaction extends Component {
                                             </div>
                                         </div>
                                         <div className="transactionformcol posformcol formCol">
-                                            <label className="formColLabel">Currency</label>
+                                            <label className="formColLabel"><FormattedMessage id="agent.Currency" /></label>
                                             <div className="categorySelect" >
                                                 <Select
 
@@ -257,17 +328,17 @@ class Transaction extends Component {
                                             </div>
                                         </div>
                                         <div className="transactionformcol posformcol formCol">
-                                            <label className="formColLabel">Filter by Status</label>
+                                            <label className="formColLabel"><FormattedMessage id="agent.FilterByStatus" /></label>
                                             <div className="categorySelect" >
                                                 <Select
 
                                                     style={{ width: 100 + "%", height: 52 }}
 
                                                 >
-                                                    <Option value="select_cat">Completed</Option>
-                                                    <Option value="Enterprises">Failed</Option>
-                                                    <Option value="Freelancer">Initiated</Option>
-                                                    <Option value="Freelancer">All</Option>
+                                                    <Option value="select_cat"><FormattedMessage id="agent.Completed" /></Option>
+                                                    <Option value="Enterprises"><FormattedMessage id="agent.Failed" /></Option>
+                                                    <Option value="Freelancer"><FormattedMessage id="agent.Initiated" /></Option>
+                                                    <Option value="Freelancer"><FormattedMessage id="agent.All" /></Option>
                                                 </Select>
                                                   
 
@@ -275,11 +346,11 @@ class Transaction extends Component {
                                         </div>
                                         </div>
                                         <div className="fetchsection">
-                                        <button className="dcbtn" onClick={this.filterData}>Fetch</button>
+                                        <button className="dcbtn" onClick={this.filterData}><FormattedMessage id="agent.Fetch" /></button>
                                         </div>
                                         <div className="tableTop_wrapper">
                                             <div className="disFl">
-                                                <h5 className="show_pp margin_right8">Show</h5>
+                                                <h5 className="show_pp margin_right8"><FormattedMessage id="agent.Show" /></h5>
                                                 <div className="tableShowRecordPerPage">
                                                     <Select
                                                         defaultValue="10"
@@ -295,7 +366,7 @@ class Transaction extends Component {
                                                 </div>
 
                                                 <h5 className="show_pp margin_left8">
-                                                    Entries
+                                                <FormattedMessage id="agent.Entries" />
                         </h5>
                                                 <div
                                                     className="margin-left-auto"
@@ -303,7 +374,7 @@ class Transaction extends Component {
                                                 >
                                                     <div className="shortCustom">
                                                         <span className="icon-Asset-55"></span>
-                                                        <h6>Sort</h6>
+                                                        <h6><FormattedMessage id="agent.Sort" /></h6>
                                                     </div>
                                                     <div className="shortCustom">
                                                         <Dropdown
@@ -311,17 +382,17 @@ class Transaction extends Component {
                                                                 <ul class="filterDrd">
                                                                     <li>
                                                                         <a href="#">
-                                                                            <span class="icon-logout"></span>All
+                                                                            <span class="icon-logout"></span><FormattedMessage id="agent.All" />
                                     </a>
                                                                     </li>
                                                                     <li>
                                                                         <a href="#">
-                                                                            <span class="icon-logout"></span>Inactive
+                                                                            <span class="icon-logout"></span><FormattedMessage id="agent.Inactive" />
                                     </a>
                                                                     </li>
                                                                     <li>
                                                                         <a href="#">
-                                                                            <span class="icon-logout"></span>Active
+                                                                            <span class="icon-logout"></span><FormattedMessage id="agent.Active" />
                                     </a>
                                                                     </li>
                                                                 </ul>
@@ -331,7 +402,7 @@ class Transaction extends Component {
                                                         >
                                                             <div className="shortCustom01">
                                                                 <span className="icon-Asset-54"></span>
-                                                                <h6>Filter</h6>
+                                                                <h6><FormattedMessage id="agent.Filter" /></h6>
                                                             </div>
                                                         </Dropdown>
                                                     </div>
@@ -339,7 +410,10 @@ class Transaction extends Component {
                                                         className="search_w_merchant_m"
                                                         style={{ width: "270px" }}
                                                     >
-                                                        <input type="search" placeholder="Search" />
+                                                        <FormattedMessage id="agent.Search">
+                                                            {placeholder =>
+                                                        <input type="search" placeholder={placeholder} />}
+                                                        </FormattedMessage>
                                                     </div>
                                                 </div>
                                             </div>
@@ -374,18 +448,18 @@ class Transaction extends Component {
                                         <div className="customAgFooter">
 
                                             <div className="showingFooter">
-                                                <span>Showing</span>
+                                                <span><FormattedMessage id="agent.Showing" /></span>
                                                 <span id="bTo"> </span>
-                                                <span>to</span>
+                                                <span><FormattedMessage id="agent.To" /></span>
                                                 <span id="afterTo"></span>
-                                                <span>of</span>
+                                                <span><FormattedMessage id="agent.Of" /></span>
                                                 <span id="totalPageSize"></span>
-                                                <span>entries</span>
+                                                <span><FormattedMessage id="agent.Entries" /></span>
                                             </div>
                                             <div className="NextPrevW">
-                                                <button className="NextPrev" onClick={() => this.onBtPrevious()}>Prev</button>
+                                                <button className="NextPrev" onClick={() => this.onBtPrevious()}><FormattedMessage id="agent.Prev" /></button>
                                                 <span className="valueNextPrev" id="lbCurrentPage"></span>
-                                                <button className="NextPrev" onClick={() => this.onBtNext()}>Next</button>
+                                                <button className="NextPrev" onClick={() => this.onBtNext()}><FormattedMessage id="agent.Next" /></button>
                                             </div>
 
                                         </div>
@@ -426,11 +500,17 @@ class Transaction extends Component {
 
 
             </div>
+            </IntlProvider>
         );
     }
 }
 
-const mapStateToProps = ({ merchantReducer }) => {
+const mapStateToProps = ({ merchantReducer, commonReducer }) => {
+    const { language } = commonReducer;
+
+    return {
+        language,
+    };
    
   };
   

@@ -6,6 +6,7 @@ import '../Settings/General/formfromold.css'
 import { AgGridColumn, AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
+import { FormattedMessage, IntlProvider } from "react-intl";
 
 
 // import activeUser from '../../Assets/images/confirm.svg'
@@ -60,8 +61,8 @@ class CommissionsManagement extends Component {
                 {
                     headerName: "Action", field: "Action", width: 400,
                     cellRendererFramework: (params) => <div className="ac-view">
-                        <button className="edit" onClick={() => this.editNewCommissions(params.data)}>Edit</button>
-                        <button className="delete" onClick={() => this.deleteCommission(params.data.ID)}>Delete</button>
+                        <button className="edit" onClick={() => this.editNewCommissions(params.data)}><FormattedMessage id="agent.Edit" /></button>
+                        <button className="delete" onClick={() => this.deleteCommission(params.data.ID)}><FormattedMessage id="agent.Delete" /></button>
                     </div>,
                     cellStyle: (params) => { return { textAlign: "center" } },
                 }
@@ -83,20 +84,45 @@ class CommissionsManagement extends Component {
             amount: "",
             percentage: "",
             commissionStatus: true,
-            commissionID: ""
+            commissionID: "",
+            messages: "",
+            language: ""
 
 
         };
     }
+
+    async translationHelperFunction() {
+
+        const messages = await this.loadLocaleData(localStorage.getItem("lang"));
+        this.setState({
+          messages: messages,
+          language: localStorage.getItem("lang")
+        });
+        // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
+    
+      }
+    
+      loadLocaleData = (locale) => {
+        switch (locale) {
+          case "fr":
+            return import("../../i18n/messages/fr.js");
+          default:
+            return import("../../i18n/messages/en.js");
+        }
+      };
+
 
     componentDidMount() {
         this.props.getAllOperations();
         this.props.getAllAgentMemberPackages();
         this.props.getAllCurrencies();
         this.props.getAllCommissions();
+
+        this.translationHelperFunction();
     }
 
-    componentWillReceiveProps = (nextprops) => {
+    componentWillReceiveProps = async (nextprops) => {
 
         if (nextprops.operationDetails && nextprops.operationStatus) {
             this.setState({
@@ -146,6 +172,52 @@ class CommissionsManagement extends Component {
             this.viewNewCommissions();
 
         }
+
+        if (nextprops.language) {
+            const messages = await this.loadLocaleData(nextprops.language);
+      
+            this.setState({
+              messages: messages,
+              language: nextprops.language
+            });
+
+            if(nextprops.language=="fr"){
+                this.setState({
+                    columnDefs: [
+                        { headerName: "Taper", field: "Type" },
+                        { headerName: "Montant", field: "Amount" },
+                        { headerName: "Pourcentage ", field: "Percentage" },
+                        { headerName: "État", field: "Status" },
+                        {
+                            headerName: "Action", field: "Action", width: 400,
+                            cellRendererFramework: (params) => <div className="ac-view">
+                                <button className="edit" onClick={() => this.editNewCommissions(params.data)}><FormattedMessage id="agent.Edit" /></button>
+                                <button className="delete" onClick={() => this.deleteCommission(params.data.ID)}><FormattedMessage id="agent.Delete" /></button>
+                            </div>,
+                            cellStyle: (params) => { return { textAlign: "center" } },
+                        }
+        
+                    ]});
+          } else {
+            this.setState({
+                columnDefs: [
+                    { headerName: "Type", field: "Type" },
+                    { headerName: "Amount", field: "Amount" },
+                    { headerName: "Percentage ", field: "Percentage" },
+                    { headerName: "Status ", field: "Status" },
+                    {
+                        headerName: "Action", field: "Action", width: 400,
+                        cellRendererFramework: (params) => <div className="ac-view">
+                            <button className="edit" onClick={() => this.editNewCommissions(params.data)}><FormattedMessage id="agent.Edit" /></button>
+                            <button className="delete" onClick={() => this.deleteCommission(params.data.ID)}><FormattedMessage id="agent.Delete" /></button>
+                        </div>,
+                        cellStyle: (params) => { return { textAlign: "center" } },
+                    }
+    
+                ]});
+          }
+
+    }
 
     }
 
@@ -362,6 +434,10 @@ class CommissionsManagement extends Component {
         const isfeatured = this.state.isfeatured
 
         return (
+            <IntlProvider
+            messages={this.state.messages.default}
+            locale={this.state.language}
+          >
             <>
                 {!this.state.addNewCommissions && !this.state.editNewCommissions &&
                     <div className="main_contain">
@@ -373,9 +449,9 @@ class CommissionsManagement extends Component {
                                             <div className="chartCardTop">
                                                 <div className="kyccustomformheading">
                                                     <h1 className="list_top_heading textAlignCenter text-center">
-                                                        Commissions List
+                                                    <FormattedMessage id="agent.CommissionsList" />
                                                     </h1>
-                                                    <button className="addposbtn c_first_pending_BTN" onClick={this.addNewCommissions}>Add Commission</button>
+                                                    <button className="addposbtn c_first_pending_BTN" onClick={this.addNewCommissions}><FormattedMessage id="agent.AddCommission" /></button>
                                                 </div>
                                             </div>
                                             <div className="chartCardMiddle" style={{ padding: "24px" }}>
@@ -436,7 +512,7 @@ class CommissionsManagement extends Component {
                                                 </div> */}
                                                 <div className="tableTop_wrapper">
                                                     <div className="disFl">
-                                                        <h5 className="show_pp margin_right8">Show</h5>
+                                                        <h5 className="show_pp margin_right8"><FormattedMessage id="agent.Show" /></h5>
                                                         <div className="tableShowRecordPerPage">
                                                             <Select
                                                                 defaultValue="10"
@@ -452,7 +528,7 @@ class CommissionsManagement extends Component {
                                                         </div>
 
                                                         <h5 className="show_pp margin_left8">
-                                                            Entries
+                                                        <FormattedMessage id="agent.Entries" />
                                                         </h5>
                                                         <div
                                                             className="margin-left-auto"
@@ -460,7 +536,7 @@ class CommissionsManagement extends Component {
                                                         >
                                                             <div className="shortCustom">
                                                                 <span className="icon-Asset-55"></span>
-                                                                <h6>Sort</h6>
+                                                                <h6><FormattedMessage id="agent.Sort" /></h6>
                                                             </div>
                                                             <div className="shortCustom">
                                                                 <Dropdown
@@ -468,17 +544,17 @@ class CommissionsManagement extends Component {
                                                                         <ul class="filterDrd">
                                                                             <li>
                                                                                 <a href="#">
-                                                                                    <span class="icon-logout"></span>All
+                                                                                    <span class="icon-logout"></span><FormattedMessage id="agent.All" />
                                                                                 </a>
                                                                             </li>
                                                                             <li>
                                                                                 <a href="#">
-                                                                                    <span class="icon-logout"></span>Inactive
+                                                                                    <span class="icon-logout"></span><FormattedMessage id="agent.Inactive" />
                                                                                 </a>
                                                                             </li>
                                                                             <li>
                                                                                 <a href="#">
-                                                                                    <span class="icon-logout"></span>Active
+                                                                                    <span class="icon-logout"></span><FormattedMessage id="agent.Active" />
                                                                                 </a>
                                                                             </li>
                                                                         </ul>
@@ -488,7 +564,7 @@ class CommissionsManagement extends Component {
                                                                 >
                                                                     <div className="shortCustom01">
                                                                         <span className="icon-Asset-54"></span>
-                                                                        <h6>Filter</h6>
+                                                                        <h6><FormattedMessage id="agent.Filter" /></h6>
                                                                     </div>
                                                                 </Dropdown>
                                                             </div>
@@ -496,7 +572,10 @@ class CommissionsManagement extends Component {
                                                                 className="search_w_merchant_m"
                                                                 style={{ width: "270px" }}
                                                             >
-                                                                <input type="search" placeholder="Search" />
+                                                                <FormattedMessage id="agent.Search">
+                                                                    {placeholder =>
+                                                                <input type="search" placeholder={placeholder} />}
+                                                                </FormattedMessage>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -545,18 +624,18 @@ class CommissionsManagement extends Component {
                                                 <div className="customAgFooter">
 
                                                     <div className="showingFooter">
-                                                        <span>Showing</span>
+                                                        <span><FormattedMessage id="agent.Showing" /></span>
                                                         <span id="bTo"> </span>
-                                                        <span>to</span>
+                                                        <span><FormattedMessage id="agent.To" /></span>
                                                         <span id="afterTo"></span>
-                                                        <span>of</span>
+                                                        <span><FormattedMessage id="agent.Of" /></span>
                                                         <span id="totalPageSize"></span>
-                                                        <span>entries</span>
+                                                        <span><FormattedMessage id="agent.Entries" /></span>
                                                     </div>
                                                     <div className="NextPrevW">
-                                                        <button className="NextPrev" onClick={() => this.onBtPrevious()}>Prev</button>
+                                                        <button className="NextPrev" onClick={() => this.onBtPrevious()}><FormattedMessage id="agent.Prev" /></button>
                                                         <span className="valueNextPrev" id="lbCurrentPage"></span>
-                                                        <button className="NextPrev" onClick={() => this.onBtNext()}>Next</button>
+                                                        <button className="NextPrev" onClick={() => this.onBtNext()}><FormattedMessage id="agent.Next" /></button>
                                                     </div>
 
                                                 </div>
@@ -1233,12 +1312,13 @@ class CommissionsManagement extends Component {
 
 
             </>
+            </IntlProvider>
         );
     }
 }
 
 // function for mapping redux state values with props //
-const mapStateToProps = ({ agentReducer }) => {
+const mapStateToProps = ({ agentReducer, commonReducer }) => {
 
     return {
 
@@ -1255,7 +1335,9 @@ const mapStateToProps = ({ agentReducer }) => {
         deleteCommissionStatus: agentReducer.deleteCommissionStatus,
         deleteCommissionData: agentReducer.deleteCommissionData,
         editCommissionStatus: agentReducer.editCommissionStatus,
-        editCommissionData: agentReducer.editCommissionData
+        editCommissionData: agentReducer.editCommissionData,
+
+        language : commonReducer.language,
 
     }
 

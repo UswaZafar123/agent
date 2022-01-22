@@ -13,6 +13,7 @@ import './settingcss.css'
 
 import { Select, DatePicker, Modal, Switch, Upload, message, Dropdown, Checkbox, Tabs } from "antd";
 import { FolderViewOutlined } from '@ant-design/icons';
+import { FormattedMessage, IntlProvider } from 'react-intl';
 
 import { Radio } from "antd";
 import moment from "moment";
@@ -80,7 +81,9 @@ class RoleManagement extends Component {
 
             roleData: [],
             screensData: [],
-            modifiedScreenData: []
+            modifiedScreenData: [],
+            messages: "",
+            language: ""
 
 
         };
@@ -181,7 +184,25 @@ class RoleManagement extends Component {
         console.log(this.state.modifiedScreenData, "mod screen data")
     }
 
+    async translationHelperFunction() {
 
+        const messages = await this.loadLocaleData(localStorage.getItem("lang"));
+        this.setState({
+          messages: messages,
+          language: localStorage.getItem("lang")
+        });
+        // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
+    
+      }
+    
+      loadLocaleData = (locale) => {
+        switch (locale) {
+          case "fr":
+            return import("../../../i18n/messages/fr.js");
+          default:
+            return import("../../../i18n/messages/en.js");
+        }
+      };
 
     componentDidMount = () => {
 
@@ -189,9 +210,11 @@ class RoleManagement extends Component {
 
         this.props.getAllScreens(sessionStorage.getItem("token"));
 
+        this.translationHelperFunction();
+
     }
 
-    componentWillReceiveProps = (nextprops) => {
+    componentWillReceiveProps = async (nextprops) => {
         if (nextprops.getScreenPermissionsByRoleStatus && nextprops.getScreenPermissionsByRoleData != null) {
             // console.log(nextprops.getScreenPermissionsByRoleData._embedded.roleScreenPermissionDtoList, "PERMISSION DATA BY ROLE")
 
@@ -278,6 +301,61 @@ class RoleManagement extends Component {
                 }
 
             }
+        }
+
+        if (nextprops.language) {
+            const messages = await this.loadLocaleData(nextprops.language);
+      
+            this.setState({
+              messages: messages,
+              language: nextprops.language
+            });
+          }
+
+          
+          if(nextprops.language=="fr"){
+            this.setState({
+              columnDefs: [
+                  { headerName: "Nom", field: "name", width: 250 },
+                  { headerName: "Afficher le nom", field: "displayName" },
+                  { headerName: "Description ", field: "description" },
+  
+                  {
+                      headerName: "Action", field: "Action",
+                      cellRendererFramework: (params) => <div className="ac-view">
+                          <span className="" style={{ cursor: "pointer", fontSize: "17px" }} onClick={this.viewNewRole}><FolderViewOutlined /></span>
+                          <span className="icon-edit-2" style={{ cursor: "pointer" }} style={{ marginLeft: "5%" }} onClick={() => this.editNewRole(params.data)}></span>
+                          <span className="icon-Group-357" style={{ marginLeft: "5%" }} onClick={() => this.props.deleteUserRole(sessionStorage.getItem("token"), params.data.userRoleId)}></span>
+                      </div>,
+                      cellStyle: (params) => { return { textAlign: "center" } },
+                  }
+  
+  
+  
+              ],
+            })
+        }
+        else{
+            this.setState({
+              columnDefs: [
+                  { headerName: "Name", field: "name", width: 250 },
+                  { headerName: "Display Name", field: "displayName" },
+                  { headerName: "Description ", field: "description" },
+  
+                  {
+                      headerName: "Action", field: "Action",
+                      cellRendererFramework: (params) => <div className="ac-view">
+                          <span className="" style={{ cursor: "pointer", fontSize: "17px" }} onClick={this.viewNewRole}><FolderViewOutlined /></span>
+                          <span className="icon-edit-2" style={{ cursor: "pointer" }} style={{ marginLeft: "5%" }} onClick={() => this.editNewRole(params.data)}></span>
+                          <span className="icon-Group-357" style={{ marginLeft: "5%" }} onClick={() => this.props.deleteUserRole(sessionStorage.getItem("token"), params.data.userRoleId)}></span>
+                      </div>,
+                      cellStyle: (params) => { return { textAlign: "center" } },
+                  }
+  
+  
+  
+              ],
+            })
         }
     }
 
@@ -460,6 +538,10 @@ class RoleManagement extends Component {
 
         const isfeatured = this.state.isfeatured;
         return (
+            <IntlProvider
+            messages={this.state.messages.default}
+            locale={this.state.language}
+          >
             <>
                 {!this.state.addNewRole && !this.state.editNewRole && !this.state.viewNewRole &&
                     <div className="main_contain settings-container">
@@ -471,16 +553,16 @@ class RoleManagement extends Component {
                                             <div className="chartCardTop">
                                                 <div className="kyccustomformheading">
                                                     <h1 className="list_top_heading textAlignCenter text-center">
-                                                        Roles
+                                                    <FormattedMessage id="agent.Roles" />
                                                     </h1>
-                                                    <button className="addposbtn c_first_pending_BTN" onClick={this.addNewRole}>Add New Role</button>
+                                                    <button className="addposbtn c_first_pending_BTN" onClick={this.addNewRole}><FormattedMessage id="agent.AddNewRole" /></button>
                                                 </div>
                                             </div>
                                             <div className="chartCardMiddle" style={{ padding: "24px" }}>
 
                                                 <div className="tableTop_wrapper">
                                                     <div className="disFl">
-                                                        <h5 className="show_pp margin_right8">Show</h5>
+                                                        <h5 className="show_pp margin_right8"><FormattedMessage id="agent.Show" /></h5>
                                                         <div className="tableShowRecordPerPage">
                                                             <Select
                                                                 defaultValue="10"
@@ -504,7 +586,7 @@ class RoleManagement extends Component {
                                                         >
                                                             <div className="shortCustom">
                                                                 <span className="icon-Asset-55"></span>
-                                                                <h6>Sort</h6>
+                                                                <h6><FormattedMessage id="agent.Sort" /></h6>
                                                             </div>
                                                             <div className="shortCustom">
                                                                 <Dropdown
@@ -512,17 +594,17 @@ class RoleManagement extends Component {
                                                                         <ul class="filterDrd">
                                                                             <li>
                                                                                 <a href="#">
-                                                                                    <span class="icon-logout"></span>All
+                                                                                    <span class="icon-logout"></span><FormattedMessage id="agent.All" />
                                                                                 </a>
                                                                             </li>
                                                                             <li>
                                                                                 <a href="#">
-                                                                                    <span class="icon-logout"></span>Inactive
+                                                                                    <span class="icon-logout"></span><FormattedMessage id="agent.Inactive" />
                                                                                 </a>
                                                                             </li>
                                                                             <li>
                                                                                 <a href="#">
-                                                                                    <span class="icon-logout"></span>Active
+                                                                                    <span class="icon-logout"></span><FormattedMessage id="agent.Active" />
                                                                                 </a>
                                                                             </li>
                                                                         </ul>
@@ -532,7 +614,7 @@ class RoleManagement extends Component {
                                                                 >
                                                                     <div className="shortCustom01">
                                                                         <span className="icon-Asset-54"></span>
-                                                                        <h6>Filter</h6>
+                                                                        <h6><FormattedMessage id="agent.Filter" /></h6>
                                                                     </div>
                                                                 </Dropdown>
                                                             </div>
@@ -540,7 +622,10 @@ class RoleManagement extends Component {
                                                                 className="search_w_merchant_m"
                                                                 style={{ width: "270px" }}
                                                             >
-                                                                <input type="search" placeholder="Search" />
+                                                                <FormattedMessage id="agent.Search">
+                                                                    {placeholder =>
+                                                                <input type="search" placeholder={placeholder} />}
+                                                                </FormattedMessage>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -575,18 +660,18 @@ class RoleManagement extends Component {
                                                 <div className="customAgFooter">
 
                                                     <div className="showingFooter">
-                                                        <span>Showing</span>
+                                                        <span><FormattedMessage id="agent.Showing" /></span>
                                                         <span id="bTo"> </span>
-                                                        <span>to</span>
+                                                        <span><FormattedMessage id="agent.To" /></span>
                                                         <span id="afterTo"></span>
-                                                        <span>of</span>
+                                                        <span><FormattedMessage id="agent.Of" /></span>
                                                         <span id="totalPageSize"></span>
-                                                        <span>entries</span>
+                                                        <span><FormattedMessage id="agent.Entries" /></span>
                                                     </div>
                                                     <div className="NextPrevW">
-                                                        <button className="NextPrev" onClick={() => this.onBtPrevious()}>Prev</button>
+                                                        <button className="NextPrev" onClick={() => this.onBtPrevious()}><FormattedMessage id="agent.Prev" /></button>
                                                         <span className="valueNextPrev" id="lbCurrentPage"></span>
-                                                        <button className="NextPrev" onClick={() => this.onBtNext()}>Next</button>
+                                                        <button className="NextPrev" onClick={() => this.onBtNext()}><FormattedMessage id="agent.Next" /></button>
                                                     </div>
 
                                                 </div>
@@ -641,7 +726,7 @@ class RoleManagement extends Component {
                                             <div className="chartCardTop">
                                                 <div className="kyccustomformheading">
                                                     <h1 className="list_top_heading textAlignCenter text-center">
-                                                        Add New Role
+                                                    <FormattedMessage id="agent.AddNewRole" />
                                                     </h1>
                                                 </div>
                                             </div>
@@ -650,18 +735,24 @@ class RoleManagement extends Component {
                                                 <div className="containerBiaN_form">
                                                     <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                            <label>Name</label>
+                                                            <label><FormattedMessage id="agent.Name" /></label>
                                                         </div>
                                                         <div className="containerBiaN_f_col width70percent">
-                                                            <input name="roleName" value={this.state.roleName} onChange={(e) => { this.handleOnChangeInput(e) }} type="text" placeholder="Enter Name" />
+                                                        <FormattedMessage id="agent.EnterName">
+                                                            {placeholder =>
+                                                            <input name="roleName" value={this.state.roleName} onChange={(e) => { this.handleOnChangeInput(e) }} type="text" placeholder={placeholder} />}
+                                                        </FormattedMessage>
                                                         </div>
                                                     </div>
                                                     <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                            <label>Display Name</label>
+                                                            <label><FormattedMessage id="agent.DisplayName" /></label>
                                                         </div>
                                                         <div className="containerBiaN_f_col width70percent">
-                                                            <input name="displayName" value={this.state.displayName} onChange={(e) => { this.handleOnChangeInput(e) }} type="text" placeholder="Enter Display Name" />
+                                                        <FormattedMessage id="agent.EnterDisplayName">
+                                                            {placeholder =>
+                                                            <input name="displayName" value={this.state.displayName} onChange={(e) => { this.handleOnChangeInput(e) }} type="text" placeholder={placeholder} />}
+                                                        </FormattedMessage>
                                                         </div>
                                                     </div>
                                                     <div className="containerBiaN_f_row">
@@ -669,7 +760,10 @@ class RoleManagement extends Component {
                                                             <label>Description</label>
                                                         </div>
                                                         <div className="containerBiaN_f_col width70percent">
-                                                            <input name="description" value={this.state.description} onChange={(e) => { this.handleOnChangeInput(e) }} type="text" placeholder="Enter Description" />
+                                                        <FormattedMessage id="agent.EnterDescription">
+                                                            {placeholder =>
+                                                            <input name="description" value={this.state.description} onChange={(e) => { this.handleOnChangeInput(e) }} type="text" placeholder={placeholder} />}
+                                                        </FormattedMessage>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -678,12 +772,12 @@ class RoleManagement extends Component {
                                                     <table>
                                                         <thead>
                                                             <tr>
-                                                                <th>Permissions</th>
-                                                                <th>Edit</th>
-                                                                <th>List</th>
-                                                                <th>Delete</th>
-                                                                <th>View</th>
-                                                                <th>Add</th>
+                                                                <th><FormattedMessage id="agent.Permissions" /></th>
+                                                                <th><FormattedMessage id="agent.Edit" /></th>
+                                                                <th><FormattedMessage id="agent.List" /></th>
+                                                                <th><FormattedMessage id="agent.Delete" /></th>
+                                                                <th><FormattedMessage id="agent.View" /></th>
+                                                                <th><FormattedMessage id="agent.Add" /></th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -729,8 +823,8 @@ class RoleManagement extends Component {
 
                                                 <div style={{ width: "100%", float: "left" }}>
                                                     <div className="custom-d-flex confirm_p_w mTB00 button-container rspacing">
-                                                        <button className="blackbtn aryousureBTN confirmBtnR" onClick={this.back5}>Cancel</button>
-                                                        <button className="aryousureBTN confirmBtnR" onClick={this.submitRoleAdd}>Submit</button>
+                                                        <button className="blackbtn aryousureBTN confirmBtnR" onClick={this.back5}><FormattedMessage id="cancel" /></button>
+                                                        <button className="aryousureBTN confirmBtnR" onClick={this.submitRoleAdd}><FormattedMessage id="submit" /></button>
                                                     </div>
                                                 </div>
 
@@ -785,7 +879,7 @@ class RoleManagement extends Component {
                                             <div className="chartCardTop">
                                                 <div className="kyccustomformheading">
                                                     <h1 className="list_top_heading textAlignCenter text-center">
-                                                        Edit Role
+                                                    <FormattedMessage id="agent.EditRole" />
                                                     </h1>
                                                 </div>
                                             </div>
@@ -794,18 +888,24 @@ class RoleManagement extends Component {
                                                 <div className="containerBiaN_form">
                                                     <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                            <label>Name</label>
+                                                            <label><FormattedMessage id="agent.Name" /></label>
                                                         </div>
                                                         <div className="containerBiaN_f_col width70percent">
-                                                            <input type="text" name="editRoleName" value={this.state.editRoleName} onChange={(e) => { this.handleOnChangeInput(e) }} placeholder="Enter Name" />
+                                                        <FormattedMessage id="agent.EnterName">
+                                                            {placeholder =>
+                                                            <input type="text" name="editRoleName" value={this.state.editRoleName} onChange={(e) => { this.handleOnChangeInput(e) }} placeholder={placeholder} />}
+                                                        </FormattedMessage>
                                                         </div>
                                                     </div>
                                                     <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                            <label>Display Name</label>
+                                                            <label><FormattedMessage id="agent.DisplayName" /></label>
                                                         </div>
                                                         <div className="containerBiaN_f_col width70percent">
-                                                            <input type="text" name="editDisplayName" value={this.state.editDisplayName} onChange={(e) => { this.handleOnChangeInput(e) }} placeholder="Enter Display Name" />
+                                                        <FormattedMessage id="agent.EnterDisplayName">
+                                                            {placeholder =>
+                                                            <input type="text" name="editDisplayName" value={this.state.editDisplayName} onChange={(e) => { this.handleOnChangeInput(e) }} placeholder={placeholder} />}
+                                                        </FormattedMessage>
                                                         </div>
                                                     </div>
                                                     <div className="containerBiaN_f_row">
@@ -813,7 +913,10 @@ class RoleManagement extends Component {
                                                             <label>Description</label>
                                                         </div>
                                                         <div className="containerBiaN_f_col width70percent">
-                                                            <input type="text" name="editDescription" value={this.state.editDescription} onChange={(e) => { this.handleOnChangeInput(e) }} placeholder="Enter Description" />
+                                                        <FormattedMessage id="agent.EnterDescription">
+                                                            {placeholder =>
+                                                            <input type="text" name="editDescription" value={this.state.editDescription} onChange={(e) => { this.handleOnChangeInput(e) }} placeholder={placeholder} />}
+                                                        </FormattedMessage>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -822,12 +925,12 @@ class RoleManagement extends Component {
                                                     <table>
                                                         <thead>
                                                             <tr>
-                                                                <th>Permissions</th>
-                                                                <th>Edit</th>
-                                                                <th>List</th>
-                                                                <th>Delete</th>
-                                                                <th>View</th>
-                                                                <th>Add</th>
+                                                                <th><FormattedMessage id="agent.Permissions" /></th>
+                                                                <th><FormattedMessage id="agent.Edit" /></th>
+                                                                <th><FormattedMessage id="agent.List" /></th>
+                                                                <th><FormattedMessage id="agent.Delete" /></th>
+                                                                <th><FormattedMessage id="agent.View" /></th>
+                                                                <th><FormattedMessage id="agent.Add" /></th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -882,8 +985,8 @@ class RoleManagement extends Component {
 
                                                 <div style={{ width: "100%", float: "left" }}>
                                                     <div className="custom-d-flex confirm_p_w mTB00 button-container rspacing">
-                                                        <button className="blackbtn aryousureBTN confirmBtnR" onClick={this.back5}>Cancel</button>
-                                                        <button className="aryousureBTN confirmBtnR" onClick={this.editRoleSubmit}>Submit</button>
+                                                        <button className="blackbtn aryousureBTN confirmBtnR" onClick={this.back5}><FormattedMessage id="cancel" /></button>
+                                                        <button className="aryousureBTN confirmBtnR" onClick={this.editRoleSubmit}><FormattedMessage id="submit" /></button>
                                                     </div>
                                                 </div>
 
@@ -939,7 +1042,7 @@ class RoleManagement extends Component {
                                             <div className="chartCardTop">
                                                 <div className="kyccustomformheading">
                                                     <h1 className="list_top_heading textAlignCenter text-center">
-                                                        View
+                                                    <FormattedMessage id="agent.View" />
                                                     </h1>
                                                 </div>
                                             </div>
@@ -949,18 +1052,18 @@ class RoleManagement extends Component {
                                                     <table>
                                                         <thead>
                                                             <tr>
-                                                                <th>Role</th>
+                                                                <th><FormattedMessage id="agent.Role" /></th>
                                                                 <th>Description</th>
-                                                                <th>Permission</th>
+                                                                <th><FormattedMessage id="agent.Permissions" /></th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             {[1, 2].map((row) => {/* change array lator*/
                                                                 return (
                                                                     <tr>
-                                                                        <td>Shop Manager</td>
-                                                                        <td>Manage a shop and all the point of sales</td>
-                                                                        <td>True</td>
+                                                                        <td><FormattedMessage id="agent.ShopManager" /></td>
+                                                                        <td><FormattedMessage id="agent.Manageashopandallthepointofsales" /></td>
+                                                                        <td><FormattedMessage id="agent.True" /></td>
                                                                     </tr>
                                                                 )
                                                             })}
@@ -972,8 +1075,8 @@ class RoleManagement extends Component {
 
                                                 <div style={{ width: "100%", float: "left" }}>
                                                     <div className="custom-d-flex confirm_p_w mTB00 button-container rspacing">
-                                                        <button className="blackbtn aryousureBTN confirmBtnR" onClick={this.back5}>Cancel</button>
-                                                        <button className="aryousureBTN confirmBtnR">Submit</button>
+                                                        <button className="blackbtn aryousureBTN confirmBtnR" onClick={this.back5}><FormattedMessage id="cancel" /></button>
+                                                        <button className="aryousureBTN confirmBtnR"><FormattedMessage id="submit" /></button>
                                                     </div>
                                                 </div>
 
@@ -1018,12 +1121,13 @@ class RoleManagement extends Component {
                     </div>
                 }
             </>
+            </IntlProvider>
         );
     }
 }
 
 // function for mapping redux state values with props //
-const mapStateToProps = ({ agentReducer }) => {
+const mapStateToProps = ({ agentReducer, commonReducer }) => {
 
     return {
         getUserRoleStatus: agentReducer.getUserRoleStatus,
@@ -1043,7 +1147,9 @@ const mapStateToProps = ({ agentReducer }) => {
         updateRolePermissionData: agentReducer.updateRolePermissionData,
 
         addAllPermissionStatus: agentReducer.addAllPermissionStatus,
-        addAllPermissionData: agentReducer.addAllPermissionData
+        addAllPermissionData: agentReducer.addAllPermissionData,
+
+        language : commonReducer.language,
     }
 
 };
