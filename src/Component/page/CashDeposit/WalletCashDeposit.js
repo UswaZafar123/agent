@@ -263,7 +263,10 @@ const WalletCashDeposit = () => {
               <label><FormattedMessage id="agent.phonenumber" /> <span className="mantdat">*</span></label>
             </div>
             <div className="containerBiaN_f_col width70percent">
-              <input placeholder="Enter Phone number" type="number" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
+              <FormattedMessage id="agent.EnterPhoneNumber">
+                {placeholder =>
+              <input placeholder={placeholder} type="number" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />}
+              </FormattedMessage>
             </div>
           </div>
           <div className="containerBiaN_f_row">
@@ -286,7 +289,10 @@ const WalletCashDeposit = () => {
               <label><FormattedMessage id="agent.IDDocumentNumber" /> <span className="mantdat">*</span></label>
             </div>
             <div className="containerBiaN_f_col width70percent">
-              <input placeholder="Enter ID document number" value={idDocumentNumber} onChange={(e) => setIdDocumentNumber(e.target.value)} />
+              <FormattedMessage id="agent.EnterIDDocumentNumber" >
+                {placeholder =>
+              <input placeholder={placeholder} value={idDocumentNumber} onChange={(e) => setIdDocumentNumber(e.target.value)} />}
+              </FormattedMessage>
             </div>
           </div>
         </div>

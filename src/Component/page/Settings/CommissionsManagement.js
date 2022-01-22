@@ -690,7 +690,7 @@ class CommissionsManagement extends Component {
                                             <div className="chartCardTop">
                                                 <div className="kyccustomformheading">
                                                     <h1 className="list_top_heading textAlignCenter text-center">
-                                                        Add New Commissions
+                                                        <FormattedMessage id="agent.AddNewCommissions" />
                                                     </h1>
                                                 </div>
                                             </div>
@@ -701,7 +701,7 @@ class CommissionsManagement extends Component {
 
                                                     <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                            <label>Commission Type <span className="mantdat">*</span></label>
+                                                            <label><FormattedMessage id="agent.CommissionType" /> <span className="mantdat">*</span></label>
                                                         </div>
                                                         <div className="containerBiaN_f_col width70percent">
                                                             <div className="categorySelect">
@@ -715,17 +715,17 @@ class CommissionsManagement extends Component {
                                                                     }}
                                                                     id={'page-size'}
                                                                 >
-                                                                    <Option value="FIXED">FIXED</Option>
-                                                                    <Option value="PERCENTAGE">PERCENTAGE</Option>
+                                                                    <Option value="FIXED"><FormattedMessage id="agent.FIXED" /></Option>
+                                                                    <Option value="PERCENTAGE"><FormattedMessage id="agent.PERCENTAGE" /></Option>
                                                                     <Option value="SLAB">SLAB</Option>
-                                                                    <Option value="FIXED_AND_PERCENTAGE">FIXED AND PERCENTAGE</Option>
+                                                                    <Option value="FIXED_AND_PERCENTAGE"><FormattedMessage id="agent.FIXEDANDPERCENTAGE" /></Option>
                                                                 </Select>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                            <label>Operations <span className="mantdat">*</span></label>
+                                                            <label><FormattedMessage id="agent.Operations" /> <span className="mantdat">*</span></label>
                                                         </div>
                                                         <div className="containerBiaN_f_col width70percent">
                                                             <div className="categorySelect">
@@ -759,7 +759,7 @@ class CommissionsManagement extends Component {
                                                     </div>
                                                     <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                            <label>Package <span className="mantdat">*</span></label>
+                                                            <label><FormattedMessage id="agent.Package" /> <span className="mantdat">*</span></label>
                                                         </div>
                                                         <div className="containerBiaN_f_col width70percent">
                                                             <div className="categorySelect">
@@ -796,7 +796,7 @@ class CommissionsManagement extends Component {
                                                     </div>
                                                     <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                            <label>Currency <span className="mantdat">*</span></label>
+                                                            <label><FormattedMessage id="agent.Currency" /> <span className="mantdat">*</span></label>
                                                         </div>
                                                         <div className="containerBiaN_f_col width70percent">
                                                             <div className="categorySelect">
@@ -811,7 +811,7 @@ class CommissionsManagement extends Component {
                                                                     id={'page-size'}
                                                                 >
 
-                                                                    <Option value="Default" disabled={true}>Select Currency</Option>
+                                                                    <Option value="Default" disabled={true}><FormattedMessage id="agent.SelectCurrency" /></Option>
 
                                                                     {this.state.currenciesData.length > 0 ? <>
 
@@ -831,23 +831,29 @@ class CommissionsManagement extends Component {
                                                     </div>
                                                     <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                            <label>Lower Bound <span className="mantdat">*</span></label>
+                                                            <label><FormattedMessage id="agent.LowerBound" /> <span className="mantdat">*</span></label>
                                                         </div>
                                                         <div className="containerBiaN_f_col width70percent">
-                                                            <input type="text" placeholder="Enter Lower Bound" />
+                                                        <FormattedMessage id="agent.EnterLowerBound">
+                                                                {placeholder =>
+                                                            <input type="text" placeholder={placeholder} />}
+                                                            </FormattedMessage>
                                                         </div>
                                                     </div>
                                                     <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                            <label>Upper Bound <span className="mantdat">*</span></label>
+                                                            <label><FormattedMessage id="agent.UpperBound" /> <span className="mantdat">*</span></label>
                                                         </div>
                                                         <div className="containerBiaN_f_col width70percent">
-                                                            <input type="text" placeholder="Enter Upper Bound" />
+                                                        <FormattedMessage id="agent.EnterUpperBound">
+                                                                {placeholder =>
+                                                            <input type="text" placeholder={placeholder} />}
+                                                            </FormattedMessage>
                                                         </div>
                                                     </div>
                                                     <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                            <label>Fee Structure <span className="mantdat">*</span></label>
+                                                            <label><FormattedMessage id="agent.FeeStructure" /> <span className="mantdat">*</span></label>
                                                         </div>
                                                         <div className="containerBiaN_f_col width70percent">
                                                             <div className="categorySelect">
@@ -863,9 +869,9 @@ class CommissionsManagement extends Component {
                                                                     }}
                                                                     id={'page-size'}
                                                                 >
-                                                                    <Option value={1}>Amount</Option>
-                                                                    <Option value={2}>Percentage</Option>
-                                                                    <Option value={3}>Both</Option>
+                                                                    <Option value={1}><FormattedMessage id="agent.Amount" /></Option>
+                                                                    <Option value={2}><FormattedMessage id="agent.Percentage" /></Option>
+                                                                    <Option value={3}><FormattedMessage id="agent.Both" /></Option>
                                                                 </Select>
                                                             </div>
                                                         </div>
@@ -875,7 +881,7 @@ class CommissionsManagement extends Component {
 
                                                         <div className="containerBiaN_f_row">
                                                             <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                                <label>Amount <span className="mantdat">*</span></label>
+                                                                <label><FormattedMessage id="agent.Amount" /> <span className="mantdat">*</span></label>
                                                             </div>
                                                             <div className="containerBiaN_f_col width70percent">
 
@@ -894,7 +900,7 @@ class CommissionsManagement extends Component {
 
                                                         <div className="containerBiaN_f_row">
                                                             <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                                <label>Percentage <span className="mantdat">*</span></label>
+                                                                <label><FormattedMessage id="agent.Percentage" /> <span className="mantdat">*</span></label>
                                                             </div>
                                                             <div className="containerBiaN_f_col width70percent">
 
@@ -913,16 +919,19 @@ class CommissionsManagement extends Component {
 
                                                         <div className="containerBiaN_f_row">
                                                             <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                                <label>Amount <span className="mantdat">*</span></label>
+                                                                <label><FormattedMessage id="agent.Amount" /> <span className="mantdat">*</span></label>
                                                             </div>
                                                             <div className="containerBiaN_f_col width70percent">
 
                                                                 <div className="inputFlash2" style={{ marginLeft: 0, width: "100%" }} >
+                                                                    <FormattedMessage id="agent.EnterAmount">
+                                                                        {placeholder =>
                                                                     <Input value={this.state.amount} onChange={(e) => {
                                                                         this.setState({
                                                                             amount: e.target.value
                                                                         });
-                                                                    }} placeholder="Enter Amount"  > </Input>
+                                                                    }} placeholder={placeholder}  > </Input>}
+                                                                    </FormattedMessage>
                                                                 </div>
 
                                                             </div>
@@ -930,7 +939,7 @@ class CommissionsManagement extends Component {
 
                                                         <div className="containerBiaN_f_row">
                                                             <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                                <label>Percentage <span className="mantdat">*</span></label>
+                                                                <label><FormattedMessage id="agent.Percentage" /> <span className="mantdat">*</span></label>
                                                             </div>
                                                             <div className="containerBiaN_f_col width70percent">
 
@@ -951,7 +960,7 @@ class CommissionsManagement extends Component {
 
                                                     <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                            <label>Status <span className="mantdat">*</span></label>
+                                                            <label><FormattedMessage id="agent.Status" /> <span className="mantdat">*</span></label>
                                                         </div>
                                                         <div className="containerBiaN_f_col width70percent">
                                                             <div className="categorySelect">
@@ -966,8 +975,8 @@ class CommissionsManagement extends Component {
                                                                     id={'page-size'}
                                                                 >
 
-                                                                    <Option value={true}>Active</Option>
-                                                                    <Option value={false}>Inactive</Option>
+                                                                    <Option value={true}><FormattedMessage id="agent.Active" /></Option>
+                                                                    <Option value={false}><FormattedMessage id="agent.Inactive" /></Option>
 
 
                                                                 </Select>
@@ -979,8 +988,8 @@ class CommissionsManagement extends Component {
 
                                                 <div style={{ width: "100%", float: "left" }}>
                                                     <div className="confirm_p_w mTB00 button-container rspacing">
-                                                        <button className="blackbtn aryousureBTN confirmBtnR" onClick={this.back5}>Cancel</button>
-                                                        <button className="aryousureBTN confirmBtnR" onClick={() => this.addCommission()}>Submit</button>
+                                                        <button className="blackbtn aryousureBTN confirmBtnR" onClick={this.back5}><FormattedMessage id="cancel" /></button>
+                                                        <button className="aryousureBTN confirmBtnR" onClick={() => this.addCommission()}><FormattedMessage id="submit" /></button>
                                                     </div>
                                                 </div>
 
@@ -1005,7 +1014,7 @@ class CommissionsManagement extends Component {
                                             <div className="chartCardTop">
                                                 <div className="kyccustomformheading">
                                                     <h1 className="list_top_heading textAlignCenter text-center">
-                                                        Edit Commission                            </h1>
+                                                    <FormattedMessage id="agent.EditCommission" />                            </h1>
                                                 </div>
                                             </div>
                                             <div className="chartCardMiddle" style={{ padding: "24px" }}>
@@ -1014,7 +1023,7 @@ class CommissionsManagement extends Component {
 
                                                     <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                            <label>Commission Type <span className="mantdat">*</span></label>
+                                                            <label><FormattedMessage id="agent.CommissionType" /> <span className="mantdat">*</span></label>
                                                         </div>
                                                         <div className="containerBiaN_f_col width70percent">
                                                             <div className="categorySelect">
@@ -1028,10 +1037,10 @@ class CommissionsManagement extends Component {
                                                                     }}
                                                                     id={'page-size'}
                                                                 >
-                                                                    <Option value="FIXED">FIXED</Option>
-                                                                    <Option value="PERCENTAGE">PERCENTAGE</Option>
+                                                                    <Option value="FIXED"><FormattedMessage id="agent.FIXED" /></Option>
+                                                                    <Option value="PERCENTAGE"><FormattedMessage id="agent.PERCENTAGE" /></Option>
                                                                     <Option value="SLAB">SLAB</Option>
-                                                                    <Option value="FIXED_AND_PERCENTAGE">FIXED AND PERCENTAGE</Option>
+                                                                    <Option value="FIXED_AND_PERCENTAGE"><FormattedMessage id="agent.FIXEDANDPERCENTAGE" /></Option>
                                                                 </Select>
                                                             </div>
                                                         </div>
@@ -1040,7 +1049,7 @@ class CommissionsManagement extends Component {
 
                                                     <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                            <label>Operations <span className="mantdat">*</span></label>
+                                                            <label><FormattedMessage id="agent.Operations" /> <span className="mantdat">*</span></label>
                                                         </div>
                                                         <div className="containerBiaN_f_col width70percent">
                                                             <div className="categorySelect">
@@ -1054,7 +1063,7 @@ class CommissionsManagement extends Component {
                                                                     }}
                                                                     id={'page-size'}
                                                                 >
-                                                                    <Option value="Default" disabled={true}>Select Operation</Option>
+                                                                    <Option value="Default" disabled={true}><FormattedMessage id="agent.SelectOperation" /></Option>
 
                                                                     {this.state.operationsData.length > 0 ? <>
 
@@ -1074,7 +1083,7 @@ class CommissionsManagement extends Component {
                                                     </div>
                                                     <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                            <label>Package <span className="mantdat">*</span></label>
+                                                            <label><FormattedMessage id="agent.Package" /> <span className="mantdat">*</span></label>
                                                         </div>
                                                         <div className="containerBiaN_f_col width70percent">
                                                             <div className="categorySelect">
@@ -1089,7 +1098,7 @@ class CommissionsManagement extends Component {
                                                                     id={'page-size'}
                                                                 >
 
-                                                                    <Option value="Default" disabled={true}>Select Package</Option>
+                                                                    <Option value="Default" disabled={true}><FormattedMessage id="agent.SelectPackage" /></Option>
 
                                                                     {this.state.packagesData.length > 0 ? <>
 
@@ -1111,7 +1120,7 @@ class CommissionsManagement extends Component {
                                                     </div>
                                                     <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                            <label>Currency <span className="mantdat">*</span></label>
+                                                            <label><FormattedMessage id="agent.Currency" /> <span className="mantdat">*</span></label>
                                                         </div>
                                                         <div className="containerBiaN_f_col width70percent">
                                                             <div className="categorySelect">
@@ -1126,7 +1135,7 @@ class CommissionsManagement extends Component {
                                                                     id={'page-size'}
                                                                 >
 
-                                                                    <Option value="Default" disabled={true}>Select Currency</Option>
+                                                                    <Option value="Default" disabled={true}><FormattedMessage id="agent.SelectCurrency" /></Option>
 
                                                                     {this.state.currenciesData.length > 0 ? <>
 
@@ -1146,23 +1155,29 @@ class CommissionsManagement extends Component {
                                                     </div>
                                                     <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                            <label>Lower Bound <span className="mantdat">*</span></label>
+                                                            <label><FormattedMessage id="agent.LowerBound" /> <span className="mantdat">*</span></label>
                                                         </div>
                                                         <div className="containerBiaN_f_col width70percent">
-                                                            <input type="text" placeholder="Enter Lower Bound" />
+                                                        <FormattedMessage id="agent.EnterLowerBound">
+                                                            {placeholder => 
+                                                            <input type="text" placeholder={placeholder} />}
+                                                        </FormattedMessage>
                                                         </div>
                                                     </div>
                                                     <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                            <label>Upper Bound <span className="mantdat">*</span></label>
+                                                            <label><FormattedMessage id="agent.UpperBound" /> <span className="mantdat">*</span></label>
                                                         </div>
                                                         <div className="containerBiaN_f_col width70percent">
-                                                            <input type="text" placeholder="Enter Upper Bound" />
+                                                        <FormattedMessage id="agent.EnterUpperBound">
+                                                            {placeholder =>
+                                                            <input type="text" placeholder={placeholder} />}
+                                                        </FormattedMessage>
                                                         </div>
                                                     </div>
                                                     <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                            <label>Fee Structure <span className="mantdat">*</span></label>
+                                                            <label><FormattedMessage id="agent.FeeStructure" /> <span className="mantdat">*</span></label>
                                                         </div>
                                                         <div className="containerBiaN_f_col width70percent">
                                                             <div className="categorySelect">
@@ -1178,9 +1193,9 @@ class CommissionsManagement extends Component {
                                                                     }}
                                                                     id={'page-size'}
                                                                 >
-                                                                    <Option value={1}>Amount</Option>
-                                                                    <Option value={2}>Percentage</Option>
-                                                                    <Option value={3}>Both</Option>
+                                                                    <Option value={1}><FormattedMessage id="agent.Amount" /></Option>
+                                                                    <Option value={2}><FormattedMessage id="agent.Percentage" /></Option>
+                                                                    <Option value={3}><FormattedMessage id="agent.Both" /></Option>
                                                                 </Select>
                                                             </div>
                                                         </div>
@@ -1190,16 +1205,19 @@ class CommissionsManagement extends Component {
 
                                                         <div className="containerBiaN_f_row">
                                                             <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                                <label>Amount <span className="mantdat">*</span></label>
+                                                                <label><FormattedMessage id="agent.Amount" /> <span className="mantdat">*</span></label>
                                                             </div>
                                                             <div className="containerBiaN_f_col width70percent">
 
                                                                 <div className="inputFlash2" style={{ marginLeft: 0, width: "100%" }} >
+                                                                <FormattedMessage id="agent.EnterAmount">
+                                                                    {placeholder =>
                                                                     <Input value={this.state.amount} onChange={(e) => {
                                                                         this.setState({
                                                                             amount: e.target.value
                                                                         });
-                                                                    }} placeholder="Enter Amount"  > </Input>
+                                                                    }} placeholder={placeholder}  > </Input>}
+                                                                </FormattedMessage>
                                                                 </div>
 
                                                             </div>
@@ -1209,7 +1227,7 @@ class CommissionsManagement extends Component {
 
                                                         <div className="containerBiaN_f_row">
                                                             <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                                <label>Percentage <span className="mantdat">*</span></label>
+                                                                <label><FormattedMessage id="agent.Percentage" /> <span className="mantdat">*</span></label>
                                                             </div>
                                                             <div className="containerBiaN_f_col width70percent">
 
@@ -1228,16 +1246,19 @@ class CommissionsManagement extends Component {
 
                                                         <div className="containerBiaN_f_row">
                                                             <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                                <label>Amount <span className="mantdat">*</span></label>
+                                                                <label><FormattedMessage id="agent.Amount" /> <span className="mantdat">*</span></label>
                                                             </div>
                                                             <div className="containerBiaN_f_col width70percent">
 
                                                                 <div className="inputFlash2" style={{ marginLeft: 0, width: "100%" }} >
+                                                                <FormattedMessage id="agent.EnterAmount">
+                                                                        {placeholder =>
                                                                     <Input value={this.state.amount} onChange={(e) => {
                                                                         this.setState({
                                                                             amount: e.target.value
                                                                         });
-                                                                    }} placeholder="Enter Amount"  > </Input>
+                                                                    }} placeholder={placeholder}  > </Input>}
+                                                                </FormattedMessage>
                                                                 </div>
 
                                                             </div>
@@ -1245,7 +1266,7 @@ class CommissionsManagement extends Component {
 
                                                         <div className="containerBiaN_f_row">
                                                             <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                                <label>Percentage <span className="mantdat">*</span></label>
+                                                                <label><FormattedMessage id="agent.Percentage" /> <span className="mantdat">*</span></label>
                                                             </div>
                                                             <div className="containerBiaN_f_col width70percent">
 
@@ -1266,7 +1287,7 @@ class CommissionsManagement extends Component {
 
                                                     <div className="containerBiaN_f_row">
                                                         <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                            <label>Status <span className="mantdat">*</span></label>
+                                                            <label><FormattedMessage id="agent.Status" /> <span className="mantdat">*</span></label>
                                                         </div>
                                                         <div className="containerBiaN_f_col width70percent">
                                                             <div className="categorySelect">
@@ -1281,8 +1302,8 @@ class CommissionsManagement extends Component {
                                                                     id={'page-size'}
                                                                 >
 
-                                                                    <Option value={true}>Active</Option>
-                                                                    <Option value={false}>Inactive</Option>
+                                                                    <Option value={true}><FormattedMessage id="agent.Active" /></Option>
+                                                                    <Option value={false}><FormattedMessage id="agent.Inactive" /></Option>
 
 
                                                                 </Select>
@@ -1294,8 +1315,8 @@ class CommissionsManagement extends Component {
 
                                                 <div style={{ width: "100%", float: "left" }}>
                                                     <div className="custom-d-flex confirm_p_w mTB00 button-container rspacing">
-                                                        <button className="blackbtn aryousureBTN confirmBtnR" onClick={this.back5}>Cancel</button>
-                                                        <button className="aryousureBTN confirmBtnR" onClick={() => this.editCommission()}>Submit</button>
+                                                        <button className="blackbtn aryousureBTN confirmBtnR" onClick={this.back5}><FormattedMessage id="cancel" /></button>
+                                                        <button className="aryousureBTN confirmBtnR" onClick={() => this.editCommission()}><FormattedMessage id="submit" /></button>
                                                     </div>
                                                 </div>
 

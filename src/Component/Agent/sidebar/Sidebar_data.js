@@ -472,7 +472,7 @@ export const Side_bar_data = [
       //   path: "/Profile/qr-code",
       // },
       {
-        title: "agent.ChangePasswords",
+        title: "agent.ChangePassword",
         path: "/Profile/change-password",
       },
       {

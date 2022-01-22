@@ -250,7 +250,7 @@ const WalletCashWithdraw = () => {
         <div className="containerBiaN_form">
             <div className="containerBiaN_f_row">
                 <div className="containerBiaN_f_col width30percent textAlignRight">
-                    <label><FormattedMessage id="agent.PhoneNumber"/> <span className="mantdat">*</span></label>
+                    <label><FormattedMessage id="agent.phonenumber"/> <span className="mantdat">*</span></label>
                 </div>
                 <div className="containerBiaN_f_col width70percent">
                 <FormattedMessage id="agent.EnterPhoneNumber">

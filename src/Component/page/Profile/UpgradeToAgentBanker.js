@@ -7,12 +7,18 @@ import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import { useDispatch, useSelector } from "react-redux";
 import { agentToAgentBankerUpgradeRequest } from "../../../services/agent/action";
 import actionType from "../../../services/agent/actionType";
+import { FormattedMessage, IntlProvider } from 'react-intl';
 
 const UpgradeToAgentBanker = () => {
     const [customerID, setCustomerID] = useState("");
     const [showAgentBankerDetails, setShowAgentBankerDetails] = useState(false);
 
     const dispatch = useDispatch();
+
+    const [messages, setMessages] = useState("");
+    const [language, setLanguage] = useState("");
+  
+    const lan = useSelector(state => state.commonReducer.language);
 
     const agentBankerUpgradeData = useSelector(
         (state) => state.agentReducer.agentBankerUpgradeData
@@ -37,6 +43,35 @@ const UpgradeToAgentBanker = () => {
             setShowAgentBankerDetails(false)
 
     }, [agentBankerUpgradeStatus, agentBankerUpgradeData])
+
+    useEffect(async () => {
+
+        const messages = await loadLocaleData(localStorage.getItem("lang"));
+        setMessages(messages);
+    
+        setLanguage(localStorage.getItem("lang"));
+    
+        // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
+    
+      }, [])
+    
+      const loadLocaleData = (locale) => {
+        switch (locale) {
+          case "fr":
+            return import("../../i18n/messages/fr.js");
+          default:
+            return import("../../i18n/messages/en.js");
+        }
+      };
+    
+      useEffect(async () => {
+    
+        const messages = await loadLocaleData(lan);
+        setMessages(messages);
+    
+        setLanguage(lan);
+    
+      }, [lan])
 
     const sendUpgradeRequest = () => {
 
@@ -88,16 +123,19 @@ const UpgradeToAgentBanker = () => {
                 <div>
                     <div className="containerBiaN_f_col" style={{ padding: "0px" }}>
                         <label>
-                            Bank Customer ID <span className="mantdat">*</span>
+                            <FormattedMessage id="agent.BankCustomerID" /> <span className="mantdat">*</span>
                         </label>
                     </div>
                     <div className="containerBiaN_f_col" style={{ padding: "0px" }}>
+                        <FormattedMessage id="agent.EnterBankCustomerId">
+                            {placeholder =>
                         <input
-                            placeholder="Enter Bank Customer ID"
+                            placeholder={placeholder}
                             type="number"
                             value={customerID}
                             onChange={(e) => setCustomerID(e.target.value)}
-                        />
+                        />}
+                        </FormattedMessage>
                     </div>
                     <div style={{ marginTop: "40px" }}>
                         <div className="confirm_p_w button-container rspacing">
@@ -116,6 +154,10 @@ const UpgradeToAgentBanker = () => {
         );
     };
     return (
+        <IntlProvider
+        messages={messages.default}
+        locale={language}
+      >
         <div className="main_contain agentformCenter">
             <div className="merch_m_list_w">
                 <div className="merch_list_card" id="merch_list_card">
@@ -128,7 +170,7 @@ const UpgradeToAgentBanker = () => {
                                             className="list_top_heading textAlignCenter text-center"
                                             style={{ paddingLeft: "0px" }}
                                         >
-                                            Upgrade to Agent Banker
+                                            <FormattedMessage id="agent.UpgradetoAgentBanker" />
                                         </h1>
                                     </div>
                                 </div>
@@ -155,6 +197,7 @@ const UpgradeToAgentBanker = () => {
                 </div>
             </div>
         </div>
+        </IntlProvider>
     );
 };
 

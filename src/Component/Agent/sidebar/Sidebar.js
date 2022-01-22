@@ -87,7 +87,8 @@ class Sidebar extends Component {
         }
         this.checkAccountStatus(
           nextProps.profile.data.agentType,
-          nextProps.profile.data.status
+          nextProps.profile.data.status,
+          nextProps.language
         );
       }
     }

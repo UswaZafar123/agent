@@ -779,6 +779,7 @@ const fr = {
       'agent.UniqueIdentificationNumber' : "Numéro d'identification unique",
       'agent.PackageType' : "Type d'emballage",
       'agent.EnterPassword' : "Entrer le mot de passe",
+      'agent.UpgradetoAgentBanker' : "Passer à Agent Banker",
 }
 
 

@@ -797,6 +797,7 @@ const en = {
         'agent.UniqueIdentificationNumber' : "Unique Identification Number",
         'agent.PackageType' : "Package Type",
         'agent.EnterPassword' : "Enter Password",
+        'agent.UpgradetoAgentBanker' : "Upgrade to Agent Banker",
 
 
 }
