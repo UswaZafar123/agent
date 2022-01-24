@@ -13,6 +13,7 @@ import activeUser from '../../Assets/images/confirm.svg'
 import { Select, Menu, Dropdown, Modal } from 'antd';
 
 import { connect } from "react-redux";
+import { getAgentWalletHistory } from '../../services/agent/action';
 
 
 const { Option } = Select;
@@ -24,30 +25,52 @@ class Transaction extends Component {
         super(props);
 
         this.state = {
+            numberOfEntriesToShow: "10",
             gridApi: null,
             isModalVisible: false,
             paginationGetCurrentPage: null,
             popup: false,
-            startdate:new Date(),
-            endDate:new Date(),
-            currencies:[],
+            startdate: new Date(),
+            endDate: new Date(),
+            currencies: [],
             columnDefs: [
-                { headerName: "Transaction Date", field: "Transaction_Date", width: 250 },
-                { headerName: "Client Phone Number", field: "Client_Phone_Number" },
-                { headerName: "Payment method", field: "Payment_method" },
+                { headerName: "Reference Number", field: "transactionReference" },
+                {
+                    headerName: "Transaction Date", field: "createdDate",
+                    cellRendererFramework: (params) => {
+                        // console.log(params, "PARAMS");
+                        return (
+                            <div>
+                                {(params.value).split('T')[0]}
+                            </div>
+                        );
+                    }
+                },
+                {
+                    headerName: "Transaction Time", field: "createdDate",
+                    cellRendererFramework: (params) => {
+                        // console.log(params, "PARAMS");
+                        return (
+                            <div>
+                                {(params.value).split('T')[1].split('.')[0]}
+                            </div>
+                        );
+                    }
+                },
+                { headerName: "Transaction Type", field: "walletTransactionType" },
 
-                { headerName: "Reference Number", field: "Reference_Number" },
+                { headerName: "Amount", field: "amount" },
 
-                { headerName: "Currency", field: "Currency" },
-                { headerName: "Amount", field: "Amount" },
-                { headerName: "Transaction Fee", field: "Transaction_Fee" },
+                { headerName: "Fee", field: "fee" },
+                // { headerName: "Amount", field: "Amount" },
+                // { headerName: "Transaction Fee", field: "Transaction_Fee" },
 
-                { headerName: "Total Amount ", field: "Total_Amount" },
-                { headerName: "Status ", field: "Status" },
-                { headerName: "Transaction ", field: "Transaction" },
+                // { headerName: "Total Amount ", field: "Total_Amount" },
+                // { headerName: "Status ", field: "Status" },
+                // { headerName: "Transaction ", field: "Transaction" },
             ],
             rowData: [
-              
+
 
             ]
 
@@ -78,25 +101,39 @@ class Transaction extends Component {
         })
         params.api.paginationGoToPage(10);
         document.getElementById('lbCurrentPage').innerHTML = this.state.gridApi.paginationGetCurrentPage() + 1
-        document.getElementById('totalPageSize').innerHTML = this.state.rowData.length
+        document.getElementById('totalPageSize').innerHTML = this.state.rowData ? this.state.rowData.length : 0
         document.getElementById('bTo').innerHTML = params.api.paginationGetPageSize(10)
         const changedV = (params.api.paginationGetPageSize(10)) * (this.state.gridApi.paginationGetCurrentPage() + 1)
-        if (changedV <= this.state.rowData.length) {
+        if (changedV <= this.state.rowData ? this.state.rowData.length : 0) {
             document.getElementById('afterTo').innerHTML = (params.api.paginationGetPageSize(10)) * (this.state.gridApi.paginationGetCurrentPage() + 1)
         }
         else {
-            document.getElementById('afterTo').innerHTML = this.state.rowData.length
+            document.getElementById('afterTo').innerHTML = this.state.rowData ? this.state.rowData.length : 0
         }
         // console.log("get",params.api.getDisplayedRowCount())
     }
 
-    componentDidMount () {
-        
+    componentDidMount() {
+        let start = this.state.startdate.toISOString().split('T')[0];
+        let end = this.state.endDate.toISOString().split('T')[0];
+        this.props.getAgentWalletHistory(start, end, 0, parseInt(this.state.numberOfEntriesToShow));
     }
+
     handleChange = (value) => {
+        // console.log(value, "Show Entries");
+        let a = this.state.gridApi.paginationGetCurrentPage();
+        console.log(a, "CURRENT PAGE")
         this.state.gridApi.paginationSetPageSize(Number(value))
         // document.getElementById('totalPageSize').innerHTML=this.state.gridApi.paginationGetPageSize()
         document.getElementById('bTo').innerHTML = this.state.gridApi.paginationGetPageSize()
+        this.setState({
+            numberOfEntriesToShow: value.toString()
+        }, () => {
+            // console.log(parseInt(this.state.numberOfEntriesToShow), "NUMBER OF ENTRIES TO SHOW")
+            let start = this.state.startdate.toISOString().split('T')[0];
+            let end = this.state.endDate.toISOString().split('T')[0];
+            this.props.getAgentWalletHistory(start, end, 0, parseInt(this.state.numberOfEntriesToShow));
+        });
     }
 
     showModal = () => {
@@ -123,9 +160,26 @@ class Transaction extends Component {
     };
 
 
-    componentWillReceiveProps (nextprops) {
-       this.setState({rowData:nextprops.transactionResponseList})
-    //    this.setState({currencies:nextprops.getCurencyListData.currency})
+    componentWillReceiveProps(nextprops) {
+        if (nextprops.walletHistoryStatus && nextprops.walletHistoryData) {
+            if (nextprops.walletHistoryData.content.length > 0) {
+
+                let transactions = [];
+
+                nextprops.walletHistoryData.content.map((transaction) => {
+
+                    transactions.push(transaction.walletTransaction)
+
+                })
+
+                this.setState({
+                    rowData: transactions
+                }, () => {
+                    console.log(this.state.rowData);
+                })
+            }
+        }
+
     }
 
     onPaginationChanged = () => {
@@ -148,32 +202,33 @@ class Transaction extends Component {
 
     onBtNext = () => {
         this.state.gridApi.paginationGoToNextPage();
-        // console.log()
+        let start = this.state.startdate.toISOString().split('T')[0];
+        let end = this.state.endDate.toISOString().split('T')[0];
+        this.props.getAgentWalletHistory(start, end, this.state.gridApi.paginationGetCurrentPage(), parseInt(this.state.numberOfEntriesToShow));
     };
 
     onBtPrevious = () => {
         this.state.gridApi.paginationGoToPreviousPage();
+        let start = this.state.startdate.toISOString().split('T')[0];
+        let end = this.state.endDate.toISOString().split('T')[0];
+        this.props.getAgentWalletHistory(start, end, this.state.gridApi.paginationGetCurrentPage(), parseInt(this.state.numberOfEntriesToShow));
     };
 
 
     setStartDate = (date) => {
-        this.setState({startdate:date})
+        this.setState({ startdate: date })
     }
 
 
     setEndDate = (date) => {
-        this.setState({endDate:date});
+        this.setState({ endDate: date });
     }
 
     filterData = () => {
-        var firstDayFormat = new Date(this.state.startdate.getTime() - (this.state.startdate.getTimezoneOffset() * 60000)).toISOString().split("T")[0];
-        var todayDateFormat = new Date(this.state.endDate.getTime() - (this.state.endDate.getTimezoneOffset() * 60000)).toISOString().split("T")[0];
-
-        this.props.getMerchantTransactionList(sessionStorage.getItem("token"), firstDayFormat,todayDateFormat,"XAF");
+        let start = this.state.startdate.toISOString().split('T')[0];
+        let end = this.state.endDate.toISOString().split('T')[0];
+        this.props.getAgentWalletHistory(start, end, 0, 10);
     }
-
-
-
 
     render() {
         // console.log("jai",this.state.paginationGetCurrentPage)
@@ -187,17 +242,17 @@ class Transaction extends Component {
                                     <div className="chartCardTop">
                                         <div className="kyccustomformheading">
                                             <h1 className="list_top_heading textAlignCenter text-center">
-                                            Transactions
-                      </h1>
+                                                Transactions
+                                            </h1>
                                             {/* <button className="addposbtn c_first_pending_BTN" onClick={this.addChange}>Add a new Point of Sale</button> */}
                                         </div>
                                     </div>
                                     <div className=" chartCardMiddle" style={{ padding: "24px" }}>
                                         <div className="transactioncardmiddle">
-                                        <div className="transactionformcol posformcol formCol">
-                                            <label className="formColLabel">From</label>
-                                            <div className="customdatepicker categorySelect" >
-                                                {/* <Select
+                                            <div className="transactionformcol posformcol formCol">
+                                                <label className="formColLabel">From</label>
+                                                <div className="customdatepicker categorySelect" >
+                                                    {/* <Select
 
                                                     style={{ width: 100 + "%", height: 52 }}
 
@@ -206,18 +261,18 @@ class Transaction extends Component {
                                                     <Option value="Enterprises">WIIK eV</Option>
                                                     <Option value="Freelancer">WIIK eV</Option>
                                                 </Select> */}
-                                                  <DatePicker selected={this.state.startdate} 	onChange={this.setStartDate} />
-                                                  
-<svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M15.6505 4.94878C12.4788 2.22005 7.67839 2.58041 4.94966 5.75206C2.22093 8.92372 2.58128 13.7242 5.75294 16.4529C8.92459 19.1816 13.7251 18.8213 16.4538 15.6496C19.1825 12.478 18.8222 7.67751 15.6505 4.94878ZM12.5334 13.0467L10.7635 11.524L9.24081 13.2938C9.13985 13.4112 8.9964 13.4836 8.84203 13.4952C8.68766 13.5068 8.53502 13.4566 8.41767 13.3556C8.30032 13.2547 8.22788 13.1112 8.21629 12.9569C8.2047 12.8025 8.25491 12.6498 8.35587 12.5325L9.87858 10.7626L8.10871 9.23993C7.99136 9.13897 7.91893 8.99553 7.90734 8.84116C7.89575 8.68679 7.94596 8.53414 8.04692 8.41679C8.14788 8.29944 8.29133 8.227 8.44569 8.21542C8.60006 8.20383 8.75271 8.25404 8.87006 8.355L10.6399 9.8777L12.1626 8.10784C12.2636 7.99049 12.407 7.91805 12.5614 7.90646C12.7158 7.89487 12.8684 7.94508 12.9858 8.04604C13.1031 8.14701 13.1756 8.29045 13.1871 8.44482C13.1987 8.59919 13.1485 8.75184 13.0476 8.86919L11.5249 10.6391L13.2947 12.1618C13.4121 12.2627 13.4845 12.4062 13.4961 12.5605C13.5077 12.7149 13.4575 12.8675 13.3565 12.9849C13.2556 13.1022 13.1121 13.1747 12.9577 13.1863C12.8034 13.1979 12.6507 13.1476 12.5334 13.0467Z" fill="#4C4D4E"/>
-</svg>
+                                                    <DatePicker selected={this.state.startdate} onChange={this.setStartDate} />
 
+                                                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M15.6505 4.94878C12.4788 2.22005 7.67839 2.58041 4.94966 5.75206C2.22093 8.92372 2.58128 13.7242 5.75294 16.4529C8.92459 19.1816 13.7251 18.8213 16.4538 15.6496C19.1825 12.478 18.8222 7.67751 15.6505 4.94878ZM12.5334 13.0467L10.7635 11.524L9.24081 13.2938C9.13985 13.4112 8.9964 13.4836 8.84203 13.4952C8.68766 13.5068 8.53502 13.4566 8.41767 13.3556C8.30032 13.2547 8.22788 13.1112 8.21629 12.9569C8.2047 12.8025 8.25491 12.6498 8.35587 12.5325L9.87858 10.7626L8.10871 9.23993C7.99136 9.13897 7.91893 8.99553 7.90734 8.84116C7.89575 8.68679 7.94596 8.53414 8.04692 8.41679C8.14788 8.29944 8.29133 8.227 8.44569 8.21542C8.60006 8.20383 8.75271 8.25404 8.87006 8.355L10.6399 9.8777L12.1626 8.10784C12.2636 7.99049 12.407 7.91805 12.5614 7.90646C12.7158 7.89487 12.8684 7.94508 12.9858 8.04604C13.1031 8.14701 13.1756 8.29045 13.1871 8.44482C13.1987 8.59919 13.1485 8.75184 13.0476 8.86919L11.5249 10.6391L13.2947 12.1618C13.4121 12.2627 13.4845 12.4062 13.4961 12.5605C13.5077 12.7149 13.4575 12.8675 13.3565 12.9849C13.2556 13.1022 13.1121 13.1747 12.9577 13.1863C12.8034 13.1979 12.6507 13.1476 12.5334 13.0467Z" fill="#4C4D4E" />
+                                                    </svg>
+
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="transactionformcol posformcol formCol">
-                                            <label className="formColLabel">To</label>
-                                            <div className="customdatepicker categorySelect" >
-                                                {/* <Select
+                                            <div className="transactionformcol posformcol formCol">
+                                                <label className="formColLabel">To</label>
+                                                <div className="customdatepicker categorySelect" >
+                                                    {/* <Select
 
                                                     style={{ width: 100 + "%", height: 52 }}
 
@@ -226,22 +281,22 @@ class Transaction extends Component {
                                                     <Option value="Enterprises">WIIK eV</Option>
                                                     <Option value="Freelancer">WIIK eV</Option>
                                                 </Select> */}
-                                                  <DatePicker selected={this.state.endDate} 	onChange={this.setEndDate}  />
-                                                  
-<svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M15.6505 4.94878C12.4788 2.22005 7.67839 2.58041 4.94966 5.75206C2.22093 8.92372 2.58128 13.7242 5.75294 16.4529C8.92459 19.1816 13.7251 18.8213 16.4538 15.6496C19.1825 12.478 18.8222 7.67751 15.6505 4.94878ZM12.5334 13.0467L10.7635 11.524L9.24081 13.2938C9.13985 13.4112 8.9964 13.4836 8.84203 13.4952C8.68766 13.5068 8.53502 13.4566 8.41767 13.3556C8.30032 13.2547 8.22788 13.1112 8.21629 12.9569C8.2047 12.8025 8.25491 12.6498 8.35587 12.5325L9.87858 10.7626L8.10871 9.23993C7.99136 9.13897 7.91893 8.99553 7.90734 8.84116C7.89575 8.68679 7.94596 8.53414 8.04692 8.41679C8.14788 8.29944 8.29133 8.227 8.44569 8.21542C8.60006 8.20383 8.75271 8.25404 8.87006 8.355L10.6399 9.8777L12.1626 8.10784C12.2636 7.99049 12.407 7.91805 12.5614 7.90646C12.7158 7.89487 12.8684 7.94508 12.9858 8.04604C13.1031 8.14701 13.1756 8.29045 13.1871 8.44482C13.1987 8.59919 13.1485 8.75184 13.0476 8.86919L11.5249 10.6391L13.2947 12.1618C13.4121 12.2627 13.4845 12.4062 13.4961 12.5605C13.5077 12.7149 13.4575 12.8675 13.3565 12.9849C13.2556 13.1022 13.1121 13.1747 12.9577 13.1863C12.8034 13.1979 12.6507 13.1476 12.5334 13.0467Z" fill="#4C4D4E"/>
-</svg>
+                                                    <DatePicker selected={this.state.endDate} onChange={this.setEndDate} />
 
+                                                    <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                        <path d="M15.6505 4.94878C12.4788 2.22005 7.67839 2.58041 4.94966 5.75206C2.22093 8.92372 2.58128 13.7242 5.75294 16.4529C8.92459 19.1816 13.7251 18.8213 16.4538 15.6496C19.1825 12.478 18.8222 7.67751 15.6505 4.94878ZM12.5334 13.0467L10.7635 11.524L9.24081 13.2938C9.13985 13.4112 8.9964 13.4836 8.84203 13.4952C8.68766 13.5068 8.53502 13.4566 8.41767 13.3556C8.30032 13.2547 8.22788 13.1112 8.21629 12.9569C8.2047 12.8025 8.25491 12.6498 8.35587 12.5325L9.87858 10.7626L8.10871 9.23993C7.99136 9.13897 7.91893 8.99553 7.90734 8.84116C7.89575 8.68679 7.94596 8.53414 8.04692 8.41679C8.14788 8.29944 8.29133 8.227 8.44569 8.21542C8.60006 8.20383 8.75271 8.25404 8.87006 8.355L10.6399 9.8777L12.1626 8.10784C12.2636 7.99049 12.407 7.91805 12.5614 7.90646C12.7158 7.89487 12.8684 7.94508 12.9858 8.04604C13.1031 8.14701 13.1756 8.29045 13.1871 8.44482C13.1987 8.59919 13.1485 8.75184 13.0476 8.86919L11.5249 10.6391L13.2947 12.1618C13.4121 12.2627 13.4845 12.4062 13.4961 12.5605C13.5077 12.7149 13.4575 12.8675 13.3565 12.9849C13.2556 13.1022 13.1121 13.1747 12.9577 13.1863C12.8034 13.1979 12.6507 13.1476 12.5334 13.0467Z" fill="#4C4D4E" />
+                                                    </svg>
+
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="transactionformcol posformcol formCol">
-                                            <label className="formColLabel">Currency</label>
-                                            <div className="categorySelect" >
-                                                <Select
+                                            {/* <div className="transactionformcol posformcol formCol">
+                                                <label className="formColLabel">Currency</label>
+                                                <div className="categorySelect" >
+                                                    <Select
 
-                                                    style={{ width: 100 + "%", height: 52 }}
+                                                        style={{ width: 100 + "%", height: 52 }}
 
-                                                >
+                                                    >
 
                                                         {this.state.currencies.map((currency) => {
                                                             return (
@@ -250,39 +305,39 @@ class Transaction extends Component {
                                                         })
                                                         }
 
-          
-                                                </Select>
-                                                  
 
-                                            </div>
-                                        </div>
-                                        <div className="transactionformcol posformcol formCol">
-                                            <label className="formColLabel">Filter by Status</label>
-                                            <div className="categorySelect" >
-                                                <Select
+                                                    </Select>
 
-                                                    style={{ width: 100 + "%", height: 52 }}
 
-                                                >
-                                                    <Option value="select_cat">Completed</Option>
-                                                    <Option value="Enterprises">Failed</Option>
-                                                    <Option value="Freelancer">Initiated</Option>
-                                                    <Option value="Freelancer">All</Option>
-                                                </Select>
-                                                  
+                                                </div>
+                                            </div> */}
+                                            {/* <div className="transactionformcol posformcol formCol">
+                                                <label className="formColLabel">Filter by Status</label>
+                                                <div className="categorySelect" >
+                                                    <Select
 
-                                            </div>
-                                        </div>
+                                                        style={{ width: 100 + "%", height: 52 }}
+
+                                                    >
+                                                        <Option value="select_cat">Completed</Option>
+                                                        <Option value="Enterprises">Failed</Option>
+                                                        <Option value="Freelancer">Initiated</Option>
+                                                        <Option value="Freelancer">All</Option>
+                                                    </Select>
+
+
+                                                </div>
+                                            </div> */}
                                         </div>
                                         <div className="fetchsection">
-                                        <button className="dcbtn" onClick={this.filterData}>Fetch</button>
+                                            <button className="dcbtn" onClick={this.filterData}>Fetch</button>
                                         </div>
                                         <div className="tableTop_wrapper">
                                             <div className="disFl">
                                                 <h5 className="show_pp margin_right8">Show</h5>
                                                 <div className="tableShowRecordPerPage">
                                                     <Select
-                                                        defaultValue="10"
+                                                        defaultValue={this.state.numberOfEntriesToShow}
                                                         style={{ width: 74, height: 27 }}
                                                         onChange={this.handleChange}
                                                         id={'page-size'}
@@ -296,7 +351,7 @@ class Transaction extends Component {
 
                                                 <h5 className="show_pp margin_left8">
                                                     Entries
-                        </h5>
+                                                </h5>
                                                 <div
                                                     className="margin-left-auto"
                                                     style={{ display: "flex", alignItems: "center" }}
@@ -312,17 +367,17 @@ class Transaction extends Component {
                                                                     <li>
                                                                         <a href="#">
                                                                             <span class="icon-logout"></span>All
-                                    </a>
+                                                                        </a>
                                                                     </li>
                                                                     <li>
                                                                         <a href="#">
                                                                             <span class="icon-logout"></span>Inactive
-                                    </a>
+                                                                        </a>
                                                                     </li>
                                                                     <li>
                                                                         <a href="#">
                                                                             <span class="icon-logout"></span>Active
-                                    </a>
+                                                                        </a>
                                                                     </li>
                                                                 </ul>
                                                             }
@@ -430,16 +485,21 @@ class Transaction extends Component {
     }
 }
 
-const mapStateToProps = ({ merchantReducer }) => {
-   
-  };
-  
-  const mapDispatchToProps = dispatch => {
-    return {
-     
-    }
-  }
+const mapStateToProps = ({ agentReducer }) => {
 
-  
-  
-export default connect(mapStateToProps,mapDispatchToProps) (Transaction);
+    return {
+        walletHistoryData: agentReducer.walletHistoryData,
+        walletHistoryStatus: agentReducer.walletHistoryStatus,
+    }
+
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        getAgentWalletHistory: (fromDate, toDate, page, size) => dispatch(getAgentWalletHistory(fromDate, toDate, page, size))
+    }
+}
+
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Transaction);

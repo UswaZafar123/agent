@@ -26,6 +26,7 @@ import {
 import { Select, DatePicker } from 'antd';
 import moment from 'moment';
 import { FormattedMessage, IntlProvider } from 'react-intl';
+import { NavLink } from 'react-router-dom';
 const dateFormat = 'YYYY/MM/DD';
 // const customFormat = value => `custom format: ${value.format(dateFormat)}`;
 const { Option } = Select;
@@ -726,6 +727,8 @@ class Dashboard extends Component {
       messages: "",
       language: "",
       agentType: "",
+      walletBalance: 0,
+      profileData: [],
 
     }
   }
@@ -752,6 +755,8 @@ class Dashboard extends Component {
 
   componentDidMount() {
 
+    this.props.fetchAgentWallet(sessionStorage.getItem("token"));
+
     if (document.querySelector('.getHeight') != null) {
       const fromDivHeight = document.querySelector('.getHeight').clientHeight
       this.setState({
@@ -771,6 +776,15 @@ class Dashboard extends Component {
   }
 
   async componentWillReceiveProps(nextProps) {
+
+    if (nextProps.walletAccount.data) {
+
+      this.setState({
+        walletBalance: nextProps.walletAccount.data.balance + " " + nextProps.walletAccount.data.currencyCode
+      });
+
+    }
+
     if (nextProps.profileImageStatus) {
 
       var blob = new Blob([nextProps.profileImage], { type: "application/octet-stream" });
@@ -785,8 +799,10 @@ class Dashboard extends Component {
       // console.log(nextProps.profile.data.agentType, "PROFILE");
 
       this.setState({
-        agentType: nextProps.profile.data.agentType
+        agentType: nextProps.profile.data.agentType,
+        profileData: nextProps.profile.data
       }, () => {
+        console.log(this.state.profileData, "AGENT PROFILE DATA")
       });
 
     }
@@ -845,19 +861,23 @@ class Dashboard extends Component {
                               </div>
                             </>
                           )}
-                          <div className="custom_col width3">
-                            <div className="dcard">
-                              <div className="icNa">
 
-                                <div className="cardrightVal width50p">
-                                  <p><FormattedMessage id="agent.TotalAgentMember" /></p>
-                                  <div className="cardnumber">
-                                    213
+                          <div className="custom_col width3">
+                            <NavLink to="/settings/agent-member" style={{ textDecoration: "none" }}>
+                              <div className="dcard">
+                                <div className="icNa">
+
+                                  <div className="cardrightVal width50p">
+                                    <p><FormattedMessage id="agent.TotalAgentMember" /></p>
+                                    <div className="cardnumber">
+                                      213
+                                    </div>
                                   </div>
                                 </div>
                               </div>
-                            </div>
+                            </NavLink>
                           </div>
+
                           {(this.state.agentType !== "AGENT" && this.state.agentType !== "AGENT_BANKER") && (
                             <>
                               <div className="custom_col width3">
@@ -883,24 +903,26 @@ class Dashboard extends Component {
                                 <div className="cardrightVal width50p">
                                   <p><FormattedMessage id="agent.LiquidityBalance" /></p>
                                   <div className="cardnumber">
-                                    300
+                                    {this.state.walletBalance ? this.state.walletBalance : 0}
                                   </div>
                                 </div>
                               </div>
                             </div>
                           </div>
                           <div className="custom_col width3">
-                            <div className="dcard">
-                              <div className="icNa">
+                            <NavLink to="/agent/tickets" style={{ textDecoration: "none" }}>
+                              <div className="dcard">
+                                <div className="icNa">
 
-                                <div className="cardrightVal width50p">
-                                  <p>Total Tickets</p>
-                                  <div className="cardnumber">
-                                    100
+                                  <div className="cardrightVal width50p">
+                                    <p>Total Tickets</p>
+                                    <div className="cardnumber">
+                                      100
+                                    </div>
                                   </div>
                                 </div>
                               </div>
-                            </div>
+                            </NavLink>
                           </div>
                           {(this.state.agentType !== "AGENT" && this.state.agentType !== "AGENT_BANKER") && (
                             <>
@@ -936,20 +958,25 @@ class Dashboard extends Component {
                         <div className="customdashboardrow1-label-whole">
                           <div className="customdashboardrow1-label">
                             <label><FormattedMessage id="agent.IDNumber" />:</label>
-                            <span>32890233</span>
+                            <span>{this.state.profileData.idDocuments[0].documentIdNumber}</span>
+                          </div>
+                          <div className="line-separator"></div>
+                          <div className="customdashboardrow1-label">
+                            <label><FormattedMessage id="agent.email" />:</label>
+                            <span>{this.state.profileData.agentEmailAddress}</span>
                           </div>
                           <div className="line-separator"></div>
                           <div className="customdashboardrow1-label">
                             <label>Phone No: </label>
-                            <span>3333333</span>
+                            <span>{this.state.profileData.phoneNo}</span>
                           </div>
                           <div className="line-separator"></div>
                           <div className="customdashboardrow1-label">
                             <label><FormattedMessage id="agent.Address" />:     </label>
-                            <span>xyz  </span>
+                            <span>{this.state.profileData.address}</span>
                           </div>
                           <div className="line-separator"></div>
-                          <div className="customdashboardrow1-label">
+                          {/* <div className="customdashboardrow1-label">
                             <label>Geo localisation​: </label>
                             <span>41° N & 28° E.</span>
                           </div>
@@ -961,7 +988,7 @@ class Dashboard extends Component {
                               </svg>
                               <span>See Location</span>
                             </button>
-                          </div>
+                          </div> */}
                         </div>
 
                       </div>
@@ -1302,108 +1329,108 @@ class Dashboard extends Component {
                     </div>
                   </>
                 )}
-                  <>
-                    <div className="section_custom">
-                      <div className="sectionInn">
-                        <div className="chartCard_w m_r24 getHeight">
-                          <div className="chartCardTop">
-                            <div className="flCenterColumn">
-                              <h1 className="commonHeading textAlignCenter"><FormattedMessage id="agent.RecentTransaction" /></h1>
-                            </div>
+                <>
+                  <div className="section_custom">
+                    <div className="sectionInn">
+                      <div className="chartCard_w m_r24 getHeight">
+                        <div className="chartCardTop">
+                          <div className="flCenterColumn">
+                            <h1 className="commonHeading textAlignCenter"><FormattedMessage id="agent.RecentTransaction" /></h1>
                           </div>
-                          <div className="chartCardMiddle">
-                            <div className="recentTrans_w">
-                              <table>
-                                <thead>
-                                  <tr>
-                                    <th><FormattedMessage id="agent.User" /></th>
-                                    <th>Type</th>
-                                    <th>Date</th>
-                                    <th><FormattedMessage id="agent.Amount" /></th>
-                                    <th><FormattedMessage id="agent.Fee" /></th>
-                                    <th>Total</th>
-                                    <th><FormattedMessage id="agent.Currency" /></th>
-                                    <th>Reciver</th>
-                                    <th><FormattedMessage id="agent.Status" /></th>
-                                    <th>Action</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr>
-                                    <td>Kyla watson</td>
-                                    <td>Crypto Recieved</td>
-                                    <td>13 Dec 2020 (4:00 PM)</td>
-                                    <td className="amountColor">$75.67</td>
-                                    <td>1.0000</td>
-                                    <td className="cancelled_tr">-100.00</td>
-                                    <td className="amountColor">USD</td>
-                                    <td className="pending_tr">Kyla watson</td>
-                                    <td className="pending_tr">Pending</td>
-                                    <td className="actionBtn"><span class="icon-edit"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></span></td>
-                                  </tr>
-                                  <tr>
-                                    <td>Kyla watson</td>
-                                    <td>Crypto Recieved</td>
-                                    <td>13 Dec 2020 (4:00 PM)</td>
-                                    <td className="amountColor">$75.67</td>
-                                    <td>1.0000</td>
-                                    <td className="cancelled_tr">-100.00</td>
-                                    <td className="amountColor">USD</td>
-                                    <td className="pending_tr">Kyla watson</td>
-                                    <td className="cancelled_tr">Cancelled</td>
-                                    <td className="actionBtn"><span class="icon-edit"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></span></td>
-                                  </tr>
-                                  <tr>
-                                    <td>Kyla watson</td>
-                                    <td>Crypto Recieved</td>
-                                    <td>13 Dec 2020 (4:00 PM)</td>
-                                    <td className="amountColor">$75.67</td>
-                                    <td>1.0000</td>
-                                    <td className="success_tr">+100.00</td>
-                                    <td className="amountColor">USD</td>
-                                    <td className="pending_tr">Kyla watson</td>
-                                    <td className="success_tr">Success</td>
-                                    <td className="actionBtn"><span class="icon-edit"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></span></td>
-                                  </tr>
-                                  <tr>
-                                    <td>Kyla watson</td>
-                                    <td>Crypto Recieved</td>
-                                    <td>13 Dec 2020 (4:00 PM)</td>
-                                    <td className="amountColor">$75.67</td>
-                                    <td>1.0000</td>
-                                    <td className="cancelled_tr">-100.00</td>
-                                    <td className="amountColor">USD</td>
-                                    <td className="pending_tr">Kyla watson</td>
-                                    <td className="cancelled_tr">Cancelled</td>
-                                    <td className="actionBtn"><span class="icon-edit"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></span></td>
-                                  </tr>
-                                  <tr>
-                                    <td>Kyla watson</td>
-                                    <td>Crypto Recieved</td>
-                                    <td>13 Dec 2020 (4:00 PM)</td>
-                                    <td className="amountColor">$75.67</td>
-                                    <td>1.0000</td>
-                                    <td className="success_tr">+100.00</td>
-                                    <td className="amountColor">USD</td>
-                                    <td className="pending_tr">Kyla watson</td>
-                                    <td className="success_tr">Success</td>
-                                    <td className="actionBtn"><span class="icon-edit"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></span></td>
-                                  </tr>
+                        </div>
+                        <div className="chartCardMiddle">
+                          <div className="recentTrans_w">
+                            <table>
+                              <thead>
+                                <tr>
+                                  <th><FormattedMessage id="agent.User" /></th>
+                                  <th>Type</th>
+                                  <th>Date</th>
+                                  <th><FormattedMessage id="agent.Amount" /></th>
+                                  <th><FormattedMessage id="agent.Fee" /></th>
+                                  <th>Total</th>
+                                  <th><FormattedMessage id="agent.Currency" /></th>
+                                  <th>Reciver</th>
+                                  <th><FormattedMessage id="agent.Status" /></th>
+                                  <th>Action</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr>
+                                  <td>Kyla watson</td>
+                                  <td>Crypto Recieved</td>
+                                  <td>13 Dec 2020 (4:00 PM)</td>
+                                  <td className="amountColor">$75.67</td>
+                                  <td>1.0000</td>
+                                  <td className="cancelled_tr">-100.00</td>
+                                  <td className="amountColor">USD</td>
+                                  <td className="pending_tr">Kyla watson</td>
+                                  <td className="pending_tr">Pending</td>
+                                  <td className="actionBtn"><span class="icon-edit"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></span></td>
+                                </tr>
+                                <tr>
+                                  <td>Kyla watson</td>
+                                  <td>Crypto Recieved</td>
+                                  <td>13 Dec 2020 (4:00 PM)</td>
+                                  <td className="amountColor">$75.67</td>
+                                  <td>1.0000</td>
+                                  <td className="cancelled_tr">-100.00</td>
+                                  <td className="amountColor">USD</td>
+                                  <td className="pending_tr">Kyla watson</td>
+                                  <td className="cancelled_tr">Cancelled</td>
+                                  <td className="actionBtn"><span class="icon-edit"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></span></td>
+                                </tr>
+                                <tr>
+                                  <td>Kyla watson</td>
+                                  <td>Crypto Recieved</td>
+                                  <td>13 Dec 2020 (4:00 PM)</td>
+                                  <td className="amountColor">$75.67</td>
+                                  <td>1.0000</td>
+                                  <td className="success_tr">+100.00</td>
+                                  <td className="amountColor">USD</td>
+                                  <td className="pending_tr">Kyla watson</td>
+                                  <td className="success_tr">Success</td>
+                                  <td className="actionBtn"><span class="icon-edit"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></span></td>
+                                </tr>
+                                <tr>
+                                  <td>Kyla watson</td>
+                                  <td>Crypto Recieved</td>
+                                  <td>13 Dec 2020 (4:00 PM)</td>
+                                  <td className="amountColor">$75.67</td>
+                                  <td>1.0000</td>
+                                  <td className="cancelled_tr">-100.00</td>
+                                  <td className="amountColor">USD</td>
+                                  <td className="pending_tr">Kyla watson</td>
+                                  <td className="cancelled_tr">Cancelled</td>
+                                  <td className="actionBtn"><span class="icon-edit"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></span></td>
+                                </tr>
+                                <tr>
+                                  <td>Kyla watson</td>
+                                  <td>Crypto Recieved</td>
+                                  <td>13 Dec 2020 (4:00 PM)</td>
+                                  <td className="amountColor">$75.67</td>
+                                  <td>1.0000</td>
+                                  <td className="success_tr">+100.00</td>
+                                  <td className="amountColor">USD</td>
+                                  <td className="pending_tr">Kyla watson</td>
+                                  <td className="success_tr">Success</td>
+                                  <td className="actionBtn"><span class="icon-edit"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></span></td>
+                                </tr>
 
-                                </tbody>
-                              </table>
-                            </div>
+                              </tbody>
+                            </table>
                           </div>
-                          <div className="cardFooter justify_content_end">
-                            <div className="allTic">
-                              <h3>All Tickets</h3>
-                              <span className="icon-Asset-1"></span>
-                            </div>
+                        </div>
+                        <div className="cardFooter justify_content_end">
+                          <div className="allTic">
+                            <h3>All Tickets</h3>
+                            <span className="icon-Asset-1"></span>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </>
+                  </div>
+                </>
               </div>
             </div>
           </>
@@ -1414,20 +1441,22 @@ class Dashboard extends Component {
 }
 
 const mapStateToProps = ({ agentReducer, commonReducer }) => {
-  const { profile, profileImage, profileImageStatus } = agentReducer;
+  const { profile, profileImage, profileImageStatus, walletAccount } = agentReducer;
   const { language } = commonReducer
 
   return {
     profile,
     profileImage,
     profileImageStatus,
-    language
+    language,
+    walletAccount
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getProfile: (token) => dispatch(getProfile(token)),
+    fetchAgentWallet: (token) => dispatch(fetchAgentWallet(token)),
   }
 
 }

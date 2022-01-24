@@ -128,14 +128,14 @@ class Users extends Component {
             });
         }
 
-        if (nextprops.getAgentDataStatus && nextprops.getAgentData._embedded) {
+        if (nextprops.getAgentDataStatus && nextprops.getAgentData !== null && nextprops.getAgentData !== undefined && nextprops.getAgentData._embedded !== null && nextprops.getAgentData._embedded !== undefined) {
             this.setState({
                 agentUserData: nextprops.getAgentData._embedded.agentUserDtoList
             });
             this.onCancelView();
         }
 
-        if (nextprops.getAgentData._embedded === undefined || nextprops.getAgentData === null) {
+        if (nextprops.getAgentData === undefined || nextprops.getAgentData === null) {
             this.setState({
                 agentUserData: []
             });

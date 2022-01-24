@@ -236,7 +236,7 @@ const AgentSendMoneyToAgentMember = () => {
             debtorUserType: "AGENT",
             debtorUserId: agentProfile.phoneNo,
             currencyName: "XAF",
-            amount: amount,
+            amount: parseFloat(amount),
             reason: reason,
             creditorUserType: "AGENT",
             creditorUserId: agentId,
@@ -272,9 +272,10 @@ const AgentSendMoneyToAgentMember = () => {
                                 {
                                     getAllAgentMemberList !== null && getAllAgentMemberList.length > 0 & getAllAgentMemberList !== undefined &&
                                     getAllAgentMemberList.map((agentMember) => {
-                                        return (
-                                            <Option value={agentMember.phoneNo}>{agentMember.firstName + " " + agentMember.lastName + " : " + agentMember.phoneNo}</Option>
-                                        );
+                                        if (agentMember.agentType === "AGENT_MEMBER")
+                                            return (
+                                                <Option value={agentMember.phoneNo}>{agentMember.firstName + " " + agentMember.lastName + " : " + agentMember.phoneNo}</Option>
+                                            );
                                     })
                                 }
                             </Select>

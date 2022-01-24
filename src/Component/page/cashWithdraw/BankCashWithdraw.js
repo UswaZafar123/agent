@@ -26,8 +26,8 @@ const BankCashWithdraw = () => {
   const firstUpdate = useRef(true);
   const [step, setStep] = useState(1);
   const idDocumentTypes = [
-    {name: "ID Card", value: "ID_CARD"},
-    {name: "Passport", value: "PASSPORT"}
+    {name: "ID Card", value: "ID_DOCUMENT"},
+    {name: "Passport", value: "NATIONAL_PASSPORT"}
   ];
   const otpTypes = [
     {name: "Email", value: "EMAIL"},

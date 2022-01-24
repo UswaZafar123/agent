@@ -179,7 +179,7 @@ const agentReducer = (state = initialState, action) => {
         profile: {
           ...state.profile,
           loading: true,
-          data : null,
+          data: null,
         },
       };
     case actionType.AGENT_PROFILE_DATA:
@@ -197,7 +197,7 @@ const agentReducer = (state = initialState, action) => {
         profile: {
           ...state.profile,
           loading: false,
-          data : null
+          data: null
         },
       };
     /**
@@ -1760,6 +1760,18 @@ const agentReducer = (state = initialState, action) => {
         ...state,
         agentBankerUpgradeStatus: false,
         agentBankerUpgradeData: null,
+      };
+    case actionType.GET_WALLET_HISTORY_SUCCESS:
+      return {
+        ...state,
+        walletHistoryData: action.payload,
+        walletHistoryStatus: true,
+      };
+    case actionType.GET_WALLET_HISTORY_FAILURE:
+      return {
+        ...state,
+        walletHistoryData: null,
+        walletHistoryStatus: false,
       };
     default:
       return state;

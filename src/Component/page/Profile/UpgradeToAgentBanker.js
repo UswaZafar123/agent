@@ -69,7 +69,9 @@ const UpgradeToAgentBanker = () => {
                                 <p style={{ marginRight: "16px", color: "gray" }}>
                                     Bank Phone
                                 </p>
-                                <p style={{ fontWeight: "bold" }}>{agentBankerUpgradeData.customerBankPhone}</p>
+                                <p style={{ fontWeight: "bold" }}>{(agentBankerUpgradeData.customerBankPhone).replace(/\b[\dX][-. \dX]+(\d{4})\b/g, function (match, capture) {
+                                    return Array(match.length - 4).join("*") + capture;
+                                })}</p>
                             </div>
                             <div style={{ display: "flex" }}>
                                 <p style={{ marginRight: "16px", color: "gray" }}>Bank Email</p>
