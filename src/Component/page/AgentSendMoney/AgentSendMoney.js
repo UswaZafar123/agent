@@ -36,6 +36,8 @@ const AgentSendMoney = () => {
   const [agentId, setAgentId] = useState("");
   const [amount, setAmount] = useState("");
   const [reason, setReason] = useState("");
+  const [fee, setFee] = useState("");
+  const [feeId, setFeeID] = useState("");
   const [selectedOtpType, setSelectedOtpType] = useState(otpTypes[0].value);
   const [otpTimer, setOtpTimer] = React.useState(resendTime);
   const [otp, setOtp] = useState("");
@@ -59,6 +61,18 @@ const AgentSendMoney = () => {
   const agentSendMoneySuccess = useSelector(
     (state) => state.agentReducer.agentSendMoney.success
   );
+
+  useEffect(() => {
+
+    if (feeDetail.transactionFee) {
+      setFee(feeDetail.transactionFee)
+    }
+
+    if (feeDetail.feeId) {
+      setFeeID(feeDetail.feeId);
+    }
+
+  }, [feeDetail]);
 
   useEffect(() => {
     return () => {
@@ -214,13 +228,13 @@ const AgentSendMoney = () => {
     var requestObj = {
       debtorUserType: "AGENT",
       debtorUserId: agentProfile.phoneNo,
-      currencyName: "XAF",
-      amount: amount,
+      currencyName: "USD",
+      amount: parseFloat(amount),
       reason: reason,
       creditorUserType: "AGENT",
       creditorUserId: agentId,
-      fee: feeDetail.transactionFee,
-      feeId: feeDetail.feeId,
+      fee: fee,
+      feeId: feeId,
       type: "WALLET_TRANSFER",
       mfaToken: otp,
     };
@@ -307,6 +321,14 @@ const AgentSendMoney = () => {
               <div style={{ display: "flex" }}>
                 <p style={{ marginRight: "16px", color: "gray" }}>Amount</p>
                 <p style={{ fontWeight: "bold" }}>{`${amount} XAF`}</p>
+              </div>
+              <div style={{ display: "flex" }}>
+                <p style={{ marginRight: "16px", color: "gray" }}>Fee</p>
+                <p style={{ fontWeight: "bold" }}>{`${fee} XAF`}</p>
+              </div>
+              <div style={{ display: "flex" }}>
+                <p style={{ marginRight: "16px", color: "gray" }}>Total Amount</p>
+                <p style={{ fontWeight: "bold" }}>{`${parseFloat(fee) + parseFloat(amount)} XAF`}</p>
               </div>
             </div>
           </div>

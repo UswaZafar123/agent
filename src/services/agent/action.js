@@ -1971,3 +1971,37 @@ export const agentToAgentBankerUpgradeRequest = (payload) => (dispatch) => {
       });
     });
 }
+
+export const getAgentWalletHistory = (fromDate, toDate, page, size) => (dispatch) => {
+  dispatch({
+    type: actionType.GET_WALLET_HISTORY_FAILURE,
+  });
+  dispatch(ShowLoading());
+  const config = {
+    method: "GET",
+    url: URL.agent.GET_AGENT_WALLET_HISTORY + `?fromDate=${fromDate}&toDate=${toDate}&page=${page}&size=${size}`,
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    },
+  };
+  axios(config)
+    .then((res) => {
+      dispatch(HideLoading());
+      if (res.status === 200) {
+        toastr.success(
+          "Wallet History Retrieved Successfully."
+        );
+        dispatch({
+          type: actionType.GET_WALLET_HISTORY_SUCCESS,
+          payload: res.data,
+        });
+      }
+    })
+    .catch((err) => {
+      dispatch(HideLoading());
+      toastr.error("Error Retrieving Wallet History..");
+      dispatch({
+        type: actionType.GET_WALLET_HISTORY_FAILURE,
+      });
+    });
+}

@@ -276,10 +276,12 @@ const initialState = {
   walletAccountOpeningSetPassword: walletAccountOpeningSetPasswordState,
 
   getAllAgentMemberList: null,
-  feeStatus : false,
-  feeData : null,
-  agentBankerUpgradeStatus : false,
-  agentBankerUpgradeData : null,
-  linkingRequestsData : null,
+  feeStatus: false,
+  feeData: null,
+  agentBankerUpgradeStatus: false,
+  agentBankerUpgradeData: null,
+  linkingRequestsData: null,
+  walletHistoryData: null,
+  walletHistoryStatus: false,
 };
 export default initialState;

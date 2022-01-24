@@ -236,7 +236,7 @@ const AgentSendMoneyToAgentMember = () => {
             debtorUserType: "AGENT",
             debtorUserId: agentProfile.phoneNo,
             currencyName: "XAF",
-            amount: amount,
+            amount: parseFloat(amount),
             reason: reason,
             creditorUserType: "AGENT",
             creditorUserId: agentId,

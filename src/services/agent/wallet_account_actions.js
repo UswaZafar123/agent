@@ -2,8 +2,10 @@ import axios from "axios";
 import actionType from "./actionType.js";
 import URL from "../../Assets/config";
 import { toastr } from "react-redux-toastr";
+import { HideLoading, ShowLoading } from "../common/action.js";
 
 export const fetchAgentWallet = (token) => (dispatch) => {
+  dispatch(ShowLoading());
   const config = {
     method: "get",
     url: URL.agent.FETCH_AGENT_WALLET_ACCOUNT,
@@ -17,6 +19,7 @@ export const fetchAgentWallet = (token) => (dispatch) => {
   });
   axios(config)
     .then((res) => {
+      dispatch(HideLoading())
       toastr.success("Wallet Balance Fetched.")
       if (res.status === 200) {
         var walletData = res.data.find((wallet) => {
@@ -29,6 +32,7 @@ export const fetchAgentWallet = (token) => (dispatch) => {
       }
     })
     .catch((error) => {
+      dispatch(HideLoading());
       console.log("error");
       // console.log(error.response.status);
       // toastr.error("error", error.response.status)
