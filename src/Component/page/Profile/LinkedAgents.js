@@ -7,6 +7,7 @@ import 'ag-grid-community/dist/styles/ag-grid.css';
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 import { getAllAgentMemberLists } from "../../../services/agent/action"
 import 'react-phone-input-2/lib/style.css'
+import { FormattedMessage, IntlProvider } from 'react-intl';
 
 import '../Settings/General/settingcss.css'
 
@@ -32,6 +33,8 @@ class AgentMember extends Component {
             ],
             rowData: [],
             agentPackagesData: [],
+            messages: "",
+            language: "",
         };
     }
 
@@ -86,11 +89,33 @@ class AgentMember extends Component {
         this.state.gridApi.paginationGoToPreviousPage();
     };
 
+    async translationHelperFunction() {
+
+        const messages = await this.loadLocaleData(localStorage.getItem("lang"));
+        this.setState({
+          messages: messages,
+          language: localStorage.getItem("lang")
+        });
+        // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
+    
+      }
+    
+      loadLocaleData = (locale) => {
+        switch (locale) {
+          case "fr":
+            return import("../../i18n/messages/fr.js");
+          default:
+            return import("../../i18n/messages/en.js");
+        }
+      };
+
     componentDidMount = () => {
         this.props.getAllAgentMemberLists();
+
+        this.translationHelperFunction();
     }
 
-    componentWillReceiveProps = (nextprops) => {
+    componentWillReceiveProps = async (nextprops) => {
         if (nextprops.getAllAgentMemberList) {
             let filteredAgentList = nextprops.getAllAgentMemberList.filter((data) => {
                 if (data.agentType === "AGENT") {
@@ -107,10 +132,47 @@ class AgentMember extends Component {
                 })
             }
         }
+
+        if (nextprops.language) {
+            const messages = await this.loadLocaleData(nextprops.language);
+      
+            this.setState({
+              messages: messages,
+              language: nextprops.language,
+            });
+            
+    
+            if(nextprops.language=="fr"){
+                this.setState({
+                    columnDefs: [
+                        { headerName: "Nom", field: "agentName", width: 250 },
+                        { headerName: "E-mail", field: "agentEmailAddress" },
+                        { headerName: "Téléphone ", field: "phoneNo" },
+                        {
+                            headerName: "État", field: "status",
+                        },
+                    ]}) 
+            }
+            else{
+                this.setState({
+                    columnDefs: [
+                        { headerName: "Name", field: "agentName", width: 250 },
+                        { headerName: "Email", field: "agentEmailAddress" },
+                        { headerName: "Telephone ", field: "phoneNo" },
+                        {
+                            headerName: "Status", field: "status",
+                        },
+                    ]}) 
+            }
+          }
     }
 
     render() {
         return (
+            <IntlProvider
+            messages={this.state.messages.default}
+            locale={this.state.language}
+          >
             <>
 
                 <div className="main_contain">
@@ -122,7 +184,7 @@ class AgentMember extends Component {
                                         <div className="chartCardTop">
                                             <div className="kyccustomformheading">
                                                 <h1 className="list_top_heading textAlignCenter text-center" style={{ paddingLeft: "0px" }}>
-                                                    Linked Agents
+                                                    <FormattedMessage id="agent.LinkedAgents" />
                                                 </h1>
                                             </div>
                                         </div>
@@ -145,7 +207,7 @@ class AgentMember extends Component {
                                                     </div>
 
                                                     <h5 className="show_pp margin_left8">
-                                                        Entries
+                                                    <FormattedMessage id="agent.Entries" />
                                                     </h5>
                                                     <div
                                                         className="margin-left-auto"
@@ -153,7 +215,7 @@ class AgentMember extends Component {
                                                     >
                                                         <div className="shortCustom">
                                                             <span className="icon-Asset-55"></span>
-                                                            <h6>Sort</h6>
+                                                            <h6><FormattedMessage id="agent.Sort" /></h6>
                                                         </div>
                                                         <div className="shortCustom">
                                                             <Dropdown
@@ -161,17 +223,17 @@ class AgentMember extends Component {
                                                                     <ul class="filterDrd">
                                                                         <li>
                                                                             <a href="#">
-                                                                                <span class="icon-logout"></span>All
+                                                                                <span class="icon-logout"></span><FormattedMessage id="agent.All" />
                                                                             </a>
                                                                         </li>
                                                                         <li>
                                                                             <a href="#">
-                                                                                <span class="icon-logout"></span>Inactive
+                                                                                <span class="icon-logout"></span><FormattedMessage id="agent.Inactive" />
                                                                             </a>
                                                                         </li>
                                                                         <li>
                                                                             <a href="#">
-                                                                                <span class="icon-logout"></span>Active
+                                                                                <span class="icon-logout"></span><FormattedMessage id="agent.Active" />
                                                                             </a>
                                                                         </li>
                                                                     </ul>
@@ -181,7 +243,7 @@ class AgentMember extends Component {
                                                             >
                                                                 <div className="shortCustom01">
                                                                     <span className="icon-Asset-54"></span>
-                                                                    <h6>Filter</h6>
+                                                                    <h6><FormattedMessage id="agent.Filter" /></h6>
                                                                 </div>
                                                             </Dropdown>
                                                         </div>
@@ -189,7 +251,10 @@ class AgentMember extends Component {
                                                             className="search_w_merchant_m"
                                                             style={{ width: "270px" }}
                                                         >
-                                                            <input type="search" placeholder="Search" />
+                                                            <FormattedMessage id="agent.Search">
+                                                                {placeholder => 
+                                                            <input type="search" placeholder={placeholder} />}
+                                                            </FormattedMessage>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -228,18 +293,18 @@ class AgentMember extends Component {
                                             <div className="customAgFooter">
 
                                                 <div className="showingFooter">
-                                                    <span>Showing</span>
+                                                    <span><FormattedMessage id="agent.Showing" /></span>
                                                     <span id="bTo"> </span>
-                                                    <span>to</span>
+                                                    <span><FormattedMessage id="agent.To" /></span>
                                                     <span id="afterTo"></span>
-                                                    <span>of</span>
+                                                    <span><FormattedMessage id="agent.Of" /></span>
                                                     <span id="totalPageSize"></span>
-                                                    <span>entries</span>
+                                                    <span><FormattedMessage id="agent.Entries" /></span>
                                                 </div>
                                                 <div className="NextPrevW">
-                                                    <button className="NextPrev" onClick={() => this.onBtPrevious()}>Prev</button>
+                                                    <button className="NextPrev" onClick={() => this.onBtPrevious()}><FormattedMessage id="agent.Prev" /></button>
                                                     <span className="valueNextPrev" id="lbCurrentPage"></span>
-                                                    <button className="NextPrev" onClick={() => this.onBtNext()}>Next</button>
+                                                    <button className="NextPrev" onClick={() => this.onBtNext()}><FormattedMessage id="agent.Next" /></button>
                                                 </div>
 
                                             </div>
@@ -251,18 +316,22 @@ class AgentMember extends Component {
                     </div>
                 </div>
             </>
+         </IntlProvider>
         );
     }
 }
 
-const mapStateToProps = ({ agentReducer }) => {
+const mapStateToProps = ({ agentReducer, commonReducer }) => {
     const {
         getAllAgentMemberList,
-    } = agentReducer
+    } = agentReducer;
+
+    const { language } = commonReducer;
 
     console.log(agentReducer, "AGENT REDUCER")
     return {
         getAllAgentMemberList,
+        language,
     }
 
 }
