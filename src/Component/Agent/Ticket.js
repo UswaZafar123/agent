@@ -16,6 +16,7 @@ import {
   ticketsSummary,
 } from "../../services/agent/action";
 import { connect } from "react-redux";
+import { FormattedMessage, IntlProvider } from 'react-intl';
 import { Select, Menu, Dropdown, Modal } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import Approved from "../Alerts/Approved";
@@ -68,6 +69,8 @@ class Ticket extends Component {
         },
       ],
       rowData: [],
+      messages: "",
+      language: ""
     };
   }
   save = () => {
@@ -192,14 +195,36 @@ class Ticket extends Component {
     }
   };
 
+  async translationHelperFunction() {
+
+    const messages = await this.loadLocaleData(localStorage.getItem("lang"));
+    this.setState({
+      messages: messages,
+      language: localStorage.getItem("lang")
+    });
+    // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
+
+  }
+
+  loadLocaleData = (locale) => {
+    switch (locale) {
+      case "fr":
+        return import("../i18n/messages/fr.js");
+      default:
+        return import("../i18n/messages/en.js");
+    }
+  };
+
   componentDidMount() {
     this.props.ticketsPriorities(sessionStorage.getItem("token"));
     this.props.getTickets(sessionStorage.getItem("token"));
     this.props.ticketsSummary(sessionStorage.getItem("token"));
     this.props.ticketStatus(sessionStorage.getItem("token"));
+
+    this.translationHelperFunction();
   }
 
-  componentWillReceiveProps(nextProps) {
+ async componentWillReceiveProps(nextProps) {
     console.log("hello next", nextProps);
     if (nextProps.ticketsStatus) {
       this.setState({ rowData: nextProps.ticketsData });
@@ -220,6 +245,84 @@ class Ticket extends Component {
           : "";
 
       this.setState({ summary });
+    }
+
+    if (nextProps.language) {
+      const messages = await this.loadLocaleData(nextProps.language);
+
+      this.setState({
+        messages: messages,
+        language: nextProps.language
+      });
+
+      if(nextProps.language=="fr"){
+        this.setState({
+          columnDefs: [
+            { headerName: "N° du ticket", field: "ticketNo", width: 250 },
+        {
+          headerName: "Marchand/Utilisateur",
+          cellRendererFramework: (params) => (
+            <span>{params.data.createdUser.name}</span>
+          ),
+        },
+        { headerName: "Objet ", field: "title" },
+        { headerName: "  État ", field: "status" },
+        { headerName: "Priorité ", field: "priority" },
+        { headerName: "Date ", field: "createdDateTime" },
+        {
+          headerName: "Action",
+          field: "Action",
+          cellRendererFramework: (params) => (
+            <div className="ac-view">
+              <button onClick={(e) => this.viewTicket(e, params.data)}>
+                {"View"}
+              </button>
+              &ensp;
+              <button onClick={(e) => this.EditTicket(e, params.data)}>
+                {"Edit"}
+              </button>
+            </div>
+          ),
+          cellStyle: (params) => {
+            return { textAlign: "center" };
+          },
+        },
+          ]});
+      }
+      else{
+        this.setState({
+          columnDefs: [
+            { headerName: "Ticket NO", field: "ticketNo", width: 250 },
+            {
+              headerName: "Merchant/User",
+              cellRendererFramework: (params) => (
+                <span>{params.data.createdUser.name}</span>
+              ),
+            },
+            { headerName: "Subject ", field: "title" },
+            { headerName: "  Status ", field: "status" },
+            { headerName: "Priority ", field: "priority" },
+            { headerName: "Date ", field: "createdDateTime" },
+            {
+              headerName: "Action",
+              field: "Action",
+              cellRendererFramework: (params) => (
+                <div className="ac-view">
+                  <button onClick={(e) => this.viewTicket(e, params.data)}>
+                    {"View"}
+                  </button>
+                  &ensp;
+                  <button onClick={(e) => this.EditTicket(e, params.data)}>
+                    {"Edit"}
+                  </button>
+                </div>
+              ),
+              cellStyle: (params) => {
+                return { textAlign: "center" };
+              },
+            },
+          ]});
+      }
     }
   }
 
@@ -248,6 +351,10 @@ class Ticket extends Component {
     console.log("show summary", this.state.summary);
     // console.log("jai",this.state.paginationGetCurrentPage)
     return (
+      <IntlProvider
+      messages={this.state.messages.default}
+      locale={this.state.language}
+    >
       <>
         {!this.state.editStatus && (
           <div className="main_contain responsive_p_a">
@@ -259,13 +366,13 @@ class Ticket extends Component {
                       <div className="chartCardTop">
                         <div className="kyccustomformheading">
                           <h1 className="list_top_heading textAlignCenter text-center">
-                            Tickets
+                          <FormattedMessage id="agent.Tickets" />
                           </h1>
                           <button
                             className="addposbtn c_first_pending_BTN btnMaxWidth"
                             onClick={this.addChange}
                           >
-                            Add a Ticket
+                            <FormattedMessage id="agent.AddATicket" />
                           </button>
                         </div>
                       </div>
@@ -287,7 +394,7 @@ class Ticket extends Component {
                         </div>
                         <div className="tableTop_wrapper">
                           <div className="disFl">
-                            <h5 className="show_pp margin_right8">Show</h5>
+                            <h5 className="show_pp margin_right8"><FormattedMessage id="agent.Show" /></h5>
                             <div className="tableShowRecordPerPage">
                               <Select
                                 defaultValue="10"
@@ -302,14 +409,14 @@ class Ticket extends Component {
                               </Select>
                             </div>
 
-                            <h5 className="show_pp margin_left8">Entries</h5>
+                            <h5 className="show_pp margin_left8"><FormattedMessage id="agent.Entries" /></h5>
                             <div
                               className="margin-left-auto"
                               style={{ display: "flex", alignItems: "center" }}
                             >
                               <div className="shortCustom">
                                 <span className="icon-Asset-55"></span>
-                                <h6>Sort</h6>
+                                <h6><FormattedMessage id="agent.Sort" /></h6>
                               </div>
                               <div className="shortCustom">
                                 <Dropdown
@@ -317,19 +424,19 @@ class Ticket extends Component {
                                     <ul class="filterDrd">
                                       <li>
                                         <a href="#">
-                                          <span class="icon-logout"></span>All
+                                          <span class="icon-logout"></span><FormattedMessage id="agent.All" />
                                         </a>
                                       </li>
                                       <li>
                                         <a href="#">
                                           <span class="icon-logout"></span>
-                                          Inactive
+                                          <FormattedMessage id="agent.Inactive" />
                                         </a>
                                       </li>
                                       <li>
                                         <a href="#">
                                           <span class="icon-logout"></span>
-                                          Active
+                                          <FormattedMessage id="agent.Active" />
                                         </a>
                                       </li>
                                     </ul>
@@ -339,7 +446,7 @@ class Ticket extends Component {
                                 >
                                   <div className="shortCustom01">
                                     <span className="icon-Asset-54"></span>
-                                    <h6>Filter</h6>
+                                    <h6><FormattedMessage id="agent.Filter" /></h6>
                                   </div>
                                 </Dropdown>
                               </div>
@@ -347,13 +454,16 @@ class Ticket extends Component {
                                 className="search_w_merchant_m"
                                 style={{ width: "270px" }}
                               >
+                                <FormattedMessage id="agent.Search">
+                                  {placeholder =>
                                 <input
                                   type="search"
-                                  placeholder="Search"
+                                  placeholder={placeholder}
                                   id="filter-text-box"
                                   placeholder="Search"
                                   onChange={this.onFilterTextBoxChanged}
-                                />
+                                />}
+                                </FormattedMessage>
                               </div>
                             </div>
                           </div>
@@ -382,20 +492,20 @@ class Ticket extends Component {
                         </div>
                         <div className="customAgFooter">
                           <div className="showingFooter">
-                            <span>Showing</span>
+                            <span><FormattedMessage id="agent.Showing" /></span>
                             <span id="bTo"> </span>
-                            <span>to</span>
+                            <span><FormattedMessage id="agent.To" /></span>
                             <span id="afterTo"></span>
-                            <span>of</span>
+                            <span><FormattedMessage id="agent.Of" /></span>
                             <span id="totalPageSize"></span>
-                            <span>entries</span>
+                            <span><FormattedMessage id="agent.Entries" /></span>
                           </div>
                           <div className="NextPrevW">
                             <button
                               className="NextPrev"
                               onClick={() => this.onBtPrevious()}
                             >
-                              Prev
+                               <FormattedMessage id="agent.Prev" />
                             </button>
                             <span
                               className="valueNextPrev"
@@ -405,7 +515,7 @@ class Ticket extends Component {
                               className="NextPrev"
                               onClick={() => this.onBtNext()}
                             >
-                              Next
+                              <FormattedMessage id="agent.Next" />
                             </button>
                           </div>
                         </div>
@@ -450,10 +560,11 @@ class Ticket extends Component {
           <EditTicket editData={this.state.editData} goBack={this.goBack} />
         )}
       </>
+      </IntlProvider>
     );
   }
 }
-const mapStateToProps = ({ agentReducer }) => {
+const mapStateToProps = ({ agentReducer, commonReducer }) => {
   const {
     ticketsData,
     ticketsStatus,
@@ -463,6 +574,8 @@ const mapStateToProps = ({ agentReducer }) => {
     ticketDataStatus,
   } = agentReducer;
 
+  const { language } = commonReducer;
+
   return {
     ticketsData,
     ticketsStatus,
@@ -470,6 +583,7 @@ const mapStateToProps = ({ agentReducer }) => {
     ticketSummaryStatus,
     ticketStatusData,
     ticketDataStatus,
+    language,
   };
 };
 

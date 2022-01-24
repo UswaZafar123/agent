@@ -14,6 +14,7 @@ import {
 } from "../../services/agent/action";
 
 import { connect } from "react-redux";
+import { FormattedMessage, IntlProvider } from 'react-intl';
 
 const { Option } = Select;
 
@@ -40,6 +41,8 @@ class AddTicket extends Component {
       priorityValue: "",
       text: "",
       uploads: [],
+      messages: "",
+      language: ""
     };
   }
 
@@ -225,11 +228,32 @@ class AddTicket extends Component {
     });
   };
 
-  componentDidMount() {
-    this.props.ticketsPriorities(sessionStorage.getItem("token"));
+  async translationHelperFunction() {
+
+    const messages = await this.loadLocaleData(localStorage.getItem("lang"));
+    this.setState({
+      messages: messages,
+      language: localStorage.getItem("lang")
+    });
+    // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
+
   }
 
-  componentWillReceiveProps(nextProps) {
+  loadLocaleData = (locale) => {
+    switch (locale) {
+      case "fr":
+        return import("../i18n/messages/fr.js");
+      default:
+        return import("../i18n/messages/en.js");
+    }
+  };
+
+  componentDidMount() {
+    this.props.ticketsPriorities(sessionStorage.getItem("token"));
+    this.translationHelperFunction();
+  }
+
+  async componentWillReceiveProps(nextProps) {
     if (nextProps.ticketsPriorityStatus) {
       this.setState({ priority: nextProps.ticketsPriorityData });
     }
@@ -245,6 +269,15 @@ class AddTicket extends Component {
 
       console.log(nextProps.ticketsUploadAttcahmentData, "attachmantData");
     }
+
+    if (nextProps.language) {
+      const messages = await this.loadLocaleData(nextProps.language);
+
+      this.setState({
+        messages: messages,
+        language: nextProps.language
+      });
+    }
   }
 
   render() {
@@ -255,6 +288,10 @@ class AddTicket extends Component {
       </li>
     ));
     return (
+      <IntlProvider
+      messages={this.state.messages.default}
+      locale={this.state.language}
+    >
       <div className="main_contain responsive_p addRicketP">
         <div className="merch_m_list_w">
           <div className="merch_list_card" id="merch_list_card">
@@ -264,7 +301,7 @@ class AddTicket extends Component {
                   <div className="chartCardTop">
                     <div className="flCenterColumn">
                       <h1 className="list_top_heading textAlignCenter">
-                        Add Ticket
+                        <FormattedMessage id="agent.AddTicket" />
                       </h1>
                     </div>
                   </div>
@@ -277,14 +314,16 @@ class AddTicket extends Component {
                         <div className="col-md-3">
                           <label className="formColLabel formCladdT text-right">
                             {" "}
-                            Subject<span className="mendot">*</span>
+                            <FormattedMessage id="agent.Subject" /><span className="mendot">*</span>
                           </label>
                         </div>
                         <div className="col-md-6">
+                        <FormattedMessage id="agent.EnterSubject">
+                            {placeholder =>
                           <input
                             type="text"
                             value={this.state.subject}
-                            placeholder="Enter Subject"
+                            placeholder={placeholder}
                             style={{
                               minHeight: "52px",
                               fontSize: "18px",
@@ -292,7 +331,8 @@ class AddTicket extends Component {
                             }}
                             name="subject"
                             onChange={this.handleChange}
-                          />
+                          />}
+                        </FormattedMessage>
                           <br></br>
                           <div style={{ color: "red" }}>
                             {this.state.subjectError}
@@ -302,18 +342,21 @@ class AddTicket extends Component {
                       <div className="row" style={{ marginBottom: "24px" }}>
                         <div className="col-md-3">
                           <label className="formColLabel formCladdT text-right">
-                            Message<span className="mendot">*</span>
+                          <FormattedMessage id="agent.Message" /><span className="mendot">*</span>
                           </label>
                         </div>
                         <div className="col-md-6" style={{ height: "250px" }}>
+                          <FormattedMessage id="agent.Write Somthing...">
+                            {placeholder =>
                           <ReactQuill
                             theme="snow"
                             height="200"
                             style={{ height: "200px" }}
                             value={this.state.text}
-                            placeholder="Write Somthing..."
+                            placeholder={placeholder}
                             onChange={this.handleProcedureContentChange}
-                          ></ReactQuill>
+                          ></ReactQuill>}
+                          </FormattedMessage>
                           <br></br>
                           <div style={{ color: "red" }}>
                             {this.state.textError}
@@ -333,7 +376,7 @@ class AddTicket extends Component {
                         <div className="col-md-3">
                           <label className="formColLabel formCladdT text-right">
                             {" "}
-                            Priority<span className="mendot">*</span>
+                            <FormattedMessage id="agent.Priority" /><span className="mendot">*</span>
                           </label>
                         </div>
                         <div className="col-md-6">
@@ -358,7 +401,7 @@ class AddTicket extends Component {
                         <div className="col-md-3">
                           <label className="formColLabel formCladdT  text-right">
                             {" "}
-                            Attachment
+                            <FormattedMessage id="agent.Attachment" />
                           </label>
                         </div>
                         <div className="col-md-6">
@@ -372,8 +415,7 @@ class AddTicket extends Component {
                                 <div {...getRootProps()}>
                                   <input {...getInputProps()} />
                                   <p>
-                                    Drag 'n' drop some files here, or click to
-                                    select files
+                                  <FormattedMessage id="agent.Dragdropsomefileshere,orselectfiles" />
                                   </p>
                                 </div>
                               </section>
@@ -392,14 +434,14 @@ class AddTicket extends Component {
                               class="aryousureBTN can"
                               style={{ marginRight: "24px" }}
                             >
-                              Cancel
+                                <FormattedMessage id="cancel" />
                             </button>
                             <button
                               // disabled={!this.state.formValid}
                               class="aryousureBTN confirmBtnR"
                               onClick={this.submitData}
                             >
-                              Submit
+                              <FormattedMessage id="submit" />
                             </button>
                           </div>
                         </div>
@@ -412,10 +454,11 @@ class AddTicket extends Component {
           </div>
         </div>
       </div>
+      </IntlProvider>
     );
   }
 }
-const mapStateToProps = ({ agentReducer }) => {
+const mapStateToProps = ({ agentReducer, commonReducer }) => {
   const {
     ticketsPriorityData,
     ticketsPriorityStatus,
@@ -423,11 +466,14 @@ const mapStateToProps = ({ agentReducer }) => {
     ticketsUploadAttcahmentStatus,
   } = agentReducer;
 
+  const { language } = commonReducer;
+
   return {
     ticketsPriorityData,
     ticketsPriorityStatus,
     ticketsUploadAttcahmentData,
     ticketsUploadAttcahmentStatus,
+    language,
   };
 };
 

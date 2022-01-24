@@ -12,6 +12,7 @@ import {
   getAllOperationsEdit,
   updatePackage,
 } from "../../../../services/agent/action";
+import { FormattedMessage, IntlProvider } from 'react-intl';
 
 import "./settingcss.css";
 
@@ -61,16 +62,39 @@ class Packages extends Component {
       channel: "",
       checkedAssets: [],
       limitProfileValues: [],
+      messages: "",
+      language: ""
     };
   }
+
+  async translationHelperFunction() {
+
+    const messages = await this.loadLocaleData(localStorage.getItem("lang"));
+    this.setState({
+      messages: messages,
+      language: localStorage.getItem("lang")
+    });
+    // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
+
+  }
+
+  loadLocaleData = (locale) => {
+    switch (locale) {
+      case "fr":
+        return import("../../../i18n/messages/fr.js");
+      default:
+        return import("../../../i18n/messages/en.js");
+    }
+  };
 
   componentDidMount() {
     this.props.getAllCurrencies();
     this.props.getAllAssets();
     this.props.getAllOperationsEdit(this.props.location.state);
+    this.translationHelperFunction();
   }
 
-  componentWillReceiveProps(nextProps) {
+  async componentWillReceiveProps(nextProps) {
     if (nextProps.currencyStatus === true) {
       this.setState({
         currency: nextProps.currencyDetails._embedded.currencyDtoList,
@@ -169,6 +193,15 @@ class Packages extends Component {
         planAmount: nextProps.a_package_details.planPrice,
         planStatus: nextProps.a_package_details.active ? "true" : "false",
         currencyLimitProfiles: limits,
+      });
+    }
+
+    if (nextProps.language) {
+      const messages = await this.loadLocaleData(nextProps.language);
+
+      this.setState({
+        messages: messages,
+        language: nextProps.language
       });
     }
   }
@@ -392,6 +425,10 @@ class Packages extends Component {
   render() {
     const isfeatured = this.state.isfeatured;
     return (
+      <IntlProvider
+      messages={this.state.messages.default}
+      locale={this.state.language}
+    >
       <>
         <div className="main_contain settings-container">
           <div className="merch_m_list_w">
@@ -402,7 +439,7 @@ class Packages extends Component {
                     <div className="chartCardTop">
                       <div className="kyccustomformheading">
                         <h1 className="list_top_heading textAlignCenter text-center">
-                          Packages
+                        <FormattedMessage id="agent.Packages" />
                         </h1>
                       </div>
                     </div>
@@ -417,25 +454,31 @@ class Packages extends Component {
                       <div className="formRow">
                         <div className="formCol">
                           <label class="formColLabel">
-                            Subscription Amount{" "}
+                          <FormattedMessage id="agent.SubscriptionAmount" />{" "}
                           </label>
+                          <FormattedMessage id="agent.SubscriptionAmount">
+                            {placeholder =>
                           <input
                             value={this.state.planAmount}
                             onChange={this.handleAmount}
                             type="text"
-                            placeholder="Subscription Amount"
-                          />
+                            placeholder={placeholder}
+                          />}
+                          </FormattedMessage>
                         </div>
                         <div className="formCol">
                           <label class="formColLabel">
-                            Plan Name <span className="mantdat">*</span>
+                          <FormattedMessage id="agent.PlanName" /> <span className="mantdat">*</span>
                           </label>
+                          <FormattedMessage id="agent.EnterName">
+                            {placeholder =>
                           <input
                             value={this.state.planName}
                             type="text"
-                            placeholder="Enter Name"
+                            placeholder={placeholder}
                             onChange={this.handlePlanName}
-                          />
+                          />}
+                          </FormattedMessage>
                         </div>
                         {/* <div className="formCol">
                           <label className="formColLabel">User Type </label>
@@ -455,7 +498,7 @@ class Packages extends Component {
                         </div> */}
                         <div className="formCol">
                           <label className="formColLabel">
-                            Settlement Period
+                          <FormattedMessage id="agent.SettlementPeriod" />
                           </label>
                           <div className="categorySelect">
                             <Select
@@ -466,15 +509,15 @@ class Packages extends Component {
                               value={this.state.settlementPeriod}
                               onChange={(e) => this.handleChangeSelectPeriod(e)}
                             >
-                              <Option value="DAILY">DAILY</Option>
-                              <Option value="WEEKLY">WEEKLY</Option>
-                              <Option value="MONTHLY">MONTHLY</Option>
+                               <Option value="DAILY"><FormattedMessage id="agent.Daily" /></Option>
+                               <Option value="WEEKLY"><FormattedMessage id="agent.Weekly" /></Option>
+                               <Option value="MONTHLY"><FormattedMessage id="agent.Monthly" /></Option>
                             </Select>
                           </div>
                         </div>
 
                         <div className="formCol">
-                          <label className="formColLabel">is Featured</label>
+                          <label className="formColLabel"><FormattedMessage id="agent.isFeatured" /></label>
                           <div className="categorySelect">
                             <Select
                               style={{
@@ -486,14 +529,14 @@ class Packages extends Component {
                                 this.handleChangeSelectFeatured(e)
                               }
                             >
-                              <Option value="true">YES</Option>
-                              <Option value="false">NO</Option>
+                              <Option value="true"><FormattedMessage id="agent.Yes" /></Option>
+                              <Option value="false"><FormattedMessage id="agent.No" /></Option>
                             </Select>
                           </div>
                         </div>
 
                         <div className="formCol">
-                          <label className="formColLabel">is Default</label>
+                          <label className="formColLabel"><FormattedMessage id="agent.isDefault" /></label>
                           <div className="categorySelect">
                             <Select
                               style={{
@@ -505,15 +548,15 @@ class Packages extends Component {
                                 this.handleChangeSelectDefault(e)
                               }
                             >
-                              <Option value="true">YES</Option>
-                              <Option value="false">NO</Option>
+                              <Option value="true"><FormattedMessage id="agent.Yes" /></Option>
+                              <Option value="false"><FormattedMessage id="agent.No" /></Option>
                             </Select>
                           </div>
                         </div>
 
                         <div className="formCol">
                           <label className="formColLabel">
-                            Type of Channels
+                          <FormattedMessage id="agent.TypeofChannels" />
                           </label>
                           <div className="categorySelect">
                             <Select
@@ -526,17 +569,17 @@ class Packages extends Component {
                                 this.handleChangeSelectChannels(e)
                               }
                             >
-                              <Option value="Web">Web Access</Option>
-                              <Option value="Mobile">Mobile Access</Option>
-                              <Option value="both">Both</Option>
+                              <Option value="Web"><FormattedMessage id="agent.WebAccess" /></Option>
+                              <Option value="Mobile"><FormattedMessage id="agent.MobileAccess" /></Option>
+                              <Option value="both"><FormattedMessage id="agent.Both" /></Option>
                             </Select>
                           </div>
                         </div>
                         <div className="formCol">
                           <label className="formColLabel">
-                            Assets{" "}
+                          <FormattedMessage id="agent.Assets" />{" "}
                             <span className="smallTextLabel">
-                              Select more than one Operations
+                            <FormattedMessage id="agent.Selectmorethanoneoperations" />
                             </span>
                           </label>
                           <div className="antdCheckBCustom">
@@ -610,7 +653,7 @@ class Packages extends Component {
                         </div> */}
                         <div className="formCol">
                           <label className="formColLabel">
-                            Subscription Status{" "}
+                          <FormattedMessage id="agent.SubscriptionStatus" />{" "}
                             <span className="mantdat">*</span>
                           </label>
                           <div className="categorySelect">
@@ -622,8 +665,8 @@ class Packages extends Component {
                               }}
                               onChange={(e) => this.handleChangeSelectStatus(e)}
                             >
-                              <Option value="true">Active</Option>
-                              <Option value="false">Inactive</Option>
+                              <Option value="true"> <FormattedMessage id="agent.Active" /></Option>
+                              <Option value="false"> <FormattedMessage id="agent.Inactive" /></Option>
                             </Select>
                           </div>
                         </div>
@@ -667,7 +710,7 @@ class Packages extends Component {
                         </div> */}
                         <div className="formCol">
                           <label className="formColLabel">
-                            Multiple Currency <span className="mantdat">*</span>
+                          <FormattedMessage id="agent.MultipleCurrency" /> <span className="mantdat">*</span>
                           </label>
                           <div className="antdCheckBCustom">
                             {/* <Checkbox onChange={onChange}>FAF</Checkbox>
@@ -731,7 +774,7 @@ class Packages extends Component {
                                             </div> */}
                       </div>
                       <div className="sectionSepr"></div>
-                      <h1 class="kycDetails textAlignCenter">Limit Details</h1>
+                      <h1 class="kycDetails textAlignCenter"><FormattedMessage id="agent.LimitDetails" /></h1>
                       <div className="formRow">
                         <div className="formCol" style={{ width: "100%" }}>
                           <div className="tabAntdCustom">
@@ -746,12 +789,12 @@ class Packages extends Component {
                                     >
                                       &ensp;
                                       <span style={{ color: "red" }}>
-                                        <b>Currency : {data.code}</b>
+                                        <b><FormattedMessage id="agent.Currency" /> : {data.code}</b>
                                       </span>
                                       <div className="formRow">
                                         <div className="formCol">
                                           <label className="formColLabel">
-                                            Transaction Daily Limit{" "}
+                                          <FormattedMessage id="agent.TransactionDailyLimit" />{" "}
                                             <span className="mantdat">*</span>
                                           </label>
                                           <input
@@ -779,7 +822,7 @@ class Packages extends Component {
                                         </div>
                                         <div className="formCol">
                                           <label className="formColLabel">
-                                            Transaction Daily Limit{" "}
+                                          <FormattedMessage id="agent.TransactionDailyLimit" />{" "}
                                             <span className="mantdat">*</span>
                                           </label>
                                           <input
@@ -808,7 +851,7 @@ class Packages extends Component {
                                         </div>
                                         <div className="formCol">
                                           <label className="formColLabel">
-                                            Transaction Weekly Limit{" "}
+                                          <FormattedMessage id="agent.TransactionWeeklyLimit" />{" "}
                                             <span className="mantdat">*</span>
                                           </label>
                                           <input
@@ -836,7 +879,7 @@ class Packages extends Component {
                                         </div>
                                         <div className="formCol">
                                           <label className="formColLabel">
-                                            Transaction Weekly Limit{" "}
+                                          <FormattedMessage id="agent.TransactionWeeklyLimit" />{" "}
                                             <span className="mantdat">*</span>
                                           </label>
                                           <input
@@ -864,7 +907,7 @@ class Packages extends Component {
                                         </div>
                                         <div className="formCol">
                                           <label className="formColLabel">
-                                            Transaction Monthly Limit{" "}
+                                          <FormattedMessage id="agent.TransactionMonthlyLimit" />{" "}
                                             <span className="mantdat">*</span>
                                           </label>
                                           <input
@@ -892,7 +935,7 @@ class Packages extends Component {
                                         </div>
                                         <div className="formCol">
                                           <label className="formColLabel">
-                                            Transaction Monthly Limit{" "}
+                                          <FormattedMessage id="agent.TransactionMonthlyLimit" />{" "}
                                             <span className="mantdat">*</span>
                                           </label>
                                           <input
@@ -963,11 +1006,12 @@ class Packages extends Component {
           </div>
         </div>
       </>
+      </IntlProvider>
     );
   }
 }
 
-const mapStateToProps = ({ agentReducer }) => {
+const mapStateToProps = ({ agentReducer, commonReducer }) => {
   const {
     a_package_details,
     a_package_status,
@@ -979,6 +1023,8 @@ const mapStateToProps = ({ agentReducer }) => {
     operationDetails,
   } = agentReducer;
 
+  const { language } = commonReducer;
+
   return {
     currencyStatus,
     currencyDetails,
@@ -988,6 +1034,7 @@ const mapStateToProps = ({ agentReducer }) => {
     operationDetails,
     a_package_details,
     a_package_status,
+    language,
   };
 };
 

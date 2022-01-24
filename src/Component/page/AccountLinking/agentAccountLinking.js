@@ -156,7 +156,10 @@ const ValidateSuperAgentId = (props) => {
               <label>Super Agent ID <span className="mantdat">*</span> <br /><span style={{ fontSize: "13px", color: "darkgray" }}>(Phone Number without country code)</span> </label>
             </div>
             <div className="containerBiaN_f_col width70percent">
-              <input placeholder="Enter Phone number" type="number" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
+              <FormattedMessage id="agent.EnterPhoneNumber">
+                {placeholder =>
+              <input placeholder={placeholder} type="number" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />}
+              </FormattedMessage>
             </div>
           </div>
         </div>

@@ -16,6 +16,7 @@ import { connect } from "react-redux";
 
 import { bankAccountOpeningAction } from "../../../src/services/agent/action";
 import actionType from "../../services/agent/actionType.js";
+import { FormattedMessage, IntlProvider } from 'react-intl';
 
 var africanCountries = require("../../Assets/data/african_countries.json");
 const { Option } = Select;
@@ -50,15 +51,48 @@ class BankingAccountOpening extends Component {
 
       documentPreviewVisible: false,
       previewDocumentImage: "",
+      messages: "",
+      language: ""
     };
   }
+
+  async translationHelperFunction() {
+
+    const messages = await this.loadLocaleData(localStorage.getItem("lang"));
+    this.setState({
+      messages: messages,
+      language: localStorage.getItem("lang")
+    });
+    // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
+
+  }
+
+  loadLocaleData = (locale) => {
+    switch (locale) {
+      case "fr":
+        return import("../i18n/messages/fr.js");
+      default:
+        return import("../i18n/messages/en.js");
+    }
+  };
+
   componentDidMount() {
     this.props.resetSendState();
+    this.translationHelperFunction();
   }
-  componentWillReceiveProps(nextprops) {
+ async componentWillReceiveProps(nextprops) {
     if (nextprops.bankAccountOpening.success) {
       // window.location.reload(false);
       this.resetForm();
+    }
+
+    if (nextprops.language) {
+      const messages = await this.loadLocaleData(nextprops.language);
+
+      this.setState({
+        messages: messages,
+        language: nextprops.language
+      });
     }
   }
 
@@ -210,6 +244,10 @@ class BankingAccountOpening extends Component {
       </div>
     );
     return (
+      <IntlProvider
+      messages={this.state.messages.default}
+      locale={this.state.language}
+    >
       <div className="main_contain">
         <div className="merch_m_list_w">
           <div className="merch_list_card" id="merch_list_card">
@@ -219,7 +257,7 @@ class BankingAccountOpening extends Component {
                   <div className="chartCardTop">
                     <div className="kyccustomformheading">
                       <h1 className="list_top_heading textAlignCenter text-center">
-                        Banking Account Opening
+                        <FormattedMessage id="agent.BankingAccountOpening" />
                       </h1>
                       {/* <button
                         className="addposbtn c_first_pending_BTN"
@@ -233,49 +271,58 @@ class BankingAccountOpening extends Component {
                   <div className=" chartCardMiddle" style={{ padding: "24px" }}>
                     <Grid container spacing={3}>
                       <Grid item xs={12} sm={6}>
-                        <label className="non-afb-label"> First Name </label>
+                        <label className="non-afb-label"> <FormattedMessage id="agent.FirstName" /> </label>
                         <div className="inputFlash">
+                          <FormattedMessage id="agent.FirstName">
+                          {placeholder =>
                           <Input
                             type="text"
-                            placeholder="First Name"
+                            placeholder={placeholder}
                             name="firstName"
                             value={this.state.firstName}
                             onChange={(e) => {
                               this.setState({ firstName: e.target.value });
                             }}
-                          ></Input>
+                          ></Input>}
+                          </FormattedMessage>
                         </div>
                       </Grid>
                       <Grid item xs={12} sm={6}>
-                        <label className="non-afb-label"> Last Name </label>
+                        <label className="non-afb-label"> <FormattedMessage id="agent.LastName" /> </label>
                         <div className="inputFlash">
+                          <FormattedMessage id="agent.LastName">
+                            {placeholder =>
                           <Input
                             type="text"
-                            placeholder="Last Name"
+                            placeholder={placeholder}
                             name="lastName"
                             value={this.state.lastName}
                             onChange={(e) => {
                               this.setState({ lastName: e.target.value });
                             }}
-                          ></Input>
+                          ></Input>}
+                          </FormattedMessage>
                         </div>
                       </Grid>
                       <Grid item xs={12} sm={6}>
-                        <label className="non-afb-label">Email Id </label>
+                        <label className="non-afb-label"><FormattedMessage id="agent.EmailId" /> </label>
                         <div className="inputFlash">
+                          <FormattedMessage id="agent.Email">
+                            {placeholder =>
                           <Input
                             type="text"
-                            placeholder="email"
+                            placeholder={placeholder}
                             name="email"
                             value={this.state.email}
                             onChange={(e) => {
                               this.setState({ email: e.target.value });
                             }}
-                          ></Input>
+                          ></Input>}
+                          </FormattedMessage>
                         </div>
                       </Grid>
                       <Grid item xs={12} sm={6}>
-                        <label className="non-afb-label">Country Code</label>
+                        <label className="non-afb-label"><FormattedMessage id="agent.CountryCode" /></label>
                         <div className="inputFlash">
                           <div className="categorySelect">
                             <Select
@@ -313,21 +360,24 @@ class BankingAccountOpening extends Component {
                         </div>
                       </Grid>
                       <Grid item xs={12} sm={6}>
-                        <label className="non-afb-label">Mobile Number </label>
+                        <label className="non-afb-label"><FormattedMessage id="agent.MobileNumber" /> </label>
                         <div className="inputFlash">
+                          <FormattedMessage id="agent.MobileNumber">
+                            {placeholder =>
                           <Input
                             type="text"
-                            placeholder="Mobile no"
+                            placeholder={placeholder}
                             name="mobileNumber"
                             value={this.state.phoneNumber}
                             onChange={(e) => {
                               this.setState({ phoneNumber: e.target.value });
                             }}
-                          ></Input>
+                          ></Input>}
+                          </FormattedMessage>
                         </div>
                       </Grid>
                       <Grid item xs={12} sm={6}>
-                        <label className="non-afb-label"> Date of Birth </label>
+                        <label className="non-afb-label"> <FormattedMessage id="agent.dob" /> </label>
                         <div className="inputFlash">
                           <DatePicker
                             format="YYYY-MM-DD"
@@ -345,7 +395,7 @@ class BankingAccountOpening extends Component {
                         sm={6}
                         style={{ marginBottom: "50px" }}
                       >
-                        <label className="non-afb-label">Picture(Selfie)</label>
+                        <label className="non-afb-label"><FormattedMessage id="agent.Picture(Selfie)" /></label>
                         <div className="inputFlash">
                           <Upload
                             listType="picture-card"
@@ -374,7 +424,7 @@ class BankingAccountOpening extends Component {
                         </div>
                       </Grid>
                       <Grid item xs={12} sm={6}>
-                        <label className="non-afb-label">Document Type</label>
+                        <label className="non-afb-label"><FormattedMessage id="agent.DocumentType" /></label>
                         <div className="inputFlash">
                           <div className="categorySelect">
                             <Select
@@ -385,18 +435,20 @@ class BankingAccountOpening extends Component {
                                 this.setState({ idDocumentType: value });
                               }}
                             >
-                              <Option value="ID_CARD">ID CARD</Option>
-                              <Option value="PASSPORT">Passport</Option>
+                              <Option value="ID_CARD"><FormattedMessage id="agent.IDCard" /></Option>
+                              <Option value="PASSPORT"><FormattedMessage id="agent.Passport" /></Option>
                             </Select>
                           </div>
                         </div>
                       </Grid>
                       <Grid item xs={12} sm={6}>
-                        <label className="non-afb-label">Document Number</label>
+                        <label className="non-afb-label"><FormattedMessage id="agent.DocumentNumber" /></label>
                         <div className="inputFlash">
+                        <FormattedMessage id="agent.Number">
+                          {placeholder =>
                           <Input
                             type="text"
-                            placeholder="Number"
+                            placeholder={placeholder}
                             name="number"
                             value={this.state.idDocumentNumber}
                             onChange={(e) => {
@@ -404,12 +456,13 @@ class BankingAccountOpening extends Component {
                                 idDocumentNumber: e.target.value,
                               });
                             }}
-                          ></Input>
+                          ></Input>}
+                          </FormattedMessage>
                         </div>
                       </Grid>
                       <Grid item xs={12} sm={6}>
                         <label className="non-afb-label">
-                          Document Expiry Date
+                          <FormattedMessage id="agent.DocumentExpiryDate" />
                         </label>
                         <div className="inputFlash">
                           <DatePicker
@@ -438,7 +491,7 @@ class BankingAccountOpening extends Component {
                         style={{ marginBottom: "50px" }}
                       >
                         <label className="non-afb-label">
-                          Upload document files(MAX: 2)
+                        <FormattedMessage id="agent.Uploaddocumentfiles(MAX:2)" />
                         </label>
                         <div className="inputFlash">
                           <Upload
@@ -468,31 +521,37 @@ class BankingAccountOpening extends Component {
                         </div>
                       </Grid>
                       <Grid item xs={12} sm={6}>
-                        <label className="non-afb-label">City </label>
+                        <label className="non-afb-label"><FormattedMessage id="agent.City" /> </label>
                         <div className="inputFlash">
+                        <FormattedMessage id="agent.City">
+                          {placeholder =>
                           <Input
                             type="text"
-                            placeholder="city"
+                            placeholder={placeholder}
                             name="city"
                             value={this.state.city}
                             onChange={(e) => {
                               this.setState({ city: e.target.value });
                             }}
-                          ></Input>
+                          ></Input>}
+                        </FormattedMessage>
                         </div>
                       </Grid>
                       <Grid item xs={12} sm={6}>
-                        <label className="non-afb-label">Address </label>
+                        <label className="non-afb-label"><FormattedMessage id="agent.Address" /> </label>
                         <div className="inputFlash">
+                          <FormattedMessage id="agent.Address">
+                            {placeholder => 
                           <Input
                             type="text"
-                            placeholder="Address"
+                            placeholder={placeholder}
                             name="address"
                             value={this.state.address}
                             onChange={(e) => {
                               this.setState({ address: e.target.value });
                             }}
-                          ></Input>
+                          ></Input>}
+                          </FormattedMessage>
                         </div>
                       </Grid>
 
@@ -521,7 +580,7 @@ class BankingAccountOpening extends Component {
                         disabled={this.isFormValid() ? false : true}
                         onClick={() => this.handleFormSubmit()}
                       >
-                        Submit
+                        <FormattedMessage id="agent.Submit" />
                       </button>
                     </div>
                   </div>
@@ -531,18 +590,21 @@ class BankingAccountOpening extends Component {
           </div>
         </div>
       </div>
+      </IntlProvider>
     );
   }
 }
 
-const mapStateToProps = ({ agentReducer }) => {
+const mapStateToProps = ({ agentReducer, commonReducer }) => {
   const { profile, bankAccountOpening, customerStatementInquiry } =
     agentReducer;
+    const { language } = commonReducer;
 
   return {
     profile,
     bankAccountOpening,
     customerStatementInquiry,
+    language,
   };
 };
 
