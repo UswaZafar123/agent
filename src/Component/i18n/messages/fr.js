@@ -780,6 +780,12 @@ const fr = {
       'agent.PackageType' : "Type d'emballage",
       'agent.EnterPassword' : "Entrer le mot de passe",
       'agent.UpgradetoAgentBanker' : "Passer à Agent Banker",
+      'agent.UploadFrontImageof' : "Téléverser Image recto de",
+      'agent.IDCard/OtherIdentityCard' : "carte d'identité / Autre carte d'identité",
+      'agent.RegistrationSummary' : "Résumé d'inscription",
+      'agent.ProofOfAddress' : "Justificatif de domiciliation",
+      'agent.Register' : "S’inscrire",
+      'agent.BankCashWithdraw' : "Retrait en espèces Banque",
 }
 
 

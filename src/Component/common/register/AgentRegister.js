@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
-import { FormattedMessage, useIntl, injectIntl } from "react-intl";
+import { FormattedMessage, IntlProvider, useIntl, injectIntl } from "react-intl";
 import Image2 from "../../../Assets/images/Group.png";
 import Image3 from "../../../Assets/images/Group (1).png";
 import PhoneInput from "react-phone-input-2";
@@ -79,6 +79,8 @@ class Register extends Component {
       viewSummaryVisible: false,
       isMobile: false,
       isPrivacyPolicyAgree: false,
+      messages: "",
+      language: "",
     };
   }
 
@@ -437,11 +439,33 @@ class Register extends Component {
     }, 0);
   };
 
-  componentDidMount() {
-    console.log(this.props, "THIS PROPS");
+  async translationHelperFunction() {
+
+    const messages = await this.loadLocaleData(localStorage.getItem("lang"));
+    this.setState({
+      messages: messages,
+      language: localStorage.getItem("lang")
+    });
+    // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
+
   }
 
-  componentWillReceiveProps(nextprops) {
+  loadLocaleData = (locale) => {
+    switch (locale) {
+      case "fr":
+        return import("../../i18n/messages/fr.js");
+      default:
+        return import("../../i18n/messages/en.js");
+    }
+  };
+
+  componentDidMount() {
+    console.log(this.props, "THIS PROPS");
+
+    this.translationHelperFunction();
+  }
+
+  async componentWillReceiveProps(nextprops) {
     console.log(nextprops, "NEXT PROPS");
 
     if (
@@ -451,6 +475,15 @@ class Register extends Component {
       this.props.history.push("/agent/otp-verification");
     } else {
       console.log(nextprops.agentIndividualRegData, "agentIndividualRegData");
+    }
+
+    if (nextprops.language) {
+      const messages = await this.loadLocaleData(nextprops.language);
+
+      this.setState({
+        messages: messages,
+        language: nextprops.language
+      });
     }
   }
 
@@ -500,6 +533,10 @@ class Register extends Component {
     );
 
     return (
+      <IntlProvider
+      messages={this.state.messages.default}
+      locale={this.state.language}
+    >
       <Fragment>
         <section className="loginWrapper accountWrapper">
           <NavBar />
@@ -608,16 +645,19 @@ class Register extends Component {
                     className="form-group"
                     style={{ marginTop: "5%", marginBottom: "5%" }}
                   >
-                    <label>First Name</label>
+                    <label><FormattedMessage id="agent.FirstName" /></label>
                     <div style={{ position: "relative", display: "flex" }}>
+                      <FormattedMessage id="agent.enterFirstName">
+                        {placeholder => 
                       <input
                         className="form-control"
                         type="text"
                         name="firstName"
                         value={this.state.firstName}
-                        placeholder="Enter First Name"
+                        placeholder={placeholder}
                         onChange={this.handleChange}
-                      />
+                      />}
+                      </FormattedMessage>
                     </div>
                   </div>
 
@@ -625,16 +665,19 @@ class Register extends Component {
                     className="form-group"
                     style={{ marginTop: "5%", marginBottom: "5%" }}
                   >
-                    <label>Last Name</label>
+                    <label><FormattedMessage id="agent.LastName" /></label>
                     <div style={{ position: "relative", display: "flex" }}>
+                    <FormattedMessage id="agent.enterLastName">
+                      {placeholder =>
                       <input
                         className="form-control"
                         type="text"
                         name="lastName"
                         value={this.state.lastName}
-                        placeholder="Enter Last Name"
+                        placeholder={placeholder}
                         onChange={this.handleChange}
-                      />
+                      />}
+                    </FormattedMessage>
                     </div>
                   </div>
 
@@ -642,21 +685,24 @@ class Register extends Component {
                     className="form-group"
                     style={{ marginTop: "5%", marginBottom: "5%" }}
                   >
-                    <label>E-mail Address</label>
+                    <label><FormattedMessage id="agent.email" /></label>
                     <div style={{ position: "relative", display: "flex" }}>
+                    <FormattedMessage id="agent.EnterEmailAddress">
+                      {placeholder =>
                       <input
                         className="form-control"
                         type="email"
                         name="email"
                         value={this.state.email}
-                        placeholder="Enter E-Mail Address"
+                        placeholder={placeholder}
                         onChange={this.handleChange}
-                      />
+                      />}
+                    </FormattedMessage>
                     </div>
                   </div>
 
                   <div className="form-group">
-                    <label>Phone Number</label>
+                    <label><FormattedMessage id="phoneNum" /></label>
                     <div style={{ position: "relative", display: "flex" }}>
                       <PhoneInput
                         country="cm"
@@ -675,7 +721,7 @@ class Register extends Component {
                     className="form-group"
                     style={{ marginTop: "5%", marginBottom: "5%" }}
                   >
-                    <label>Date Of Birth</label>
+                    <label><FormattedMessage id="agent.dob" /></label>
                     <div style={{ position: "relative", display: "flex" }}>
                       <DatePicker
                         selected={this.state.dob}
@@ -691,7 +737,7 @@ class Register extends Component {
                     className="form-group"
                     style={{ marginTop: "5%", marginBottom: "5%" }}
                   >
-                    <label>Gender</label>
+                    <label><FormattedMessage id="agent.Gender" /></label>
                     <div style={{ position: "relative", display: "flex" }}>
                       <select
                         className="FrmSelect"
@@ -708,7 +754,7 @@ class Register extends Component {
                     className="form-group"
                     style={{ marginTop: "5%", marginBottom: "5%" }}
                   >
-                    <label>ID Type</label>
+                    <label><FormattedMessage id="agent.idType" /></label>
                     <div style={{ position: "relative", display: "flex" }}>
                       <select
                         className="FrmSelect"
@@ -768,14 +814,17 @@ class Register extends Component {
                       >
                         <label>Business City</label>
                         <div style={{ position: "relative", display: "flex" }}>
+                          <FormattedMessage id="agent.EnterCity">
+                            {placeholder =>
                           <input
                             className="form-control"
                             type="text"
                             name="agentBusinessCity"
                             value={this.state.agentBusinessCity}
-                            placeholder="Enter City"
+                            placeholder={placeholder}
                             onChange={this.handleChange}
-                          />
+                          />}
+                          </FormattedMessage>
                         </div>
                       </div>
                     </>
@@ -820,8 +869,8 @@ class Register extends Component {
                           />
                         </Modal>
                         <p style={{ color: "darkgray" }}>
-                          Upload Front Image of <br></br>
-                          ID Card / Other Identity Card
+                          <FormattedMessage id="agent.UploadFrontImageof" /> <br></br>
+                          <FormattedMessage id="agent.IDCard/OtherIdentityCard" />
                         </p>
                       </div>
                     </div>
@@ -867,7 +916,7 @@ class Register extends Component {
                       className="form-group"
                       style={{ marginTop: "5%", marginBottom: "5%" }}
                     >
-                      <label>Expiration Date</label>
+                      <label><FormattedMessage id="expirationDate" /></label>
                       <div style={{ position: "relative", display: "flex" }}>
                         <DatePicker
                           selected={this.state.setExpirationDate}
@@ -883,16 +932,19 @@ class Register extends Component {
                       className="form-group"
                       style={{ marginTop: "5%", marginBottom: "5%" }}
                     >
-                      <label>City</label>
+                      <label><FormattedMessage id="agent.City" /></label>
                       <div style={{ position: "relative", display: "flex" }}>
+                      <FormattedMessage id="agent.EnterCity">
+                        {placeholder =>
                         <input
                           className="form-control"
                           type="text"
                           name="city"
                           value={this.state.city}
-                          placeholder="Enter City"
+                          placeholder={placeholder}
                           onChange={this.handleChange}
-                        />
+                        />}
+                      </FormattedMessage>
                       </div>
                     </div>
 
@@ -900,16 +952,19 @@ class Register extends Component {
                       className="form-group"
                       style={{ marginTop: "5%", marginBottom: "5%" }}
                     >
-                      <label>Address</label>
+                      <label><FormattedMessage id="agent.Address" /></label>
                       <div style={{ position: "relative", display: "flex" }}>
+                        <FormattedMessage id="agent.EnterAddress">
+                          {placeholder =>
                         <input
                           className="form-control"
                           type="text"
                           name="address1"
                           value={this.state.address1}
-                          placeholder="Enter Address"
+                          placeholder={placeholder}
                           onChange={this.handleChange}
-                        />
+                        />}
+                        </FormattedMessage>
                       </div>
                     </div>
 
@@ -1125,7 +1180,7 @@ class Register extends Component {
                         <h1
                           className="h1ForSummaryModal"
                         >
-                          Registration Summary
+                          <FormattedMessage id="agent.RegistrationSummary" />
                         </h1>
 
                         <div style={{ "overflow-x": "auto" }}>
@@ -1137,37 +1192,37 @@ class Register extends Component {
                               <th></th>
                             </tr>
                             <tr className="summaryRow">
-                              <td className="summaryLabel">Firstname : </td>
+                              <td className="summaryLabel"><FormattedMessage id="agent.FirstName" /> : </td>
                               <td className="summaryValue">
                                 {this.state.firstName}
                               </td>
-                              <td className="summaryLabel">Lastname : </td>
+                              <td className="summaryLabel"><FormattedMessage id="agent.LastName" /> : </td>
                               <td className="summaryValue">
                                 {this.state.lastName}
                               </td>
                             </tr>
                             <tr className="summaryRow">
-                              <td className="summaryLabel">Email : </td>
+                              <td className="summaryLabel"><FormattedMessage id="agent.Email" /> : </td>
                               <td className="summaryValue">{this.state.email}</td>
-                              <td className="summaryLabel">Phone Number : </td>
+                              <td className="summaryLabel"><FormattedMessage id="phoneNum" /> : </td>
                               <td className="summaryValue">
                                 {this.state.mobileNumber}
                               </td>
                             </tr>
                             <tr className="summaryRow">
-                              <td className="summaryLabel">Date of Birth : </td>
+                              <td className="summaryLabel"><FormattedMessage id="agent.dob" /> : </td>
                               <td className="summaryValue">
                                 {moment(new Date(this.state.dob)).format(
                                   "YYYY-MM-DD"
                                 )}
                               </td>
-                              <td className="summaryLabel">Gender : </td>
+                              <td className="summaryLabel"><FormattedMessage id="agent.Gender" /> : </td>
                               <td className="summaryValue">
                                 {this.state.gender}
                               </td>
                             </tr>
                             <tr className="summaryRow">
-                              <td className="summaryLabel">ID Type : </td>
+                              <td className="summaryLabel"><FormattedMessage id="agent.idType" /> : </td>
                               <td className="summaryValue">
                                 {this.state.documentName}
                               </td>
@@ -1221,17 +1276,17 @@ class Register extends Component {
                               </td>
                             </tr>
                             <tr className="summaryRow">
-                              <td className="summaryLabel">Expiration Date :</td>
+                              <td className="summaryLabel"><FormattedMessage id="expirationDate" /> :</td>
                               <td className="summaryValue">
                                 {moment(
                                   new Date(this.state.setExpirationDate)
                                 ).format("YYYY-MM-DD")}
                               </td>
-                              <td className="summaryLabel">City : </td>
+                              <td className="summaryLabel"><FormattedMessage id="agent.City" /> : </td>
                               <td className="summaryValue">{this.state.city}</td>
                             </tr>
                             <tr className="summaryRow">
-                              <td className="summaryLabel">Address : </td>
+                              <td className="summaryLabel"><FormattedMessage id="agent.Address" /> : </td>
                               <td className="summaryValue">
                                 {this.state.address1}
                               </td>
@@ -1353,7 +1408,7 @@ class Register extends Component {
                                       />
                                     </td>
                                     <td className="summaryLabel">
-                                      Proof of Address :
+                                      <FormattedMessage id="agent.ProofOfAddress" /> :
                                     </td>
                                     <td className="summaryValue">
                                       <img
@@ -1380,7 +1435,7 @@ class Register extends Component {
                             style={{ padding: "0px" }}
                             onClick={() => this.submitForm()}
                           >
-                            Register
+                            <FormattedMessage id="agent.Register" />
                           </button>
                         </div>
                       </div>
@@ -1398,7 +1453,7 @@ class Register extends Component {
                           className="btn btn-default text-white"
                           onClick={() => this.viewSummaryModal()}
                         >
-                          Next
+                          <FormattedMessage id="agent.Next" />
                         </button>
                       </div>
                     </div>
@@ -1413,8 +1468,8 @@ class Register extends Component {
                         }}
                       >
                         <p>
-                          Already have an account?{" "}
-                          <a style={{ color: "rgb(0, 81, 255)" }}>Login</a>
+                          <FormattedMessage id="alreadyhave" />{" "}
+                          <a style={{ color: "rgb(0, 81, 255)" }}><FormattedMessage id="login.button" /></a>
                         </p>
                       </div>
                     </div>
@@ -1549,6 +1604,7 @@ class Register extends Component {
           </div>
         </section>
       </Fragment>
+      </IntlProvider>
     );
   }
 }
@@ -1559,6 +1615,7 @@ const mapStateToProps = ({ commonReducer, agentReducer }) => {
     checkLogin: commonReducer.checkLogin,
     agentIndividualRegData: agentReducer.agentIndividualRegData,
     agentIndividualRegStatus: agentReducer.agentIndividualRegStatus,
+    language: commonReducer.language,
   };
 };
 

@@ -27,8 +27,8 @@ const BankCashDeposit = () => {
   const firstUpdate = useRef(true);
   const [step, setStep] = useState(1);
   const idDocumentTypes = [
-    {name: "ID Card", value: "ID_CARD"},
-    {name: "Passport", value: "PASSPORT"}
+    {name: "agent.IDCard", value: "ID_CARD"},
+    {name: "agent.Passport", value: "PASSPORT"}
   ];
   const otpTypes = [
     {name: "Email", value: "EMAIL"},
@@ -278,7 +278,10 @@ const BankCashDeposit = () => {
                     <label><FormattedMessage id="agent.BankCustomerID" /> <span className="mantdat">*</span></label>
                 </div>
                 <div className="containerBiaN_f_col width70percent">
-                    <input placeholder="Enter Bank Customer Id" type="number" value={bankCustomerId} onChange={(e) => setBankCustomerId(e.target.value)}/>
+                  <FormattedMessage id="agent.EnterBankCustomerId">
+                    {placeholder =>
+                    <input placeholder={placeholder} type="number" value={bankCustomerId} onChange={(e) => setBankCustomerId(e.target.value)}/>}
+                  </FormattedMessage>
                 </div>
             </div>
             <div className="containerBiaN_f_row">
@@ -286,7 +289,10 @@ const BankCashDeposit = () => {
                     <label><FormattedMessage id="agent.phonenumber" /> <span className="mantdat">*</span></label>
                 </div>
                 <div className="containerBiaN_f_col width70percent">
-                    <input placeholder="Enter Phone number" type="number" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)}/>
+                <FormattedMessage id="agent.EnterPhoneNumber">
+                  {placeholder =>
+                    <input placeholder={placeholder} type="number" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)}/>}
+                </FormattedMessage>
                 </div>
             </div>
             <div className="containerBiaN_f_row">
@@ -298,7 +304,7 @@ const BankCashDeposit = () => {
                     <Select
                       style={{ width: 100 + "%", height: 52 }} value={selectedDocumentType} onChange={(value) => setSelectedDocumentType(value)}>
                       {idDocumentTypes.map((type) => {
-                        return <Option value={type.value}>{type.name}</Option>
+                        return <Option value={type.value}><FormattedMessage id={type.name} /></Option>
                       })}
                     </Select>
                 </div>
@@ -309,7 +315,10 @@ const BankCashDeposit = () => {
                     <label><FormattedMessage id="agent.IDDocumentNumber" /> <span className="mantdat">*</span></label>
                 </div>
                 <div className="containerBiaN_f_col width70percent">
-                    <input placeholder="Enter ID document number" value={idDocumentNumber} onChange={(e) => setIdDocumentNumber(e.target.value)}/>
+                  <FormattedMessage id="agent.EnterIDDocumentNumber">
+                    {placeholder =>
+                    <input placeholder={placeholder} value={idDocumentNumber} onChange={(e) => setIdDocumentNumber(e.target.value)}/>}
+                  </FormattedMessage>
                 </div>
             </div>
         </div>
@@ -505,7 +514,7 @@ const BankCashDeposit = () => {
                                     disabled={isFormValidated() ? false : true}
                                     onClick={() => formSubmitAction()}
                                   >
-                                      {step === 4 ? "Submit" : step === 5 ? "Done" : "Next"}
+                                      {step === 4 ? "Submit" : step === 5 ? "Done" : <FormattedMessage id="agent.Next" />}
                                   </button>
                               </div>
                           </div>

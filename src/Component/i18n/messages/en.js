@@ -798,6 +798,12 @@ const en = {
         'agent.PackageType' : "Package Type",
         'agent.EnterPassword' : "Enter Password",
         'agent.UpgradetoAgentBanker' : "Upgrade to Agent Banker",
+        'agent.UploadFrontImageof' : "Upload Front Image of",
+        'agent.IDCard/OtherIdentityCard' : "ID Card/Other Identity Card",
+        'agent.RegistrationSummary' : "Registration Summary",
+        'agent.ProofOfAddress' : "Proof Of Address",
+        'agent.Register' : "Register",
+        'agent.BankCashWithdraw' : "Bank Cash Withdraw",
 
 
 }
