@@ -4,6 +4,7 @@ const adminAPI = process.env.REACT_APP_ADMIN_API;
 const API = process.env.REACT_APP_API;
 const MerchantAPI = process.env.REACT_APP_MERCHANT_API;
 const AgentApi = process.env.REACT_APP_AGENT_BANKING_HOST;
+const MainAPI = process.env.REACT_APP_MAIN;
 const GATEWAY_API = "http://gateway.biapay.net:9001/";
 
 const configUrl = {
@@ -328,7 +329,9 @@ const configUrl = {
     CALCULATE_FEE: `${adminAPI}agent/transactionFees/calculate`,
     AGENT_TO_AGENT_BANKER_UPGRADE_REQUEST: `${AgentApi}api-public/AgentRegistration/agentToAgentBankerRequest`,
 
-    GET_AGENT_WALLET_HISTORY : `${AgentApi}api/agencyBanking/agentWalletHistory`
+    GET_AGENT_WALLET_HISTORY : `${AgentApi}api/agencyBanking/agentWalletHistory`,
+
+    BANK_ACCOUNT_EXISTS : `${MainAPI}bank/account`,
   },
 };
 

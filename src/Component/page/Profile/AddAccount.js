@@ -13,40 +13,13 @@ import { Row, Col, Tabs, Tab } from "react-bootstrap";
 import { Upload, message } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
 import PhoneInput from "react-phone-input-2";
-// import {
-//   getCurrencies,
-//   getMerchantProfileBank,
-//   getMerchantProfileCards,
-//   addBankDetails,
-//   deleteBankAccount,
-//   getMobileOperators,
-//   getCountries,
-//   createMobileAccounts,
-//   deleteMobileAccounts,
-//   getMerchantProfileMobile,
-//   sendVerificationCode,
-//   sendVerificationCodeFlase,
-//   validateMFA,
-//   getCardTypes,
-//   addCardsDetails,
-//   getAllBanks,
-// } from "../../../services/actions";
 import ClipLoader from "react-spinners/ClipLoader";
-import moment from "moment";
 import Select2 from "react-select";
-import { data } from "jquery";
-// import adminReducer from "../../../../services/admin/reducer";
+import { doesBankAccountExist } from "../../../services/agent/action";
+import { toastr } from "react-redux-toastr";
 
 const { Option } = Select;
 const { Dragger } = Upload;
-
-// const customStyles = {
-
-//   control: () => ({
-//     // none of react-select's styles are passed to <Control />
-//     width: "200px",
-//   })
-// }
 
 class AddAccount extends Component {
   constructor(props) {
@@ -116,31 +89,56 @@ class AddAccount extends Component {
       mobile: [],
       creditcards: [],
       selectOptions: [],
+
+      currentAccountDetails: [],
+      accountDetailsModalShow: false,
     };
   }
 
   componentDidMount = () => {
 
+    this.props.doesBankAccountExist("");
+
   };
+
+  componentWillReceiveProps = (nextprops) => {
+    if (nextprops.bankAccountDetailsFetchSuccessful && nextprops.bankAccountData !== []) {
+
+      this.setState({
+        currentAccountDetails: nextprops.bankAccountData,
+        accountDetailsModalShow: true,
+      });
+
+    } else if (nextprops.bankAccountDetailsFetchSuccessful && nextprops.bankAccountData === []) {
+    }
+  }
 
 
   handleAddRow = () => {
-    const item = {
-      bankName: "",
-      bankCode: "",
-      branchCode: "",
-      accountNo: "",
-      accountKey: "",
-      iban: "",
-      swift: "",
-      currency: {
-        id: null,
-      },
-    };
-    this.setState({
-      rows: [...this.state.rows, item],
-    });
+    // const item = {
+    //   bankName: "",
+    //   bankCode: "",
+    //   branchCode: "",
+    //   accountNo: "",
+    //   accountKey: "",
+    //   iban: "",
+    //   swift: "",
+    //   currency: {
+    //     id: null,
+    //   },
+    // };
+    // this.setState({
+    //   rows: [...this.state.rows, item],
+    // });
+
+    let currentAccount = this.state.rows[this.state.rows.length - 1];
+    let accountNumber = `${currentAccount.bankCode}-${currentAccount.branchCode}-${currentAccount.accountNo}-${currentAccount.accountKey}`;
+    // console.log(accountNumber,"AccountNumber")
+
+    this.props.doesBankAccountExist("10005-00001-74900090004-01");
+
   };
+
   handleRemoveRow = (index) => {
     if (this.state.rows.length != 1) {
       var values = [...this.state.rows];
@@ -569,7 +567,7 @@ class AddAccount extends Component {
       });
     }
 
-    console.log(input,"eeee")
+    console.log(input, "eeee")
   };
   verify = (e, data) => {
     this.setState({
@@ -648,9 +646,6 @@ class AddAccount extends Component {
     return (
       <div className="main_contain">
         <div className="merch_m_list_w">
-          {/* <h1 className="m_listHeading textAlignCenter pd_t_b24">
-            Merchant Management{" "}
-          </h1> */}
           <div className="merch_list_card">
             <div className="section_custom">
               <div className="sectionInn">
@@ -659,7 +654,7 @@ class AddAccount extends Component {
                     <div className="flCenterColumn mercahntCancel">
                       <div></div>
                       <h1 className="list_top_heading textAlignCenter">
-                        Accounts
+                        Bank Accounts
                       </h1>
                       <button
                         className="c_first_pending_BTN"
@@ -671,20 +666,15 @@ class AddAccount extends Component {
                   </div>
                   <div className="chartCardMiddle">
                     <div className="accountmainBox">
-                      {/* <h1 className="kycDetails textAlignCenter"></h1> */}
                       <div className="kycformBox">
                         <h3 className="bankDetails pd_16">Bank Details</h3>
-                        {/* <hr />
-                          <br /> */}
                         <div className="accountTable_wrap">
                           <table className="accountTable">
                             <thead>
-                              {/* <th>Bank Name</th> */}
                               <th>Bank Code</th>
                               <th>Branch Code</th>
                               <th>Account Number</th>
                               <th>Key</th>
-                              {/* <th>Currency</th> */}
                               <th>IBAN</th>
                               <th>SWIFT</th>
                               <th></th>
@@ -695,31 +685,6 @@ class AddAccount extends Component {
                                 this.state.bank.length == 0 &&
                                 this.state.rows.map((item, index) => (
                                   <tr>
-                                    {/* <td> */}
-                                      {/* <input
-                                        type="text"
-                                        value={this.state.rows[index].bankName}
-                                        placeholder="Bank name"
-                                        name="bankName"
-                                        onChange={(e) =>
-                                          this.handleBankDetails(e, index)
-                                        }
-                                      /> */}
-
-                                      {/* <Select2
-                                        isSearchable={true}
-                                        value={{
-                                          label: this.state.rows[index]
-                                            .bankName,
-                                          value: this.state.rows[index]
-                                            .bankName,
-                                        }}
-                                        options={this.state.selectOptions}
-                                        onChange={(option) =>
-                                          this.handleSaveDetails(option, index)
-                                        }
-                                      />
-                                    </td> */}
                                     <td>
                                       <input
                                         type="text"
@@ -768,34 +733,6 @@ class AddAccount extends Component {
                                         }
                                       />
                                     </td>
-                                    {/* <td>
-                                      <select
-                                        class="FrmSelect"
-                                        value={
-                                          this.state.rows[index].currency
-                                            ? this.state.rows[index].currency.id
-                                            : ""
-                                        }
-                                        onChange={(e) =>
-                                          this.handleBankDetails(e, index)
-                                        }
-                                        name="currency"
-                                      >
-                                        <option value="select_curncy">
-                                          Select currency
-                                        </option>
-
-                                        {this.state.currencies &&
-                                          this.state.currencies.length > 0 &&
-                                          this.state.currencies.map((data) => {
-                                            return (
-                                              <option value={data.id}>
-                                                {data.code}
-                                              </option>
-                                            );
-                                          })}
-                                      </select>
-                                    </td> */}
                                     <td>
                                       <input
                                         type="text"
@@ -823,16 +760,16 @@ class AddAccount extends Component {
                                         onClick={this.handleAddRow}
                                         className="btn  btn-sm btn-success pull-left"
                                       >
-                                        +
+                                        Verify
                                       </button>
-                                      <button
+                                      {/* <button
                                         onClick={() =>
                                           this.handleRemoveRow(index)
                                         }
                                         className="pull-left ml-2 btn-danger btn btn-sm "
                                       >
                                         -
-                                      </button>
+                                      </button> */}
                                     </td>
                                   </tr>
                                 ))}
@@ -842,15 +779,6 @@ class AddAccount extends Component {
                                 this.state.bank.map((item, index) => (
                                   <tr>
                                     <td>
-                                      {/* <input
-                                        type="text"
-                                        value={this.state.bank[index].bankName}
-                                        placeholder="Bank name"
-                                        name="bankName"
-                                        onChange={(e) =>
-                                          this.handleBankDetailsedit(e, index)
-                                        }
-                                      /> */}
                                       <div className="select-account">
                                         <Select2
                                           isSearchable={true}
@@ -867,18 +795,6 @@ class AddAccount extends Component {
                                               index
                                             )
                                           }
-                                          // ref={(el)=>{
-
-                                          //   if(el)
-                                          //   {
-                                          //     // console.log(el,"ellllllll")
-
-                                          //     el.select.props.styles.setProperty("width","100px","important")
-                                          //   }
-
-                                          // }}
-
-                                          // styles={customStyles}
                                         />
                                       </div>
                                     </td>
@@ -1011,15 +927,6 @@ class AddAccount extends Component {
                                 this.state.rows.map((item, index) => (
                                   <tr>
                                     <td>
-                                      {/* <input
-                                        type="text"
-                                        value={this.state.rows[index].bankName}
-                                        placeholder="Bank name"
-                                        name="bankName"
-                                        onChange={(e) =>
-                                          this.handleBankDetails(e, index)
-                                        }
-                                      /> */}
                                       <Select2
                                         isSearchable={true}
                                         value={{
@@ -1153,45 +1060,15 @@ class AddAccount extends Component {
                             </tbody>
                           </table>
                         </div>
-
                         <div className="bankDBTN_wrap">
                           <button
                             className="bankDBTN"
                             onClick={this.saveBank}
                             style={{ float: "right" }}
                           >
-                            Save bank acounts
+                            Save
                           </button>
                         </div>
-
-                        {/* <div className="mt-5">
-                          <div
-                            class="confirm_p_w"
-                            style={{
-                              paddingLeft: "3%",
-                              paddingRight: "3%",
-                              paddingBottom: "3%",
-                            }}
-                          >
-                            <button
-                              class="aryousureBTN"
-                              style={{ marginRight: "24px" }}
-                              onClick={() => {
-                                this.setState({ isModalVisible: true });
-                              }}
-                            >
-                              Cancel
-                            </button>
-                            <button
-                              class="aryousureBTN confirmBtnR"
-                              onClick={() => {
-                                this.setState({ isModalVisibleApprove: true });
-                              }}
-                            >
-                              Submit
-                            </button>
-                          </div> */}
-                        {/* </div> */}
                       </div>
                     </div>
                   </div>
@@ -1199,6 +1076,75 @@ class AddAccount extends Component {
               </div>
             </div>
           </div>
+          {
+            this.state.accountDetailsModalShow && this.state.currentAccountDetails && (
+              <Modal
+                visible={this.state.accountDetailsModalShow}
+                onCancel={() => this.setState({ accountDetailsModalShow: false })}
+                style={{ minWidth: "25%" }}
+                footer={null}
+              >
+                <h2 style={{ marginBottom: "20px" }}>Account Details</h2>
+
+                <div>
+                  <table style={{ width: "100%" }}>
+                    <thead>
+                      <th></th>
+                      <th></th>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td width="25%" style={{ fontWeight: "bold" }}>Account Number:</td>
+                        <td align="right">{this.state.currentAccountDetails.accNo}</td>
+                      </tr>
+                      <tr>
+                        <td width="25%" style={{ fontWeight: "bold" }}>Created Date:</td>
+                        <td align="right">{this.state.currentAccountDetails.createDate}</td>
+                      </tr>
+                      <tr>
+                        <td width="25%" style={{ fontWeight: "bold" }}>Currency:</td>
+                        <td align="right">{this.state.currentAccountDetails.currency}</td>
+                      </tr>
+                      <tr>
+                        <td width="25%" style={{ fontWeight: "bold" }}>Owner:</td>
+                        <td align="right">{this.state.currentAccountDetails.owner}</td>
+                      </tr>
+                      <tr>
+                        <td width="25%" style={{ fontWeight: "bold" }}>Branch Name:</td>
+                        <td align="right">{this.state.currentAccountDetails.branch.name}</td>
+                      </tr>
+                      <tr>
+                        <td width="25%" style={{ fontWeight: "bold" }}>Branch Code:</td>
+                        <td align="right">{this.state.currentAccountDetails.branch.branchCode}</td>
+                      </tr>
+                      <tr>
+                        <td width="25%" style={{ fontWeight: "bold" }}>Town:</td>
+                        <td align="right">{this.state.currentAccountDetails.branch.town}</td>
+                      </tr>
+                      <tr>
+                        <td width="25%" style={{ fontWeight: "bold" }}>More Details:</td>
+                        <td align="right">
+                          {(this.state.currentAccountDetails.branch.adr).split(',')[0]} <br />
+                          {(this.state.currentAccountDetails.branch.adr).split(',')[1]} <br />
+                          {(this.state.currentAccountDetails.branch.adr).split(',')[2]} <br />
+                          {(this.state.currentAccountDetails.branch.adr).split(',')[3]} <br />
+                        </td>
+                      </tr>
+                      <tr>
+                        <td width="50%"></td>
+                        <td>
+                          <button className="submitBTNBN">
+                            Send OTP
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+              </Modal>
+            )
+          }
           {this.state.verificationState && (
             <Modal
               visible={this.state.verificationState}
@@ -1259,14 +1205,17 @@ class AddAccount extends Component {
   }
 }
 
-const mapStateToProps = ({  }) => {
+const mapStateToProps = ({ agentReducer }) => {
   return {
- 
+    bankAccountDetailsFetchSuccessful: agentReducer.bankAccountDetailsFetchSuccessful,
+    bankAccountData: agentReducer.bankAccountData,
   };
 };
 
-const mapDispatchToProps = () => ({
-
-});
+const mapDispatchToProps = (dispatch) => {
+  return {
+    doesBankAccountExist: (bankAccountNumber) => dispatch(doesBankAccountExist(bankAccountNumber))
+  }
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddAccount);

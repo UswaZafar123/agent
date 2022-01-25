@@ -2005,3 +2005,66 @@ export const getAgentWalletHistory = (fromDate, toDate, page, size) => (dispatch
       });
     });
 }
+
+export const doesBankAccountExist = (bankAccountNumber) => (dispatch) => {
+  dispatch(ShowLoading());
+  const config = {
+    method: "GET",
+    url: URL.agent.BANK_ACCOUNT_EXISTS + `/exists/${bankAccountNumber}`
+  };
+  axios(config)
+    .then((res) => {
+      dispatch(HideLoading());
+      if (res.status === 200) {
+        if (res.data === "BankServerError") {
+          dispatch({
+            type: actionType.BANK_ACCOUNT_EXISTS_FAILURE,
+            payload: false,
+          });
+        } else {
+          toastr.success("Account Exists..");
+          dispatch(getBankAccountDetails(bankAccountNumber));
+          dispatch({
+            type: actionType.BANK_ACCOUNT_EXISTS_SUCCESS,
+            payload: res.data,
+          });
+        }
+      }
+    })
+    .catch((err) => {
+      dispatch(HideLoading());
+      // toastr.error("Error Finding If Account Exists.");
+      dispatch({
+        type: actionType.BANK_ACCOUNT_EXISTS_FAILURE,
+        payload: false,
+      });
+    });
+}
+
+export const getBankAccountDetails = (bankAccountNumber) => (dispatch) => {
+  dispatch(ShowLoading());
+  const config = {
+    method: "GET",
+    url: URL.agent.BANK_ACCOUNT_EXISTS + `/${bankAccountNumber}`
+  };
+  axios(config)
+    .then((res) => {
+      dispatch(HideLoading());
+      if (res.status === 200) {
+        toastr.success("Bank Account Details Fetched Successfully.")
+        dispatch({
+          type: actionType.BANK_ACCOUNT_DETAILS_FETCH_SUCCESSFUL,
+          payload: res.data,
+        });
+      }
+    })
+    .catch((err) => {
+      dispatch(HideLoading());
+      toastr.error("Bank Account Details Fetch Error.")
+      dispatch({
+        type: actionType.BANK_ACCOUNT_DETAILS_FETCH_ERROR,
+        payload: [],
+      });
+    });
+}
+

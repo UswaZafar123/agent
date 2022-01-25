@@ -1773,6 +1773,30 @@ const agentReducer = (state = initialState, action) => {
         walletHistoryData: null,
         walletHistoryStatus: false,
       };
+    case actionType.BANK_ACCOUNT_EXISTS_SUCCESS:
+      return {
+        ...state,
+        accountExistsAPISuccess: true,
+        bankAccountExists: action.payload,
+      };
+    case actionType.BANK_ACCOUNT_EXISTS_FAILURE:
+      return {
+        ...state,
+        accountExistsAPISuccess: false,
+        bankAccountExists: false,
+      }
+    case actionType.BANK_ACCOUNT_DETAILS_FETCH_SUCCESSFUL:
+      return {
+        ...state,
+        bankAccountDetailsFetchSuccessful: true,
+        bankAccountData: action.payload,
+      };
+    case actionType.BANK_ACCOUNT_DETAILS_FETCH_ERROR:
+      return {
+        ...state,
+        bankAccountDetailsFetchSuccessful: false,
+        bankAccountData: [],
+      }
     default:
       return state;
   }
