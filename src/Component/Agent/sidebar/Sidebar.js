@@ -13,6 +13,8 @@ import DialogContent from "@material-ui/core/DialogContent";
 import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import Slide from "@material-ui/core/Slide";
+import { FormattedMessage, IntlProvider } from 'react-intl';
+
 
 import {
   fetchAgentProfile,
@@ -35,16 +37,39 @@ class Sidebar extends Component {
     linkingDialogTitle: "",
     linkingDialogBody: "",
     agentType: "",
+    messages: "",
+    language: ""
   };
+
+    async translationHelperFunction() {
+
+        const messages = await this.loadLocaleData(localStorage.getItem("lang"));
+        this.setState({
+          messages: messages,
+          language: localStorage.getItem("lang")
+        });
+        // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
+    
+      }
+    
+      loadLocaleData = (locale) => {
+        switch (locale) {
+          case "fr":
+            return import("../../i18n/messages/fr.js");
+          default:
+            return import("../../i18n/messages/en.js");
+        }
+      };
 
   componentDidMount() {
     this.setState({ filteredMenu: Side_bar_data });
     this.props.fetchProfile(sessionStorage.getItem("token"));
     // if(Object.keys(this.props.profile.data).length === 0) {
     // }
+    this.translationHelperFunction();
   }
 
-  componentWillReceiveProps(nextProps) {
+  async componentWillReceiveProps(nextProps) {
     if (nextProps.profile.data !== null) {
       if (Object.keys(nextProps.profile.data).length !== 0) {
         this.filterSubmenuLinks(nextProps.profile.data);
@@ -62,10 +87,20 @@ class Sidebar extends Component {
         }
         this.checkAccountStatus(
           nextProps.profile.data.agentType,
-          nextProps.profile.data.status
+          nextProps.profile.data.status,
+          nextProps.language
         );
       }
     }
+    
+      if (nextProps.language) {
+         const messages = await this.loadLocaleData(nextProps.language);
+      
+          this.setState({
+            messages: messages,
+            language: nextProps.language
+           });
+      }
   }
 
   filterSubmenuLinks = (profileData) => {
@@ -171,52 +206,58 @@ class Sidebar extends Component {
     this.setState({ linkingDialogOpen: !this.state.linkingDialogOpen });
   };
 
-  checkAccountStatus = (agentType, status) => {
-    switch (status) {
-      case "INACTIVE":
-        this.showStatusDialog(
-          "Account Inactive",
-          "Your account is still in-active please contanct bank administration for more details."
-        );
-        break;
-
-      case "SUSPENDED":
-        this.showStatusDialog(
-          "Account Suspended",
-          "Your account has been suspended please contanct bank administration for more details."
-        );
-        break;
-      case "AGENT_LINKING_PENDING":
-        this.showStatusDialog(
-          "Account Linking",
-          agentType === "AGENT_BANKER"
-            ? "Your account is not active, you need to link your Bank Customer ID."
-            : "Your account is not active, you need to link your account to super agent."
-        );
-        break;
-      case "AGENT_LINKING_REQUESTED":
-        this.showStatusDialog(
-          "Account Linking Requested",
-          "Your account linking request been sent to the Super Agent after he/she approved the request then you will be able to make any transaction from the system."
-        );
-        break;
-      case "AGENT_LINKING_COMPLETED":
-        this.showStatusDialog(
-          "Account Linking Completed",
-          "You account linking process has been completed, please wait for the bank administrator to activate your account."
-        );
-        break;
-      case "AGENT_LINKING_REJECTED":
-        this.showStatusDialog(
-          "Account Linking",
-          agentType === "AGENT_BANKER"
-            ? "Your account is not active, you need to link your Bank Customer ID."
-            : agentType === "AGENT" ? "Your account is not active yet, the linking request was rejected by the requested Agent Banker. You still need to link your account to super agent to proceed." : ""
-        );
-        break;
-      default:
+    checkAccountStatus = (agentType, status, lang) => {
+        switch (status) {
+          case 'INACTIVE':
+            this.showStatusDialog('Account Inactive',
+                'Your account is still in-active please contanct bank administration for more details.');
+            break;
+    
+          case 'SUSPENDED':
+            this.showStatusDialog('Account Suspended',
+                'Your account has been suspended please contanct bank administration for more details.');
+            break;
+          case 'AGENT_LINKING_PENDING':
+                if(lang === 'fr') {
+                    this.showStatusDialog(
+                        'Liaison du compte',
+                            agentType === "AGENT_BANKER"
+                                ? 'Your account is not active, you need to link your Bank Customer ID.'
+                                : 'Votre compte nest pas actif�; vous devez associer votre compte au super-agent.');
+                        } else {
+                          this.showStatusDialog(
+                            'Account Linking',
+                             agentType === "AGENT_BANKER"
+                                ? 'Your account is not active, you need to link your Bank Customer ID.'
+                                : 'Your account is not active, you need to link your account to super agent.');
+                          }
+            break;
+          case 'AGENT_LINKING_REQUESTED':
+            this.showStatusDialog('Account Linking Requested',
+                'Your account linking request been sent to the Super Agent after he/she approved the request then you will be able to make any transaction from the system.');
+            break;
+          case 'AGENT_LINKING_COMPLETED':
+            this.showStatusDialog('Account Linking Completed',
+                'You account linking process has been completed, please wait for the bank administrator to activate your account.');
+            break;
+          case 'AGENT_LINKING_REJECTED':
+              if(lang === 'fr') {
+            this.showStatusDialog(
+                'Liaison du compte',
+                    agentType === "AGENT_BANKER"
+                        ? 'Your account is not active, you need to link your Bank Customer ID.'
+                        : 'Your account is not active, you need to link your account to super agent.');
+                } else {
+                  this.showStatusDialog(
+                    'Account Linking',
+                     agentType === "AGENT_BANKER"
+                        ? 'Your account is not active, you need to link your Bank Customer ID.'
+                        : 'Your account is not active, you need to link your account to super agent.');
+                  }
+            break;
+          default:
+        }
     }
-  };
 
   showStatusDialog = (title, bodyText) => {
     this.setState({
@@ -245,6 +286,10 @@ class Sidebar extends Component {
 
   renderSideBarLoading = () => {
     return (
+      <IntlProvider
+      messages={this.state.messages.default}
+      locale={this.state.language}
+     >
       <div className="sideBar SidebarScroll">
         <div className="sidebar_Inner">
           <div className="sideTop">
@@ -255,7 +300,7 @@ class Sidebar extends Component {
           <div className="navigation">
             {this.state.agentType === "AGENT" ?
               <>
-                <h2 className="adminiH">Agent</h2>
+                <h2 className="adminiH"><FormattedMessage id="agent.Agent" /></h2>
               </> : this.state.agentType === "AGENT_MEMBER" ?
                 <>
                   <h2 className="adminiH">Agent Member</h2>
@@ -292,11 +337,16 @@ class Sidebar extends Component {
           </div>
         </div>
       </div>
+      </IntlProvider>
     );
   };
 
   renderSideBar = () => {
     return (
+    	 <IntlProvider
+            messages={this.state.messages.default}
+            locale={this.state.language}
+         >
       <>
         <div className="sideBar SidebarScroll">
           <div className="sidebar_Inner">
@@ -334,7 +384,7 @@ class Sidebar extends Component {
                           }}
                         >
                           <span className={item.iconClass}></span>
-                          {item.title}
+                          <FormattedMessage id={item.title} />
                           {item.subMenu && (
                             <span
                               className={`icon-Asset-1 arrowOpenClosed ${this.state.submenu === item.id ? "openSubM" : ""
@@ -357,7 +407,7 @@ class Sidebar extends Component {
                                       }
                                     >
                                       <span className="icon-Asset-48 subMDot"></span>{" "}
-                                      {submenuList.title}
+                                      <FormattedMessage id={submenuList.title} />
                                       {submenuList.path === "/Settings/General" &&
                                         <div className="toggleGenralBTN" onClick={(e) => this.toggleSubmenu2(true)}><PlusCircleOutlined /></div>
                                       }
@@ -371,7 +421,7 @@ class Sidebar extends Component {
                                       }
                                     >
                                       <span className="icon-Asset-48 subMDot"></span>{" "}
-                                      {submenuList.title}
+                                      <FormattedMessage id={submenuList.title} />
                                     </NavLink>
 
                                   }
@@ -388,7 +438,7 @@ class Sidebar extends Component {
                                           className="adminiH subTitleUl"
                                           style={{ color: "black" }}
                                         >
-                                          General
+                                          <FormattedMessage id="agent.General" />
                                         </h2>
                                       </li>
                                       {submenuList.subMenu.map((sub) => {
@@ -399,7 +449,7 @@ class Sidebar extends Component {
                                               <span
                                                 className={sub.iconClass}
                                               ></span>{" "}
-                                              {sub.title}
+                                              <FormattedMessage id={sub.title} />
                                             </NavLink>
                                           </li>
                                         );
@@ -421,11 +471,16 @@ class Sidebar extends Component {
         </div>
         {this.props.isOpenLeftSide && <div className="overLayOnLeft" onClick={(e) => this.toggleHandler(false)}></div>}
       </>
+      </IntlProvider>
     );
   };
 
   render() {
     return (
+      <IntlProvider
+      messages={this.state.messages.default}
+      locale={this.state.language}
+   >
       <>
         {this.props.profile.loading
           ? this.renderSideBarLoading()
@@ -451,20 +506,23 @@ class Sidebar extends Component {
               onClick={this.toggleLinkingDialog}
               style={{ color: "#DA4139" }}
             >
-              I Understand
+              <FormattedMessage id="agent.Iunderstand" />
             </Button>
           </DialogActions>
         </Dialog>
       </>
+      </IntlProvider>
     );
   }
 }
 
-const mapStateToProps = ({ agentReducer }) => {
+const mapStateToProps = ({ agentReducer, commonReducer }) => {
   const { profile } = agentReducer;
+  const { language } = commonReducer;
 
   return {
     profile,
+    language,
   };
 };
 

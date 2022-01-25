@@ -14,6 +14,7 @@ import { DownOutlined } from "@ant-design/icons";
 import Approved from "../Alerts/Approved";
 import Reject from "../Alerts/Reject";
 import { connect } from "react-redux";
+import { FormattedMessage, IntlProvider } from 'react-intl';
 const { Option } = Select;
 
 class AccessHistoryAdmin extends Component {
@@ -91,6 +92,8 @@ class AccessHistoryAdmin extends Component {
         // {Approval_Date: "14 Dec 2020 (5:30 PM)", ID: "LDWOFPPW6YEOJ", Name: "Berger",Url:"crpto/send/success",Status:"Active",Change_Status:"De-Activate",Action:"View"},
         // {Approval_Date: "14 Dec 2020 (5:30 PM)", ID: "LDWOFPPW6YEOJ0001", Name: "Berger",Url:"crpto/send/success",Status:"Active",Change_Status:"De-Activate",Action:"View"},
       ],
+      messages: "",
+      language: ""
     };
   }
   onFirstDataRendered = (params) => {
@@ -183,11 +186,30 @@ class AccessHistoryAdmin extends Component {
     this.state.gridApi.paginationGoToPreviousPage();
   };
 
-  componentDidMount=()=>{
+  async translationHelperFunction() {
+
+    const messages = await this.loadLocaleData(localStorage.getItem("lang"));
+    this.setState({
+      messages: messages,
+      language: localStorage.getItem("lang")
+    });
+    // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
 
   }
 
-  componentWillReceiveProps = (nextProps) => {
+  loadLocaleData = (locale) => {
+    switch (locale) {
+      case "fr":
+        return import("../i18n/messages/fr.js");
+      default:
+        return import("../i18n/messages/en.js");
+    }
+  };
+  componentDidMount=()=>{
+	this.translationHelperFunction();
+  }
+
+  componentWillReceiveProps = async (nextProps) => {
     if (nextProps.AccessHistory) {
       var Access_History = [];
       var access =
@@ -206,11 +228,40 @@ class AccessHistoryAdmin extends Component {
       this.setState({rowData:[]})
 
     }
+   if (nextProps.language) {
+      const messages = await this.loadLocaleData(nextProps.language);
+
+      this.setState({
+        messages: messages,
+        language: nextProps.language
+      });
+    }
+
+    if(nextProps.language=="fr"){
+      this.setState({
+        columnDefs: [
+        { headerName: "E-mail", field: "Email", width: 350 },
+        { headerName: "Navigateur", field: "Browser", width: 350 },
+        { headerName: "Date et heure", field: "Date", width: 350 },
+        ]});
+    }
+    else{
+      this.setState({
+        columnDefs: [
+        { headerName: "Email", field: "Email", width: 350 },
+        { headerName: "Browser", field: "Browser", width: 350 },
+        { headerName: "Date and Time", field: "Date", width: 350 },
+        ]});
+    }
   };
 
   render() {
     // console.log("jai",this.state.paginationGetCurrentPage)
     return (
+     <IntlProvider
+      messages={this.state.messages.default}
+      locale={this.state.language}
+     >
       <div className="main_contain">
         <div className="merch_m_list_w">
           <h1 className="m_listHeading textAlignCenter pd_t_b24">
@@ -223,14 +274,14 @@ class AccessHistoryAdmin extends Component {
                   <div className="chartCardTop">
                     <div className="flCenterColumn">
                       <h1 className="list_top_heading textAlignCenter">
-                        Access History
+                        <FormattedMessage id="agent.AccessHistory" />
                       </h1>
                     </div>
                   </div>
                   <div className="chartCardMiddle" style={{ padding: "24px" }}>
                     <div className="tableTop_wrapper">
                       <div className="disFl">
-                        <h5 className="show_pp margin_right8">Show</h5>
+                        <h5 className="show_pp margin_right8"><FormattedMessage id="agent.Show" /></h5>
                         <div className="tableShowRecordPerPage">
                           <Select
                             defaultValue="10"
@@ -246,7 +297,7 @@ class AccessHistoryAdmin extends Component {
                         </div>
 
                         <h5 className="show_pp margin_left8">
-                          Records Per Page
+                          <FormattedMessage id="agent.RecordsPerPage" />
                         </h5>
                         <div
                           className="margin-left-auto"
@@ -254,7 +305,7 @@ class AccessHistoryAdmin extends Component {
                         >
                           <div className="shortCustom">
                             <span className="icon-Asset-55"></span>
-                            <h6>Sort</h6>
+                            <h6><FormattedMessage id="agent.Sort" /></h6>
                           </div>
                           <div className="shortCustom">
                             <Dropdown
@@ -262,17 +313,17 @@ class AccessHistoryAdmin extends Component {
                                 <ul class="filterDrd">
                                   <li>
                                     <a href="#">
-                                      <span class="icon-logout"></span>All
+                                      <span class="icon-logout"></span><FormattedMessage id="agent.All" />
                                     </a>
                                   </li>
                                   <li>
                                     <a href="#">
-                                      <span class="icon-logout"></span>Inactive
+                                      <span class="icon-logout"></span><FormattedMessage id="agent.Inactive" />
                                     </a>
                                   </li>
                                   <li>
                                     <a href="#">
-                                      <span class="icon-logout"></span>Active
+                                      <span class="icon-logout"></span><FormattedMessage id="agent.Active" />
                                     </a>
                                   </li>
                                 </ul>
@@ -282,7 +333,7 @@ class AccessHistoryAdmin extends Component {
                             >
                               <div className="shortCustom01">
                                 <span className="icon-Asset-54"></span>
-                                <h6>Filter</h6>
+                                <h6><FormattedMessage id="agent.Filter" /></h6>
                               </div>
                             </Dropdown>
                           </div>
@@ -290,7 +341,11 @@ class AccessHistoryAdmin extends Component {
                             className="search_w_merchant_m"
                             style={{ width: "270px" }}
                           >
-                            <input type="search" placeholder="Search" />
+                           <FormattedMessage id="agent.Search">
+                           {placeholder =>
+                            <input type="search" placeholder={placeholder} />
+							}
+							</FormattedMessage>
                           </div>
                         </div>
                       </div>
@@ -323,20 +378,20 @@ class AccessHistoryAdmin extends Component {
                     </div>
                     <div className="customAgFooter">
                       <div className="showingFooter">
-                        <span>Showing</span>
+                        <span><FormattedMessage id="agent.Showing" /></span>
                         <span id="bTo"> </span>
-                        <span>to</span>
+                        <span><FormattedMessage id="agent.To" /></span>
                         <span id="afterTo"></span>
-                        <span>of</span>
+                        <span><FormattedMessage id="agent.Of" /></span>
                         <span id="totalPageSize"></span>
-                        <span>entries</span>
+                        <span><FormattedMessage id="agent.Entries" /></span>
                       </div>
                       <div className="NextPrevW">
                         <button
                           className="NextPrev"
                           onClick={() => this.onBtPrevious()}
                         >
-                          Prev
+                          <FormattedMessage id="agent.Prev" />
                         </button>
                         <span
                           className="valueNextPrev"
@@ -346,7 +401,7 @@ class AccessHistoryAdmin extends Component {
                           className="NextPrev"
                           onClick={() => this.onBtNext()}
                         >
-                          Next
+                          <FormattedMessage id="agent.Next" />
                         </button>
                       </div>
                     </div>
@@ -395,11 +450,16 @@ class AccessHistoryAdmin extends Component {
           <Approved handleCancel={this.handleCancel} />
         </Modal>
       </div>
+	 </IntlProvider>
     );
   }
 }
-const mapStateToProps = ({  }) => {
-  
+const mapStateToProps = ({ commonReducer }) => {
+  const { language } = commonReducer;
+
+  return { 
+    language 
+  };
 };
 
 const mapDispatchToProps = (dispatch) => ({

@@ -7,6 +7,7 @@ import { AgGridColumn, AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import { connect } from "react-redux";
+import { FormattedMessage, IntlProvider } from 'react-intl';
 // import activeUser from '../../Assets/images/confirm.svg'
 import { getAllAgentMemberPackages } from "../../../../services/agent/action";
 import "./settingcss.css";
@@ -131,6 +132,8 @@ class Packages extends Component {
         },
       ],
       rowData: [],
+      messages: "",
+      language: ""
     };
   }
 
@@ -234,11 +237,32 @@ class Packages extends Component {
     });
   };
 
-  componentDidMount() {
-    this.props.getAllAgentMemberPackages();
+  async translationHelperFunction() {
+
+    const messages = await this.loadLocaleData(localStorage.getItem("lang"));
+    this.setState({
+      messages: messages,
+      language: localStorage.getItem("lang")
+    });
+    // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
+
   }
 
-  componentWillReceiveProps(nextProps) {
+  loadLocaleData = (locale) => {
+    switch (locale) {
+      case "fr":
+        return import("../../../i18n/messages/fr.js");
+      default:
+        return import("../../../i18n/messages/en.js");
+    }
+  };
+
+  componentDidMount() {
+    this.props.getAllAgentMemberPackages();
+    this.translationHelperFunction();
+  }
+
+ async componentWillReceiveProps(nextProps) {
     console.log(nextProps, "nextProps");
     if (nextProps.packagesStatus === true) {
       const filteredValue = nextProps.packagesDetails._embedded.agentPackageDtoList.filter(
@@ -249,11 +273,192 @@ class Packages extends Component {
         rowData: filteredValue,
       });
     }
+
+    if (nextProps.language) {
+      const messages = await this.loadLocaleData(nextProps.language);
+
+      this.setState({
+        messages: messages,
+        language: nextProps.language
+      });
+    }
+
+    if(nextProps.language==="fr"){
+      this.setState({
+        columnDefs: [
+          { headerName: "Nom", field: "name", width: 250 },
+          { headerName: "Type d'utilisateur", field: "agentType" },
+          { headerName: "Prix du plan ", field: "planPrice" },
+          {
+            headerName: "En vedette",
+            cellRendererFramework: (params) => (
+              <div className="setAsFeaturedDiv">
+                <span
+                  className={
+                    params.data.isFeatured ? "yesF yesColorF" : "yesF noColorF"
+                  }
+                >
+                  {params.data.isFeatured ? "Yes" : "No"}
+                </span>
+                <span
+                  style={{
+                    textDecoration: "underline",
+                    color: "blue",
+                    cursor: "pointer",
+                  }}
+                  onClick={(e) => {
+                    this.setAsFeaturedHandler(e, params.data);
+                  }}
+                >
+                  {" "}
+                  {params.data.isFeatured ? "Unset Featured" : "Set as Featured"}
+                </span>
+              </div>
+            ),
+          },
+          {
+            headerName: "Par défaut",
+            cellRendererFramework: (params) => (
+              <div className="setAsFeaturedDiv">
+                <span
+                  className={
+                    params.data.isFeatured ? "yesF yesColorF" : "yesF noColorF"
+                  }
+                >
+                  {params.data.isDefault ? "Yes" : "No"}
+                </span>
+                <span
+                  style={{
+                    textDecoration: "underline",
+                    color: "blue",
+                    cursor: "pointer",
+                  }}
+                  onClick={(e) => {
+                    this.setAsFeaturedHandler(e, params.data);
+                  }}
+                >
+                  {" "}
+                  {!params.data.isDefault ? "Set As Default" : ""}
+                </span>
+              </div>
+            ),
+          },
+  
+          {
+            headerName: "Action",
+            field: "Action",
+            cellRendererFramework: (params) => (
+              <div className="ac-view">
+                <span
+                  className="icon-edit-2"
+                  style={{ cursor: "pointer" }}
+                  onClick={(e) => this.editNewPackage(e, params.data)}
+                ></span>
+                <span
+                  className="icon-Group-357"
+                  style={{ marginLeft: "5%" }}
+                ></span>
+              </div>
+            ),
+            cellStyle: (params) => {
+              return { textAlign: "center" };
+            },
+          },
+        ]});
+    }
+    else{
+      this.setState({
+        columnDefs: [
+          { headerName: "Name", field: "name", width: 250 },
+          { headerName: "User Type", field: "agentType" },
+          { headerName: "Plan Price ", field: "planPrice" },
+          {
+            headerName: "Featured",
+            cellRendererFramework: (params) => (
+              <div className="setAsFeaturedDiv">
+                <span
+                  className={
+                    params.data.isFeatured ? "yesF yesColorF" : "yesF noColorF"
+                  }
+                >
+                  {params.data.isFeatured ? "Yes" : "No"}
+                </span>
+                <span
+                  style={{
+                    textDecoration: "underline",
+                    color: "blue",
+                    cursor: "pointer",
+                  }}
+                  onClick={(e) => {
+                    this.setAsFeaturedHandler(e, params.data);
+                  }}
+                >
+                  {" "}
+                  {params.data.isFeatured ? "Unset Featured" : "Set as Featured"}
+                </span>
+              </div>
+            ),
+          },
+          {
+            headerName: "Default",
+            cellRendererFramework: (params) => (
+              <div className="setAsFeaturedDiv">
+                <span
+                  className={
+                    params.data.isFeatured ? "yesF yesColorF" : "yesF noColorF"
+                  }
+                >
+                  {params.data.isDefault ? "Yes" : "No"}
+                </span>
+                <span
+                  style={{
+                    textDecoration: "underline",
+                    color: "blue",
+                    cursor: "pointer",
+                  }}
+                  onClick={(e) => {
+                    this.setAsFeaturedHandler(e, params.data);
+                  }}
+                >
+                  {" "}
+                  {!params.data.isDefault ? "Set As Default" : ""}
+                </span>
+              </div>
+            ),
+          },
+  
+          {
+            headerName: "Action",
+            field: "Action",
+            cellRendererFramework: (params) => (
+              <div className="ac-view">
+                <span
+                  className="icon-edit-2"
+                  style={{ cursor: "pointer" }}
+                  onClick={(e) => this.editNewPackage(e, params.data)}
+                ></span>
+                <span
+                  className="icon-Group-357"
+                  style={{ marginLeft: "5%" }}
+                ></span>
+              </div>
+            ),
+            cellStyle: (params) => {
+              return { textAlign: "center" };
+            },
+          },
+        ],
+      })
+    }
   }
 
   render() {
     const isfeatured = this.state.isfeatured;
     return (
+      <IntlProvider
+      messages={this.state.messages.default}
+      locale={this.state.language}
+    >
       <>
         <div className="main_contain settings-container">
           <div className="merch_m_list_w">
@@ -264,13 +469,13 @@ class Packages extends Component {
                     <div className="chartCardTop">
                       <div className="kyccustomformheading">
                         <h1 className="list_top_heading textAlignCenter text-center">
-                          Packages
+                        <FormattedMessage id="agent.Packages" />
                         </h1>
                         <button
                           className="addposbtn c_first_pending_BTN"
                           onClick={this.addNewPackage}
                         >
-                          Add New Package
+                          <FormattedMessage id="agent.AddNewPackage" />
                         </button>
                       </div>
                     </div>
@@ -280,7 +485,7 @@ class Packages extends Component {
                     >
                       <div className="tableTop_wrapper">
                         <div className="disFl">
-                          <h5 className="show_pp margin_right8">Show</h5>
+                          <h5 className="show_pp margin_right8"><FormattedMessage id="agent.Show" /></h5>
                           <div className="tableShowRecordPerPage">
                             <Select
                               defaultValue="10"
@@ -295,7 +500,7 @@ class Packages extends Component {
                             </Select>
                           </div>
 
-                          <h5 className="show_pp margin_left8">Entries</h5>
+                          <h5 className="show_pp margin_left8"><FormattedMessage id="agent.Entries" /></h5>
                           <div
                             className="margin-left-auto"
                             style={{ display: "flex", alignItems: "center" }}
@@ -310,19 +515,19 @@ class Packages extends Component {
                                   <ul class="filterDrd">
                                     <li>
                                       <a href="#">
-                                        <span class="icon-logout"></span>All
+                                        <span class="icon-logout"></span><FormattedMessage id="agent.All" />
                                       </a>
                                     </li>
                                     <li>
                                       <a href="#">
                                         <span class="icon-logout"></span>
-                                        Inactive
+                                        <FormattedMessage id="agent.Inactive" />
                                       </a>
                                     </li>
                                     <li>
                                       <a href="#">
                                         <span class="icon-logout"></span>
-                                        Active
+                                        <FormattedMessage id="agent.Active" />
                                       </a>
                                     </li>
                                   </ul>
@@ -332,7 +537,7 @@ class Packages extends Component {
                               >
                                 <div className="shortCustom01">
                                   <span className="icon-Asset-54"></span>
-                                  <h6>Filter</h6>
+                                  <h6><FormattedMessage id="agent.Filter" /></h6>
                                 </div>
                               </Dropdown>
                             </div>
@@ -340,7 +545,10 @@ class Packages extends Component {
                               className="search_w_merchant_m"
                               style={{ width: "270px" }}
                             >
-                              <input type="search" placeholder="Search" />
+                              <FormattedMessage id="agent.Search">
+                                {placeholder => 
+                              <input type="search" placeholder={placeholder} />}
+                              </FormattedMessage>
                             </div>
                           </div>
                         </div>
@@ -369,20 +577,20 @@ class Packages extends Component {
                       </div>
                       <div className="customAgFooter">
                         <div className="showingFooter">
-                          <span>Showing</span>
+                          <span><FormattedMessage id="agent.Showing" /></span>
                           <span id="bTo"> </span>
-                          <span>to</span>
+                          <span><FormattedMessage id="agent.To" /></span>
                           <span id="afterTo"></span>
-                          <span>of</span>
+                          <span><FormattedMessage id="agent.Of" /></span>
                           <span id="totalPageSize"></span>
-                          <span>entries</span>
+                          <span><FormattedMessage id="agent.Entries" /></span>
                         </div>
                         <div className="NextPrevW">
                           <button
                             className="NextPrev"
                             onClick={() => this.onBtPrevious()}
                           >
-                            Prev
+                            <FormattedMessage id="agent.Prev" />
                           </button>
                           <span
                             className="valueNextPrev"
@@ -392,7 +600,7 @@ class Packages extends Component {
                             className="NextPrev"
                             onClick={() => this.onBtNext()}
                           >
-                            Next
+                            <FormattedMessage id="agent.next" />
                           </button>
                         </div>
                       </div>
@@ -404,15 +612,18 @@ class Packages extends Component {
           </div>
         </div>
       </>
+      </IntlProvider>
     );
   }
 }
 
-const mapStateToProps = ({ agentReducer }) => {
+const mapStateToProps = ({ agentReducer, commonReducer }) => {
   const { packagesDetails, packagesStatus } = agentReducer;
+  const { language } = commonReducer;
   return {
     packagesDetails,
     packagesStatus,
+    language,
   };
 };
 

@@ -9,6 +9,7 @@ import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import { connect } from "react-redux";
 import { Select, Dropdown } from "antd";
+import { FormattedMessage, IntlProvider } from "react-intl";
 import { addAsset, addOperation, deleteAsset, deleteOperation, editOperation, getAllAssets, getAllOperations, updateAsset } from "../../services/agent/action";
 const { Option } = Select;
 
@@ -35,11 +36,11 @@ class Operations extends Component {
                     cellRendererFramework: (params) => (
                         <div className="ac-view">
                             <button onClick={(e) => this.editOperation(e, params.data)}>
-                                {"Edit"}
+                                {<FormattedMessage id="agent.Edit" />}
                             </button>
                             &ensp;
                             <button onClick={(e) => this.deleteOperation(e, params.data)}>
-                                {"Delete"}
+                                {<FormattedMessage id="agent.Delete" />}
                             </button>
                         </div>
                     ),
@@ -61,6 +62,8 @@ class Operations extends Component {
             operationStatus: false,
             operationAssetValue: "DEFAULT",
             operationID: "",
+            messages: "",
+            language: ""
         };
     }
 
@@ -182,12 +185,34 @@ class Operations extends Component {
         }
     };
 
+    async translationHelperFunction() {
+
+        const messages = await this.loadLocaleData(localStorage.getItem("lang"));
+        this.setState({
+          messages: messages,
+          language: localStorage.getItem("lang")
+        });
+        // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
+    
+      }
+    
+      loadLocaleData = (locale) => {
+        switch (locale) {
+          case "fr":
+            return import("../i18n/messages/fr.js");
+          default:
+            return import("../i18n/messages/en.js");
+        }
+      };
+
     componentDidMount() {
         this.props.getAllAssets(sessionStorage.getItem("token"));
         this.props.getAllOperations();
+
+        this.translationHelperFunction();
     }
 
-    componentWillReceiveProps(nextProps) {
+   async componentWillReceiveProps(nextProps) {
 
         if (nextProps.assetDetails) {
             console.log("hello next", nextProps.assetDetails._embedded.assetDtoList);
@@ -211,6 +236,73 @@ class Operations extends Component {
         if (nextProps.editOperationStatus) {
             this.goToMainOperationsPage();
         }
+
+        if (nextProps.language) {
+            const messages = await this.loadLocaleData(nextProps.language);
+      
+            this.setState({
+              messages: messages,
+              language: nextProps.language
+            });
+          }
+
+          
+          if(nextProps.language === "fr"){
+            this.setState({
+                columnDefs: [
+                    { headerName: "Nom", field: "name", width: 250 },
+                    { headerName: "État de l'opération ", field: "status" },
+                    { headerName: "Actif ", field: "asset" },
+                    { headerName: "État de l'actif ", field: "assetStatus" },
+                    {
+                        headerName: "Action",
+                        field: "Action",
+                        cellRendererFramework: (params) => (
+                            <div className="ac-view">
+                                <button onClick={(e) => this.editOperation(e, params.data)}>
+                                    {<FormattedMessage id="agent.Edit" />}
+                                </button>
+                                &ensp;
+                                <button onClick={(e) => this.deleteOperation(e, params.data)}>
+                                    {<FormattedMessage id="agent.Delete" />}
+                                </button>
+                            </div>
+                        ),
+                        cellStyle: (params) => {
+                            return { textAlign: "center" };
+                        },
+                    },
+                ],
+            })
+          }
+          else{
+              this.setState({
+                columnDefs: [
+                    { headerName: "Name", field: "name", width: 250 },
+                    { headerName: "Operation Status ", field: "status" },
+                    { headerName: "Asset ", field: "asset" },
+                    { headerName: "Asset Status ", field: "assetStatus" },
+                    {
+                        headerName: "Action",
+                        field: "Action",
+                        cellRendererFramework: (params) => (
+                            <div className="ac-view">
+                                <button onClick={(e) => this.editOperation(e, params.data)}>
+                                    {<FormattedMessage id="agent.Edit" />}
+                                </button>
+                                &ensp;
+                                <button onClick={(e) => this.deleteOperation(e, params.data)}>
+                                    {<FormattedMessage id="agent.Delete" />}
+                                </button>
+                            </div>
+                        ),
+                        cellStyle: (params) => {
+                            return { textAlign: "center" };
+                        },
+                    },
+                ],
+              });
+          }
 
     }
 
@@ -267,6 +359,10 @@ class Operations extends Component {
     render() {
 
         return (
+            <IntlProvider
+            messages={this.state.messages.default}
+            locale={this.state.language}
+          >
             <>
                 {
                     this.state.mainOperationsView && (
@@ -280,13 +376,13 @@ class Operations extends Component {
                                                     <div className="chartCardTop">
                                                         <div className="kyccustomformheading">
                                                             <h1 className="list_top_heading textAlignCenter text-center">
-                                                                Operations
+                                                            <FormattedMessage id="agent.Operations" />
                                                             </h1>
                                                             <button
                                                                 className="addposbtn c_first_pending_BTN btnMaxWidth"
                                                                 onClick={this.addChange}
                                                             >
-                                                                Add Operation
+                                                                <FormattedMessage id="agent.AddOperation" />
                                                             </button>
                                                         </div>
                                                     </div>
@@ -296,7 +392,7 @@ class Operations extends Component {
                                                     >
                                                         <div className="tableTop_wrapper">
                                                             <div className="disFl">
-                                                                <h5 className="show_pp margin_right8">Show</h5>
+                                                                <h5 className="show_pp margin_right8"><FormattedMessage id="agent.Show" /></h5>
                                                                 <div className="tableShowRecordPerPage">
                                                                     <Select
                                                                         defaultValue="10"
@@ -311,14 +407,14 @@ class Operations extends Component {
                                                                     </Select>
                                                                 </div>
 
-                                                                <h5 className="show_pp margin_left8">Entries</h5>
+                                                                <h5 className="show_pp margin_left8"><FormattedMessage id="agent.Entries" /></h5>
                                                                 <div
                                                                     className="margin-left-auto"
                                                                     style={{ display: "flex", alignItems: "center" }}
                                                                 >
                                                                     <div className="shortCustom">
                                                                         <span className="icon-Asset-55"></span>
-                                                                        <h6>Sort</h6>
+                                                                        <h6><FormattedMessage id="agent.Sort" /></h6>
                                                                     </div>
                                                                     <div className="shortCustom">
                                                                         <Dropdown
@@ -326,19 +422,19 @@ class Operations extends Component {
                                                                                 <ul class="filterDrd">
                                                                                     <li>
                                                                                         <a href="#">
-                                                                                            <span class="icon-logout"></span>All
+                                                                                            <span class="icon-logout"></span><FormattedMessage id="agent.All" />
                                                                                         </a>
                                                                                     </li>
                                                                                     <li>
                                                                                         <a href="#">
                                                                                             <span class="icon-logout"></span>
-                                                                                            Inactive
+                                                                                            <FormattedMessage id="agent.Inactive" />
                                                                                         </a>
                                                                                     </li>
                                                                                     <li>
                                                                                         <a href="#">
                                                                                             <span class="icon-logout"></span>
-                                                                                            Active
+                                                                                            <FormattedMessage id="agent.Active" />
                                                                                         </a>
                                                                                     </li>
                                                                                 </ul>
@@ -348,7 +444,7 @@ class Operations extends Component {
                                                                         >
                                                                             <div className="shortCustom01">
                                                                                 <span className="icon-Asset-54"></span>
-                                                                                <h6>Filter</h6>
+                                                                                <h6><FormattedMessage id="agent.Filter" /></h6>
                                                                             </div>
                                                                         </Dropdown>
                                                                     </div>
@@ -356,13 +452,16 @@ class Operations extends Component {
                                                                         className="search_w_merchant_m"
                                                                         style={{ width: "270px" }}
                                                                     >
+                                                                        <FormattedMessage id="agent.Search">
+                                                                            {placeholder =>
                                                                         <input
                                                                             type="search"
-                                                                            placeholder="Search"
+                                                                            placeholder={placeholder}
                                                                             id="filter-text-box"
                                                                             placeholder="Search"
                                                                             onChange={this.onFilterTextBoxChanged}
-                                                                        />
+                                                                        />}
+                                                                        </FormattedMessage>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -400,20 +499,20 @@ class Operations extends Component {
                                                         </div>
                                                         <div className="customAgFooter">
                                                             <div className="showingFooter">
-                                                                <span>Showing</span>
+                                                                <span><FormattedMessage id="agent.Showing" /></span>
                                                                 <span id="bTo"> </span>
-                                                                <span>to</span>
+                                                                <span><FormattedMessage id="agent.To" /></span>
                                                                 <span id="afterTo"></span>
-                                                                <span>of</span>
+                                                                <span><FormattedMessage id="agent.Of" /></span>
                                                                 <span id="totalPageSize"></span>
-                                                                <span>entries</span>
+                                                                <span><FormattedMessage id="agent.Entries" /></span>
                                                             </div>
                                                             <div className="NextPrevW">
                                                                 <button
                                                                     className="NextPrev"
                                                                     onClick={() => this.onBtPrevious()}
                                                                 >
-                                                                    Prev
+                                                                    <FormattedMessage id="agent.Prev" />
                                                                 </button>
                                                                 <span
                                                                     className="valueNextPrev"
@@ -423,7 +522,7 @@ class Operations extends Component {
                                                                     className="NextPrev"
                                                                     onClick={() => this.onBtNext()}
                                                                 >
-                                                                    Next
+                                                                    <FormattedMessage id="agent.Next" />
                                                                 </button>
                                                             </div>
                                                         </div>
@@ -449,7 +548,7 @@ class Operations extends Component {
                                                 <div className="chartCardTop">
                                                     <div className="kyccustomformheading">
                                                         <h1 className="list_top_heading textAlignCenter text-center">
-                                                            Add New Operation
+                                                            <FormattedMessage id="agent.AddNewOperation" />
                                                         </h1>
                                                     </div>
                                                 </div>
@@ -458,7 +557,7 @@ class Operations extends Component {
                                                     <div className="containerBiaN_form">
                                                         <div className="containerBiaN_f_row">
                                                             <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                                <label>Operation Name<span className="mantdat">*</span></label>
+                                                                <label><FormattedMessage id="agent.OperationName" /><span className="mantdat">*</span></label>
                                                             </div>
                                                             <div className="containerBiaN_f_col width70percent">
                                                                 <input type="text" value={this.state.operationName} placeholder="Enter Operation Name" onChange={(e) => {
@@ -471,7 +570,7 @@ class Operations extends Component {
 
                                                         <div className="containerBiaN_f_row">
                                                             <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                                <label>Asset <span className="mantdat">*</span></label>
+                                                                <label><FormattedMessage id="agent.Asset" /> <span className="mantdat">*</span></label>
                                                             </div>
                                                             <div className="containerBiaN_f_col width70percent">
                                                                 <div className="categorySelect">
@@ -505,7 +604,7 @@ class Operations extends Component {
 
                                                         <div className="containerBiaN_f_row">
                                                             <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                                <label>Status <span className="mantdat">*</span></label>
+                                                                <label><FormattedMessage id="agent.Status" /> <span className="mantdat">*</span></label>
                                                             </div>
                                                             <div className="containerBiaN_f_col width70percent">
                                                                 <div className="categorySelect">
@@ -519,8 +618,8 @@ class Operations extends Component {
                                                                         }}
                                                                         id={'page-size'}
                                                                     >
-                                                                        <Option value={true}>Active</Option>
-                                                                        <Option value={false}>Inactive</Option>
+                                                                        <Option value={true}><FormattedMessage id="agent.Active" /></Option>
+                                                                        <Option value={false}><FormattedMessage id="agent.Inactive" /></Option>
                                                                     </Select>
                                                                 </div>
                                                             </div>
@@ -529,8 +628,8 @@ class Operations extends Component {
 
                                                     <div style={{ width: "100%", float: "left" }}>
                                                         <div className="confirm_p_w mTB00 button-container rspacing">
-                                                            <button className="blackbtn aryousureBTN confirmBtnR" onClick={this.goToMainOperationsPage}>Cancel</button>
-                                                            <button className="aryousureBTN confirmBtnR" onClick={this.onAddOperation}>Submit</button>
+                                                            <button className="blackbtn aryousureBTN confirmBtnR" onClick={this.goToMainOperationsPage}><FormattedMessage id="cancel" /></button>
+                                                            <button className="aryousureBTN confirmBtnR" onClick={this.onAddOperation}><FormattedMessage id="submit" /></button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -554,7 +653,7 @@ class Operations extends Component {
                                                 <div className="chartCardTop">
                                                     <div className="kyccustomformheading">
                                                         <h1 className="list_top_heading textAlignCenter text-center">
-                                                            Update Operation
+                                                            <FormattedMessage id="agent.UpdateOperation" />
                                                         </h1>
                                                     </div>
                                                 </div>
@@ -563,7 +662,7 @@ class Operations extends Component {
                                                     <div className="containerBiaN_form">
                                                         <div className="containerBiaN_f_row">
                                                             <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                                <label>Operation Name<span className="mantdat">*</span></label>
+                                                                <label><FormattedMessage id="agent.OperationName" /><span className="mantdat">*</span></label>
                                                             </div>
                                                             <div className="containerBiaN_f_col width70percent">
                                                                 <input type="text" value={this.state.operationName} placeholder="Enter Operation Name" onChange={(e) => {
@@ -576,7 +675,7 @@ class Operations extends Component {
 
                                                         <div className="containerBiaN_f_row">
                                                             <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                                <label>Asset <span className="mantdat">*</span></label>
+                                                                <label><FormattedMessage id="agent.Asset" /> <span className="mantdat">*</span></label>
                                                             </div>
                                                             <div className="containerBiaN_f_col width70percent">
                                                                 <div className="categorySelect">
@@ -590,7 +689,7 @@ class Operations extends Component {
                                                                         }}
                                                                         id={'page-size'}
                                                                     >
-                                                                        <Option value="DEFAULT" disabled={true}>Select an asset</Option>
+                                                                        <Option value="DEFAULT" disabled={true}><FormattedMessage id="agent.SelectanAsset" /></Option>
                                                                         {this.state.assetData.map((data) => {
 
                                                                             return (
@@ -610,7 +709,7 @@ class Operations extends Component {
 
                                                         <div className="containerBiaN_f_row">
                                                             <div className="containerBiaN_f_col width30percent textAlignRight">
-                                                                <label>Status <span className="mantdat">*</span></label>
+                                                                <label><FormattedMessage id="agent.Status" /> <span className="mantdat">*</span></label>
                                                             </div>
                                                             <div className="containerBiaN_f_col width70percent">
                                                                 <div className="categorySelect">
@@ -624,8 +723,8 @@ class Operations extends Component {
                                                                         }}
                                                                         id={'page-size'}
                                                                     >
-                                                                        <Option value={true}>Active</Option>
-                                                                        <Option value={false}>Inactive</Option>
+                                                                        <Option value={true}><FormattedMessage id="agent.Active" /></Option>
+                                                                        <Option value={false}><FormattedMessage id="agent.Inactive" /></Option>
                                                                     </Select>
                                                                 </div>
                                                             </div>
@@ -634,7 +733,7 @@ class Operations extends Component {
 
                                                     <div style={{ width: "100%", float: "left" }}>
                                                         <div className="confirm_p_w mTB00 button-container rspacing">
-                                                            <button className="blackbtn aryousureBTN confirmBtnR" onClick={this.goToMainOperationsPage}>Cancel</button>
+                                                            <button className="blackbtn aryousureBTN confirmBtnR" onClick={this.goToMainOperationsPage}><FormattedMessage id="cancel" /></button>
                                                             <button className="aryousureBTN confirmBtnR" onClick={this.onEditOperation}>Update</button>
                                                         </div>
                                                     </div>
@@ -650,17 +749,19 @@ class Operations extends Component {
 
                 }
             </>
+            </IntlProvider>
         );
     }
 }
-const mapStateToProps = ({ agentReducer }) => {
+const mapStateToProps = ({ agentReducer, commonReducer }) => {
 
     return {
         assetDetails: agentReducer.assetDetails,
         operationStatus: agentReducer.operationStatus,
         operationDetails: agentReducer.operationDetails,
         addOperationStatus: agentReducer.addOperationStatus,
-        editOperationStatus: agentReducer.editOperationStatus
+        editOperationStatus: agentReducer.editOperationStatus,
+        language: commonReducer.language,
     }
 
 };
