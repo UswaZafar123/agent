@@ -183,7 +183,7 @@ class Transaction extends Component {
     };
 
 
-    componentWillReceiveProps(nextprops) {
+    async componentWillReceiveProps(nextprops) {
         if (nextprops.language) {
             const messages = await this.loadLocaleData(nextprops.language);
 
