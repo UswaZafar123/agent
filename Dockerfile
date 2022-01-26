@@ -20,4 +20,4 @@ COPY . ./
 EXPOSE 3000
 
 # start app
-CMD ["npm", "start","start:bank"]
+CMD ["npm", "start","start:sit"]

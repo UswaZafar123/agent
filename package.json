@@ -77,7 +77,7 @@
     "web-vitals": "^1.1.1"
   },
   "scripts": {
-    "start": "env-cmd -f ./environments/.bank.env react-scripts start",
+    "start": "env-cmd -f ./environments/.sit.env react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
