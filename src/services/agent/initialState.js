@@ -288,5 +288,9 @@ const initialState = {
 
   bankAccountDetailsFetchSuccessful : false,
   bankAccountData : [],
+  bankCustomerData : [],
+  bankCustomerStatus : false,
+
+  bankCustomerOTPStatus : false,
 };
 export default initialState;

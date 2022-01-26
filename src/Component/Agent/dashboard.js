@@ -19,7 +19,9 @@ import {
 import {
   getProfile,
   fetchAgentWallet,
-  fetchAgentBankAccounts
+  fetchAgentBankAccounts,
+  getAllAgentMemberLists,
+  getTickets
 } from "../../../src/services/agent/action";
 
 
@@ -730,6 +732,10 @@ class Dashboard extends Component {
       walletBalance: 0,
       profileData: [],
 
+      numberOfAgents: 0,
+      numberOfAgentMembers: 0,
+      numberOfTickets: 0
+
     }
   }
 
@@ -755,6 +761,10 @@ class Dashboard extends Component {
 
   componentDidMount() {
 
+    this.props.getTickets(sessionStorage.getItem("token"));
+
+    this.props.getAllAgentMemberLists();
+
     this.props.fetchAgentWallet(sessionStorage.getItem("token"));
 
     if (document.querySelector('.getHeight') != null) {
@@ -776,6 +786,50 @@ class Dashboard extends Component {
   }
 
   async componentWillReceiveProps(nextProps) {
+
+    if (nextProps.ticketsData) {
+
+    } else {
+      this.setState({
+        numberOfTickets: 0
+      })
+    }
+
+    if (nextProps.getAllAgentMemberList) {
+      let filteredAgentList = nextProps.getAllAgentMemberList.filter((data) => {
+        if (data.agentType === "AGENT") {
+          return data;
+        }
+      })
+
+      let filteredAgentMemberList = nextProps.getAllAgentMemberList.filter((data) => {
+        if (data.agentType === "AGENT_MEMBER") {
+          return data;
+        }
+      })
+
+      if (filteredAgentMemberList.length > 0) {
+
+        this.setState({
+          numberOfAgentMembers: filteredAgentMemberList.length
+        })
+
+      } else {
+        this.setState({
+          numberOfAgentMembers: 0
+        })
+      }
+
+      if (filteredAgentList.length > 0) {
+        this.setState({
+          numberOfAgents: filteredAgentList.length
+        })
+      } else {
+        this.setState({
+          numberOfAgents: 0
+        })
+      }
+    }
 
     if (nextProps.walletAccount.data) {
 
@@ -853,7 +907,7 @@ class Dashboard extends Component {
                                     <div className="cardrightVal width50p">
                                       <p><FormattedMessage id="agent.TotalAgents" /></p>
                                       <div className="cardnumber">
-                                        213
+                                        {this.state.numberOfAgents}
                                       </div>
                                     </div>
                                   </div>
@@ -870,7 +924,7 @@ class Dashboard extends Component {
                                   <div className="cardrightVal width50p">
                                     <p><FormattedMessage id="agent.TotalAgentMember" /></p>
                                     <div className="cardnumber">
-                                      213
+                                      {this.state.numberOfAgentMembers}
                                     </div>
                                   </div>
                                 </div>
@@ -917,7 +971,7 @@ class Dashboard extends Component {
                                   <div className="cardrightVal width50p">
                                     <p>Total Tickets</p>
                                     <div className="cardnumber">
-                                      100
+                                      {this.state.numberOfTickets}
                                     </div>
                                   </div>
                                 </div>
@@ -1441,7 +1495,7 @@ class Dashboard extends Component {
 }
 
 const mapStateToProps = ({ agentReducer, commonReducer }) => {
-  const { profile, profileImage, profileImageStatus, walletAccount } = agentReducer;
+  const { profile, profileImage, profileImageStatus, walletAccount, getAllAgentMemberList, ticketsData } = agentReducer;
   const { language } = commonReducer
 
   return {
@@ -1449,7 +1503,9 @@ const mapStateToProps = ({ agentReducer, commonReducer }) => {
     profileImage,
     profileImageStatus,
     language,
-    walletAccount
+    walletAccount,
+    getAllAgentMemberList,
+    ticketsData
   };
 };
 
@@ -1457,6 +1513,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getProfile: (token) => dispatch(getProfile(token)),
     fetchAgentWallet: (token) => dispatch(fetchAgentWallet(token)),
+    getAllAgentMemberLists: () => dispatch(getAllAgentMemberLists()),
+    getTickets: (token) => dispatch(getTickets(token)),
   }
 
 }

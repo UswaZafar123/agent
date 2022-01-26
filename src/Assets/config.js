@@ -109,6 +109,7 @@ const configUrl = {
     VIEW_PROFILE_PICTURE: `${API}merchant/profile/image`,
     PROFILE_INFO: `${API}merchant/profile/profileInfo`,
     SEND_OTP: `${API}public/merchant/mfa/send`,
+    VERIFY_OTP: `${API}public/merchant/mfa/validate`
   },
 
   payment: {
@@ -329,9 +330,11 @@ const configUrl = {
     CALCULATE_FEE: `${adminAPI}agent/transactionFees/calculate`,
     AGENT_TO_AGENT_BANKER_UPGRADE_REQUEST: `${AgentApi}api-public/AgentRegistration/agentToAgentBankerRequest`,
 
-    GET_AGENT_WALLET_HISTORY : `${AgentApi}api/agencyBanking/agentWalletHistory`,
+    GET_AGENT_WALLET_HISTORY: `${AgentApi}api/agencyBanking/agentWalletHistory`,
 
-    BANK_ACCOUNT_EXISTS : `${MainAPI}bank/account`,
+    BANK_ACCOUNT_EXISTS: `${MainAPI}bank/account`,
+
+    GET_BANKACCOUNT_CUSTOMER: `${MainAPI}bank/common/customer`
   },
 };
 

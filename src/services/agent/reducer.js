@@ -1797,6 +1797,29 @@ const agentReducer = (state = initialState, action) => {
         bankAccountDetailsFetchSuccessful: false,
         bankAccountData: [],
       }
+    case actionType.BANK_ACCOUNT_CUSTOMER_FETCH_SUCCESSFUL:
+      return {
+        ...state,
+        bankCustomerData: action.payload,
+        bankCustomerStatus: true,
+      };
+    case actionType.BANK_ACCOUNT_CUSTOMER_FETCH_ERROR:
+      return {
+        ...state,
+        bankCustomerData: [],
+        bankCustomerStatus: false,
+      }
+
+    case actionType.BANK_CUSTOMER_OTP_VALID:
+      return {
+        ...state,
+        bankCustomerOTPStatus: true,
+      };
+    case actionType.BANK_CUSTOMER_OTP_INVALID:
+      return {
+        ...state,
+        bankCustomerOTPStatus: false,
+      }
     default:
       return state;
   }
