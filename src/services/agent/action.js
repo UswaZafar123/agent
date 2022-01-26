@@ -6,6 +6,7 @@ import { toastr } from "react-redux-toastr";
 import qs from "qs";
 import { ShowLoading, HideLoading } from "../common/action";
 import { ArrowLeftOutlined } from "@ant-design/icons";
+import { sendOtpToCustomer } from "./customer_otp_actions.js";
 
 export * from "./customer_verification_actions.js";
 export * from "./profile_actions.js";
@@ -2005,3 +2006,135 @@ export const getAgentWalletHistory = (fromDate, toDate, page, size) => (dispatch
       });
     });
 }
+
+export const doesBankAccountExist = (bankAccountNumber) => (dispatch) => {
+  dispatch({
+    type: actionType.BANK_CUSTOMER_OTP_INVALID,
+  });
+  dispatch({
+    type: actionType.BANK_ACCOUNT_CUSTOMER_FETCH_ERROR,
+    payload: [],
+  });
+  dispatch({
+    type: actionType.BANK_ACCOUNT_EXISTS_FAILURE,
+    payload: [],
+  });
+  dispatch({
+    type: actionType.BANK_ACCOUNT_DETAILS_FETCH_ERROR,
+    payload: [],
+  });
+  dispatch(ShowLoading());
+  const config = {
+    method: "GET",
+    url: URL.agent.BANK_ACCOUNT_EXISTS + `/exists/${bankAccountNumber}`
+  };
+  axios(config)
+    .then((res) => {
+      dispatch(HideLoading());
+      if (res.status === 200) {
+        if (res.data === "BankServerError") {
+          dispatch({
+            type: actionType.BANK_ACCOUNT_EXISTS_FAILURE,
+            payload: false,
+          });
+        } else {
+          // toastr.success("Account Exists..");
+          dispatch(getBankAccountDetails(bankAccountNumber));
+          dispatch(getBankAccountCustomerAndSendOTP((bankAccountNumber.split('-')[2]).substring(0, 7)));
+          dispatch({
+            type: actionType.BANK_ACCOUNT_EXISTS_SUCCESS,
+            payload: res.data,
+          });
+        }
+      }
+    })
+    .catch((err) => {
+      dispatch(HideLoading());
+      // toastr.error("Error Finding If Account Exists.");
+      dispatch({
+        type: actionType.BANK_ACCOUNT_EXISTS_FAILURE,
+        payload: false,
+      });
+    });
+}
+
+export const getBankAccountDetails = (bankAccountNumber) => (dispatch) => {
+  dispatch(ShowLoading());
+  const config = {
+    method: "GET",
+    url: URL.agent.BANK_ACCOUNT_EXISTS + `/${bankAccountNumber}`
+  };
+  axios(config)
+    .then((res) => {
+      dispatch(HideLoading());
+      if (res.status === 200) {
+        // toastr.success("Bank Account Details Fetched Successfully.")
+        dispatch({
+          type: actionType.BANK_ACCOUNT_DETAILS_FETCH_SUCCESSFUL,
+          payload: res.data,
+        });
+      }
+    })
+    .catch((err) => {
+      dispatch(HideLoading());
+      toastr.error("Bank Account Details Fetch Error.")
+      dispatch({
+        type: actionType.BANK_ACCOUNT_DETAILS_FETCH_ERROR,
+        payload: [],
+      });
+    });
+}
+
+export const getBankAccountCustomerAndSendOTP = (bankCustomerID) => (dispatch) => {
+  dispatch(ShowLoading());
+  const config = {
+    method: "GET",
+    url: URL.agent.GET_BANKACCOUNT_CUSTOMER + `/${bankCustomerID}`
+  };
+  axios(config)
+    .then((res) => {
+      dispatch(HideLoading());
+      if (res.status === 200) {
+        toastr.success("Bank Account Customer Available.");
+        dispatch({
+          type: actionType.BANK_ACCOUNT_CUSTOMER_FETCH_SUCCESSFUL,
+          payload: res.data,
+        });
+      }
+    })
+    .catch((err) => {
+      dispatch(HideLoading());
+      toastr.error("Bank Account Customer Error.")
+      dispatch({
+        type: actionType.BANK_ACCOUNT_CUSTOMER_FETCH_ERROR,
+        payload: [],
+      });
+    });
+}
+
+export const verifyBankCustomerOTP = (payload) => (dispatch) => {
+  dispatch(ShowLoading());
+  const config = {
+    method: "POST",
+    url: URL.merchant.VERIFY_OTP,
+    data: payload
+  };
+  axios(config)
+    .then((res) => {
+      dispatch(HideLoading());
+      if (res.status === 200) {
+        toastr.success("OTP is Valid.");
+        dispatch({
+          type: actionType.BANK_CUSTOMER_OTP_VALID,
+        });
+      }
+    })
+    .catch((err) => {
+      dispatch(HideLoading());
+      toastr.error("OTP Error.")
+      dispatch({
+        type: actionType.BANK_CUSTOMER_OTP_INVALID,
+      });
+    });
+}
+

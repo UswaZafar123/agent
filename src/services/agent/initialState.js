@@ -283,5 +283,14 @@ const initialState = {
   linkingRequestsData: null,
   walletHistoryData: null,
   walletHistoryStatus: false,
+  accountExistsAPISuccess : false,
+  bankAccountExists : false,
+
+  bankAccountDetailsFetchSuccessful : false,
+  bankAccountData : [],
+  bankCustomerData : [],
+  bankCustomerStatus : false,
+
+  bankCustomerOTPStatus : false,
 };
 export default initialState;

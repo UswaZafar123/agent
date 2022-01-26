@@ -29,9 +29,9 @@ export const fetchSuperAgentDetail = (token, payload) => (dispatch) => {
     })
     .catch((error) => {
       toastr.error("Error", error.response.data.detail)
-      dispatch({
-        type: actionType.SUPER_AGENT_DETAIL_ERROR,
-      });
+      // dispatch({
+      //   type: actionType.SUPER_AGENT_DETAIL_ERROR,
+      // });
     });
 };
 

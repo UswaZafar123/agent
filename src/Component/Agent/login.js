@@ -33,7 +33,19 @@ class Login extends Component {
       showLoginError: false,
       loginType: "",
       messages: "",
+      language: "",
     };
+  }
+
+  async translationHelperFunction() {
+
+    const messages = await this.loadLocaleData(localStorage.getItem("lang"));
+    this.setState({
+      messages: messages,
+      language: localStorage.getItem("lang")
+    });
+    // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
+
   }
 
   loadLocaleData = (locale) => {
@@ -70,6 +82,8 @@ class Login extends Component {
     });
 
     this.props.loginAgentFailure();
+
+    this.translationHelperFunction();
   }
 
   // rechaptchaEnable = () =>{
@@ -158,7 +172,7 @@ class Login extends Component {
     localStorage.setItem("email", email);
   };
 
-  componentWillReceiveProps = (nextProps) => {
+  componentWillReceiveProps = async (nextProps) => {
     let userType;
 
     if (nextProps.agentLoginstatus) {
@@ -207,6 +221,15 @@ class Login extends Component {
     if (!nextProps.loginStatus) {
       this.setState({ loginFailed: "Incorrect email address or password" });
     }
+
+    if (nextProps.language) {
+      const messages = await this.loadLocaleData(nextProps.language);
+
+      this.setState({
+        messages: messages,
+        language: nextProps.language
+      });
+    }
   };
 
   setLogin = () => {
@@ -244,6 +267,10 @@ class Login extends Component {
 
     return (
       //By using Fragment as parent div will not create an extra dom element //
+      <IntlProvider
+      messages={this.state.messages.default}
+      locale={this.state.language}
+    >
       <Fragment>
         <section className="loginWrapper accountWrapper">
           <NavBar language={this.language} />
@@ -398,15 +425,18 @@ class Login extends Component {
           </IntlProvider>
         </section>
       </Fragment>
+      </IntlProvider>
     );
   }
 }
 
 // function for mapping redux state values with props //
-const mapStateToProps = ({ agentReducer }) => {
+const mapStateToProps = ({ agentReducer, commonReducer }) => {
   const { agentLoginstatus } = agentReducer;
+  const { language } = commonReducer;
   return {
     agentLoginstatus,
+    language,
   };
 };
 

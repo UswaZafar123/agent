@@ -110,6 +110,7 @@ import UpgradeToAgentBanker from "./Component/page/Profile/UpgradeToAgentBanker"
 import LinkToAgentBanker from "./Component/page/Profile/LinkToAgentBanker";
 import LinkingRequests from "./Component/page/Profile/LinkingRequests";
 import LinkedAgents from "./Component/page/Profile/LinkedAgents";
+import AddAccount from "./Component/page/Profile/AddAccount";
 
 export const App = (props) => {
   const [toggleMenuVar, setToggleMenuVar] = useState(false)
@@ -421,6 +422,10 @@ export const App = (props) => {
                     <Route
                       path="/Profile/upgrade-agentbanker"
                       component={UpgradeToAgentBanker}
+                    />
+                    <Route
+                      path="/Profile/bank-account"
+                      component={AddAccount}
                     />
                     <Route
                       path="/Profile/linked-agents"

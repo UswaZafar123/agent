@@ -457,10 +457,14 @@ const WalletAccountOpening = () => {
 
   const walletAccountOpeningForm = () => {
     return (
+      <IntlProvider
+      messages={messages.default}
+      locale={language}
+    >
       <>
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6}>
-            <label className="non-afb-label">Customer Type</label>
+            <label className="non-afb-label"><FormattedMessage id="agent.CustomerType" /></label>
             <div className="inputFlash">
               <div className="categorySelect">
                 <Select
@@ -475,10 +479,10 @@ const WalletAccountOpening = () => {
                   }}
                 >
                   <Option value="NON_EXISTING_BANK_CUSTOMER">
-                    NON EXISTING BANK CUSTOMER(NON AFB)
+                    <FormattedMessage id="agent.NONEXISTINGBANKCUSTOMER(NON AFB)" />
                   </Option>
                   <Option value="EXISTING_BANK_CUSTOMER">
-                    EXISTING BANK CUSTOMER(AFB)
+                  <FormattedMessage id="agent.EXISTINGBANKCUSTOMER(AFB)" />
                   </Option>
                 </Select>
               </div>
@@ -486,11 +490,13 @@ const WalletAccountOpening = () => {
           </Grid>
           {formState.customerType === "EXISTING_BANK_CUSTOMER" && (
             <Grid item xs={12} sm={6}>
-              <label className="non-afb-label"> Bank Customer ID </label>
+              <label className="non-afb-label"> <FormattedMessage id="agent.BankCustomerID" /> </label>
               <div className="inputFlash">
+                <FormattedMessage id="agent.BankCustomerID">
+                  {placeholder =>
                 <input
                   type="number"
-                  placeholder="Bank Customer ID"
+                  placeholder={placeholder}
                   name="bankCustomerId"
                   value={formState.bankCustomerId}
                   onChange={(e) => {
@@ -499,17 +505,20 @@ const WalletAccountOpening = () => {
                       bankCustomerId: e.target.value,
                     });
                   }}
-                />
+                />}
+                </FormattedMessage>
               </div>
             </Grid>
           )}
 
           <Grid item xs={12} sm={6}>
-            <label className="non-afb-label"> First Name </label>
+            <label className="non-afb-label"> <FormattedMessage id="agent.FirstName" /> </label>
             <div className="inputFlash">
+              <FormattedMessage id="agent.FirstName">
+                {placeholder =>
               <input
                 type="text"
-                placeholder="First Name"
+                placeholder={placeholder}
                 name="firstName"
                 value={formState.firstName}
                 onChange={(e) => {
@@ -518,15 +527,18 @@ const WalletAccountOpening = () => {
                     firstName: e.target.value,
                   });
                 }}
-              />
+              />}
+              </FormattedMessage>
             </div>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <label className="non-afb-label"> Last Name </label>
+            <label className="non-afb-label"> <FormattedMessage id="agent.LastName" /> </label>
             <div className="inputFlash">
+              <FormattedMessage id="agent.LastName">
+                {placeholder =>
               <input
                 type="text"
-                placeholder="Last name"
+                placeholder={placeholder}
                 name="lastName"
                 value={formState.lastName}
                 onChange={(e) => {
@@ -536,16 +548,19 @@ const WalletAccountOpening = () => {
                     lastName: e.target.value,
                   });
                 }}
-              />
+              />}
+              </FormattedMessage>
             </div>
           </Grid>
 
           <Grid item xs={12} sm={6}>
-            <label className="non-afb-label">Email Id </label>
+            <label className="non-afb-label"><FormattedMessage id="agent.EmailId" /> </label>
             <div className="inputFlash">
+              <FormattedMessage id="agent.Email">
+                {placeholder =>
               <input
                 type="email"
-                placeholder="Email"
+                placeholder={placeholder}
                 name="email"
                 value={formState.email}
                 onChange={(e) => {
@@ -555,11 +570,12 @@ const WalletAccountOpening = () => {
                     email: e.target.value,
                   });
                 }}
-              />
+              />}
+              </FormattedMessage>
             </div>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <label className="non-afb-label">Country Code</label>
+            <label className="non-afb-label"><FormattedMessage id="agent.CountryCode" /></label>
             <div className="inputFlash">
               <div className="categorySelect">
                 <Select
@@ -596,11 +612,13 @@ const WalletAccountOpening = () => {
             </div>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <label className="non-afb-label">Mobile Number </label>
+            <label className="non-afb-label"><FormattedMessage id="agent.MobileNumber" /> </label>
             <div className="inputFlash">
+              <FormattedMessage id="agent.MobileNumber">
+                {placeholder =>
               <input
                 type="number"
-                placeholder="Mobile no"
+                placeholder={placeholder}
                 name="mobileNumber"
                 value={formState.phoneNumber}
                 onChange={(e) => {
@@ -609,11 +627,12 @@ const WalletAccountOpening = () => {
                     phoneNumber: e.target.value,
                   });
                 }}
-              />
+              />}
+              </FormattedMessage>
             </div>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <label className="non-afb-label"> Date of Birth </label>
+            <label className="non-afb-label"> <FormattedMessage id="agent.dob" /> </label>
             <div className="inputFlash">
               <DatePicker
                 format="YYYY-MM-DD"
@@ -629,7 +648,7 @@ const WalletAccountOpening = () => {
             </div>
           </Grid>
           <Grid item xs={12} sm={6} style={{ marginBottom: "50px" }}>
-            <label className="non-afb-label">Picture(Selfie)</label>
+            <label className="non-afb-label"><FormattedMessage id="agent.Picture(Selfie)" /></label>
             <div className="inputFlash">
               <Upload
                 listType="picture-card"
@@ -657,7 +676,7 @@ const WalletAccountOpening = () => {
             </div>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <label className="non-afb-label">Document Type</label>
+            <label className="non-afb-label"><FormattedMessage id="agent.DocumentType" /></label>
             <div className="inputFlash">
               <div className="categorySelect">
                 <Select
@@ -671,18 +690,20 @@ const WalletAccountOpening = () => {
                     });
                   }}
                 >
-                  <Option value="ID_CARD">ID CARD</Option>
-                  <Option value="PASSPORT">Passport</Option>
+                  <Option value="ID_CARD"><FormattedMessage id="agent.IDCard" /></Option>
+                  <Option value="PASSPORT"><FormattedMessage id="agent.Passport" /></Option>
                 </Select>
               </div>
             </div>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <label className="non-afb-label">Document Number</label>
+            <label className="non-afb-label"><FormattedMessage id="agent.DocumentNumber" /></label>
             <div className="inputFlash">
+              <FormattedMessage id="agent.Number">
+                {placeholder =>
               <input
                 type="text"
-                placeholder="Number"
+                placeholder={placeholder}
                 name="number"
                 value={formState.idDocumentNumber}
                 onChange={(e) => {
@@ -691,11 +712,12 @@ const WalletAccountOpening = () => {
                     idDocumentNumber: e.target.value,
                   });
                 }}
-              />
+              />}
+              </FormattedMessage>
             </div>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <label className="non-afb-label">Document Expiry Date</label>
+            <label className="non-afb-label"><FormattedMessage id="agent.DocumentExpiryDate" /></label>
             <div className="inputFlash">
               <DatePicker
                 disabledDate={(current) => {
@@ -716,7 +738,7 @@ const WalletAccountOpening = () => {
 
           <Grid item xs={12} sm={6} style={{ marginBottom: "50px" }}>
             <label className="non-afb-label">
-              Upload document files(MAX: 2)
+            <FormattedMessage id="agent.Uploaddocumentfiles(MAX:2)" />
             </label>
             <div className="inputFlash">
               <Upload
@@ -745,11 +767,13 @@ const WalletAccountOpening = () => {
             </div>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <label className="non-afb-label">City </label>
+            <label className="non-afb-label"><FormattedMessage id="agent.City" /> </label>
             <div className="inputFlash">
+              <FormattedMessage id="agent.City">
+                {placeholder =>
               <input
                 type="text"
-                placeholder="city"
+                placeholder={placeholder}
                 name="city"
                 value={formState.city}
                 onChange={(e) => {
@@ -758,15 +782,18 @@ const WalletAccountOpening = () => {
                     city: e.target.value,
                   });
                 }}
-              />
+              />}
+              </FormattedMessage>
             </div>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <label className="non-afb-label">Address </label>
+            <label className="non-afb-label"><FormattedMessage id="agent.Address" /> </label>
             <div className="inputFlash">
+              <FormattedMessage id="agent.Address">
+                {placeholder =>
               <input
                 type="text"
-                placeholder="Address"
+                placeholder={placeholder}
                 name="address"
                 value={formState.address}
                 onChange={(e) => {
@@ -775,11 +802,13 @@ const WalletAccountOpening = () => {
                     address: e.target.value,
                   });
                 }}
-              />
+              />}
+              </FormattedMessage>
             </div>
           </Grid>
         </Grid>
       </>
+      </IntlProvider>
     );
   };
 
@@ -919,7 +948,7 @@ const WalletAccountOpening = () => {
                         className="list_top_heading textAlignCenter text-center"
                         style={{ paddingLeft: "0px" }}
                       >
-                        Wallet Account Opening
+                        <FormattedMessage id="agent.WalletAccountOpening" />
                         {/* <FormattedMessage id="agent.WalletCashDeposit" /> */}
                       </h1>
                     </div>
@@ -950,7 +979,7 @@ const WalletAccountOpening = () => {
                           className="blackbtn aryousureBTN confirmBtnR"
                           onClick={() => prevStep()}
                         >
-                          Back
+                          <FormattedMessage id="back" />
                         </button>
                       ) : (
                         ""
@@ -961,7 +990,7 @@ const WalletAccountOpening = () => {
                         disabled={isFormValidated() ? false : true}
                         onClick={() => formSubmitAction()}
                       >
-                        {step === 3 ? "Submit" : step === 4 ? "Done" : "Next"}
+                        {step === 3 ? "Submit" : step === 4 ? "Done" : <FormattedMessage id="agent.Next" />}
                       </button>
                     </div>
                   </div>

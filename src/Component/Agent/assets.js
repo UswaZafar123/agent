@@ -9,6 +9,7 @@ import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import { connect } from "react-redux";
 import { Select, Dropdown } from "antd";
+import { FormattedMessage, IntlProvider } from "react-intl";
 import { addAsset, deleteAsset, getAllAssets, updateAsset } from "../../services/agent/action";
 const { Option } = Select;
 
@@ -33,11 +34,11 @@ class Ticket extends Component {
           cellRendererFramework: (params) => (
             <div className="ac-view">
               <button onClick={(e) => this.editAsset(e, params.data)}>
-                {"Edit"}
+                {<FormattedMessage id="agent.Edit" />}
               </button>
               &ensp;
               <button onClick={(e) => this.deleteAsset(e, params.data)}>
-                {"Delete"}
+                {<FormattedMessage id="agent.Delete" />}
               </button>
             </div>
           ),
@@ -57,6 +58,8 @@ class Ticket extends Component {
       assetName: "",
       assetStatus: false,
       assetID: "",
+      messages: "",
+      language: ""
     };
   }
   save = () => {
@@ -209,11 +212,33 @@ class Ticket extends Component {
     }
   };
 
-  componentDidMount() {
-    this.props.getAllAssets(sessionStorage.getItem("token"));
+  async translationHelperFunction() {
+
+    const messages = await this.loadLocaleData(localStorage.getItem("lang"));
+    this.setState({
+      messages: messages,
+      language: localStorage.getItem("lang")
+    });
+    // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
+
   }
 
-  componentWillReceiveProps(nextProps) {
+  loadLocaleData = (locale) => {
+    switch (locale) {
+      case "fr":
+        return import("../i18n/messages/fr.js");
+      default:
+        return import("../i18n/messages/en.js");
+    }
+  };
+
+  componentDidMount() {
+    this.props.getAllAssets(sessionStorage.getItem("token"));
+
+    this.translationHelperFunction();
+  }
+
+ async componentWillReceiveProps(nextProps) {
 
     if (nextProps.assetDetails) {
       console.log("hello next", nextProps.assetDetails._embedded.assetDtoList);
@@ -228,6 +253,68 @@ class Ticket extends Component {
 
     if (nextProps.editAssetStatus && nextProps.editAssetData) {
       this.goToMainAssetPage();
+    }
+
+    if (nextProps.language) {
+      const messages = await this.loadLocaleData(nextProps.language);
+
+      this.setState({
+        messages: messages,
+        language: nextProps.language
+      });
+    }
+
+    if(nextProps.language=="fr"){
+      this.setState({
+        columnDefs: [
+          { headerName: "Nom", field: "name", width: 250 },
+          { headerName: "État ", field: "status" },
+          {
+            headerName: "Action",
+            field: "Action",
+            cellRendererFramework: (params) => (
+              <div className="ac-view">
+                <button onClick={(e) => this.editAsset(e, params.data)}>
+                  {<FormattedMessage id="agent.Edit" />}
+                </button>
+                &ensp;
+                <button onClick={(e) => this.deleteAsset(e, params.data)}>
+                  {<FormattedMessage id="agent.Delete" />}
+                </button>
+              </div>
+            ),
+            cellStyle: (params) => {
+              return { textAlign: "center" };
+            },
+          },
+        ],
+      });
+    }
+    else{
+      this.setState({
+        columnDefs: [
+          { headerName: "Name", field: "name", width: 250 },
+          { headerName: "Status ", field: "status" },
+          {
+            headerName: "Action",
+            field: "Action",
+            cellRendererFramework: (params) => (
+              <div className="ac-view">
+                <button onClick={(e) => this.editAsset(e, params.data)}>
+                  {<FormattedMessage id="agent.Edit" />}
+                </button>
+                &ensp;
+                <button onClick={(e) => this.deleteAsset(e, params.data)}>
+                  {<FormattedMessage id="agent.Delete" />}
+                </button>
+              </div>
+            ),
+            cellStyle: (params) => {
+              return { textAlign: "center" };
+            },
+          },
+        ],
+      });
     }
 
   }
@@ -286,6 +373,10 @@ class Ticket extends Component {
     console.log("show summary", this.state.summary);
     // console.log("jai",this.state.paginationGetCurrentPage)
     return (
+      <IntlProvider
+      messages={this.state.messages.default}
+      locale={this.state.language}
+    >
       <>
         {
           this.state.mainAssetView && (
@@ -299,13 +390,13 @@ class Ticket extends Component {
                           <div className="chartCardTop">
                             <div className="kyccustomformheading">
                               <h1 className="list_top_heading textAlignCenter text-center">
-                                Assets
+                              <FormattedMessage id="agent.Assets" />
                               </h1>
                               <button
                                 className="addposbtn c_first_pending_BTN btnMaxWidth"
                                 onClick={this.addChange}
                               >
-                                Add Assets
+                                <FormattedMessage id="agent.AddAssets" />
                               </button>
                             </div>
                           </div>
@@ -315,7 +406,7 @@ class Ticket extends Component {
                           >
                             <div className="tableTop_wrapper">
                               <div className="disFl">
-                                <h5 className="show_pp margin_right8">Show</h5>
+                                <h5 className="show_pp margin_right8"><FormattedMessage id="agent.Show" /></h5>
                                 <div className="tableShowRecordPerPage">
                                   <Select
                                     defaultValue="10"
@@ -330,14 +421,14 @@ class Ticket extends Component {
                                   </Select>
                                 </div>
 
-                                <h5 className="show_pp margin_left8">Entries</h5>
+                                <h5 className="show_pp margin_left8"><FormattedMessage id="agent.Entries" /></h5>
                                 <div
                                   className="margin-left-auto"
                                   style={{ display: "flex", alignItems: "center" }}
                                 >
                                   <div className="shortCustom">
                                     <span className="icon-Asset-55"></span>
-                                    <h6>Sort</h6>
+                                    <h6><FormattedMessage id="agent.Sort" /></h6>
                                   </div>
                                   <div className="shortCustom">
                                     <Dropdown
@@ -345,19 +436,19 @@ class Ticket extends Component {
                                         <ul class="filterDrd">
                                           <li>
                                             <a href="#">
-                                              <span class="icon-logout"></span>All
+                                              <span class="icon-logout"></span><FormattedMessage id="agent.All" />
                                             </a>
                                           </li>
                                           <li>
                                             <a href="#">
                                               <span class="icon-logout"></span>
-                                              Inactive
+                                              <FormattedMessage id="agent.Inactive" />
                                             </a>
                                           </li>
                                           <li>
                                             <a href="#">
                                               <span class="icon-logout"></span>
-                                              Active
+                                              <FormattedMessage id="agent.Active" />
                                             </a>
                                           </li>
                                         </ul>
@@ -367,7 +458,7 @@ class Ticket extends Component {
                                     >
                                       <div className="shortCustom01">
                                         <span className="icon-Asset-54"></span>
-                                        <h6>Filter</h6>
+                                        <h6><FormattedMessage id="agent.Filter" /></h6>
                                       </div>
                                     </Dropdown>
                                   </div>
@@ -416,20 +507,20 @@ class Ticket extends Component {
                             </div>
                             <div className="customAgFooter">
                               <div className="showingFooter">
-                                <span>Showing</span>
+                                <span><FormattedMessage id="agent.Showing" /></span>
                                 <span id="bTo"> </span>
-                                <span>to</span>
+                                <span><FormattedMessage id="agent.To" /></span>
                                 <span id="afterTo"></span>
-                                <span>of</span>
+                                <span><FormattedMessage id="agent.Of" /></span>
                                 <span id="totalPageSize"></span>
-                                <span>entries</span>
+                                <span><FormattedMessage id="agent.Entries" /></span>
                               </div>
                               <div className="NextPrevW">
                                 <button
                                   className="NextPrev"
                                   onClick={() => this.onBtPrevious()}
                                 >
-                                  Prev
+                                  <FormattedMessage id="agent.Prev" />
                                 </button>
                                 <span
                                   className="valueNextPrev"
@@ -439,7 +530,7 @@ class Ticket extends Component {
                                   className="NextPrev"
                                   onClick={() => this.onBtNext()}
                                 >
-                                  Next
+                                   <FormattedMessage id="agent.Next" />
                                 </button>
                               </div>
                             </div>
@@ -465,7 +556,7 @@ class Ticket extends Component {
                         <div className="chartCardTop">
                           <div className="kyccustomformheading">
                             <h1 className="list_top_heading textAlignCenter text-center">
-                              Add New Asset
+                            <FormattedMessage id="agent.AddNewAsset" />
                             </h1>
                           </div>
                         </div>
@@ -474,19 +565,22 @@ class Ticket extends Component {
                           <div className="containerBiaN_form">
                             <div className="containerBiaN_f_row">
                               <div className="containerBiaN_f_col width30percent textAlignRight">
-                                <label>Name<span className="mantdat">*</span></label>
+                                <label><FormattedMessage id="agent.Name" /><span className="mantdat">*</span></label>
                               </div>
                               <div className="containerBiaN_f_col width70percent">
-                                <input type="text" value={this.state.assetName} placeholder="Enter Asset Name" onChange={(e) => {
+                              <FormattedMessage id="agent.EnterAssetName">
+                                {placeholder =>
+                                <input type="text" value={this.state.assetName} placeholder={placeholder} onChange={(e) => {
                                   this.setState({
                                     assetName: e.target.value
                                   });
-                                }} />
+                                }} />}
+                              </FormattedMessage>
                               </div>
                             </div>
                             <div className="containerBiaN_f_row">
                               <div className="containerBiaN_f_col width30percent textAlignRight">
-                                <label>Status <span className="mantdat">*</span></label>
+                                <label><FormattedMessage id="agent.Status" /> <span className="mantdat">*</span></label>
                               </div>
                               <div className="containerBiaN_f_col width70percent">
                                 <div className="categorySelect">
@@ -500,8 +594,8 @@ class Ticket extends Component {
                                     }}
                                     id={'page-size'}
                                   >
-                                    <Option value={true}>Active</Option>
-                                    <Option value={false}>Inactive</Option>
+                                    <Option value={true}><FormattedMessage id="agent.Active" /></Option>
+                                    <Option value={false}><FormattedMessage id="agent.Inactive" /></Option>
                                   </Select>
                                 </div>
                               </div>
@@ -510,8 +604,8 @@ class Ticket extends Component {
 
                           <div style={{ width: "100%", float: "left" }}>
                             <div className="confirm_p_w mTB00 button-container rspacing">
-                              <button className="blackbtn aryousureBTN confirmBtnR" onClick={this.goToMainAssetPage}>Cancel</button>
-                              <button className="aryousureBTN confirmBtnR" onClick={this.onAddAsset}>Submit</button>
+                              <button className="blackbtn aryousureBTN confirmBtnR" onClick={this.goToMainAssetPage}><FormattedMessage id="cancel" /></button>
+                              <button className="aryousureBTN confirmBtnR" onClick={this.onAddAsset}><FormattedMessage id="submit" /></button>
                             </div>
                           </div>
                         </div>
@@ -535,7 +629,7 @@ class Ticket extends Component {
                         <div className="chartCardTop">
                           <div className="kyccustomformheading">
                             <h1 className="list_top_heading textAlignCenter text-center">
-                              Update Asset
+                            <FormattedMessage id="agent.UpdateAsset" />
                             </h1>
                           </div>
                         </div>
@@ -544,19 +638,22 @@ class Ticket extends Component {
                           <div className="containerBiaN_form">
                             <div className="containerBiaN_f_row">
                               <div className="containerBiaN_f_col width30percent textAlignRight">
-                                <label>Name<span className="mantdat">*</span></label>
+                                <label><FormattedMessage id="agent.Name" /><span className="mantdat">*</span></label>
                               </div>
                               <div className="containerBiaN_f_col width70percent">
-                                <input type="text" value={this.state.assetName} placeholder="Enter Asset Name" onChange={(e) => {
+                              <FormattedMessage id="agent.EnterAssetName">
+                                  {placeholder =>
+                                <input type="text" value={this.state.assetName} placeholder={placeholder} onChange={(e) => {
                                   this.setState({
                                     assetName: e.target.value
                                   });
-                                }} />
+                                }} />}
+                              </FormattedMessage>
                               </div>
                             </div>
                             <div className="containerBiaN_f_row">
                               <div className="containerBiaN_f_col width30percent textAlignRight">
-                                <label>Status <span className="mantdat">*</span></label>
+                                <label><FormattedMessage id="agent.Status" /> <span className="mantdat">*</span></label>
                               </div>
                               <div className="containerBiaN_f_col width70percent">
                                 <div className="categorySelect">
@@ -570,8 +667,8 @@ class Ticket extends Component {
                                     }}
                                     id={'page-size'}
                                   >
-                                    <Option value={true}>Active</Option>
-                                    <Option value={false}>Inactive</Option>
+                                    <Option value={true}><FormattedMessage id="agent.Active" /></Option>
+                                    <Option value={false}><FormattedMessage id="agent.Inactive" /></Option>
                                   </Select>
                                 </div>
                               </div>
@@ -580,7 +677,7 @@ class Ticket extends Component {
 
                           <div style={{ width: "100%", float: "left" }}>
                             <div className="confirm_p_w mTB00 button-container rspacing">
-                              <button className="blackbtn aryousureBTN confirmBtnR" onClick={this.goToMainAssetPage}>Cancel</button>
+                              <button className="blackbtn aryousureBTN confirmBtnR" onClick={this.goToMainAssetPage}><FormattedMessage id="cancel" /></button>
                               <button className="aryousureBTN confirmBtnR" onClick={this.onEditAsset}>Update</button>
                             </div>
                           </div>
@@ -596,17 +693,19 @@ class Ticket extends Component {
 
         }
       </>
+      </IntlProvider>
     );
   }
 }
-const mapStateToProps = ({ agentReducer }) => {
+const mapStateToProps = ({ agentReducer, commonReducer }) => {
 
   return {
     addAssetStatus: agentReducer.addAssetStatus,
     addAssetData: agentReducer.addAssetData,
     assetDetails: agentReducer.assetDetails,
     editAssetStatus: agentReducer.editAssetStatus,
-    editAssetData: agentReducer.editAssetData
+    editAssetData: agentReducer.editAssetData,
+    language: commonReducer.language,
   }
 
 };

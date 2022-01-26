@@ -23,6 +23,7 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import feeConstants from "../../../Assets/feeConstants";
+import { FormattedMessage, IntlProvider } from 'react-intl';
 
 import {
   fetchAgentBankAccounts,
@@ -71,6 +72,11 @@ const CashOut = () => {
   const [otpTimer, setOtpTimer] = React.useState(resendTime);
   const [otp, setOtp] = useState("");
   const [selectedTab, setSelectedTab] = useState(0);
+
+  const [messages, setMessages] = useState("");
+  const [language, setLanguage] = useState("");
+
+  const lan = useSelector(state => state.commonReducer.language);
 
   const dispatch = useDispatch();
   const agentProfile = useSelector((state) => state.agentReducer.profile.data);
@@ -139,6 +145,36 @@ const CashOut = () => {
       }
     }
   }, [otpTimer, step]);
+
+
+  useEffect(async () => {
+
+    const messages = await loadLocaleData(localStorage.getItem("lang"));
+    setMessages(messages);
+
+    setLanguage(localStorage.getItem("lang"));
+
+    // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
+
+  }, [])
+
+  const loadLocaleData = (locale) => {
+    switch (locale) {
+      case "fr":
+        return import("../../i18n/messages/fr.js");
+      default:
+        return import("../../i18n/messages/en.js");
+    }
+  };
+
+  useEffect(async () => {
+
+    const messages = await loadLocaleData(lan);
+    setMessages(messages);
+
+    setLanguage(lan);
+
+  }, [lan])
 
   useEffect(() => {
     if (firstUpdate.current) {
@@ -521,104 +557,109 @@ const CashOut = () => {
   };
 
   return (
-    <div className="main_contain agentformCenter">
-      <div className="merch_m_list_w">
-        <div className="merch_list_card" id="merch_list_card">
-          <div className="section_custom">
-            <div className="sectionInn">
-              <div className="chartCard_w">
-                <div className="chartCardTop">
-                  <div className="kyccustomformheading">
-                    <h1
-                      className="list_top_heading textAlignCenter text-center"
-                      style={{ paddingLeft: "0px" }}
-                    >
-                      Wallet Cash Out
-                    </h1>
-                  </div>
-                </div>
-                <div className="chartCardMiddle" style={{ padding: "24px" }}>
-                  <div
-                    className={classes.root}
-                    style={{ width: "100%", margin: "auto" }}
-                  >
-                    {step === 1 && (
-                      <AppBar
-                        position="static"
-                        style={{ backgroundColor: "rgb(52 58 64 / 100%)" }}
+    <IntlProvider
+      messages={messages.default}
+      locale={language}
+    >
+      <div className="main_contain agentformCenter">
+        <div className="merch_m_list_w">
+          <div className="merch_list_card" id="merch_list_card">
+            <div className="section_custom">
+              <div className="sectionInn">
+                <div className="chartCard_w">
+                  <div className="chartCardTop">
+                    <div className="kyccustomformheading">
+                      <h1
+                        className="list_top_heading textAlignCenter text-center"
+                        style={{ paddingLeft: "0px" }}
                       >
-                        <Tabs
-                          variant="fullWidth"
-                          value={selectedTab}
-                          onChange={handleTabChange}
+                        <FormattedMessage id="agent.WalletCashOut" />
+                      </h1>
+                    </div>
+                  </div>
+                  <div className="chartCardMiddle" style={{ padding: "24px" }}>
+                    <div
+                      className={classes.root}
+                      style={{ width: "100%", margin: "auto" }}
+                    >
+                      {step === 1 && (
+                        <AppBar
+                          position="static"
+                          style={{ backgroundColor: "rgb(52 58 64 / 100%)" }}
                         >
-                          <Tab label="Credit/Debit Card" />
-                          {agentProfile.registrationType ===
-                            "EXISTING_BANK_CUSTOMER" && (
-                              <Tab label="Bank Account" />
-                            )}
-                        </Tabs>
-                      </AppBar>
-                    )}
-
-                    {selectedTab === 0 && (
-                      <TabContainer>
-                        <div>
-                          <p>This feature will be available soon</p>
-                        </div>
-                      </TabContainer>
-                    )}
-
-                    {agentProfile.registrationType ===
-                      "EXISTING_BANK_CUSTOMER" &&
-                      selectedTab === 1 && (
-                        <div style={{ margin: "16px 0px" }}>
-                          {(() => {
-                            switch (step) {
-                              case 1:
-                                return bankCashOutForm();
-                              case 2:
-                                return transactionDetails();
-                              case 3:
-                                return agentOtpType();
-                              case 4:
-                                return agentOtp();
-                              case 5:
-                                return transactionSuccess();
-                              default:
-                                return <div></div>;
-                            }
-                          })()}
-                          <div>
-                            <div className="confirm_p_w button-container rspacing">
-                              {(step !== 1) & (step !== 5) ? (
-                                <button
-                                  className="blackbtn aryousureBTN confirmBtnR"
-                                  onClick={() => prevStep()}
-                                >
-                                  Back
-                                </button>
-                              ) : (
-                                ""
+                          <Tabs
+                            variant="fullWidth"
+                            value={selectedTab}
+                            onChange={handleTabChange}
+                          >
+                            <Tab label={<FormattedMessage id="agent.Credit/DebitCard" />} />
+                            {agentProfile.registrationType ===
+                              "EXISTING_BANK_CUSTOMER" && (
+                                <Tab label={<FormattedMessage id="agent.BankAccount" />} />
                               )}
-                              <button
-                                className="aryousureBTN confirmBtnR"
-                                style={{
-                                  opacity: isFormValidated() ? "1" : "0.5",
-                                }}
-                                disabled={isFormValidated() ? false : true}
-                                onClick={() => formSubmitAction()}
-                              >
-                                {step === 4
-                                  ? "Submit"
-                                  : step === 5
-                                    ? "Done"
-                                    : "Next"}
-                              </button>
+                          </Tabs>
+                        </AppBar>
+                      )}
+
+                      {selectedTab === 0 && (
+                        <TabContainer>
+                          <div>
+                            <p><FormattedMessage id="agent.Thisfeaturewillbeavailablesoon" /></p>
+                          </div>
+                        </TabContainer>
+                      )}
+
+                      {agentProfile.registrationType ===
+                        "EXISTING_BANK_CUSTOMER" &&
+                        selectedTab === 1 && (
+                          <div style={{ margin: "16px 0px" }}>
+                            {(() => {
+                              switch (step) {
+                                case 1:
+                                  return bankCashOutForm();
+                                case 2:
+                                  return transactionDetails();
+                                case 3:
+                                  return agentOtpType();
+                                case 4:
+                                  return agentOtp();
+                                case 5:
+                                  return transactionSuccess();
+                                default:
+                                  return <div></div>;
+                              }
+                            })()}
+                            <div>
+                              <div className="confirm_p_w button-container rspacing">
+                                {(step !== 1) & (step !== 5) ? (
+                                  <button
+                                    className="blackbtn aryousureBTN confirmBtnR"
+                                    onClick={() => prevStep()}
+                                  >
+                                    Back
+                                  </button>
+                                ) : (
+                                  ""
+                                )}
+                                <button
+                                  className="aryousureBTN confirmBtnR"
+                                  style={{
+                                    opacity: isFormValidated() ? "1" : "0.5",
+                                  }}
+                                  disabled={isFormValidated() ? false : true}
+                                  onClick={() => formSubmitAction()}
+                                >
+                                  {step === 4
+                                    ? "Submit"
+                                    : step === 5
+                                      ? "Done"
+                                      : "Next"}
+                                </button>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      )}
+                        )}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -626,7 +667,7 @@ const CashOut = () => {
           </div>
         </div>
       </div>
-    </div>
+    </IntlProvider>
   );
 };
 

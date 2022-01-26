@@ -15,6 +15,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Card } from "react-bootstrap";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import actionType from "../../services/agent/actionType.js";
+import { FormattedMessage, IntlProvider } from 'react-intl';
 
 import {
   verifyCustomer,
@@ -30,8 +31,8 @@ const BankAccountStatement = () => {
   const firstUpdate = useRef(true);
   const [step, setStep] = useState(1);
   const idDocumentTypes = [
-    { name: "ID Card", value: "ID_CARD" },
-    { name: "Passport", value: "PASSPORT" },
+    { name: "agent.IDCard", value: "ID_CARD" },
+    { name: "agent.Passport", value: "PASSPORT" },
   ];
   const otpTypes = [
     { name: "Email", value: "EMAIL" },
@@ -39,10 +40,15 @@ const BankAccountStatement = () => {
   ];
 
   const sendTypes = [
-    { name: "Email", value: "EMAIL" },
+    { name: "agent.Email", value: "EMAIL" },
     // { name: "SMS", value: "SMS" },
     // { name: "Both", value: "BOTH" },
   ];
+
+  const [messages, setMessages] = useState("");
+  const [language, setLanguage] = useState("");
+
+  const lan = useSelector(state => state.commonReducer.language)
 
   const [bankCustomerId, setBankCustomerId] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -101,6 +107,35 @@ const BankAccountStatement = () => {
       });
     };
   }, []);
+
+  useEffect(async () => {
+
+    const messages = await loadLocaleData(localStorage.getItem("lang"));
+    setMessages(messages);
+
+    setLanguage(localStorage.getItem("lang"));
+
+    // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
+
+  }, [])
+
+  const loadLocaleData = (locale) => {
+    switch (locale) {
+      case "fr":
+        return import("../i18n/messages/fr.js");
+      default:
+        return import("../i18n/messages/en.js");
+    }
+  };
+
+  useEffect(async () => {
+
+    const messages = await loadLocaleData(lan);
+    setMessages(messages);
+
+    setLanguage(lan);
+
+  }, [lan])
 
   useEffect(() => {
     if (customerBankAccounts) {
@@ -290,37 +325,43 @@ const BankAccountStatement = () => {
           <div className="containerBiaN_f_row">
             <div className="containerBiaN_f_col width30percent textAlignRight">
               <label>
-                Bank Customer Id <span className="mantdat">*</span>
+              <FormattedMessage id="agent.BankCustomerID" /> <span className="mantdat">*</span>
               </label>
             </div>
             <div className="containerBiaN_f_col width70percent">
+            <FormattedMessage id="agent.EnterBankCustomerId">
+              {placeholder =>
               <input
-                placeholder="Enter Bank Customer Id"
+                placeholder={placeholder}
                 type="number"
                 value={bankCustomerId}
                 onChange={(e) => setBankCustomerId(e.target.value)}
-              />
+              />}
+            </FormattedMessage>
             </div>
           </div>
           <div className="containerBiaN_f_row">
             <div className="containerBiaN_f_col width30percent textAlignRight">
               <label>
-                Phone number <span className="mantdat">*</span>
+              <FormattedMessage id="agent.phonenumber" /> <span className="mantdat">*</span>
               </label>
             </div>
             <div className="containerBiaN_f_col width70percent">
+            <FormattedMessage id="agent.EnterPhoneNumber">
+                {placeholder =>
               <input
-                placeholder="Enter Phone number"
+                placeholder={placeholder}
                 type="number"
                 value={phoneNumber}
                 onChange={(e) => setPhoneNumber(e.target.value)}
-              />
+              />}
+            </FormattedMessage>
             </div>
           </div>
           <div className="containerBiaN_f_row">
             <div className="containerBiaN_f_col width30percent textAlignRight">
               <label>
-                Document Type <span className="mantdat">*</span>
+              <FormattedMessage id="agent.DocumentType" /> <span className="mantdat">*</span>
               </label>
             </div>
             <div className="containerBiaN_f_col width70percent">
@@ -331,7 +372,7 @@ const BankAccountStatement = () => {
                   onChange={(value) => setSelectedDocumentType(value)}
                 >
                   {idDocumentTypes.map((type) => {
-                    return <Option value={type.value}>{type.name}</Option>;
+                    return <Option value={type.value}><FormattedMessage id={type.name} /></Option>;
                   })}
                 </Select>
               </div>
@@ -340,21 +381,24 @@ const BankAccountStatement = () => {
           <div className="containerBiaN_f_row">
             <div className="containerBiaN_f_col width30percent textAlignRight">
               <label>
-                ID Document Number <span className="mantdat">*</span>
+              <FormattedMessage id="agent.IDDocumentNumber" /> <span className="mantdat">*</span>
               </label>
             </div>
             <div className="containerBiaN_f_col width70percent">
+            <FormattedMessage id="agent.EnterIDDocumentNumber">
+                {placeholder =>
               <input
-                placeholder="Enter ID document number"
+                placeholder={placeholder}
                 value={idDocumentNumber}
                 onChange={(e) => setIdDocumentNumber(e.target.value)}
-              />
+              />}
+            </FormattedMessage>
             </div>
           </div>
           <div className="containerBiaN_f_row">
             <div className="containerBiaN_f_col width30percent textAlignRight">
               <label>
-                Start Date <span className="mantdat">*</span>
+              <FormattedMessage id="agent.StartDate" /> <span className="mantdat">*</span>
               </label>
             </div>
             <div className="containerBiaN_f_col width70percent">
@@ -369,7 +413,7 @@ const BankAccountStatement = () => {
           <div className="containerBiaN_f_row">
             <div className="containerBiaN_f_col width30percent textAlignRight">
               <label>
-                End Date <span className="mantdat">*</span>
+              <FormattedMessage id="agent.EndDate" /> <span className="mantdat">*</span>
               </label>
             </div>
             <div className="containerBiaN_f_col width70percent">
@@ -384,7 +428,7 @@ const BankAccountStatement = () => {
           <div className="containerBiaN_f_row">
             <div className="containerBiaN_f_col width30percent textAlignRight">
               <label>
-                Send By <span className="mantdat">*</span>
+              <FormattedMessage id="agent.SendBy" /> <span className="mantdat">*</span>
               </label>
             </div>
             <div className="containerBiaN_f_col width70percent">
@@ -395,7 +439,7 @@ const BankAccountStatement = () => {
                   onChange={(value) => setSelectedSendType(value)}
                 >
                   {sendTypes.map((type) => {
-                    return <Option value={type.value}>{type.name}</Option>;
+                    return <Option value={type.value}><FormattedMessage id={type.name} /></Option>;
                   })}
                 </Select>
               </div>
@@ -581,6 +625,10 @@ const BankAccountStatement = () => {
   };
 
   return (
+    <IntlProvider
+    messages={messages.default}
+    locale={language}
+  >
     <div className="main_contain agentformCenter">
       <div className="merch_m_list_w">
         <div className="merch_list_card" id="merch_list_card">
@@ -593,7 +641,7 @@ const BankAccountStatement = () => {
                       className="list_top_heading textAlignCenter text-center"
                       style={{ paddingLeft: "0px" }}
                     >
-                      Bank Cash Deposit
+                      <FormattedMessage id="agent.BankCashDeposit" />
                     </h1>
                   </div>
                 </div>
@@ -622,7 +670,7 @@ const BankAccountStatement = () => {
                         className="blackbtn aryousureBTN confirmBtnR"
                         onClick={() => prevStep()}
                       >
-                        Back
+                        <FormattedMessage id="back" />
                       </button>
                     ) : (
                       ""
@@ -633,7 +681,7 @@ const BankAccountStatement = () => {
                       disabled={isFormValidated() ? false : true}
                       onClick={() => formSubmitAction()}
                     >
-                      {step === 4 ? "Submit" : step === 5 ? "Done" : "Next"}
+                      {step === 4 ? "Submit" : step === 5 ? "Done" : <FormattedMessage id="agent.Next" />}
                     </button>
                   </div>
                 </div>
@@ -643,6 +691,7 @@ const BankAccountStatement = () => {
         </div>
       </div>
     </div>
+    </IntlProvider>
   );
 };
 

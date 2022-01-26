@@ -19,7 +19,9 @@ import {
 import {
   getProfile,
   fetchAgentWallet,
-  fetchAgentBankAccounts
+  fetchAgentBankAccounts,
+  getAllAgentMemberLists,
+  getTickets
 } from "../../../src/services/agent/action";
 
 
@@ -730,6 +732,10 @@ class Dashboard extends Component {
       walletBalance: 0,
       profileData: [],
 
+      numberOfAgents: 0,
+      numberOfAgentMembers: 0,
+      numberOfTickets: 0
+
     }
   }
 
@@ -755,6 +761,10 @@ class Dashboard extends Component {
 
   componentDidMount() {
 
+    this.props.getTickets(sessionStorage.getItem("token"));
+
+    this.props.getAllAgentMemberLists();
+
     this.props.fetchAgentWallet(sessionStorage.getItem("token"));
 
     if (document.querySelector('.getHeight') != null) {
@@ -776,6 +786,50 @@ class Dashboard extends Component {
   }
 
   async componentWillReceiveProps(nextProps) {
+
+    if (nextProps.ticketsData) {
+
+    } else {
+      this.setState({
+        numberOfTickets: 0
+      })
+    }
+
+    if (nextProps.getAllAgentMemberList) {
+      let filteredAgentList = nextProps.getAllAgentMemberList.filter((data) => {
+        if (data.agentType === "AGENT") {
+          return data;
+        }
+      })
+
+      let filteredAgentMemberList = nextProps.getAllAgentMemberList.filter((data) => {
+        if (data.agentType === "AGENT_MEMBER") {
+          return data;
+        }
+      })
+
+      if (filteredAgentMemberList.length > 0) {
+
+        this.setState({
+          numberOfAgentMembers: filteredAgentMemberList.length
+        })
+
+      } else {
+        this.setState({
+          numberOfAgentMembers: 0
+        })
+      }
+
+      if (filteredAgentList.length > 0) {
+        this.setState({
+          numberOfAgents: filteredAgentList.length
+        })
+      } else {
+        this.setState({
+          numberOfAgents: 0
+        })
+      }
+    }
 
     if (nextProps.walletAccount.data) {
 
@@ -853,7 +907,7 @@ class Dashboard extends Component {
                                     <div className="cardrightVal width50p">
                                       <p><FormattedMessage id="agent.TotalAgents" /></p>
                                       <div className="cardnumber">
-                                        213
+                                        {this.state.numberOfAgents}
                                       </div>
                                     </div>
                                   </div>
@@ -870,7 +924,7 @@ class Dashboard extends Component {
                                   <div className="cardrightVal width50p">
                                     <p><FormattedMessage id="agent.TotalAgentMember" /></p>
                                     <div className="cardnumber">
-                                      213
+                                      {this.state.numberOfAgentMembers}
                                     </div>
                                   </div>
                                 </div>
@@ -917,7 +971,7 @@ class Dashboard extends Component {
                                   <div className="cardrightVal width50p">
                                     <p>Total Tickets</p>
                                     <div className="cardnumber">
-                                      100
+                                      {this.state.numberOfTickets}
                                     </div>
                                   </div>
                                 </div>
@@ -967,7 +1021,7 @@ class Dashboard extends Component {
                           </div>
                           <div className="line-separator"></div>
                           <div className="customdashboardrow1-label">
-                            <label>Phone No: </label>
+                            <label><FormattedMessage id="agent.PhoneNo" />: </label>
                             <span>{this.state.profileData.phoneNo}</span>
                           </div>
                           <div className="line-separator"></div>
@@ -977,7 +1031,7 @@ class Dashboard extends Component {
                           </div>
                           <div className="line-separator"></div>
                           {/* <div className="customdashboardrow1-label">
-                            <label>Geo localisation​: </label>
+                            <label><FormattedMessage id="agent.Geolocalisation" />: </label>
                             <span>41° N & 28° E.</span>
                           </div>
                           <div className="location-btn">
@@ -986,7 +1040,7 @@ class Dashboard extends Component {
                               <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M8 1.67969C5.23969 1.67969 3 3.69563 3 6.17969C3 10.1797 8 15.6797 8 15.6797C8 15.6797 13 10.1797 13 6.17969C13 3.69563 10.7603 1.67969 8 1.67969ZM8 8.67969C7.60444 8.67969 7.21776 8.56239 6.88886 8.34263C6.55996 8.12286 6.30362 7.81051 6.15224 7.44505C6.00087 7.0796 5.96126 6.67747 6.03843 6.28951C6.1156 5.90155 6.30608 5.54518 6.58579 5.26547C6.86549 4.98577 7.22186 4.79529 7.60982 4.71812C7.99778 4.64095 8.39991 4.68055 8.76537 4.83193C9.13082 4.9833 9.44318 5.23965 9.66294 5.56855C9.8827 5.89745 10 6.28412 10 6.67969C9.99942 7.20994 9.78852 7.71831 9.41357 8.09326C9.03863 8.46821 8.53026 8.67911 8 8.67969Z" fill="white" />
                               </svg>
-                              <span>See Location</span>
+                              <span><FormattedMessage id="agent.SeeLocation" /></span>
                             </button>
                           </div> */}
                         </div>
@@ -1015,7 +1069,7 @@ class Dashboard extends Component {
                           </div>
                           <div className="line-separator"></div>
                           <div className="customdashboardrow1-label">
-                            <label>Phone No: </label>
+                            <label><FormattedMessage id="agent.PhoneNo" />: </label>
                             <span>3333333</span>
                           </div>
                           <div className="line-separator"></div>
@@ -1025,7 +1079,7 @@ class Dashboard extends Component {
                           </div>
                           <div className="line-separator"></div>
                           <div className="customdashboardrow1-label">
-                            <label>Geo localisation​: </label>
+                            <label><FormattedMessage id="agent.Geolocalisation" />: </label>
                             <span>41° N & 28° E.</span>
                           </div>
                           <div className="location-btn">
@@ -1034,7 +1088,7 @@ class Dashboard extends Component {
                               <svg width="16" height="17" viewBox="0 0 16 17" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M8 1.67969C5.23969 1.67969 3 3.69563 3 6.17969C3 10.1797 8 15.6797 8 15.6797C8 15.6797 13 10.1797 13 6.17969C13 3.69563 10.7603 1.67969 8 1.67969ZM8 8.67969C7.60444 8.67969 7.21776 8.56239 6.88886 8.34263C6.55996 8.12286 6.30362 7.81051 6.15224 7.44505C6.00087 7.0796 5.96126 6.67747 6.03843 6.28951C6.1156 5.90155 6.30608 5.54518 6.58579 5.26547C6.86549 4.98577 7.22186 4.79529 7.60982 4.71812C7.99778 4.64095 8.39991 4.68055 8.76537 4.83193C9.13082 4.9833 9.44318 5.23965 9.66294 5.56855C9.8827 5.89745 10 6.28412 10 6.67969C9.99942 7.20994 9.78852 7.71831 9.41357 8.09326C9.03863 8.46821 8.53026 8.67911 8 8.67969Z" fill="white" />
                               </svg>
-                              <span>See Location</span>
+                              <span><FormattedMessage id="agent.SeeLocation" /></span>
                             </button>
                           </div>
                         </div>
@@ -1441,7 +1495,7 @@ class Dashboard extends Component {
 }
 
 const mapStateToProps = ({ agentReducer, commonReducer }) => {
-  const { profile, profileImage, profileImageStatus, walletAccount } = agentReducer;
+  const { profile, profileImage, profileImageStatus, walletAccount, getAllAgentMemberList, ticketsData } = agentReducer;
   const { language } = commonReducer
 
   return {
@@ -1449,7 +1503,9 @@ const mapStateToProps = ({ agentReducer, commonReducer }) => {
     profileImage,
     profileImageStatus,
     language,
-    walletAccount
+    walletAccount,
+    getAllAgentMemberList,
+    ticketsData
   };
 };
 
@@ -1457,6 +1513,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getProfile: (token) => dispatch(getProfile(token)),
     fetchAgentWallet: (token) => dispatch(fetchAgentWallet(token)),
+    getAllAgentMemberLists: () => dispatch(getAllAgentMemberLists()),
+    getTickets: (token) => dispatch(getTickets(token)),
   }
 
 }

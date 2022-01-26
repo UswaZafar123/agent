@@ -15,6 +15,7 @@ import { useSelector, useDispatch } from "react-redux";
 import actionType from "../../../services/agent/actionType.js";
 
 import feeConstants from "../../../Assets/feeConstants";
+import { FormattedMessage, IntlProvider } from 'react-intl';
 
 import {
   fetchFeeDetail,
@@ -41,6 +42,11 @@ const AgentSendMoney = () => {
   const [selectedOtpType, setSelectedOtpType] = useState(otpTypes[0].value);
   const [otpTimer, setOtpTimer] = React.useState(resendTime);
   const [otp, setOtp] = useState("");
+
+  const [messages, setMessages] = useState("");
+  const [language, setLanguage] = useState("");
+
+  const lan = useSelector(state => state.commonReducer.language);
 
   const dispatch = useDispatch();
   const agentProfile = useSelector((state) => state.agentReducer.profile.data);
@@ -112,6 +118,35 @@ const AgentSendMoney = () => {
       setStep(5);
     }
   }, [step, feeDetail, agentOtpSuccess, agentSendMoneySuccess]);
+
+  useEffect(async () => {
+
+    const messages = await loadLocaleData(localStorage.getItem("lang"));
+    setMessages(messages);
+
+    setLanguage(localStorage.getItem("lang"));
+
+    // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
+
+  }, [])
+
+  const loadLocaleData = (locale) => {
+    switch (locale) {
+      case "fr":
+        return import("../../i18n/messages/fr.js");
+      default:
+        return import("../../i18n/messages/en.js");
+    }
+  };
+
+  useEffect(async () => {
+
+    const messages = await loadLocaleData(lan);
+    setMessages(messages);
+
+    setLanguage(lan);
+
+  }, [lan])
 
   const stepOneValidated = () => {
     return !(
@@ -243,42 +278,52 @@ const AgentSendMoney = () => {
 
   const sendMoneyForm = () => {
     return (
+      <IntlProvider
+      messages={messages.default}
+      locale={language}
+    >
       <>
         <div>
           <div className="containerBiaN_f_col" style={{ padding: "0px" }}>
             <label>
-              Agent ID <span style={{ fontSize: "13px" }}>(without country code)</span>{" "}
+              <FormattedMessage id="agent.AgentID" /> <span style={{ fontSize: "13px" }}><FormattedMessage id="agent.(withoutcountrycode)" /></span>{" "}
               <span className="mantdat">*</span>
             </label>
           </div>
           <div className="containerBiaN_f_col" style={{ padding: "0px" }}>
+            <FormattedMessage id="agent.AgentID">
+              {placeholder => 
             <input
-              placeholder="Agent ID"
+              placeholder={placeholder}
               type="number"
               value={agentId}
               onChange={(e) => setAgentId(e.target.value)}
-            />
+            />}
+            </FormattedMessage>
           </div>
         </div>
         <div>
           <div className="containerBiaN_f_col" style={{ padding: "0px" }}>
             <label>
-              Amount <span className="mantdat">*</span>
+            <FormattedMessage id="agent.Amount" /> <span className="mantdat">*</span>
             </label>
           </div>
           <div className="containerBiaN_f_col" style={{ padding: "0px" }}>
+          <FormattedMessage id="agent.EnterAmount">
+            {placeholder =>
             <input
-              placeholder="Enter amount"
+              placeholder={placeholder}
               type="number"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
-            />
+            />}
+            </FormattedMessage>
           </div>
         </div>
         <div>
           <div className="containerBiaN_f_col" style={{ padding: "0px" }}>
             <label>
-              Reason <span className="mantdat">*</span>
+            <FormattedMessage id="agent.Reason" /> <span className="mantdat">*</span>
             </label>
           </div>
           <div className="containerBiaN_f_col" style={{ padding: "0px" }}>
@@ -292,6 +337,7 @@ const AgentSendMoney = () => {
           </div>
         </div>
       </>
+      </IntlProvider>
     );
   };
 
@@ -467,6 +513,10 @@ const AgentSendMoney = () => {
   };
 
   return (
+    <IntlProvider
+    messages={messages.default}
+    locale={language}
+  >
     <div className="main_contain agentformCenter">
       <div className="merch_m_list_w">
         <div className="merch_list_card" id="merch_list_card">
@@ -479,7 +529,7 @@ const AgentSendMoney = () => {
                       className="list_top_heading textAlignCenter text-center"
                       style={{ paddingLeft: "0px" }}
                     >
-                      Send Money to Agent Wallet
+                      <FormattedMessage id="agent.SendMoneytoAgentWallet" />
                     </h1>
                   </div>
                 </div>
@@ -527,7 +577,7 @@ const AgentSendMoney = () => {
                               ? "Submit"
                               : step === 5
                                 ? "Done"
-                                : "Next"}
+                                : <FormattedMessage id="agent.Next" />}
                           </button>
                         </div>
                       </div>
@@ -540,6 +590,7 @@ const AgentSendMoney = () => {
         </div>
       </div>
     </div>
+    </IntlProvider>
   );
 };
 
