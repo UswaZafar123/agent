@@ -15,6 +15,7 @@ import Approved from "../Alerts/Approved";
 import Reject from "../Alerts/Reject";
 import { connect } from "react-redux";
 import { FormattedMessage, IntlProvider } from 'react-intl';
+import { getAccessInfo } from "../../services/agent/action";
 const { Option } = Select;
 
 class AccessHistoryAdmin extends Component {
@@ -160,7 +161,7 @@ class AccessHistoryAdmin extends Component {
         this.state.gridApi.paginationGetCurrentPage() + 1;
       document.getElementById("bTo").innerHTML =
         this.state.gridApi.paginationGetPageSize() *
-          this.state.gridApi.paginationGetCurrentPage() +
+        this.state.gridApi.paginationGetCurrentPage() +
         1;
 
       const changedV =
@@ -205,8 +206,9 @@ class AccessHistoryAdmin extends Component {
         return import("../i18n/messages/en.js");
     }
   };
-  componentDidMount=()=>{
-	this.translationHelperFunction();
+  componentDidMount = () => {
+    this.props.getAccessInfo();
+    this.translationHelperFunction();
   }
 
   componentWillReceiveProps = async (nextProps) => {
@@ -215,20 +217,20 @@ class AccessHistoryAdmin extends Component {
       var access =
         nextProps.accessHistoryData.accessInfo.length > 0
           ? nextProps.accessHistoryData.accessInfo.map((history) => {
-              Access_History.push({
-                Email: history.userEmail,
-                Browser: history.browser,
-                Date: history.date,
-              });
-            })
+            Access_History.push({
+              Email: history.userEmail,
+              Browser: history.browser,
+              Date: history.date,
+            });
+          })
           : [];
 
-          this.setState({rowData:Access_History})
-    }else{
-      this.setState({rowData:[]})
+      this.setState({ rowData: Access_History })
+    } else {
+      this.setState({ rowData: [] })
 
     }
-   if (nextProps.language) {
+    if (nextProps.language) {
       const messages = await this.loadLocaleData(nextProps.language);
 
       this.setState({
@@ -237,172 +239,175 @@ class AccessHistoryAdmin extends Component {
       });
     }
 
-    if(nextProps.language=="fr"){
+    if (nextProps.language == "fr") {
       this.setState({
         columnDefs: [
-        { headerName: "E-mail", field: "Email", width: 350 },
-        { headerName: "Navigateur", field: "Browser", width: 350 },
-        { headerName: "Date et heure", field: "Date", width: 350 },
-        ]});
+          { headerName: "E-mail", field: "Email", width: 350 },
+          { headerName: "Navigateur", field: "Browser", width: 350 },
+          { headerName: "Date et heure", field: "Date", width: 350 },
+        ]
+      });
     }
-    else{
+    else {
       this.setState({
         columnDefs: [
-        { headerName: "Email", field: "Email", width: 350 },
-        { headerName: "Browser", field: "Browser", width: 350 },
-        { headerName: "Date and Time", field: "Date", width: 350 },
-        ]});
+          { headerName: "Email", field: "Email", width: 350 },
+          { headerName: "Browser", field: "Browser", width: 350 },
+          { headerName: "Date and Time", field: "Date", width: 350 },
+        ]
+      });
     }
   };
 
   render() {
     // console.log("jai",this.state.paginationGetCurrentPage)
     return (
-     <IntlProvider
-      messages={this.state.messages.default}
-      locale={this.state.language}
-     >
-      <div className="main_contain">
-        <div className="merch_m_list_w">
-          <h1 className="m_listHeading textAlignCenter pd_t_b24">
-            {/* Agent Management{" "} */}
-          </h1>
-          <div className="merch_list_card" id="merch_list_card">
-            <div className="section_custom">
-              <div className="sectionInn">
-                <div className="chartCard_w">
-                  <div className="chartCardTop">
-                    <div className="flCenterColumn">
-                      <h1 className="list_top_heading textAlignCenter">
-                        <FormattedMessage id="agent.AccessHistory" />
-                      </h1>
+      <IntlProvider
+        messages={this.state.messages.default}
+        locale={this.state.language}
+      >
+        <div className="main_contain">
+          <div className="merch_m_list_w">
+            <h1 className="m_listHeading textAlignCenter pd_t_b24">
+              {/* Agent Management{" "} */}
+            </h1>
+            <div className="merch_list_card" id="merch_list_card">
+              <div className="section_custom">
+                <div className="sectionInn">
+                  <div className="chartCard_w">
+                    <div className="chartCardTop">
+                      <div className="flCenterColumn">
+                        <h1 className="list_top_heading textAlignCenter">
+                          <FormattedMessage id="agent.AccessHistory" />
+                        </h1>
+                      </div>
                     </div>
-                  </div>
-                  <div className="chartCardMiddle" style={{ padding: "24px" }}>
-                    <div className="tableTop_wrapper">
-                      <div className="disFl">
-                        <h5 className="show_pp margin_right8"><FormattedMessage id="agent.Show" /></h5>
-                        <div className="tableShowRecordPerPage">
-                          <Select
-                            defaultValue="10"
-                            style={{ width: 74, height: 27 }}
-                            onChange={this.handleChange}
-                            id={"page-size"}
-                          >
-                            <Option value="10">10</Option>
-                            <Option value="25">25</Option>
-                            <Option value="100">100</Option>
-                            {/* <Option value="all">all</Option> */}
-                          </Select>
-                        </div>
-
-                        <h5 className="show_pp margin_left8">
-                          <FormattedMessage id="agent.RecordsPerPage" />
-                        </h5>
-                        <div
-                          className="margin-left-auto"
-                          style={{ display: "flex", alignItems: "center" }}
-                        >
-                          <div className="shortCustom">
-                            <span className="icon-Asset-55"></span>
-                            <h6><FormattedMessage id="agent.Sort" /></h6>
-                          </div>
-                          <div className="shortCustom">
-                            <Dropdown
-                              overlay={
-                                <ul class="filterDrd">
-                                  <li>
-                                    <a href="#">
-                                      <span class="icon-logout"></span><FormattedMessage id="agent.All" />
-                                    </a>
-                                  </li>
-                                  <li>
-                                    <a href="#">
-                                      <span class="icon-logout"></span><FormattedMessage id="agent.Inactive" />
-                                    </a>
-                                  </li>
-                                  <li>
-                                    <a href="#">
-                                      <span class="icon-logout"></span><FormattedMessage id="agent.Active" />
-                                    </a>
-                                  </li>
-                                </ul>
-                              }
-                              placement="bottomLeft"
-                              trigger={["click"]}
+                    <div className="chartCardMiddle" style={{ padding: "24px" }}>
+                      <div className="tableTop_wrapper">
+                        <div className="disFl">
+                          <h5 className="show_pp margin_right8"><FormattedMessage id="agent.Show" /></h5>
+                          <div className="tableShowRecordPerPage">
+                            <Select
+                              defaultValue="10"
+                              style={{ width: 74, height: 27 }}
+                              onChange={this.handleChange}
+                              id={"page-size"}
                             >
-                              <div className="shortCustom01">
-                                <span className="icon-Asset-54"></span>
-                                <h6><FormattedMessage id="agent.Filter" /></h6>
-                              </div>
-                            </Dropdown>
+                              <Option value="10">10</Option>
+                              <Option value="25">25</Option>
+                              <Option value="100">100</Option>
+                              {/* <Option value="all">all</Option> */}
+                            </Select>
                           </div>
+
+                          <h5 className="show_pp margin_left8">
+                            <FormattedMessage id="agent.RecordsPerPage" />
+                          </h5>
                           <div
-                            className="search_w_merchant_m"
-                            style={{ width: "270px" }}
+                            className="margin-left-auto"
+                            style={{ display: "flex", alignItems: "center" }}
                           >
-                           <FormattedMessage id="agent.Search">
-                           {placeholder =>
-                            <input type="search" placeholder={placeholder} />
-							}
-							</FormattedMessage>
+                            <div className="shortCustom">
+                              <span className="icon-Asset-55"></span>
+                              <h6><FormattedMessage id="agent.Sort" /></h6>
+                            </div>
+                            <div className="shortCustom">
+                              <Dropdown
+                                overlay={
+                                  <ul class="filterDrd">
+                                    <li>
+                                      <a href="#">
+                                        <span class="icon-logout"></span><FormattedMessage id="agent.All" />
+                                      </a>
+                                    </li>
+                                    <li>
+                                      <a href="#">
+                                        <span class="icon-logout"></span><FormattedMessage id="agent.Inactive" />
+                                      </a>
+                                    </li>
+                                    <li>
+                                      <a href="#">
+                                        <span class="icon-logout"></span><FormattedMessage id="agent.Active" />
+                                      </a>
+                                    </li>
+                                  </ul>
+                                }
+                                placement="bottomLeft"
+                                trigger={["click"]}
+                              >
+                                <div className="shortCustom01">
+                                  <span className="icon-Asset-54"></span>
+                                  <h6><FormattedMessage id="agent.Filter" /></h6>
+                                </div>
+                              </Dropdown>
+                            </div>
+                            <div
+                              className="search_w_merchant_m"
+                              style={{ width: "270px" }}
+                            >
+                              <FormattedMessage id="agent.Search">
+                                {placeholder =>
+                                  <input type="search" placeholder={placeholder} />
+                                }
+                              </FormattedMessage>
+                            </div>
                           </div>
                         </div>
+                        <div className="actionBtnWp">
+                          <span className="icon-Asset-51"></span>
+                          <span className="icon-Asset-52"></span>
+                          <span className="icon-Asset-53"></span>
+                        </div>
                       </div>
-                      <div className="actionBtnWp">
-                        <span className="icon-Asset-51"></span>
-                        <span className="icon-Asset-52"></span>
-                        <span className="icon-Asset-53"></span>
-                      </div>
-                    </div>
-                    <div
-                      className="ag-theme-alpine agGridCustomize"
-                      style={{ height: 400, width: 100 + "%" }}
-                    >
-                      <AgGridReact
-                        rowHeight={55}
-                        defaultColDef={{ resizable: true }}
-                        onFirstDataRendered={this.onFirstDataRendered}
-                        columnDefs={this.state.columnDefs}
-                        rowData={this.state.rowData}
-                        pagination={true}
-                        onGridReady={this.onGridReady}
-                        onPaginationChanged={this.onPaginationChanged}
-                        paginationPageSize={10}
-                        suppressPaginationPanel={true}
+                      <div
+                        className="ag-theme-alpine agGridCustomize"
+                        style={{ height: 400, width: 100 + "%" }}
+                      >
+                        <AgGridReact
+                          rowHeight={55}
+                          defaultColDef={{ resizable: true }}
+                          onFirstDataRendered={this.onFirstDataRendered}
+                          columnDefs={this.state.columnDefs}
+                          rowData={this.state.rowData}
+                          pagination={true}
+                          onGridReady={this.onGridReady}
+                          onPaginationChanged={this.onPaginationChanged}
+                          paginationPageSize={10}
+                          suppressPaginationPanel={true}
 
                         // paginationNumberFormatter={function (params) {
                         //   return '[' + params.value.toLocaleString() + ']';
                         // }}
-                      />
-                    </div>
-                    <div className="customAgFooter">
-                      <div className="showingFooter">
-                        <span><FormattedMessage id="agent.Showing" /></span>
-                        <span id="bTo"> </span>
-                        <span><FormattedMessage id="agent.To" /></span>
-                        <span id="afterTo"></span>
-                        <span><FormattedMessage id="agent.Of" /></span>
-                        <span id="totalPageSize"></span>
-                        <span><FormattedMessage id="agent.Entries" /></span>
+                        />
                       </div>
-                      <div className="NextPrevW">
-                        <button
-                          className="NextPrev"
-                          onClick={() => this.onBtPrevious()}
-                        >
-                          <FormattedMessage id="agent.Prev" />
-                        </button>
-                        <span
-                          className="valueNextPrev"
-                          id="lbCurrentPage"
-                        ></span>
-                        <button
-                          className="NextPrev"
-                          onClick={() => this.onBtNext()}
-                        >
-                          <FormattedMessage id="agent.Next" />
-                        </button>
+                      <div className="customAgFooter">
+                        <div className="showingFooter">
+                          <span><FormattedMessage id="agent.Showing" /></span>
+                          <span id="bTo"> </span>
+                          <span><FormattedMessage id="agent.To" /></span>
+                          <span id="afterTo"></span>
+                          <span><FormattedMessage id="agent.Of" /></span>
+                          <span id="totalPageSize"></span>
+                          <span><FormattedMessage id="agent.Entries" /></span>
+                        </div>
+                        <div className="NextPrevW">
+                          <button
+                            className="NextPrev"
+                            onClick={() => this.onBtPrevious()}
+                          >
+                            <FormattedMessage id="agent.Prev" />
+                          </button>
+                          <span
+                            className="valueNextPrev"
+                            id="lbCurrentPage"
+                          ></span>
+                          <button
+                            className="NextPrev"
+                            onClick={() => this.onBtNext()}
+                          >
+                            <FormattedMessage id="agent.Next" />
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -410,10 +415,9 @@ class AccessHistoryAdmin extends Component {
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Modal */}
-        {/* <Modal
+          {/* Modal */}
+          {/* <Modal
           visible={this.state.isModalVisible}
           onCancel={this.handleCancel}
           cancelButtonProps={{style:{ display:'none !important'}}}
@@ -434,35 +438,39 @@ class AccessHistoryAdmin extends Component {
         </div>
           
         </Modal> */}
-        <Modal
-          visible={this.state.isModalVisible}
-          cancelButtonProps={{ style: { display: "none !important" } }}
-          footer={null}
-        >
-          <Reject handleCancel={this.handleCancel} />
-        </Modal>
+          <Modal
+            visible={this.state.isModalVisible}
+            cancelButtonProps={{ style: { display: "none !important" } }}
+            footer={null}
+          >
+            <Reject handleCancel={this.handleCancel} />
+          </Modal>
 
-        <Modal
-          visible={this.state.isModalVisible}
-          cancelButtonProps={{ style: { display: "none !important" } }}
-          footer={null}
-        >
-          <Approved handleCancel={this.handleCancel} />
-        </Modal>
-      </div>
-	 </IntlProvider>
+          <Modal
+            visible={this.state.isModalVisible}
+            cancelButtonProps={{ style: { display: "none !important" } }}
+            footer={null}
+          >
+            <Approved handleCancel={this.handleCancel} />
+          </Modal>
+        </div>
+      </IntlProvider>
     );
   }
 }
-const mapStateToProps = ({ commonReducer }) => {
+const mapStateToProps = ({ commonReducer, agentReducer }) => {
   const { language } = commonReducer;
+  const { accessInfo } = agentReducer;
 
-  return { 
-    language 
+  return {
+    accessInfo,
+    language
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
+
+  getAccessInfo: () => dispatch(getAccessInfo()),
 
 });
 

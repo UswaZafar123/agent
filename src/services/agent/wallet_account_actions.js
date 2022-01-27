@@ -215,6 +215,9 @@ export const walletStatementInquiryAction = (payload) => (dispatch) => {
 };
 
 export const walletAccountOpeningAction = (payload) => (dispatch) => {
+  dispatch({
+    type: actionType.WALLET_ACCOUNT_OPENING_PIN_FAILURE,
+  });
   const config = {
     method: "POST",
     url: URL.agent.WALLET_ACCOUNT_OPENING,
@@ -231,6 +234,7 @@ export const walletAccountOpeningAction = (payload) => (dispatch) => {
   axios(config)
     .then((res) => {
       if (res.status === 200) {
+        toastr.success("Wallet Account Processed Successfully.")
         dispatch({
           type: actionType.WALLET_ACCOUNT_OPENING_SUCCESS,
         });
@@ -265,6 +269,7 @@ export const walletAccountOpeningResendPinAction = (payload) => (dispatch) => {
   axios(config)
     .then((res) => {
       if (res.status === 200) {
+        toastr.success("OTP Resent..")
         dispatch({
           type: actionType.WALLET_ACCOUNT_OPENING_SUCCESS,
         });
@@ -287,20 +292,18 @@ export const walletAccountOpeningVerifyPinAction = (payload) => (dispatch) => {
   const config = {
     method: "POST",
     url: URL.agent.WALLET_ACCOUNT_OPENING_VERIFY_PIN,
-    Authorization: "Bearer " + sessionStorage.getItem("token"),
     data: payload,
     headers: {
       "Content-Type": "application/json",
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
     },
   };
-  dispatch({
-    type: actionType.WALLET_ACCOUNT_OPENING_FETCH,
-  });
   axios(config)
     .then((res) => {
       if (res.status === 200) {
+        toastr.success("OTP Verified.")
         dispatch({
-          type: actionType.WALLET_ACCOUNT_OPENING_SUCCESS,
+          type: actionType.WALLET_ACCOUNT_OPENING_PIN_SUCCESS,
         });
       }
     })
@@ -311,7 +314,7 @@ export const walletAccountOpeningVerifyPinAction = (payload) => (dispatch) => {
         toastr.error("Unable to process the request");
       }
       dispatch({
-        type: actionType.WALLET_ACCOUNT_OPENING_ERROR,
+        type: actionType.WALLET_ACCOUNT_OPENING_PIN_FAILURE,
         payload: error,
       });
     });
@@ -322,20 +325,18 @@ export const walletAccountOpeningSetPasswordAction =
     const config = {
       method: "POST",
       url: URL.agent.WALLET_ACCOUNT_OPENING_SET_PASSWORD,
-      Authorization: "Bearer " + sessionStorage.getItem("token"),
       data: payload,
       headers: {
         "Content-Type": "application/json",
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
       },
     };
-    dispatch({
-      type: actionType.WALLET_ACCOUNT_OPENING_FETCH,
-    });
     axios(config)
       .then((res) => {
         if (res.status === 200) {
+          toastr.success("Password Set Successfully.")
           dispatch({
-            type: actionType.WALLET_ACCOUNT_OPENING_SUCCESS,
+            type: actionType.WALLET_ACCOUNT_OPENING_SET_PASSWORD_SUCCESS,
           });
         }
       })
@@ -346,7 +347,7 @@ export const walletAccountOpeningSetPasswordAction =
           toastr.error("Unable to process the request");
         }
         dispatch({
-          type: actionType.WALLET_ACCOUNT_OPENING_ERROR,
+          type: actionType.WALLET_ACCOUNT_OPENING_SET_PASSWORD_FAILURE,
           payload: error,
         });
       });

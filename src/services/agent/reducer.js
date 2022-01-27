@@ -1614,6 +1614,44 @@ const agentReducer = (state = initialState, action) => {
           error: false,
         },
       };
+    case actionType.WALLET_ACCOUNT_OPENING_PIN_SUCCESS:
+      return {
+        ...state,
+        walletAccountOpeningVerifyPin: {
+          ...state.walletAccountOpeningVerifyPin,
+          loading: false,
+          success: true,
+        },
+      };
+    case actionType.WALLET_ACCOUNT_OPENING_PIN_FAILURE:
+      return {
+        ...state,
+        walletAccountOpeningVerifyPin: {
+          ...state.walletAccountOpeningVerifyPin,
+          loading: false,
+          success: false,
+          error: true,
+        },
+      };
+    case actionType.WALLET_ACCOUNT_OPENING_SET_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        walletAccountOpeningSetPassword: {
+          ...state.walletAccountOpeningSetPassword,
+          loading: false,
+          success: true,
+        },
+      };
+    case actionType.WALLET_ACCOUNT_OPENING_SET_PASSWORD_FAILURE:
+      return {
+        ...state,
+        walletAccountOpeningSetPassword: {
+          ...state.walletAccountOpeningSetPassword,
+          loading: false,
+          success: false,
+          error: true,
+        },
+      };
     case actionType.WALLET_ACCOUNT_RESEND_PIN_FETCH:
       return {
         ...state,
@@ -1819,6 +1857,16 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         bankCustomerOTPStatus: false,
+      }
+    case actionType.GET_ACCESS_INFO_SUCCESS:
+      return {
+        ...state,
+        accesInfo: action.payload,
+      };
+    case actionType.GET_ACCESS_INFO_FAILURE:
+      return {
+        ...state,
+        accesInfo: [],
       }
     default:
       return state;
