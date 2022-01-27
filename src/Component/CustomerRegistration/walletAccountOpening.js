@@ -38,7 +38,7 @@ const WalletAccountOpening = () => {
   ];
 
   const [formState, setFormState] = useState({
-    customerType: "NON_EXISTING_BANK_CUSTOMER",
+    customerType: "EXISTING_BANK_CUSTOMER",
     bankCustomerId: "",
     firstName: "",
     lastName: "",
@@ -242,20 +242,20 @@ const WalletAccountOpening = () => {
       formState.customerType === "EXISTING_BANK_CUSTOMER"
       ? formState.bankCustomerId
       : true &&
-          formState.firstName &&
-          formState.lastName &&
-          formState.email &&
-          formState.countryCode &&
-          formState.phoneNumber &&
-          formState.dateOfBirth &&
-          formState.idDocumentType &&
-          formState.idDocumentNumber &&
-          formState.idDocumentExpiryDate &&
-          formState.city &&
-          formState.address &&
-          formState.selfiePhoto &&
-          formState.IdDocumentsFiles &&
-          !walletAccountOpeningLoading;
+      formState.firstName &&
+      formState.lastName &&
+      formState.email &&
+      formState.countryCode &&
+      formState.phoneNumber &&
+      formState.dateOfBirth &&
+      formState.idDocumentType &&
+      formState.idDocumentNumber &&
+      formState.idDocumentExpiryDate &&
+      formState.city &&
+      formState.address &&
+      formState.selfiePhoto &&
+      formState.IdDocumentsFiles &&
+      !walletAccountOpeningLoading;
   };
 
   const stepTwoValidated = () => {
@@ -344,7 +344,7 @@ const WalletAccountOpening = () => {
 
     setFormState({
       ...formState,
-      customerType: "NON_EXISTING_BANK_CUSTOMER",
+      customerType: "EXISTING_BANK_CUSTOMER",
       bankCustomerId: "",
       firstName: "",
       lastName: "",
@@ -402,23 +402,23 @@ const WalletAccountOpening = () => {
     let formData = new FormData();
 
     formData.append("registrationType", customerType);
-    customerType === "NON_EXISTING_BANK_CUSTOMER" &&
-      formData.append("bankCustomerId", bankCustomerId);
+    // customerType === "NON_EXISTING_BANK_CUSTOMER" &&
+    formData.append("bankCustomerId", bankCustomerId);
     formData.append("firstName", firstName);
     formData.append("lastName", lastName);
     formData.append("emailAddress", email);
     formData.append("phoneNumberCountryCode", countryCode);
     formData.append("phoneNumber", phoneNumber);
     formData.append("dateOfBirth", moment(dateOfBirth).format("YYYY-MM-DD"));
-    formData.append("selfiePhoto", selfiePhoto);
+    formData.append("selfieDocumentFile", selfiePhoto);
     // formData.append("idDocumentType", idDocumentType);
-    formData.append("idDocumentType", "ID_DOCUMENT");
+    formData.append("idDocumentType", "ID_CARD");
     formData.append("idDocumentNumber", idDocumentNumber);
     formData.append(
       "idDocumentExpiryDate",
       moment(idDocumentExpiryDate).format("YYYY-MM-DD")
     );
-    formData.append("identityDocuments", IdDocumentsFiles);
+    formData.append("idDocumentFile", IdDocumentsFiles);
     formData.append("address", address);
     formData.append("cityOfResidence", city);
     formData.append("uin", "12345");
@@ -458,356 +458,356 @@ const WalletAccountOpening = () => {
   const walletAccountOpeningForm = () => {
     return (
       <IntlProvider
-      messages={messages.default}
-      locale={language}
-    >
-      <>
-        <Grid container spacing={3}>
-          <Grid item xs={12} sm={6}>
-            <label className="non-afb-label"><FormattedMessage id="agent.CustomerType" /></label>
-            <div className="inputFlash">
-              <div className="categorySelect">
-                <Select
-                  style={{ width: 100 + "%", height: 52 }}
-                  defaultValue="NON_EXISTING_BANK_CUSTOMER"
-                  value={formState.customerType}
-                  onChange={(value) => {
-                    setFormState({
-                      ...formState,
-                      customerType: value,
-                    });
-                  }}
-                >
-                  <Option value="NON_EXISTING_BANK_CUSTOMER">
-                    <FormattedMessage id="agent.NONEXISTINGBANKCUSTOMER(NON AFB)" />
-                  </Option>
-                  <Option value="EXISTING_BANK_CUSTOMER">
-                  <FormattedMessage id="agent.EXISTINGBANKCUSTOMER(AFB)" />
-                  </Option>
-                </Select>
-              </div>
-            </div>
-          </Grid>
-          {formState.customerType === "EXISTING_BANK_CUSTOMER" && (
+        messages={messages.default}
+        locale={language}
+      >
+        <>
+          <Grid container spacing={3}>
             <Grid item xs={12} sm={6}>
-              <label className="non-afb-label"> <FormattedMessage id="agent.BankCustomerID" /> </label>
+              <label className="non-afb-label"><FormattedMessage id="agent.CustomerType" /></label>
               <div className="inputFlash">
-                <FormattedMessage id="agent.BankCustomerID">
+                <div className="categorySelect">
+                  <Select
+                    style={{ width: 100 + "%", height: 52 }}
+                    defaultValue="NON_EXISTING_BANK_CUSTOMER"
+                    value={formState.customerType}
+                    onChange={(value) => {
+                      setFormState({
+                        ...formState,
+                        customerType: value,
+                      });
+                    }}
+                  >
+                    <Option value="NON_EXISTING_BANK_CUSTOMER">
+                      <FormattedMessage id="agent.NONEXISTINGBANKCUSTOMER(NON AFB)" />
+                    </Option>
+                    <Option value="EXISTING_BANK_CUSTOMER">
+                      <FormattedMessage id="agent.EXISTINGBANKCUSTOMER(AFB)" />
+                    </Option>
+                  </Select>
+                </div>
+              </div>
+            </Grid>
+            {formState.customerType === "EXISTING_BANK_CUSTOMER" && (
+              <Grid item xs={12} sm={6}>
+                <label className="non-afb-label"> <FormattedMessage id="agent.BankCustomerID" /> </label>
+                <div className="inputFlash">
+                  <FormattedMessage id="agent.BankCustomerID">
+                    {placeholder =>
+                      <input
+                        type="number"
+                        placeholder={placeholder}
+                        name="bankCustomerId"
+                        value={formState.bankCustomerId}
+                        onChange={(e) => {
+                          setFormState({
+                            ...formState,
+                            bankCustomerId: e.target.value,
+                          });
+                        }}
+                      />}
+                  </FormattedMessage>
+                </div>
+              </Grid>
+            )}
+
+            <Grid item xs={12} sm={6}>
+              <label className="non-afb-label"> <FormattedMessage id="agent.FirstName" /> </label>
+              <div className="inputFlash">
+                <FormattedMessage id="agent.FirstName">
                   {placeholder =>
-                <input
-                  type="number"
-                  placeholder={placeholder}
-                  name="bankCustomerId"
-                  value={formState.bankCustomerId}
-                  onChange={(e) => {
-                    setFormState({
-                      ...formState,
-                      bankCustomerId: e.target.value,
-                    });
-                  }}
-                />}
+                    <input
+                      type="text"
+                      placeholder={placeholder}
+                      name="firstName"
+                      value={formState.firstName}
+                      onChange={(e) => {
+                        setFormState({
+                          ...formState,
+                          firstName: e.target.value,
+                        });
+                      }}
+                    />}
                 </FormattedMessage>
               </div>
             </Grid>
-          )}
+            <Grid item xs={12} sm={6}>
+              <label className="non-afb-label"> <FormattedMessage id="agent.LastName" /> </label>
+              <div className="inputFlash">
+                <FormattedMessage id="agent.LastName">
+                  {placeholder =>
+                    <input
+                      type="text"
+                      placeholder={placeholder}
+                      name="lastName"
+                      value={formState.lastName}
+                      onChange={(e) => {
+                        console.log(e.target.value);
+                        setFormState({
+                          ...formState,
+                          lastName: e.target.value,
+                        });
+                      }}
+                    />}
+                </FormattedMessage>
+              </div>
+            </Grid>
 
-          <Grid item xs={12} sm={6}>
-            <label className="non-afb-label"> <FormattedMessage id="agent.FirstName" /> </label>
-            <div className="inputFlash">
-              <FormattedMessage id="agent.FirstName">
-                {placeholder =>
-              <input
-                type="text"
-                placeholder={placeholder}
-                name="firstName"
-                value={formState.firstName}
-                onChange={(e) => {
-                  setFormState({
-                    ...formState,
-                    firstName: e.target.value,
-                  });
-                }}
-              />}
-              </FormattedMessage>
-            </div>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <label className="non-afb-label"> <FormattedMessage id="agent.LastName" /> </label>
-            <div className="inputFlash">
-              <FormattedMessage id="agent.LastName">
-                {placeholder =>
-              <input
-                type="text"
-                placeholder={placeholder}
-                name="lastName"
-                value={formState.lastName}
-                onChange={(e) => {
-                  console.log(e.target.value);
-                  setFormState({
-                    ...formState,
-                    lastName: e.target.value,
-                  });
-                }}
-              />}
-              </FormattedMessage>
-            </div>
-          </Grid>
-
-          <Grid item xs={12} sm={6}>
-            <label className="non-afb-label"><FormattedMessage id="agent.EmailId" /> </label>
-            <div className="inputFlash">
-              <FormattedMessage id="agent.Email">
-                {placeholder =>
-              <input
-                type="email"
-                placeholder={placeholder}
-                name="email"
-                value={formState.email}
-                onChange={(e) => {
-                  console.log(e.target.value);
-                  setFormState({
-                    ...formState,
-                    email: e.target.value,
-                  });
-                }}
-              />}
-              </FormattedMessage>
-            </div>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <label className="non-afb-label"><FormattedMessage id="agent.CountryCode" /></label>
-            <div className="inputFlash">
-              <div className="categorySelect">
-                <Select
-                  style={{ width: 100 + "%", height: 52 }}
-                  value={formState.countryCode}
-                  onChange={(value) => {
+            <Grid item xs={12} sm={6}>
+              <label className="non-afb-label"><FormattedMessage id="agent.EmailId" /> </label>
+              <div className="inputFlash">
+                <FormattedMessage id="agent.Email">
+                  {placeholder =>
+                    <input
+                      type="email"
+                      placeholder={placeholder}
+                      name="email"
+                      value={formState.email}
+                      onChange={(e) => {
+                        console.log(e.target.value);
+                        setFormState({
+                          ...formState,
+                          email: e.target.value,
+                        });
+                      }}
+                    />}
+                </FormattedMessage>
+              </div>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <label className="non-afb-label"><FormattedMessage id="agent.CountryCode" /></label>
+              <div className="inputFlash">
+                <div className="categorySelect">
+                  <Select
+                    style={{ width: 100 + "%", height: 52 }}
+                    value={formState.countryCode}
+                    onChange={(value) => {
+                      setFormState({
+                        ...formState,
+                        countryCode: value,
+                      });
+                    }}
+                  >
+                    {africanCountries.map((country) => {
+                      return (
+                        <Option value={country.dial_code}>
+                          <div>
+                            <span role="img" aria-label="country-flag">
+                              <img
+                                style={{
+                                  height: "20px",
+                                  width: "20px",
+                                  marginRight: "8px",
+                                }}
+                                src={`data:image/png;base64,${country.flag}`}
+                              />
+                            </span>
+                            {`${country.name} (${country.dial_code})`}
+                          </div>
+                        </Option>
+                      );
+                    })}
+                  </Select>
+                </div>
+              </div>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <label className="non-afb-label"><FormattedMessage id="agent.MobileNumber" /> </label>
+              <div className="inputFlash">
+                <FormattedMessage id="agent.MobileNumber">
+                  {placeholder =>
+                    <input
+                      type="number"
+                      placeholder={placeholder}
+                      name="mobileNumber"
+                      value={formState.phoneNumber}
+                      onChange={(e) => {
+                        setFormState({
+                          ...formState,
+                          phoneNumber: e.target.value,
+                        });
+                      }}
+                    />}
+                </FormattedMessage>
+              </div>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <label className="non-afb-label"> <FormattedMessage id="agent.dob" /> </label>
+              <div className="inputFlash">
+                <DatePicker
+                  format="YYYY-MM-DD"
+                  value={moment(formState.dateOfBirth)}
+                  style={{ width: "100%", background: "#f3f3f3" }}
+                  onChange={(date, dateString) => {
                     setFormState({
                       ...formState,
-                      countryCode: value,
+                      dateOfBirth: dateString,
                     });
                   }}
-                >
-                  {africanCountries.map((country) => {
-                    return (
-                      <Option value={country.dial_code}>
-                        <div>
-                          <span role="img" aria-label="country-flag">
-                            <img
-                              style={{
-                                height: "20px",
-                                width: "20px",
-                                marginRight: "8px",
-                              }}
-                              src={`data:image/png;base64,${country.flag}`}
-                            />
-                          </span>
-                          {`${country.name} (${country.dial_code})`}
-                        </div>
-                      </Option>
-                    );
-                  })}
-                </Select>
-              </div>
-            </div>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <label className="non-afb-label"><FormattedMessage id="agent.MobileNumber" /> </label>
-            <div className="inputFlash">
-              <FormattedMessage id="agent.MobileNumber">
-                {placeholder =>
-              <input
-                type="number"
-                placeholder={placeholder}
-                name="mobileNumber"
-                value={formState.phoneNumber}
-                onChange={(e) => {
-                  setFormState({
-                    ...formState,
-                    phoneNumber: e.target.value,
-                  });
-                }}
-              />}
-              </FormattedMessage>
-            </div>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <label className="non-afb-label"> <FormattedMessage id="agent.dob" /> </label>
-            <div className="inputFlash">
-              <DatePicker
-                format="YYYY-MM-DD"
-                value={moment(formState.dateOfBirth)}
-                style={{ width: "100%", background: "#f3f3f3" }}
-                onChange={(date, dateString) => {
-                  setFormState({
-                    ...formState,
-                    dateOfBirth: dateString,
-                  });
-                }}
-              />
-            </div>
-          </Grid>
-          <Grid item xs={12} sm={6} style={{ marginBottom: "50px" }}>
-            <label className="non-afb-label"><FormattedMessage id="agent.Picture(Selfie)" /></label>
-            <div className="inputFlash">
-              <Upload
-                listType="picture-card"
-                multiple={false}
-                fileList={formState.selfiePhotoImage}
-                onPreview={handleSelfiePreview}
-                onChange={handleSelfieUpload}
-                beforeUpload={() => false}
-                maxCount={1}
-              >
-                {formState.selfiePhotoImage.length < 1 && "+ Upload"}
-              </Upload>
-
-              <Modal
-                visible={formState.selfiePreviewVisible}
-                footer={null}
-                onCancel={handleSelfiePreviewCancel}
-              >
-                <img
-                  alt="example"
-                  style={{ width: "100%" }}
-                  src={formState.previewSelfieImage}
                 />
-              </Modal>
-            </div>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <label className="non-afb-label"><FormattedMessage id="agent.DocumentType" /></label>
-            <div className="inputFlash">
-              <div className="categorySelect">
-                <Select
-                  style={{ width: 100 + "%", height: 52 }}
-                  defaultValue="ID_CARD"
-                  value={formState.idDocumentType}
-                  onChange={(value) => {
+              </div>
+            </Grid>
+            <Grid item xs={12} sm={6} style={{ marginBottom: "50px" }}>
+              <label className="non-afb-label"><FormattedMessage id="agent.Picture(Selfie)" /></label>
+              <div className="inputFlash">
+                <Upload
+                  listType="picture-card"
+                  multiple={false}
+                  fileList={formState.selfiePhotoImage}
+                  onPreview={handleSelfiePreview}
+                  onChange={handleSelfieUpload}
+                  beforeUpload={() => false}
+                  maxCount={1}
+                >
+                  {formState.selfiePhotoImage.length < 1 && "+ Upload"}
+                </Upload>
+
+                <Modal
+                  visible={formState.selfiePreviewVisible}
+                  footer={null}
+                  onCancel={handleSelfiePreviewCancel}
+                >
+                  <img
+                    alt="example"
+                    style={{ width: "100%" }}
+                    src={formState.previewSelfieImage}
+                  />
+                </Modal>
+              </div>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <label className="non-afb-label"><FormattedMessage id="agent.DocumentType" /></label>
+              <div className="inputFlash">
+                <div className="categorySelect">
+                  <Select
+                    style={{ width: 100 + "%", height: 52 }}
+                    defaultValue="ID_CARD"
+                    value={formState.idDocumentType}
+                    onChange={(value) => {
+                      setFormState({
+                        ...formState,
+                        idDocumentType: value,
+                      });
+                    }}
+                  >
+                    <Option value="ID_CARD"><FormattedMessage id="agent.IDCard" /></Option>
+                    <Option value="PASSPORT"><FormattedMessage id="agent.Passport" /></Option>
+                  </Select>
+                </div>
+              </div>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <label className="non-afb-label"><FormattedMessage id="agent.DocumentNumber" /></label>
+              <div className="inputFlash">
+                <FormattedMessage id="agent.Number">
+                  {placeholder =>
+                    <input
+                      type="text"
+                      placeholder={placeholder}
+                      name="number"
+                      value={formState.idDocumentNumber}
+                      onChange={(e) => {
+                        setFormState({
+                          ...formState,
+                          idDocumentNumber: e.target.value,
+                        });
+                      }}
+                    />}
+                </FormattedMessage>
+              </div>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <label className="non-afb-label"><FormattedMessage id="agent.DocumentExpiryDate" /></label>
+              <div className="inputFlash">
+                <DatePicker
+                  disabledDate={(current) => {
+                    let customDate = moment().format("YYYY-MM-DD");
+                    return current && current < moment(customDate, "YYYY-MM-DD");
+                  }}
+                  value={moment(formState.idDocumentExpiryDate)}
+                  style={{ width: "100%", background: "#f3f3f3" }}
+                  onChange={(date, dateString) => {
                     setFormState({
                       ...formState,
-                      idDocumentType: value,
+                      idDocumentExpiryDate: dateString,
                     });
                   }}
-                >
-                  <Option value="ID_CARD"><FormattedMessage id="agent.IDCard" /></Option>
-                  <Option value="PASSPORT"><FormattedMessage id="agent.Passport" /></Option>
-                </Select>
-              </div>
-            </div>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <label className="non-afb-label"><FormattedMessage id="agent.DocumentNumber" /></label>
-            <div className="inputFlash">
-              <FormattedMessage id="agent.Number">
-                {placeholder =>
-              <input
-                type="text"
-                placeholder={placeholder}
-                name="number"
-                value={formState.idDocumentNumber}
-                onChange={(e) => {
-                  setFormState({
-                    ...formState,
-                    idDocumentNumber: e.target.value,
-                  });
-                }}
-              />}
-              </FormattedMessage>
-            </div>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <label className="non-afb-label"><FormattedMessage id="agent.DocumentExpiryDate" /></label>
-            <div className="inputFlash">
-              <DatePicker
-                disabledDate={(current) => {
-                  let customDate = moment().format("YYYY-MM-DD");
-                  return current && current < moment(customDate, "YYYY-MM-DD");
-                }}
-                value={moment(formState.idDocumentExpiryDate)}
-                style={{ width: "100%", background: "#f3f3f3" }}
-                onChange={(date, dateString) => {
-                  setFormState({
-                    ...formState,
-                    idDocumentExpiryDate: dateString,
-                  });
-                }}
-              />
-            </div>
-          </Grid>
-
-          <Grid item xs={12} sm={6} style={{ marginBottom: "50px" }}>
-            <label className="non-afb-label">
-            <FormattedMessage id="agent.Uploaddocumentfiles(MAX:2)" />
-            </label>
-            <div className="inputFlash">
-              <Upload
-                listType="picture-card"
-                multiple={true}
-                fileList={formState.IdDocumentsFilesImages}
-                onPreview={handleDocumentPreview}
-                onChange={handleDocumentUpload}
-                beforeUpload={() => false}
-                maxCount={2}
-              >
-                {formState.IdDocumentsFilesImages.length < 2 && "+ Upload"}
-              </Upload>
-
-              <Modal
-                visible={formState.documentPreviewVisible}
-                footer={null}
-                onCancel={handleDocumentPreviewCancel}
-              >
-                <img
-                  alt="example"
-                  style={{ width: "100%" }}
-                  src={formState.previewDocumentImage}
                 />
-              </Modal>
-            </div>
+              </div>
+            </Grid>
+
+            <Grid item xs={12} sm={6} style={{ marginBottom: "50px" }}>
+              <label className="non-afb-label">
+                <FormattedMessage id="agent.Uploaddocumentfiles(MAX:2)" />
+              </label>
+              <div className="inputFlash">
+                <Upload
+                  listType="picture-card"
+                  multiple={true}
+                  fileList={formState.IdDocumentsFilesImages}
+                  onPreview={handleDocumentPreview}
+                  onChange={handleDocumentUpload}
+                  beforeUpload={() => false}
+                  maxCount={2}
+                >
+                  {formState.IdDocumentsFilesImages.length < 2 && "+ Upload"}
+                </Upload>
+
+                <Modal
+                  visible={formState.documentPreviewVisible}
+                  footer={null}
+                  onCancel={handleDocumentPreviewCancel}
+                >
+                  <img
+                    alt="example"
+                    style={{ width: "100%" }}
+                    src={formState.previewDocumentImage}
+                  />
+                </Modal>
+              </div>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <label className="non-afb-label"><FormattedMessage id="agent.City" /> </label>
+              <div className="inputFlash">
+                <FormattedMessage id="agent.City">
+                  {placeholder =>
+                    <input
+                      type="text"
+                      placeholder={placeholder}
+                      name="city"
+                      value={formState.city}
+                      onChange={(e) => {
+                        setFormState({
+                          ...formState,
+                          city: e.target.value,
+                        });
+                      }}
+                    />}
+                </FormattedMessage>
+              </div>
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <label className="non-afb-label"><FormattedMessage id="agent.Address" /> </label>
+              <div className="inputFlash">
+                <FormattedMessage id="agent.Address">
+                  {placeholder =>
+                    <input
+                      type="text"
+                      placeholder={placeholder}
+                      name="address"
+                      value={formState.address}
+                      onChange={(e) => {
+                        setFormState({
+                          ...formState,
+                          address: e.target.value,
+                        });
+                      }}
+                    />}
+                </FormattedMessage>
+              </div>
+            </Grid>
           </Grid>
-          <Grid item xs={12} sm={6}>
-            <label className="non-afb-label"><FormattedMessage id="agent.City" /> </label>
-            <div className="inputFlash">
-              <FormattedMessage id="agent.City">
-                {placeholder =>
-              <input
-                type="text"
-                placeholder={placeholder}
-                name="city"
-                value={formState.city}
-                onChange={(e) => {
-                  setFormState({
-                    ...formState,
-                    city: e.target.value,
-                  });
-                }}
-              />}
-              </FormattedMessage>
-            </div>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <label className="non-afb-label"><FormattedMessage id="agent.Address" /> </label>
-            <div className="inputFlash">
-              <FormattedMessage id="agent.Address">
-                {placeholder =>
-              <input
-                type="text"
-                placeholder={placeholder}
-                name="address"
-                value={formState.address}
-                onChange={(e) => {
-                  setFormState({
-                    ...formState,
-                    address: e.target.value,
-                  });
-                }}
-              />}
-              </FormattedMessage>
-            </div>
-          </Grid>
-        </Grid>
-      </>
+        </>
       </IntlProvider>
     );
   };
