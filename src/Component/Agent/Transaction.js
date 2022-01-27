@@ -195,36 +195,80 @@ class Transaction extends Component {
             if (nextprops.language == "fr") {
                 this.setState({
                     columnDefs: [
-                        { headerName: "Date de transaction", field: "Transaction_Date", width: 250 },
-                        { headerName: "Numéro de téléphone du client", field: "Client_Phone_Number" },
-                        { headerName: "Mode de paiement", field: "Payment_method" },
-
-                        { headerName: "Numéro de référence", field: "Reference_Number" },
-                        { headerName: "Monnaie", field: "Currency" },
-                        { headerName: "Montant", field: "Amount" },
-                        { headerName: "Frais de transaction", field: "Transaction_Fee" },
-
-                        { headerName: "Montant total ", field: "Total_Amount" },
-                        { headerName: "État", field: "Status" },
-                        { headerName: "Transaction", field: "Transaction" },
+                        { headerName: "Numéro de référence", field: "transactionReference" },
+                        {
+                            headerName: "Date de transaction", field: "createdDate",
+                            cellRendererFramework: (params) => {
+                                // console.log(params, "PARAMS");
+                                return (
+                                    <div>
+                                        {(params.value).split('T')[0]}
+                                    </div>
+                                );
+                            }
+                        },
+                        {
+                            headerName: "Temps de transaction", field: "createdDate",
+                            cellRendererFramework: (params) => {
+                                // console.log(params, "PARAMS");
+                                return (
+                                    <div>
+                                        {(params.value).split('T')[1].split('.')[0]}
+                                    </div>
+                                );
+                            }
+                        },
+                        { headerName: "Type de transaction", field: "walletTransactionType" },
+        
+                        { headerName: "Montant", field: "amount" },
+        
+                        { headerName: "Frais", field: "fee" },
+                        // { headerName: "Amount", field: "Amount" },
+                        // { headerName: "Transaction Fee", field: "Transaction_Fee" },
+        
+                        // { headerName: "Total Amount ", field: "Total_Amount" },
+                        // { headerName: "Status ", field: "Status" },
+                        // { headerName: "Transaction ", field: "Transaction" },
                     ]
                 })
             }
             else {
                 this.setState({
                     columnDefs: [
-                        { headerName: "Transaction Date", field: "Transaction_Date", width: 250 },
-                        { headerName: "Client Phone Number", field: "Client_Phone_Number" },
-                        { headerName: "Payment method", field: "Payment_method" },
-
-                        { headerName: "Reference Number", field: "Reference_Number" },
-                        { headerName: "Currency", field: "Currency" },
-                        { headerName: "Amount", field: "Amount" },
-                        { headerName: "Transaction Fee", field: "Transaction_Fee" },
-
-                        { headerName: "Total Amount ", field: "Total_Amount" },
-                        { headerName: "Status ", field: "Status" },
-                        { headerName: "Transaction ", field: "Transaction" },
+                        { headerName: "Reference Number", field: "transactionReference" },
+                        {
+                            headerName: "Transaction Date", field: "createdDate",
+                            cellRendererFramework: (params) => {
+                                // console.log(params, "PARAMS");
+                                return (
+                                    <div>
+                                        {(params.value).split('T')[0]}
+                                    </div>
+                                );
+                            }
+                        },
+                        {
+                            headerName: "Transaction Time", field: "createdDate",
+                            cellRendererFramework: (params) => {
+                                // console.log(params, "PARAMS");
+                                return (
+                                    <div>
+                                        {(params.value).split('T')[1].split('.')[0]}
+                                    </div>
+                                );
+                            }
+                        },
+                        { headerName: "Transaction Type", field: "walletTransactionType" },
+        
+                        { headerName: "Amount", field: "amount" },
+        
+                        { headerName: "Fee", field: "fee" },
+                        // { headerName: "Amount", field: "Amount" },
+                        // { headerName: "Transaction Fee", field: "Transaction_Fee" },
+        
+                        // { headerName: "Total Amount ", field: "Total_Amount" },
+                        // { headerName: "Status ", field: "Status" },
+                        // { headerName: "Transaction ", field: "Transaction" },
                     ]
                 })
             }
@@ -323,7 +367,7 @@ class Transaction extends Component {
                                         <div className=" chartCardMiddle" style={{ padding: "24px" }}>
                                             <div className="transactioncardmiddle">
                                                 <div className="transactionformcol posformcol formCol">
-                                                    <label className="formColLabel">From</label>
+                                                    <label className="formColLabel"><FormattedMessage id="from" /></label>
                                                     <div className="customdatepicker categorySelect" >
                                                         {/* <Select
 
@@ -343,7 +387,7 @@ class Transaction extends Component {
                                                     </div>
                                                 </div>
                                                 <div className="transactionformcol posformcol formCol">
-                                                    <label className="formColLabel">To</label>
+                                                    <label className="formColLabel"><FormattedMessage id="agent.To" /></label>
                                                     <div className="customdatepicker categorySelect" >
                                                         {/* <Select
 
@@ -403,7 +447,7 @@ class Transaction extends Component {
                                             </div> */}
                                             </div>
                                             <div className="fetchsection">
-                                                <button className="dcbtn" onClick={this.filterData}>Fetch</button>
+                                                <button className="dcbtn" onClick={this.filterData}><FormattedMessage id="agent.Fetch" /></button>
                                             </div>
                                             <div className="tableTop_wrapper">
                                                 <div className="disFl">
@@ -423,7 +467,7 @@ class Transaction extends Component {
                                                     </div>
 
                                                     <h5 className="show_pp margin_left8">
-                                                        Entries
+                                                    <FormattedMessage id="agent.Entries" />
                                                     </h5>
                                                     <div
                                                         className="margin-left-auto"
@@ -439,17 +483,17 @@ class Transaction extends Component {
                                                                     <ul class="filterDrd">
                                                                         <li>
                                                                             <a href="#">
-                                                                                <span class="icon-logout"></span>All
+                                                                                <span class="icon-logout"></span><FormattedMessage id="agent.All" />
                                                                             </a>
                                                                         </li>
                                                                         <li>
                                                                             <a href="#">
-                                                                                <span class="icon-logout"></span>Inactive
+                                                                                <span class="icon-logout"></span><FormattedMessage id="agent.Inactive" />
                                                                             </a>
                                                                         </li>
                                                                         <li>
                                                                             <a href="#">
-                                                                                <span class="icon-logout"></span>Active
+                                                                                <span class="icon-logout"></span><FormattedMessage id="agent.Active" />
                                                                             </a>
                                                                         </li>
                                                                     </ul>
@@ -562,11 +606,12 @@ class Transaction extends Component {
     }
 }
 
-const mapStateToProps = ({ agentReducer }) => {
+const mapStateToProps = ({ agentReducer, commonReducer }) => {
 
     return {
         walletHistoryData: agentReducer.walletHistoryData,
         walletHistoryStatus: agentReducer.walletHistoryStatus,
+        language: commonReducer.language,
     }
 
 };
