@@ -1065,19 +1065,24 @@ class Dashboard extends Component {
                         <div className="customdashboardrow1-label-whole">
                           <div className="customdashboardrow1-label">
                             <label><FormattedMessage id="agent.IDNumber" />:</label>
-                            <span>32890233</span>
+                            <span>{this.state.profileData.idDocuments[0].documentIdNumber}</span>
+                          </div>
+                          <div className="line-separator"></div>
+                          <div className="customdashboardrow1-label">
+                            <label><FormattedMessage id="agent.email" />:</label>
+                            <span>{this.state.profileData.agentEmailAddress}</span>
                           </div>
                           <div className="line-separator"></div>
                           <div className="customdashboardrow1-label">
                             <label><FormattedMessage id="agent.PhoneNo" />: </label>
-                            <span>3333333</span>
+                            <span>{this.state.profileData.phoneNo}</span>
                           </div>
                           <div className="line-separator"></div>
                           <div className="customdashboardrow1-label">
                             <label><FormattedMessage id="agent.Address" />:     </label>
-                            <span>xyz  </span>
+                            <span>{this.state.profileData.address}</span>
                           </div>
-                          <div className="line-separator"></div>
+                          {/* <div className="line-separator"></div>
                           <div className="customdashboardrow1-label">
                             <label><FormattedMessage id="agent.Geolocalisation" />: </label>
                             <span>41° N & 28° E.</span>
@@ -1090,7 +1095,7 @@ class Dashboard extends Component {
                               </svg>
                               <span><FormattedMessage id="agent.SeeLocation" /></span>
                             </button>
-                          </div>
+                          </div> */}
                         </div>
 
                       </div>

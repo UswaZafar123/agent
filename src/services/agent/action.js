@@ -2138,3 +2138,32 @@ export const verifyBankCustomerOTP = (payload) => (dispatch) => {
     });
 }
 
+export const getAccessInfo = () => (dispatch) => {
+  dispatch(ShowLoading());
+  const config = {
+    method: "GET",
+    url: URL.agent.GET_ACCESS_INFO,
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    }
+  };
+  axios(config)
+    .then((res) => {
+      dispatch(HideLoading());
+      if (res.status === 200) {
+        toastr.success("Access History Retrieved.");
+        dispatch({
+          type: actionType.GET_ACCESS_INFO_SUCCESS,
+          payload: res.data,
+        });
+      }
+    })
+    .catch((err) => {
+      dispatch(HideLoading());
+      toastr.error("Access History Retrieval Error.")
+      dispatch({
+        type: actionType.GET_ACCESS_INFO_FAILURE,
+        payload: [],
+      });
+    });
+}
