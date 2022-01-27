@@ -208,7 +208,7 @@ class Transaction extends Component {
                             }
                         },
                         {
-                            headerName: "Transaction Time", field: "createdDate",
+                            headerName: "Temps de transaction", field: "createdDate",
                             cellRendererFramework: (params) => {
                                 // console.log(params, "PARAMS");
                                 return (
@@ -218,7 +218,7 @@ class Transaction extends Component {
                                 );
                             }
                         },
-                        { headerName: "Transaction Type", field: "walletTransactionType" },
+                        { headerName: "Type de transaction", field: "walletTransactionType" },
         
                         { headerName: "Montant", field: "amount" },
         
