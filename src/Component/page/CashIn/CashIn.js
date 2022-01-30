@@ -348,12 +348,6 @@ const CashIn = () => {
             </label>
           </div>
           <div className="containerBiaN_f_col" style={{ padding: "0px" }}>
-            {/* <input
-              placeholder="Enter Reason"
-              type="text"
-              value={reason}
-              onChange={(e) => setReason(e.target.value)}
-            /> */}
             <textarea
               id="w3review"
               rows="4"
