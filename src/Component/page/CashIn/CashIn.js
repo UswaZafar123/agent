@@ -58,7 +58,8 @@ const CashIn = () => {
   const [selectedBankAccount, setSelectedBankAccount] = useState({});
   const [amount, setAmount] = useState("");
   const [fee, setFee] = useState("");
-  const [reason, setReason] = useState("");
+  const [feeId, setFeeId] = useState("");
+  // const [reason, setReason] = useState("");
   const [selectedOtpType, setSelectedOtpType] = useState(otpTypes[0].value);
   const [otpTimer, setOtpTimer] = React.useState(resendTime);
   const [otp, setOtp] = useState("");
@@ -110,6 +111,7 @@ const CashIn = () => {
     console.log(feeData, "FEE");
     if (feeData !== null) {
       setFee(feeData.transactionFee);
+      setFeeId(feeData.feeId);
     }
   }, [feeData]);
 
@@ -280,10 +282,11 @@ const CashIn = () => {
       bankCustomerId: agentProfile.bankCustomerId,
       debtorBankAccountNumber: selectedBankAccount.accNo,
       amount: parseFloat(amount),
-      reason: reason,
+      reason: "Wallet Cash In",
       mfaToken: otp,
       currencyName: "XAF",
       fee: fee,
+      feeId: feeId,
       type: "CASH_IN",
     };
     dispatch(walletCashInFromBank(requestObj));
@@ -342,7 +345,7 @@ const CashIn = () => {
               onChange={(e) => setAmount(e.target.value)}
             />
           </div>
-          <div className="containerBiaN_f_col" style={{ padding: "0px" }}>
+          {/* <div className="containerBiaN_f_col" style={{ padding: "0px" }}>
             <label>
               Reason <span className="mantdat">*</span>
             </label>
@@ -355,7 +358,7 @@ const CashIn = () => {
               value={reason}
               onChange={(e) => setReason(e.target.value)}
             ></textarea>
-          </div>
+          </div> */}
         </div>
       </>
     );
