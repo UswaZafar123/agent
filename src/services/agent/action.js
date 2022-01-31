@@ -2167,3 +2167,36 @@ export const getAccessInfo = () => (dispatch) => {
       });
     });
 }
+
+export const addAccessInfo = (payload) => (dispatch) => {
+  dispatch(ShowLoading());
+  const config = {
+    method: "POST",
+    data: payload,
+    url: URL.agent.GET_ACCESS_INFO,
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    }
+  };
+  axios(config)
+    .then((res) => {
+      dispatch(HideLoading());
+      window.location = "/agent";
+      if (res.status === 200) {
+        toastr.success("Access History Added.");
+        dispatch({
+          type: actionType.ADD_ACCESS_INFO_SUCCESS,
+          payload: res.data,
+        });
+      }
+    })
+    .catch((err) => {
+      dispatch(HideLoading());
+      window.location = "/agent";
+      toastr.error("Access History Add Error.")
+      dispatch({
+        type: actionType.ADD_ACCESS_INFO_FAILURE,
+        payload: null,
+      });
+    });
+}

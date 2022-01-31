@@ -293,5 +293,7 @@ const initialState = {
 
   bankCustomerOTPStatus: false,
   accesInfo: [],
+  addAccessInfoStatus: false,
+  addAccessInfoData: null,
 };
 export default initialState;

@@ -6,7 +6,7 @@ import axios from "axios";
 import { FormattedMessage, IntlProvider, injectIntl } from "react-intl";
 import Logo from "./../../Assets/images/logo.png";
 import NavBar from "./../common/register/NavBar";
-import { loginAgent, loginAgentFailure } from "../../services/agent/action.js";
+import { addAccessInfo, loginAgent, loginAgentFailure } from "../../services/agent/action.js";
 
 class Login extends Component {
   constructor() {
@@ -172,6 +172,24 @@ class Login extends Component {
     localStorage.setItem("email", email);
   };
 
+  detectBrowser = () => {
+    var browserName = (function (agent) {
+      switch (true) {
+        case agent.indexOf("edge") > -1: return "MS Edge";
+        case agent.indexOf("edg/") > -1: return "Edge ( chromium based)";
+        case agent.indexOf("opr") > -1 && !!window.opr: return "Opera";
+        case agent.indexOf("chrome") > -1 && !!window.chrome: return "Chrome";
+        case agent.indexOf("trident") > -1: return "MS IE";
+        case agent.indexOf("firefox") > -1: return "Mozilla Firefox";
+        case agent.indexOf("safari") > -1: return "Safari";
+        default: return "other";
+      }
+    })(window.navigator.userAgent.toLowerCase());
+
+
+    return browserName;
+  }
+
   componentWillReceiveProps = async (nextProps) => {
     let userType;
 
@@ -179,7 +197,16 @@ class Login extends Component {
       this.setState({ loginPasswordError: null });
       this.setState({ showLoginError: false });
 
-      window.location = "/agent";
+      let accessHistoryData = {
+        "browser": this.detectBrowser(),
+        "userName": localStorage.getItem("email")
+      }
+
+      this.props.addAccessInfo(accessHistoryData);
+
+      // window.location = "/agent";
+
+
     } else {
       this.setState({ showLoginError: true });
 
@@ -268,163 +295,163 @@ class Login extends Component {
     return (
       //By using Fragment as parent div will not create an extra dom element //
       <IntlProvider
-      messages={this.state.messages.default}
-      locale={this.state.language}
-    >
-      <Fragment>
-        <section className="loginWrapper accountWrapper">
-          <NavBar language={this.language} />
-          <IntlProvider messages={this.state.messages.default}>
-            <div className="col-sm-12 loginContainer">
-              <div className="loginInner">
-                <div className="loginInform">
-                  <h4 aria-label="vinod is working"><FormattedMessage id="agent.agentlogin" /></h4>
+        messages={this.state.messages.default}
+        locale={this.state.language}
+      >
+        <Fragment>
+          <section className="loginWrapper accountWrapper">
+            <NavBar language={this.language} />
+            <IntlProvider messages={this.state.messages.default}>
+              <div className="col-sm-12 loginContainer">
+                <div className="loginInner">
+                  <div className="loginInform">
+                    <h4 aria-label="vinod is working"><FormattedMessage id="agent.agentlogin" /></h4>
 
-                  <div style={{ color: "red" }}>{this.props.login}</div>
-                  <div style={{ color: "red" }}></div>
+                    <div style={{ color: "red" }}>{this.props.login}</div>
+                    <div style={{ color: "red" }}></div>
 
-                  <form onSubmit={this.handleSubmit}>
-                    {twoFactorblock && (
-                      <div className="form-group">
-                        <label>Two Factor Authentication Code </label>
-                        <input
-                          type="text"
-                          name="code"
-                          value={code}
-                          maxLength="4"
-                          onChange={this.handleChange}
-                          className="form-control"
-                          placeholder="Two Factor Code"
-                        />
-                      </div>
-                    )}
-                    {!twoFactorblock && (
-                      <>
+                    <form onSubmit={this.handleSubmit}>
+                      {twoFactorblock && (
                         <div className="form-group">
-                          <label>
-                            {/* <FormattedMessage id="login.username" />{" "} */}
-                            <FormattedMessage id="agent.phonenumber" />
-                          </label>
+                          <label>Two Factor Authentication Code </label>
                           <input
                             type="text"
-                            name="email"
-                            autoComplete="off"
-                            value={email}
+                            name="code"
+                            value={code}
+                            maxLength="4"
                             onChange={this.handleChange}
                             className="form-control"
-                            placeholder="Username"
+                            placeholder="Two Factor Code"
                           />
                         </div>
-                        {/* <div style={{ color: "red" }}>{emailError}</div> */}
-
-                        <div
-                          className="form-group"
-                          style={{ marginTop: "5%", marginBottom: "5%" }}
-                        >
-                          <label>
-                            <FormattedMessage id="login.password" />{" "}
-                          </label>
-                          <div
-                            style={{ position: "relative", display: "flex" }}
-                          >
+                      )}
+                      {!twoFactorblock && (
+                        <>
+                          <div className="form-group">
+                            <label>
+                              {/* <FormattedMessage id="login.username" />{" "} */}
+                              <FormattedMessage id="agent.phonenumber" />
+                            </label>
                             <input
-                              className="form-control"
-                              type={this.state.type}
-                              name="loginPassword"
-                              value={loginPassword}
-                              placeholder="Password"
+                              type="text"
+                              name="email"
+                              autoComplete="off"
+                              value={email}
                               onChange={this.handleChange}
+                              className="form-control"
+                              placeholder="Username"
                             />
-                            <div
-                              class="input-group-append"
-                              onClick={this.showHide}
-                            >
-                              {this.state.type === "input" &&
-                                loginPassword != "" && (
-                                  <div style={{ cursor: "pointer" }}>
-                                    <i
-                                      style={{
-                                        position: "absolute",
-                                        top: "32%",
-                                        right: "2%",
-                                      }}
-                                      className="fa fa-eye"
-                                    ></i>
-                                  </div>
-                                )}
+                          </div>
+                          {/* <div style={{ color: "red" }}>{emailError}</div> */}
 
-                              {this.state.type === "password" &&
-                                loginPassword != "" && (
-                                  <div style={{ cursor: "pointer" }}>
-                                    <i
-                                      style={{
-                                        position: "absolute",
-                                        top: "32%",
-                                        right: "2%",
-                                      }}
-                                      className="fa fa-eye-slash"
-                                    ></i>
-                                  </div>
-                                )}
+                          <div
+                            className="form-group"
+                            style={{ marginTop: "5%", marginBottom: "5%" }}
+                          >
+                            <label>
+                              <FormattedMessage id="login.password" />{" "}
+                            </label>
+                            <div
+                              style={{ position: "relative", display: "flex" }}
+                            >
+                              <input
+                                className="form-control"
+                                type={this.state.type}
+                                name="loginPassword"
+                                value={loginPassword}
+                                placeholder="Password"
+                                onChange={this.handleChange}
+                              />
+                              <div
+                                class="input-group-append"
+                                onClick={this.showHide}
+                              >
+                                {this.state.type === "input" &&
+                                  loginPassword != "" && (
+                                    <div style={{ cursor: "pointer" }}>
+                                      <i
+                                        style={{
+                                          position: "absolute",
+                                          top: "32%",
+                                          right: "2%",
+                                        }}
+                                        className="fa fa-eye"
+                                      ></i>
+                                    </div>
+                                  )}
+
+                                {this.state.type === "password" &&
+                                  loginPassword != "" && (
+                                    <div style={{ cursor: "pointer" }}>
+                                      <i
+                                        style={{
+                                          position: "absolute",
+                                          top: "32%",
+                                          right: "2%",
+                                        }}
+                                        className="fa fa-eye-slash"
+                                      ></i>
+                                    </div>
+                                  )}
+                              </div>
                             </div>
                           </div>
+                        </>
+                      )}
+                      {this.state.showLoginError && (
+                        <div style={{ color: "red" }}>
+                          {this.props.loginError}
                         </div>
-                      </>
-                    )}
-                    {this.state.showLoginError && (
-                      <div style={{ color: "red" }}>
-                        {this.props.loginError}
-                      </div>
-                    )}
+                      )}
 
-                    <div className="form-group">
-                      <span>
-                        <input type="checkbox" />
-                        <label><FormattedMessage id="agent.rememberme" /></label>
-                      </span>
-                      <span>
-                        <NavLink to="/agent/forgotPassword" className="forgetPass">
-                          <FormattedMessage id="login.forogtpassword" />
-                        </NavLink>
-                      </span>
-                    </div>
-                    <div
-                      className="form-group"
-                      style={{
-                        marginTop: "8%",
-                        marginBottom: "8%",
-                        display: "flex",
-                        justifyContent: "center",
-                      }}
-                    >
-                      <button
-                        type="submit"
-                        className="btn-default btn"
-                        style={{ width: "50%" }}
-                        onClick={() => {
-                          this.setLogin();
+                      <div className="form-group">
+                        <span>
+                          <input type="checkbox" />
+                          <label><FormattedMessage id="agent.rememberme" /></label>
+                        </span>
+                        <span>
+                          <NavLink to="/agent/forgotPassword" className="forgetPass">
+                            <FormattedMessage id="login.forogtpassword" />
+                          </NavLink>
+                        </span>
+                      </div>
+                      <div
+                        className="form-group"
+                        style={{
+                          marginTop: "8%",
+                          marginBottom: "8%",
+                          display: "flex",
+                          justifyContent: "center",
                         }}
                       >
-                        <FormattedMessage id="login.button" />
-                      </button>
-                    </div>
-                  </form>
+                        <button
+                          type="submit"
+                          className="btn-default btn"
+                          style={{ width: "50%" }}
+                          onClick={() => {
+                            this.setLogin();
+                          }}
+                        >
+                          <FormattedMessage id="login.button" />
+                        </button>
+                      </div>
+                    </form>
 
-                  {/* <GoogleRecaptcha rechaptchaEnable={this.rechaptchaEnable} /> */}
-                  <p>
-                    <FormattedMessage id="login.donthaveanaccount" />
-                    <NavLink to="/agent/registration">
-                      {" "}
-                      <FormattedMessage id="register" />
-                    </NavLink>
-                    {/* <NavLink to="/agent/register"> <FormattedMessage id="register" /></NavLink> */}
-                  </p>
+                    {/* <GoogleRecaptcha rechaptchaEnable={this.rechaptchaEnable} /> */}
+                    <p>
+                      <FormattedMessage id="login.donthaveanaccount" />
+                      <NavLink to="/agent/registration">
+                        {" "}
+                        <FormattedMessage id="register" />
+                      </NavLink>
+                      {/* <NavLink to="/agent/register"> <FormattedMessage id="register" /></NavLink> */}
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-          </IntlProvider>
-        </section>
-      </Fragment>
+            </IntlProvider>
+          </section>
+        </Fragment>
       </IntlProvider>
     );
   }
@@ -432,11 +459,13 @@ class Login extends Component {
 
 // function for mapping redux state values with props //
 const mapStateToProps = ({ agentReducer, commonReducer }) => {
-  const { agentLoginstatus } = agentReducer;
+  const { agentLoginstatus, addAccessInfoStatus, addAccessInfoData } = agentReducer;
   const { language } = commonReducer;
   return {
     agentLoginstatus,
     language,
+    addAccessInfoStatus,
+    addAccessInfoData,
   };
 };
 
@@ -444,6 +473,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     loginAgent: (data) => dispatch(loginAgent(data)),
     loginAgentFailure: () => dispatch(loginAgentFailure()),
+    addAccessInfo: (payload) => dispatch(addAccessInfo(payload))
   };
 };
 
