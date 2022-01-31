@@ -10,7 +10,7 @@ import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import OtpInput from "react-otp-input";
-import { Select } from "antd";
+import { Button, Select } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { Card } from "react-bootstrap";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -191,6 +191,15 @@ const BankAccountBalance = () => {
     return !(
       validator.isEmpty(otp) ||
       otp.length !== 6 ||
+      customerBalanceInquiryLoading
+    );
+  };
+
+  const isLoading = () => {
+    return (
+      loadingCustomerValidation ||
+      loadingCustomerOtp ||
+      loadingCustomerBankAccounts ||
       customerBalanceInquiryLoading
     );
   };
@@ -610,7 +619,8 @@ const BankAccountBalance = () => {
                         className="list_top_heading textAlignCenter text-center"
                         style={{ paddingLeft: "0px" }}
                       >
-                        <FormattedMessage id="agent.BankCashDeposit" />
+                        Customer Bank Balance Inquiry
+                        {/* <FormattedMessage id="agent.BankCashDeposit" /> */}
                       </h1>
                     </div>
                   </div>
@@ -635,20 +645,21 @@ const BankAccountBalance = () => {
                   <div style={{ width: "100%", float: "left" }}>
                     <div className="confirm_p_w mTB00 button-container rspacing">
                       {(step !== 1) & (step !== 5) ? (
-                        <button
+                        <Button
                           className="blackbtn aryousureBTN confirmBtnR"
                           onClick={() => prevStep()}
                         >
                           Back
-                        </button>
+                        </Button>
                       ) : (
                         ""
                       )}
-                      <button
+                      <Button
                         className="aryousureBTN confirmBtnR"
                         style={{ opacity: isFormValidated() ? "1" : "0.5" }}
                         disabled={isFormValidated() ? false : true}
                         onClick={() => formSubmitAction()}
+                        loading={isLoading()}
                       >
                         {step === 4 ? (
                           "Submit"
@@ -657,7 +668,7 @@ const BankAccountBalance = () => {
                         ) : (
                           <FormattedMessage id="agent.Next" />
                         )}
-                      </button>
+                      </Button>
                     </div>
                   </div>
                 </div>
