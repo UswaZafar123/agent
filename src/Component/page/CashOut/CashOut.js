@@ -23,13 +23,13 @@ import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import feeConstants from "../../../Assets/feeConstants";
-import { FormattedMessage, IntlProvider } from 'react-intl';
+import { FormattedMessage, IntlProvider } from "react-intl";
 
 import {
   fetchAgentBankAccounts,
   sendOtpToAgent,
   walletCashOutFromBank,
-  getFee
+  getFee,
 } from "../../../services/agent/action.js";
 
 function TabContainer(props) {
@@ -76,7 +76,7 @@ const CashOut = () => {
   const [messages, setMessages] = useState("");
   const [language, setLanguage] = useState("");
 
-  const lan = useSelector(state => state.commonReducer.language);
+  const lan = useSelector((state) => state.commonReducer.language);
 
   const dispatch = useDispatch();
   const agentProfile = useSelector((state) => state.agentReducer.profile.data);
@@ -104,7 +104,6 @@ const CashOut = () => {
 
   const feeData = useSelector((state) => state.agentReducer.feeData);
 
-
   useEffect(() => {
     return () => {
       dispatch({
@@ -122,8 +121,7 @@ const CashOut = () => {
     if (feeData !== null) {
       setFee(feeData.transactionFee);
     }
-
-  }, [feeData])
+  }, [feeData]);
 
   useEffect(() => {
     if (agentBankAccounts.length === 0) {
@@ -146,17 +144,14 @@ const CashOut = () => {
     }
   }, [otpTimer, step]);
 
-
   useEffect(async () => {
-
     const messages = await loadLocaleData(localStorage.getItem("lang"));
     setMessages(messages);
 
     setLanguage(localStorage.getItem("lang"));
 
     // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
-
-  }, [])
+  }, []);
 
   const loadLocaleData = (locale) => {
     switch (locale) {
@@ -168,13 +163,11 @@ const CashOut = () => {
   };
 
   useEffect(async () => {
-
     const messages = await loadLocaleData(lan);
     setMessages(messages);
 
     setLanguage(lan);
-
-  }, [lan])
+  }, [lan]);
 
   useEffect(() => {
     if (firstUpdate.current) {
@@ -297,19 +290,19 @@ const CashOut = () => {
   };
 
   const calculateFees = () => {
-    let subscriptionID = feeConstants.getAgentSubscriptionId(agentProfile.status);
+    let subscriptionID = feeConstants.getAgentSubscriptionId(
+      agentProfile.status
+    );
     console.log(subscriptionID, "SUBSCRIPTION ID");
 
     var requestObj = {
-      paymentMethodId:
-        feeConstants.constants.CASHOUT_AGENT,
+      paymentMethodId: feeConstants.constants.CASHOUT_AGENT,
       subscriptionPlanId: subscriptionID,
       currencyCode: "XAF",
       transactionAmount: amount,
     };
     dispatch(getFee(requestObj));
-
-  }
+  };
 
   const bankCashOutForm = () => {
     return (
@@ -369,12 +362,13 @@ const CashOut = () => {
             </label>
           </div>
           <div className="containerBiaN_f_col" style={{ padding: "0px" }}>
-            <input
-              placeholder="Enter Reason"
-              type="text"
+            <textarea
+              id="w3review"
+              rows="4"
+              cols="50"
               value={reason}
               onChange={(e) => setReason(e.target.value)}
-            />
+            ></textarea>
           </div>
         </div>
       </>
@@ -411,12 +405,18 @@ const CashOut = () => {
                 <p style={{ fontWeight: "bold" }}>{`${fee} XAF`}</p>
               </div>
               <div style={{ display: "flex" }}>
-                <p style={{ marginRight: "16px", color: "gray" }}>Transfer Amount</p>
+                <p style={{ marginRight: "16px", color: "gray" }}>
+                  Transfer Amount
+                </p>
                 <p style={{ fontWeight: "bold" }}>{`${amount} XAF`}</p>
               </div>
               <div style={{ display: "flex" }}>
-                <p style={{ marginRight: "16px", color: "gray" }}>Total Amount</p>
-                <p style={{ fontWeight: "bold" }}>{parseFloat(amount) + parseFloat(fee) + " XAF"}</p>
+                <p style={{ marginRight: "16px", color: "gray" }}>
+                  Total Amount
+                </p>
+                <p style={{ fontWeight: "bold" }}>
+                  {parseFloat(amount) + parseFloat(fee) + " XAF"}
+                </p>
               </div>
             </div>
           </div>
@@ -557,10 +557,7 @@ const CashOut = () => {
   };
 
   return (
-    <IntlProvider
-      messages={messages.default}
-      locale={language}
-    >
+    <IntlProvider messages={messages.default} locale={language}>
       <div className="main_contain agentformCenter">
         <div className="merch_m_list_w">
           <div className="merch_list_card" id="merch_list_card">
@@ -592,11 +589,19 @@ const CashOut = () => {
                             value={selectedTab}
                             onChange={handleTabChange}
                           >
-                            <Tab label={<FormattedMessage id="agent.Credit/DebitCard" />} />
+                            <Tab
+                              label={
+                                <FormattedMessage id="agent.Credit/DebitCard" />
+                              }
+                            />
                             {agentProfile.registrationType ===
                               "EXISTING_BANK_CUSTOMER" && (
-                                <Tab label={<FormattedMessage id="agent.BankAccount" />} />
-                              )}
+                              <Tab
+                                label={
+                                  <FormattedMessage id="agent.BankAccount" />
+                                }
+                              />
+                            )}
                           </Tabs>
                         </AppBar>
                       )}
@@ -604,7 +609,9 @@ const CashOut = () => {
                       {selectedTab === 0 && (
                         <TabContainer>
                           <div>
-                            <p><FormattedMessage id="agent.Thisfeaturewillbeavailablesoon" /></p>
+                            <p>
+                              <FormattedMessage id="agent.Thisfeaturewillbeavailablesoon" />
+                            </p>
                           </div>
                         </TabContainer>
                       )}
@@ -652,8 +659,8 @@ const CashOut = () => {
                                   {step === 4
                                     ? "Submit"
                                     : step === 5
-                                      ? "Done"
-                                      : "Next"}
+                                    ? "Done"
+                                    : "Next"}
                                 </button>
                               </div>
                             </div>

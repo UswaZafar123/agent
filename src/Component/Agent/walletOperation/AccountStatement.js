@@ -19,7 +19,7 @@ import {
   sendOtpToCustomer,
   walletStatementInquiryAction,
 } from "../../../services/agent/action.js";
-import { FormattedMessage, IntlProvider } from 'react-intl';
+import { FormattedMessage, IntlProvider } from "react-intl";
 
 const { Option } = Select;
 const resendTime = 30;
@@ -56,7 +56,7 @@ const WalletAccountStatement = () => {
   const [messages, setMessages] = useState("");
   const [language, setLanguage] = useState("");
 
-  const lan = useSelector(state => state.commonReducer.language);
+  const lan = useSelector((state) => state.commonReducer.language);
 
   const dispatch = useDispatch();
   const agentProfile = useSelector((state) => state.agentReducer.profile.data);
@@ -102,7 +102,7 @@ const WalletAccountStatement = () => {
   }, [agentProfile, dispatch]);
 
   useEffect(() => {
-    if (step === 4) {
+    if (step === 3) {
       if (otpTimer > 0) {
         setTimeout(() => setOtpTimer(otpTimer - 1), 1000);
       }
@@ -110,15 +110,13 @@ const WalletAccountStatement = () => {
   }, [otpTimer, step]);
 
   useEffect(async () => {
-
     const messages = await loadLocaleData(localStorage.getItem("lang"));
     setMessages(messages);
 
     setLanguage(localStorage.getItem("lang"));
 
     // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
-
-  }, [])
+  }, []);
 
   const loadLocaleData = (locale) => {
     switch (locale) {
@@ -130,13 +128,11 @@ const WalletAccountStatement = () => {
   };
 
   useEffect(async () => {
-
     const messages = await loadLocaleData(lan);
     setMessages(messages);
 
     setLanguage(lan);
-
-  }, [lan])
+  }, [lan]);
 
   useEffect(() => {
     if (firstUpdate.current) {
@@ -270,7 +266,8 @@ const WalletAccountStatement = () => {
     var requestObj = {
       currencyCodes: "XAF",
       mobileNumber: phoneNumber,
-      sendType: selectedSendType,
+      // sendType: selectedSendType,
+      sendViaEmail: true,
       fromDate: startDate,
       toDate: endDate,
       page: 0,
@@ -287,25 +284,28 @@ const WalletAccountStatement = () => {
           <div className="containerBiaN_f_row">
             <div className="containerBiaN_f_col width30percent textAlignRight">
               <label>
-              <FormattedMessage id="agent.PhoneNumber(Wallet ID)" /> <span className="mantdat">*</span>
+                <FormattedMessage id="agent.PhoneNumber(Wallet ID)" />{" "}
+                <span className="mantdat">*</span>
               </label>
             </div>
             <div className="containerBiaN_f_col width70percent">
-            <FormattedMessage id="agent.EnterPhoneNumber">
-                {placeholder =>
-              <input
-                placeholder={placeholder}
-                type="number"
-                value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
-                />}
+              <FormattedMessage id="agent.EnterPhoneNumber">
+                {(placeholder) => (
+                  <input
+                    placeholder={placeholder}
+                    type="number"
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                  />
+                )}
               </FormattedMessage>
             </div>
           </div>
           <div className="containerBiaN_f_row">
             <div className="containerBiaN_f_col width30percent textAlignRight">
               <label>
-              <FormattedMessage id="agent.DocumentType" /> <span className="mantdat">*</span>
+                <FormattedMessage id="agent.DocumentType" />{" "}
+                <span className="mantdat">*</span>
               </label>
             </div>
             <div className="containerBiaN_f_col width70percent">
@@ -316,7 +316,11 @@ const WalletAccountStatement = () => {
                   onChange={(value) => setSelectedDocumentType(value)}
                 >
                   {idDocumentTypes.map((type) => {
-                    return <Option value={type.value}><FormattedMessage id={type.name} /></Option>;
+                    return (
+                      <Option value={type.value}>
+                        <FormattedMessage id={type.name} />
+                      </Option>
+                    );
                   })}
                 </Select>
               </div>
@@ -325,24 +329,27 @@ const WalletAccountStatement = () => {
           <div className="containerBiaN_f_row">
             <div className="containerBiaN_f_col width30percent textAlignRight">
               <label>
-              <FormattedMessage id="agent.IDDocumentNumber" /> <span className="mantdat">*</span>
+                <FormattedMessage id="agent.IDDocumentNumber" />{" "}
+                <span className="mantdat">*</span>
               </label>
             </div>
             <div className="containerBiaN_f_col width70percent">
-            <FormattedMessage id="agent.EnterIDDocumentNumber">
-              {placeholder =>
-              <input
-                placeholder={placeholder}
-                value={idDocumentNumber}
-                onChange={(e) => setIdDocumentNumber(e.target.value)}
-              />}
-            </FormattedMessage>
+              <FormattedMessage id="agent.EnterIDDocumentNumber">
+                {(placeholder) => (
+                  <input
+                    placeholder={placeholder}
+                    value={idDocumentNumber}
+                    onChange={(e) => setIdDocumentNumber(e.target.value)}
+                  />
+                )}
+              </FormattedMessage>
             </div>
           </div>
           <div className="containerBiaN_f_row">
             <div className="containerBiaN_f_col width30percent textAlignRight">
               <label>
-              <FormattedMessage id="agent.StartDate" /> <span className="mantdat">*</span>
+                <FormattedMessage id="agent.StartDate" />{" "}
+                <span className="mantdat">*</span>
               </label>
             </div>
             <div className="containerBiaN_f_col width70percent">
@@ -357,7 +364,8 @@ const WalletAccountStatement = () => {
           <div className="containerBiaN_f_row">
             <div className="containerBiaN_f_col width30percent textAlignRight">
               <label>
-              <FormattedMessage id="agent.EndDate" /> <span className="mantdat">*</span>
+                <FormattedMessage id="agent.EndDate" />{" "}
+                <span className="mantdat">*</span>
               </label>
             </div>
             <div className="containerBiaN_f_col width70percent">
@@ -372,7 +380,8 @@ const WalletAccountStatement = () => {
           <div className="containerBiaN_f_row">
             <div className="containerBiaN_f_col width30percent textAlignRight">
               <label>
-              <FormattedMessage id="agent.SendBy" /> <span className="mantdat">*</span>
+                <FormattedMessage id="agent.SendBy" />{" "}
+                <span className="mantdat">*</span>
               </label>
             </div>
             <div className="containerBiaN_f_col width70percent">
@@ -383,7 +392,11 @@ const WalletAccountStatement = () => {
                   onChange={(value) => setSelectedSendType(value)}
                 >
                   {sendTypes.map((type) => {
-                    return <Option value={type.value}><FormattedMessage id={type.name} /></Option>;
+                    return (
+                      <Option value={type.value}>
+                        <FormattedMessage id={type.name} />
+                      </Option>
+                    );
                   })}
                 </Select>
               </div>
@@ -519,62 +532,66 @@ const WalletAccountStatement = () => {
   };
 
   return (
-    <IntlProvider
-    messages={messages.default}
-    locale={language}
-  >
-    <div className="main_contain agentformCenter">
-      <div className="merch_m_list_w">
-        <div className="merch_list_card" id="merch_list_card">
-          <div className="section_custom">
-            <div className="sectionInn">
-              <div className="chartCard_w">
-                <div className="chartCardTop">
-                  <div className="kyccustomformheading">
-                    <h1
-                      className="list_top_heading textAlignCenter text-center"
-                      style={{ paddingLeft: "0px" }}
-                    >
-                       <FormattedMessage id="agent.CustomerWalletStatementInquiry" />
-                    </h1>
-                  </div>
-                </div>
-                <div className="chartCardMiddle" style={{ padding: "24px" }}>
-                  {(() => {
-                    switch (step) {
-                      case 1:
-                        return walletVerificationForm();
-                      case 2:
-                        return customerOTPType();
-                      case 3:
-                        return customerOTP();
-                      case 4:
-                        return transactionSuccess();
-                      default:
-                        return <div></div>;
-                    }
-                  })()}
-                </div>
-                <div style={{ width: "100%", float: "left" }}>
-                  <div className="confirm_p_w mTB00 button-container rspacing">
-                    {(step !== 1) & (step !== 4) ? (
-                      <button
-                        className="blackbtn aryousureBTN confirmBtnR"
-                        onClick={() => prevStep()}
+    <IntlProvider messages={messages.default} locale={language}>
+      <div className="main_contain agentformCenter">
+        <div className="merch_m_list_w">
+          <div className="merch_list_card" id="merch_list_card">
+            <div className="section_custom">
+              <div className="sectionInn">
+                <div className="chartCard_w">
+                  <div className="chartCardTop">
+                    <div className="kyccustomformheading">
+                      <h1
+                        className="list_top_heading textAlignCenter text-center"
+                        style={{ paddingLeft: "0px" }}
                       >
-                        <FormattedMessage id="back" />
+                        <FormattedMessage id="agent.CustomerWalletStatementInquiry" />
+                      </h1>
+                    </div>
+                  </div>
+                  <div className="chartCardMiddle" style={{ padding: "24px" }}>
+                    {(() => {
+                      switch (step) {
+                        case 1:
+                          return walletVerificationForm();
+                        case 2:
+                          return customerOTPType();
+                        case 3:
+                          return customerOTP();
+                        case 4:
+                          return transactionSuccess();
+                        default:
+                          return <div></div>;
+                      }
+                    })()}
+                  </div>
+                  <div style={{ width: "100%", float: "left" }}>
+                    <div className="confirm_p_w mTB00 button-container rspacing">
+                      {(step !== 1) & (step !== 4) ? (
+                        <button
+                          className="blackbtn aryousureBTN confirmBtnR"
+                          onClick={() => prevStep()}
+                        >
+                          <FormattedMessage id="back" />
+                        </button>
+                      ) : (
+                        ""
+                      )}
+                      <button
+                        className="aryousureBTN confirmBtnR"
+                        style={{ opacity: isFormValidated() ? "1" : "0.5" }}
+                        disabled={isFormValidated() ? false : true}
+                        onClick={() => formSubmitAction()}
+                      >
+                        {step === 3 ? (
+                          "Submit"
+                        ) : step === 4 ? (
+                          "Done"
+                        ) : (
+                          <FormattedMessage id="agent.Next" />
+                        )}
                       </button>
-                    ) : (
-                      ""
-                    )}
-                    <button
-                      className="aryousureBTN confirmBtnR"
-                      style={{ opacity: isFormValidated() ? "1" : "0.5" }}
-                      disabled={isFormValidated() ? false : true}
-                      onClick={() => formSubmitAction()}
-                    >
-                      {step === 3 ? "Submit" : step === 4 ? "Done" : <FormattedMessage id="agent.Next" />}
-                    </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -582,7 +599,6 @@ const WalletAccountStatement = () => {
           </div>
         </div>
       </div>
-    </div>
     </IntlProvider>
   );
 };
