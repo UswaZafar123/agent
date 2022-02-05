@@ -88,7 +88,7 @@ class Header extends Component {
   updateDimensions=()=> {
     this.setState({ marginLeft: window.innerWidth});
     console.log("marginTest",this.state.marginLeft)
-    
+
   };
   componentDidMount() {
     window.addEventListener('resize', this.updateDimensions);
@@ -140,14 +140,18 @@ class Header extends Component {
                     <ul class="pDropDown_W">
                       <li
                         onClick={() => {
-                          this.props.Logout();
+
                           sessionStorage.removeItem("refresh_token");
                           sessionStorage.removeItem("token_expiretime");
                           sessionStorage.removeItem("refresh_token_expiretime");
                           sessionStorage.removeItem("token");
                           sessionStorage.removeItem("user_type");
                           sessionStorage.removeItem("email");
+                          localStorage.removeItem("lang");
+                          this.props.Logout();
                           window.location = "/";
+
+
                         }}
                       >
                         <a href="#">

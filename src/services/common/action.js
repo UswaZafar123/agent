@@ -26,7 +26,7 @@ export const AdminLoginFailure = (payload) => (dispatch) => {
 
 export const Logout = () => (dispatch) => {
   dispatch({
-    type: actionType.ADMIN_LOGIN_FAILURE,
+    type: actionType.SET_LANGUAGE_FALSE,
   });
 };
 
