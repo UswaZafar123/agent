@@ -16,7 +16,7 @@ class Header extends Component {
 
     this.state = {
       profileImage: null,
-      language: "",
+      language: localStorage.getItem("lang"),
       marginLeft:window.innerWidth,
       mediaWidth:1023
     };
