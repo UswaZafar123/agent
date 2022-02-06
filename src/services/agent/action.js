@@ -1005,6 +1005,13 @@ export const loginAgentFailure = () => (dispatch) => {
   });
 };
 
+export const setTokenFalse = () => (dispatch) => {
+  dispatch({
+    type: actionType.TOKEN_FALSE,
+  });
+};
+
+
 export const loginAgent = (payload) => (dispatch) => {
   const config = {
     method: "post",

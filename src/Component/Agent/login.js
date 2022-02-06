@@ -179,7 +179,7 @@ class Login extends Component {
       this.setState({ loginPasswordError: null });
       this.setState({ showLoginError: false });
 
-      window.location = "/agent";
+       this.props.history.push('/agent')
     } else {
       this.setState({ showLoginError: true });
 

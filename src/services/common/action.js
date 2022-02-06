@@ -1,4 +1,5 @@
 import actionType from "./actionType";
+import {loginAgentFailure} from "../agent/action";
 
 export const ShowLoading = (payload) => (dispatch) => {
   dispatch({
@@ -28,6 +29,7 @@ export const Logout = () => (dispatch) => {
   dispatch({
     type: actionType.SET_LANGUAGE_FALSE,
   });
+  dispatch(loginAgentFailure())
 };
 
 export const SetLanguage = (lang) => (dispatch) => {
