@@ -7,7 +7,8 @@ import { Select, Menu, Dropdown } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
 import { connect } from "react-redux";
 import { getRefreshToken, getProfile } from "../../services/agent/action";
-
+import {withRouter}from "react-router-dom";
+import compose from "redux"
 const { Option } = Select;
 
 class Header extends Component {
@@ -67,6 +68,7 @@ class Header extends Component {
         profileImage: value
       })
     }
+
   }
 
   handleLanguage(e) {
@@ -149,12 +151,9 @@ class Header extends Component {
                           sessionStorage.removeItem("email");
                           localStorage.removeItem("lang");
                           this.props.Logout();
-                          window.location = "/";
-
-
                         }}
                       >
-                        <a href="#">
+                        <a>
                           <span class="icon-logout"></span>Logout
                         </a>
                       </li>
@@ -177,13 +176,13 @@ class Header extends Component {
 }
 
 const mapStateToProps = ({ agentReducer }) => {
-  const { profileImage, profileImageStatus } = agentReducer;
+  const { profileImage, profileImageStatus,agentLoginStatus } = agentReducer;
 
-  console.log(agentReducer, "profileImage");
 
   return {
     profileImage,
     profileImageStatus,
+    agentLoginStatus
   };
 };
 
@@ -195,4 +194,4 @@ const mapDispatchToProps = (dispatch) => ({
 
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+ export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));
