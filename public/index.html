@@ -35,7 +35,7 @@
 
   <script type="text/javascript">
     var userLang = navigator.language || navigator.userLanguage;
-    localStorage.setItem("lang", userLang);
+    !localStorage.getItem("lang")&&localStorage.setItem("lang", userLang);
     // alert("The language is: " + userLang);
   </script>
 </head>

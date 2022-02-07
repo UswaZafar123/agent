@@ -43,15 +43,17 @@ class Sidebar extends Component {
 
     async translationHelperFunction() {
 
+
+      console.log(localStorage.getItem("lang"),"lab>>>>>>>>")
         const messages = await this.loadLocaleData(localStorage.getItem("lang"));
         this.setState({
           messages: messages,
           language: localStorage.getItem("lang")
         });
         // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
-    
+
       }
-    
+
       loadLocaleData = (locale) => {
         switch (locale) {
           case "fr":
@@ -92,15 +94,25 @@ class Sidebar extends Component {
         );
       }
     }
-    
-      if (nextProps.language) {
-         const messages = await this.loadLocaleData(nextProps.language);
-      
-          this.setState({
-            messages: messages,
-            language: nextProps.language
-           });
-      }
+
+
+  }
+
+
+
+  getSnapshotBeforeUpdate(prevProps) {
+    return { languageChangeRequired: prevProps.language !== this.props.language };
+  }
+
+  async componentDidUpdate(prevProps, prevState, snapshot) {
+    if (snapshot.languageChangeRequired) {
+      const messages = await this.loadLocaleData(this.props.language);
+
+      this.setState({
+        messages: messages,
+        language: this.props.language
+       });
+    }
   }
 
   filterSubmenuLinks = (profileData) => {
@@ -212,7 +224,7 @@ class Sidebar extends Component {
             this.showStatusDialog('Account Inactive',
                 'Your account is still in-active please contanct bank administration for more details.');
             break;
-    
+
           case 'SUSPENDED':
             this.showStatusDialog('Account Suspended',
                 'Your account has been suspended please contanct bank administration for more details.');

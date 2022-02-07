@@ -1,4 +1,5 @@
 import actionType from "./actionType";
+import {loginAgentFailure} from "../agent/action";
 
 export const ShowLoading = (payload) => (dispatch) => {
   dispatch({
@@ -26,8 +27,9 @@ export const AdminLoginFailure = (payload) => (dispatch) => {
 
 export const Logout = () => (dispatch) => {
   dispatch({
-    type: actionType.ADMIN_LOGIN_FAILURE,
+    type: actionType.SET_LANGUAGE_FALSE,
   });
+  dispatch(loginAgentFailure())
 };
 
 export const SetLanguage = (lang) => (dispatch) => {

@@ -10,11 +10,12 @@ import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import OtpInput from "react-otp-input";
-import { Select } from "antd";
+import { Button, Select, DatePicker } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { Card } from "react-bootstrap";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import actionType from "../../services/agent/actionType.js";
+import moment from "moment";
 import { FormattedMessage, IntlProvider } from "react-intl";
 
 import {
@@ -52,8 +53,8 @@ const BankAccountStatement = () => {
 
   const [bankCustomerId, setBankCustomerId] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
   const [selectedDocumentType, setSelectedDocumentType] = useState(
     idDocumentTypes[0].value
   );
@@ -170,14 +171,18 @@ const BankAccountStatement = () => {
     selectedBankAccount,
   ]);
 
+  function disabledDate(current) {
+    return current > moment() || current < moment().subtract(3, "months");
+  }
+
   const stepOneValidated = () => {
     return !(
       validator.isEmpty(phoneNumber) ||
       validator.isEmpty(selectedDocumentType) ||
       validator.isEmpty(idDocumentNumber) ||
       validator.isEmpty(bankCustomerId) ||
-      validator.isEmpty(startDate) ||
-      validator.isEmpty(endDate) ||
+      validator.isEmpty(startDate.toString()) ||
+      validator.isEmpty(endDate.toString()) ||
       loadingCustomerValidation ||
       loadingCustomerBankAccounts
     );
@@ -195,6 +200,15 @@ const BankAccountStatement = () => {
     return !(
       validator.isEmpty(otp) ||
       otp.length !== 6 ||
+      customerStatementInquiryLoading
+    );
+  };
+
+  const isLoading = () => {
+    return (
+      loadingCustomerValidation ||
+      loadingCustomerOtp ||
+      loadingCustomerBankAccounts ||
       customerStatementInquiryLoading
     );
   };
@@ -264,8 +278,8 @@ const BankAccountStatement = () => {
     });
     setBankCustomerId("");
     setPhoneNumber("");
-    setStartDate("");
-    setEndDate("");
+    setStartDate(new Date());
+    setEndDate(new Date());
     setIdDocumentNumber("");
     setOtp("");
   };
@@ -307,8 +321,8 @@ const BankAccountStatement = () => {
       sendViaEmail: true,
       mfaToken: otp,
       customerId: bankCustomerId,
-      fromDate: startDate,
-      toDate: endDate,
+      fromDate: moment(startDate).format("YYYY-MM-DD"),
+      toDate: moment(startDate).format("YYYY-MM-DD"),
       pageNumber: 0,
       size: 100,
     };
@@ -411,11 +425,14 @@ const BankAccountStatement = () => {
               </label>
             </div>
             <div className="containerBiaN_f_col width70percent">
-              <input
-                type="date"
-                placeholder="Enter Start Date"
-                value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
+              <DatePicker
+                format="YYYY-MM-DD"
+                value={moment(startDate)}
+                style={{ width: "100%", background: "#f3f3f3" }}
+                disabledDate={disabledDate}
+                onChange={(date, dateString) => {
+                  setStartDate(dateString);
+                }}
               />
             </div>
           </div>
@@ -427,11 +444,14 @@ const BankAccountStatement = () => {
               </label>
             </div>
             <div className="containerBiaN_f_col width70percent">
-              <input
-                type="date"
-                placeholder="Enter End Date"
-                value={endDate}
-                onChange={(e) => setEndDate(e.target.value)}
+              <DatePicker
+                format="YYYY-MM-DD"
+                value={moment(endDate)}
+                style={{ width: "100%", background: "#f3f3f3" }}
+                disabledDate={disabledDate}
+                onChange={(date, dateString) => {
+                  setEndDate(dateString);
+                }}
               />
             </div>
           </div>
@@ -653,7 +673,8 @@ const BankAccountStatement = () => {
                         className="list_top_heading textAlignCenter text-center"
                         style={{ paddingLeft: "0px" }}
                       >
-                        <FormattedMessage id="agent.BankCashDeposit" />
+                        Customer Bank Statment Inquiry
+                        {/* <FormattedMessage id="agent.BankCashDeposit" /> */}
                       </h1>
                     </div>
                   </div>
@@ -678,20 +699,21 @@ const BankAccountStatement = () => {
                   <div style={{ width: "100%", float: "left" }}>
                     <div className="confirm_p_w mTB00 button-container rspacing">
                       {(step !== 1) & (step !== 5) ? (
-                        <button
+                        <Button
                           className="blackbtn aryousureBTN confirmBtnR"
                           onClick={() => prevStep()}
                         >
                           <FormattedMessage id="back" />
-                        </button>
+                        </Button>
                       ) : (
                         ""
                       )}
-                      <button
+                      <Button
                         className="aryousureBTN confirmBtnR"
                         style={{ opacity: isFormValidated() ? "1" : "0.5" }}
                         disabled={isFormValidated() ? false : true}
                         onClick={() => formSubmitAction()}
+                        loading={isLoading()}
                       >
                         {step === 4 ? (
                           "Submit"
@@ -700,7 +722,7 @@ const BankAccountStatement = () => {
                         ) : (
                           <FormattedMessage id="agent.Next" />
                         )}
-                      </button>
+                      </Button>
                     </div>
                   </div>
                 </div>

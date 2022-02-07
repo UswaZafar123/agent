@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Assets/icomoon/style.css";
 import "antd/dist/antd.css";
 import Sidebar from "./Component/Agent/sidebar/Sidebar";
@@ -111,21 +111,49 @@ import LinkToAgentBanker from "./Component/page/Profile/LinkToAgentBanker";
 import LinkingRequests from "./Component/page/Profile/LinkingRequests";
 import LinkedAgents from "./Component/page/Profile/LinkedAgents";
 import AddAccount from "./Component/page/Profile/AddAccount";
+import PrivateRoute from "./privateRoute.js"
+import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+
 
 export const App = (props) => {
   const [toggleMenuVar, setToggleMenuVar] = useState(false)
+  const [showStatus,setShow] =useState(false)
+  const agentLoginStatus =useSelector(data=>data.agentReducer.agentLoginstatus)
+  const tokenStatus =useSelector(data=>data.agentReducer.tokenStatus)
+
+  let history = useHistory();
 
   const toggleMenu = (booleanVal) => {
     setToggleMenuVar(booleanVal)
   };
 
+  useEffect(()=>{
+
+  if(!tokenStatus)  {
+    setShow(false)
+  }else{
+    setShow(true)
+
+  }
+  },[tokenStatus])
+
+  useEffect(()=>{
+    if(!agentLoginStatus)  {
+      setShow(false)
+      history.push("/agent/login");
+    }else{
+      setShow(true)
+    }
+    },[agentLoginStatus])
+
 
 
   return (
     <>
-      {/* Switch Case */}
+     {!showStatus&&
       <Switch>
-        <Redirect exact from="/" to="/agent/login" />
+       {!agentLoginStatus? <Redirect exact from="/" to="/agent/login" />:<Redirect exact from="/" to="/agent/dashboard" />}
         <Route path="/agent/login" component={Login} />
         <Route path="/agent/register" component={AgentRegister} />
         <Route path="/agent/registration" component={Registration} />
@@ -133,8 +161,9 @@ export const App = (props) => {
         <Route path="/agent/registrationSuccess" component={AgentRegSuccess} />
         <Route path="/agent/forgotPassword" component={ForgotPassword} />
       </Switch>
-      {sessionStorage.getItem("token") &&
-        window.location.pathname !== "/agent/login" && (
+       }
+      {showStatus &&
+        (
           <div
             className={
               toggleMenuVar
@@ -166,84 +195,85 @@ export const App = (props) => {
                 >
                   <Switch>
                     <Redirect exact from="/agent" to="/agent/dashboard" />
-                    <Route
+                    <PrivateRoute
+
                       exact
                       path="/agent/dashboard"
                       component={Dashboard}
                     />
-                    <Route
+                    <PrivateRoute
                       exact
                       path="/agent/cash_deposit/wallet"
                       component={WalletCashDeposit}
                     />
-                    <Route
+                    <PrivateRoute
                       exact
                       path="/agent/cash_deposit/bank"
                       component={BankCashDeposit}
                     />
-                    <Route
+                    <PrivateRoute
                       exact
                       path="/agent/cash_withdraw/wallet"
                       component={WalletCashWithdraw}
                     />
-                    <Route
+                    <PrivateRoute
                       exact
                       path="/agent/cash_withdraw/bank"
                       component={BankCashWithdraw}
                     />
-                    <Route exact path="/agent/cash_in" component={CashIn} />
-                    <Route exact path="/agent/cash_out" component={CashOut} />
-                    <Route
+                    <PrivateRoute exact path="/agent/cash_in" component={CashIn} />
+                    <PrivateRoute exact path="/agent/cash_out" component={CashOut} />
+                    <PrivateRoute
                       exact
                       path="/agent/send-money"
                       component={AgentSendMoney}
                     />
-                    <Route
+                    <PrivateRoute
                       exact
                       path="/agent/send-money-agentMember"
                       component={AgentSendMoneyToAgentMember}
                     />
 
-                    <Route
+                    <PrivateRoute
                       exact
                       path="/agentMemeber/OTP"
                       component={AgentMemberOTP}
                     />
 
-                    <Route
+                    <PrivateRoute
                       path="/agent/walletOperation/transfert"
                       component={WalletTransfer}
                     />
 
-                    <Route path="/agent/assets" component={Assets} />
+                    <PrivateRoute path="/agent/assets" component={Assets} />
 
-                    <Route path="/agent/operations" component={Operations} />
+                    <PrivateRoute path="/agent/operations" component={Operations} />
 
-                    <Route
+                    <PrivateRoute
                       path="/agent/walletOperation/WalletToAccount1"
                       component={WalletToAccount1}
                     />
 
-                    <Route path="/tickets/reply" component={ticketReply} />
+                    <PrivateRoute path="/tickets/reply" component={ticketReply} />
 
-                    <Route
+                    <PrivateRoute
                       path="/agent/walletOperation/WalletToAccount2"
                       component={WalletToAccount2}
                     />
-                    <Route
+                    <PrivateRoute
                       path="/agent/walletOperation/WalletToAccount3"
                       component={WalletToAccount3}
                     />
-                    <Route
+                    <PrivateRoute
                       path="/agent/walletOperation/WalletToWallet"
                       component={WalletToWallet}
                     />
-                    <Route
+                    <PrivateRoute
                       path="/agent/walletOperation/WalletToWallet2"
                       component={WalletToWallet2}
                     />
 
-                    <Route
+                    <PrivateRoute
                       path="/agent/walletOperation/AccountBalance"
                       component={WalletAccountBalance}
                     />
@@ -252,182 +282,182 @@ export const App = (props) => {
                       component={WalletAccountStatement}
                     />
 
-                    <Route
+                    <PrivateRoute
                       path="/agent/walletOperation/ServicePayment"
                       component={ServicePayment}
                     />
-                    <Route
+                    <PrivateRoute
                       path="/agent/walletOperation/TaxPayment"
                       component={TaxPayment}
                     />
-                    <Route
+                    <PrivateRoute
                       path="/agent/walletOperation/TaxPaymentResum"
                       component={TaxPaymentResum}
                     />
-                    <Route
+                    <PrivateRoute
                       path="/agent/walletOperation/CashWalletAccount"
                       component={CashWalletAccount}
                     />
-                    <Route
+                    <PrivateRoute
                       path="/agent/walletOperation/CashDepositWalletAccount"
                       component={CashDepositWalletAccount}
                     />
-                    <Route
+                    <PrivateRoute
                       path="/agent/walletOperation/BillPayment"
                       component={BillPayment}
                     />
-                    <Route
+                    <PrivateRoute
                       path="/agent/walletOperation/BillPaymentResum"
                       component={BillPaymentResum}
                     />
-                    <Route
+                    <PrivateRoute
                       path="/agent/walletOperation/SchoolFeesMethod"
                       component={SchoolFeesMethod}
                     />
-                    <Route
+                    <PrivateRoute
                       path="/agent/walletOperation/SchoolFeesCashDeposit"
                       component={SchoolFeesCashDeposit}
                     />
-                    <Route
+                    <PrivateRoute
                       path="/agent/walletOperation/SchoolFeesTransferAccountWallet"
                       component={SchoolFeesTransferAccountWallet}
                     />
-                    <Route
+                    <PrivateRoute
                       path="/Settings/link/bank-account"
                       component={AccountLinking}
                     />
 
-                    <Route
+                    <PrivateRoute
                       path="/Settings/linkingAccount/verification"
                       component={AccountVerification}
                     />
-                    <Route
+                    <PrivateRoute
                       path="/agent/walletAccountOpening"
                       component={walletAccountOpening}
                     />
-                    <Route path="/agent/afbCustomer" component={AfbCustomer} />
-                    <Route
+                    <PrivateRoute path="/agent/afbCustomer" component={AfbCustomer} />
+                    <PrivateRoute
                       path="/agent/nonAfbCustomer"
                       component={nonAfbCustomer}
                     />
-                    <Route
+                    <PrivateRoute
                       path="/agent/BankingAccountOpening"
                       component={BankingOpeningAccount}
                     />
-                    <Route
+                    <PrivateRoute
                       path="/agent/AccountBalance"
                       component={BankAccountBalance}
                     />
 
-                    <Route path="/Admin/Transfer" component={SendMoney1} />
-                    <Route path="/Admin/Transfer0" component={ReciveMoney1} />
-                    <Route
+                    <PrivateRoute path="/Admin/Transfer" component={SendMoney1} />
+                    <PrivateRoute path="/Admin/Transfer0" component={ReciveMoney1} />
+                    <PrivateRoute
                       path="/Admin/ReciveMoney2"
                       component={ReciveMoney2}
                     />
-                    <Route path="/Admin/ReciveMoney" component={ReciveMoney} />
-                    <Route path="/Admin/Transfer" component={SendFeels} />
-                    <Route path="/agent/kyc" component={TaxationProof} />
-                    <Route path="/Admin/Loan" component={LoanApplication} />
-                    <Route path="/Admin/CashDeposit" component={CashDeposit1} />
-                    <Route path="/Admin/sendMoney" component={sendMoney} />
-                    <Route
+                    <PrivateRoute path="/Admin/ReciveMoney" component={ReciveMoney} />
+                    <PrivateRoute path="/Admin/Transfer" component={SendFeels} />
+                    <PrivateRoute path="/agent/kyc" component={TaxationProof} />
+                    <PrivateRoute path="/Admin/Loan" component={LoanApplication} />
+                    <PrivateRoute path="/Admin/CashDeposit" component={CashDeposit1} />
+                    <PrivateRoute path="/Admin/sendMoney" component={sendMoney} />
+                    <PrivateRoute
                       path="/Admin/succesSendMoney"
                       component={succesSendMoney}
                     />
 
-                    <Route
+                    <PrivateRoute
                       path="/admin/banking/transfer"
                       component={Transfer}
                     />
-                    <Route
+                    <PrivateRoute
                       path="/admin/banking/account_balance"
                       component={BankAccountBalance}
                     />
-                    <Route
+                    <PrivateRoute
                       path="/admin/banking/account_statement"
                       component={BankAccountStatement}
                     />
-                    <Route
+                    <PrivateRoute
                       path="/admin/banking/cash_deposit_bank"
                       component={CashDeposit}
                     />
-                    <Route
+                    <PrivateRoute
                       path="/admin/banking/cash_withdrawal_bank"
                       component={CashWithdrawal}
                     />
-                    <Route
+                    <PrivateRoute
                       path="/admin/banking/service_payments"
                       component={ServicePayment}
                     />
 
-                    <Route path="/agent/transcations" component={Transaction} />
-                    <Route
+                    <PrivateRoute path="/agent/transcations" component={Transaction} />
+                    <PrivateRoute
                       path="/agent/access-history"
                       component={AccessHistory}
                     />
-                    <Route
+                    <PrivateRoute
                       path="/agent/tickets/add-ticket"
                       component={AddTicket}
                     />
-                    <Route path="/agent/tickets" component={Ticket} />
+                    <PrivateRoute path="/agent/tickets" component={Ticket} />
 
                     {/* Setting Routing */}
-                    <Route
+                    <PrivateRoute
                       path="/settings/general/package-management"
                       component={Packages}
                     />
-                    <Route
+                    <PrivateRoute
                       path="/settings/general/users"
                       component={Users}
                     />
 
-                    <Route
+                    <PrivateRoute
                       path="/settings/general/addpackages"
                       component={addPackages}
                     />
-                    <Route
+                    <PrivateRoute
                       path="/settings/editpackages"
                       component={editPackages}
                     />
 
-                    <Route
+                    <PrivateRoute
                       path="/settings/general/roles-management"
                       component={RoleManagement}
                     />
-                    <Route
+                    <PrivateRoute
                       path="/settings/agent-member"
                       component={AgentMember}
                     />
-                    <Route
+                    <PrivateRoute
                       path="/settings/Commissions-management"
                       component={CommissionsManagement}
                     />
                     {/* Profile Routing */}
-                    <Route path="/Profile/Profile" component={Profile} />
-                    <Route path="/Profile/Accounts" component={Accounts} />
-                    <Route path="/Profile/qr-code" component={qrCode} />
-                    <Route
+                    <PrivateRoute path="/Profile/Profile" component={Profile} />
+                    <PrivateRoute path="/Profile/Accounts" component={Accounts} />
+                    <PrivateRoute path="/Profile/qr-code" component={qrCode} />
+                    <PrivateRoute
                       path="/Profile/change-password"
                       component={ChangePassword}
                     />
-                    <Route
+                    <PrivateRoute
                       path="/Profile/link-agentbanker"
                       component={AgentAccountLinking}
                     />
-                    <Route
+                    <PrivateRoute
                       path="/Profile/linking-requests"
                       component={LinkingRequests}
                     />
-                    <Route
+                    <PrivateRoute
                       path="/Profile/upgrade-agentbanker"
                       component={UpgradeToAgentBanker}
                     />
-                    <Route
+                    <PrivateRoute
                       path="/Profile/bank-account"
                       component={AddAccount}
                     />
-                    <Route
+                    <PrivateRoute
                       path="/Profile/linked-agents"
                       component={LinkedAgents}
                     />
@@ -436,13 +466,13 @@ export const App = (props) => {
                       path="/profile/account/link"
                       component={AgentAccountLinking}
                     /> */}
-                    <Route
+                    <PrivateRoute
                       exact
                       path="/Profile/validate-bank-account"
                       component={ValidateSuperAgentId}
                     />
                     {/* Cash Operations Routing */}
-                    <Route
+                    <PrivateRoute
                       path="/agent/cash-operations"
                       component={CashOperations}
                     />
@@ -451,7 +481,7 @@ export const App = (props) => {
               </div>
             </div>
           </div>
-        )}
+         )}
     </>
   );
 };

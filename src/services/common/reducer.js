@@ -59,6 +59,11 @@ const commonReducer = (state = initialState, action) => {
         ...state,
         language: action.payload,
       };
+      case actionType.SET_LANGUAGE_FALSE:
+      return {
+        ...state,
+        language: null,
+      };
     default:
       return state;
   }

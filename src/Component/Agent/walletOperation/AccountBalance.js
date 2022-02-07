@@ -10,7 +10,7 @@ import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import OtpInput from "react-otp-input";
-import { Select } from "antd";
+import { Button, Select } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import actionType from "../../../services/agent/actionType.js";
 import {
@@ -171,6 +171,14 @@ const WalletAccountBalance = () => {
     return !(
       validator.isEmpty(otp) ||
       otp.length !== 6 ||
+      customerBalanceInquiryLoading
+    );
+  };
+
+  const isLoading = () => {
+    return (
+      loadingCustomerValidation ||
+      loadingCustomerOtp ||
       customerBalanceInquiryLoading
     );
   };
@@ -524,20 +532,21 @@ const WalletAccountBalance = () => {
                   <div style={{ width: "100%", float: "left" }}>
                     <div className="confirm_p_w mTB00 button-container rspacing">
                       {(step !== 1) & (step !== 4) ? (
-                        <button
+                        <Button
                           className="blackbtn aryousureBTN confirmBtnR"
                           onClick={() => prevStep()}
                         >
                           <FormattedMessage id="back" />
-                        </button>
+                        </Button>
                       ) : (
                         ""
                       )}
-                      <button
+                      <Button
                         className="aryousureBTN confirmBtnR"
                         style={{ opacity: isFormValidated() ? "1" : "0.5" }}
                         disabled={isFormValidated() ? false : true}
                         onClick={() => formSubmitAction()}
+                        loading={isLoading()}
                       >
                         {step === 3 ? (
                           "Submit"
@@ -546,7 +555,7 @@ const WalletAccountBalance = () => {
                         ) : (
                           <FormattedMessage id="agent.Next" />
                         )}
-                      </button>
+                      </Button>
                     </div>
                   </div>
                 </div>

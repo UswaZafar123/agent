@@ -89,7 +89,7 @@ export const Side_bar_data = [
   },
   {
     title: "agent.BankingOperation",
-    path: "/admin/bankingOperation",
+    path: "/agent/cash_deposit/bank",
     id: 9,
     iconClass: "icon-Asset-4",
     subMenu: [
@@ -129,7 +129,7 @@ export const Side_bar_data = [
   },
   {
     title: "agent.WalletOperation",
-    path: "/agent/walletOperation",
+    path: "/agent/cash_deposit/wallet",
     id: 10,
     iconClass: "icon-Asset-3",
     subMenu: [
