@@ -1,35 +1,31 @@
-import React, { Component } from 'react';
-import '../../css/dashboard.css';
-import Highcharts from 'highcharts';
+import React, { Component } from "react";
+import "../../css/dashboard.css";
+import Highcharts from "highcharts";
 import variablePie from "highcharts/modules/variable-pie.js";
-import HighchartsReact from 'highcharts-react-official';
+import HighchartsReact from "highcharts-react-official";
 
-import ReactHighcharts from 'react-highcharts';
-import HighchartsMore from 'highcharts/highcharts-more';
+import ReactHighcharts from "react-highcharts";
+import HighchartsMore from "highcharts/highcharts-more";
 
-import highcharts3d from 'highcharts/highcharts-3d';
+import highcharts3d from "highcharts/highcharts-3d";
 import ProgressBar from "@ramonak/react-progress-bar";
 import { connect } from "react-redux";
-import Skeleton from '@material-ui/lab/Skeleton';
-import {
-  ListItem,
-  ListItemText
-} from '@material-ui/core';
+import Skeleton from "@material-ui/lab/Skeleton";
+import { ListItem, ListItemText } from "@material-ui/core";
 
 import {
   getProfile,
   fetchAgentWallet,
   fetchAgentBankAccounts,
   getAllAgentMemberLists,
-  getTickets
+  getTickets,
 } from "../../../src/services/agent/action";
 
-
-import { Select, DatePicker } from 'antd';
-import moment from 'moment';
-import { FormattedMessage, IntlProvider } from 'react-intl';
-import { NavLink } from 'react-router-dom';
-const dateFormat = 'YYYY/MM/DD';
+import { Select, DatePicker } from "antd";
+import moment from "moment";
+import { FormattedMessage, IntlProvider } from "react-intl";
+import { NavLink } from "react-router-dom";
+const dateFormat = "YYYY/MM/DD";
 // const customFormat = value => `custom format: ${value.format(dateFormat)}`;
 const { Option } = Select;
 
@@ -45,9 +41,7 @@ function handleChange(value) {
   console.log(`selected ${value}`);
 }
 
-
 class Dashboard extends Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -56,50 +50,49 @@ class Dashboard extends Component {
 
       options: {
         chart: {
-          type: 'pie',
+          type: "pie",
           height: 300,
           options3d: {
             enabled: true,
             alpha: 20,
-            beta: 25
-          }
+            beta: 25,
+          },
         },
         credits: {
-          enabled: false
+          enabled: false,
         },
         title: {
-          text: '',
-
+          text: "",
         },
         accessibility: {
           point: {
-            valueSuffix: '%'
-          }
+            valueSuffix: "%",
+          },
         },
         accessibility: {
           point: {
-            valueSuffix: '%'
-          }
+            valueSuffix: "%",
+          },
         },
         tooltip: {
-          pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+          pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>",
         },
         plotOptions: {
           pie: {
             allowPointSelect: true,
-            cursor: 'pointer',
+            cursor: "pointer",
             depth: 20,
             showInLegend: true,
             dataLabels: {
               enabled: false,
-              format: '{point.name}'
-            }
-          }
+              format: "{point.name}",
+            },
+          },
         },
         legend: {
-          align: 'left',
-          verticalAlign: 'bottom',
-          layout: 'horizontal',
+          align: "left",
+          verticalAlign: "bottom",
+          layout: "horizontal",
           // x: -50,
           // y: 120,
           symbolPadding: 0,
@@ -109,86 +102,93 @@ class Dashboard extends Component {
           useHTML: true,
           symbolWidth: 0,
           labelFormatter: function () {
-            return '<div><div class="dsFle"><span class="chartDot" style="border:2px solid ' + this.color + '"></span>' + this.name + ' (' + this.y + '%)</div></div>';
+            return (
+              '<div><div class="dsFle"><span class="chartDot" style="border:2px solid ' +
+              this.color +
+              '"></span>' +
+              this.name +
+              " (" +
+              this.y +
+              "%)</div></div>"
+            );
           },
           itemStyle: {
-            color: '#343A40',
-            fontWeight: 'bold',
-            fontSize: '14px',
+            color: "#343A40",
+            fontWeight: "bold",
+            fontSize: "14px",
             lineHeight: "20px",
-            fontFamily: 'Lato'
-          }
+            fontFamily: "Lato",
+          },
         },
-        series: [{
-          type: 'pie',
-          name: ' ',
-          slicedOffset: 15,
-          borderColor: 'white',
-          data: [
-
-            {
-              name: 'AGENT',
-              y: 20,
-              sliced: true,
-              color: "#FF3A2F"
-            },
-            {
-              name: 'MERCHANT',
-              y: 80,
-              sliced: true,
-              selected: true,
-              color: "#787878"
-            },
-
-          ]
-        }]
+        series: [
+          {
+            type: "pie",
+            name: " ",
+            slicedOffset: 15,
+            borderColor: "white",
+            data: [
+              {
+                name: "AGENT",
+                y: 20,
+                sliced: true,
+                color: "#FF3A2F",
+              },
+              {
+                name: "MERCHANT",
+                y: 80,
+                sliced: true,
+                selected: true,
+                color: "#787878",
+              },
+            ],
+          },
+        ],
       },
       transectionPerc1: {
         chart: {
-          type: 'pie',
+          type: "pie",
           height: 300,
           options3d: {
             enabled: true,
             alpha: 20,
-            beta: 20
-          }
+            beta: 20,
+          },
         },
         credits: {
-          enabled: false
+          enabled: false,
         },
         title: {
-          text: '',
-
+          text: "",
         },
         accessibility: {
           point: {
-            valueSuffix: '%'
-          }
+            valueSuffix: "%",
+          },
         },
         accessibility: {
           point: {
-            valueSuffix: '%'
-          }
+            valueSuffix: "%",
+          },
         },
         tooltip: {
-          pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+          pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>",
         },
         plotOptions: {
           pie: {
             allowPointSelect: true,
-            cursor: 'pointer',
+            cursor: "pointer",
             depth: 20,
             showInLegend: true,
             dataLabels: {
               enabled: false,
-              format: '{point.name}'
-            }
-          }
+              format: "{point.name}",
+            },
+          },
         },
         legend: {
-          align: 'left',
-          verticalAlign: 'bottom',
-          layout: 'horizontal',
+          align: "left",
+          verticalAlign: "bottom",
+          layout: "horizontal",
           // x: -50,
           // y: 120,
           symbolPadding: 0,
@@ -198,97 +198,104 @@ class Dashboard extends Component {
           useHTML: true,
           symbolWidth: 0,
           labelFormatter: function () {
-            return '<div><div class="dsFle"><span class="chartDot" style="border:2px solid ' + this.color + '"></span>' + this.name + ' (' + this.y + '%)</div></div>';
+            return (
+              '<div><div class="dsFle"><span class="chartDot" style="border:2px solid ' +
+              this.color +
+              '"></span>' +
+              this.name +
+              " (" +
+              this.y +
+              "%)</div></div>"
+            );
           },
           itemStyle: {
-            color: '#343A40',
-            fontWeight: 'bold',
-            fontSize: '14px',
+            color: "#343A40",
+            fontWeight: "bold",
+            fontSize: "14px",
             lineHeight: "20px",
-            fontFamily: 'Lato'
-          }
+            fontFamily: "Lato",
+          },
         },
-        series: [{
-          type: 'pie',
-          name: ' ',
-          slicedOffset: 10,
-          borderColor: 'white',
-          data: [
-
-            {
-              name: 'Shop 1 (40%)',
-              y: 40,
-              sliced: true,
-              color: "#757575"
-            },
-            {
-              name: 'Shop 2 (20%)',
-              y: 40,
-              sliced: true,
-              color: "#ADAEB0"
-            },
-            {
-              name: 'Shop 3 (20%)',
-              y: 70,
-              sliced: true,
-              color: "#FE514E"
-            },
-            {
-              name: 'Shop 4  (20%)',
-              y: 60,
-              sliced: true,
-              color: "#434343"
-            },
-
-          ]
-        }]
+        series: [
+          {
+            type: "pie",
+            name: " ",
+            slicedOffset: 10,
+            borderColor: "white",
+            data: [
+              {
+                name: "Shop 1 (40%)",
+                y: 40,
+                sliced: true,
+                color: "#757575",
+              },
+              {
+                name: "Shop 2 (20%)",
+                y: 40,
+                sliced: true,
+                color: "#ADAEB0",
+              },
+              {
+                name: "Shop 3 (20%)",
+                y: 70,
+                sliced: true,
+                color: "#FE514E",
+              },
+              {
+                name: "Shop 4  (20%)",
+                y: 60,
+                sliced: true,
+                color: "#434343",
+              },
+            ],
+          },
+        ],
       },
       transectionPerc: {
         chart: {
-          type: 'pie',
+          type: "pie",
           height: 300,
           options3d: {
             enabled: true,
             alpha: 20,
-            beta: 20
-          }
+            beta: 20,
+          },
         },
         credits: {
-          enabled: false
+          enabled: false,
         },
         title: {
-          text: '',
-
+          text: "",
         },
         accessibility: {
           point: {
-            valueSuffix: '%'
-          }
+            valueSuffix: "%",
+          },
         },
         accessibility: {
           point: {
-            valueSuffix: '%'
-          }
+            valueSuffix: "%",
+          },
         },
         tooltip: {
-          pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+          pointFormat: "{series.name}: <b>{point.percentage:.1f}%</b>",
         },
         plotOptions: {
           pie: {
             allowPointSelect: true,
-            cursor: 'pointer',
+            cursor: "pointer",
             depth: 20,
             showInLegend: true,
             dataLabels: {
               enabled: false,
-              format: '{point.name}'
-            }
-          }
+              format: "{point.name}",
+            },
+          },
         },
         legend: {
-          align: 'left',
-          verticalAlign: 'bottom',
-          layout: 'horizontal',
+          align: "left",
+          verticalAlign: "bottom",
+          layout: "horizontal",
           // x: -50,
           // y: 120,
           symbolPadding: 0,
@@ -298,130 +305,176 @@ class Dashboard extends Component {
           useHTML: true,
           symbolWidth: 0,
           labelFormatter: function () {
-            return '<div><div class="dsFle"><span class="chartDot" style="border:2px solid ' + this.color + '"></span>' + this.name + ' (' + this.y + '%)</div></div>';
+            return (
+              '<div><div class="dsFle"><span class="chartDot" style="border:2px solid ' +
+              this.color +
+              '"></span>' +
+              this.name +
+              " (" +
+              this.y +
+              "%)</div></div>"
+            );
           },
           itemStyle: {
-            color: '#343A40',
-            fontWeight: 'bold',
-            fontSize: '14px',
+            color: "#343A40",
+            fontWeight: "bold",
+            fontSize: "14px",
             lineHeight: "20px",
-            fontFamily: 'Lato'
-          }
+            fontFamily: "Lato",
+          },
         },
-        series: [{
-          type: 'pie',
-          name: ' ',
-          slicedOffset: 10,
-          borderColor: 'white',
-          data: [
-
-            {
-              name: 'DEPOSIT',
-              y: 40,
-              sliced: true,
-              color: "#757575"
-            },
-            {
-              name: 'PAYOUT',
-              y: 40,
-              sliced: true,
-              color: "#ADAEB0"
-            },
-            {
-              name: 'TRANSFER',
-              y: 70,
-              sliced: true,
-              color: "#FE514E"
-            },
-            {
-              name: 'OTHERS',
-              y: 60,
-              sliced: true,
-              color: "#434343"
-            },
-
-          ]
-        }]
+        series: [
+          {
+            type: "pie",
+            name: " ",
+            slicedOffset: 10,
+            borderColor: "white",
+            data: [
+              {
+                name: "DEPOSIT",
+                y: 40,
+                sliced: true,
+                color: "#757575",
+              },
+              {
+                name: "PAYOUT",
+                y: 40,
+                sliced: true,
+                color: "#ADAEB0",
+              },
+              {
+                name: "TRANSFER",
+                y: 70,
+                sliced: true,
+                color: "#FE514E",
+              },
+              {
+                name: "OTHERS",
+                y: 60,
+                sliced: true,
+                color: "#434343",
+              },
+            ],
+          },
+        ],
       },
       toAmountColl: {
         chart: {
-          type: 'line',
+          type: "line",
           height: 400,
         },
         credits: {
-          enabled: false
+          enabled: false,
         },
         title: {
-          text: ''
+          text: "",
         },
         subtitle: {
-          text: ''
+          text: "",
         },
         xAxis: {
-          categories: ['29 March', '30 March', '31 March', '1 Apr', '2 Apr', '3 Apr', '4 Apr', '5 Apr', '6 Apr', '7 Apr', '8 Apr', '9 Apr', '10 Apr', '11 Apr', '12 Apr', '13 Apr', '14 Apr', '15 Apr', '16 Apr', '17 Apr', '18 Apr', '19 Apr', '20 Apr', '21 Apr', '22 Apr', '23 Apr', '24 Apr'],
+          categories: [
+            "29 March",
+            "30 March",
+            "31 March",
+            "1 Apr",
+            "2 Apr",
+            "3 Apr",
+            "4 Apr",
+            "5 Apr",
+            "6 Apr",
+            "7 Apr",
+            "8 Apr",
+            "9 Apr",
+            "10 Apr",
+            "11 Apr",
+            "12 Apr",
+            "13 Apr",
+            "14 Apr",
+            "15 Apr",
+            "16 Apr",
+            "17 Apr",
+            "18 Apr",
+            "19 Apr",
+            "20 Apr",
+            "21 Apr",
+            "22 Apr",
+            "23 Apr",
+            "24 Apr",
+          ],
           crosshair: true,
           // minorTickLength: 0,
           // tickLength: 0
-
         },
         yAxis: {
           title: {
-            text: ''
+            text: "",
           },
           opposite: false,
-          max: 150000
+          max: 150000,
         },
         plotOptions: {
           line: {
             dataLabels: {
-              enabled: true
+              enabled: true,
             },
-            enableMouseTracking: false
-          }
+            enableMouseTracking: false,
+          },
         },
         legend: {
           labelFormatter: function () {
-            return '<span class="lineCircleSty"><span class=""></span>' + this.name + '</span>';
+            return (
+              '<span class="lineCircleSty"><span class=""></span>' +
+              this.name +
+              "</span>"
+            );
           },
-          layout: 'horizontal',
-          align: 'left',
-          verticalAlign: 'bottom',
+          layout: "horizontal",
+          align: "left",
+          verticalAlign: "bottom",
           // symbolWidth: 20,
           // symbolHeight: 20,
           itemStyle: {
-            color: 'red',
-            fontWeight: 'bold',
+            color: "red",
+            fontWeight: "bold",
             fontSize: "14px",
             lineHeight: "20px",
             fontWeight: "500",
             color: "#343A40",
             textTransform: "uppercase",
           },
-
         },
-        series: [{
-          name: 'Quick Ratio',
-          color: "#E64C43",
-          marker: {
-            enabled: false,
-            radius: 4
+        series: [
+          {
+            name: "Quick Ratio",
+            color: "#E64C43",
+            marker: {
+              enabled: false,
+              radius: 4,
+            },
+            dataLabels: {
+              enabled: false,
+            },
+            data: [
+              90000, 40000, 15000, 1000, 20000, 50000, 80000, 40000, 12000,
+              13000, 18000, 49000,
+            ],
           },
-          dataLabels: {
-            enabled: false
+          {
+            name: "Cash ratio",
+            color: "#343A40",
+            marker: {
+              enabled: false,
+              radius: 4,
+            },
+            dataLabels: {
+              enabled: false,
+            },
+            data: [
+              0, 8000, 80000, 90000, 20000, 35000, 80000, 40000, 12000, 13000,
+              18000, 49000,
+            ],
           },
-          data: [90000, 40000, 15000, 1000, 20000, 50000, 80000, 40000, 12000, 13000, 18000, 49000]
-        }, {
-          name: 'Cash ratio',
-          color: "#343A40",
-          marker: {
-            enabled: false,
-            radius: 4
-          },
-          dataLabels: {
-            enabled: false
-          },
-          data: [0, 8000, 80000, 90000, 20000, 35000, 80000, 40000, 12000, 13000, 18000, 49000]
-        },
           // {
           //   name: 'Transfer',
           //   color: "#93F035",
@@ -434,76 +487,110 @@ class Dashboard extends Component {
           //   },
           //   data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
           // }
-        ]
+        ],
       },
       toAmountColl1: {
         chart: {
-          type: 'line',
+          type: "line",
           height: 400,
         },
         credits: {
-          enabled: false
+          enabled: false,
         },
         title: {
-          text: ''
+          text: "",
         },
         subtitle: {
-          text: ''
+          text: "",
         },
         xAxis: {
-          categories: ['29 March', '30 March', '31 March', '1 Apr', '2 Apr', '3 Apr', '4 Apr', '5 Apr', '6 Apr', '7 Apr', '8 Apr', '9 Apr', '10 Apr', '11 Apr', '12 Apr', '13 Apr', '14 Apr', '15 Apr', '16 Apr', '17 Apr', '18 Apr', '19 Apr', '20 Apr', '21 Apr', '22 Apr', '23 Apr', '24 Apr'],
+          categories: [
+            "29 March",
+            "30 March",
+            "31 March",
+            "1 Apr",
+            "2 Apr",
+            "3 Apr",
+            "4 Apr",
+            "5 Apr",
+            "6 Apr",
+            "7 Apr",
+            "8 Apr",
+            "9 Apr",
+            "10 Apr",
+            "11 Apr",
+            "12 Apr",
+            "13 Apr",
+            "14 Apr",
+            "15 Apr",
+            "16 Apr",
+            "17 Apr",
+            "18 Apr",
+            "19 Apr",
+            "20 Apr",
+            "21 Apr",
+            "22 Apr",
+            "23 Apr",
+            "24 Apr",
+          ],
           crosshair: true,
           // minorTickLength: 0,
           // tickLength: 0
-
         },
         yAxis: {
           title: {
-            text: ''
+            text: "",
           },
           opposite: false,
-          max: 150000
+          max: 150000,
         },
         plotOptions: {
           line: {
             dataLabels: {
-              enabled: true
+              enabled: true,
             },
-            enableMouseTracking: false
-          }
+            enableMouseTracking: false,
+          },
         },
         legend: {
           labelFormatter: function () {
-            return '<span class="lineCircleSty"><span class=""></span>' + this.name + '</span>';
+            return (
+              '<span class="lineCircleSty"><span class=""></span>' +
+              this.name +
+              "</span>"
+            );
           },
-          layout: 'horizontal',
-          align: 'left',
-          verticalAlign: 'bottom',
+          layout: "horizontal",
+          align: "left",
+          verticalAlign: "bottom",
           // symbolWidth: 20,
           // symbolHeight: 20,
           itemStyle: {
-            color: 'red',
-            fontWeight: 'bold',
+            color: "red",
+            fontWeight: "bold",
             fontSize: "14px",
             lineHeight: "20px",
             fontWeight: "500",
             color: "#343A40",
             textTransform: "uppercase",
           },
-
         },
-        series: [{
-          name: 'Earned',
-          color: "#DA4139",
-          marker: {
-            enabled: false,
-            radius: 4
+        series: [
+          {
+            name: "Earned",
+            color: "#DA4139",
+            marker: {
+              enabled: false,
+              radius: 4,
+            },
+            dataLabels: {
+              enabled: false,
+            },
+            data: [
+              90000, 40000, 15000, 1000, 20000, 50000, 80000, 40000, 12000,
+              13000, 18000, 49000,
+            ],
           },
-          dataLabels: {
-            enabled: false
-          },
-          data: [90000, 40000, 15000, 1000, 20000, 50000, 80000, 40000, 12000, 13000, 18000, 49000]
-        },
           //  {
           //   name: 'Cash ratio',
           //   color: "#343A40",
@@ -528,39 +615,37 @@ class Dashboard extends Component {
           //   },
           //   data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
           // }
-        ]
+        ],
       },
       chartMerchant: {
-
         chart: {
-          type: 'column',
+          type: "column",
           height: 200,
         },
         title: {
-          text: ''
+          text: "",
         },
         yAxis: {
           title: {
-            text: ''
+            text: "",
           },
           // min: 25000,
-          max: 50000
+          max: 50000,
         },
         xAxis: {
           labels: {
-            enabled: false
+            enabled: false,
           },
 
-          type: 'category',
+          type: "category",
           lineWidth: 0,
           minorGridLineWidth: 0,
-          lineColor: 'transparent',
+          lineColor: "transparent",
           minorTickLength: 0,
-          tickLength: 0
-
+          tickLength: 0,
         },
         credits: {
-          enabled: false
+          enabled: false,
         },
         legend: {
           enabled: false,
@@ -568,55 +653,53 @@ class Dashboard extends Component {
         plotOptions: {
           series: {
             groupPadding: 0.15,
-            borderRadius: 8
+            borderRadius: 8,
           },
           column: {
             grouping: true,
             borderRadiusTopLeft: 10,
-            borderRadiusTopRight: 10
-          }
+            borderRadiusTopRight: 10,
+          },
         },
-        series: [{
-          color: "#E65354",
-          data: [26000, 50000, 45000, 28000],
-
-        },
+        series: [
+          {
+            color: "#E65354",
+            data: [26000, 50000, 45000, 28000],
+          },
           //  {
           //   color: "#716D6C",
           //   data: [32000, 35000, 28000, 35000, 31000]
           // }
-        ]
+        ],
       },
       chartAgent: {
-
         chart: {
-          type: 'column',
+          type: "column",
           height: 200,
         },
         title: {
-          text: ''
+          text: "",
         },
         yAxis: {
           title: {
-            text: ''
+            text: "",
           },
           // min: 25000,
-          max: 50000
+          max: 50000,
         },
         xAxis: {
           labels: {
-            enabled: true
+            enabled: true,
           },
-          type: 'category',
+          type: "category",
           lineWidth: 0,
           minorGridLineWidth: 0,
-          lineColor: 'transparent',
+          lineColor: "transparent",
           minorTickLength: 0,
-          tickLength: 0
-
+          tickLength: 0,
         },
         credits: {
-          enabled: false
+          enabled: false,
         },
         // legend: {
         //   enabled: true,
@@ -624,59 +707,63 @@ class Dashboard extends Component {
         plotOptions: {
           series: {
             groupPadding: 0.15,
-            borderRadius: 8
+            borderRadius: 8,
           },
           column: {
             grouping: true,
-          }
+          },
         },
-        series: [{
-          color: "#423939",
-          data: [25000, 35000, 30000, 28000, 26000]
-        }, {
-          color: "#716D6C",
-          data: [32000, 35000, 28000, 35000, 31000]
-        }
-        ]
+        series: [
+          {
+            color: "#423939",
+            data: [25000, 35000, 30000, 28000, 26000],
+          },
+          {
+            color: "#716D6C",
+            data: [32000, 35000, 28000, 35000, 31000],
+          },
+        ],
       },
       colors: Highcharts.setOptions({
-        colors: ['#fff', 'red']
+        colors: ["#fff", "red"],
       }),
       chartRevenue: {
         chart: {
-          zoomType: 'x',
+          zoomType: "x",
           height: 200,
-          type: 'area'
+          type: "area",
         },
         credits: {
-          enabled: false
+          enabled: false,
         },
         title: {
-          text: ''
+          text: "",
         },
         subtitle: {
-          text: document.ontouchstart === undefined ?
-            'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
+          text:
+            document.ontouchstart === undefined
+              ? "Click and drag in the plot area to zoom in"
+              : "Pinch the chart to zoom in",
         },
         xAxis: {
           lineWidth: 0,
           minorGridLineWidth: 0,
-          lineColor: 'transparent',
+          lineColor: "transparent",
           minorTickLength: 0,
           tickLength: 0,
           labels: {
-            enabled: false
+            enabled: false,
           },
         },
         yAxis: {
           title: {
-            text: ''
+            text: "",
           },
           // min: 0,
           // max:40
         },
         legend: {
-          enabled: false
+          enabled: false,
         },
 
         plotOptions: {
@@ -686,12 +773,17 @@ class Dashboard extends Component {
                 x1: 0,
                 y1: 0,
                 x2: 0,
-                y2: 1
+                y2: 1,
               },
               stops: [
-                [0, '#FF0000'],
-                [1, Highcharts.color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-              ]
+                [0, "#FF0000"],
+                [
+                  1,
+                  Highcharts.color(Highcharts.getOptions().colors[0])
+                    .setOpacity(0)
+                    .get("rgba"),
+                ],
+              ],
             },
 
             marker: {
@@ -701,29 +793,99 @@ class Dashboard extends Component {
             lineWidth: 1,
             states: {
               hover: {
-                lineWidth: 1
-              }
+                lineWidth: 1,
+              },
             },
-            threshold: null
-          }
+            threshold: null,
+          },
         },
 
-        series: [{
-          type: 'area',
-          name: '',
-          data: [
-            null, null, null, null, null, 6, 11, 32, 110, 235,
-            369, 640, 1005, 1436, 2063, 3057, 4618, 6444, 9822, 15468,
-            20434, 24126, 27387, 29459, 31056, 31982, 32040, 31233, 29224, 27342,
-            26662, 26956, 27912, 28999, 28965, 27826, 25579, 25722, 24826, 24605,
-            24304, 23464, 23708, 24099, 24357, 24237, 24401, 24344, 23586, 22380,
-            21004, 17287, 14747, 13076, 12555, 12144, 11009, 10950, 10871, 10824,
-            10577, 10527, 10475, 10421, 10358, 10295, 10104, 9914, 9620, 9326,
-            5113, 5113, 4954, 4804, 4761, 4717, 4368, 4018
-          ]
-        }]
-
-
+        series: [
+          {
+            type: "area",
+            name: "",
+            data: [
+              null,
+              null,
+              null,
+              null,
+              null,
+              6,
+              11,
+              32,
+              110,
+              235,
+              369,
+              640,
+              1005,
+              1436,
+              2063,
+              3057,
+              4618,
+              6444,
+              9822,
+              15468,
+              20434,
+              24126,
+              27387,
+              29459,
+              31056,
+              31982,
+              32040,
+              31233,
+              29224,
+              27342,
+              26662,
+              26956,
+              27912,
+              28999,
+              28965,
+              27826,
+              25579,
+              25722,
+              24826,
+              24605,
+              24304,
+              23464,
+              23708,
+              24099,
+              24357,
+              24237,
+              24401,
+              24344,
+              23586,
+              22380,
+              21004,
+              17287,
+              14747,
+              13076,
+              12555,
+              12144,
+              11009,
+              10950,
+              10871,
+              10824,
+              10577,
+              10527,
+              10475,
+              10421,
+              10358,
+              10295,
+              10104,
+              9914,
+              9620,
+              9326,
+              5113,
+              5113,
+              4954,
+              4804,
+              4761,
+              4717,
+              4368,
+              4018,
+            ],
+          },
+        ],
       },
 
       messages: "",
@@ -734,20 +896,17 @@ class Dashboard extends Component {
 
       numberOfAgents: 0,
       numberOfAgentMembers: 0,
-      numberOfTickets: 0
-
-    }
+      numberOfTickets: 0,
+    };
   }
 
   async translationHelperFunction() {
-
     const messages = await this.loadLocaleData(localStorage.getItem("lang"));
     this.setState({
       messages: messages,
-      language: localStorage.getItem("lang")
+      language: localStorage.getItem("lang"),
     });
     // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
-
   }
 
   loadLocaleData = (locale) => {
@@ -760,39 +919,38 @@ class Dashboard extends Component {
   };
 
   componentDidMount() {
-
     this.props.getTickets(sessionStorage.getItem("token"));
 
     this.props.getAllAgentMemberLists();
 
     this.props.fetchAgentWallet(sessionStorage.getItem("token"));
 
-    if (document.querySelector('.getHeight') != null) {
-      const fromDivHeight = document.querySelector('.getHeight').clientHeight
-      this.setState({
-        fromDivHeight: fromDivHeight
-      }, () => {
-        console.log("test001", this.state.fromDivHeight)
-      });
+    if (document.querySelector(".getHeight") != null) {
+      const fromDivHeight = document.querySelector(".getHeight").clientHeight;
+      this.setState(
+        {
+          fromDivHeight: fromDivHeight,
+        },
+        () => {
+          console.log("test001", this.state.fromDivHeight);
+        }
+      );
     }
     this.props.getProfile();
 
     this.translationHelperFunction();
-
   }
 
   componentDidUpdate(prevProps, nextProps) {
-    console.log('dashboard component did update.');
+    console.log("dashboard component did update.");
   }
 
   async componentWillReceiveProps(nextProps) {
-
     if (nextProps.ticketsData) {
-
     } else {
       this.setState({
-        numberOfTickets: 0
-      })
+        numberOfTickets: 0,
+      });
     }
 
     if (nextProps.getAllAgentMemberList) {
@@ -800,65 +958,69 @@ class Dashboard extends Component {
         if (data.agentType === "AGENT") {
           return data;
         }
-      })
+      });
 
-      let filteredAgentMemberList = nextProps.getAllAgentMemberList.filter((data) => {
-        if (data.agentType === "AGENT_MEMBER") {
-          return data;
+      let filteredAgentMemberList = nextProps.getAllAgentMemberList.filter(
+        (data) => {
+          if (data.agentType === "AGENT_MEMBER") {
+            return data;
+          }
         }
-      })
+      );
 
       if (filteredAgentMemberList.length > 0) {
-
         this.setState({
-          numberOfAgentMembers: filteredAgentMemberList.length
-        })
-
+          numberOfAgentMembers: filteredAgentMemberList.length,
+        });
       } else {
         this.setState({
-          numberOfAgentMembers: 0
-        })
+          numberOfAgentMembers: 0,
+        });
       }
 
       if (filteredAgentList.length > 0) {
         this.setState({
-          numberOfAgents: filteredAgentList.length
-        })
+          numberOfAgents: filteredAgentList.length,
+        });
       } else {
         this.setState({
-          numberOfAgents: 0
-        })
+          numberOfAgents: 0,
+        });
       }
     }
 
     if (nextProps.walletAccount.data) {
-
       this.setState({
-        walletBalance: nextProps.walletAccount.data.balance + " " + nextProps.walletAccount.data.currencyCode
+        walletBalance:
+          nextProps.walletAccount.data.balance +
+          " " +
+          nextProps.walletAccount.data.currencyCode,
       });
-
     }
 
     if (nextProps.profileImageStatus) {
+      var blob = new Blob([nextProps.profileImage], {
+        type: "application/octet-stream",
+      });
 
-      var blob = new Blob([nextProps.profileImage], { type: "application/octet-stream" });
-
-      const value = URL.createObjectURL(blob)
+      const value = URL.createObjectURL(blob);
       this.setState({
-        profileImage: value
-      })
+        profileImage: value,
+      });
     }
 
     if (nextProps.profile.data !== null) {
       // console.log(nextProps.profile.data.agentType, "PROFILE");
 
-      this.setState({
-        agentType: nextProps.profile.data.agentType,
-        profileData: nextProps.profile.data
-      }, () => {
-        console.log(this.state.profileData, "AGENT PROFILE DATA")
-      });
-
+      this.setState(
+        {
+          agentType: nextProps.profile.data.agentType,
+          profileData: nextProps.profile.data,
+        },
+        () => {
+          console.log(this.state.profileData, "AGENT PROFILE DATA");
+        }
+      );
     }
 
     if (nextProps.language) {
@@ -866,7 +1028,7 @@ class Dashboard extends Component {
 
       this.setState({
         messages: messages,
-        language: nextProps.language
+        language: nextProps.language,
       });
     }
   }
@@ -874,26 +1036,24 @@ class Dashboard extends Component {
   loadingProfileName = () => {
     return (
       <React.Fragment>
-        <Skeleton variant="text" width={100} style={{ margin: 'auto' }} />
+        <Skeleton variant="text" width={100} style={{ margin: "auto" }} />
       </React.Fragment>
     );
-  }
+  };
 
   render() {
-
     return (
       <IntlProvider
         messages={this.state.messages.default}
         locale={this.state.language}
       >
         {this.state.agentType === "AGENT" ||
-          this.state.agentType === "AGENT_MEMBER" ||
-          this.state.agentType === "AGENT_BANKER" ? (
+        this.state.agentType === "AGENT_MEMBER" ||
+        this.state.agentType === "AGENT_BANKER" ? (
           <>
             <div className="main_contain agentdashboardStyle">
               <div className="dashboard_wraps">
                 <div className="customdashboardwholerow">
-
                   {this.state.agentType !== "AGENT_MEMBER" ? (
                     <>
                       <div className="customdashboardrow dashCards section_custom">
@@ -903,9 +1063,10 @@ class Dashboard extends Component {
                               <div className="custom_col width3">
                                 <div className="dcard">
                                   <div className="icNa">
-
-                                    <div className="cardrightVal width50p">
-                                      <p><FormattedMessage id="agent.TotalAgents" /></p>
+                                    <div className="cardrightVal">
+                                      <p>
+                                        <FormattedMessage id="agent.TotalAgents" />
+                                      </p>
                                       <div className="cardnumber">
                                         {this.state.numberOfAgents}
                                       </div>
@@ -917,12 +1078,16 @@ class Dashboard extends Component {
                           )}
 
                           <div className="custom_col width3">
-                            <NavLink to="/settings/agent-member" style={{ textDecoration: "none" }}>
+                            <NavLink
+                              to="/settings/agent-member"
+                              style={{ textDecoration: "none" }}
+                            >
                               <div className="dcard">
                                 <div className="icNa">
-
                                   <div className="cardrightVal width50p">
-                                    <p><FormattedMessage id="agent.TotalAgentMember" /></p>
+                                    <p>
+                                      <FormattedMessage id="agent.TotalAgentMember" />
+                                    </p>
                                     <div className="cardnumber">
                                       {this.state.numberOfAgentMembers}
                                     </div>
@@ -932,42 +1097,45 @@ class Dashboard extends Component {
                             </NavLink>
                           </div>
 
-                          {(this.state.agentType !== "AGENT" && this.state.agentType !== "AGENT_BANKER") && (
-                            <>
-                              <div className="custom_col width3">
-                                <div className="dcard">
-                                  <div className="icNa">
-
-                                    <div className="cardrightVal width50p">
-                                      <p>Total Plans</p>
-                                      <div className="cardnumber">
-                                        213
+                          {this.state.agentType !== "AGENT" &&
+                            this.state.agentType !== "AGENT_BANKER" && (
+                              <>
+                                <div className="custom_col width3">
+                                  <div className="dcard">
+                                    <div className="icNa">
+                                      <div className="cardrightVal width50p">
+                                        <p>Total Plans</p>
+                                        <div className="cardnumber">213</div>
                                       </div>
                                     </div>
                                   </div>
                                 </div>
-                              </div>
-                            </>
-                          )}
+                              </>
+                            )}
 
                           <div className="custom_col width3">
                             <div className="dcard">
                               <div className="icNa">
-
                                 <div className="cardrightVal width50p">
-                                  <p><FormattedMessage id="agent.LiquidityBalance" /></p>
+                                  <p>
+                                    <FormattedMessage id="agent.LiquidityBalance" />
+                                  </p>
                                   <div className="cardnumber">
-                                    {this.state.walletBalance ? this.state.walletBalance : 0}
+                                    {this.state.walletBalance
+                                      ? this.state.walletBalance
+                                      : 0}
                                   </div>
                                 </div>
                               </div>
                             </div>
                           </div>
                           <div className="custom_col width3">
-                            <NavLink to="/agent/tickets" style={{ textDecoration: "none" }}>
+                            <NavLink
+                              to="/agent/tickets"
+                              style={{ textDecoration: "none" }}
+                            >
                               <div className="dcard">
                                 <div className="icNa">
-
                                   <div className="cardrightVal width50p">
                                     <p>Total Tickets</p>
                                     <div className="cardnumber">
@@ -978,55 +1146,80 @@ class Dashboard extends Component {
                               </div>
                             </NavLink>
                           </div>
-                          {(this.state.agentType !== "AGENT" && this.state.agentType !== "AGENT_BANKER") && (
-                            <>
-                              <div className="custom_col width3">
-                                <div className="dcard">
-                                  <div className="icNa">
-
-                                    <div className="cardrightVal width50p">
-                                      <p>Total Clients</p>
-                                      <div className="cardnumber">
-                                        100
+                          {this.state.agentType !== "AGENT" &&
+                            this.state.agentType !== "AGENT_BANKER" && (
+                              <>
+                                <div className="custom_col width3">
+                                  <div className="dcard">
+                                    <div className="icNa">
+                                      <div className="cardrightVal width50p">
+                                        <p>Total Clients</p>
+                                        <div className="cardnumber">100</div>
                                       </div>
                                     </div>
                                   </div>
                                 </div>
-                              </div>
-                            </>
-                          )}
+                              </>
+                            )}
                         </div>
                       </div>
                       <div className="customdashboardrow1">
                         <div className="customdashboardrow1-heading">
-                          <h4><FormattedMessage id="agent.AgentInfo" /></h4>
+                          <h4>
+                            <FormattedMessage id="agent.AgentInfo" />
+                          </h4>
                         </div>
                         <div className="customdashboardrow1-image">
                           {/* <img src="../../propic.jpg" /> */}
-                          {this.props.profileImageStatus ? <img src={this.state.profileImage} alt="profile pic" /> : <img src="../../propic.jpg" />}
-
+                          {this.props.profileImageStatus ? (
+                            <img
+                              src={this.state.profileImage}
+                              alt="profile pic"
+                            />
+                          ) : (
+                            <img src="../../propic.jpg" />
+                          )}
                         </div>
                         <div className="customdashboardrow1-image-name">
-                          {this.props.profile.loading ? this.loadingProfileName() : this.props.profile.data.firstName + " " + this.props.profile.data.lastName}
+                          {this.props.profile.loading
+                            ? this.loadingProfileName()
+                            : this.props.profile.data.firstName +
+                              " " +
+                              this.props.profile.data.lastName}
                         </div>
                         <div className="customdashboardrow1-label-whole">
                           <div className="customdashboardrow1-label">
-                            <label><FormattedMessage id="agent.IDNumber" />:</label>
-                            <span>{this.state.profileData.idDocuments[0].documentIdNumber}</span>
+                            <label>
+                              <FormattedMessage id="agent.IDNumber" />:
+                            </label>
+                            <span>
+                              {
+                                this.state.profileData.idDocuments[0]
+                                  .documentIdNumber
+                              }
+                            </span>
                           </div>
                           <div className="line-separator"></div>
                           <div className="customdashboardrow1-label">
-                            <label><FormattedMessage id="agent.email" />:</label>
-                            <span>{this.state.profileData.agentEmailAddress}</span>
+                            <label>
+                              <FormattedMessage id="agent.email" />:
+                            </label>
+                            <span>
+                              {this.state.profileData.agentEmailAddress}
+                            </span>
                           </div>
                           <div className="line-separator"></div>
                           <div className="customdashboardrow1-label">
-                            <label><FormattedMessage id="agent.PhoneNo" />: </label>
+                            <label>
+                              <FormattedMessage id="agent.PhoneNo" />:{" "}
+                            </label>
                             <span>{this.state.profileData.phoneNo}</span>
                           </div>
                           <div className="line-separator"></div>
                           <div className="customdashboardrow1-label">
-                            <label><FormattedMessage id="agent.Address" />:     </label>
+                            <label>
+                              <FormattedMessage id="agent.Address" />:{" "}
+                            </label>
                             <span>{this.state.profileData.address}</span>
                           </div>
                           <div className="line-separator"></div>
@@ -1044,42 +1237,71 @@ class Dashboard extends Component {
                             </button>
                           </div> */}
                         </div>
-
                       </div>
                     </>
-                  ) :
-                    //IF IT IS AGENT MEMBER, SHOW ONLY PROFILE INFO FULL WIDTH 
+                  ) : (
+                    //IF IT IS AGENT MEMBER, SHOW ONLY PROFILE INFO FULL WIDTH
                     <>
-                      <div className="customdashboardrow1" style={{ width: "100%" }}>
+                      <div
+                        className="customdashboardrow1"
+                        style={{ width: "100%" }}
+                      >
                         <div className="customdashboardrow1-heading">
-                          <h4><FormattedMessage id="agent.AgentInfo" /></h4>
+                          <h4>
+                            <FormattedMessage id="agent.AgentInfo" />
+                          </h4>
                         </div>
                         <div className="customdashboardrow1-image">
                           {/* <img src="../../propic.jpg" /> */}
-                          {this.props.profileImageStatus ? <img src={this.state.profileImage} alt="profile pic" /> : <img src="../../propic.jpg" />}
-
+                          {this.props.profileImageStatus ? (
+                            <img
+                              src={this.state.profileImage}
+                              alt="profile pic"
+                            />
+                          ) : (
+                            <img src="../../propic.jpg" />
+                          )}
                         </div>
                         <div className="customdashboardrow1-image-name">
-                          {this.props.profile.loading ? this.loadingProfileName() : this.props.profile.data.firstName + " " + this.props.profile.data.lastName}
+                          {this.props.profile.loading
+                            ? this.loadingProfileName()
+                            : this.props.profile.data.firstName +
+                              " " +
+                              this.props.profile.data.lastName}
                         </div>
                         <div className="customdashboardrow1-label-whole">
                           <div className="customdashboardrow1-label">
-                            <label><FormattedMessage id="agent.IDNumber" />:</label>
-                            <span>{this.state.profileData.idDocuments[0].documentIdNumber}</span>
+                            <label>
+                              <FormattedMessage id="agent.IDNumber" />:
+                            </label>
+                            <span>
+                              {
+                                this.state.profileData.idDocuments[0]
+                                  .documentIdNumber
+                              }
+                            </span>
                           </div>
                           <div className="line-separator"></div>
                           <div className="customdashboardrow1-label">
-                            <label><FormattedMessage id="agent.email" />:</label>
-                            <span>{this.state.profileData.agentEmailAddress}</span>
+                            <label>
+                              <FormattedMessage id="agent.email" />:
+                            </label>
+                            <span>
+                              {this.state.profileData.agentEmailAddress}
+                            </span>
                           </div>
                           <div className="line-separator"></div>
                           <div className="customdashboardrow1-label">
-                            <label><FormattedMessage id="agent.PhoneNo" />: </label>
+                            <label>
+                              <FormattedMessage id="agent.PhoneNo" />:{" "}
+                            </label>
                             <span>{this.state.profileData.phoneNo}</span>
                           </div>
                           <div className="line-separator"></div>
                           <div className="customdashboardrow1-label">
-                            <label><FormattedMessage id="agent.Address" />:     </label>
+                            <label>
+                              <FormattedMessage id="agent.Address" />:{" "}
+                            </label>
                             <span>{this.state.profileData.address}</span>
                           </div>
                           {/* <div className="line-separator"></div>
@@ -1097,22 +1319,32 @@ class Dashboard extends Component {
                             </button>
                           </div> */}
                         </div>
-
                       </div>
                     </>
-                  }
+                  )}
                 </div>
 
                 {/* SHOW TRANSACTIONS PER AGENT MEMBER ONLY TAKING FULL WIDTH */}
                 {this.state.agentType === "AGENT" ? (
                   <>
                     <div className="section_custom">
-                      <div className="sectionInn chartCardColumn" style={{ height: "400px" }}>
-                        <div className="chartCard_w width100p m_r24 getHeight" style={{ marginTop: "-8%", height: "-webkit-fill-available" }}>
+                      <div
+                        className="sectionInn chartCardColumn"
+                        style={{ height: "400px" }}
+                      >
+                        <div
+                          className="chartCard_w width100p m_r24 getHeight"
+                          style={{
+                            marginTop: "-8%",
+                            height: "-webkit-fill-available",
+                          }}
+                        >
                           <div className="chartgraycard chartCardTop">
-
                             <div>
-                              <h1 className="commonHeading"><FormattedMessage id="agent.TransactionsPerAgent" /> Member</h1>
+                              <h1 className="commonHeading">
+                                <FormattedMessage id="agent.TransactionsPerAgent" />{" "}
+                                Member
+                              </h1>
                             </div>
                             <div className="hSelect">
                               <div className="antdSelect">
@@ -1130,11 +1362,19 @@ class Dashboard extends Component {
                           <div className="chartCardMiddle">
                             <div className="chartTabs">
                               <ul>
-                                <li className="active"><FormattedMessage id="agent.Today" /></li>
-                                <li><FormattedMessage id="agent.ThisWeek" /></li>
-                                <li><FormattedMessage id="agent.7Days" /></li>
+                                <li className="active">
+                                  <FormattedMessage id="agent.Today" />
+                                </li>
+                                <li>
+                                  <FormattedMessage id="agent.ThisWeek" />
+                                </li>
+                                <li>
+                                  <FormattedMessage id="agent.7Days" />
+                                </li>
                                 <li>This Month</li>
-                                <li><FormattedMessage id="agent.LastMonth" /></li>
+                                <li>
+                                  <FormattedMessage id="agent.LastMonth" />
+                                </li>
                               </ul>
                             </div>
 
@@ -1146,23 +1386,31 @@ class Dashboard extends Component {
                             </div>
                           </div>
                         </div>
-
                       </div>
                     </div>
-
                   </>
-                ) :
-                  // AGENT BANKER WILL SEE BELOW 
+                ) : (
+                  // AGENT BANKER WILL SEE BELOW
                   <>
                     {this.state.agentType !== "AGENT_MEMBER" && (
                       <>
                         <div className="section_custom">
-                          <div className="sectionInn chartCardColumn" style={{ height: "400px" }}>
-                            <div className="chartCard_w width50p m_r24 getHeight" style={{ marginTop: "-8%", height: "-webkit-fill-available" }}>
+                          <div
+                            className="sectionInn chartCardColumn"
+                            style={{ height: "400px" }}
+                          >
+                            <div
+                              className="chartCard_w width50p m_r24 getHeight"
+                              style={{
+                                marginTop: "-8%",
+                                height: "-webkit-fill-available",
+                              }}
+                            >
                               <div className="chartgraycard chartCardTop">
-
                                 <div>
-                                  <h1 className="commonHeading"><FormattedMessage id="agent.TransactionsPerAgent" /></h1>
+                                  <h1 className="commonHeading">
+                                    <FormattedMessage id="agent.TransactionsPerAgent" />
+                                  </h1>
                                 </div>
                                 <div className="hSelect">
                                   <div className="antdSelect">
@@ -1180,11 +1428,19 @@ class Dashboard extends Component {
                               <div className="chartCardMiddle">
                                 <div className="chartTabs">
                                   <ul>
-                                    <li className="active"><FormattedMessage id="agent.Today" /></li>
-                                    <li><FormattedMessage id="agent.ThisWeek" /></li>
-                                    <li><FormattedMessage id="agent.7Days" /></li>
+                                    <li className="active">
+                                      <FormattedMessage id="agent.Today" />
+                                    </li>
+                                    <li>
+                                      <FormattedMessage id="agent.ThisWeek" />
+                                    </li>
+                                    <li>
+                                      <FormattedMessage id="agent.7Days" />
+                                    </li>
                                     <li>This Month</li>
-                                    <li><FormattedMessage id="agent.LastMonth" /></li>
+                                    <li>
+                                      <FormattedMessage id="agent.LastMonth" />
+                                    </li>
                                   </ul>
                                 </div>
 
@@ -1199,7 +1455,9 @@ class Dashboard extends Component {
                             <div className="chartCard_w width50p getHeight">
                               <div className="chartgraycard chartCardTop">
                                 <div>
-                                  <h1 className="commonHeading">Transaction Per Agent Member</h1>
+                                  <h1 className="commonHeading">
+                                    Transaction Per Agent Member
+                                  </h1>
                                 </div>
 
                                 <div className="hSelect">
@@ -1218,11 +1476,19 @@ class Dashboard extends Component {
                               <div className="chartCardMiddle">
                                 <div className="chartTabs">
                                   <ul>
-                                    <li className="active"><FormattedMessage id="agent.Today" /></li>
-                                    <li><FormattedMessage id="agent.ThisWeek" /></li>
-                                    <li><FormattedMessage id="agent.7Days" /></li>
+                                    <li className="active">
+                                      <FormattedMessage id="agent.Today" />
+                                    </li>
+                                    <li>
+                                      <FormattedMessage id="agent.ThisWeek" />
+                                    </li>
+                                    <li>
+                                      <FormattedMessage id="agent.7Days" />
+                                    </li>
                                     <li>This Month</li>
-                                    <li><FormattedMessage id="agent.LastMonth" /></li>
+                                    <li>
+                                      <FormattedMessage id="agent.LastMonth" />
+                                    </li>
                                   </ul>
                                 </div>
 
@@ -1233,20 +1499,22 @@ class Dashboard extends Component {
                                   />
                                 </div>
                               </div>
-
                             </div>
                           </div>
                         </div>
                       </>
                     )}
-                  </>}
+                  </>
+                )}
                 {this.state.agentType !== "AGENT_MEMBER" && (
                   <>
                     <div className="section_custom">
                       <div className="sectionInn chartCardColumn">
                         <div className="amountcollectedcard chartCard_w width50p getHeight">
                           <div className="chartgraycard chartCardTop">
-                            <h1 className="commonHeading"><FormattedMessage id="agent.Transactions%ofAssets" /></h1>
+                            <h1 className="commonHeading">
+                              <FormattedMessage id="agent.Transactions%ofAssets" />
+                            </h1>
                             <div className="hSelect">
                               <div className="antdSelect">
                                 <Select
@@ -1263,11 +1531,19 @@ class Dashboard extends Component {
                           <div className="chartCardMiddle">
                             <div className="chartTabs">
                               <ul>
-                                <li className="active"><FormattedMessage id="agent.Today" /></li>
-                                <li><FormattedMessage id="agent.ThisWeek" /></li>
-                                <li><FormattedMessage id="agent.7Days" /></li>
+                                <li className="active">
+                                  <FormattedMessage id="agent.Today" />
+                                </li>
+                                <li>
+                                  <FormattedMessage id="agent.ThisWeek" />
+                                </li>
+                                <li>
+                                  <FormattedMessage id="agent.7Days" />
+                                </li>
                                 <li>This Month</li>
-                                <li><FormattedMessage id="agent.LastMonth" /></li>
+                                <li>
+                                  <FormattedMessage id="agent.LastMonth" />
+                                </li>
                               </ul>
                             </div>
                             <HighchartsReact
@@ -1278,7 +1554,9 @@ class Dashboard extends Component {
                         </div>
                         <div className="amountcollectedcard chartCard_w width50p getHeight">
                           <div className="chartgraycard chartCardTop">
-                            <h1 className="commonHeading"><FormattedMessage id="agent.Transactions%ofCategory" /></h1>
+                            <h1 className="commonHeading">
+                              <FormattedMessage id="agent.Transactions%ofCategory" />
+                            </h1>
                             <div className="hSelect">
                               <div className="antdSelect">
                                 <Select
@@ -1295,11 +1573,19 @@ class Dashboard extends Component {
                           <div className="chartCardMiddle">
                             <div className="chartTabs">
                               <ul>
-                                <li className="active"><FormattedMessage id="agent.Today" /></li>
-                                <li><FormattedMessage id="agent.ThisWeek" /></li>
-                                <li><FormattedMessage id="agent.7Days" /></li>
+                                <li className="active">
+                                  <FormattedMessage id="agent.Today" />
+                                </li>
+                                <li>
+                                  <FormattedMessage id="agent.ThisWeek" />
+                                </li>
+                                <li>
+                                  <FormattedMessage id="agent.7Days" />
+                                </li>
                                 <li>This Month</li>
-                                <li><FormattedMessage id="agent.LastMonth" /></li>
+                                <li>
+                                  <FormattedMessage id="agent.LastMonth" />
+                                </li>
                               </ul>
                             </div>
                             <HighchartsReact
@@ -1308,7 +1594,6 @@ class Dashboard extends Component {
                             />
                           </div>
                         </div>
-
                       </div>
                     </div>
                     <div className="section_custom">
@@ -1316,11 +1601,16 @@ class Dashboard extends Component {
                         <div className="chartCard_w m_r24 getHeight">
                           <div className="chartgraycard chartCardTop">
                             <div className="flCenterColumn">
-                              <h1 className="commonHeading textAlignCenter"><FormattedMessage id="agent.Last30DaysTransaction" /></h1>
+                              <h1 className="commonHeading textAlignCenter">
+                                <FormattedMessage id="agent.Last30DaysTransaction" />
+                              </h1>
                               {/* <h6 className="commonHeadingSmall color6E6E70">as of 29 March 2021, 09:41 PM</h6> */}
                             </div>
                           </div>
-                          <div className="chartCardMiddle" style={{ padding: "12px" }}>
+                          <div
+                            className="chartCardMiddle"
+                            style={{ padding: "12px" }}
+                          >
                             <HighchartsReact
                               highcharts={Highcharts}
                               options={this.state.toAmountColl}
@@ -1334,11 +1624,16 @@ class Dashboard extends Component {
                         <div className="chartCard_w m_r24 getHeight">
                           <div className="chartCardTop">
                             <div className="flCenterColumn">
-                              <h1 className="commonHeading textAlignCenter"><FormattedMessage id="agent.Last12weeksFeesEarned" /></h1>
+                              <h1 className="commonHeading textAlignCenter">
+                                <FormattedMessage id="agent.Last12weeksFeesEarned" />
+                              </h1>
                               {/* <h6 className="commonHeadingSmall color6E6E70">as of 29 March 2021, 09:41 PM</h6> */}
                             </div>
                           </div>
-                          <div className="chartCardMiddle" style={{ padding: "12px" }}>
+                          <div
+                            className="chartCardMiddle"
+                            style={{ padding: "12px" }}
+                          >
                             <HighchartsReact
                               highcharts={Highcharts}
                               options={this.state.toAmountColl1}
@@ -1353,11 +1648,16 @@ class Dashboard extends Component {
                         <div className="chartCard_w m_r24 getHeight">
                           <div className="chartCardTop">
                             <div className="flCenterColumn">
-                              <h1 className="commonHeading textAlignCenter"><FormattedMessage id="agent.Last30DaysLiquiditybalance" /></h1>
+                              <h1 className="commonHeading textAlignCenter">
+                                <FormattedMessage id="agent.Last30DaysLiquiditybalance" />
+                              </h1>
                               {/* <h6 className="commonHeadingSmall color6E6E70">as of 29 March 2021, 09:41 PM</h6> */}
                             </div>
                           </div>
-                          <div className="chartCardMiddle" style={{ padding: "12px" }}>
+                          <div
+                            className="chartCardMiddle"
+                            style={{ padding: "12px" }}
+                          >
                             <HighchartsReact
                               highcharts={Highcharts}
                               options={this.state.toAmountColl1}
@@ -1367,17 +1667,21 @@ class Dashboard extends Component {
                       </div>
                     </div>
 
-
                     <div className="section_custom">
                       <div className="sectionInn">
                         <div className="chartCard_w m_r24 getHeight">
                           <div className="chartCardTop">
                             <div className="flCenterColumn">
-                              <h1 className="commonHeading textAlignCenter"><FormattedMessage id="agent.Last12weeksFeesEarned" /></h1>
+                              <h1 className="commonHeading textAlignCenter">
+                                <FormattedMessage id="agent.Last12weeksFeesEarned" />
+                              </h1>
                               {/* <h6 className="commonHeadingSmall color6E6E70">as of 29 March 2021, 09:41 PM</h6> */}
                             </div>
                           </div>
-                          <div className="chartCardMiddle" style={{ padding: "12px" }}>
+                          <div
+                            className="chartCardMiddle"
+                            style={{ padding: "12px" }}
+                          >
                             <HighchartsReact
                               highcharts={Highcharts}
                               options={this.state.toAmountColl1}
@@ -1394,7 +1698,9 @@ class Dashboard extends Component {
                       <div className="chartCard_w m_r24 getHeight">
                         <div className="chartCardTop">
                           <div className="flCenterColumn">
-                            <h1 className="commonHeading textAlignCenter"><FormattedMessage id="agent.RecentTransaction" /></h1>
+                            <h1 className="commonHeading textAlignCenter">
+                              <FormattedMessage id="agent.RecentTransaction" />
+                            </h1>
                           </div>
                         </div>
                         <div className="chartCardMiddle">
@@ -1402,15 +1708,25 @@ class Dashboard extends Component {
                             <table>
                               <thead>
                                 <tr>
-                                  <th><FormattedMessage id="agent.User" /></th>
+                                  <th>
+                                    <FormattedMessage id="agent.User" />
+                                  </th>
                                   <th>Type</th>
                                   <th>Date</th>
-                                  <th><FormattedMessage id="agent.Amount" /></th>
-                                  <th><FormattedMessage id="agent.Fee" /></th>
+                                  <th>
+                                    <FormattedMessage id="agent.Amount" />
+                                  </th>
+                                  <th>
+                                    <FormattedMessage id="agent.Fee" />
+                                  </th>
                                   <th>Total</th>
-                                  <th><FormattedMessage id="agent.Currency" /></th>
+                                  <th>
+                                    <FormattedMessage id="agent.Currency" />
+                                  </th>
                                   <th>Reciver</th>
-                                  <th><FormattedMessage id="agent.Status" /></th>
+                                  <th>
+                                    <FormattedMessage id="agent.Status" />
+                                  </th>
                                   <th>Action</th>
                                 </tr>
                               </thead>
@@ -1425,7 +1741,14 @@ class Dashboard extends Component {
                                   <td className="amountColor">USD</td>
                                   <td className="pending_tr">Kyla watson</td>
                                   <td className="pending_tr">Pending</td>
-                                  <td className="actionBtn"><span class="icon-edit"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></span></td>
+                                  <td className="actionBtn">
+                                    <span class="icon-edit">
+                                      <span class="path1"></span>
+                                      <span class="path2"></span>
+                                      <span class="path3"></span>
+                                      <span class="path4"></span>
+                                    </span>
+                                  </td>
                                 </tr>
                                 <tr>
                                   <td>Kyla watson</td>
@@ -1437,7 +1760,14 @@ class Dashboard extends Component {
                                   <td className="amountColor">USD</td>
                                   <td className="pending_tr">Kyla watson</td>
                                   <td className="cancelled_tr">Cancelled</td>
-                                  <td className="actionBtn"><span class="icon-edit"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></span></td>
+                                  <td className="actionBtn">
+                                    <span class="icon-edit">
+                                      <span class="path1"></span>
+                                      <span class="path2"></span>
+                                      <span class="path3"></span>
+                                      <span class="path4"></span>
+                                    </span>
+                                  </td>
                                 </tr>
                                 <tr>
                                   <td>Kyla watson</td>
@@ -1449,7 +1779,14 @@ class Dashboard extends Component {
                                   <td className="amountColor">USD</td>
                                   <td className="pending_tr">Kyla watson</td>
                                   <td className="success_tr">Success</td>
-                                  <td className="actionBtn"><span class="icon-edit"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></span></td>
+                                  <td className="actionBtn">
+                                    <span class="icon-edit">
+                                      <span class="path1"></span>
+                                      <span class="path2"></span>
+                                      <span class="path3"></span>
+                                      <span class="path4"></span>
+                                    </span>
+                                  </td>
                                 </tr>
                                 <tr>
                                   <td>Kyla watson</td>
@@ -1461,7 +1798,14 @@ class Dashboard extends Component {
                                   <td className="amountColor">USD</td>
                                   <td className="pending_tr">Kyla watson</td>
                                   <td className="cancelled_tr">Cancelled</td>
-                                  <td className="actionBtn"><span class="icon-edit"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></span></td>
+                                  <td className="actionBtn">
+                                    <span class="icon-edit">
+                                      <span class="path1"></span>
+                                      <span class="path2"></span>
+                                      <span class="path3"></span>
+                                      <span class="path4"></span>
+                                    </span>
+                                  </td>
                                 </tr>
                                 <tr>
                                   <td>Kyla watson</td>
@@ -1473,9 +1817,15 @@ class Dashboard extends Component {
                                   <td className="amountColor">USD</td>
                                   <td className="pending_tr">Kyla watson</td>
                                   <td className="success_tr">Success</td>
-                                  <td className="actionBtn"><span class="icon-edit"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></span></td>
+                                  <td className="actionBtn">
+                                    <span class="icon-edit">
+                                      <span class="path1"></span>
+                                      <span class="path2"></span>
+                                      <span class="path3"></span>
+                                      <span class="path4"></span>
+                                    </span>
+                                  </td>
                                 </tr>
-
                               </tbody>
                             </table>
                           </div>
@@ -1493,15 +1843,24 @@ class Dashboard extends Component {
               </div>
             </div>
           </>
-        ) : <></>}
-      </IntlProvider >
+        ) : (
+          <></>
+        )}
+      </IntlProvider>
     );
   }
 }
 
 const mapStateToProps = ({ agentReducer, commonReducer }) => {
-  const { profile, profileImage, profileImageStatus, walletAccount, getAllAgentMemberList, ticketsData } = agentReducer;
-  const { language } = commonReducer
+  const {
+    profile,
+    profileImage,
+    profileImageStatus,
+    walletAccount,
+    getAllAgentMemberList,
+    ticketsData,
+  } = agentReducer;
+  const { language } = commonReducer;
 
   return {
     profile,
@@ -1510,7 +1869,7 @@ const mapStateToProps = ({ agentReducer, commonReducer }) => {
     language,
     walletAccount,
     getAllAgentMemberList,
-    ticketsData
+    ticketsData,
   };
 };
 
@@ -1520,7 +1879,6 @@ const mapDispatchToProps = (dispatch) => {
     fetchAgentWallet: (token) => dispatch(fetchAgentWallet(token)),
     getAllAgentMemberLists: () => dispatch(getAllAgentMemberLists()),
     getTickets: (token) => dispatch(getTickets(token)),
-  }
-
-}
-export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)
+  };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

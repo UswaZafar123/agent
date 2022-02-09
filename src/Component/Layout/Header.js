@@ -7,7 +7,8 @@ import { Select, Menu, Dropdown } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
 import { connect } from "react-redux";
 import { getRefreshToken, getProfile } from "../../services/agent/action";
-
+import {withRouter}from "react-router-dom";
+import compose from "redux"
 const { Option } = Select;
 
 class Header extends Component {
@@ -16,7 +17,7 @@ class Header extends Component {
 
     this.state = {
       profileImage: null,
-      language: "",
+      language: localStorage.getItem("lang"),
       marginLeft:window.innerWidth,
       mediaWidth:1023
     };
@@ -67,6 +68,7 @@ class Header extends Component {
         profileImage: value
       })
     }
+
   }
 
   handleLanguage(e) {
@@ -88,7 +90,7 @@ class Header extends Component {
   updateDimensions=()=> {
     this.setState({ marginLeft: window.innerWidth});
     console.log("marginTest",this.state.marginLeft)
-    
+
   };
   componentDidMount() {
     window.addEventListener('resize', this.updateDimensions);
@@ -140,17 +142,18 @@ class Header extends Component {
                     <ul class="pDropDown_W">
                       <li
                         onClick={() => {
-                          this.props.Logout();
+
                           sessionStorage.removeItem("refresh_token");
                           sessionStorage.removeItem("token_expiretime");
                           sessionStorage.removeItem("refresh_token_expiretime");
                           sessionStorage.removeItem("token");
                           sessionStorage.removeItem("user_type");
                           sessionStorage.removeItem("email");
-                          window.location = "/";
+                          localStorage.removeItem("lang");
+                          this.props.Logout();
                         }}
                       >
-                        <a href="#">
+                        <a>
                           <span class="icon-logout"></span>Logout
                         </a>
                       </li>
@@ -173,13 +176,13 @@ class Header extends Component {
 }
 
 const mapStateToProps = ({ agentReducer }) => {
-  const { profileImage, profileImageStatus } = agentReducer;
+  const { profileImage, profileImageStatus,agentLoginStatus } = agentReducer;
 
-  console.log(agentReducer, "profileImage");
 
   return {
     profileImage,
     profileImageStatus,
+    agentLoginStatus
   };
 };
 
@@ -191,4 +194,4 @@ const mapDispatchToProps = (dispatch) => ({
 
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+ export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));

@@ -44,19 +44,10 @@ TabContainer.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-const useStyles = (theme) => ({
-  root: {
-    flexGrow: 1,
-    width: "100%",
-    margin: "auto",
-  },
-});
-
 const { Option } = Select;
 const resendTime = 30;
 
 const CashIn = () => {
-  const classes = useStyles();
   const firstUpdate = useRef(true);
   const [step, setStep] = useState(1);
   const otpTypes = [
@@ -67,7 +58,8 @@ const CashIn = () => {
   const [selectedBankAccount, setSelectedBankAccount] = useState({});
   const [amount, setAmount] = useState("");
   const [fee, setFee] = useState("");
-  const [reason, setReason] = useState("");
+  const [feeId, setFeeId] = useState("");
+  // const [reason, setReason] = useState("");
   const [selectedOtpType, setSelectedOtpType] = useState(otpTypes[0].value);
   const [otpTimer, setOtpTimer] = React.useState(resendTime);
   const [otp, setOtp] = useState("");
@@ -119,6 +111,7 @@ const CashIn = () => {
     console.log(feeData, "FEE");
     if (feeData !== null) {
       setFee(feeData.transactionFee);
+      setFeeId(feeData.feeId);
     }
   }, [feeData]);
 
@@ -289,10 +282,11 @@ const CashIn = () => {
       bankCustomerId: agentProfile.bankCustomerId,
       debtorBankAccountNumber: selectedBankAccount.accNo,
       amount: parseFloat(amount),
-      reason: reason,
+      reason: "Wallet Cash In",
       mfaToken: otp,
       currencyName: "XAF",
       fee: fee,
+      feeId: feeId,
       type: "CASH_IN",
     };
     dispatch(walletCashInFromBank(requestObj));
@@ -314,7 +308,7 @@ const CashIn = () => {
             ) : (
               agentBankAccounts.map((bankAccount) => {
                 return (
-                  <Card
+                  <div
                     onClick={() => setSelectedBankAccount(bankAccount)}
                     style={{
                       width: "50%",
@@ -322,17 +316,18 @@ const CashIn = () => {
                       minWidth: "unset",
                       margin: "4px 4px",
                       cursor: "pointer",
+                      borderRadius: "8px",
                       border:
                         selectedBankAccount.accNo === bankAccount.accNo
                           ? "2px solid rgb(191 21 21)"
-                          : "",
+                          : "2px solid gray",
                     }}
                   >
                     <Card.Body style={{ padding: "0.5rem" }}>
                       <Card.Title>{bankAccount.accNo}</Card.Title>
                       <Card.Text>{bankAccount.owner}</Card.Text>
                     </Card.Body>
-                  </Card>
+                  </div>
                 );
               })
             )}
@@ -350,19 +345,20 @@ const CashIn = () => {
               onChange={(e) => setAmount(e.target.value)}
             />
           </div>
-          <div className="containerBiaN_f_col" style={{ padding: "0px" }}>
+          {/* <div className="containerBiaN_f_col" style={{ padding: "0px" }}>
             <label>
               Reason <span className="mantdat">*</span>
             </label>
           </div>
           <div className="containerBiaN_f_col" style={{ padding: "0px" }}>
-            <input
-              placeholder="Enter Reason"
-              type="text"
+            <textarea
+              id="w3review"
+              rows="4"
+              cols="50"
               value={reason}
               onChange={(e) => setReason(e.target.value)}
-            />
-          </div>
+            ></textarea>
+          </div> */}
         </div>
       </>
     );
@@ -568,10 +564,7 @@ const CashIn = () => {
                     </div>
                   </div>
                   <div className="chartCardMiddle" style={{ padding: "24px" }}>
-                    <div
-                      className={classes.root}
-                      style={{ width: "100%", margin: "auto" }}
-                    >
+                    <div style={{ width: "70%", margin: "auto" }}>
                       {step === 1 && (
                         <AppBar
                           position="static"

@@ -10,7 +10,7 @@ import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import OtpInput from "react-otp-input";
-import { Select } from "antd";
+import { Button, Select } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import actionType from "../../../services/agent/actionType.js";
 import {
@@ -99,7 +99,7 @@ const WalletCashWithdraw = () => {
   }, []);
 
   useEffect(() => {
-    if (step === 4) {
+    if (step === 5) {
       if (otpTimer > 0) {
         setTimeout(() => setOtpTimer(otpTimer - 1), 1000);
       }
@@ -142,11 +142,11 @@ const WalletCashWithdraw = () => {
     if (step === 2 && Object.keys(feeDetailData).length !== 0) {
       setStep(3);
     }
-    if (step === 3 && customerOtpSuccess) {
-      setStep(4);
-    }
-    if (step === 4 && customerCashWithdrawSuccess) {
+    if (step === 4 && customerOtpSuccess) {
       setStep(5);
+    }
+    if (step === 5 && customerCashWithdrawSuccess) {
+      setStep(6);
     }
   }, [
     step,
@@ -181,6 +181,15 @@ const WalletCashWithdraw = () => {
     );
   };
 
+  const isLoading = () => {
+    return (
+      loadingCustomerValidation ||
+      feeDetailLoading ||
+      loadingCustomerOtp ||
+      loadingCustomerCashWithdraw
+    );
+  };
+
   const isFormValidated = () => {
     switch (step) {
       case 1:
@@ -188,10 +197,12 @@ const WalletCashWithdraw = () => {
       case 2:
         return stepTwoValidated();
       case 3:
-        return stepThreeValidated();
+        return true;
       case 4:
-        return stepFourValidated();
+        return stepThreeValidated();
       case 5:
+        return stepFourValidated();
+      case 6:
         return true;
       default:
         return false;
@@ -204,8 +215,10 @@ const WalletCashWithdraw = () => {
     } else if (step === 2) {
       calculateFee();
     } else if (step === 3) {
-      sendCustomerOTP();
+      setStep(step + 1);
     } else if (step === 4) {
+      sendCustomerOTP();
+    } else if (step === 5) {
       sendWithdrawRequest();
     } else {
       resetForm();
@@ -219,12 +232,12 @@ const WalletCashWithdraw = () => {
         type: actionType.CUSTOMER_VALIDATION_RESET,
       });
     }
-    if (step === 3) {
+    if (step === 4) {
       dispatch({
         type: actionType.FEE_DETAIL_RESET,
       });
     }
-    if (step === 4) {
+    if (step === 5) {
       dispatch({
         type: actionType.CUSTOMER_OTP_SEND_RESET,
       });
@@ -381,7 +394,7 @@ const WalletCashWithdraw = () => {
     );
   };
 
-  const transactionDetails = () => {
+  const transactionFrom = () => {
     return (
       <>
         <div className="containerBiaN_form">
@@ -414,6 +427,59 @@ const WalletCashWithdraw = () => {
                 value={reason}
                 onChange={(e) => setReason(e.target.value)}
               ></textarea>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  };
+
+  const transactionDetails = () => {
+    return (
+      <>
+        <div className="containerBiaN_form">
+          <div className="containerBiaN_f_row">
+            <div className="containerBiaN_f_col width30percent textAlignRight"></div>
+            <div className="containerBiaN_f_col width70percent">
+              <h2>Transaction Detail</h2>
+            </div>
+          </div>
+          <div className="containerBiaN_f_row">
+            <div className="containerBiaN_f_col width30percent textAlignRight"></div>
+            <div className="containerBiaN_f_col width70percent">
+              <div style={{ display: "flex" }}>
+                <p style={{ marginRight: "16px", color: "gray" }}>
+                  Sender Account
+                </p>
+                <p style={{ fontWeight: "bold" }}>{phoneNumber}</p>
+              </div>
+
+              <div style={{ display: "flex" }}>
+                <p style={{ marginRight: "16px", color: "gray" }}>
+                  Receiver Account
+                </p>
+                <p style={{ fontWeight: "bold" }}>{agentProfile.phoneNo}</p>
+              </div>
+              <div style={{ display: "flex" }}>
+                <p style={{ marginRight: "16px", color: "gray" }}>Amount</p>
+                <p style={{ fontWeight: "bold" }}>
+                  {parseFloat(amount) + " XAF"}
+                </p>
+              </div>
+              <div style={{ display: "flex" }}>
+                <p style={{ marginRight: "16px", color: "gray" }}>Fee</p>
+                <p style={{ fontWeight: "bold" }}>
+                  {parseFloat(feeDetailData.transactionFee) + " XAF"}
+                </p>
+              </div>
+              <div style={{ display: "flex" }}>
+                <p style={{ marginRight: "16px", color: "gray" }}>Total</p>
+                <p style={{ fontWeight: "bold" }}>
+                  {parseFloat(amount) +
+                    parseFloat(feeDetailData.transactionFee) +
+                    " XAF"}
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -574,12 +640,14 @@ const WalletCashWithdraw = () => {
                         case 1:
                           return walletVerificationForm();
                         case 2:
-                          return transactionDetails();
+                          return transactionFrom();
                         case 3:
-                          return customerOTPType();
+                          return transactionDetails();
                         case 4:
-                          return customerOTP();
+                          return customerOTPType();
                         case 5:
+                          return customerOTP();
+                        case 6:
                           return transactionSuccess();
                         default:
                           return <div></div>;
@@ -588,30 +656,31 @@ const WalletCashWithdraw = () => {
                   </div>
                   <div style={{ width: "100%", float: "left" }}>
                     <div className="confirm_p_w mTB00 button-container rspacing">
-                      {(step !== 1) & (step !== 5) ? (
-                        <button
+                      {(step !== 1) & (step !== 6) ? (
+                        <Button
                           className="blackbtn aryousureBTN confirmBtnR"
                           onClick={() => prevStep()}
                         >
                           Back
-                        </button>
+                        </Button>
                       ) : (
                         ""
                       )}
-                      <button
+                      <Button
                         className="aryousureBTN confirmBtnR"
                         style={{ opacity: isFormValidated() ? "1" : "0.5" }}
                         disabled={isFormValidated() ? false : true}
                         onClick={() => formSubmitAction()}
+                        loading={isLoading()}
                       >
-                        {step === 4 ? (
+                        {step === 5 ? (
                           "Submit"
-                        ) : step === 5 ? (
+                        ) : step === 6 ? (
                           "Done"
                         ) : (
                           <FormattedMessage id="agent.Next" />
                         )}
-                      </button>
+                      </Button>
                     </div>
                   </div>
                 </div>

@@ -7,7 +7,13 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         agentLoginstatus: true,
+        tokenStatus:true
       };
+  case actionType.TOKEN_FALSE:
+  return {
+    ...state,
+    tokenStatus:false,
+  };
     case actionType.AGENT_LOGIN_FAILURE:
       return {
         ...state,
@@ -1846,7 +1852,7 @@ const agentReducer = (state = initialState, action) => {
         ...state,
         bankCustomerData: [],
         bankCustomerStatus: false,
-      }
+      };
 
     case actionType.BANK_CUSTOMER_OTP_VALID:
       return {
@@ -1857,7 +1863,7 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         bankCustomerOTPStatus: false,
-      }
+      };
     case actionType.GET_ACCESS_INFO_SUCCESS:
       return {
         ...state,
@@ -1867,7 +1873,19 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         accesInfo: [],
-      }
+      };
+    case actionType.ADD_ACCESS_INFO_SUCCESS:
+      return {
+        ...state,
+        addAccessInfoStatus: true,
+        addAccessInfoData: action.payload,
+      };
+    case actionType.ADD_ACCESS_INFO_FAILURE:
+      return {
+        ...state,
+        addAccessInfoStatus: false,
+        addAccessInfoData: null,
+      };
     default:
       return state;
   }

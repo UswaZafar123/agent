@@ -335,7 +335,9 @@ const configUrl = {
     BANK_ACCOUNT_EXISTS: `${MainAPI}bank/account`,
 
     GET_BANKACCOUNT_CUSTOMER: `${MainAPI}bank/common/customer`,
-    GET_ACCESS_INFO: `${AgentApi}api-internal/accessInformations`
+    GET_ACCESS_INFO: `${AgentApi}api-internal/accessInformations`,
+
+    BANK_CASH_WITHDRAW : `${AgentApi}api/agencyBanking/cashWithdrawal`,
   },
 };
 
