@@ -78,6 +78,7 @@ class Sidebar extends Component {
         this.setState({
           agentType: nextProps.profile.data.agentType
         })
+        console.log(this.state.agentType, "AGENT TYPE");
         this.props.fetchAgentWallet(sessionStorage.getItem("token"));
         if (
           nextProps.profile.data.registrationType === "EXISTING_BANK_CUSTOMER"
@@ -100,17 +101,17 @@ class Sidebar extends Component {
 
 
 
-  getSnapshotBeforeUpdate(prevProps) {
-    return { languageChangeRequired: prevProps.language !== this.props.language };
-  }
+  // getSnapshotBeforeUpdate(prevProps) {
+  //   return { languageChangeRequired: prevProps.language !== this.props.language };
+  // }
 
-  async componentDidUpdate(prevProps, prevState, snapshot) {
-    if (snapshot.languageChangeRequired) {
+  async componentDidUpdate(prevProps) {
+    if (prevProps.language !== this.props.language) {
       const messages = await this.loadLocaleData(this.props.language);
 
       this.setState({
         messages: messages,
-        language: this.props.language
+        language: prevProps.language
        });
     }
   }

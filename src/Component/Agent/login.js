@@ -197,17 +197,7 @@ class Login extends Component {
       this.setState({ loginPasswordError: null });
       this.setState({ showLoginError: false });
 
-      let accessHistoryData = {
-        "browser": this.detectBrowser(),
-        "userName": localStorage.getItem("email")
-      }
-
-      this.props.addAccessInfo(accessHistoryData);
-
-      // window.location = "/agent";
-
-
-      //  this.props.history.push('/agent')
+       this.props.history.push('/agent')
     } else {
       this.setState({ showLoginError: true });
 
