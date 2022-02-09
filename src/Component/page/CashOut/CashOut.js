@@ -66,8 +66,9 @@ const CashOut = () => {
 
   const [selectedBankAccount, setSelectedBankAccount] = useState({});
   const [amount, setAmount] = useState("");
-  const [reason, setReason] = useState("");
+  // const [reason, setReason] = useState("");
   const [fee, setFee] = useState("");
+  const [feeId, setFeeId] = useState("");
   const [selectedOtpType, setSelectedOtpType] = useState(otpTypes[0].value);
   const [otpTimer, setOtpTimer] = React.useState(resendTime);
   const [otp, setOtp] = useState("");
@@ -116,10 +117,9 @@ const CashOut = () => {
   }, []);
 
   useEffect(() => {
-    console.log(feeData, "FEE");
-
     if (feeData !== null) {
       setFee(feeData.transactionFee);
+      setFeeId(feeData.feeId);
     }
   }, [feeData]);
 
@@ -279,11 +279,11 @@ const CashOut = () => {
       bankCustomerId: agentProfile.bankCustomerId,
       toAccountNumber: selectedBankAccount.accNo,
       amount: parseFloat(amount),
-      reason: reason,
+      reason: "Wallet Cash Out",
       mfaToken: otp,
       currencyName: "XAF",
       fee: fee,
-      // "feeId": feeId.value,
+      feeId: feeId,
       type: "CASH_OUT",
     };
     dispatch(walletCashOutFromBank(requestObj));
@@ -320,25 +320,25 @@ const CashOut = () => {
             ) : (
               agentBankAccounts.map((bankAccount) => {
                 return (
-                  <Card
+                  <div
                     onClick={() => setSelectedBankAccount(bankAccount)}
                     style={{
-                      width: "50%",
                       float: "left",
                       minWidth: "unset",
                       margin: "4px 4px",
                       cursor: "pointer",
+                      borderRadius: "8px",
                       border:
                         selectedBankAccount.accNo === bankAccount.accNo
                           ? "2px solid rgb(191 21 21)"
-                          : "",
+                          : "2px solid gray",
                     }}
                   >
                     <Card.Body style={{ padding: "0.5rem" }}>
                       <Card.Title>{bankAccount.accNo}</Card.Title>
                       <Card.Text>{bankAccount.owner}</Card.Text>
                     </Card.Body>
-                  </Card>
+                  </div>
                 );
               })
             )}
@@ -356,7 +356,7 @@ const CashOut = () => {
               onChange={(e) => setAmount(e.target.value)}
             />
           </div>
-          <div className="containerBiaN_f_col" style={{ padding: "0px" }}>
+          {/* <div className="containerBiaN_f_col" style={{ padding: "0px" }}>
             <label>
               Reason <span className="mantdat">*</span>
             </label>
@@ -369,7 +369,7 @@ const CashOut = () => {
               value={reason}
               onChange={(e) => setReason(e.target.value)}
             ></textarea>
-          </div>
+          </div> */}
         </div>
       </>
     );
@@ -577,7 +577,7 @@ const CashOut = () => {
                   <div className="chartCardMiddle" style={{ padding: "24px" }}>
                     <div
                       className={classes.root}
-                      style={{ width: "100%", margin: "auto" }}
+                      style={{ width: "70%", margin: "auto" }}
                     >
                       {step === 1 && (
                         <AppBar

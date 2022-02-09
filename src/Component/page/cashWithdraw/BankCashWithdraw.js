@@ -236,7 +236,7 @@ const BankCashWithdraw = () => {
       case 5:
         return stepFourValidated();
       case 6:
-        return true();
+        return true;
       default:
         return false;
     }
@@ -709,7 +709,7 @@ const BankCashWithdraw = () => {
                   Customer Account
                 </p>
                 <p style={{ fontWeight: "bold" }}>
-                  {selectedBankAccount.acctNo}
+                  {selectedBankAccount.accNo}
                 </p>
               </div>
               <div style={{ display: "flex" }}>

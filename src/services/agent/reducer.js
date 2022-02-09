@@ -7,7 +7,13 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         agentLoginstatus: true,
+        tokenStatus:true
       };
+  case actionType.TOKEN_FALSE:
+  return {
+    ...state,
+    tokenStatus:false,
+  };
     case actionType.AGENT_LOGIN_FAILURE:
       return {
         ...state,

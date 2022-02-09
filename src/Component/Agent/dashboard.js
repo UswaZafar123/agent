@@ -1063,7 +1063,7 @@ class Dashboard extends Component {
                               <div className="custom_col width3">
                                 <div className="dcard">
                                   <div className="icNa">
-                                    <div className="cardrightVal width50p">
+                                    <div className="cardrightVal">
                                       <p>
                                         <FormattedMessage id="agent.TotalAgents" />
                                       </p>
