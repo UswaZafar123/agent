@@ -9,6 +9,7 @@ import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
 import { FormattedMessage, IntlProvider } from 'react-intl';
 
 // import activeUser from '../../Assets/images/confirm.svg'
+import DeleteModal from './DeleteModal';
 
 import './settingcss.css'
 
@@ -31,6 +32,7 @@ class Users extends Component {
             isModalVisible: false,
             paginationGetCurrentPage: null,
             value: '',
+            deletePopup: false,
             columnDefs: [
                 { headerName: "Name", field: "Name" },
                 { headerName: "Email", field: "Email" },
@@ -74,7 +76,7 @@ class Users extends Component {
                         {/* <span style={{ cursor: "pointer" }}></span> */}
 
                         <span className="icon-edit-2" style={{ cursor: "pointer" }} style={{ marginLeft: "5%" }} onClick={() => this.editAgentUser(params.data)}></span>
-                        <span className="icon-Group-357" style={{ marginLeft: "5%" }} onClick={() => this.props.deleteAgentUser(params.data.AgentUserID)}></span>
+                        <span className="icon-Group-357" style={{ marginLeft: "5%" }} onClick={() => this.handleDeleteModal(params.data.AgentUserID)}></span>
                     </div>,
                     cellStyle: (params) => { return { textAlign: "center" } },
                 }
@@ -96,7 +98,8 @@ class Users extends Component {
             rolesData: [],
             currentStatus: "",
             messages: "",
-            language: ""
+            language: "",
+            idAgent: "",   
 
         };
     }
@@ -142,6 +145,28 @@ class Users extends Component {
         this.props.getAllUserRoles(sessionStorage.getItem("token"));
         this.translationHelperFunction();
 
+    }
+
+    handleDeleteModal = (id) => {
+        this.setState({
+            deletePopup: true,
+            idAgent: id
+        })
+    }
+
+    handleDeleteModalRow = () => {
+        this.setState({
+            deletePopup: false
+        })
+
+        this.props.deleteAgentUser(this.state.idAgent);
+    }
+
+
+    handleCloseModal = () => {
+        this.setState({
+            deletePopup: false
+        })
     }
 
     componentWillReceiveProps = async (nextprops) => {
@@ -219,7 +244,7 @@ class Users extends Component {
                         {/* <span style={{ cursor: "pointer" }}></span> */}
 
                         <span className="icon-edit-2" style={{ cursor: "pointer" }} style={{ marginLeft: "5%" }} onClick={() => this.editAgentUser(params.data)}></span>
-                        <span className="icon-Group-357" style={{ marginLeft: "5%" }} onClick={() => this.props.deleteAgentUser(params.data.AgentUserID)}></span>
+                        <span className="icon-Group-357" style={{ marginLeft: "5%" }} onClick={() => this.handleDeleteModal(params.data.AgentUserID)}></span>
                     </div>,
                     cellStyle: (params) => { return { textAlign: "center" } },
                 }
@@ -270,7 +295,7 @@ class Users extends Component {
                         {/* <span style={{ cursor: "pointer" }}></span> */}
 
                         <span className="icon-edit-2" style={{ cursor: "pointer" }} style={{ marginLeft: "5%" }} onClick={() => this.editAgentUser(params.data)}></span>
-                        <span className="icon-Group-357" style={{ marginLeft: "5%" }} onClick={() => this.props.deleteAgentUser(params.data.AgentUserID)}></span>
+                        <span className="icon-Group-357" style={{ marginLeft: "5%" }} onClick={() => this.handleDeleteModal(params.data.AgentUserID)}></span>
                     </div>,
                     cellStyle: (params) => { return { textAlign: "center" } },
                 }
@@ -571,6 +596,13 @@ class Users extends Component {
                                     </div>
                                 </div>
                             </div>
+                            {this.state.deletePopup &&
+                                <DeleteModal 
+                                    handleCloseModal={this.handleCloseModal}
+                                    handleDeleteModalRow={this.handleDeleteModalRow}
+                                    deleteMessage={"Are you sure delete this agent?"}
+                                />
+                            }
                         </div>
                     )
                 }

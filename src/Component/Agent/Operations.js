@@ -10,6 +10,7 @@ import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import { connect } from "react-redux";
 import { Select, Dropdown } from "antd";
 import { FormattedMessage, IntlProvider } from "react-intl";
+import DeleteModal from "../page/Settings/General/DeleteModal";
 import { addAsset, addOperation, deleteAsset, deleteOperation, editOperation, getAllAssets, getAllOperations, updateAsset } from "../../services/agent/action";
 const { Option } = Select;
 
@@ -25,6 +26,7 @@ class Operations extends Component {
             isModalVisible: false,
             paginationGetCurrentPage: null,
             popup: false,
+            deletePopup: false,
             columnDefs: [
                 { headerName: "Name", field: "name", width: 250 },
                 { headerName: "Operation Status ", field: "status" },
@@ -39,7 +41,7 @@ class Operations extends Component {
                                 {<FormattedMessage id="agent.Edit" />}
                             </button>
                             &ensp;
-                            <button onClick={(e) => this.deleteOperation(e, params.data)}>
+                            <button onClick={() => this.handleDeleteModal(params.data.operationID)}>
                                 {<FormattedMessage id="agent.Delete" />}
                             </button>
                         </div>
@@ -63,7 +65,8 @@ class Operations extends Component {
             operationAssetValue: "DEFAULT",
             operationID: "",
             messages: "",
-            language: ""
+            language: "",
+            idOperation: "",  
         };
     }
 
@@ -119,11 +122,33 @@ class Operations extends Component {
 
     };
 
-    deleteOperation = (e, data) => {
+    handleDeleteModal = (id) => {
+        this.setState({
+            deletePopup: true,
+            idOperation: id
+        })
+    }
 
-        this.props.deleteOperation(data.operationID);
+    handleDeleteModalRow = () => {
+        this.setState({
+            deletePopup: false
+        })
 
-    };
+        this.props.deleteOperation(this.state.idOperation);
+    }
+
+
+    handleCloseModal = () => {
+        this.setState({
+            deletePopup: false
+        })
+    }
+
+    // deleteOperation = (e, data) => {
+
+    //     this.props.deleteOperation(data.operationID);
+
+    // };
 
     onGridReady = (params) => {
         this.setState({
@@ -263,7 +288,7 @@ class Operations extends Component {
                                     {<FormattedMessage id="agent.Edit" />}
                                 </button>
                                 &ensp;
-                                <button onClick={(e) => this.deleteOperation(e, params.data)}>
+                                <button onClick={() => this.handleDeleteModal(params.data.operationID)}>
                                     {<FormattedMessage id="agent.Delete" />}
                                 </button>
                             </div>
@@ -291,7 +316,7 @@ class Operations extends Component {
                                     {<FormattedMessage id="agent.Edit" />}
                                 </button>
                                 &ensp;
-                                <button onClick={(e) => this.deleteOperation(e, params.data)}>
+                                <button onClick={() => this.handleDeleteModal(params.data.operationID)}>
                                     {<FormattedMessage id="agent.Delete" />}
                                 </button>
                             </div>
@@ -532,6 +557,13 @@ class Operations extends Component {
                                         </div>
                                     </div>
                                 </div>
+                                {this.state.deletePopup &&
+                                <DeleteModal 
+                                    handleCloseModal={this.handleCloseModal}
+                                    handleDeleteModalRow={this.handleDeleteModalRow}
+                                    deleteMessage={"Are you sure delete this operation?"}
+                                />
+                            }
                             </div>
                         </>
                     )
