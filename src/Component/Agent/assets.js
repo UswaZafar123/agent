@@ -569,7 +569,7 @@ handleCloseModal = () => {
                     <DeleteModal 
                         handleCloseModal={this.handleCloseModal}
                         handleDeleteModalRow={this.handleDeleteModalRow}
-                        deleteMessage={"Are you sure delete this asset?"}
+                        deleteMessage={"Are you sure to delete this asset?"}
                     />
                }
               </div>

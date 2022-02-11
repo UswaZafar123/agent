@@ -561,7 +561,7 @@ class Operations extends Component {
                                 <DeleteModal 
                                     handleCloseModal={this.handleCloseModal}
                                     handleDeleteModalRow={this.handleDeleteModalRow}
-                                    deleteMessage={"Are you sure delete this operation?"}
+                                    deleteMessage={"Are you sure to delete this operation?"}
                                 />
                             }
                             </div>

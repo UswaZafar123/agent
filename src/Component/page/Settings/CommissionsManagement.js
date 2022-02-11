@@ -703,7 +703,7 @@ class CommissionsManagement extends Component {
                                 <DeleteModal 
                                     handleCloseModal={this.handleCloseModal}
                                     handleDeleteModalRow={this.handleDeleteModalRow}
-                                    deleteMessage={"Are you sure delete this commission?"}
+                                    deleteMessage={"Are you sure to delete this commission?"}
                                 />
                             }
 

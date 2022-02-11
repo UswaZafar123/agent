@@ -600,7 +600,7 @@ class Users extends Component {
                                 <DeleteModal 
                                     handleCloseModal={this.handleCloseModal}
                                     handleDeleteModalRow={this.handleDeleteModalRow}
-                                    deleteMessage={"Are you sure delete this agent?"}
+                                    deleteMessage={"Are you sure to delete this agent?"}
                                 />
                             }
                         </div>
