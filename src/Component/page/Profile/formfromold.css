@@ -313,6 +313,62 @@ letter-spacing: 0.2px;
 
 }
 
+/* new add deleteModal start */
+.aryousure_del{
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 42px;
+    letter-spacing: 0em;
+    text-align: center;
+    color: #4A4C4F;
+}
+.confirm_p_w_del{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+.confirm_p_w_del button.aryousureBTN_del{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+
+    min-width: 100px;
+    height: 40px;
+    background: rgba(204, 204, 204, 0.99);
+    border-radius: 50px;
+
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 154.3%;
+    color: #343A40;
+
+    transition: all .3s ease;
+    cursor: pointer;
+
+    border: none !important;
+    outline: none !important;
+
+    box-shadow: 5px 7px 10px rgb(0 0 0 / 9%), 0 1px 2px rgb(0 0 0 / 24%);
+
+}
+.confirm_p_w_del button.aryousureBTN_del:hover{
+    background: rgb(181 178 178 / 99%);
+
+}
+.confirm_p_w_del button.aryousureBTN_del.confirmBtnR_del{
+    background: #DD1B1B;
+    color: #fff;
+}
+.confirm_p_w_del button.aryousureBTN_del.confirmBtnR_del:hover{
+    background: rgb(191 21 21);
+
+}
+/* new add deleteModal end */
+
 
 
 

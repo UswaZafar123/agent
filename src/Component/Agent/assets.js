@@ -10,6 +10,7 @@ import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import { connect } from "react-redux";
 import { Select, Dropdown } from "antd";
 import { FormattedMessage, IntlProvider } from "react-intl";
+import DeleteModal from '../page/Settings/General/DeleteModal';
 import { addAsset, deleteAsset, getAllAssets, updateAsset } from "../../services/agent/action";
 const { Option } = Select;
 
@@ -25,6 +26,7 @@ class Ticket extends Component {
       isModalVisible: false,
       paginationGetCurrentPage: null,
       popup: false,
+      deletePopup: false,
       columnDefs: [
         { headerName: "Name", field: "name", width: 250 },
         { headerName: "Status ", field: "status" },
@@ -37,7 +39,7 @@ class Ticket extends Component {
                 {<FormattedMessage id="agent.Edit" />}
               </button>
               &ensp;
-              <button onClick={(e) => this.deleteAsset(e, params.data)}>
+              <button onClick={() => this.handleDeleteModal(params.data.id)}>
                 {<FormattedMessage id="agent.Delete" />}
               </button>
             </div>
@@ -59,7 +61,8 @@ class Ticket extends Component {
       assetStatus: false,
       assetID: "",
       messages: "",
-      language: ""
+      language: "",
+      idAsset: "", 
     };
   }
   save = () => {
@@ -122,13 +125,35 @@ class Ticket extends Component {
     // });
   };
 
-  deleteAsset = (e, data) => {
+  handleDeleteModal = (id) => {
+    this.setState({
+        deletePopup: true,
+        idAsset: id
+    })
+}
 
-    // console.log(data.id);
+handleDeleteModalRow = () => {
+    this.setState({
+        deletePopup: false
+    })
 
-    this.props.deleteAsset(data.id);
+    this.props.deleteAsset(this.state.idAsset);
+}
 
-  };
+
+handleCloseModal = () => {
+    this.setState({
+        deletePopup: false
+    })
+}
+
+  // deleteAsset = (e, data) => {
+
+  //   // console.log(data.id);
+
+  //   this.props.deleteAsset(data.id);
+
+  // };
 
   onGridReady = (params) => {
     this.setState({
@@ -278,7 +303,7 @@ class Ticket extends Component {
                   {<FormattedMessage id="agent.Edit" />}
                 </button>
                 &ensp;
-                <button onClick={(e) => this.deleteAsset(e, params.data)}>
+                <button onClick={() => this.handleDeleteModal(params.data.id)}>
                   {<FormattedMessage id="agent.Delete" />}
                 </button>
               </div>
@@ -304,7 +329,7 @@ class Ticket extends Component {
                   {<FormattedMessage id="agent.Edit" />}
                 </button>
                 &ensp;
-                <button onClick={(e) => this.deleteAsset(e, params.data)}>
+                <button onClick={() => this.handleDeleteModal(params.data.id)}>
                   {<FormattedMessage id="agent.Delete" />}
                 </button>
               </div>
@@ -540,6 +565,13 @@ class Ticket extends Component {
                     </div>
                   </div>
                 </div>
+                {this.state.deletePopup &&
+                    <DeleteModal 
+                        handleCloseModal={this.handleCloseModal}
+                        handleDeleteModalRow={this.handleDeleteModalRow}
+                        deleteMessage={"Are you sure to delete this asset?"}
+                    />
+               }
               </div>
             </>
           )

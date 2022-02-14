@@ -10,6 +10,7 @@ import { FormattedMessage, IntlProvider } from "react-intl";
 
 
 // import activeUser from '../../Assets/images/confirm.svg'
+import DeleteModal from './General/DeleteModal';
 
 import ReactFlagsSelect from "react-flags-select";
 import { getStates } from "country-state-picker";
@@ -52,6 +53,7 @@ class CommissionsManagement extends Component {
             editNewCommissions: false,
             viewNewCommissions: false,
             activeStatus: true,
+            deletePopup: false,
             value: 1,
             columnDefs: [
                 { headerName: "Type", field: "Type" },
@@ -62,7 +64,7 @@ class CommissionsManagement extends Component {
                     headerName: "Action", field: "Action", width: 400,
                     cellRendererFramework: (params) => <div className="ac-view">
                         <button className="edit" onClick={() => this.editNewCommissions(params.data)}><FormattedMessage id="agent.Edit" /></button>
-                        <button className="delete" onClick={() => this.deleteCommission(params.data.ID)}><FormattedMessage id="agent.Delete" /></button>
+                        <button className="delete" onClick={() => this.handleDeleteModal(params.data.ID)}><FormattedMessage id="agent.Delete" /></button>
                     </div>,
                     cellStyle: (params) => { return { textAlign: "center" } },
                 }
@@ -86,7 +88,8 @@ class CommissionsManagement extends Component {
             commissionStatus: true,
             commissionID: "",
             messages: "",
-            language: ""
+            language: "",
+            idCommission: "",
 
 
         };
@@ -192,7 +195,7 @@ class CommissionsManagement extends Component {
                             headerName: "Action", field: "Action", width: 400,
                             cellRendererFramework: (params) => <div className="ac-view">
                                 <button className="edit" onClick={() => this.editNewCommissions(params.data)}><FormattedMessage id="agent.Edit" /></button>
-                                <button className="delete" onClick={() => this.deleteCommission(params.data.ID)}><FormattedMessage id="agent.Delete" /></button>
+                                <button className="delete" onClick={() => this.handleDeleteModal(params.data.ID)}><FormattedMessage id="agent.Delete" /></button>
                             </div>,
                             cellStyle: (params) => { return { textAlign: "center" } },
                         }
@@ -209,7 +212,7 @@ class CommissionsManagement extends Component {
                         headerName: "Action", field: "Action", width: 400,
                         cellRendererFramework: (params) => <div className="ac-view">
                             <button className="edit" onClick={() => this.editNewCommissions(params.data)}><FormattedMessage id="agent.Edit" /></button>
-                            <button className="delete" onClick={() => this.deleteCommission(params.data.ID)}><FormattedMessage id="agent.Delete" /></button>
+                            <button className="delete" onClick={() => this.handleDeleteModal(params.data.ID)}><FormattedMessage id="agent.Delete" /></button>
                         </div>,
                         cellStyle: (params) => { return { textAlign: "center" } },
                     }
@@ -221,11 +224,33 @@ class CommissionsManagement extends Component {
 
     }
 
-    deleteCommission = (commissionID) => {
-
-        this.props.deleteCommission(commissionID);
-
+    handleDeleteModal = (id) => {
+        this.setState({
+            deletePopup: true,
+            idCommission: id
+        })
     }
+
+    handleDeleteModalRow = () => {
+        this.setState({
+            deletePopup: false
+        })
+
+        this.props.deleteCommission(this.state.idCommission);
+    }
+
+
+    handleCloseModal = () => {
+        this.setState({
+            deletePopup: false
+        })
+    }
+
+    // deleteCommission = (commissionID) => {
+
+    //     this.props.deleteCommission(commissionID);
+
+    // }
 
     editCommission = () => {
 
@@ -674,7 +699,13 @@ class CommissionsManagement extends Component {
                             </div>
                         </div>
 
-
+                        {this.state.deletePopup &&
+                                <DeleteModal 
+                                    handleCloseModal={this.handleCloseModal}
+                                    handleDeleteModalRow={this.handleDeleteModalRow}
+                                    deleteMessage={"Are you sure to delete this commission?"}
+                                />
+                            }
 
                     </div>
 
