@@ -20,6 +20,11 @@ spec:
         - 
           image: "registry.gitlab.com/business-intelligence-agency/saraagentfrontend:latest"
           name: saraagentfrontend
+          resources:
+            limits:
+              memory: 1024Mi
+              requests:
+                memory: 512Mi
           ports: 
             - 
               containerPort: 3000
