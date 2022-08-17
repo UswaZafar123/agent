@@ -144,7 +144,7 @@ export default function CashWithdrawal () {
                         </div>
                         <div className="chartCardMiddle">
                             <div className="recentTrans_w2">
-                                <Grid container spacing={6} container justify={"center"}>
+                                <Grid container spacing={6} justify={"center"}>
 
 
                                     <Grid item xs={12} sm={10}>

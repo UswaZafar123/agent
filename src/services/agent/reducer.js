@@ -7,13 +7,13 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         agentLoginstatus: true,
-        tokenStatus:true
+        tokenStatus: true
       };
-  case actionType.TOKEN_FALSE:
-  return {
-    ...state,
-    tokenStatus:false,
-  };
+    case actionType.TOKEN_FALSE:
+      return {
+        ...state,
+        tokenStatus: false,
+      };
     case actionType.AGENT_LOGIN_FAILURE:
       return {
         ...state,
@@ -1885,6 +1885,16 @@ const agentReducer = (state = initialState, action) => {
         ...state,
         addAccessInfoStatus: false,
         addAccessInfoData: null,
+      };
+    case actionType.LOCAL_BANKS_GET_SUCCESS:
+      return {
+        ...state,
+        localBanksData: action.payload,
+      };
+    case actionType.LOCAL_BANKS_GET_FAILURE:
+      return {
+        ...state,
+        localBanksData: null,
       };
     default:
       return state;

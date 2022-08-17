@@ -59,7 +59,8 @@ class AddAccount extends Component {
     this.setState({
       accountDetailsModalShow: false,
     })
-    this.props.fetchAgentBankAccounts(sessionStorage.getItem("token"), this.props.profileDetails.bankCustomerId);
+    if (this.props.profileDetails)
+      this.props.fetchAgentBankAccounts(sessionStorage.getItem("token"), this.props.profileDetails.bankCustomerId);
 
   };
 

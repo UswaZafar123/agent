@@ -632,7 +632,7 @@ class KYC extends Component {
   showOTPModal = () => {
 
     this.setState({
-      otp : "",
+      otp: "",
     })
     if (this.state.addressone === "" || this.state.addresstwo === "" || this.state.city === "" || this.state.identification === "" || this.state.number === "") {
       toastr.error("Please fill required fields");
@@ -713,8 +713,8 @@ class KYC extends Component {
         let token = sessionStorage.getItem("token");
         // let submitionEmail = localStorage.getItem("email");
         // let mobileno = parseInt(this.state.mobileno);
-        let longitude = parseInt(this.state.longitude);
-        let latitude = parseInt(this.state.latitude);
+        // let longitude = parseInt(this.state.longitude);
+        // let latitude = parseInt(this.state.latitude);
         let dateofbirth = moment(this.state.dateOfBirthValue).format(
           "YYYY-MM-DD"
         );
@@ -742,8 +742,8 @@ class KYC extends Component {
           state: "",
           country: "",
           zipcode: zipcode,
-          longitude: longitude,
-          latitude: latitude,
+          longitude: this.state.longitude,
+          latitude: this.state.latitude,
 
           businessdetails: {
             // "id": this.state.businessId,
@@ -804,9 +804,9 @@ class KYC extends Component {
           formData.append("mobileNumber", this.state.mobileno);
           formData.append("address", this.state.addressone);
           formData.append("city", this.state.city);
-          formData.append("longitude", longitude);
+          formData.append("longitude", this.state.longitude);
           formData.append("mfaToken", this.state.otp);
-          formData.append("latitude", latitude);
+          formData.append("latitude", this.state.latitude);
           formData.append("IdDocumentFile", this.state.uploadproof);
           formData.append("addressproof", this.state.addressproof);
           formData.append("idDocumentType", "ID_DOCUMENT");
@@ -833,8 +833,8 @@ class KYC extends Component {
         let token = sessionStorage.getItem("token");
         let submitionEmail = localStorage.getItem("email");
         let mobileno = parseInt(this.state.mobileno);
-        let longitude = parseInt(this.state.longitude);
-        let latitude = parseInt(this.state.latitude);
+        // let longitude = parseInt(this.state.longitude);
+        // let latitude = parseInt(this.state.latitude);
         let dateofbirth = moment(this.state.dateOfBirthValue).format(
           "YYYY-MM-DD"
         );
@@ -861,8 +861,8 @@ class KYC extends Component {
           state: "",
           country: "",
           zipcode: zipcode,
-          longitude: longitude,
-          latitude: latitude,
+          longitude: this.state.longitude,
+          latitude: this.state.latitude,
 
           businessdetails: {
             nameoforganization: this.state.nameoforganization,
@@ -888,8 +888,8 @@ class KYC extends Component {
           state: "",
           country: "",
           zipcode: zipcode,
-          longitude: longitude,
-          latitude: latitude,
+          longitude: this.state.longitude,
+          latitude: this.state.latitude,
           identityInformation: {
             identification: this.state.identification,
             number: this.state.number,

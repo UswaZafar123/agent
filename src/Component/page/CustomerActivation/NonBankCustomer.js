@@ -16,7 +16,7 @@ import { connect } from "react-redux"
 
 const { Option } = Select;
 
-class AgentMember extends Component {
+class NonBankCustomerActivation extends Component {
 
     constructor(props) {
 
@@ -96,7 +96,6 @@ class AgentMember extends Component {
             messages: messages,
             language: localStorage.getItem("lang")
         });
-        // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
 
     }
 
@@ -110,29 +109,10 @@ class AgentMember extends Component {
     };
 
     componentDidMount = () => {
-        this.props.getAllAgentMemberLists();
-
         this.translationHelperFunction();
     }
 
     componentWillReceiveProps = async (nextprops) => {
-        if (nextprops.getAllAgentMemberList) {
-            let filteredAgentList = nextprops.getAllAgentMemberList.filter((data) => {
-                if (data.agentType === "AGENT" && data.status !== "AGENT_LINKING_REQUESTED") {
-                    return data;
-                }
-            })
-            if (filteredAgentList.length > 0) {
-                this.setState({
-                    rowData: filteredAgentList
-                })
-            } else {
-                this.setState({
-                    rowData: []
-                })
-            }
-        }
-
         if (nextprops.language) {
             const messages = await this.loadLocaleData(nextprops.language);
 
@@ -186,7 +166,7 @@ class AgentMember extends Component {
                                             <div className="chartCardTop">
                                                 <div className="kyccustomformheading">
                                                     <h1 className="list_top_heading textAlignCenter text-center" style={{ paddingLeft: "0px" }}>
-                                                        <FormattedMessage id="agent.LinkedAgents" />
+                                                        Non Bank Customer Activation
                                                     </h1>
                                                 </div>
                                             </div>
@@ -269,20 +249,10 @@ class AgentMember extends Component {
 
                                                     <AgGridReact
                                                         rowHeight={55}
-
                                                         defaultColDef={{ resizable: true }}
                                                         onFirstDataRendered={this.onFirstDataRendered}
                                                         columnDefs={this.state.columnDefs}
-                                                        rowData={this.state.rowData.map((data) => {
-                                                            return (
-                                                                {
-                                                                    agentName: data.firstName + " " + data.lastName,
-                                                                    agentEmailAddress: data.agentEmailAddress,
-                                                                    phoneNo: data.phoneNo,
-                                                                    status: data.status
-                                                                }
-                                                            )
-                                                        })}
+                                                        rowData={[]}
                                                         pagination={true}
                                                         onGridReady={this.onGridReady}
                                                         onPaginationChanged={this.onPaginationChanged}
@@ -325,14 +295,13 @@ class AgentMember extends Component {
 
 const mapStateToProps = ({ agentReducer, commonReducer }) => {
     const {
-        getAllAgentMemberList,
+
     } = agentReducer;
 
     const { language } = commonReducer;
 
     console.log(agentReducer, "AGENT REDUCER")
     return {
-        getAllAgentMemberList,
         language,
     }
 
@@ -340,9 +309,5 @@ const mapStateToProps = ({ agentReducer, commonReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
 
-    return {
-        getAllAgentMemberLists: () => dispatch(getAllAgentMemberLists()),
-    }
-
 }
-export default connect(mapStateToProps, mapDispatchToProps)(AgentMember);
+export default connect(mapStateToProps, mapDispatchToProps)(NonBankCustomerActivation);
