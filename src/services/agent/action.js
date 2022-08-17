@@ -2207,3 +2207,34 @@ export const addAccessInfo = (payload) => (dispatch) => {
       });
     });
 }
+
+
+export const getLocalBanks = () => (dispatch) => {
+  dispatch(ShowLoading());
+  const config = {
+    method: "GET",
+    url: URL.common.LOCAL_BANKS,
+    headers: {
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
+    }
+  };
+  axios(config)
+    .then((res) => {
+      dispatch(HideLoading());
+      if (res.status === 200) {
+        toastr.success("Local Banks Retrieved.");
+        dispatch({
+          type: actionType.LOCAL_BANKS_GET_SUCCESS,
+          payload: res.data,
+        });
+      }
+    })
+    .catch((err) => {
+      dispatch(HideLoading());
+      toastr.error("Local Banks Retrieval Error.")
+      dispatch({
+        type: actionType.LOCAL_BANKS_GET_FAILURE,
+        payload: [],
+      });
+    });
+}

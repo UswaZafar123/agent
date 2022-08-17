@@ -996,6 +996,7 @@ class Dashboard extends Component {
           " " +
           nextProps.walletAccount.data.currencyCode,
       });
+
     }
 
     if (nextProps.profileImageStatus) {
@@ -1048,8 +1049,8 @@ class Dashboard extends Component {
         locale={this.state.language}
       >
         {this.state.agentType === "AGENT" ||
-        this.state.agentType === "AGENT_MEMBER" ||
-        this.state.agentType === "AGENT_BANKER" ? (
+          this.state.agentType === "AGENT_MEMBER" ||
+          this.state.agentType === "AGENT_BANKER" ? (
           <>
             <div className="main_contain agentdashboardStyle">
               <div className="dashboard_wraps">
@@ -1061,18 +1062,25 @@ class Dashboard extends Component {
                           {this.state.agentType !== "AGENT" && (
                             <>
                               <div className="custom_col width3">
-                                <div className="dcard">
-                                  <div className="icNa">
-                                    <div className="cardrightVal">
-                                      <p>
-                                        <FormattedMessage id="agent.TotalAgents" />
-                                      </p>
-                                      <div className="cardnumber">
-                                        {this.state.numberOfAgents}
+                                <NavLink
+                                  to="/Profile/linked-agents"
+                                  style={{ textDecoration: "none" }}
+                                >
+
+                                  <div className="dcard">
+                                    <div className="icNa">
+                                      <div className="cardrightVal">
+                                        <p>
+                                          <FormattedMessage id="agent.TotalAgents" />
+                                        </p>
+                                        <div className="cardnumber">
+                                          {this.state.numberOfAgents}
+                                        </div>
                                       </div>
                                     </div>
                                   </div>
-                                </div>
+
+                                </NavLink>
                               </div>
                             </>
                           )}
@@ -1084,7 +1092,7 @@ class Dashboard extends Component {
                             >
                               <div className="dcard">
                                 <div className="icNa">
-                                  <div className="cardrightVal width50p">
+                                  <div className="cardrightVal">
                                     <p>
                                       <FormattedMessage id="agent.TotalAgentMember" />
                                     </p>
@@ -1101,6 +1109,12 @@ class Dashboard extends Component {
                             this.state.agentType !== "AGENT_BANKER" && (
                               <>
                                 <div className="custom_col width3">
+                                  <NavLink
+                                    to="/settings/agent-member"
+                                    style={{ textDecoration: "none" }}
+                                  >
+
+                                  </NavLink>
                                   <div className="dcard">
                                     <div className="icNa">
                                       <div className="cardrightVal width50p">
@@ -1114,20 +1128,23 @@ class Dashboard extends Component {
                             )}
 
                           <div className="custom_col width3">
-                            <div className="dcard">
-                              <div className="icNa">
-                                <div className="cardrightVal width50p">
-                                  <p>
-                                    <FormattedMessage id="agent.LiquidityBalance" />
-                                  </p>
-                                  <div className="cardnumber">
-                                    {this.state.walletBalance
-                                      ? this.state.walletBalance
-                                      : 0}
+                            <NavLink
+                              to="/agent/cash_in"
+                              style={{ textDecoration: "none" }}
+                            >
+                              <div className="dcard">
+                                <div className="icNa">
+                                  <div className="cardrightVal width50p">
+                                    <p>
+                                      <FormattedMessage id="agent.LiquidityBalance" />
+                                    </p>
+                                    <div className="cardnumber">
+                                      {this.state.walletBalance}
+                                    </div>
                                   </div>
                                 </div>
                               </div>
-                            </div>
+                            </NavLink>
                           </div>
                           <div className="custom_col width3">
                             <NavLink
@@ -1161,6 +1178,19 @@ class Dashboard extends Component {
                                 </div>
                               </>
                             )}
+
+                          <>
+                            <div className="custom_col width3">
+                              <div className="dcard">
+                                <div className="icNa">
+                                  <div className="cardrightVal">
+                                    <p>Commission Wallet Balance</p>
+                                    <div className="cardnumber">0 XAF</div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </>
                         </div>
                       </div>
                       <div className="customdashboardrow1">
@@ -1184,8 +1214,8 @@ class Dashboard extends Component {
                           {this.props.profile.loading
                             ? this.loadingProfileName()
                             : this.props.profile.data.firstName +
-                              " " +
-                              this.props.profile.data.lastName}
+                            " " +
+                            this.props.profile.data.lastName}
                         </div>
                         <div className="customdashboardrow1-label-whole">
                           <div className="customdashboardrow1-label">
@@ -1266,8 +1296,8 @@ class Dashboard extends Component {
                           {this.props.profile.loading
                             ? this.loadingProfileName()
                             : this.props.profile.data.firstName +
-                              " " +
-                              this.props.profile.data.lastName}
+                            " " +
+                            this.props.profile.data.lastName}
                         </div>
                         <div className="customdashboardrow1-label-whole">
                           <div className="customdashboardrow1-label">

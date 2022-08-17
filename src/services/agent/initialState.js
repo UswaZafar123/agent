@@ -295,5 +295,7 @@ const initialState = {
   accesInfo: [],
   addAccessInfoStatus: false,
   addAccessInfoData: null,
+
+  localBanksData : []
 };
 export default initialState;

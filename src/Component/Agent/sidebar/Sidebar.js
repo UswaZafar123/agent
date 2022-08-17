@@ -41,27 +41,27 @@ class Sidebar extends Component {
     language: ""
   };
 
-    async translationHelperFunction() {
+  async translationHelperFunction() {
 
 
-      console.log(localStorage.getItem("lang"),"lab>>>>>>>>")
-        const messages = await this.loadLocaleData(localStorage.getItem("lang"));
-        this.setState({
-          messages: messages,
-          language: localStorage.getItem("lang")
-        });
-        // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
+    console.log(localStorage.getItem("lang"), "lab>>>>>>>>")
+    const messages = await this.loadLocaleData(localStorage.getItem("lang"));
+    this.setState({
+      messages: messages,
+      language: localStorage.getItem("lang")
+    });
+    // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
 
-      }
+  }
 
-      loadLocaleData = (locale) => {
-        switch (locale) {
-          case "fr":
-            return import("../../i18n/messages/fr.js");
-          default:
-            return import("../../i18n/messages/en.js");
-        }
-      };
+  loadLocaleData = (locale) => {
+    switch (locale) {
+      case "fr":
+        return import("../../i18n/messages/fr.js");
+      default:
+        return import("../../i18n/messages/en.js");
+    }
+  };
 
   componentDidMount() {
     this.setState({ filteredMenu: Side_bar_data });
@@ -112,7 +112,7 @@ class Sidebar extends Component {
       this.setState({
         messages: messages,
         language: prevProps.language
-       });
+      });
     }
   }
 
@@ -171,7 +171,11 @@ class Sidebar extends Component {
               subMenuOption.path !== "/Profile/bank-account" &&
               subMenuOption.path !== "/Profile/linked-agents" &&
               subMenuOption.path !== "/Profile/linking-requests" &&
-              subMenuOption.path !== "/Profile/validate-bank-account"
+              subMenuOption.path !== "/Profile/validate-bank-account" &&
+              subMenuOption.path !== "/admin/banking/intra_bank_transfer" &&
+              subMenuOption.path !== "/admin/banking/inter_bank_transfer" &&
+              subMenuOption.path !== "/agent/customer/bank_customer"
+
 
             );
           } else if (profileData && profileData.agentType === "AGENT" && (profileData.status === "AGENT_LINKING_REQUESTED" || profileData.status === "ACTIVE")) {
@@ -184,7 +188,11 @@ class Sidebar extends Component {
               subMenuOption.path !== "/Profile/linked-agents" &&
               subMenuOption.path !== "/Profile/linking-requests" &&
               subMenuOption.path !== "/Profile/validate-bank-account" &&
-              subMenuOption.path !== "/Profile/link-agentbanker"
+              subMenuOption.path !== "/Profile/link-agentbanker" &&
+              subMenuOption.path !== "/admin/banking/intra_bank_transfer" &&
+              subMenuOption.path !== "/admin/banking/inter_bank_transfer" &&
+              subMenuOption.path !== "/agent/customer/bank_customer"
+
             );
           }
           else if (profileData && profileData.agentType === "AGENT_MEMBER") {
@@ -196,7 +204,12 @@ class Sidebar extends Component {
               subMenuOption.path !== "/Profile/bank-account" &&
               subMenuOption.path !== "/Profile/linked-agents" &&
               subMenuOption.path !== "/Profile/linking-requests" &&
-              subMenuOption.path !== "/Profile/validate-bank-account"
+              subMenuOption.path !== "/Profile/validate-bank-account" &&
+              subMenuOption.path !== "/admin/banking/intra_bank_transfer" &&
+              subMenuOption.path !== "/admin/banking/inter_bank_transfer" &&
+              subMenuOption.path !== "/agent/customer/bank_customer" &&
+              subMenuOption.path !== "/agent/customer/non_bank_customer"
+
 
             )
           }
@@ -219,58 +232,58 @@ class Sidebar extends Component {
     this.setState({ linkingDialogOpen: !this.state.linkingDialogOpen });
   };
 
-    checkAccountStatus = (agentType, status, lang) => {
-        switch (status) {
-          case 'INACTIVE':
-            this.showStatusDialog('Account Inactive',
-                'Your account is still in-active please contanct bank administration for more details.');
-            break;
+  checkAccountStatus = (agentType, status, lang) => {
+    switch (status) {
+      case 'INACTIVE':
+        this.showStatusDialog('Account Inactive',
+          'Your account is still in-active please contanct bank administration for more details.');
+        break;
 
-          case 'SUSPENDED':
-            this.showStatusDialog('Account Suspended',
-                'Your account has been suspended please contanct bank administration for more details.');
-            break;
-          case 'AGENT_LINKING_PENDING':
-                if(lang === 'fr') {
-                    this.showStatusDialog(
-                        'Liaison du compte',
-                            agentType === "AGENT_BANKER"
-                                ? 'Your account is not active, you need to link your Bank Customer ID.'
-                                : 'Votre compte nest pas actif�; vous devez associer votre compte au super-agent.');
-                        } else {
-                          this.showStatusDialog(
-                            'Account Linking',
-                             agentType === "AGENT_BANKER"
-                                ? 'Your account is not active, you need to link your Bank Customer ID.'
-                                : 'Your account is not active, you need to link your account to super agent.');
-                          }
-            break;
-          case 'AGENT_LINKING_REQUESTED':
-            this.showStatusDialog('Account Linking Requested',
-                'Your account linking request been sent to the Super Agent after he/she approved the request then you will be able to make any transaction from the system.');
-            break;
-          case 'AGENT_LINKING_COMPLETED':
-            this.showStatusDialog('Account Linking Completed',
-                'You account linking process has been completed, please wait for the bank administrator to activate your account.');
-            break;
-          case 'AGENT_LINKING_REJECTED':
-              if(lang === 'fr') {
-            this.showStatusDialog(
-                'Liaison du compte',
-                    agentType === "AGENT_BANKER"
-                        ? 'Your account is not active, you need to link your Bank Customer ID.'
-                        : 'Your account is not active, you need to link your account to super agent.');
-                } else {
-                  this.showStatusDialog(
-                    'Account Linking',
-                     agentType === "AGENT_BANKER"
-                        ? 'Your account is not active, you need to link your Bank Customer ID.'
-                        : 'Your account is not active, you need to link your account to super agent.');
-                  }
-            break;
-          default:
+      case 'SUSPENDED':
+        this.showStatusDialog('Account Suspended',
+          'Your account has been suspended please contanct bank administration for more details.');
+        break;
+      case 'AGENT_LINKING_PENDING':
+        if (lang === 'fr') {
+          this.showStatusDialog(
+            'Liaison du compte',
+            agentType === "AGENT_BANKER"
+              ? 'Your account is not active, you need to link your Bank Customer ID.'
+              : 'Votre compte nest pas actif�; vous devez associer votre compte au super-agent.');
+        } else {
+          this.showStatusDialog(
+            'Account Linking',
+            agentType === "AGENT_BANKER"
+              ? 'Your account is not active, you need to link your Bank Customer ID.'
+              : 'Your account is not active, you need to link your account to super agent.');
         }
+        break;
+      case 'AGENT_LINKING_REQUESTED':
+        this.showStatusDialog('Account Linking Requested',
+          'Your account linking request been sent to the Super Agent after he/she approved the request then you will be able to make any transaction from the system.');
+        break;
+      case 'AGENT_LINKING_COMPLETED':
+        this.showStatusDialog('Account Linking Completed',
+          'You account linking process has been completed, please wait for the bank administrator to activate your account.');
+        break;
+      case 'AGENT_LINKING_REJECTED':
+        if (lang === 'fr') {
+          this.showStatusDialog(
+            'Liaison du compte',
+            agentType === "AGENT_BANKER"
+              ? 'Your account is not active, you need to link your Bank Customer ID.'
+              : 'Your account is not active, you need to link your account to super agent.');
+        } else {
+          this.showStatusDialog(
+            'Account Linking',
+            agentType === "AGENT_BANKER"
+              ? 'Your account is not active, you need to link your Bank Customer ID.'
+              : 'Your account is not active, you need to link your account to super agent.');
+        }
+        break;
+      default:
     }
+  }
 
   showStatusDialog = (title, bodyText) => {
     this.setState({
@@ -300,71 +313,12 @@ class Sidebar extends Component {
   renderSideBarLoading = () => {
     return (
       <IntlProvider
-      messages={this.state.messages.default}
-      locale={this.state.language}
-     >
-      <div className="sideBar SidebarScroll">
-        <div className="sidebar_Inner">
-          <div className="sideTop">
-            <div className="sideTopLogo">
-              <img src={Logo} alt="" />
-            </div>
-          </div>
-          <div className="navigation">
-            {this.state.agentType === "AGENT" ?
-              <>
-                <h2 className="adminiH"><FormattedMessage id="agent.Agent" /></h2>
-              </> : this.state.agentType === "AGENT_MEMBER" ?
-                <>
-                  <h2 className="adminiH">Agent Member</h2>
-                </>
-                :
-                this.state.agentType === "AGENT_BANKER" ?
-                  <>
-                    <h2 className="adminiH">Agent Banker</h2>
-                  </>
-                  :
-                  <></>}
-            {/* <h2 className="adminiH"> Agent Panel</h2> */}
-            <div className="nav_inner">
-              <ul>
-                {Side_bar_data.map((item, index) => {
-
-                  return (
-                    <li key={index}>
-                      <Skeleton
-                        variant="text"
-                        width={200}
-                        height={50}
-                        style={{
-                          margin: "16px",
-                          borderRadius: "16px",
-                          backgroundColor: "gray",
-                        }}
-                      />
-                    </li>
-                  );
-                })}
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-      </IntlProvider>
-    );
-  };
-
-  renderSideBar = () => {
-    return (
-    	 <IntlProvider
-            messages={this.state.messages.default}
-            locale={this.state.language}
-         >
-      <>
+        messages={this.state.messages.default}
+        locale={this.state.language}
+      >
         <div className="sideBar SidebarScroll">
           <div className="sidebar_Inner">
             <div className="sideTop">
-              {this.props.isOpenLeftSide && <div className="closemenuBtn" onClick={(e) => this.toggleHandler(false)}><CloseOutlined /></div>}
               <div className="sideTopLogo">
                 <img src={Logo} alt="" />
               </div>
@@ -372,7 +326,7 @@ class Sidebar extends Component {
             <div className="navigation">
               {this.state.agentType === "AGENT" ?
                 <>
-                  <h2 className="adminiH">Agent</h2>
+                  <h2 className="adminiH"><FormattedMessage id="agent.Agent" /></h2>
                 </> : this.state.agentType === "AGENT_MEMBER" ?
                   <>
                     <h2 className="adminiH">Agent Member</h2>
@@ -384,96 +338,23 @@ class Sidebar extends Component {
                     </>
                     :
                     <></>}
+              {/* <h2 className="adminiH"> Agent Panel</h2> */}
               <div className="nav_inner">
                 <ul>
-                  {this.state.filteredMenu.map((item, index) => {
+                  {Side_bar_data.map((item, index) => {
+
                     return (
                       <li key={index}>
-                        <NavLink
-                          exact
-                          to={item.path}
-                          onClick={() => {
-                            this.toggleSubmenu(item.id);
+                        <Skeleton
+                          variant="text"
+                          width={200}
+                          height={50}
+                          style={{
+                            margin: "16px",
+                            borderRadius: "16px",
+                            backgroundColor: "gray",
                           }}
-                        >
-                          <span className={item.iconClass}></span>
-                          <FormattedMessage id={item.title} />
-                          {item.subMenu && (
-                            <span
-                              className={`icon-Asset-1 arrowOpenClosed ${this.state.submenu === item.id ? "openSubM" : ""
-                                }`}
-                            ></span>
-                          )}
-                        </NavLink>
-                        {item.subMenu && this.state.submenu === item.id ? (
-                          <ul>
-                            {item.subMenu.map((submenuList) => {
-                              console.log("checking sub path", submenuList.path)
-                              return (
-                                <li>
-                                  {submenuList.path === "/Settings/General" ?
-                                    <NavLink
-                                      exact
-                                      to={submenuList.path}
-                                      onClick={
-                                        (e) => this.toggleSubmenu2(true)
-                                      }
-                                    >
-                                      <span className="icon-Asset-48 subMDot"></span>{" "}
-                                      <FormattedMessage id={submenuList.title} />
-                                      {submenuList.path === "/Settings/General" &&
-                                        <div className="toggleGenralBTN" onClick={(e) => this.toggleSubmenu2(true)}><PlusCircleOutlined /></div>
-                                      }
-                                    </NavLink>
-                                    :
-                                    <NavLink
-                                      exact
-                                      to={submenuList.path}
-                                      onClick={
-                                        (e) => this.toggleSubmenu2(false)
-                                      }
-                                    >
-                                      <span className="icon-Asset-48 subMDot"></span>{" "}
-                                      <FormattedMessage id={submenuList.title} />
-                                    </NavLink>
-
-                                  }
-
-                                  {submenuList.subMenu && this.state.subMenu2 ? (
-                                    <ul className="subNav">
-                                      <div className="submenu-close-btn" onClick={
-                                        (e) => this.toggleSubmenu2(false)
-                                      }>
-                                        <CloseOutlined />
-                                      </div>
-                                      <li>
-                                        <h2
-                                          className="adminiH subTitleUl"
-                                          style={{ color: "black" }}
-                                        >
-                                          <FormattedMessage id="agent.General" />
-                                        </h2>
-                                      </li>
-                                      {submenuList.subMenu.map((sub) => {
-                                        return (
-                                          <li>
-                                            <NavLink exact to={sub.path}>
-                                              {" "}
-                                              <span
-                                                className={sub.iconClass}
-                                              ></span>{" "}
-                                              <FormattedMessage id={sub.title} />
-                                            </NavLink>
-                                          </li>
-                                        );
-                                      })}
-                                    </ul>
-                                  ) : null}
-                                </li>
-                              );
-                            })}
-                          </ul>
-                        ) : null}
+                        />
                       </li>
                     );
                   })}
@@ -482,8 +363,140 @@ class Sidebar extends Component {
             </div>
           </div>
         </div>
-        {this.props.isOpenLeftSide && <div className="overLayOnLeft" onClick={(e) => this.toggleHandler(false)}></div>}
-      </>
+      </IntlProvider>
+    );
+  };
+
+  renderSideBar = () => {
+    return (
+      <IntlProvider
+        messages={this.state.messages.default}
+        locale={this.state.language}
+      >
+        <>
+          <div className="sideBar SidebarScroll">
+            <div className="sidebar_Inner">
+              <div className="sideTop">
+                {this.props.isOpenLeftSide && <div className="closemenuBtn" onClick={(e) => this.toggleHandler(false)}><CloseOutlined /></div>}
+                <div className="sideTopLogo">
+                  <img src={Logo} alt="" />
+                </div>
+              </div>
+              <div className="navigation">
+                {this.state.agentType === "AGENT" ?
+                  <>
+                    <h2 className="adminiH">Agent</h2>
+                  </> : this.state.agentType === "AGENT_MEMBER" ?
+                    <>
+                      <h2 className="adminiH">Agent Member</h2>
+                    </>
+                    :
+                    this.state.agentType === "AGENT_BANKER" ?
+                      <>
+                        <h2 className="adminiH">Agent Banker</h2>
+                      </>
+                      :
+                      <></>}
+                <div className="nav_inner">
+                  <ul>
+                    {this.state.filteredMenu.map((item, index) => {
+                      return (
+                        <li key={index}>
+                          <NavLink
+                            exact
+                            to={item.path}
+                            onClick={() => {
+                              this.toggleSubmenu(item.id);
+                            }}
+                          >
+                            <span className={item.iconClass}></span>
+                            <FormattedMessage id={item.title} />
+                            {item.subMenu && (
+                              <span
+                                className={`icon-Asset-1 arrowOpenClosed ${this.state.submenu === item.id ? "openSubM" : ""
+                                  }`}
+                              ></span>
+                            )}
+                          </NavLink>
+                          {item.subMenu && this.state.submenu === item.id ? (
+                            <ul>
+                              {item.subMenu.map((submenuList) => {
+                                console.log("checking sub path", submenuList.path)
+                                return (
+                                  <li>
+                                    {submenuList.path === "/Settings/General" ?
+                                      <NavLink
+                                        exact
+                                        to={submenuList.path}
+                                        onClick={
+                                          (e) => this.toggleSubmenu2(true)
+                                        }
+                                      >
+                                        <span className="icon-Asset-48 subMDot"></span>{" "}
+                                        <FormattedMessage id={submenuList.title} />
+                                        {submenuList.path === "/Settings/General" &&
+                                          <div className="toggleGenralBTN" onClick={(e) => this.toggleSubmenu2(true)}><PlusCircleOutlined /></div>
+                                        }
+                                      </NavLink>
+                                      :
+                                      <NavLink
+                                        exact
+                                        to={submenuList.path}
+                                        onClick={
+                                          (e) => this.toggleSubmenu2(false)
+                                        }
+                                      >
+                                        <span className="icon-Asset-48 subMDot"></span>{" "}
+                                        <FormattedMessage id={submenuList.title} />
+                                      </NavLink>
+
+                                    }
+
+                                    {submenuList.subMenu && this.state.subMenu2 ? (
+                                      <ul className="subNav">
+                                        <div className="submenu-close-btn" onClick={
+                                          (e) => this.toggleSubmenu2(false)
+                                        }>
+                                          <CloseOutlined />
+                                        </div>
+                                        <li>
+                                          <h2
+                                            className="adminiH subTitleUl"
+                                            style={{ color: "black" }}
+                                          >
+                                            <FormattedMessage id="agent.General" />
+                                          </h2>
+                                        </li>
+                                        {submenuList.subMenu.map((sub) => {
+                                          return (
+                                            <li>
+                                              <NavLink exact to={sub.path}>
+                                                {" "}
+                                                <span
+                                                  className={sub.iconClass}
+                                                ></span>{" "}
+                                                <FormattedMessage id={sub.title} />
+                                              </NavLink>
+                                            </li>
+                                          );
+                                        })}
+                                      </ul>
+                                    ) : null}
+                                  </li>
+                                );
+                              })}
+                            </ul>
+                          ) : null}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          {this.props.isOpenLeftSide && <div className="overLayOnLeft" onClick={(e) => this.toggleHandler(false)}></div>}
+        </>
       </IntlProvider>
     );
   };
@@ -491,39 +504,39 @@ class Sidebar extends Component {
   render() {
     return (
       <IntlProvider
-      messages={this.state.messages.default}
-      locale={this.state.language}
-   >
-      <>
-        {this.props.profile.loading
-          ? this.renderSideBarLoading()
-          : this.renderSideBar()}
-        <Dialog
-          open={this.state.linkingDialogOpen}
-          TransitionComponent={Transition}
-          keepMounted
-          onClose={this.toggleLinkingDialog}
-          aria-labelledby="alert-dialog-slide-title"
-          aria-describedby="alert-dialog-slide-description"
-        >
-          <DialogTitle id="alert-dialog-slide-title">
-            {this.state.linkingDialogTitle}
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-slide-description">
-              {this.state.linkingDialogBody}
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button
-              onClick={this.toggleLinkingDialog}
-              style={{ color: "#DA4139" }}
-            >
-              <FormattedMessage id="agent.Iunderstand" />
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </>
+        messages={this.state.messages.default}
+        locale={this.state.language}
+      >
+        <>
+          {this.props.profile.loading
+            ? this.renderSideBarLoading()
+            : this.renderSideBar()}
+          <Dialog
+            open={this.state.linkingDialogOpen}
+            TransitionComponent={Transition}
+            keepMounted
+            onClose={this.toggleLinkingDialog}
+            aria-labelledby="alert-dialog-slide-title"
+            aria-describedby="alert-dialog-slide-description"
+          >
+            <DialogTitle id="alert-dialog-slide-title">
+              {this.state.linkingDialogTitle}
+            </DialogTitle>
+            <DialogContent>
+              <DialogContentText id="alert-dialog-slide-description">
+                {this.state.linkingDialogBody}
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button
+                onClick={this.toggleLinkingDialog}
+                style={{ color: "#DA4139" }}
+              >
+                <FormattedMessage id="agent.Iunderstand" />
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </>
       </IntlProvider>
     );
   }

@@ -713,8 +713,8 @@ class KYC extends Component {
         let token = sessionStorage.getItem("token");
         // let submitionEmail = localStorage.getItem("email");
         // let mobileno = parseInt(this.state.mobileno);
-        let longitude = parseInt(this.state.longitude);
-        let latitude = parseInt(this.state.latitude);
+        // let longitude = parseInt(this.state.longitude);
+        // let latitude = parseInt(this.state.latitude);
         let dateofbirth = moment(this.state.dateOfBirthValue).format(
           "YYYY-MM-DD"
         );
@@ -742,8 +742,8 @@ class KYC extends Component {
           state: "",
           country: "",
           zipcode: zipcode,
-          longitude: longitude,
-          latitude: latitude,
+          longitude: this.state.longitude,
+          latitude: this.state.latitude,
 
           businessdetails: {
             // "id": this.state.businessId,
@@ -833,8 +833,8 @@ class KYC extends Component {
         let token = sessionStorage.getItem("token");
         let submitionEmail = localStorage.getItem("email");
         let mobileno = parseInt(this.state.mobileno);
-        let longitude = parseInt(this.state.longitude);
-        let latitude = parseInt(this.state.latitude);
+        // let longitude = parseInt(this.state.longitude);
+        // let latitude = parseInt(this.state.latitude);
         let dateofbirth = moment(this.state.dateOfBirthValue).format(
           "YYYY-MM-DD"
         );
@@ -861,8 +861,8 @@ class KYC extends Component {
           state: "",
           country: "",
           zipcode: zipcode,
-          longitude: longitude,
-          latitude: latitude,
+          longitude: this.state.longitude,
+          latitude: this.state.latitude,
 
           businessdetails: {
             nameoforganization: this.state.nameoforganization,
@@ -888,8 +888,8 @@ class KYC extends Component {
           state: "",
           country: "",
           zipcode: zipcode,
-          longitude: longitude,
-          latitude: latitude,
+          longitude: this.state.longitude,
+          latitude: this.state.latitude,
           identityInformation: {
             identification: this.state.identification,
             number: this.state.number,

@@ -21,6 +21,7 @@ const configUrl = {
     FIREBASE_REGISTRATION_TOKEN: `${API}dashboard/merchant/firebase-token`,
     SEND_SMS: `${API}sms`,
     RECEOVER_SMS: `${API}auth/recovery/otp`,
+    LOCAL_BANKS : `${MainAPI}bank/common/localBanks`
   },
 
   client: {

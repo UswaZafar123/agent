@@ -114,13 +114,19 @@ import AddAccount from "./Component/page/Profile/AddAccount";
 import PrivateRoute from "./privateRoute.js"
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
+import IntraBankTransfer from "./Component/Banking/IntraBankTransfer";
+import InterBankTransfer from "./Component/Banking/InterBankTransfer";
+import BankToWallet from "./Component/Banking/BankToWallet";
+import WalletToBank from "./Component/Banking/WalletToBank";
+import BankCustomer from "./Component/page/CustomerActivation/BankCustomer";
+import NonBankCustomer from "./Component/page/CustomerActivation/NonBankCustomer";
 
 
 export const App = (props) => {
   const [toggleMenuVar, setToggleMenuVar] = useState(false)
-  const [showStatus,setShow] =useState(false)
-  const agentLoginStatus =useSelector(data=>data.agentReducer.agentLoginstatus)
-  const tokenStatus =useSelector(data=>data.agentReducer.tokenStatus)
+  const [showStatus, setShow] = useState(false)
+  const agentLoginStatus = useSelector(data => data.agentReducer.agentLoginstatus)
+  const tokenStatus = useSelector(data => data.agentReducer.tokenStatus)
 
   let history = useHistory();
 
@@ -128,40 +134,40 @@ export const App = (props) => {
     setToggleMenuVar(booleanVal)
   };
 
-  useEffect(()=>{
+  useEffect(() => {
 
-  if(!tokenStatus)  {
-    setShow(false)
-  }else{
-    setShow(true)
+    if (!tokenStatus) {
+      setShow(false)
+    } else {
+      setShow(true)
 
-  }
-  },[tokenStatus])
+    }
+  }, [tokenStatus])
 
-  useEffect(()=>{
-    if(!agentLoginStatus)  {
+  useEffect(() => {
+    if (!agentLoginStatus) {
       setShow(false)
       history.push("/agent/login");
-    }else{
+    } else {
       setShow(true)
     }
-    },[agentLoginStatus])
+  }, [agentLoginStatus])
 
 
 
   return (
     <>
-     {!showStatus&&
-      <Switch>
-       {!agentLoginStatus? <Redirect exact from="/" to="/agent/login" />:<Redirect exact from="/" to="/agent/dashboard" />}
-        <Route path="/agent/login" component={Login} />
-        <Route path="/agent/register" component={AgentRegister} />
-        <Route path="/agent/registration" component={Registration} />
-        <Route exact path="/agent/otp-verification" component={AgentOTP} />
-        <Route path="/agent/registrationSuccess" component={AgentRegSuccess} />
-        <Route path="/agent/forgotPassword" component={ForgotPassword} />
-      </Switch>
-       }
+      {!showStatus &&
+        <Switch>
+          {!agentLoginStatus ? <Redirect exact from="/" to="/agent/login" /> : <Redirect exact from="/" to="/agent/dashboard" />}
+          <Route path="/agent/login" component={Login} />
+          <Route path="/agent/register" component={AgentRegister} />
+          <Route path="/agent/registration" component={Registration} />
+          <Route exact path="/agent/otp-verification" component={AgentOTP} />
+          <Route path="/agent/registrationSuccess" component={AgentRegSuccess} />
+          <Route path="/agent/forgotPassword" component={ForgotPassword} />
+        </Switch>
+      }
       {showStatus &&
         (
           <div
@@ -213,6 +219,16 @@ export const App = (props) => {
                     />
                     <PrivateRoute
                       exact
+                      path="/admin/banking/intra_bank_transfer"
+                      component={IntraBankTransfer}
+                    />
+                    <PrivateRoute
+                      exact
+                      path="/admin/banking/inter_bank_transfer"
+                      component={InterBankTransfer}
+                    />
+                    <PrivateRoute
+                      exact
                       path="/agent/cash_withdraw/wallet"
                       component={WalletCashWithdraw}
                     />
@@ -220,6 +236,26 @@ export const App = (props) => {
                       exact
                       path="/agent/cash_withdraw/bank"
                       component={BankCashWithdraw}
+                    />
+                    <PrivateRoute
+                      exact
+                      path="/admin/banking/bank_to_wallet"
+                      component={BankToWallet}
+                    />
+                    <PrivateRoute
+                      exact
+                      path="/admin/banking/wallet_to_bank"
+                      component={WalletToBank}
+                    />
+                    <PrivateRoute
+                      exact
+                      path="/agent/customer/bank_customer"
+                      component={BankCustomer}
+                    />
+                    <PrivateRoute
+                      exact
+                      path="/agent/customer/non_bank_customer"
+                      component={NonBankCustomer}
                     />
                     <PrivateRoute exact path="/agent/cash_in" component={CashIn} />
                     <PrivateRoute exact path="/agent/cash_out" component={CashOut} />
@@ -481,7 +517,7 @@ export const App = (props) => {
               </div>
             </div>
           </div>
-         )}
+        )}
     </>
   );
 };

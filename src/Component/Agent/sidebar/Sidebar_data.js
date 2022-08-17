@@ -14,15 +14,6 @@ export const Side_bar_data = [
 
   //   ],
   // },
-  // {
-  //   title: "Cash Withdraw",
-  //   path: "/agent/cash_withdraw/wallet",
-  //   iconClass: "icon-Asset-47",
-  //   id: 3,
-  //   subMenu: [
-
-  //   ],
-  // },
   {
     title: "agent.CashIn/CashOut",
     path: "/agent/cash_in",
@@ -106,6 +97,14 @@ export const Side_bar_data = [
         path: "/agent/cash_withdraw/bank",
       },
       {
+        title: "Bank to Wallet",
+        path: "/admin/banking/bank_to_wallet",
+      },
+      {
+        title: "Wallet to Bank",
+        path: "/admin/banking/wallet_to_bank",
+      },
+      {
         title: "agent.AccountBalance",
         path: "/admin/banking/account_balance",
       },
@@ -113,6 +112,14 @@ export const Side_bar_data = [
         title: "agent.AccountStatement",
         path: "/admin/banking/account_statement",
       },
+      {
+        title: "Intra Bank Transfer",
+        path: "/admin/banking/intra_bank_transfer",
+      },
+      {
+        title: "Inter Bank Transfer",
+        path: "/admin/banking/inter_bank_transfer",
+      }
       // {
       //   title: "Cash Deposit In Bank",
       //   path: "/admin/banking/cash_deposit_bank",
@@ -157,6 +164,51 @@ export const Side_bar_data = [
       //   title: "Service Payment",
       //   path: "/Agent/walletOperation/ServicePayment",
       // },
+    ],
+  },
+  {
+    title: "Non-SARA Customer",
+    path: "/agent/cash_withdraw/wallet",
+    iconClass: "icon-Asset-27",
+    id: 3,
+    subMenu: [
+
+      {
+        title: "Cash Withdraw",
+        path: "/agent/cash_withdraw/wallet",
+      },
+
+    ],
+  },
+  {
+    title: "Revenue Management",
+    path: "/agent/revenue_management/commission",
+    iconClass: "icon-Asset-29",
+    id: 888,
+    subMenu: [
+
+      {
+        title: "Commission management",
+        path: "/agent/revenue_management/commission",
+      }
+    ],
+  },
+  {
+    title: "Customer Activation",
+    path: "/agent/customer/bank_customer",
+    iconClass: "icon-Asset-28",
+    id: 999,
+    subMenu: [
+
+      {
+        title: "Bank Customer",
+        path: "/agent/customer/bank_customer",
+      },
+      {
+        title: "Non Bank Customer",
+        path: "/agent/customer/non_bank_customer",
+      },
+
     ],
   },
   // {

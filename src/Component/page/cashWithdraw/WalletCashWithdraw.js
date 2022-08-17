@@ -630,7 +630,11 @@ const WalletCashWithdraw = () => {
                         className="list_top_heading textAlignCenter text-center"
                         style={{ paddingLeft: "0px" }}
                       >
-                        <FormattedMessage id="agent.WalletCashWithdraw" />
+                        {/* <FormattedMessage id="agent.WalletCashWithdraw" /> */}
+                        Cash Withdraw
+                        <br />
+                        <span style={{ fontSize: '15px' }}>{"(Non-SARA Customer)"}</span>
+
                       </h1>
                     </div>
                   </div>

@@ -458,7 +458,6 @@ class Accounts extends Component {
                                         // format={dateFormat}
                                         style={{ width: 100 + "%", height: 32 }}
                                         defaultValue={""}
-                                        className="tableDatepicker"
                                       />
                                     </td>
                                     <td>
