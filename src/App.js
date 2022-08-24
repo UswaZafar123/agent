@@ -120,6 +120,7 @@ import BankToWallet from "./Component/Banking/BankToWallet";
 import WalletToBank from "./Component/Banking/WalletToBank";
 import BankCustomer from "./Component/page/CustomerActivation/BankCustomer";
 import NonBankCustomer from "./Component/page/CustomerActivation/NonBankCustomer";
+import FundTransfer from "./Component/Non-SARA/FundTransfer";
 
 
 export const App = (props) => {
@@ -229,8 +230,8 @@ export const App = (props) => {
                     />
                     <PrivateRoute
                       exact
-                      path="/agent/cash_withdraw/wallet"
-                      component={WalletCashWithdraw}
+                      path="/agent/non-sara/fund-transfer"
+                      component={FundTransfer}
                     />
                     <PrivateRoute
                       exact
