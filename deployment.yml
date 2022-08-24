@@ -29,9 +29,9 @@ spec:
           name: saraagentfrontend
           resources:
             limits:
-              memory: 1024Mi
+              memory: 2048Mi
             requests:
-              memory: 512Mi
+              memory: 1024Mi
           ports: 
             - 
               containerPort: 3000
