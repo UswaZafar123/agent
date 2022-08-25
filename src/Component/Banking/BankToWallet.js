@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { FormattedMessage, IntlProvider } from "react-intl";
 import { toastr } from "react-redux-toastr";
 import OtpInput from "react-otp-input";
+import { fetchAgentBankAccounts, getProfile, verifyCustomer } from "../../services/agent/action";
 
 const { Option } = Select;
 const resendTime = 30;
@@ -18,13 +19,18 @@ const BankToWallet = () => {
   const [language, setLanguage] = useState("");
   const [otp, setOtp] = useState("");
   const idDocumentTypes = [
-    { name: "agent.IDCard", value: "ID_CARD" },
+    { name: "agent.IDCard", value: "ID_DOCUMENT" },
     { name: "agent.Passport", value: "PASSPORT" },
   ];
-  const otpTypes = [
-    { name: "Email", value: "EMAIL" },
-    { name: "SMS", value: "SMS" },
-  ];
+
+  const agentProfile = useSelector((state) => state.agentReducer.profile.data);
+
+  const agentBankAccountsLoading = useSelector(
+    (state) => state.agentReducer.bankAccounts.loading
+  );
+  const agentBankAccounts = useSelector(
+    (state) => state.agentReducer.bankAccounts.list
+  );
 
   const [bankCustomerId, setBankCustomerId] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -49,7 +55,31 @@ const BankToWallet = () => {
     setMessages(messages);
 
     setLanguage(localStorage.getItem("lang"));
+
+    dispatch(getProfile());
   }, []);
+
+
+  const [bankAccounts, setBankAccounts] = useState([]);
+
+  useEffect(() => {
+    if (agentProfile)
+      dispatch(
+        fetchAgentBankAccounts(
+          sessionStorage.getItem("token"),
+          agentProfile.bankCustomerId
+        )
+      );
+  }, [agentProfile]);
+
+  useEffect(() => {
+
+    if (agentBankAccounts.length > 0) {
+      setBankAccounts(agentBankAccounts);
+    }
+
+  }, [agentBankAccounts])
+
 
   const loadLocaleData = (locale) => {
     switch (locale) {
@@ -180,6 +210,14 @@ const BankToWallet = () => {
                 <Option value="" disabled>
                   Select a Bank Account
                 </Option>
+
+                {
+                  bankAccounts.length > 0 && bankAccounts.map((account) => {
+                    return (
+                      <Option value={account.accNo}>{account.accNo + "  (Balance : " + account.balance + account.currency + ")"}</Option>
+                    )
+                  })
+                }
               </Select>
             </div>
           </div>
@@ -404,6 +442,7 @@ const BankToWallet = () => {
 
   const stepChange = () => {
     if (step === 0) {
+      // verifyCustomerSubmit();
       setStep(1);
     } else if (step === 1) {
       setStep(2);
@@ -433,13 +472,14 @@ const BankToWallet = () => {
 
   const verifyCustomerSubmit = () => {
     var requestObj = {
-      type: "BANK",
+      // type: "BANK",
       bankCustomerId: bankCustomerId,
       phoneNumber: phoneNumber,
       idDocumentType: selectedDocumentType,
       idDocumentNumber: idDocumentNumber,
     };
-    // dispatch(verifyCustomer(sessionStorage.getItem("token"), requestObj));
+    console.log(requestObj, "VERIFY CUSTOMER SUBMIT")
+    dispatch(verifyCustomer(sessionStorage.getItem("token"), requestObj));
   };
 
   return (

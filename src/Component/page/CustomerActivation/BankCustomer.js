@@ -1,105 +1,88 @@
-import React, { Component } from 'react';
-import '../../../css/ag-grid-customization01.css';
-import 'antd/dist/antd.css';
-import '../Settings/General/formfromold.css'
-import { AgGridReact } from 'ag-grid-react';
-import 'ag-grid-community/dist/styles/ag-grid.css';
-import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
-import { getAllAgentMemberLists } from "../../../services/agent/action"
-import 'react-phone-input-2/lib/style.css'
-import { FormattedMessage, IntlProvider } from 'react-intl';
-
-import '../Settings/General/settingcss.css'
-
-import { Select, Dropdown } from "antd";
-import { connect } from "react-redux"
+import React, { useState, useEffect } from "react";
+import "../../../css/ag-grid-customization01.css";
+import "antd/dist/antd.css";
+import "../../page/Settings/General/formfromold.css";
+import "ag-grid-community/dist/styles/ag-grid.css";
+import "ag-grid-community/dist/styles/ag-theme-alpine.css";
+import { Button, Select } from "antd";
+import { useSelector, useDispatch } from "react-redux";
+import { FormattedMessage, IntlProvider } from "react-intl";
+import { toastr } from "react-redux-toastr";
+import OtpInput from "react-otp-input";
+import { fetchAgentBankAccounts, getProfile, verifyCustomer } from ".././../../services/agent/action";
+import CustomerActivationKYC from "./CustomerActivationKYC";
 
 const { Option } = Select;
+const resendTime = 30;
 
-class BankCustomerActivation extends Component {
+const BankCustomerActivation = () => {
+    const [messages, setMessages] = useState("");
+    const [language, setLanguage] = useState("");
+    const [otp, setOtp] = useState("");
+    const idDocumentTypes = [
+        { name: "agent.IDCard", value: "ID_DOCUMENT" },
+        { name: "agent.Passport", value: "PASSPORT" },
+    ];
 
-    constructor(props) {
+    const agentProfile = useSelector((state) => state.agentReducer.profile.data);
 
-        super(props);
+    const agentBankAccountsLoading = useSelector(
+        (state) => state.agentReducer.bankAccounts.loading
+    );
+    const agentBankAccounts = useSelector(
+        (state) => state.agentReducer.bankAccounts.list
+    );
 
-        this.state = {
-            columnDefs: [
-                { headerName: "Name", field: "agentName", width: 250 },
-                { headerName: "Email", field: "agentEmailAddress" },
-                { headerName: "Telephone ", field: "phoneNo" },
-                {
-                    headerName: "Status", field: "status",
-                },
-            ],
-            rowData: [],
-            agentPackagesData: [],
-            messages: "",
-            language: "",
-        };
-    }
+    const [bankCustomerId, setBankCustomerId] = useState("");
+    const [phoneNumber, setPhoneNumber] = useState("");
+    const [selectedDocumentType, setSelectedDocumentType] = useState(
+        idDocumentTypes[0].value
+    );
 
-    onFirstDataRendered = (params) => {
-        params.api.sizeColumnsToFit();
-    };
+    const [idDocumentNumber, setIdDocumentNumber] = useState("");
 
-    onGridReady = (params) => {
-        this.setState({
-            gridApi: params.api,
-        })
-        params.api.paginationGoToPage(10);
-        document.getElementById('lbCurrentPage').innerHTML = this.state.gridApi.paginationGetCurrentPage() + 1
-        document.getElementById('totalPageSize').innerHTML = this.state.rowData.length
-        document.getElementById('bTo').innerHTML = params.api.paginationGetPageSize(10)
-        const changedV = (params.api.paginationGetPageSize(10)) * (this.state.gridApi.paginationGetCurrentPage() + 1)
-        if (changedV <= this.state.rowData.length) {
-            document.getElementById('afterTo').innerHTML = (params.api.paginationGetPageSize(10)) * (this.state.gridApi.paginationGetCurrentPage() + 1)
+    const [bank, setBank] = useState("");
+    const [walletID, setwalletID] = useState("");
+    const [amount, setAmount] = useState("");
+    const [reason, setReason] = useState("");
+    const [step, setStep] = useState(0);
+
+    const lan = useSelector((state) => state.commonReducer.language);
+
+    const dispatch = useDispatch();
+
+    useEffect(async () => {
+        const messages = await loadLocaleData(localStorage.getItem("lang"));
+        setMessages(messages);
+
+        setLanguage(localStorage.getItem("lang"));
+
+        dispatch(getProfile());
+    }, []);
+
+
+    const [bankAccounts, setBankAccounts] = useState([]);
+
+    useEffect(() => {
+        if (agentProfile)
+            dispatch(
+                fetchAgentBankAccounts(
+                    sessionStorage.getItem("token"),
+                    agentProfile.bankCustomerId
+                )
+            );
+    }, [agentProfile]);
+
+    useEffect(() => {
+
+        if (agentBankAccounts.length > 0) {
+            setBankAccounts(agentBankAccounts);
         }
-        else {
-            document.getElementById('afterTo').innerHTML = this.state.rowData.length
-        }
-    }
-    handleChange = (value) => {
-        this.state.gridApi.paginationSetPageSize(Number(value))
-        document.getElementById('bTo').innerHTML = this.state.gridApi.paginationGetPageSize()
-    }
 
-    onPaginationChanged = () => {
-        console.log('onPaginationPageLoaded');
-        if (this.state.gridApi) {
-            document.getElementById('lbCurrentPage').innerHTML = this.state.gridApi.paginationGetCurrentPage() + 1
-            document.getElementById('bTo').innerHTML = this.state.gridApi.paginationGetPageSize() * this.state.gridApi.paginationGetCurrentPage() + 1
-
-            const changedV = (this.state.gridApi.paginationGetPageSize(10)) * (this.state.gridApi.paginationGetCurrentPage() + 1)
-            if (changedV <= this.state.rowData.length) {
-                document.getElementById('afterTo').innerHTML = (this.state.gridApi.paginationGetPageSize(10)) * (this.state.gridApi.paginationGetCurrentPage() + 1)
-            }
-            else {
-                document.getElementById('afterTo').innerHTML = this.state.rowData.length
-            }
+    }, [agentBankAccounts])
 
 
-        }
-    };
-
-    onBtNext = () => {
-        this.state.gridApi.paginationGoToNextPage();
-    };
-
-    onBtPrevious = () => {
-        this.state.gridApi.paginationGoToPreviousPage();
-    };
-
-    async translationHelperFunction() {
-
-        const messages = await this.loadLocaleData(localStorage.getItem("lang"));
-        this.setState({
-            messages: messages,
-            language: localStorage.getItem("lang")
-        });
-
-    }
-
-    loadLocaleData = (locale) => {
+    const loadLocaleData = (locale) => {
         switch (locale) {
             case "fr":
                 return import("../../i18n/messages/fr.js");
@@ -108,206 +91,456 @@ class BankCustomerActivation extends Component {
         }
     };
 
-    componentDidMount = () => {
-        this.translationHelperFunction();
+    useEffect(async () => {
+        const messages = await loadLocaleData(lan);
+        setMessages(messages);
+
+        setLanguage(lan);
+    }, [lan]);
+
+    const walletVerificationForm = () => {
+        return (
+            <>
+                <div className="containerBiaN_form">
+                    <div className="containerBiaN_f_row" style={{ justifyContent: "center" }}>
+                        <div className="containerBiaN_f_col width30percent textAlignRight">
+                            <label>
+                                <FormattedMessage id="agent.BankCustomerID" />{" "}
+                                <span className="mantdat">*</span>
+                            </label>
+                        </div>
+                        <div className="containerBiaN_f_col width70percent">
+                            <FormattedMessage id="agent.EnterBankCustomerId">
+                                {(placeholder) => (
+                                    <input
+                                        placeholder={placeholder}
+                                        type="number"
+                                        value={bankCustomerId}
+                                        onChange={(e) => setBankCustomerId(e.target.value)}
+                                    />
+                                )}
+                            </FormattedMessage>
+                        </div>
+                    </div>
+                    <div className="containerBiaN_f_row" style={{ justifyContent: "center" }}>
+                        <div className="containerBiaN_f_col width30percent textAlignRight">
+                            <label>
+                                <FormattedMessage id="agent.phonenumber" />{" "}
+                                <span className="mantdat">*</span>
+                            </label>
+                        </div>
+                        <div className="containerBiaN_f_col width70percent">
+                            <FormattedMessage id="agent.EnterPhoneNumber">
+                                {(placeholder) => (
+                                    <input
+                                        placeholder={placeholder}
+                                        type="number"
+                                        value={phoneNumber}
+                                        onChange={(e) => setPhoneNumber(e.target.value)}
+                                    />
+                                )}
+                            </FormattedMessage>
+                        </div>
+                    </div>
+                    <div className="containerBiaN_f_row" style={{ justifyContent: "center" }}>
+                        <div className="containerBiaN_f_col width30percent textAlignRight">
+                            <label>
+                                <FormattedMessage id="agent.DocumentType" />{" "}
+                                <span className="mantdat">*</span>
+                            </label>
+                        </div>
+                        <div className="containerBiaN_f_col width70percent">
+                            <div className="categorySelect">
+                                <Select
+                                    style={{ width: 100 + "%", height: 52 }}
+                                    value={selectedDocumentType}
+                                    onChange={(value) => setSelectedDocumentType(value)}
+                                >
+                                    {idDocumentTypes.map((type) => {
+                                        return (
+                                            <Option value={type.value}>
+                                                <FormattedMessage id={type.name} />
+                                            </Option>
+                                        );
+                                    })}
+                                </Select>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="containerBiaN_f_row" style={{ justifyContent: "center" }}>
+                        <div className="containerBiaN_f_col width30percent textAlignRight">
+                            <label>
+                                <FormattedMessage id="agent.IDDocumentNumber" />{" "}
+                                <span className="mantdat">*</span>
+                            </label>
+                        </div>
+                        <div className="containerBiaN_f_col width70percent">
+                            <FormattedMessage id="agent.EnterIDDocumentNumber">
+                                {(placeholder) => (
+                                    <input
+                                        placeholder={placeholder}
+                                        value={idDocumentNumber}
+                                        onChange={(e) => setIdDocumentNumber(e.target.value)}
+                                    />
+                                )}
+                            </FormattedMessage>
+                        </div>
+                    </div>
+                </div>
+            </>
+        );
+    };
+
+    const BankCustomerActivationForm = () => {
+        return (
+            <div className="containerBiaN_form">
+                <div className="containerBiaN_f_row" style={{ justifyContent: "center" }}>
+                    <div className="containerBiaN_f_col width30percent textAlignRight">
+                        <label>
+                            Bank Account{" "}
+                            <span className="mantdat">*</span>
+                        </label>
+                    </div>
+                    <div className="containerBiaN_f_col width70percent">
+                        <div className="categorySelect">
+                            <Select
+                                style={{ width: 100 + "%", height: 52 }}
+                                value={bank}
+                                onChange={(e) => setBank(e)}
+                            >
+                                <Option value="" disabled>
+                                    Select a Bank Account
+                                </Option>
+
+                                {
+                                    bankAccounts.length > 0 && bankAccounts.map((account) => {
+                                        return (
+                                            <Option value={account.accNo}>{account.accNo + "  (Balance : " + account.balance + account.currency + ")"}</Option>
+                                        )
+                                    })
+                                }
+                            </Select>
+                        </div>
+                    </div>
+                </div>
+                <div className="containerBiaN_f_row" style={{ justifyContent: "center" }}>
+                    <div className="containerBiaN_f_col width30percent textAlignRight">
+                        <label>
+                            Wallet ID{" "}
+                            <span className="mantdat">*</span>
+                        </label>
+                    </div>
+                    <div className="containerBiaN_f_col width70percent">
+                        <input
+                            placeholder="Enter Wallet ID"
+                            type="number"
+                            value={walletID}
+                            onChange={(e) => {
+                                if (walletID.length !== 11) {
+                                    setwalletID(e.target.value);
+                                } else if (e.target.value.length < 11) {
+                                    setwalletID(e.target.value)
+                                } else {
+
+                                    toastr.info("Account Number Should Be of 11 Digits..")
+
+                                }
+                            }}
+                        />
+                    </div>
+                </div>
+
+                <div className="containerBiaN_f_row" style={{ justifyContent: "center" }}>
+                    <div className="containerBiaN_f_col width30percent textAlignRight">
+                        <label>
+                            Amount{" "}
+                            <span className="mantdat">*</span>
+                        </label>
+                    </div>
+                    <div className="containerBiaN_f_col width70percent">
+                        <input
+                            placeholder="Enter Amount"
+                            type="number"
+                            value={amount}
+                            onChange={(e) => setAmount(e.target.value)}
+                        />
+                    </div>
+                </div>
+
+                <div className="containerBiaN_f_row" style={{ justifyContent: "center" }}>
+                    <div className="containerBiaN_f_col width30percent textAlignRight">
+                        <label>
+                            Reason{" "}
+                            <span className="mantdat">*</span>
+                        </label>
+                    </div>
+                    <div className="containerBiaN_f_col width70percent">
+                        <textarea
+                            placeholder="Enter Reason"
+                            type="text"
+                            value={reason}
+                            onChange={(e) => setReason(e.target.value)}
+                        />
+                    </div>
+                </div>
+            </div>
+        )
     }
 
-    componentWillReceiveProps = async (nextprops) => {
-        if (nextprops.language) {
-            const messages = await this.loadLocaleData(nextprops.language);
+    const transactionDetails = () => {
+        return (
+            <>
+                <div className="containerBiaN_form" style={{ width: "100%" }}>
+                    <div className="containerBiaN_f_row" style={{ justifyContent: "center" }}>
+                        <div className="containerBiaN_f_col width40percent textAlignRight"></div>
+                        <div className="containerBiaN_f_col width60percent">
+                            <h2>Transaction Detail</h2>
+                        </div>
+                    </div>
+                    <div className="containerBiaN_f_row" style={{ justifyContent: "center" }}>
+                        <div className="containerBiaN_f_col width30percent"></div>
+                        <div className="containerBiaN_f_col width70percent">
+                            <div style={{ display: "flex" }}>
+                                <p style={{ marginRight: "16px", color: "gray" }}>
+                                    Sender Bank Account
+                                </p>
+                                <p style={{ fontWeight: "bold" }}>XXXX-XXXX-XXXXXXXXX-XXX-XXX</p>
+                            </div>
+                            <div style={{ display: "flex" }}>
+                                <p style={{ marginRight: "16px", color: "gray" }}>
+                                    Receiver Wallet ID
+                                </p>
+                                <p style={{ fontWeight: "bold" }}>XXXXXXX
+                                </p>
+                            </div>
+                            <div style={{ display: "flex" }}>
+                                <p style={{ marginRight: "16px", color: "gray" }}>Amount</p>
+                                <p style={{ fontWeight: "bold" }}>XXXX
+                                </p>
+                            </div>
+                            <div style={{ display: "flex" }}>
+                                <p style={{ marginRight: "16px", color: "gray" }}>Fee</p>
+                                <p style={{ fontWeight: "bold" }}>XX
+                                </p>
+                            </div>
+                            <div style={{ display: "flex" }}>
+                                <p style={{ marginRight: "16px", color: "gray" }}>Total</p>
+                                <p style={{ fontWeight: "bold" }}>XXXXXX
+                                </p>
+                            </div>
+                            <div style={{ display: "flex" }}>
+                                <p style={{ marginRight: "16px", color: "gray" }}>Reason</p>
+                                <p style={{ fontWeight: "bold" }}>XXXXXXXXXXXXXXXXXXXXXXXXXXXX
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </>
+        );
+    };
 
-            this.setState({
-                messages: messages,
-                language: nextprops.language,
-            });
+    const customerOTP = () => {
+        return (
+            <>
+                <div className="containerBiaN_form" style={{ width: "100%" }}>
+                    <div className="containerBiaN_f_row" style={{ justifyContent: "center" }}>
+                        <div className="containerBiaN_f_col textAlignRight">
+                            <label>
+                                Enter OTP <span className="mantdat">*</span>
+                            </label>
+                        </div>
+                        <div className="containerBiaN_f_col textAlignRight">
+                            <OtpInput
+                                value={otp}
+                                shouldAutoFocus={true}
+                                onChange={(value) => setOtp(value)}
+                                numInputs={6}
+                                seperator={<span></span>}
+                                isInputNum={true}
+                                inputStyle={{
+                                    width: "50px",
+                                    marginRight: "10px",
+                                    marginLeft: "10px",
+                                    fontWeight: "600",
+                                    fontSize: "16px",
+                                    lineHeight: "20px",
+                                    padding: "15px 20px",
+                                    borderRadius: "5px",
+                                    border: "1px solid transparent",
+                                    color: "#00000",
+                                    background: "#F2F2F2",
+                                    display: "inline-block",
+                                    boxShadow: "0px 8px 8px rgba(37, 51, 66, 0.15)",
+                                }}
+                            />
+                        </div>
+                    </div>
+                    <div className="containerBiaN_f_row" style={{ justifyContent: "center" }}>
+                        <div className="containerBiaN_f_col" style={{ paddingLeft: "0px", paddingRight: "0px" }}>
 
+                        </div>
+                        <div className="containerBiaN_f_col" style={{ paddingLeft: "0px", paddingRight: "0px" }}>
+                            {/* Didn't Receive OTP ? */}
+                        </div>
+                        <div className="containerBiaN_f_col" style={{ paddingLeft: "5px", paddingRight: "0px" }}>
+                            <button style={{ border: "none", backgroundColor: "transparent", textDecoration: "underline" }}>
+                                Resend OTP
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </>
+        );
+    };
 
-            if (nextprops.language == "fr") {
-                this.setState({
-                    columnDefs: [
-                        { headerName: "Nom", field: "agentName", width: 250 },
-                        { headerName: "E-mail", field: "agentEmailAddress" },
-                        { headerName: "Téléphone ", field: "phoneNo" },
-                        {
-                            headerName: "État", field: "status",
-                        },
-                    ]
-                })
-            }
-            else {
-                this.setState({
-                    columnDefs: [
-                        { headerName: "Name", field: "agentName", width: 250 },
-                        { headerName: "Email", field: "agentEmailAddress" },
-                        { headerName: "Telephone ", field: "phoneNo" },
-                        {
-                            headerName: "Status", field: "status",
-                        },
-                    ]
-                })
-            }
+    const transactionSuccess = () => {
+        return (
+            <>
+                <div className="containerBiaN_form" style={{ width: "100%" }}>
+                    <div className="containerBiaN_f_row">
+                        <div className="containerBiaN_f_col width30percent textAlignRight"></div>
+                        <div className="containerBiaN_f_col width70percent">
+                            <h2 style={{ color: "green" }}>Congratulations</h2>
+                            <p style={{ color: "green" }}>Transaction was Successful</p>
+                        </div>
+                    </div>
+                    <div className="containerBiaN_f_row">
+                        <div className="containerBiaN_f_col width30percent textAlignRight"></div>
+                        <div className="containerBiaN_f_col width70percent">
+                            <div style={{ display: "flex" }}>
+                                <p style={{ marginRight: "16px", color: "gray" }}>
+                                    Receiver Account
+                                </p>
+                                <p style={{ fontWeight: "bold" }}>
+                                    XXXX-XXX-XXXXXXXXX-XXX
+                                    {/* {selectedBankAccount.accNo} */}
+                                </p>
+                            </div>
+                            <div style={{ display: "flex" }}>
+                                <p style={{ marginRight: "16px", color: "gray" }}>
+                                    Receiver Name
+                                </p>
+                                <p style={{ fontWeight: "bold" }}>
+                                    XXXXXXXXXXXXXXXXXX
+                                    {/* {selectedBankAccount.owner} */}
+                                </p>
+                            </div>
+                            <div style={{ display: "flex" }}>
+                                <p style={{ marginRight: "16px", color: "gray" }}>Amount</p>
+                                <p style={{ fontWeight: "bold" }}>XXXXXXXXXXXXXX</p>
+                            </div>
+                            <div style={{ display: "flex" }}>
+                                <p style={{ marginRight: "16px", color: "gray" }}>Reason</p>
+                                <p style={{ fontWeight: "bold" }}>XXXXXXXXXXXXX</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </>
+        );
+    };
+
+    const stepChange = () => {
+        if (step === 0) {
+            // verifyCustomerSubmit();
+            setStep(1);
+        } else if (step === 1) {
+            setStep(0);
         }
     }
 
-    render() {
-        return (
-            <IntlProvider
-                messages={this.state.messages.default}
-                locale={this.state.language}
-            >
-                <>
+    const prevStep = () => {
+        if (step === 1) {
+            setStep(0);
+        }
+    }
 
-                    <div className="main_contain">
-                        <div className="merch_m_list_w">
-                            <div className="merch_list_card" id="merch_list_card">
-                                <div className="section_custom">
-                                    <div className="sectionInn">
-                                        <div className="chartCard_w">
-                                            <div className="chartCardTop">
-                                                <div className="kyccustomformheading">
-                                                    <h1 className="list_top_heading textAlignCenter text-center" style={{ paddingLeft: "0px" }}>
-                                                        Bank Customer Activation
-                                                    </h1>
-                                                </div>
-                                            </div>
-                                            <div className="chartCardMiddle" style={{ padding: "24px" }}>
+    const resendAgentOtp = () => {
+        // setOtpTimer(resendTime);
+        // sendAgentOTP();
+    };
 
-                                                <div className="tableTop_wrapper">
-                                                    <div className="disFl">
-                                                        <h5 className="show_pp margin_right8">Show</h5>
-                                                        <div className="tableShowRecordPerPage">
-                                                            <Select
-                                                                defaultValue="10"
-                                                                style={{ width: 74, height: 27 }}
-                                                                onChange={this.handleChange}
-                                                                id={'page-size'}
-                                                            >
-                                                                <Option value="10">10</Option>
-                                                                <Option value="25">25</Option>
-                                                                <Option value="100">100</Option>
-                                                            </Select>
-                                                        </div>
+    const verifyCustomerSubmit = () => {
+        var requestObj = {
+            // type: "BANK",
+            bankCustomerId: bankCustomerId,
+            phoneNumber: phoneNumber,
+            idDocumentType: selectedDocumentType,
+            idDocumentNumber: idDocumentNumber,
+        };
+        console.log(requestObj, "VERIFY CUSTOMER SUBMIT")
+        dispatch(verifyCustomer(sessionStorage.getItem("token"), requestObj));
+    };
 
-                                                        <h5 className="show_pp margin_left8">
-                                                            <FormattedMessage id="agent.Entries" />
-                                                        </h5>
-                                                        <div
-                                                            className="margin-left-auto"
-                                                            style={{ display: "flex", alignItems: "center" }}
+    return (
+        <IntlProvider messages={messages.default} locale={language}>
+            <div className="main_contain agentformCenter">
+                <div className="merch_m_list_w">
+                    <div className="merch_list_card" id="merch_list_card">
+                        <div className="section_custom">
+                            <div className="sectionInn">
+                                <div className="chartCard_w">
+                                    <div className="chartCardTop">
+                                        <div className="kyccustomformheading">
+                                            <h1
+                                                className="list_top_heading textAlignCenter text-center"
+                                                style={{ paddingLeft: "0px" }}
+                                            >
+                                                Bank Customer Activation
+                                            </h1>
+                                        </div>
+                                    </div>
+                                    <div className="chartCardMiddle" style={{ padding: "24px" }}>
+                                        <>
+                                            {
+                                                step === 0 && (
+                                                    walletVerificationForm()
+                                                )
+                                            }
+                                            {
+                                                step === 1 && (
+                                                    <CustomerActivationKYC />
+                                                )
+                                            }
+                                        </>
+                                    </div>
+                                    <hr />
+                                    <div style={{ width: "100%", float: "left" }}>
+                                        <div className="confirm_p_w mTB00 button-container rspacing">
+                                            {
+                                                step === 1 ? (
+                                                    <>
+                                                        <Button
+                                                            className="blackbtn aryousureBTN confirmBtnR"
+                                                            onClick={() => prevStep()}
                                                         >
-                                                            <div className="shortCustom">
-                                                                <span className="icon-Asset-55"></span>
-                                                                <h6><FormattedMessage id="agent.Sort" /></h6>
-                                                            </div>
-                                                            <div className="shortCustom">
-                                                                <Dropdown
-                                                                    overlay={
-                                                                        <ul class="filterDrd">
-                                                                            <li>
-                                                                                <a href="#">
-                                                                                    <span class="icon-logout"></span><FormattedMessage id="agent.All" />
-                                                                                </a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a href="#">
-                                                                                    <span class="icon-logout"></span><FormattedMessage id="agent.Inactive" />
-                                                                                </a>
-                                                                            </li>
-                                                                            <li>
-                                                                                <a href="#">
-                                                                                    <span class="icon-logout"></span><FormattedMessage id="agent.Active" />
-                                                                                </a>
-                                                                            </li>
-                                                                        </ul>
-                                                                    }
-                                                                    placement="bottomLeft"
-                                                                    trigger={["click"]}
-                                                                >
-                                                                    <div className="shortCustom01">
-                                                                        <span className="icon-Asset-54"></span>
-                                                                        <h6><FormattedMessage id="agent.Filter" /></h6>
-                                                                    </div>
-                                                                </Dropdown>
-                                                            </div>
-                                                            <div
-                                                                className="search_w_merchant_m"
-                                                                style={{ width: "270px" }}
-                                                            >
-                                                                <FormattedMessage id="agent.Search">
-                                                                    {placeholder =>
-                                                                        <input type="search" placeholder={placeholder} />}
-                                                                </FormattedMessage>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div
-                                                    className="ag-theme-alpine agGridCustomize"
-                                                    style={{ height: 400, width: 100 + "%" }}
-                                                >
-
-
-                                                    <AgGridReact
-                                                        rowHeight={55}
-                                                        defaultColDef={{ resizable: true }}
-                                                        onFirstDataRendered={this.onFirstDataRendered}
-                                                        columnDefs={this.state.columnDefs}
-                                                        rowData={[]}
-                                                        pagination={true}
-                                                        onGridReady={this.onGridReady}
-                                                        onPaginationChanged={this.onPaginationChanged}
-                                                        paginationPageSize={10}
-                                                        suppressPaginationPanel={true}
-
-
-                                                    />
-                                                </div>
-                                                <div className="customAgFooter">
-
-                                                    <div className="showingFooter">
-                                                        <span><FormattedMessage id="agent.Showing" /></span>
-                                                        <span id="bTo"> </span>
-                                                        <span><FormattedMessage id="agent.To" /></span>
-                                                        <span id="afterTo"></span>
-                                                        <span><FormattedMessage id="agent.Of" /></span>
-                                                        <span id="totalPageSize"></span>
-                                                        <span><FormattedMessage id="agent.Entries" /></span>
-                                                    </div>
-                                                    <div className="NextPrevW">
-                                                        <button className="NextPrev" onClick={() => this.onBtPrevious()}><FormattedMessage id="agent.Prev" /></button>
-                                                        <span className="valueNextPrev" id="lbCurrentPage"></span>
-                                                        <button className="NextPrev" onClick={() => this.onBtNext()}><FormattedMessage id="agent.Next" /></button>
-                                                    </div>
-
-                                                </div>
-                                            </div>
+                                                            Back
+                                                        </Button>
+                                                    </>
+                                                ) : (
+                                                    <>
+                                                        <Button
+                                                            className="aryousureBTN confirmBtnR"
+                                                            onClick={() => stepChange()}
+                                                        >
+                                                            {
+                                                                "Next"
+                                                            }
+                                                        </Button>
+                                                    </>
+                                                )
+                                            }
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </>
-            </IntlProvider>
-        );
-    }
-}
+                </div>
+            </div>
+        </IntlProvider>
+    );
+};
 
-const mapStateToProps = ({ agentReducer, commonReducer }) => {
-    const {
-
-    } = agentReducer;
-
-    const { language } = commonReducer;
-
-    console.log(agentReducer, "AGENT REDUCER")
-    return {
-        language,
-    }
-
-}
-
-const mapDispatchToProps = (dispatch) => {
-
-}
-export default connect(mapStateToProps, mapDispatchToProps)(BankCustomerActivation);
+export default BankCustomerActivation;

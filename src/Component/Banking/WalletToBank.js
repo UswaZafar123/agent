@@ -9,6 +9,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { FormattedMessage, IntlProvider } from "react-intl";
 import { toastr } from "react-redux-toastr";
 import OtpInput from "react-otp-input";
+import { fetchAgentBankAccounts, getProfile } from "../../services/agent/action";
 
 const { Option } = Select;
 const resendTime = 30;
@@ -21,10 +22,15 @@ const WalletToBank = () => {
     { name: "agent.IDCard", value: "ID_CARD" },
     { name: "agent.Passport", value: "PASSPORT" },
   ];
-  const otpTypes = [
-    { name: "Email", value: "EMAIL" },
-    { name: "SMS", value: "SMS" },
-  ];
+
+  const agentProfile = useSelector((state) => state.agentReducer.profile.data);
+
+  const agentBankAccountsLoading = useSelector(
+    (state) => state.agentReducer.bankAccounts.loading
+  );
+  const agentBankAccounts = useSelector(
+    (state) => state.agentReducer.bankAccounts.list
+  );
 
   const [bankCustomerId, setBankCustomerId] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -49,6 +55,7 @@ const WalletToBank = () => {
     setMessages(messages);
 
     setLanguage(localStorage.getItem("lang"));
+    dispatch(getProfile());
   }, []);
 
   const loadLocaleData = (locale) => {
@@ -66,6 +73,26 @@ const WalletToBank = () => {
 
     setLanguage(lan);
   }, [lan]);
+
+  const [bankAccounts, setBankAccounts] = useState([]);
+
+  useEffect(() => {
+    if (agentProfile)
+      dispatch(
+        fetchAgentBankAccounts(
+          sessionStorage.getItem("token"),
+          agentProfile.bankCustomerId
+        )
+      );
+  }, [agentProfile]);
+
+  useEffect(() => {
+
+    if (agentBankAccounts.length > 0) {
+      setBankAccounts(agentBankAccounts);
+    }
+
+  }, [agentBankAccounts])
 
   const walletVerificationForm = () => {
     return (
@@ -208,6 +235,14 @@ const WalletToBank = () => {
                 <Option value="" disabled>
                   Select a Bank Account
                 </Option>
+
+                {
+                  bankAccounts.length > 0 && bankAccounts.map((account) => {
+                    return (
+                      <Option value={account.accNo}>{account.accNo + "  (Balance : " + account.balance + account.currency + ")"}</Option>
+                    )
+                  })
+                }
               </Select>
             </div>
           </div>
@@ -406,6 +441,7 @@ const WalletToBank = () => {
 
   const stepChange = () => {
     if (step === 0) {
+      // verifyCustomerSubmit();
       setStep(1);
     } else if (step === 1) {
       setStep(2);

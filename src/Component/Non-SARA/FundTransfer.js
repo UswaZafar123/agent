@@ -337,6 +337,9 @@ const FundTransfer = () => {
             setStep(3);
         } else if (step === 3) {
             setStep(0);
+            setPhoneNumber("");
+            settransactionCode("");
+            setOtp("");
         }
     }
 

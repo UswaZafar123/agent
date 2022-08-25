@@ -89,7 +89,7 @@ class Header extends Component {
 
   updateDimensions=()=> {
     this.setState({ marginLeft: window.innerWidth});
-    console.log("marginTest",this.state.marginLeft)
+    // console.log("marginTest",this.state.marginLeft)
 
   };
   componentDidMount() {
@@ -106,7 +106,7 @@ class Header extends Component {
     const mediaWidth = this.state.mediaWidth
     const windowWidth = window.innerWidth
 
-    console.log("media width",windowWidth,mediaWidth)
+    // console.log("media width",windowWidth,mediaWidth)
     return (
       <div className="navBar">
         <div className="navBar_Inner">

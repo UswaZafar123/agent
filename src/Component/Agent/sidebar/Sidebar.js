@@ -301,7 +301,7 @@ class Sidebar extends Component {
     this.setState((state) => ({
       subMenu2: param,
     }));
-    console.log("paramCheck", param)
+    // console.log("paramCheck", param)
   };
 
 
@@ -421,7 +421,7 @@ class Sidebar extends Component {
                           {item.subMenu && this.state.submenu === item.id ? (
                             <ul>
                               {item.subMenu.map((submenuList) => {
-                                console.log("checking sub path", submenuList.path)
+                                // console.log("checking sub path", submenuList.path)
                                 return (
                                   <li>
                                     {submenuList.path === "/Settings/General" ?
