@@ -20,4 +20,4 @@ COPY . ./
 EXPOSE 3000
 
 # start app
-CMD ["npm", "start","start:sit"]
+CMD ["npm", "start","start:sit","--node-flags --max-old-space-size=4096 --no-warnings"]

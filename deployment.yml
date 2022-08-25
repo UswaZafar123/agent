@@ -15,11 +15,23 @@ spec:
     metadata: 
       labels: 
         app: saraagentfrontend
-    spec: 
+    spec:
+      topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: kubernetes.io/hostname
+          whenUnsatisfiable: DoNotSchedule
+          labelSelector:
+            matchLabels:
+              app: saraagentfrontend 
       containers: 
         - 
           image: "registry.gitlab.com/business-intelligence-agency/saraagentfrontend:latest"
           name: saraagentfrontend
+          resources:
+            limits:
+              memory: 4096Mi
+            requests:
+              memory: 1024Mi
           ports: 
             - 
               containerPort: 3000
