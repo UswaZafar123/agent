@@ -1,37 +1,48 @@
-import React, { useState } from 'react';
-import '../../../css/ag-grid-customization01.css';
-import 'antd/dist/antd.css';
-import '../Settings/General/formfromold.css'
-import 'ag-grid-community/dist/styles/ag-grid.css';
-import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
+import React, { useState } from "react";
+import "../../../css/ag-grid-customization01.css";
+import "antd/dist/antd.css";
+import "../Settings/General/formfromold.css";
+import "ag-grid-community/dist/styles/ag-grid.css";
+import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import validator from "validator";
 
-import { useSelector, useDispatch } from 'react-redux'
-import { fetchAgentProfile, fetchSuperAgentDetail, sendLinkingRequestToSuperAgent } from "../../../services/agent/action.js";
-import actionType from "../../../services/agent/actionType.js";
-import { FormattedMessage, IntlProvider } from 'react-intl';
+import { useSelector, useDispatch } from "react-redux";
+import {
+  fetchAgentProfile,
+  fetchSuperAgentDetail,
+  sendLinkingRequestToSuperAgent,
+} from "../../../services/agent/action";
+import actionType from "../../../services/agent/actionType";
+import { FormattedMessage, IntlProvider } from "react-intl";
 
 const ValidateSuperAgentId = (props) => {
-
   const [step, setStep] = useState(1);
 
-  const [phoneNumber, setPhoneNumber] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState("");
 
   const [messages, setMessages] = useState("");
   const [language, setLanguage] = useState("");
 
-  const lan = useSelector(state => state.commonReducer.language)
+  const lan = useSelector((state) => state.commonReducer.language);
 
   const dispatch = useDispatch();
-  const agentProfile = useSelector(state => state.agentReducer.profile.data);
-  const superAgentDetailLoading = useSelector(state => state.agentReducer.superAgentDetail.loading);
-  const superAgentDetail = useSelector(state => state.agentReducer.superAgentDetail.data);
-  const sendLinkingRequestLoading = useSelector(state => state.agentReducer.sendLinkingRequest.loading);
-  const sendLinkingRequestSuccess = useSelector(state => state.agentReducer.sendLinkingRequest.success);
+  const agentProfile = useSelector((state) => state.agentReducer.profile.data);
+  const superAgentDetailLoading = useSelector(
+    (state) => state.agentReducer.superAgentDetail.loading
+  );
+  const superAgentDetail = useSelector(
+    (state) => state.agentReducer.superAgentDetail.data
+  );
+  const sendLinkingRequestLoading = useSelector(
+    (state) => state.agentReducer.sendLinkingRequest.loading
+  );
+  const sendLinkingRequestSuccess = useSelector(
+    (state) => state.agentReducer.sendLinkingRequest.success
+  );
 
   React.useEffect(async () => {
     dispatch({
-      type: actionType.SUPER_AGENT_DETAIL_RESET
+      type: actionType.SUPER_AGENT_DETAIL_RESET,
     });
 
     const messages = await loadLocaleData(localStorage.getItem("lang"));
@@ -40,24 +51,21 @@ const ValidateSuperAgentId = (props) => {
     setLanguage(localStorage.getItem("lang"));
 
     // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
-
-  }, [])
+  }, []);
 
   React.useEffect(async () => {
-
     const messages = await loadLocaleData(lan);
     setMessages(messages);
 
     setLanguage(lan);
-
-  }, [lan])
+  }, [lan]);
 
   const loadLocaleData = (locale) => {
     switch (locale) {
       case "fr":
-        return import("../../i18n/messages/fr.js");
+        return import("../../i18n/messages/fr");
       default:
-        return import("../../i18n/messages/en.js");
+        return import("../../i18n/messages/en");
     }
   };
 
@@ -76,7 +84,6 @@ const ValidateSuperAgentId = (props) => {
         setStep(step + 1);
       }
     }
-
   }, [step, superAgentDetail, sendLinkingRequestSuccess]);
 
   const stepOneValidated = () => {
@@ -86,7 +93,6 @@ const ValidateSuperAgentId = (props) => {
   const stepTwoValidated = () => {
     return !sendLinkingRequestLoading;
   };
-
 
   const isFormValidated = () => {
     switch (step) {
@@ -99,15 +105,14 @@ const ValidateSuperAgentId = (props) => {
       default:
         return false;
     }
-  }
+  };
 
   const nextStep = () => {
     if (step === 1) {
       fetchAgentDetail();
     } else if (step === 2) {
       sendlinkingRequestToSuperAgent();
-    }
-    else {
+    } else {
       resetForm();
       setStep(1);
       dispatch({
@@ -122,30 +127,36 @@ const ValidateSuperAgentId = (props) => {
   const prevStep = () => {
     if (step === 2) {
       dispatch({
-        type: actionType.SUPER_AGENT_DETAIL_RESET
+        type: actionType.SUPER_AGENT_DETAIL_RESET,
       });
     }
     setStep(step - 1);
   };
 
   const resetForm = () => {
-    setPhoneNumber('');
-  }
-
+    setPhoneNumber("");
+  };
 
   const fetchAgentDetail = () => {
     var requestObj = {
-      "phoneNo": phoneNumber,
+      phoneNo: phoneNumber,
     };
-    dispatch(fetchSuperAgentDetail(sessionStorage.getItem("token"), requestObj));
-  }
+    dispatch(
+      fetchSuperAgentDetail(sessionStorage.getItem("token"), requestObj)
+    );
+  };
 
   const sendlinkingRequestToSuperAgent = () => {
     var requestObj = {
-      "superAgentEmail": superAgentDetail.agentEmailAddress,
+      superAgentEmail: superAgentDetail.agentEmailAddress,
     };
-    dispatch(sendLinkingRequestToSuperAgent(sessionStorage.getItem("token"), requestObj));
-  }
+    dispatch(
+      sendLinkingRequestToSuperAgent(
+        sessionStorage.getItem("token"),
+        requestObj
+      )
+    );
+  };
 
   const fetchSuperAgentDetailForm = () => {
     return (
@@ -153,19 +164,30 @@ const ValidateSuperAgentId = (props) => {
         <div className="containerBiaN_form">
           <div className="containerBiaN_f_row">
             <div className="containerBiaN_f_col width30percent textAlignRight">
-              <label>Super Agent ID <span className="mantdat">*</span> <br /><span style={{ fontSize: "13px", color: "darkgray" }}>(Phone Number without country code)</span> </label>
+              <label>
+                Super Agent ID <span className="mantdat">*</span> <br />
+                <span style={{ fontSize: "13px", color: "darkgray" }}>
+                  (Phone Number without country code)
+                </span>{" "}
+              </label>
             </div>
             <div className="containerBiaN_f_col width70percent">
               <FormattedMessage id="agent.EnterPhoneNumber">
-                {placeholder =>
-              <input placeholder={placeholder} type="number" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />}
+                {(placeholder) => (
+                  <input
+                    placeholder={placeholder}
+                    type="number"
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                  />
+                )}
               </FormattedMessage>
             </div>
           </div>
         </div>
       </>
     );
-  }
+  };
 
   const superAgentDetails = () => {
     return (
@@ -173,15 +195,24 @@ const ValidateSuperAgentId = (props) => {
         <div className="containerBiaN_form">
           <div className="containerBiaN_f_row">
             <div className="containerBiaN_f_col width30percent textAlignRight">
-              <label>Name<span className="mantdat">*</span></label>
+              <label>
+                Name<span className="mantdat">*</span>
+              </label>
             </div>
             <div className="containerBiaN_f_col width70percent">
-              <input type="text" className="disabled" value={superAgentDetail.firstName} disabled />
+              <input
+                type="text"
+                className="disabled"
+                value={superAgentDetail.firstName}
+                disabled
+              />
             </div>
           </div>
           <div className="containerBiaN_f_row">
             <div className="containerBiaN_f_col width30percent textAlignRight">
-              <label>Phone Number<span className="mantdat">*</span></label>
+              <label>
+                Phone Number<span className="mantdat">*</span>
+              </label>
             </div>
             <div className="containerBiaN_f_col width70percent">
               <input type="number" value={superAgentDetail.phoneNo} disabled />
@@ -190,30 +221,33 @@ const ValidateSuperAgentId = (props) => {
         </div>
       </>
     );
-  }
+  };
 
   const successPage = () => {
     return (
       <>
         <div className="containerBiaN_form">
           <div className="containerBiaN_f_row">
-            <div className="containerBiaN_f_col width30percent textAlignRight">
-            </div>
+            <div className="containerBiaN_f_col width30percent textAlignRight"></div>
             <div className="containerBiaN_f_col width70percent">
               <h2>Congratulations</h2>
             </div>
           </div>
           <div className="containerBiaN_f_row">
-            <div className="containerBiaN_f_col width30percent textAlignRight">
-            </div>
+            <div className="containerBiaN_f_col width30percent textAlignRight"></div>
             <div className="containerBiaN_f_col width70percent">
-              <p>A notification is sent by mail both to the Agent, his Master/Super Agent and the Retail Banking Manager, after that the Agent is activated  by the Master/Super Agent , he can now start to carry out transactions up to the UV purchased.</p>
+              <p>
+                A notification is sent by mail both to the Agent, his
+                Master/Super Agent and the Retail Banking Manager, after that
+                the Agent is activated by the Master/Super Agent , he can now
+                start to carry out transactions up to the UV purchased.
+              </p>
             </div>
           </div>
         </div>
       </>
     );
-  }
+  };
 
   // const agentOTPType = () => {
   //   return (
@@ -286,10 +320,7 @@ const ValidateSuperAgentId = (props) => {
   // }
 
   return (
-    <IntlProvider
-      messages={messages.default}
-      locale={language}
-    >
+    <IntlProvider messages={messages.default} locale={language}>
       <div className="main_contain agentformCenter">
         <div className="merch_m_list_w">
           <div className="merch_list_card" id="merch_list_card">
@@ -298,7 +329,10 @@ const ValidateSuperAgentId = (props) => {
                 <div className="chartCard_w">
                   <div className="chartCardTop">
                     <div className="kyccustomformheading">
-                      <h1 className="list_top_heading textAlignCenter text-center" style={{ paddingLeft: "0px" }}>
+                      <h1
+                        className="list_top_heading textAlignCenter text-center"
+                        style={{ paddingLeft: "0px" }}
+                      >
                         <FormattedMessage id="agent.SendLinkingRequestToSuperAgent" />
                       </h1>
                     </div>
@@ -306,26 +340,42 @@ const ValidateSuperAgentId = (props) => {
                   <div className="chartCardMiddle" style={{ padding: "24px" }}>
                     {(() => {
                       switch (step) {
-                        case 1: return fetchSuperAgentDetailForm();
-                        case 2: return superAgentDetails();
-                        case 3: return successPage();
-                        default: return <div></div>
+                        case 1:
+                          return fetchSuperAgentDetailForm();
+                        case 2:
+                          return superAgentDetails();
+                        case 3:
+                          return successPage();
+                        default:
+                          return <div></div>;
                       }
                     })()}
                   </div>
                   <div style={{ width: "100%", float: "left" }}>
                     <div className="confirm_p_w mTB00 button-container rspacing">
-                      {step !== 1 & step !== 3 ? <button className="blackbtn aryousureBTN confirmBtnR" onClick={() => prevStep()}>
-                        Back
-
-                      </button> : ''}
+                      {(step !== 1) & (step !== 3) ? (
+                        <button
+                          className="blackbtn aryousureBTN confirmBtnR"
+                          onClick={() => prevStep()}
+                        >
+                          Back
+                        </button>
+                      ) : (
+                        ""
+                      )}
                       <button
                         className="aryousureBTN confirmBtnR"
-                        style={{ opacity: isFormValidated() ? '1' : '0.5' }}
+                        style={{ opacity: isFormValidated() ? "1" : "0.5" }}
                         disabled={isFormValidated() ? false : true}
                         onClick={() => nextStep()}
                       >
-                        {step === 2 ? "Send Linking Request" : step === 3 ? "Done" : <FormattedMessage id="agent.Next" />}
+                        {step === 2 ? (
+                          "Send Linking Request"
+                        ) : step === 3 ? (
+                          "Done"
+                        ) : (
+                          <FormattedMessage id="agent.Next" />
+                        )}
                       </button>
                     </div>
                   </div>

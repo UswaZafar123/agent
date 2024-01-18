@@ -1,9 +1,9 @@
 import axios from "axios";
-import actionType from "./actionType.js";
+import actionType from "./actionType";
 import URL from "../../Assets/config";
 import { toastr } from "react-redux-toastr";
-import { HideLoading, ShowLoading } from "../common/action.js";
-import { getProfile } from "./action.js";
+import { HideLoading, ShowLoading } from "../common/action";
+import { getProfile } from "./action";
 
 export const fetchSuperAgentDetail = (token, payload) => (dispatch) => {
   const config = {
@@ -23,54 +23,55 @@ export const fetchSuperAgentDetail = (token, payload) => (dispatch) => {
       if (res.status === 200) {
         dispatch({
           type: actionType.SUPER_AGENT_DETAIL_DATA,
-          payload: res.data
+          payload: res.data,
         });
       }
     })
     .catch((error) => {
-      toastr.error("Error", error.response.data.detail)
+      toastr.error("Error", error.response.data.detail);
       // dispatch({
       //   type: actionType.SUPER_AGENT_DETAIL_ERROR,
       // });
     });
 };
 
-export const sendLinkingRequestToSuperAgent = (token, payload) => (dispatch) => {
-  dispatch(ShowLoading());
-  const config = {
-    method: "POST",
-    url: URL.agent.SEND_LINKING_REQUEST,
-    data: payload,
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + token,
-    },
-  };
-  dispatch({
-    type: actionType.SEND_LINKING_REQUEST_FETCH,
-  });
-  axios(config)
-    .then((res) => {
-      if (res.status === 200) {
-        dispatch(HideLoading());
-        toastr.success("SUCCESS", "Linking Request sent successfully.");
-        dispatch({
-          type: actionType.SEND_LINKING_REQUEST_SUCCESS,
-        });
-      }
-    })
-    .catch((error) => {
-      if (error.response.data.detail) {
-        toastr.error(error.response.data.detail);
-      } else {
-        toastr.error("Error", "Unable to send the linking request");
-      }
-      dispatch({
-        type: actionType.SEND_LINKING_REQUEST_ERROR,
-        payload: error,
-      });
+export const sendLinkingRequestToSuperAgent =
+  (token, payload) => (dispatch) => {
+    dispatch(ShowLoading());
+    const config = {
+      method: "POST",
+      url: URL.agent.SEND_LINKING_REQUEST,
+      data: payload,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + token,
+      },
+    };
+    dispatch({
+      type: actionType.SEND_LINKING_REQUEST_FETCH,
     });
-};
+    axios(config)
+      .then((res) => {
+        if (res.status === 200) {
+          dispatch(HideLoading());
+          toastr.success("SUCCESS", "Linking Request sent successfully.");
+          dispatch({
+            type: actionType.SEND_LINKING_REQUEST_SUCCESS,
+          });
+        }
+      })
+      .catch((error) => {
+        if (error.response.data.detail) {
+          toastr.error(error.response.data.detail);
+        } else {
+          toastr.error("Error", "Unable to send the linking request");
+        }
+        dispatch({
+          type: actionType.SEND_LINKING_REQUEST_ERROR,
+          payload: error,
+        });
+      });
+  };
 
 export const validateSuperAgent = (token, payload) => (dispatch) => {
   const config = {
@@ -124,10 +125,10 @@ export const fetchLinkingRequests = () => (dispatch) => {
     .then((res) => {
       if (res.status === 200) {
         dispatch(HideLoading());
-        toastr.success("Linking Requests Fetched Successfully.")
+        toastr.success("Linking Requests Fetched Successfully.");
         dispatch({
           type: actionType.LINKING_REQUESTS_DATA,
-          payload: res.data
+          payload: res.data,
         });
       }
     })
@@ -163,7 +164,7 @@ export const processLinkingRequest = (payload) => (dispatch) => {
     .then((res) => {
       if (res.status === 200) {
         dispatch(HideLoading());
-        toastr.success("Request Processed.")
+        toastr.success("Request Processed.");
         dispatch({
           type: actionType.PROCESS_LINKING_REQUEST_SUCCESS,
         });

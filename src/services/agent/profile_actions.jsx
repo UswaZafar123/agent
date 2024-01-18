@@ -1,5 +1,5 @@
 import axios from "axios";
-import actionType from "./actionType.js";
+import actionType from "./actionType";
 import URL from "../../Assets/config";
 import { toastr } from "react-redux-toastr";
 
@@ -20,7 +20,7 @@ export const fetchAgentProfile = (token) => (dispatch) => {
       if (res.status === 200) {
         dispatch({
           type: actionType.AGENT_PROFILE_DATA,
-          payload:res.data
+          payload: res.data,
         });
       }
     })

@@ -1,5 +1,5 @@
 import actionType from "./actionType";
-import initialState from "./initialState.js";
+import initialState from "./initialState";
 
 const agentReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -7,7 +7,7 @@ const agentReducer = (state = initialState, action) => {
       return {
         ...state,
         agentLoginstatus: true,
-        tokenStatus: true
+        tokenStatus: true,
       };
     case actionType.TOKEN_FALSE:
       return {
@@ -203,7 +203,7 @@ const agentReducer = (state = initialState, action) => {
         profile: {
           ...state.profile,
           loading: false,
-          data: null
+          data: null,
         },
       };
     /**
@@ -403,7 +403,7 @@ const agentReducer = (state = initialState, action) => {
           ...state.linkingRequests,
           loading: true,
           data: null,
-          linkingRequestsData: null
+          linkingRequestsData: null,
         },
       };
     case actionType.LINKING_REQUESTS_DATA:
@@ -423,7 +423,7 @@ const agentReducer = (state = initialState, action) => {
           ...state.linkingRequests,
           loading: false,
           data: null,
-          linkingRequestsData: null
+          linkingRequestsData: null,
         },
       };
     /**
@@ -1828,7 +1828,7 @@ const agentReducer = (state = initialState, action) => {
         ...state,
         accountExistsAPISuccess: false,
         bankAccountExists: false,
-      }
+      };
     case actionType.BANK_ACCOUNT_DETAILS_FETCH_SUCCESSFUL:
       return {
         ...state,
@@ -1840,7 +1840,7 @@ const agentReducer = (state = initialState, action) => {
         ...state,
         bankAccountDetailsFetchSuccessful: false,
         bankAccountData: [],
-      }
+      };
     case actionType.BANK_ACCOUNT_CUSTOMER_FETCH_SUCCESSFUL:
       return {
         ...state,

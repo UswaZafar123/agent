@@ -16,7 +16,7 @@ import {
   ticketsSummary,
 } from "../../services/agent/action";
 import { connect } from "react-redux";
-import { FormattedMessage, IntlProvider } from 'react-intl';
+import { FormattedMessage, IntlProvider } from "react-intl";
 import { Select, Menu, Dropdown, Modal } from "antd";
 import { DownOutlined } from "@ant-design/icons";
 import Approved from "../Alerts/Approved";
@@ -70,7 +70,7 @@ class Ticket extends Component {
       ],
       rowData: [],
       messages: "",
-      language: ""
+      language: "",
     };
   }
   save = () => {
@@ -121,12 +121,10 @@ class Ticket extends Component {
     params.api.paginationGoToPage(10);
     document.getElementById("lbCurrentPage").innerHTML =
       this.state.gridApi.paginationGetCurrentPage() + 1;
-    document.getElementById(
-      "totalPageSize"
-    ).innerHTML = this.state.rowData.length;
-    document.getElementById("bTo").innerHTML = params.api.paginationGetPageSize(
-      10
-    );
+    document.getElementById("totalPageSize").innerHTML =
+      this.state.rowData.length;
+    document.getElementById("bTo").innerHTML =
+      params.api.paginationGetPageSize(10);
     const changedV =
       params.api.paginationGetPageSize(10) *
       (this.state.gridApi.paginationGetCurrentPage() + 1);
@@ -142,9 +140,8 @@ class Ticket extends Component {
   handleChange = (value) => {
     this.state.gridApi.paginationSetPageSize(Number(value));
     // document.getElementById('totalPageSize').innerHTML=this.state.gridApi.paginationGetPageSize()
-    document.getElementById(
-      "bTo"
-    ).innerHTML = this.state.gridApi.paginationGetPageSize();
+    document.getElementById("bTo").innerHTML =
+      this.state.gridApi.paginationGetPageSize();
   };
 
   showModal = () => {
@@ -188,30 +185,27 @@ class Ticket extends Component {
           this.state.gridApi.paginationGetPageSize(10) *
           (this.state.gridApi.paginationGetCurrentPage() + 1);
       } else {
-        document.getElementById(
-          "afterTo"
-        ).innerHTML = this.state.rowData.length;
+        document.getElementById("afterTo").innerHTML =
+          this.state.rowData.length;
       }
     }
   };
 
   async translationHelperFunction() {
-
     const messages = await this.loadLocaleData(localStorage.getItem("lang"));
     this.setState({
       messages: messages,
-      language: localStorage.getItem("lang")
+      language: localStorage.getItem("lang"),
     });
     // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
-
   }
 
   loadLocaleData = (locale) => {
     switch (locale) {
       case "fr":
-        return import("../i18n/messages/fr.js");
+        return import("../i18n/messages/fr");
       default:
-        return import("../i18n/messages/en.js");
+        return import("../i18n/messages/en");
     }
   };
 
@@ -224,7 +218,7 @@ class Ticket extends Component {
     this.translationHelperFunction();
   }
 
- async componentWillReceiveProps(nextProps) {
+  async componentWillReceiveProps(nextProps) {
     console.log("hello next", nextProps);
     if (nextProps.ticketsStatus) {
       this.setState({ rowData: nextProps.ticketsData });
@@ -252,44 +246,44 @@ class Ticket extends Component {
 
       this.setState({
         messages: messages,
-        language: nextProps.language
+        language: nextProps.language,
       });
 
-      if(nextProps.language=="fr"){
+      if (nextProps.language == "fr") {
         this.setState({
           columnDefs: [
             { headerName: "N° du ticket", field: "ticketNo", width: 250 },
-        {
-          headerName: "Marchand/Utilisateur",
-          cellRendererFramework: (params) => (
-            <span>{params.data.createdUser.name}</span>
-          ),
-        },
-        { headerName: "Objet ", field: "title" },
-        { headerName: "  État ", field: "status" },
-        { headerName: "Priorité ", field: "priority" },
-        { headerName: "Date ", field: "createdDateTime" },
-        {
-          headerName: "Action",
-          field: "Action",
-          cellRendererFramework: (params) => (
-            <div className="ac-view">
-              <button onClick={(e) => this.viewTicket(e, params.data)}>
-                {"View"}
-              </button>
-              &ensp;
-              <button onClick={(e) => this.EditTicket(e, params.data)}>
-                {"Edit"}
-              </button>
-            </div>
-          ),
-          cellStyle: (params) => {
-            return { textAlign: "center" };
-          },
-        },
-          ]});
-      }
-      else{
+            {
+              headerName: "Marchand/Utilisateur",
+              cellRendererFramework: (params) => (
+                <span>{params.data.createdUser.name}</span>
+              ),
+            },
+            { headerName: "Objet ", field: "title" },
+            { headerName: "  État ", field: "status" },
+            { headerName: "Priorité ", field: "priority" },
+            { headerName: "Date ", field: "createdDateTime" },
+            {
+              headerName: "Action",
+              field: "Action",
+              cellRendererFramework: (params) => (
+                <div className="ac-view">
+                  <button onClick={(e) => this.viewTicket(e, params.data)}>
+                    {"View"}
+                  </button>
+                  &ensp;
+                  <button onClick={(e) => this.EditTicket(e, params.data)}>
+                    {"Edit"}
+                  </button>
+                </div>
+              ),
+              cellStyle: (params) => {
+                return { textAlign: "center" };
+              },
+            },
+          ],
+        });
+      } else {
         this.setState({
           columnDefs: [
             { headerName: "Ticket NO", field: "ticketNo", width: 250 },
@@ -321,7 +315,8 @@ class Ticket extends Component {
                 return { textAlign: "center" };
               },
             },
-          ]});
+          ],
+        });
       }
     }
   }
@@ -352,214 +347,235 @@ class Ticket extends Component {
     // console.log("jai",this.state.paginationGetCurrentPage)
     return (
       <IntlProvider
-      messages={this.state.messages.default}
-      locale={this.state.language}
-    >
-      <>
-        {!this.state.editStatus && (
-          <div className="main_contain responsive_p_a">
-            <div className="merch_m_list_w">
-              <div className="merch_list_card" id="merch_list_card">
-                <div className="section_custom">
-                  <div className="sectionInn">
-                    <div className="chartCard_w">
-                      <div className="chartCardTop">
-                        <div className="kyccustomformheading">
-                          <h1 className="list_top_heading textAlignCenter text-center">
-                          <FormattedMessage id="agent.Tickets" />
-                          </h1>
-                          <button
-                            className="addposbtn c_first_pending_BTN btnMaxWidth"
-                            onClick={this.addChange}
-                          >
-                            <FormattedMessage id="agent.AddATicket" />
-                          </button>
+        messages={this.state.messages.default}
+        locale={this.state.language}
+      >
+        <>
+          {!this.state.editStatus && (
+            <div className="main_contain responsive_p_a">
+              <div className="merch_m_list_w">
+                <div className="merch_list_card" id="merch_list_card">
+                  <div className="section_custom">
+                    <div className="sectionInn">
+                      <div className="chartCard_w">
+                        <div className="chartCardTop">
+                          <div className="kyccustomformheading">
+                            <h1 className="list_top_heading textAlignCenter text-center">
+                              <FormattedMessage id="agent.Tickets" />
+                            </h1>
+                            <button
+                              className="addposbtn c_first_pending_BTN btnMaxWidth"
+                              onClick={this.addChange}
+                            >
+                              <FormattedMessage id="agent.AddATicket" />
+                            </button>
+                          </div>
                         </div>
-                      </div>
-                      <div
-                        className="chartCardMiddle"
-                        style={{ padding: "24px" }}
-                      >
-                        <div className="formRow statusBox">
-                          {this.state.summary.map((data) => {
-                            return (
-                              <div className="formCol">
-                                <div className="statusBoxIn">
-                                  <h3>{data.value}</h3>
-                                  <h2 className="openColor">{data.status}</h2>
+                        <div
+                          className="chartCardMiddle"
+                          style={{ padding: "24px" }}
+                        >
+                          <div className="formRow statusBox">
+                            {this.state.summary.map((data) => {
+                              return (
+                                <div className="formCol">
+                                  <div className="statusBoxIn">
+                                    <h3>{data.value}</h3>
+                                    <h2 className="openColor">{data.status}</h2>
+                                  </div>
+                                </div>
+                              );
+                            })}
+                          </div>
+                          <div className="tableTop_wrapper">
+                            <div className="disFl">
+                              <h5 className="show_pp margin_right8">
+                                <FormattedMessage id="agent.Show" />
+                              </h5>
+                              <div className="tableShowRecordPerPage">
+                                <Select
+                                  defaultValue="10"
+                                  style={{ width: 74, height: 27 }}
+                                  onChange={this.handleChange}
+                                  id={"page-size"}
+                                >
+                                  <Option value="10">10</Option>
+                                  <Option value="25">25</Option>
+                                  <Option value="100">100</Option>
+                                  {/* <Option value="all">all</Option> */}
+                                </Select>
+                              </div>
+
+                              <h5 className="show_pp margin_left8">
+                                <FormattedMessage id="agent.Entries" />
+                              </h5>
+                              <div
+                                className="margin-left-auto"
+                                style={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <div className="shortCustom">
+                                  <span className="icon-Asset-55"></span>
+                                  <h6>
+                                    <FormattedMessage id="agent.Sort" />
+                                  </h6>
+                                </div>
+                                <div className="shortCustom">
+                                  <Dropdown
+                                    overlay={
+                                      <ul class="filterDrd">
+                                        <li>
+                                          <a href="#">
+                                            <span class="icon-logout"></span>
+                                            <FormattedMessage id="agent.All" />
+                                          </a>
+                                        </li>
+                                        <li>
+                                          <a href="#">
+                                            <span class="icon-logout"></span>
+                                            <FormattedMessage id="agent.Inactive" />
+                                          </a>
+                                        </li>
+                                        <li>
+                                          <a href="#">
+                                            <span class="icon-logout"></span>
+                                            <FormattedMessage id="agent.Active" />
+                                          </a>
+                                        </li>
+                                      </ul>
+                                    }
+                                    placement="bottomLeft"
+                                    trigger={["click"]}
+                                  >
+                                    <div className="shortCustom01">
+                                      <span className="icon-Asset-54"></span>
+                                      <h6>
+                                        <FormattedMessage id="agent.Filter" />
+                                      </h6>
+                                    </div>
+                                  </Dropdown>
+                                </div>
+                                <div
+                                  className="search_w_merchant_m"
+                                  style={{ width: "270px" }}
+                                >
+                                  <FormattedMessage id="agent.Search">
+                                    {(placeholder) => (
+                                      <input
+                                        type="search"
+                                        placeholder={placeholder}
+                                        id="filter-text-box"
+                                        placeholder="Search"
+                                        onChange={this.onFilterTextBoxChanged}
+                                      />
+                                    )}
+                                  </FormattedMessage>
                                 </div>
                               </div>
-                            );
-                          })}
-                        </div>
-                        <div className="tableTop_wrapper">
-                          <div className="disFl">
-                            <h5 className="show_pp margin_right8"><FormattedMessage id="agent.Show" /></h5>
-                            <div className="tableShowRecordPerPage">
-                              <Select
-                                defaultValue="10"
-                                style={{ width: 74, height: 27 }}
-                                onChange={this.handleChange}
-                                id={"page-size"}
-                              >
-                                <Option value="10">10</Option>
-                                <Option value="25">25</Option>
-                                <Option value="100">100</Option>
-                                {/* <Option value="all">all</Option> */}
-                              </Select>
                             </div>
-
-                            <h5 className="show_pp margin_left8"><FormattedMessage id="agent.Entries" /></h5>
-                            <div
-                              className="margin-left-auto"
-                              style={{ display: "flex", alignItems: "center" }}
-                            >
-                              <div className="shortCustom">
-                                <span className="icon-Asset-55"></span>
-                                <h6><FormattedMessage id="agent.Sort" /></h6>
-                              </div>
-                              <div className="shortCustom">
-                                <Dropdown
-                                  overlay={
-                                    <ul class="filterDrd">
-                                      <li>
-                                        <a href="#">
-                                          <span class="icon-logout"></span><FormattedMessage id="agent.All" />
-                                        </a>
-                                      </li>
-                                      <li>
-                                        <a href="#">
-                                          <span class="icon-logout"></span>
-                                          <FormattedMessage id="agent.Inactive" />
-                                        </a>
-                                      </li>
-                                      <li>
-                                        <a href="#">
-                                          <span class="icon-logout"></span>
-                                          <FormattedMessage id="agent.Active" />
-                                        </a>
-                                      </li>
-                                    </ul>
-                                  }
-                                  placement="bottomLeft"
-                                  trigger={["click"]}
-                                >
-                                  <div className="shortCustom01">
-                                    <span className="icon-Asset-54"></span>
-                                    <h6><FormattedMessage id="agent.Filter" /></h6>
-                                  </div>
-                                </Dropdown>
-                              </div>
-                              <div
-                                className="search_w_merchant_m"
-                                style={{ width: "270px" }}
-                              >
-                                <FormattedMessage id="agent.Search">
-                                  {placeholder =>
-                                <input
-                                  type="search"
-                                  placeholder={placeholder}
-                                  id="filter-text-box"
-                                  placeholder="Search"
-                                  onChange={this.onFilterTextBoxChanged}
-                                />}
-                                </FormattedMessage>
-                              </div>
-                            </div>
-                          </div>
-                          {/* <div className="actionBtnWp">
+                            {/* <div className="actionBtnWp">
                                                 <span className="icon-Asset-51"></span>
                                                 <span className="icon-Asset-52"></span>
                                                 <span className="icon-Asset-53"></span>
                                             </div> */}
-                        </div>
-                        <div
-                          className="ag-theme-alpine agGridCustomize"
-                          style={{ height: 400, width: 100 + "%" }}
-                        >
-                          <AgGridReact
-                            rowHeight={55}
-                            defaultColDef={{ resizable: true }}
-                            onFirstDataRendered={this.onFirstDataRendered}
-                            columnDefs={this.state.columnDefs}
-                            rowData={this.state.rowData}
-                            pagination={true}
-                            onGridReady={this.onGridReady}
-                            onPaginationChanged={this.onPaginationChanged}
-                            paginationPageSize={10}
-                            suppressPaginationPanel={true}
-                          />
-                        </div>
-                        <div className="customAgFooter">
-                          <div className="showingFooter">
-                            <span><FormattedMessage id="agent.Showing" /></span>
-                            <span id="bTo"> </span>
-                            <span><FormattedMessage id="agent.To" /></span>
-                            <span id="afterTo"></span>
-                            <span><FormattedMessage id="agent.Of" /></span>
-                            <span id="totalPageSize"></span>
-                            <span><FormattedMessage id="agent.Entries" /></span>
                           </div>
-                          <div className="NextPrevW">
-                            <button
-                              className="NextPrev"
-                              onClick={() => this.onBtPrevious()}
-                            >
-                               <FormattedMessage id="agent.Prev" />
-                            </button>
-                            <span
-                              className="valueNextPrev"
-                              id="lbCurrentPage"
-                            ></span>
-                            <button
-                              className="NextPrev"
-                              onClick={() => this.onBtNext()}
-                            >
-                              <FormattedMessage id="agent.Next" />
-                            </button>
+                          <div
+                            className="ag-theme-alpine agGridCustomize"
+                            style={{ height: 400, width: 100 + "%" }}
+                          >
+                            <AgGridReact
+                              rowHeight={55}
+                              defaultColDef={{ resizable: true }}
+                              onFirstDataRendered={this.onFirstDataRendered}
+                              columnDefs={this.state.columnDefs}
+                              rowData={this.state.rowData}
+                              pagination={true}
+                              onGridReady={this.onGridReady}
+                              onPaginationChanged={this.onPaginationChanged}
+                              paginationPageSize={10}
+                              suppressPaginationPanel={true}
+                            />
                           </div>
-                        </div>
-                      </div>
-                    </div>
-                    {this.state.popup == true ? (
-                      <div className="custommodal custommodal-fadein modal_w">
-                        <div className="custommodal-dailog">
-                          <div className="custommodal-content">
-                            <div className="shopmodal modal_w_in">
-                              <div className="viewshopheading">
-                                <h4>View Point of Sale</h4>
-                              </div>
-                              <div className="viewshopdetails">
-                                <label>Point of Sale Merchant Name :</label>
-                                <span>Shop name</span>
-                              </div>
-                              <hr />
-                              <div className="viewshopdetails">
-                                <label>Shop Name:</label>
-                                <span>WIIK eV</span>
-                              </div>
-                              <hr />
-                              <div className="viewshopcancelbtn">
-                                <button onClick={this.close}>Close</button>
-                              </div>
+                          <div className="customAgFooter">
+                            <div className="showingFooter">
+                              <span>
+                                <FormattedMessage id="agent.Showing" />
+                              </span>
+                              <span id="bTo"> </span>
+                              <span>
+                                <FormattedMessage id="agent.To" />
+                              </span>
+                              <span id="afterTo"></span>
+                              <span>
+                                <FormattedMessage id="agent.Of" />
+                              </span>
+                              <span id="totalPageSize"></span>
+                              <span>
+                                <FormattedMessage id="agent.Entries" />
+                              </span>
+                            </div>
+                            <div className="NextPrevW">
+                              <button
+                                className="NextPrev"
+                                onClick={() => this.onBtPrevious()}
+                              >
+                                <FormattedMessage id="agent.Prev" />
+                              </button>
+                              <span
+                                className="valueNextPrev"
+                                id="lbCurrentPage"
+                              ></span>
+                              <button
+                                className="NextPrev"
+                                onClick={() => this.onBtNext()}
+                              >
+                                <FormattedMessage id="agent.Next" />
+                              </button>
                             </div>
                           </div>
                         </div>
                       </div>
-                    ) : (
-                      ""
-                    )}
+                      {this.state.popup == true ? (
+                        <div className="custommodal custommodal-fadein modal_w">
+                          <div className="custommodal-dailog">
+                            <div className="custommodal-content">
+                              <div className="shopmodal modal_w_in">
+                                <div className="viewshopheading">
+                                  <h4>View Point of Sale</h4>
+                                </div>
+                                <div className="viewshopdetails">
+                                  <label>Point of Sale Merchant Name :</label>
+                                  <span>Shop name</span>
+                                </div>
+                                <hr />
+                                <div className="viewshopdetails">
+                                  <label>Shop Name:</label>
+                                  <span>WIIK eV</span>
+                                </div>
+                                <hr />
+                                <div className="viewshopcancelbtn">
+                                  <button onClick={this.close}>Close</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        ""
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {this.state.editStatus && (
-          <EditTicket editData={this.state.editData} goBack={this.goBack} />
-        )}
-      </>
+          {this.state.editStatus && (
+            <EditTicket editData={this.state.editData} goBack={this.goBack} />
+          )}
+        </>
       </IntlProvider>
     );
   }

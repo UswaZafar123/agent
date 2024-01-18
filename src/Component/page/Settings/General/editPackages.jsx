@@ -12,7 +12,7 @@ import {
   getAllOperationsEdit,
   updatePackage,
 } from "../../../../services/agent/action";
-import { FormattedMessage, IntlProvider } from 'react-intl';
+import { FormattedMessage, IntlProvider } from "react-intl";
 
 import "./settingcss.css";
 
@@ -63,27 +63,25 @@ class Packages extends Component {
       checkedAssets: [],
       limitProfileValues: [],
       messages: "",
-      language: ""
+      language: "",
     };
   }
 
   async translationHelperFunction() {
-
     const messages = await this.loadLocaleData(localStorage.getItem("lang"));
     this.setState({
       messages: messages,
-      language: localStorage.getItem("lang")
+      language: localStorage.getItem("lang"),
     });
     // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
-
   }
 
   loadLocaleData = (locale) => {
     switch (locale) {
       case "fr":
-        return import("../../../i18n/messages/fr.js");
+        return import("../../../i18n/messages/fr");
       default:
-        return import("../../../i18n/messages/en.js");
+        return import("../../../i18n/messages/en");
     }
   };
 
@@ -201,7 +199,7 @@ class Packages extends Component {
 
       this.setState({
         messages: messages,
-        language: nextProps.language
+        language: nextProps.language,
       });
     }
   }
@@ -419,68 +417,75 @@ class Packages extends Component {
       operationPermissionProfiles: filtered,
     };
 
-    this.props.updatePackage(payload, this.props.history, this.props.location.state);
+    this.props.updatePackage(
+      payload,
+      this.props.history,
+      this.props.location.state
+    );
   };
 
   render() {
     const isfeatured = this.state.isfeatured;
     return (
       <IntlProvider
-      messages={this.state.messages.default}
-      locale={this.state.language}
-    >
-      <>
-        <div className="main_contain settings-container">
-          <div className="merch_m_list_w">
-            <div className="merch_list_card" id="merch_list_card">
-              <div className="section_custom">
-                <div className="sectionInn">
-                  <div className="chartCard_w">
-                    <div className="chartCardTop">
-                      <div className="kyccustomformheading">
-                        <h1 className="list_top_heading textAlignCenter text-center">
-                        <FormattedMessage id="agent.Packages" />
-                        </h1>
+        messages={this.state.messages.default}
+        locale={this.state.language}
+      >
+        <>
+          <div className="main_contain settings-container">
+            <div className="merch_m_list_w">
+              <div className="merch_list_card" id="merch_list_card">
+                <div className="section_custom">
+                  <div className="sectionInn">
+                    <div className="chartCard_w">
+                      <div className="chartCardTop">
+                        <div className="kyccustomformheading">
+                          <h1 className="list_top_heading textAlignCenter text-center">
+                            <FormattedMessage id="agent.Packages" />
+                          </h1>
+                        </div>
                       </div>
-                    </div>
-                    <div
-                      className="chartCardMiddle"
-                      style={{ padding: "24px" }}
-                    >
-                      {/* <div
+                      <div
+                        className="chartCardMiddle"
+                        style={{ padding: "24px" }}
+                      >
+                        {/* <div
                       className="chartCardMiddle"
                       style={{ padding: "24px" }}
                     ></div> */}
-                      <div className="formRow">
-                        <div className="formCol">
-                          <label class="formColLabel">
-                          <FormattedMessage id="agent.SubscriptionAmount" />{" "}
-                          </label>
-                          <FormattedMessage id="agent.SubscriptionAmount">
-                            {placeholder =>
-                          <input
-                            value={this.state.planAmount}
-                            onChange={this.handleAmount}
-                            type="text"
-                            placeholder={placeholder}
-                          />}
-                          </FormattedMessage>
-                        </div>
-                        <div className="formCol">
-                          <label class="formColLabel">
-                          <FormattedMessage id="agent.PlanName" /> <span className="mantdat">*</span>
-                          </label>
-                          <FormattedMessage id="agent.EnterName">
-                            {placeholder =>
-                          <input
-                            value={this.state.planName}
-                            type="text"
-                            placeholder={placeholder}
-                            onChange={this.handlePlanName}
-                          />}
-                          </FormattedMessage>
-                        </div>
-                        {/* <div className="formCol">
+                        <div className="formRow">
+                          <div className="formCol">
+                            <label class="formColLabel">
+                              <FormattedMessage id="agent.SubscriptionAmount" />{" "}
+                            </label>
+                            <FormattedMessage id="agent.SubscriptionAmount">
+                              {(placeholder) => (
+                                <input
+                                  value={this.state.planAmount}
+                                  onChange={this.handleAmount}
+                                  type="text"
+                                  placeholder={placeholder}
+                                />
+                              )}
+                            </FormattedMessage>
+                          </div>
+                          <div className="formCol">
+                            <label class="formColLabel">
+                              <FormattedMessage id="agent.PlanName" />{" "}
+                              <span className="mantdat">*</span>
+                            </label>
+                            <FormattedMessage id="agent.EnterName">
+                              {(placeholder) => (
+                                <input
+                                  value={this.state.planName}
+                                  type="text"
+                                  placeholder={placeholder}
+                                  onChange={this.handlePlanName}
+                                />
+                              )}
+                            </FormattedMessage>
+                          </div>
+                          {/* <div className="formCol">
                           <label className="formColLabel">User Type </label>
                           <div className="categorySelect">
                             <Select
@@ -496,143 +501,169 @@ class Packages extends Component {
                             </Select>
                           </div>
                         </div> */}
-                        <div className="formCol">
-                          <label className="formColLabel">
-                          <FormattedMessage id="agent.SettlementPeriod" />
-                          </label>
-                          <div className="categorySelect">
-                            <Select
-                              style={{
-                                width: 100 + "%",
-                                height: 52,
-                              }}
-                              value={this.state.settlementPeriod}
-                              onChange={(e) => this.handleChangeSelectPeriod(e)}
-                            >
-                               <Option value="DAILY"><FormattedMessage id="agent.Daily" /></Option>
-                               <Option value="WEEKLY"><FormattedMessage id="agent.Weekly" /></Option>
-                               <Option value="MONTHLY"><FormattedMessage id="agent.Monthly" /></Option>
-                            </Select>
+                          <div className="formCol">
+                            <label className="formColLabel">
+                              <FormattedMessage id="agent.SettlementPeriod" />
+                            </label>
+                            <div className="categorySelect">
+                              <Select
+                                style={{
+                                  width: 100 + "%",
+                                  height: 52,
+                                }}
+                                value={this.state.settlementPeriod}
+                                onChange={(e) =>
+                                  this.handleChangeSelectPeriod(e)
+                                }
+                              >
+                                <Option value="DAILY">
+                                  <FormattedMessage id="agent.Daily" />
+                                </Option>
+                                <Option value="WEEKLY">
+                                  <FormattedMessage id="agent.Weekly" />
+                                </Option>
+                                <Option value="MONTHLY">
+                                  <FormattedMessage id="agent.Monthly" />
+                                </Option>
+                              </Select>
+                            </div>
                           </div>
-                        </div>
 
-                        <div className="formCol">
-                          <label className="formColLabel"><FormattedMessage id="agent.isFeatured" /></label>
-                          <div className="categorySelect">
-                            <Select
-                              style={{
-                                width: 100 + "%",
-                                height: 52,
-                              }}
-                              value={this.state.isfeatured}
-                              onChange={(e) =>
-                                this.handleChangeSelectFeatured(e)
-                              }
-                            >
-                              <Option value="true"><FormattedMessage id="agent.Yes" /></Option>
-                              <Option value="false"><FormattedMessage id="agent.No" /></Option>
-                            </Select>
+                          <div className="formCol">
+                            <label className="formColLabel">
+                              <FormattedMessage id="agent.isFeatured" />
+                            </label>
+                            <div className="categorySelect">
+                              <Select
+                                style={{
+                                  width: 100 + "%",
+                                  height: 52,
+                                }}
+                                value={this.state.isfeatured}
+                                onChange={(e) =>
+                                  this.handleChangeSelectFeatured(e)
+                                }
+                              >
+                                <Option value="true">
+                                  <FormattedMessage id="agent.Yes" />
+                                </Option>
+                                <Option value="false">
+                                  <FormattedMessage id="agent.No" />
+                                </Option>
+                              </Select>
+                            </div>
                           </div>
-                        </div>
 
-                        <div className="formCol">
-                          <label className="formColLabel"><FormattedMessage id="agent.isDefault" /></label>
-                          <div className="categorySelect">
-                            <Select
-                              style={{
-                                width: 100 + "%",
-                                height: 52,
-                              }}
-                              value={this.state.isdefault}
-                              onChange={(e) =>
-                                this.handleChangeSelectDefault(e)
-                              }
-                            >
-                              <Option value="true"><FormattedMessage id="agent.Yes" /></Option>
-                              <Option value="false"><FormattedMessage id="agent.No" /></Option>
-                            </Select>
+                          <div className="formCol">
+                            <label className="formColLabel">
+                              <FormattedMessage id="agent.isDefault" />
+                            </label>
+                            <div className="categorySelect">
+                              <Select
+                                style={{
+                                  width: 100 + "%",
+                                  height: 52,
+                                }}
+                                value={this.state.isdefault}
+                                onChange={(e) =>
+                                  this.handleChangeSelectDefault(e)
+                                }
+                              >
+                                <Option value="true">
+                                  <FormattedMessage id="agent.Yes" />
+                                </Option>
+                                <Option value="false">
+                                  <FormattedMessage id="agent.No" />
+                                </Option>
+                              </Select>
+                            </div>
                           </div>
-                        </div>
 
-                        <div className="formCol">
-                          <label className="formColLabel">
-                          <FormattedMessage id="agent.TypeofChannels" />
-                          </label>
-                          <div className="categorySelect">
-                            <Select
-                              style={{
-                                width: 100 + "%",
-                                height: 52,
-                              }}
-                              value={this.state.channel}
-                              onChange={(e) =>
-                                this.handleChangeSelectChannels(e)
-                              }
-                            >
-                              <Option value="Web"><FormattedMessage id="agent.WebAccess" /></Option>
-                              <Option value="Mobile"><FormattedMessage id="agent.MobileAccess" /></Option>
-                              <Option value="both"><FormattedMessage id="agent.Both" /></Option>
-                            </Select>
+                          <div className="formCol">
+                            <label className="formColLabel">
+                              <FormattedMessage id="agent.TypeofChannels" />
+                            </label>
+                            <div className="categorySelect">
+                              <Select
+                                style={{
+                                  width: 100 + "%",
+                                  height: 52,
+                                }}
+                                value={this.state.channel}
+                                onChange={(e) =>
+                                  this.handleChangeSelectChannels(e)
+                                }
+                              >
+                                <Option value="Web">
+                                  <FormattedMessage id="agent.WebAccess" />
+                                </Option>
+                                <Option value="Mobile">
+                                  <FormattedMessage id="agent.MobileAccess" />
+                                </Option>
+                                <Option value="both">
+                                  <FormattedMessage id="agent.Both" />
+                                </Option>
+                              </Select>
+                            </div>
                           </div>
-                        </div>
-                        <div className="formCol">
-                          <label className="formColLabel">
-                          <FormattedMessage id="agent.Assets" />{" "}
-                            <span className="smallTextLabel">
-                            <FormattedMessage id="agent.Selectmorethanoneoperations" />
-                            </span>
-                          </label>
-                          <div className="antdCheckBCustom">
-                            {this.state.assets &&
-                              this.state.assets.length > 0 &&
-                              this.state.assets.map((data) => {
+                          <div className="formCol">
+                            <label className="formColLabel">
+                              <FormattedMessage id="agent.Assets" />{" "}
+                              <span className="smallTextLabel">
+                                <FormattedMessage id="agent.Selectmorethanoneoperations" />
+                              </span>
+                            </label>
+                            <div className="antdCheckBCustom">
+                              {this.state.assets &&
+                                this.state.assets.length > 0 &&
+                                this.state.assets.map((data) => {
+                                  return (
+                                    <Checkbox
+                                      checked={this.state.checkedAssets.includes(
+                                        data.name
+                                      )}
+                                      value={data.assetId}
+                                      onChange={(e) =>
+                                        this.handleAssets(e, data.name)
+                                      }
+                                    >
+                                      {data.name}
+                                    </Checkbox>
+                                  );
+                                })}
+
+                              {this.state.displayOperations.map((data) => {
                                 return (
-                                  <Checkbox
-                                    checked={this.state.checkedAssets.includes(
-                                      data.name
-                                    )}
-                                    value={data.assetId}
-                                    onChange={(e) =>
-                                      this.handleAssets(e, data.name)
-                                    }
-                                  >
-                                    {data.name}
-                                  </Checkbox>
+                                  <>
+                                    <div>
+                                      <span>{data.operations.name}</span>
+                                    </div>
+
+                                    {data.operations.values.map((val) => {
+                                      return (
+                                        <Checkbox
+                                          value={val.operationId}
+                                          checked={
+                                            this.state.checkedOperations.includes(
+                                              val.operationId
+                                            )
+                                              ? true
+                                              : false
+                                          }
+                                          onChange={(e) =>
+                                            this.finalOperations(e)
+                                          }
+                                        >
+                                          {val.name}
+                                        </Checkbox>
+                                      );
+                                    })}
+                                  </>
                                 );
                               })}
-
-                            {this.state.displayOperations.map((data) => {
-                              return (
-                                <>
-                                  <div>
-                                    <span>{data.operations.name}</span>
-                                  </div>
-
-                                  {data.operations.values.map((val) => {
-                                    return (
-                                      <Checkbox
-                                        value={val.operationId}
-                                        checked={
-                                          this.state.checkedOperations.includes(
-                                            val.operationId
-                                          )
-                                            ? true
-                                            : false
-                                        }
-                                        onChange={(e) =>
-                                          this.finalOperations(e)
-                                        }
-                                      >
-                                        {val.name}
-                                      </Checkbox>
-                                    );
-                                  })}
-                                </>
-                              );
-                            })}
+                            </div>
                           </div>
-                        </div>
-                        {/* <div className="formCol">
+                          {/* <div className="formCol">
                           <label className="formColLabel">
                             Settlement Period <span className="mantdat">*</span>
                           </label>
@@ -651,26 +682,34 @@ class Packages extends Component {
                             </Select>
                           </div>
                         </div> */}
-                        <div className="formCol">
-                          <label className="formColLabel">
-                          <FormattedMessage id="agent.SubscriptionStatus" />{" "}
-                            <span className="mantdat">*</span>
-                          </label>
-                          <div className="categorySelect">
-                            <Select
-                              value={this.state.planStatus}
-                              style={{
-                                width: 100 + "%",
-                                height: 52,
-                              }}
-                              onChange={(e) => this.handleChangeSelectStatus(e)}
-                            >
-                              <Option value="true"> <FormattedMessage id="agent.Active" /></Option>
-                              <Option value="false"> <FormattedMessage id="agent.Inactive" /></Option>
-                            </Select>
+                          <div className="formCol">
+                            <label className="formColLabel">
+                              <FormattedMessage id="agent.SubscriptionStatus" />{" "}
+                              <span className="mantdat">*</span>
+                            </label>
+                            <div className="categorySelect">
+                              <Select
+                                value={this.state.planStatus}
+                                style={{
+                                  width: 100 + "%",
+                                  height: 52,
+                                }}
+                                onChange={(e) =>
+                                  this.handleChangeSelectStatus(e)
+                                }
+                              >
+                                <Option value="true">
+                                  {" "}
+                                  <FormattedMessage id="agent.Active" />
+                                </Option>
+                                <Option value="false">
+                                  {" "}
+                                  <FormattedMessage id="agent.Inactive" />
+                                </Option>
+                              </Select>
+                            </div>
                           </div>
-                        </div>
-                        {/* <div className="formCol">
+                          {/* <div className="formCol">
                           <label className="formColLabel">
                             Invoice Period <span className="mantdat">*</span>
                           </label>
@@ -691,7 +730,7 @@ class Packages extends Component {
                             </Select>
                           </div>
                         </div> */}
-                        {/* <div className="formCol">
+                          {/* <div className="formCol">
                           <label className="formColLabel">
                             Type of Payment <span className="mantdat">*</span>
                           </label>
@@ -708,30 +747,31 @@ class Packages extends Component {
                             </Select>
                           </div>
                         </div> */}
-                        <div className="formCol">
-                          <label className="formColLabel">
-                          <FormattedMessage id="agent.MultipleCurrency" /> <span className="mantdat">*</span>
-                          </label>
-                          <div className="antdCheckBCustom">
-                            {/* <Checkbox onChange={onChange}>FAF</Checkbox>
+                          <div className="formCol">
+                            <label className="formColLabel">
+                              <FormattedMessage id="agent.MultipleCurrency" />{" "}
+                              <span className="mantdat">*</span>
+                            </label>
+                            <div className="antdCheckBCustom">
+                              {/* <Checkbox onChange={onChange}>FAF</Checkbox>
                             <Checkbox onChange={onChange}>
                               AMERICAN DOLLOR
                             </Checkbox>
                             <Checkbox onChange={onChange}>OUV</Checkbox>
                             <Checkbox onChange={onChange}>FCFA</Checkbox>
                             <Checkbox onChange={onChange}>EURO</Checkbox> */}
-                            {this.state.currency &&
-                              this.state.currency.length > 0 &&
-                              this.state.currency.map((data) => {
-                                return (
-                                  <Checkbox value={data.code}>
-                                    {data.code}
-                                  </Checkbox>
-                                );
-                              })}
+                              {this.state.currency &&
+                                this.state.currency.length > 0 &&
+                                this.state.currency.map((data) => {
+                                  return (
+                                    <Checkbox value={data.code}>
+                                      {data.code}
+                                    </Checkbox>
+                                  );
+                                })}
+                            </div>
                           </div>
-                        </div>
-                        {/* <div className="formCol">
+                          {/* <div className="formCol">
                           <label className="formColLabel">
                             Bulk Payment <span className="mantdat">*</span>
                           </label>
@@ -749,7 +789,7 @@ class Packages extends Component {
                             </Select>
                           </div>
                         </div> */}
-                        {/* <div className="formCol">
+                          {/* <div className="formCol">
                                                 <label className="formColLabel">Date of Birth</label>
                                                 <DatePicker
                                                 selected={this.state.dateOfBirthValue}
@@ -772,205 +812,204 @@ class Packages extends Component {
                                                 {this.state.dateOfBirthError}
                                                 </span>
                                             </div> */}
-                      </div>
-                      <div className="sectionSepr"></div>
-                      <h1 class="kycDetails textAlignCenter"><FormattedMessage id="agent.LimitDetails" /></h1>
-                      <div className="formRow">
-                        <div className="formCol" style={{ width: "100%" }}>
-                          <div className="tabAntdCustom">
-                            <Tabs type="card">
-                              {this.state.currency &&
-                                this.state.currency.length > 0 &&
-                                this.state.currency.map((data, index) => {
-                                  return (
-                                    <TabPane
-                                      tab={data.code}
-                                      key={data.currencyId}
-                                    >
-                                      &ensp;
-                                      <span style={{ color: "red" }}>
-                                        <b><FormattedMessage id="agent.Currency" /> : {data.code}</b>
-                                      </span>
-                                      <div className="formRow">
-                                        <div className="formCol">
-                                          <label className="formColLabel">
-                                          <FormattedMessage id="agent.TransactionDailyLimit" />{" "}
-                                            <span className="mantdat">*</span>
-                                          </label>
-                                          <input
-                                            type="text"
-                                            value={
-                                              this.state.currencyLimitProfiles[
-                                                index
-                                              ] ?
-                                                this.state.currencyLimitProfiles[
-                                                  index
-                                                ].dailyTransactionCount
-                                                :
-                                                ""
-                                            }
-                                            onChange={(e) =>
-                                              this.limits(
-                                                e,
-                                                index,
-                                                "daily",
-                                                "number"
-                                              )
-                                            }
-                                            placeholder="Number of transcations"
-                                          />
-                                        </div>
-                                        <div className="formCol">
-                                          <label className="formColLabel">
-                                          <FormattedMessage id="agent.TransactionDailyLimit" />{" "}
-                                            <span className="mantdat">*</span>
-                                          </label>
-                                          <input
-                                            value={
-                                              this.state.currencyLimitProfiles[
-                                                index
-                                              ] ?
-                                                this.state.currencyLimitProfiles[
-                                                  index
-                                                ].dailyTransactionAmount
-                                                :
-                                                ""
-                                            }
-                                            onChange={(e) =>
-                                              this.limits(
-                                                e,
-                                                index,
+                        </div>
+                        <div className="sectionSepr"></div>
+                        <h1 class="kycDetails textAlignCenter">
+                          <FormattedMessage id="agent.LimitDetails" />
+                        </h1>
+                        <div className="formRow">
+                          <div className="formCol" style={{ width: "100%" }}>
+                            <div className="tabAntdCustom">
+                              <Tabs type="card">
+                                {this.state.currency &&
+                                  this.state.currency.length > 0 &&
+                                  this.state.currency.map((data, index) => {
+                                    return (
+                                      <TabPane
+                                        tab={data.code}
+                                        key={data.currencyId}
+                                      >
+                                        &ensp;
+                                        <span style={{ color: "red" }}>
+                                          <b>
+                                            <FormattedMessage id="agent.Currency" />{" "}
+                                            : {data.code}
+                                          </b>
+                                        </span>
+                                        <div className="formRow">
+                                          <div className="formCol">
+                                            <label className="formColLabel">
+                                              <FormattedMessage id="agent.TransactionDailyLimit" />{" "}
+                                              <span className="mantdat">*</span>
+                                            </label>
+                                            <input
+                                              type="text"
+                                              value={
+                                                this.state
+                                                  .currencyLimitProfiles[index]
+                                                  ? this.state
+                                                      .currencyLimitProfiles[
+                                                      index
+                                                    ].dailyTransactionCount
+                                                  : ""
+                                              }
+                                              onChange={(e) =>
+                                                this.limits(
+                                                  e,
+                                                  index,
+                                                  "daily",
+                                                  "number"
+                                                )
+                                              }
+                                              placeholder="Number of transcations"
+                                            />
+                                          </div>
+                                          <div className="formCol">
+                                            <label className="formColLabel">
+                                              <FormattedMessage id="agent.TransactionDailyLimit" />{" "}
+                                              <span className="mantdat">*</span>
+                                            </label>
+                                            <input
+                                              value={
+                                                this.state
+                                                  .currencyLimitProfiles[index]
+                                                  ? this.state
+                                                      .currencyLimitProfiles[
+                                                      index
+                                                    ].dailyTransactionAmount
+                                                  : ""
+                                              }
+                                              onChange={(e) =>
+                                                this.limits(
+                                                  e,
+                                                  index,
 
-                                                "daily",
-                                                "amount"
-                                              )
-                                            }
-                                            type="text"
-                                            placeholder="Amount of Transcation"
-                                          />
+                                                  "daily",
+                                                  "amount"
+                                                )
+                                              }
+                                              type="text"
+                                              placeholder="Amount of Transcation"
+                                            />
+                                          </div>
+                                          <div className="formCol">
+                                            <label className="formColLabel">
+                                              <FormattedMessage id="agent.TransactionWeeklyLimit" />{" "}
+                                              <span className="mantdat">*</span>
+                                            </label>
+                                            <input
+                                              value={
+                                                this.state
+                                                  .currencyLimitProfiles[index]
+                                                  ? this.state
+                                                      .currencyLimitProfiles[
+                                                      index
+                                                    ].weeklyTransactionCount
+                                                  : ""
+                                              }
+                                              onChange={(e) =>
+                                                this.limits(
+                                                  e,
+                                                  index,
+                                                  "weekly",
+                                                  "number"
+                                                )
+                                              }
+                                              type="text"
+                                              placeholder="Number of transcations"
+                                            />
+                                          </div>
+                                          <div className="formCol">
+                                            <label className="formColLabel">
+                                              <FormattedMessage id="agent.TransactionWeeklyLimit" />{" "}
+                                              <span className="mantdat">*</span>
+                                            </label>
+                                            <input
+                                              onChange={(e) =>
+                                                this.limits(
+                                                  e,
+                                                  index,
+                                                  "weekly",
+                                                  "amount"
+                                                )
+                                              }
+                                              value={
+                                                this.state
+                                                  .currencyLimitProfiles[index]
+                                                  ? this.state
+                                                      .currencyLimitProfiles[
+                                                      index
+                                                    ].weeklyTransactionAmount
+                                                  : ""
+                                              }
+                                              type="text"
+                                              placeholder="Amount of Transcation"
+                                            />
+                                          </div>
+                                          <div className="formCol">
+                                            <label className="formColLabel">
+                                              <FormattedMessage id="agent.TransactionMonthlyLimit" />{" "}
+                                              <span className="mantdat">*</span>
+                                            </label>
+                                            <input
+                                              onChange={(e) =>
+                                                this.limits(
+                                                  e,
+                                                  index,
+                                                  "monthly",
+                                                  "number"
+                                                )
+                                              }
+                                              value={
+                                                this.state
+                                                  .currencyLimitProfiles[index]
+                                                  ? this.state
+                                                      .currencyLimitProfiles[
+                                                      index
+                                                    ].monthlyTransactionCount
+                                                  : ""
+                                              }
+                                              type="text"
+                                              placeholder="Number of transcations"
+                                            />
+                                          </div>
+                                          <div className="formCol">
+                                            <label className="formColLabel">
+                                              <FormattedMessage id="agent.TransactionMonthlyLimit" />{" "}
+                                              <span className="mantdat">*</span>
+                                            </label>
+                                            <input
+                                              value={
+                                                this.state
+                                                  .currencyLimitProfiles[index]
+                                                  ? this.state
+                                                      .currencyLimitProfiles[
+                                                      index
+                                                    ].monthlyTransactionAmount
+                                                  : ""
+                                              }
+                                              onChange={(e) =>
+                                                this.limits(
+                                                  e,
+                                                  index,
+                                                  "monthly",
+                                                  "amount"
+                                                )
+                                              }
+                                              type="text"
+                                              placeholder="Amount of Transcation"
+                                            />
+                                          </div>
                                         </div>
-                                        <div className="formCol">
-                                          <label className="formColLabel">
-                                          <FormattedMessage id="agent.TransactionWeeklyLimit" />{" "}
-                                            <span className="mantdat">*</span>
-                                          </label>
-                                          <input
-                                            value={
-                                              this.state.currencyLimitProfiles[
-                                                index
-                                              ] ?
-                                                this.state.currencyLimitProfiles[
-                                                  index
-                                                ].weeklyTransactionCount
-                                                :
-                                                ""
-                                            }
-                                            onChange={(e) =>
-                                              this.limits(
-                                                e,
-                                                index,
-                                                "weekly",
-                                                "number"
-                                              )
-                                            }
-                                            type="text"
-                                            placeholder="Number of transcations"
-                                          />
-                                        </div>
-                                        <div className="formCol">
-                                          <label className="formColLabel">
-                                          <FormattedMessage id="agent.TransactionWeeklyLimit" />{" "}
-                                            <span className="mantdat">*</span>
-                                          </label>
-                                          <input
-                                            onChange={(e) =>
-                                              this.limits(
-                                                e,
-                                                index,
-                                                "weekly",
-                                                "amount"
-                                              )
-                                            }
-                                            value={
-                                              this.state.currencyLimitProfiles[
-                                                index
-                                              ] ?
-                                                this.state.currencyLimitProfiles[
-                                                  index
-                                                ].weeklyTransactionAmount
-                                                :
-                                                ""
-                                            }
-                                            type="text"
-                                            placeholder="Amount of Transcation"
-                                          />
-                                        </div>
-                                        <div className="formCol">
-                                          <label className="formColLabel">
-                                          <FormattedMessage id="agent.TransactionMonthlyLimit" />{" "}
-                                            <span className="mantdat">*</span>
-                                          </label>
-                                          <input
-                                            onChange={(e) =>
-                                              this.limits(
-                                                e,
-                                                index,
-                                                "monthly",
-                                                "number"
-                                              )
-                                            }
-                                            value={
-                                              this.state.currencyLimitProfiles[
-                                                index
-                                              ] ?
-                                                this.state.currencyLimitProfiles[
-                                                  index
-                                                ].monthlyTransactionCount
-                                                :
-                                                ""
-                                            }
-                                            type="text"
-                                            placeholder="Number of transcations"
-                                          />
-                                        </div>
-                                        <div className="formCol">
-                                          <label className="formColLabel">
-                                          <FormattedMessage id="agent.TransactionMonthlyLimit" />{" "}
-                                            <span className="mantdat">*</span>
-                                          </label>
-                                          <input
-                                            value={
-                                              this.state.currencyLimitProfiles[
-                                                index
-                                              ] ?
-                                                this.state.currencyLimitProfiles[
-                                                  index
-                                                ].monthlyTransactionAmount
-                                                :
-                                                ""
-                                            }
-                                            onChange={(e) =>
-                                              this.limits(
-                                                e,
-                                                index,
-                                                "monthly",
-                                                "amount"
-                                              )
-                                            }
-                                            type="text"
-                                            placeholder="Amount of Transcation"
-                                          />
-                                        </div>
-                                      </div>
-                                    </TabPane>
-                                  );
-                                })}
-                            </Tabs>
+                                      </TabPane>
+                                    );
+                                  })}
+                              </Tabs>
+                            </div>
                           </div>
                         </div>
-                      </div>
 
-                      {/* <div className="sectionSepr">
+                        {/* <div className="sectionSepr">
                         <h1 class="kycDetails textAlignCenter">Fees Details</h1>
                         <div className="formRow">
                           <div className="formCol">
@@ -982,20 +1021,21 @@ class Packages extends Component {
                         </div>
                       </div> */}
 
-                      <div style={{ width: "100%", float: "left" }}>
-                        <div className="confirm_p_w mTB00 button-container rspacing">
-                          <button
-                            className="blackbtn aryousureBTN confirmBtnR"
-                            onClick={this.back5}
-                          >
-                            Cancel
-                          </button>
-                          <button
-                            className="aryousureBTN confirmBtnR"
-                            onClick={this.submit}
-                          >
-                            Submit
-                          </button>
+                        <div style={{ width: "100%", float: "left" }}>
+                          <div className="confirm_p_w mTB00 button-container rspacing">
+                            <button
+                              className="blackbtn aryousureBTN confirmBtnR"
+                              onClick={this.back5}
+                            >
+                              Cancel
+                            </button>
+                            <button
+                              className="aryousureBTN confirmBtnR"
+                              onClick={this.submit}
+                            >
+                              Submit
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -1004,8 +1044,7 @@ class Packages extends Component {
               </div>
             </div>
           </div>
-        </div>
-      </>
+        </>
       </IntlProvider>
     );
   }

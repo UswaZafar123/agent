@@ -1,23 +1,23 @@
 import axios from "axios";
-import actionType from "./actionType.js";
+import actionType from "./actionType";
 import URL from "../../Assets/config";
 import { toastr } from "react-redux-toastr";
 // import jwt from "jwt-decode";
 import qs from "qs";
 import { ShowLoading, HideLoading } from "../common/action";
 import { ArrowLeftOutlined } from "@ant-design/icons";
-import { sendOtpToCustomer } from "./customer_otp_actions.js";
+import { sendOtpToCustomer } from "./customer_otp_actions";
 
-export * from "./customer_verification_actions.js";
-export * from "./profile_actions.js";
-export * from "./wallet_account_actions.js";
-export * from "./bank_account_actions.js";
-export * from "./customer_otp_actions.js";
-export * from "./cash_deposit_actions.js";
-export * from "./cash_withdraw_actions.js";
-export * from "./account_linking_actions.js";
-export * from "./agent_otp_actions.js";
-export * from "./common_actions.js";
+export * from "./customer_verification_actions";
+export * from "./profile_actions";
+export * from "./wallet_account_actions";
+export * from "./bank_account_actions";
+export * from "./customer_otp_actions";
+export * from "./cash_deposit_actions";
+export * from "./cash_withdraw_actions";
+export * from "./account_linking_actions";
+export * from "./agent_otp_actions";
+export * from "./common_actions";
 
 export const RegisterService = (payload) => (dispatch) => {
   const config = {
@@ -1011,7 +1011,6 @@ export const setTokenFalse = () => (dispatch) => {
   });
 };
 
-
 export const loginAgent = (payload) => (dispatch) => {
   const config = {
     method: "post",
@@ -1327,7 +1326,7 @@ export const addTicket = (token, payload, history) => (dispatch) => {
         history.push({ pathname: "/agent/tickets" });
       }
     })
-    .catch((error) => { });
+    .catch((error) => {});
 };
 export const UpdateTicket =
   (token, payload, ticketNo, history) => (dispatch) => {
@@ -1351,7 +1350,7 @@ export const UpdateTicket =
           dispatch(getTickets(token));
         }
       })
-      .catch((error) => { });
+      .catch((error) => {});
   };
 export const addAreply = (token, data, ticketNo) => (dispatch) => {
   dispatch(uploadAttachmentFalse());
@@ -1372,7 +1371,7 @@ export const addAreply = (token, data, ticketNo) => (dispatch) => {
         dispatch(getATicket(token, ticketNo));
       }
     })
-    .catch((error) => { });
+    .catch((error) => {});
 };
 
 export const viewAttachmentFileFalse = () => (dispatch) => {
@@ -1713,18 +1712,14 @@ export const addAgentUser = (payload) => (dispatch) => {
     .then((res) => {
       dispatch(HideLoading());
       if (res.status === 201) {
-        toastr.success(
-          "Agent User Successfully Created"
-        );
+        toastr.success("Agent User Successfully Created");
         dispatch({
           type: actionType.ADD_AGENTUSER_SUCCESS,
           payload: res.data,
         });
         dispatch(getAllAgentUsers());
       } else {
-        toastr.warning(
-          "Agent User Creation Warning!"
-        );
+        toastr.warning("Agent User Creation Warning!");
         dispatch({
           type: actionType.ADD_AGENTUSER_FAILURE,
           payload: res.data,
@@ -1753,9 +1748,7 @@ export const getAllAgentUsers = () => (dispatch) => {
     .then((res) => {
       dispatch(HideLoading());
       if (res.status === 200) {
-        toastr.success(
-          "Agent User Fetch Successful"
-        );
+        toastr.success("Agent User Fetch Successful");
         dispatch({
           type: actionType.GET_AGENTUSER_SUCCESS,
           payload: res.data,
@@ -1772,9 +1765,7 @@ export const getAllAgentUsers = () => (dispatch) => {
           type: actionType.UPDATE_AGENTUSER_FAILURE,
         });
       } else {
-        toastr.warning(
-          "Agent User Fetch Warning!"
-        );
+        toastr.warning("Agent User Fetch Warning!");
         dispatch({
           type: actionType.GET_AGENTUSER_FAILURE,
         });
@@ -1802,17 +1793,13 @@ export const deleteAgentUser = (id) => (dispatch) => {
     .then((res) => {
       dispatch(HideLoading());
       if (res.status === 204) {
-        toastr.success(
-          "Agent User Delete Successful"
-        );
+        toastr.success("Agent User Delete Successful");
         dispatch({
           type: actionType.DELETE_AGENTUSER_SUCCESS,
         });
         dispatch(getAllAgentUsers());
       } else {
-        toastr.warning(
-          "Agent User Delete Warning!"
-        );
+        toastr.warning("Agent User Delete Warning!");
         dispatch({
           type: actionType.DELETE_AGENTUSER_FAILURE,
           payload: res.data,
@@ -1842,18 +1829,14 @@ export const updateAgentUser = (id, payload) => (dispatch) => {
     .then((res) => {
       dispatch(HideLoading());
       if (res.status === 201) {
-        toastr.success(
-          "Agent User Update Successful"
-        );
+        toastr.success("Agent User Update Successful");
         dispatch({
           type: actionType.UPDATE_AGENTUSER_SUCCESS,
           payload: res.data,
         });
         dispatch(getAllAgentUsers());
       } else {
-        toastr.warning(
-          "Agent User Update Warning!"
-        );
+        toastr.warning("Agent User Update Warning!");
         dispatch({
           type: actionType.UPDATE_AGENTUSER_FAILURE,
         });
@@ -1881,17 +1864,13 @@ export const getAllAgentMemberLists = () => (dispatch) => {
     .then((res) => {
       dispatch(HideLoading());
       if (res.status === 200) {
-        toastr.success(
-          "Linked List Retrieval Successful"
-        );
+        toastr.success("Linked List Retrieval Successful");
         dispatch({
           type: actionType.GET_AGENT_MEMBER_LIST_SUCCESS,
           payload: res.data,
         });
       } else {
-        toastr.warning(
-          "Linked List Retrieval Warning!"
-        );
+        toastr.warning("Linked List Retrieval Warning!");
         dispatch({
           type: actionType.GET_AGENT_MEMBER_LIST_FAILURE,
         });
@@ -1920,17 +1899,13 @@ export const getFee = (payload) => (dispatch) => {
     .then((res) => {
       dispatch(HideLoading());
       if (res.status === 200) {
-        toastr.success(
-          "Agent Fee Calculated"
-        );
+        toastr.success("Agent Fee Calculated");
         dispatch({
           type: actionType.GET_FEE_SUCCESS,
           payload: res.data,
         });
       } else {
-        toastr.warning(
-          "Agent Fee Warning!"
-        );
+        toastr.warning("Agent Fee Warning!");
         dispatch({
           type: actionType.GET_FEE_FAILURE,
         });
@@ -1943,7 +1918,7 @@ export const getFee = (payload) => (dispatch) => {
         type: actionType.GET_FEE_FAILURE,
       });
     });
-}
+};
 
 export const agentToAgentBankerUpgradeRequest = (payload) => (dispatch) => {
   dispatch({
@@ -1962,9 +1937,7 @@ export const agentToAgentBankerUpgradeRequest = (payload) => (dispatch) => {
     .then((res) => {
       dispatch(HideLoading());
       if (res.status === 200) {
-        toastr.success(
-          "Upgrade Successful."
-        );
+        toastr.success("Upgrade Successful.");
         dispatch({
           type: actionType.AGENT_BANKER_UPGRADE_REQUEST_SUCCESS,
           payload: res.data,
@@ -1978,41 +1951,42 @@ export const agentToAgentBankerUpgradeRequest = (payload) => (dispatch) => {
         type: actionType.AGENT_BANKER_UPGRADE_REQUEST_FAILURE,
       });
     });
-}
+};
 
-export const getAgentWalletHistory = (fromDate, toDate, page, size) => (dispatch) => {
-  dispatch({
-    type: actionType.GET_WALLET_HISTORY_FAILURE,
-  });
-  dispatch(ShowLoading());
-  const config = {
-    method: "GET",
-    url: URL.agent.GET_AGENT_WALLET_HISTORY + `?fromDate=${fromDate}&toDate=${toDate}&page=${page}&size=${size}`,
-    headers: {
-      Authorization: "Bearer " + sessionStorage.getItem("token"),
-    },
-  };
-  axios(config)
-    .then((res) => {
-      dispatch(HideLoading());
-      if (res.status === 200) {
-        toastr.success(
-          "Wallet History Retrieved Successfully."
-        );
-        dispatch({
-          type: actionType.GET_WALLET_HISTORY_SUCCESS,
-          payload: res.data,
-        });
-      }
-    })
-    .catch((err) => {
-      dispatch(HideLoading());
-      toastr.error("Error Retrieving Wallet History..");
-      dispatch({
-        type: actionType.GET_WALLET_HISTORY_FAILURE,
-      });
+export const getAgentWalletHistory =
+  (fromDate, toDate, page, size) => (dispatch) => {
+    dispatch({
+      type: actionType.GET_WALLET_HISTORY_FAILURE,
     });
-}
+    dispatch(ShowLoading());
+    const config = {
+      method: "GET",
+      url:
+        URL.agent.GET_AGENT_WALLET_HISTORY +
+        `?fromDate=${fromDate}&toDate=${toDate}&page=${page}&size=${size}`,
+      headers: {
+        Authorization: "Bearer " + sessionStorage.getItem("token"),
+      },
+    };
+    axios(config)
+      .then((res) => {
+        dispatch(HideLoading());
+        if (res.status === 200) {
+          toastr.success("Wallet History Retrieved Successfully.");
+          dispatch({
+            type: actionType.GET_WALLET_HISTORY_SUCCESS,
+            payload: res.data,
+          });
+        }
+      })
+      .catch((err) => {
+        dispatch(HideLoading());
+        toastr.error("Error Retrieving Wallet History..");
+        dispatch({
+          type: actionType.GET_WALLET_HISTORY_FAILURE,
+        });
+      });
+  };
 
 export const doesBankAccountExist = (bankAccountNumber) => (dispatch) => {
   dispatch({
@@ -2033,7 +2007,7 @@ export const doesBankAccountExist = (bankAccountNumber) => (dispatch) => {
   dispatch(ShowLoading());
   const config = {
     method: "GET",
-    url: URL.agent.BANK_ACCOUNT_EXISTS + `/exists/${bankAccountNumber}`
+    url: URL.agent.BANK_ACCOUNT_EXISTS + `/exists/${bankAccountNumber}`,
   };
   axios(config)
     .then((res) => {
@@ -2047,7 +2021,11 @@ export const doesBankAccountExist = (bankAccountNumber) => (dispatch) => {
         } else {
           // toastr.success("Account Exists..");
           dispatch(getBankAccountDetails(bankAccountNumber));
-          dispatch(getBankAccountCustomerAndSendOTP((bankAccountNumber.split('-')[2]).substring(0, 7)));
+          dispatch(
+            getBankAccountCustomerAndSendOTP(
+              bankAccountNumber.split("-")[2].substring(0, 7)
+            )
+          );
           dispatch({
             type: actionType.BANK_ACCOUNT_EXISTS_SUCCESS,
             payload: res.data,
@@ -2063,13 +2041,13 @@ export const doesBankAccountExist = (bankAccountNumber) => (dispatch) => {
         payload: false,
       });
     });
-}
+};
 
 export const getBankAccountDetails = (bankAccountNumber) => (dispatch) => {
   dispatch(ShowLoading());
   const config = {
     method: "GET",
-    url: URL.agent.BANK_ACCOUNT_EXISTS + `/${bankAccountNumber}`
+    url: URL.agent.BANK_ACCOUNT_EXISTS + `/${bankAccountNumber}`,
   };
   axios(config)
     .then((res) => {
@@ -2084,47 +2062,48 @@ export const getBankAccountDetails = (bankAccountNumber) => (dispatch) => {
     })
     .catch((err) => {
       dispatch(HideLoading());
-      toastr.error("Bank Account Details Fetch Error.")
+      toastr.error("Bank Account Details Fetch Error.");
       dispatch({
         type: actionType.BANK_ACCOUNT_DETAILS_FETCH_ERROR,
         payload: [],
       });
     });
-}
+};
 
-export const getBankAccountCustomerAndSendOTP = (bankCustomerID) => (dispatch) => {
-  dispatch(ShowLoading());
-  const config = {
-    method: "GET",
-    url: URL.agent.GET_BANKACCOUNT_CUSTOMER + `/${bankCustomerID}`
-  };
-  axios(config)
-    .then((res) => {
-      dispatch(HideLoading());
-      if (res.status === 200) {
-        toastr.success("Bank Account Customer Available.");
+export const getBankAccountCustomerAndSendOTP =
+  (bankCustomerID) => (dispatch) => {
+    dispatch(ShowLoading());
+    const config = {
+      method: "GET",
+      url: URL.agent.GET_BANKACCOUNT_CUSTOMER + `/${bankCustomerID}`,
+    };
+    axios(config)
+      .then((res) => {
+        dispatch(HideLoading());
+        if (res.status === 200) {
+          toastr.success("Bank Account Customer Available.");
+          dispatch({
+            type: actionType.BANK_ACCOUNT_CUSTOMER_FETCH_SUCCESSFUL,
+            payload: res.data,
+          });
+        }
+      })
+      .catch((err) => {
+        dispatch(HideLoading());
+        toastr.error("Bank Account Customer Error.");
         dispatch({
-          type: actionType.BANK_ACCOUNT_CUSTOMER_FETCH_SUCCESSFUL,
-          payload: res.data,
+          type: actionType.BANK_ACCOUNT_CUSTOMER_FETCH_ERROR,
+          payload: [],
         });
-      }
-    })
-    .catch((err) => {
-      dispatch(HideLoading());
-      toastr.error("Bank Account Customer Error.")
-      dispatch({
-        type: actionType.BANK_ACCOUNT_CUSTOMER_FETCH_ERROR,
-        payload: [],
       });
-    });
-}
+  };
 
 export const verifyBankCustomerOTP = (payload) => (dispatch) => {
   dispatch(ShowLoading());
   const config = {
     method: "POST",
     url: URL.merchant.VERIFY_OTP,
-    data: payload
+    data: payload,
   };
   axios(config)
     .then((res) => {
@@ -2138,12 +2117,12 @@ export const verifyBankCustomerOTP = (payload) => (dispatch) => {
     })
     .catch((err) => {
       dispatch(HideLoading());
-      toastr.error("OTP Error.")
+      toastr.error("OTP Error.");
       dispatch({
         type: actionType.BANK_CUSTOMER_OTP_INVALID,
       });
     });
-}
+};
 
 export const getAccessInfo = () => (dispatch) => {
   dispatch(ShowLoading());
@@ -2152,7 +2131,7 @@ export const getAccessInfo = () => (dispatch) => {
     url: URL.agent.GET_ACCESS_INFO,
     headers: {
       Authorization: "Bearer " + sessionStorage.getItem("token"),
-    }
+    },
   };
   axios(config)
     .then((res) => {
@@ -2167,13 +2146,13 @@ export const getAccessInfo = () => (dispatch) => {
     })
     .catch((err) => {
       dispatch(HideLoading());
-      toastr.error("Access History Retrieval Error.")
+      toastr.error("Access History Retrieval Error.");
       dispatch({
         type: actionType.GET_ACCESS_INFO_FAILURE,
         payload: [],
       });
     });
-}
+};
 
 export const addAccessInfo = (payload) => (dispatch) => {
   dispatch(ShowLoading());
@@ -2183,7 +2162,7 @@ export const addAccessInfo = (payload) => (dispatch) => {
     url: URL.agent.GET_ACCESS_INFO,
     headers: {
       Authorization: "Bearer " + sessionStorage.getItem("token"),
-    }
+    },
   };
   axios(config)
     .then((res) => {
@@ -2200,14 +2179,13 @@ export const addAccessInfo = (payload) => (dispatch) => {
     .catch((err) => {
       dispatch(HideLoading());
       window.location = "/agent";
-      toastr.error("Access History Add Error.")
+      toastr.error("Access History Add Error.");
       dispatch({
         type: actionType.ADD_ACCESS_INFO_FAILURE,
         payload: null,
       });
     });
-}
-
+};
 
 export const getLocalBanks = () => (dispatch) => {
   dispatch(ShowLoading());
@@ -2216,7 +2194,7 @@ export const getLocalBanks = () => (dispatch) => {
     url: URL.common.LOCAL_BANKS,
     headers: {
       Authorization: "Bearer " + sessionStorage.getItem("token"),
-    }
+    },
   };
   axios(config)
     .then((res) => {
@@ -2231,10 +2209,10 @@ export const getLocalBanks = () => (dispatch) => {
     })
     .catch((err) => {
       dispatch(HideLoading());
-      toastr.error("Local Banks Retrieval Error.")
+      toastr.error("Local Banks Retrieval Error.");
       dispatch({
         type: actionType.LOCAL_BANKS_GET_FAILURE,
         payload: [],
       });
     });
-}
+};

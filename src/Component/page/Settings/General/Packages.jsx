@@ -7,7 +7,7 @@ import { AgGridColumn, AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import { connect } from "react-redux";
-import { FormattedMessage, IntlProvider } from 'react-intl';
+import { FormattedMessage, IntlProvider } from "react-intl";
 // import activeUser from '../../Assets/images/confirm.svg'
 import { getAllAgentMemberPackages } from "../../../../services/agent/action";
 import "./settingcss.css";
@@ -133,7 +133,7 @@ class Packages extends Component {
       ],
       rowData: [],
       messages: "",
-      language: ""
+      language: "",
     };
   }
 
@@ -148,12 +148,10 @@ class Packages extends Component {
     params.api.paginationGoToPage(10);
     document.getElementById("lbCurrentPage").innerHTML =
       this.state.gridApi.paginationGetCurrentPage() + 1;
-    document.getElementById(
-      "totalPageSize"
-    ).innerHTML = this.state.rowData.length;
-    document.getElementById("bTo").innerHTML = params.api.paginationGetPageSize(
-      10
-    );
+    document.getElementById("totalPageSize").innerHTML =
+      this.state.rowData.length;
+    document.getElementById("bTo").innerHTML =
+      params.api.paginationGetPageSize(10);
     const changedV =
       params.api.paginationGetPageSize(10) *
       (this.state.gridApi.paginationGetCurrentPage() + 1);
@@ -169,9 +167,8 @@ class Packages extends Component {
   handleChange = (value) => {
     this.state.gridApi.paginationSetPageSize(Number(value));
     // document.getElementById('totalPageSize').innerHTML=this.state.gridApi.paginationGetPageSize()
-    document.getElementById(
-      "bTo"
-    ).innerHTML = this.state.gridApi.paginationGetPageSize();
+    document.getElementById("bTo").innerHTML =
+      this.state.gridApi.paginationGetPageSize();
   };
 
   onPaginationChanged = () => {
@@ -192,9 +189,8 @@ class Packages extends Component {
           this.state.gridApi.paginationGetPageSize(10) *
           (this.state.gridApi.paginationGetCurrentPage() + 1);
       } else {
-        document.getElementById(
-          "afterTo"
-        ).innerHTML = this.state.rowData.length;
+        document.getElementById("afterTo").innerHTML =
+          this.state.rowData.length;
       }
     }
   };
@@ -213,7 +209,7 @@ class Packages extends Component {
   };
 
   editNewPackage = (e, data) => {
-    console.log(data,"dataaaaaa")
+    console.log(data, "dataaaaaa");
     this.props.history.push({
       pathname: "/settings/editpackages",
       state: data.packageId,
@@ -238,22 +234,20 @@ class Packages extends Component {
   };
 
   async translationHelperFunction() {
-
     const messages = await this.loadLocaleData(localStorage.getItem("lang"));
     this.setState({
       messages: messages,
-      language: localStorage.getItem("lang")
+      language: localStorage.getItem("lang"),
     });
     // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
-
   }
 
   loadLocaleData = (locale) => {
     switch (locale) {
       case "fr":
-        return import("../../../i18n/messages/fr.js");
+        return import("../../../i18n/messages/fr");
       default:
-        return import("../../../i18n/messages/en.js");
+        return import("../../../i18n/messages/en");
     }
   };
 
@@ -262,12 +256,13 @@ class Packages extends Component {
     this.translationHelperFunction();
   }
 
- async componentWillReceiveProps(nextProps) {
+  async componentWillReceiveProps(nextProps) {
     console.log(nextProps, "nextProps");
     if (nextProps.packagesStatus === true) {
-      const filteredValue = nextProps.packagesDetails._embedded.agentPackageDtoList.filter(
-        (data) => data.agentType === "AGENT_MEMBER"
-      );
+      const filteredValue =
+        nextProps.packagesDetails._embedded.agentPackageDtoList.filter(
+          (data) => data.agentType === "AGENT_MEMBER"
+        );
       console.log("filteredValue", nextProps);
       this.setState({
         rowData: filteredValue,
@@ -279,11 +274,11 @@ class Packages extends Component {
 
       this.setState({
         messages: messages,
-        language: nextProps.language
+        language: nextProps.language,
       });
     }
 
-    if(nextProps.language==="fr"){
+    if (nextProps.language === "fr") {
       this.setState({
         columnDefs: [
           { headerName: "Nom", field: "name", width: 250 },
@@ -311,7 +306,9 @@ class Packages extends Component {
                   }}
                 >
                   {" "}
-                  {params.data.isFeatured ? "Unset Featured" : "Set as Featured"}
+                  {params.data.isFeatured
+                    ? "Unset Featured"
+                    : "Set as Featured"}
                 </span>
               </div>
             ),
@@ -343,7 +340,7 @@ class Packages extends Component {
               </div>
             ),
           },
-  
+
           {
             headerName: "Action",
             field: "Action",
@@ -364,9 +361,9 @@ class Packages extends Component {
               return { textAlign: "center" };
             },
           },
-        ]});
-    }
-    else{
+        ],
+      });
+    } else {
       this.setState({
         columnDefs: [
           { headerName: "Name", field: "name", width: 250 },
@@ -394,7 +391,9 @@ class Packages extends Component {
                   }}
                 >
                   {" "}
-                  {params.data.isFeatured ? "Unset Featured" : "Set as Featured"}
+                  {params.data.isFeatured
+                    ? "Unset Featured"
+                    : "Set as Featured"}
                 </span>
               </div>
             ),
@@ -426,7 +425,7 @@ class Packages extends Component {
               </div>
             ),
           },
-  
+
           {
             headerName: "Action",
             field: "Action",
@@ -448,7 +447,7 @@ class Packages extends Component {
             },
           },
         ],
-      })
+      });
     }
   }
 
@@ -456,152 +455,172 @@ class Packages extends Component {
     const isfeatured = this.state.isfeatured;
     return (
       <IntlProvider
-      messages={this.state.messages.default}
-      locale={this.state.language}
-    >
-      <>
-        <div className="main_contain settings-container">
-          <div className="merch_m_list_w">
-            <div className="merch_list_card" id="merch_list_card">
-              <div className="section_custom">
-                <div className="sectionInn">
-                  <div className="chartCard_w">
-                    <div className="chartCardTop">
-                      <div className="kyccustomformheading">
-                        <h1 className="list_top_heading textAlignCenter text-center">
-                        <FormattedMessage id="agent.Packages" />
-                        </h1>
-                        <button
-                          className="addposbtn c_first_pending_BTN"
-                          onClick={this.addNewPackage}
-                        >
-                          <FormattedMessage id="agent.AddNewPackage" />
-                        </button>
-                      </div>
-                    </div>
-                    <div
-                      className="chartCardMiddle"
-                      style={{ padding: "24px" }}
-                    >
-                      <div className="tableTop_wrapper">
-                        <div className="disFl">
-                          <h5 className="show_pp margin_right8"><FormattedMessage id="agent.Show" /></h5>
-                          <div className="tableShowRecordPerPage">
-                            <Select
-                              defaultValue="10"
-                              style={{ width: 74, height: 27 }}
-                              onChange={this.handleChange}
-                              id={"page-size"}
-                            >
-                              <Option value="10">10</Option>
-                              <Option value="25">25</Option>
-                              <Option value="100">100</Option>
-                              {/* <Option value="all">all</Option> */}
-                            </Select>
-                          </div>
-
-                          <h5 className="show_pp margin_left8"><FormattedMessage id="agent.Entries" /></h5>
-                          <div
-                            className="margin-left-auto"
-                            style={{ display: "flex", alignItems: "center" }}
+        messages={this.state.messages.default}
+        locale={this.state.language}
+      >
+        <>
+          <div className="main_contain settings-container">
+            <div className="merch_m_list_w">
+              <div className="merch_list_card" id="merch_list_card">
+                <div className="section_custom">
+                  <div className="sectionInn">
+                    <div className="chartCard_w">
+                      <div className="chartCardTop">
+                        <div className="kyccustomformheading">
+                          <h1 className="list_top_heading textAlignCenter text-center">
+                            <FormattedMessage id="agent.Packages" />
+                          </h1>
+                          <button
+                            className="addposbtn c_first_pending_BTN"
+                            onClick={this.addNewPackage}
                           >
-                            <div className="shortCustom">
-                              <span className="icon-Asset-55"></span>
-                              <h6>Sort</h6>
-                            </div>
-                            <div className="shortCustom">
-                              <Dropdown
-                                overlay={
-                                  <ul class="filterDrd">
-                                    <li>
-                                      <a href="#">
-                                        <span class="icon-logout"></span><FormattedMessage id="agent.All" />
-                                      </a>
-                                    </li>
-                                    <li>
-                                      <a href="#">
-                                        <span class="icon-logout"></span>
-                                        <FormattedMessage id="agent.Inactive" />
-                                      </a>
-                                    </li>
-                                    <li>
-                                      <a href="#">
-                                        <span class="icon-logout"></span>
-                                        <FormattedMessage id="agent.Active" />
-                                      </a>
-                                    </li>
-                                  </ul>
-                                }
-                                placement="bottomLeft"
-                                trigger={["click"]}
+                            <FormattedMessage id="agent.AddNewPackage" />
+                          </button>
+                        </div>
+                      </div>
+                      <div
+                        className="chartCardMiddle"
+                        style={{ padding: "24px" }}
+                      >
+                        <div className="tableTop_wrapper">
+                          <div className="disFl">
+                            <h5 className="show_pp margin_right8">
+                              <FormattedMessage id="agent.Show" />
+                            </h5>
+                            <div className="tableShowRecordPerPage">
+                              <Select
+                                defaultValue="10"
+                                style={{ width: 74, height: 27 }}
+                                onChange={this.handleChange}
+                                id={"page-size"}
                               >
-                                <div className="shortCustom01">
-                                  <span className="icon-Asset-54"></span>
-                                  <h6><FormattedMessage id="agent.Filter" /></h6>
-                                </div>
-                              </Dropdown>
+                                <Option value="10">10</Option>
+                                <Option value="25">25</Option>
+                                <Option value="100">100</Option>
+                                {/* <Option value="all">all</Option> */}
+                              </Select>
                             </div>
+
+                            <h5 className="show_pp margin_left8">
+                              <FormattedMessage id="agent.Entries" />
+                            </h5>
                             <div
-                              className="search_w_merchant_m"
-                              style={{ width: "270px" }}
+                              className="margin-left-auto"
+                              style={{ display: "flex", alignItems: "center" }}
                             >
-                              <FormattedMessage id="agent.Search">
-                                {placeholder => 
-                              <input type="search" placeholder={placeholder} />}
-                              </FormattedMessage>
+                              <div className="shortCustom">
+                                <span className="icon-Asset-55"></span>
+                                <h6>Sort</h6>
+                              </div>
+                              <div className="shortCustom">
+                                <Dropdown
+                                  overlay={
+                                    <ul class="filterDrd">
+                                      <li>
+                                        <a href="#">
+                                          <span class="icon-logout"></span>
+                                          <FormattedMessage id="agent.All" />
+                                        </a>
+                                      </li>
+                                      <li>
+                                        <a href="#">
+                                          <span class="icon-logout"></span>
+                                          <FormattedMessage id="agent.Inactive" />
+                                        </a>
+                                      </li>
+                                      <li>
+                                        <a href="#">
+                                          <span class="icon-logout"></span>
+                                          <FormattedMessage id="agent.Active" />
+                                        </a>
+                                      </li>
+                                    </ul>
+                                  }
+                                  placement="bottomLeft"
+                                  trigger={["click"]}
+                                >
+                                  <div className="shortCustom01">
+                                    <span className="icon-Asset-54"></span>
+                                    <h6>
+                                      <FormattedMessage id="agent.Filter" />
+                                    </h6>
+                                  </div>
+                                </Dropdown>
+                              </div>
+                              <div
+                                className="search_w_merchant_m"
+                                style={{ width: "270px" }}
+                              >
+                                <FormattedMessage id="agent.Search">
+                                  {(placeholder) => (
+                                    <input
+                                      type="search"
+                                      placeholder={placeholder}
+                                    />
+                                  )}
+                                </FormattedMessage>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        {/* <div className="actionBtnWp">
+                          {/* <div className="actionBtnWp">
                                                 <span className="icon-Asset-51"></span>
                                                 <span className="icon-Asset-52"></span>
                                                 <span className="icon-Asset-53"></span>
                                             </div> */}
-                      </div>
-                      <div
-                        className="ag-theme-alpine agGridCustomize"
-                        style={{ height: 400, width: 100 + "%" }}
-                      >
-                        <AgGridReact
-                          rowHeight={55}
-                          defaultColDef={{ resizable: true }}
-                          onFirstDataRendered={this.onFirstDataRendered}
-                          columnDefs={this.state.columnDefs}
-                          rowData={this.state.rowData}
-                          pagination={true}
-                          onGridReady={this.onGridReady}
-                          onPaginationChanged={this.onPaginationChanged}
-                          paginationPageSize={10}
-                          suppressPaginationPanel={true}
-                        />
-                      </div>
-                      <div className="customAgFooter">
-                        <div className="showingFooter">
-                          <span><FormattedMessage id="agent.Showing" /></span>
-                          <span id="bTo"> </span>
-                          <span><FormattedMessage id="agent.To" /></span>
-                          <span id="afterTo"></span>
-                          <span><FormattedMessage id="agent.Of" /></span>
-                          <span id="totalPageSize"></span>
-                          <span><FormattedMessage id="agent.Entries" /></span>
                         </div>
-                        <div className="NextPrevW">
-                          <button
-                            className="NextPrev"
-                            onClick={() => this.onBtPrevious()}
-                          >
-                            <FormattedMessage id="agent.Prev" />
-                          </button>
-                          <span
-                            className="valueNextPrev"
-                            id="lbCurrentPage"
-                          ></span>
-                          <button
-                            className="NextPrev"
-                            onClick={() => this.onBtNext()}
-                          >
-                            <FormattedMessage id="agent.next" />
-                          </button>
+                        <div
+                          className="ag-theme-alpine agGridCustomize"
+                          style={{ height: 400, width: 100 + "%" }}
+                        >
+                          <AgGridReact
+                            rowHeight={55}
+                            defaultColDef={{ resizable: true }}
+                            onFirstDataRendered={this.onFirstDataRendered}
+                            columnDefs={this.state.columnDefs}
+                            rowData={this.state.rowData}
+                            pagination={true}
+                            onGridReady={this.onGridReady}
+                            onPaginationChanged={this.onPaginationChanged}
+                            paginationPageSize={10}
+                            suppressPaginationPanel={true}
+                          />
+                        </div>
+                        <div className="customAgFooter">
+                          <div className="showingFooter">
+                            <span>
+                              <FormattedMessage id="agent.Showing" />
+                            </span>
+                            <span id="bTo"> </span>
+                            <span>
+                              <FormattedMessage id="agent.To" />
+                            </span>
+                            <span id="afterTo"></span>
+                            <span>
+                              <FormattedMessage id="agent.Of" />
+                            </span>
+                            <span id="totalPageSize"></span>
+                            <span>
+                              <FormattedMessage id="agent.Entries" />
+                            </span>
+                          </div>
+                          <div className="NextPrevW">
+                            <button
+                              className="NextPrev"
+                              onClick={() => this.onBtPrevious()}
+                            >
+                              <FormattedMessage id="agent.Prev" />
+                            </button>
+                            <span
+                              className="valueNextPrev"
+                              id="lbCurrentPage"
+                            ></span>
+                            <button
+                              className="NextPrev"
+                              onClick={() => this.onBtNext()}
+                            >
+                              <FormattedMessage id="agent.next" />
+                            </button>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -610,8 +629,7 @@ class Packages extends Component {
               </div>
             </div>
           </div>
-        </div>
-      </>
+        </>
       </IntlProvider>
     );
   }

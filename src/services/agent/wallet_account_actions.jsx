@@ -1,8 +1,8 @@
 import axios from "axios";
-import actionType from "./actionType.js";
+import actionType from "./actionType";
 import URL from "../../Assets/config";
 import { toastr } from "react-redux-toastr";
-import { HideLoading, ShowLoading } from "../common/action.js";
+import { HideLoading, ShowLoading } from "../common/action";
 
 export const fetchAgentWallet = (token) => (dispatch) => {
   dispatch(ShowLoading());
@@ -19,8 +19,8 @@ export const fetchAgentWallet = (token) => (dispatch) => {
   });
   axios(config)
     .then((res) => {
-      dispatch(HideLoading())
-      toastr.success("Wallet Balance Fetched.")
+      dispatch(HideLoading());
+      toastr.success("Wallet Balance Fetched.");
       if (res.status === 200) {
         var walletData = res.data.find((wallet) => {
           return wallet.currencyCode.toLowerCase() === "xaf";
@@ -234,7 +234,7 @@ export const walletAccountOpeningAction = (payload) => (dispatch) => {
   axios(config)
     .then((res) => {
       if (res.status === 200) {
-        toastr.success("Wallet Account Processed Successfully.")
+        toastr.success("Wallet Account Processed Successfully.");
         dispatch({
           type: actionType.WALLET_ACCOUNT_OPENING_SUCCESS,
         });
@@ -269,7 +269,7 @@ export const walletAccountOpeningResendPinAction = (payload) => (dispatch) => {
   axios(config)
     .then((res) => {
       if (res.status === 200) {
-        toastr.success("OTP Resent..")
+        toastr.success("OTP Resent..");
         dispatch({
           type: actionType.WALLET_ACCOUNT_OPENING_SUCCESS,
         });
@@ -301,7 +301,7 @@ export const walletAccountOpeningVerifyPinAction = (payload) => (dispatch) => {
   axios(config)
     .then((res) => {
       if (res.status === 200) {
-        toastr.success("OTP Verified.")
+        toastr.success("OTP Verified.");
         dispatch({
           type: actionType.WALLET_ACCOUNT_OPENING_PIN_SUCCESS,
         });
@@ -334,7 +334,7 @@ export const walletAccountOpeningSetPasswordAction =
     axios(config)
       .then((res) => {
         if (res.status === 200) {
-          toastr.success("Password Set Successfully.")
+          toastr.success("Password Set Successfully.");
           dispatch({
             type: actionType.WALLET_ACCOUNT_OPENING_SET_PASSWORD_SUCCESS,
           });

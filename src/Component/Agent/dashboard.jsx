@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "../../css/dashboard.css";
 import Highcharts from "highcharts";
-import variablePie from "highcharts/modules/variable-pie.js";
+import variablePie from "highcharts/modules/variable-pie";
 import HighchartsReact from "highcharts-react-official";
 
 import ReactHighcharts from "react-highcharts";
@@ -912,9 +912,9 @@ class Dashboard extends Component {
   loadLocaleData = (locale) => {
     switch (locale) {
       case "fr":
-        return import("../i18n/messages/fr.js");
+        return import("../i18n/messages/fr");
       default:
-        return import("../i18n/messages/en.js");
+        return import("../i18n/messages/en");
     }
   };
 
@@ -996,7 +996,6 @@ class Dashboard extends Component {
           " " +
           nextProps.walletAccount.data.currencyCode,
       });
-
     }
 
     if (nextProps.profileImageStatus) {
@@ -1049,8 +1048,8 @@ class Dashboard extends Component {
         locale={this.state.language}
       >
         {this.state.agentType === "AGENT" ||
-          this.state.agentType === "AGENT_MEMBER" ||
-          this.state.agentType === "AGENT_BANKER" ? (
+        this.state.agentType === "AGENT_MEMBER" ||
+        this.state.agentType === "AGENT_BANKER" ? (
           <>
             <div className="main_contain agentdashboardStyle">
               <div className="dashboard_wraps">
@@ -1066,7 +1065,6 @@ class Dashboard extends Component {
                                   to="/Profile/linked-agents"
                                   style={{ textDecoration: "none" }}
                                 >
-
                                   <div className="dcard">
                                     <div className="icNa">
                                       <div className="cardrightVal">
@@ -1079,7 +1077,6 @@ class Dashboard extends Component {
                                       </div>
                                     </div>
                                   </div>
-
                                 </NavLink>
                               </div>
                             </>
@@ -1112,9 +1109,7 @@ class Dashboard extends Component {
                                   <NavLink
                                     to="/settings/agent-member"
                                     style={{ textDecoration: "none" }}
-                                  >
-
-                                  </NavLink>
+                                  ></NavLink>
                                   <div className="dcard">
                                     <div className="icNa">
                                       <div className="cardrightVal width50p">
@@ -1214,8 +1209,8 @@ class Dashboard extends Component {
                           {this.props.profile.loading
                             ? this.loadingProfileName()
                             : this.props.profile.data.firstName +
-                            " " +
-                            this.props.profile.data.lastName}
+                              " " +
+                              this.props.profile.data.lastName}
                         </div>
                         <div className="customdashboardrow1-label-whole">
                           <div className="customdashboardrow1-label">
@@ -1296,8 +1291,8 @@ class Dashboard extends Component {
                           {this.props.profile.loading
                             ? this.loadingProfileName()
                             : this.props.profile.data.firstName +
-                            " " +
-                            this.props.profile.data.lastName}
+                              " " +
+                              this.props.profile.data.lastName}
                         </div>
                         <div className="customdashboardrow1-label-whole">
                           <div className="customdashboardrow1-label">

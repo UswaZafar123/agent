@@ -3,7 +3,7 @@ import { persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage/session";
 import { reducer as toastrReducer } from "react-redux-toastr";
 import commoReducer from "../services/common/reducer";
-import agentReducer from "../services/agent/reducer.js";
+import agentReducer from "../services/agent/reducer";
 const rootPersistConfig = {
   key: "root",
   storage: storage,

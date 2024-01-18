@@ -14,7 +14,7 @@ import {
 } from "../../services/agent/action";
 
 import { connect } from "react-redux";
-import { FormattedMessage, IntlProvider } from 'react-intl';
+import { FormattedMessage, IntlProvider } from "react-intl";
 
 const { Option } = Select;
 
@@ -42,7 +42,7 @@ class AddTicket extends Component {
       text: "",
       uploads: [],
       messages: "",
-      language: ""
+      language: "",
     };
   }
 
@@ -229,22 +229,20 @@ class AddTicket extends Component {
   };
 
   async translationHelperFunction() {
-
     const messages = await this.loadLocaleData(localStorage.getItem("lang"));
     this.setState({
       messages: messages,
-      language: localStorage.getItem("lang")
+      language: localStorage.getItem("lang"),
     });
     // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
-
   }
 
   loadLocaleData = (locale) => {
     switch (locale) {
       case "fr":
-        return import("../i18n/messages/fr.js");
+        return import("../i18n/messages/fr");
       default:
-        return import("../i18n/messages/en.js");
+        return import("../i18n/messages/en");
     }
   };
 
@@ -275,7 +273,7 @@ class AddTicket extends Component {
 
       this.setState({
         messages: messages,
-        language: nextProps.language
+        language: nextProps.language,
       });
     }
   }
@@ -289,81 +287,85 @@ class AddTicket extends Component {
     ));
     return (
       <IntlProvider
-      messages={this.state.messages.default}
-      locale={this.state.language}
-    >
-      <div className="main_contain responsive_p addRicketP">
-        <div className="merch_m_list_w">
-          <div className="merch_list_card" id="merch_list_card">
-            <div className="section_custom">
-              <div className="sectionInn">
-                <div className="chartCard_w">
-                  <div className="chartCardTop">
-                    <div className="flCenterColumn">
-                      <h1 className="list_top_heading textAlignCenter">
-                        <FormattedMessage id="agent.AddTicket" />
-                      </h1>
+        messages={this.state.messages.default}
+        locale={this.state.language}
+      >
+        <div className="main_contain responsive_p addRicketP">
+          <div className="merch_m_list_w">
+            <div className="merch_list_card" id="merch_list_card">
+              <div className="section_custom">
+                <div className="sectionInn">
+                  <div className="chartCard_w">
+                    <div className="chartCardTop">
+                      <div className="flCenterColumn">
+                        <h1 className="list_top_heading textAlignCenter">
+                          <FormattedMessage id="agent.AddTicket" />
+                        </h1>
+                      </div>
                     </div>
-                  </div>
-                  <div
-                    className="filter_wrapper"
-                    style={{ paddingBottom: "12px" }}
-                  >
-                    <div className="addTInW">
-                      <div className="row" style={{ marginBottom: "24px" }}>
-                        <div className="col-md-3">
-                          <label className="formColLabel formCladdT text-right">
-                            {" "}
-                            <FormattedMessage id="agent.Subject" /><span className="mendot">*</span>
-                          </label>
-                        </div>
-                        <div className="col-md-6">
-                        <FormattedMessage id="agent.EnterSubject">
-                            {placeholder =>
-                          <input
-                            type="text"
-                            value={this.state.subject}
-                            placeholder={placeholder}
-                            style={{
-                              minHeight: "52px",
-                              fontSize: "18px",
-                              paddingLeft: "18px",
-                            }}
-                            name="subject"
-                            onChange={this.handleChange}
-                          />}
-                        </FormattedMessage>
-                          <br></br>
-                          <div style={{ color: "red" }}>
-                            {this.state.subjectError}
+                    <div
+                      className="filter_wrapper"
+                      style={{ paddingBottom: "12px" }}
+                    >
+                      <div className="addTInW">
+                        <div className="row" style={{ marginBottom: "24px" }}>
+                          <div className="col-md-3">
+                            <label className="formColLabel formCladdT text-right">
+                              {" "}
+                              <FormattedMessage id="agent.Subject" />
+                              <span className="mendot">*</span>
+                            </label>
+                          </div>
+                          <div className="col-md-6">
+                            <FormattedMessage id="agent.EnterSubject">
+                              {(placeholder) => (
+                                <input
+                                  type="text"
+                                  value={this.state.subject}
+                                  placeholder={placeholder}
+                                  style={{
+                                    minHeight: "52px",
+                                    fontSize: "18px",
+                                    paddingLeft: "18px",
+                                  }}
+                                  name="subject"
+                                  onChange={this.handleChange}
+                                />
+                              )}
+                            </FormattedMessage>
+                            <br></br>
+                            <div style={{ color: "red" }}>
+                              {this.state.subjectError}
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      <div className="row" style={{ marginBottom: "24px" }}>
-                        <div className="col-md-3">
-                          <label className="formColLabel formCladdT text-right">
-                          <FormattedMessage id="agent.Message" /><span className="mendot">*</span>
-                          </label>
-                        </div>
-                        <div className="col-md-6" style={{ height: "250px" }}>
-                          <FormattedMessage id="agent.Write Somthing...">
-                            {placeholder =>
-                          <ReactQuill
-                            theme="snow"
-                            height="200"
-                            style={{ height: "200px" }}
-                            value={this.state.text}
-                            placeholder={placeholder}
-                            onChange={this.handleProcedureContentChange}
-                          ></ReactQuill>}
-                          </FormattedMessage>
-                          <br></br>
-                          <div style={{ color: "red" }}>
-                            {this.state.textError}
+                        <div className="row" style={{ marginBottom: "24px" }}>
+                          <div className="col-md-3">
+                            <label className="formColLabel formCladdT text-right">
+                              <FormattedMessage id="agent.Message" />
+                              <span className="mendot">*</span>
+                            </label>
+                          </div>
+                          <div className="col-md-6" style={{ height: "250px" }}>
+                            <FormattedMessage id="agent.Write Somthing...">
+                              {(placeholder) => (
+                                <ReactQuill
+                                  theme="snow"
+                                  height="200"
+                                  style={{ height: "200px" }}
+                                  value={this.state.text}
+                                  placeholder={placeholder}
+                                  onChange={this.handleProcedureContentChange}
+                                ></ReactQuill>
+                              )}
+                            </FormattedMessage>
+                            <br></br>
+                            <div style={{ color: "red" }}>
+                              {this.state.textError}
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      {/* <div className="row" style={{marginBottom:"24px"}}>
+                        {/* <div className="row" style={{marginBottom:"24px"}}>
                                     <div className="col-md-3">
                                     <label className="formColLabel formCladdT"> User</label>
                                     </div>
@@ -372,77 +374,81 @@ class AddTicket extends Component {
                                     </div>
                                 </div> */}
 
-                      <div className="row" style={{ marginBottom: "24px" }}>
-                        <div className="col-md-3">
-                          <label className="formColLabel formCladdT text-right">
-                            {" "}
-                            <FormattedMessage id="agent.Priority" /><span className="mendot">*</span>
-                          </label>
-                        </div>
-                        <div className="col-md-6">
-                          <div className="categorySelect changedDropB">
-                            <Select
-                              style={{ width: 100 + "%", height: 52 }}
-                              value={this.state.priorityValue}
-                              name="priority"
-                              onChange={this.setPriority}
-                            >
-                              {this.state.priority &&
-                                this.state.priority.length > 0 &&
-                                this.state.priority.map((data) => {
-                                  return <Option value={data}>{data}</Option>;
-                                })}
-                            </Select>
+                        <div className="row" style={{ marginBottom: "24px" }}>
+                          <div className="col-md-3">
+                            <label className="formColLabel formCladdT text-right">
+                              {" "}
+                              <FormattedMessage id="agent.Priority" />
+                              <span className="mendot">*</span>
+                            </label>
+                          </div>
+                          <div className="col-md-6">
+                            <div className="categorySelect changedDropB">
+                              <Select
+                                style={{ width: 100 + "%", height: 52 }}
+                                value={this.state.priorityValue}
+                                name="priority"
+                                onChange={this.setPriority}
+                              >
+                                {this.state.priority &&
+                                  this.state.priority.length > 0 &&
+                                  this.state.priority.map((data) => {
+                                    return <Option value={data}>{data}</Option>;
+                                  })}
+                              </Select>
+                            </div>
                           </div>
                         </div>
-                      </div>
 
-                      <div className="row" style={{ marginBottom: "24px" }}>
-                        <div className="col-md-3">
-                          <label className="formColLabel formCladdT  text-right">
-                            {" "}
-                            <FormattedMessage id="agent.Attachment" />
-                          </label>
-                        </div>
-                        <div className="col-md-6">
-                          <Dropzone
-                            onDrop={(acceptedFiles) =>
-                              this.uploadDocuments(acceptedFiles)
-                            }
-                          >
-                            {({ getRootProps, getInputProps }) => (
-                              <section className="dropzone">
-                                <div {...getRootProps()}>
-                                  <input {...getInputProps()} />
-                                  <p>
-                                  <FormattedMessage id="agent.Dragdropsomefileshere,orselectfiles" />
-                                  </p>
-                                </div>
-                              </section>
-                            )}
-                          </Dropzone>
-                          <h4>{this.state.files.length > 0 ? "Files" : ""}</h4>
-                          <ul>{files}</ul>
-                        </div>
-                      </div>
-
-                      <div className="row">
-                        <div className="col-md-12">
-                          <div class="confirm_p_w mTB00">
-                            <button
-                              onClick={this.Cancel}
-                              class="aryousureBTN can"
-                              style={{ marginRight: "24px" }}
+                        <div className="row" style={{ marginBottom: "24px" }}>
+                          <div className="col-md-3">
+                            <label className="formColLabel formCladdT  text-right">
+                              {" "}
+                              <FormattedMessage id="agent.Attachment" />
+                            </label>
+                          </div>
+                          <div className="col-md-6">
+                            <Dropzone
+                              onDrop={(acceptedFiles) =>
+                                this.uploadDocuments(acceptedFiles)
+                              }
                             >
+                              {({ getRootProps, getInputProps }) => (
+                                <section className="dropzone">
+                                  <div {...getRootProps()}>
+                                    <input {...getInputProps()} />
+                                    <p>
+                                      <FormattedMessage id="agent.Dragdropsomefileshere,orselectfiles" />
+                                    </p>
+                                  </div>
+                                </section>
+                              )}
+                            </Dropzone>
+                            <h4>
+                              {this.state.files.length > 0 ? "Files" : ""}
+                            </h4>
+                            <ul>{files}</ul>
+                          </div>
+                        </div>
+
+                        <div className="row">
+                          <div className="col-md-12">
+                            <div class="confirm_p_w mTB00">
+                              <button
+                                onClick={this.Cancel}
+                                class="aryousureBTN can"
+                                style={{ marginRight: "24px" }}
+                              >
                                 <FormattedMessage id="cancel" />
-                            </button>
-                            <button
-                              // disabled={!this.state.formValid}
-                              class="aryousureBTN confirmBtnR"
-                              onClick={this.submitData}
-                            >
-                              <FormattedMessage id="submit" />
-                            </button>
+                              </button>
+                              <button
+                                // disabled={!this.state.formValid}
+                                class="aryousureBTN confirmBtnR"
+                                onClick={this.submitData}
+                              >
+                                <FormattedMessage id="submit" />
+                              </button>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -453,7 +459,6 @@ class AddTicket extends Component {
             </div>
           </div>
         </div>
-      </div>
       </IntlProvider>
     );
   }

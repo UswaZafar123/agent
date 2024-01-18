@@ -1,5 +1,5 @@
 import axios from "axios";
-import actionType from "./actionType.js";
+import actionType from "./actionType";
 import URL from "../../Assets/config";
 import { toastr } from "react-redux-toastr";
 

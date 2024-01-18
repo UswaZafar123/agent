@@ -260,6 +260,9 @@ dependencies:
   sweetalert2:
     specifier: ^11.1.4
     version: 11.10.3
+  validator:
+    specifier: ^13.11.0
+    version: 13.11.0
   web-vitals:
     specifier: ^1.1.1
     version: 1.1.2
@@ -7378,6 +7381,11 @@ packages:
 
   /uzip@0.20201231.0:
     resolution: {integrity: sha512-OZeJfZP+R0z9D6TmBgLq2LHzSSptGMGDGigGiEe0pr8UBe/7fdflgHlHBNDASTXB5jnFuxHpNaJywSg8YFeGng==}
+    dev: false
+
+  /validator@13.11.0:
+    resolution: {integrity: sha512-Ii+sehpSfZy+At5nPdnyMhx78fEoPDkR2XW/zimHEL3MyGJQOCQ7WeP20jPYRz7ZCpcKLB21NxuXHF3bxjStBQ==}
+    engines: {node: '>= 0.10'}
     dev: false
 
   /value-equal@1.0.1:

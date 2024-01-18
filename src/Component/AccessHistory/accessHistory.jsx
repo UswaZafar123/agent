@@ -14,7 +14,7 @@ import { DownOutlined } from "@ant-design/icons";
 import Approved from "../Alerts/Approved";
 import Reject from "../Alerts/Reject";
 import { connect } from "react-redux";
-import { FormattedMessage, IntlProvider } from 'react-intl';
+import { FormattedMessage, IntlProvider } from "react-intl";
 import { getAccessInfo } from "../../services/agent/action";
 const { Option } = Select;
 
@@ -94,7 +94,7 @@ class AccessHistoryAdmin extends Component {
         // {Approval_Date: "14 Dec 2020 (5:30 PM)", ID: "LDWOFPPW6YEOJ0001", Name: "Berger",Url:"crpto/send/success",Status:"Active",Change_Status:"De-Activate",Action:"View"},
       ],
       messages: "",
-      language: ""
+      language: "",
     };
   }
   onFirstDataRendered = (params) => {
@@ -161,7 +161,7 @@ class AccessHistoryAdmin extends Component {
         this.state.gridApi.paginationGetCurrentPage() + 1;
       document.getElementById("bTo").innerHTML =
         this.state.gridApi.paginationGetPageSize() *
-        this.state.gridApi.paginationGetCurrentPage() +
+          this.state.gridApi.paginationGetCurrentPage() +
         1;
 
       const changedV =
@@ -188,28 +188,26 @@ class AccessHistoryAdmin extends Component {
   };
 
   async translationHelperFunction() {
-
     const messages = await this.loadLocaleData(localStorage.getItem("lang"));
     this.setState({
       messages: messages,
-      language: localStorage.getItem("lang")
+      language: localStorage.getItem("lang"),
     });
     // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
-
   }
 
   loadLocaleData = (locale) => {
     switch (locale) {
       case "fr":
-        return import("../i18n/messages/fr.js");
+        return import("../i18n/messages/fr");
       default:
-        return import("../i18n/messages/en.js");
+        return import("../i18n/messages/en");
     }
   };
   componentDidMount = () => {
     this.props.getAccessInfo();
     this.translationHelperFunction();
-  }
+  };
 
   componentWillReceiveProps = async (nextProps) => {
     if (nextProps.AccessHistory) {
@@ -217,25 +215,24 @@ class AccessHistoryAdmin extends Component {
       var access =
         nextProps.accessHistoryData.accessInfo.length > 0
           ? nextProps.accessHistoryData.accessInfo.map((history) => {
-            Access_History.push({
-              Email: history.userEmail,
-              Browser: history.browser,
-              Date: history.date,
-            });
-          })
+              Access_History.push({
+                Email: history.userEmail,
+                Browser: history.browser,
+                Date: history.date,
+              });
+            })
           : [];
 
-      this.setState({ rowData: Access_History })
+      this.setState({ rowData: Access_History });
     } else {
-      this.setState({ rowData: [] })
-
+      this.setState({ rowData: [] });
     }
     if (nextProps.language) {
       const messages = await this.loadLocaleData(nextProps.language);
 
       this.setState({
         messages: messages,
-        language: nextProps.language
+        language: nextProps.language,
       });
     }
 
@@ -245,16 +242,15 @@ class AccessHistoryAdmin extends Component {
           { headerName: "E-mail", field: "Email", width: 350 },
           { headerName: "Navigateur", field: "Browser", width: 350 },
           { headerName: "Date et heure", field: "Date", width: 350 },
-        ]
+        ],
       });
-    }
-    else {
+    } else {
       this.setState({
         columnDefs: [
           { headerName: "Email", field: "Email", width: 350 },
           { headerName: "Browser", field: "Browser", width: 350 },
           { headerName: "Date and Time", field: "Date", width: 350 },
-        ]
+        ],
       });
     }
   };
@@ -282,10 +278,15 @@ class AccessHistoryAdmin extends Component {
                         </h1>
                       </div>
                     </div>
-                    <div className="chartCardMiddle" style={{ padding: "24px" }}>
+                    <div
+                      className="chartCardMiddle"
+                      style={{ padding: "24px" }}
+                    >
                       <div className="tableTop_wrapper">
                         <div className="disFl">
-                          <h5 className="show_pp margin_right8"><FormattedMessage id="agent.Show" /></h5>
+                          <h5 className="show_pp margin_right8">
+                            <FormattedMessage id="agent.Show" />
+                          </h5>
                           <div className="tableShowRecordPerPage">
                             <Select
                               defaultValue="10"
@@ -309,7 +310,9 @@ class AccessHistoryAdmin extends Component {
                           >
                             <div className="shortCustom">
                               <span className="icon-Asset-55"></span>
-                              <h6><FormattedMessage id="agent.Sort" /></h6>
+                              <h6>
+                                <FormattedMessage id="agent.Sort" />
+                              </h6>
                             </div>
                             <div className="shortCustom">
                               <Dropdown
@@ -317,17 +320,20 @@ class AccessHistoryAdmin extends Component {
                                   <ul class="filterDrd">
                                     <li>
                                       <a href="#">
-                                        <span class="icon-logout"></span><FormattedMessage id="agent.All" />
+                                        <span class="icon-logout"></span>
+                                        <FormattedMessage id="agent.All" />
                                       </a>
                                     </li>
                                     <li>
                                       <a href="#">
-                                        <span class="icon-logout"></span><FormattedMessage id="agent.Inactive" />
+                                        <span class="icon-logout"></span>
+                                        <FormattedMessage id="agent.Inactive" />
                                       </a>
                                     </li>
                                     <li>
                                       <a href="#">
-                                        <span class="icon-logout"></span><FormattedMessage id="agent.Active" />
+                                        <span class="icon-logout"></span>
+                                        <FormattedMessage id="agent.Active" />
                                       </a>
                                     </li>
                                   </ul>
@@ -337,7 +343,9 @@ class AccessHistoryAdmin extends Component {
                               >
                                 <div className="shortCustom01">
                                   <span className="icon-Asset-54"></span>
-                                  <h6><FormattedMessage id="agent.Filter" /></h6>
+                                  <h6>
+                                    <FormattedMessage id="agent.Filter" />
+                                  </h6>
                                 </div>
                               </Dropdown>
                             </div>
@@ -346,9 +354,12 @@ class AccessHistoryAdmin extends Component {
                               style={{ width: "270px" }}
                             >
                               <FormattedMessage id="agent.Search">
-                                {placeholder =>
-                                  <input type="search" placeholder={placeholder} />
-                                }
+                                {(placeholder) => (
+                                  <input
+                                    type="search"
+                                    placeholder={placeholder}
+                                  />
+                                )}
                               </FormattedMessage>
                             </div>
                           </div>
@@ -375,20 +386,28 @@ class AccessHistoryAdmin extends Component {
                           paginationPageSize={10}
                           suppressPaginationPanel={true}
 
-                        // paginationNumberFormatter={function (params) {
-                        //   return '[' + params.value.toLocaleString() + ']';
-                        // }}
+                          // paginationNumberFormatter={function (params) {
+                          //   return '[' + params.value.toLocaleString() + ']';
+                          // }}
                         />
                       </div>
                       <div className="customAgFooter">
                         <div className="showingFooter">
-                          <span><FormattedMessage id="agent.Showing" /></span>
+                          <span>
+                            <FormattedMessage id="agent.Showing" />
+                          </span>
                           <span id="bTo"> </span>
-                          <span><FormattedMessage id="agent.To" /></span>
+                          <span>
+                            <FormattedMessage id="agent.To" />
+                          </span>
                           <span id="afterTo"></span>
-                          <span><FormattedMessage id="agent.Of" /></span>
+                          <span>
+                            <FormattedMessage id="agent.Of" />
+                          </span>
                           <span id="totalPageSize"></span>
-                          <span><FormattedMessage id="agent.Entries" /></span>
+                          <span>
+                            <FormattedMessage id="agent.Entries" />
+                          </span>
                         </div>
                         <div className="NextPrevW">
                           <button
@@ -464,14 +483,12 @@ const mapStateToProps = ({ commonReducer, agentReducer }) => {
 
   return {
     accessInfo,
-    language
+    language,
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
-
   getAccessInfo: () => dispatch(getAccessInfo()),
-
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccessHistoryAdmin);

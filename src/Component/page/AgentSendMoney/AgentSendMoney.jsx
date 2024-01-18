@@ -12,16 +12,16 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import OtpInput from "react-otp-input";
 import { Select } from "antd";
 import { useSelector, useDispatch } from "react-redux";
-import actionType from "../../../services/agent/actionType.js";
+import actionType from "../../../services/agent/actionType";
 
 import feeConstants from "../../../Assets/feeConstants";
-import { FormattedMessage, IntlProvider } from 'react-intl';
+import { FormattedMessage, IntlProvider } from "react-intl";
 
 import {
   fetchFeeDetail,
   sendOtpToAgent,
   agentSendMoneyAction,
-} from "../../../services/agent/action.js";
+} from "../../../services/agent/action";
 
 const { Option } = Select;
 const resendTime = 30;
@@ -46,7 +46,7 @@ const AgentSendMoney = () => {
   const [messages, setMessages] = useState("");
   const [language, setLanguage] = useState("");
 
-  const lan = useSelector(state => state.commonReducer.language);
+  const lan = useSelector((state) => state.commonReducer.language);
 
   const dispatch = useDispatch();
   const agentProfile = useSelector((state) => state.agentReducer.profile.data);
@@ -69,15 +69,13 @@ const AgentSendMoney = () => {
   );
 
   useEffect(() => {
-
     if (feeDetail.transactionFee) {
-      setFee(feeDetail.transactionFee)
+      setFee(feeDetail.transactionFee);
     }
 
     if (feeDetail.feeId) {
       setFeeID(feeDetail.feeId);
     }
-
   }, [feeDetail]);
 
   useEffect(() => {
@@ -120,33 +118,29 @@ const AgentSendMoney = () => {
   }, [step, feeDetail, agentOtpSuccess, agentSendMoneySuccess]);
 
   useEffect(async () => {
-
     const messages = await loadLocaleData(localStorage.getItem("lang"));
     setMessages(messages);
 
     setLanguage(localStorage.getItem("lang"));
 
     // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
-
-  }, [])
+  }, []);
 
   const loadLocaleData = (locale) => {
     switch (locale) {
       case "fr":
-        return import("../../i18n/messages/fr.js");
+        return import("../../i18n/messages/fr");
       default:
-        return import("../../i18n/messages/en.js");
+        return import("../../i18n/messages/en");
     }
   };
 
   useEffect(async () => {
-
     const messages = await loadLocaleData(lan);
     setMessages(messages);
 
     setLanguage(lan);
-
-  }, [lan])
+  }, [lan]);
 
   const stepOneValidated = () => {
     return !(
@@ -237,8 +231,7 @@ const AgentSendMoney = () => {
       agentProfile.status
     );
     var requestObj = {
-      paymentMethodId:
-        feeConstants.constants.AGENT_WALLET_TO_AGENT_WALLET,
+      paymentMethodId: feeConstants.constants.AGENT_WALLET_TO_AGENT_WALLET,
       subscriptionPlanId: subscriptionId,
       currencyCode: "XAF",
       transactionAmount: amount,
@@ -278,65 +271,69 @@ const AgentSendMoney = () => {
 
   const sendMoneyForm = () => {
     return (
-      <IntlProvider
-      messages={messages.default}
-      locale={language}
-    >
-      <>
-        <div>
-          <div className="containerBiaN_f_col" style={{ padding: "0px" }}>
-            <label>
-              <FormattedMessage id="agent.AgentID" /> <span style={{ fontSize: "13px" }}><FormattedMessage id="agent.(withoutcountrycode)" /></span>{" "}
-              <span className="mantdat">*</span>
-            </label>
+      <IntlProvider messages={messages.default} locale={language}>
+        <>
+          <div>
+            <div className="containerBiaN_f_col" style={{ padding: "0px" }}>
+              <label>
+                <FormattedMessage id="agent.AgentID" />{" "}
+                <span style={{ fontSize: "13px" }}>
+                  <FormattedMessage id="agent.(withoutcountrycode)" />
+                </span>{" "}
+                <span className="mantdat">*</span>
+              </label>
+            </div>
+            <div className="containerBiaN_f_col" style={{ padding: "0px" }}>
+              <FormattedMessage id="agent.AgentID">
+                {(placeholder) => (
+                  <input
+                    placeholder={placeholder}
+                    type="number"
+                    value={agentId}
+                    onChange={(e) => setAgentId(e.target.value)}
+                  />
+                )}
+              </FormattedMessage>
+            </div>
           </div>
-          <div className="containerBiaN_f_col" style={{ padding: "0px" }}>
-            <FormattedMessage id="agent.AgentID">
-              {placeholder => 
-            <input
-              placeholder={placeholder}
-              type="number"
-              value={agentId}
-              onChange={(e) => setAgentId(e.target.value)}
-            />}
-            </FormattedMessage>
+          <div>
+            <div className="containerBiaN_f_col" style={{ padding: "0px" }}>
+              <label>
+                <FormattedMessage id="agent.Amount" />{" "}
+                <span className="mantdat">*</span>
+              </label>
+            </div>
+            <div className="containerBiaN_f_col" style={{ padding: "0px" }}>
+              <FormattedMessage id="agent.EnterAmount">
+                {(placeholder) => (
+                  <input
+                    placeholder={placeholder}
+                    type="number"
+                    value={amount}
+                    onChange={(e) => setAmount(e.target.value)}
+                  />
+                )}
+              </FormattedMessage>
+            </div>
           </div>
-        </div>
-        <div>
-          <div className="containerBiaN_f_col" style={{ padding: "0px" }}>
-            <label>
-            <FormattedMessage id="agent.Amount" /> <span className="mantdat">*</span>
-            </label>
+          <div>
+            <div className="containerBiaN_f_col" style={{ padding: "0px" }}>
+              <label>
+                <FormattedMessage id="agent.Reason" />{" "}
+                <span className="mantdat">*</span>
+              </label>
+            </div>
+            <div className="containerBiaN_f_col" style={{ padding: "0px" }}>
+              <textarea
+                id="w3review"
+                rows="4"
+                cols="50"
+                value={reason}
+                onChange={(e) => setReason(e.target.value)}
+              ></textarea>
+            </div>
           </div>
-          <div className="containerBiaN_f_col" style={{ padding: "0px" }}>
-          <FormattedMessage id="agent.EnterAmount">
-            {placeholder =>
-            <input
-              placeholder={placeholder}
-              type="number"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-            />}
-            </FormattedMessage>
-          </div>
-        </div>
-        <div>
-          <div className="containerBiaN_f_col" style={{ padding: "0px" }}>
-            <label>
-            <FormattedMessage id="agent.Reason" /> <span className="mantdat">*</span>
-            </label>
-          </div>
-          <div className="containerBiaN_f_col" style={{ padding: "0px" }}>
-            <textarea
-              id="w3review"
-              rows="4"
-              cols="50"
-              value={reason}
-              onChange={(e) => setReason(e.target.value)}
-            ></textarea>
-          </div>
-        </div>
-      </>
+        </>
       </IntlProvider>
     );
   };
@@ -373,8 +370,12 @@ const AgentSendMoney = () => {
                 <p style={{ fontWeight: "bold" }}>{`${fee} XAF`}</p>
               </div>
               <div style={{ display: "flex" }}>
-                <p style={{ marginRight: "16px", color: "gray" }}>Total Amount</p>
-                <p style={{ fontWeight: "bold" }}>{`${parseFloat(fee) + parseFloat(amount)} XAF`}</p>
+                <p style={{ marginRight: "16px", color: "gray" }}>
+                  Total Amount
+                </p>
+                <p style={{ fontWeight: "bold" }}>{`${
+                  parseFloat(fee) + parseFloat(amount)
+                } XAF`}</p>
               </div>
             </div>
           </div>
@@ -513,72 +514,74 @@ const AgentSendMoney = () => {
   };
 
   return (
-    <IntlProvider
-    messages={messages.default}
-    locale={language}
-  >
-    <div className="main_contain agentformCenter">
-      <div className="merch_m_list_w">
-        <div className="merch_list_card" id="merch_list_card">
-          <div className="section_custom">
-            <div className="sectionInn">
-              <div className="chartCard_w">
-                <div className="chartCardTop">
-                  <div className="kyccustomformheading">
-                    <h1
-                      className="list_top_heading textAlignCenter text-center"
-                      style={{ paddingLeft: "0px" }}
-                    >
-                      <FormattedMessage id="agent.SendMoneytoAgentWallet" />
-                    </h1>
+    <IntlProvider messages={messages.default} locale={language}>
+      <div className="main_contain agentformCenter">
+        <div className="merch_m_list_w">
+          <div className="merch_list_card" id="merch_list_card">
+            <div className="section_custom">
+              <div className="sectionInn">
+                <div className="chartCard_w">
+                  <div className="chartCardTop">
+                    <div className="kyccustomformheading">
+                      <h1
+                        className="list_top_heading textAlignCenter text-center"
+                        style={{ paddingLeft: "0px" }}
+                      >
+                        <FormattedMessage id="agent.SendMoneytoAgentWallet" />
+                      </h1>
+                    </div>
                   </div>
-                </div>
-                <div className="chartCardMiddle" style={{ padding: "24px" }}>
-                  <div
-                    // className={classes.root}
-                    style={{ width: "60%", margin: "auto" }}
-                  >
-                    <div style={{ margin: "16px 0px" }}>
-                      {(() => {
-                        switch (step) {
-                          case 1:
-                            return sendMoneyForm();
-                          case 2:
-                            return transactionDetails();
-                          case 3:
-                            return agentOtpType();
-                          case 4:
-                            return agentOtp();
-                          case 5:
-                            return transactionSuccess();
-                          default:
-                            return <div></div>;
-                        }
-                      })()}
-                      <div>
-                        <div className="confirm_p_w button-container rspacing">
-                          {(step !== 1) & (step !== 5) ? (
+                  <div className="chartCardMiddle" style={{ padding: "24px" }}>
+                    <div
+                      // className={classes.root}
+                      style={{ width: "60%", margin: "auto" }}
+                    >
+                      <div style={{ margin: "16px 0px" }}>
+                        {(() => {
+                          switch (step) {
+                            case 1:
+                              return sendMoneyForm();
+                            case 2:
+                              return transactionDetails();
+                            case 3:
+                              return agentOtpType();
+                            case 4:
+                              return agentOtp();
+                            case 5:
+                              return transactionSuccess();
+                            default:
+                              return <div></div>;
+                          }
+                        })()}
+                        <div>
+                          <div className="confirm_p_w button-container rspacing">
+                            {(step !== 1) & (step !== 5) ? (
+                              <button
+                                className="blackbtn aryousureBTN confirmBtnR"
+                                onClick={() => prevStep()}
+                              >
+                                Back
+                              </button>
+                            ) : (
+                              ""
+                            )}
                             <button
-                              className="blackbtn aryousureBTN confirmBtnR"
-                              onClick={() => prevStep()}
+                              className="aryousureBTN confirmBtnR"
+                              style={{
+                                opacity: isFormValidated() ? "1" : "0.5",
+                              }}
+                              disabled={isFormValidated() ? false : true}
+                              onClick={() => formSubmitAction()}
                             >
-                              Back
+                              {step === 4 ? (
+                                "Submit"
+                              ) : step === 5 ? (
+                                "Done"
+                              ) : (
+                                <FormattedMessage id="agent.Next" />
+                              )}
                             </button>
-                          ) : (
-                            ""
-                          )}
-                          <button
-                            className="aryousureBTN confirmBtnR"
-                            style={{ opacity: isFormValidated() ? "1" : "0.5" }}
-                            disabled={isFormValidated() ? false : true}
-                            onClick={() => formSubmitAction()}
-                          >
-                            {step === 4
-                              ? "Submit"
-                              : step === 5
-                                ? "Done"
-                                : <FormattedMessage id="agent.Next" />}
-                          </button>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -589,7 +592,6 @@ const AgentSendMoney = () => {
           </div>
         </div>
       </div>
-    </div>
     </IntlProvider>
   );
 };

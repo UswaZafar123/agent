@@ -12,14 +12,14 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import OtpInput from "react-otp-input";
 import { Button, Select } from "antd";
 import { useSelector, useDispatch } from "react-redux";
-import actionType from "../../../services/agent/actionType.js";
+import actionType from "../../../services/agent/actionType";
 import {
   fetchAgentProfile,
   verifyCustomer,
   sendOtpToAgent,
   initiateWalletCashDeposit,
   fetchFeeDetail,
-} from "../../../services/agent/action.js";
+} from "../../../services/agent/action";
 import feeConstants from "../../../Assets/feeConstants";
 
 import { FormattedMessage, IntlProvider } from "react-intl";
@@ -113,9 +113,9 @@ const WalletCashDeposit = () => {
   const loadLocaleData = (locale) => {
     switch (locale) {
       case "fr":
-        return import("../../i18n/messages/fr.js");
+        return import("../../i18n/messages/fr");
       default:
-        return import("../../i18n/messages/en.js");
+        return import("../../i18n/messages/en");
     }
   };
 

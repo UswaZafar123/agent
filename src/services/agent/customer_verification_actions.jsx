@@ -1,5 +1,5 @@
 import axios from "axios";
-import actionType from "./actionType.js";
+import actionType from "./actionType";
 import URL from "../../Assets/config";
 import { toastr } from "react-redux-toastr";
 
@@ -21,12 +21,12 @@ export const verifyCustomer = (token, data) => (dispatch) => {
       if (res.status === 200) {
         dispatch({
           type: actionType.CUSTOMER_VALIDATION_SUCCESS,
-          payload:res.data
+          payload: res.data,
         });
       }
     })
     .catch((error) => {
-      toastr.error("Error", error.response.data.detail)
+      toastr.error("Error", error.response.data.detail);
       dispatch({
         type: actionType.CUSTOMER_VALIDATION_ERROR,
       });

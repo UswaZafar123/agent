@@ -14,7 +14,7 @@ import { Button, Select } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { Card } from "react-bootstrap";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import actionType from "../../../services/agent/actionType.js";
+import actionType from "../../../services/agent/actionType";
 import { FormattedMessage, IntlProvider } from "react-intl";
 
 import {
@@ -23,7 +23,7 @@ import {
   sendOtpToCustomer,
   initiateBankCashWithdraw,
   fetchFeeDetail,
-} from "../../../services/agent/action.js";
+} from "../../../services/agent/action";
 import feeConstants from "../../../Assets/feeConstants";
 
 const { Option } = Select;
@@ -124,9 +124,9 @@ const BankCashWithdraw = () => {
   const loadLocaleData = (locale) => {
     switch (locale) {
       case "fr":
-        return import("../../i18n/messages/fr.js");
+        return import("../../i18n/messages/fr");
       default:
-        return import("../../i18n/messages/en.js");
+        return import("../../i18n/messages/en");
     }
   };
 

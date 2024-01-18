@@ -6,7 +6,11 @@ import axios from "axios";
 import { FormattedMessage, IntlProvider, injectIntl } from "react-intl";
 import Logo from "./../../Assets/images/logo.png";
 import NavBar from "./../common/register/NavBar";
-import { addAccessInfo, loginAgent, loginAgentFailure } from "../../services/agent/action.js";
+import {
+  addAccessInfo,
+  loginAgent,
+  loginAgentFailure,
+} from "../../services/agent/action";
 
 class Login extends Component {
   constructor() {
@@ -38,22 +42,20 @@ class Login extends Component {
   }
 
   async translationHelperFunction() {
-
     const messages = await this.loadLocaleData(localStorage.getItem("lang"));
     this.setState({
       messages: messages,
-      language: localStorage.getItem("lang")
+      language: localStorage.getItem("lang"),
     });
     // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
-
   }
 
   loadLocaleData = (locale) => {
     switch (locale) {
       case "fr":
-        return import("../i18n/messages/fr.js");
+        return import("../i18n/messages/fr");
       default:
-        return import("../i18n/messages/en.js");
+        return import("../i18n/messages/en");
     }
   };
 
@@ -137,15 +139,8 @@ class Login extends Component {
   // submit function for login - for hitting Login API in redux actions //
   handleSubmit = (e) => {
     e.preventDefault();
-    let {
-      email,
-      loginPassword,
-      twoFactorblock,
-      ipAddress,
-      browser,
-      os,
-      code,
-    } = this.state;
+    let { email, loginPassword, twoFactorblock, ipAddress, browser, os, code } =
+      this.state;
 
     browser = os + "-" + browser;
     let accessPayload = {
@@ -175,20 +170,27 @@ class Login extends Component {
   detectBrowser = () => {
     var browserName = (function (agent) {
       switch (true) {
-        case agent.indexOf("edge") > -1: return "MS Edge";
-        case agent.indexOf("edg/") > -1: return "Edge ( chromium based)";
-        case agent.indexOf("opr") > -1 && !!window.opr: return "Opera";
-        case agent.indexOf("chrome") > -1 && !!window.chrome: return "Chrome";
-        case agent.indexOf("trident") > -1: return "MS IE";
-        case agent.indexOf("firefox") > -1: return "Mozilla Firefox";
-        case agent.indexOf("safari") > -1: return "Safari";
-        default: return "other";
+        case agent.indexOf("edge") > -1:
+          return "MS Edge";
+        case agent.indexOf("edg/") > -1:
+          return "Edge ( chromium based)";
+        case agent.indexOf("opr") > -1 && !!window.opr:
+          return "Opera";
+        case agent.indexOf("chrome") > -1 && !!window.chrome:
+          return "Chrome";
+        case agent.indexOf("trident") > -1:
+          return "MS IE";
+        case agent.indexOf("firefox") > -1:
+          return "Mozilla Firefox";
+        case agent.indexOf("safari") > -1:
+          return "Safari";
+        default:
+          return "other";
       }
     })(window.navigator.userAgent.toLowerCase());
 
-
     return browserName;
-  }
+  };
 
   componentWillReceiveProps = async (nextProps) => {
     let userType;
@@ -197,7 +199,7 @@ class Login extends Component {
       this.setState({ loginPasswordError: null });
       this.setState({ showLoginError: false });
 
-       this.props.history.push('/agent')
+      this.props.history.push("/agent");
     } else {
       this.setState({ showLoginError: true });
 
@@ -245,7 +247,7 @@ class Login extends Component {
 
       this.setState({
         messages: messages,
-        language: nextProps.language
+        language: nextProps.language,
       });
     }
   };
@@ -296,7 +298,9 @@ class Login extends Component {
               <div className="col-sm-12 loginContainer">
                 <div className="loginInner">
                   <div className="loginInform">
-                    <h4 aria-label="vinod is working"><FormattedMessage id="agent.agentlogin" /></h4>
+                    <h4 aria-label="vinod is working">
+                      <FormattedMessage id="agent.agentlogin" />
+                    </h4>
 
                     <div style={{ color: "red" }}>{this.props.login}</div>
                     <div style={{ color: "red" }}></div>
@@ -398,10 +402,15 @@ class Login extends Component {
                       <div className="form-group">
                         <span>
                           <input type="checkbox" />
-                          <label><FormattedMessage id="agent.rememberme" /></label>
+                          <label>
+                            <FormattedMessage id="agent.rememberme" />
+                          </label>
                         </span>
                         <span>
-                          <NavLink to="/agent/forgotPassword" className="forgetPass">
+                          <NavLink
+                            to="/agent/forgotPassword"
+                            className="forgetPass"
+                          >
                             <FormattedMessage id="login.forogtpassword" />
                           </NavLink>
                         </span>
@@ -450,7 +459,8 @@ class Login extends Component {
 
 // function for mapping redux state values with props //
 const mapStateToProps = ({ agentReducer, commonReducer }) => {
-  const { agentLoginstatus, addAccessInfoStatus, addAccessInfoData } = agentReducer;
+  const { agentLoginstatus, addAccessInfoStatus, addAccessInfoData } =
+    agentReducer;
   const { language } = commonReducer;
   return {
     agentLoginstatus,
@@ -464,7 +474,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     loginAgent: (data) => dispatch(loginAgent(data)),
     loginAgentFailure: () => dispatch(loginAgentFailure()),
-    addAccessInfo: (payload) => dispatch(addAccessInfo(payload))
+    addAccessInfo: (payload) => dispatch(addAccessInfo(payload)),
   };
 };
 

@@ -10,47 +10,42 @@ function AgentRegistration(props) {
   const [messages, setMessages] = useState("");
   const [language, setLanguage] = useState("");
 
-  const lan = useSelector(state => state.commonReducer.language)
+  const lan = useSelector((state) => state.commonReducer.language);
 
   useEffect(async () => {
-
     const messages = await loadLocaleData(localStorage.getItem("lang"));
     setMessages(messages);
 
     setLanguage(localStorage.getItem("lang"));
 
     // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
-
-  }, [])
+  }, []);
 
   useEffect(async () => {
-
     const messages = await loadLocaleData(lan);
     setMessages(messages);
 
     setLanguage(lan);
-
-  }, [lan])
+  }, [lan]);
 
   const loadLocaleData = (locale) => {
     switch (locale) {
       case "fr":
-        return import("../../i18n/messages/fr.js");
+        return import("../../i18n/messages/fr");
       default:
-        return import("../../i18n/messages/en.js");
+        return import("../../i18n/messages/en");
     }
   };
 
   return (
     <Fragment>
       <NavBar />
-      <IntlProvider
-        messages={messages.default}
-        locale={language}
-      >
+      <IntlProvider messages={messages.default} locale={language}>
         <InnerWrapper className="agent-registration-container">
           <div className="agent-cat-box">
-            <h2><FormattedMessage id='agent.selectTypeAccount' /></h2>
+            <h2>
+              <FormattedMessage id="agent.selectTypeAccount" />
+            </h2>
             {/* <h2>Please select the type of Account you want to Open </h2> */}
             <ul>
               <li

@@ -54,9 +54,9 @@ const IntraBankTransfer = () => {
   const loadLocaleData = (locale) => {
     switch (locale) {
       case "fr":
-        return import("../i18n/messages/fr.js");
+        return import("../i18n/messages/fr");
       default:
-        return import("../i18n/messages/en.js");
+        return import("../i18n/messages/en");
     }
   };
 
@@ -71,7 +71,10 @@ const IntraBankTransfer = () => {
     return (
       <>
         <div className="containerBiaN_form">
-          <div className="containerBiaN_f_row" style={{ justifyContent: "center" }}>
+          <div
+            className="containerBiaN_f_row"
+            style={{ justifyContent: "center" }}
+          >
             <div className="containerBiaN_f_col width30percent textAlignRight">
               <label>
                 <FormattedMessage id="agent.BankCustomerID" />{" "}
@@ -91,7 +94,10 @@ const IntraBankTransfer = () => {
               </FormattedMessage>
             </div>
           </div>
-          <div className="containerBiaN_f_row" style={{ justifyContent: "center" }}>
+          <div
+            className="containerBiaN_f_row"
+            style={{ justifyContent: "center" }}
+          >
             <div className="containerBiaN_f_col width30percent textAlignRight">
               <label>
                 <FormattedMessage id="agent.phonenumber" />{" "}
@@ -111,7 +117,10 @@ const IntraBankTransfer = () => {
               </FormattedMessage>
             </div>
           </div>
-          <div className="containerBiaN_f_row" style={{ justifyContent: "center" }}>
+          <div
+            className="containerBiaN_f_row"
+            style={{ justifyContent: "center" }}
+          >
             <div className="containerBiaN_f_col width30percent textAlignRight">
               <label>
                 <FormattedMessage id="agent.DocumentType" />{" "}
@@ -136,7 +145,10 @@ const IntraBankTransfer = () => {
               </div>
             </div>
           </div>
-          <div className="containerBiaN_f_row" style={{ justifyContent: "center" }}>
+          <div
+            className="containerBiaN_f_row"
+            style={{ justifyContent: "center" }}
+          >
             <div className="containerBiaN_f_col width30percent textAlignRight">
               <label>
                 <FormattedMessage id="agent.IDDocumentNumber" />{" "}
@@ -160,19 +172,21 @@ const IntraBankTransfer = () => {
     );
   };
 
-  const [receiverBankAccountNumber, setReceiverBankAccountNumber] = useState("");
+  const [receiverBankAccountNumber, setReceiverBankAccountNumber] =
+    useState("");
   const [receiverBankKey, setReceiverBankKey] = useState("");
   const [currency, setCurrency] = useState("");
 
   const IntraBankTransferForm = () => {
     return (
       <div className="containerBiaN_form">
-
-        <div className="containerBiaN_f_row" style={{ justifyContent: "center" }}>
+        <div
+          className="containerBiaN_f_row"
+          style={{ justifyContent: "center" }}
+        >
           <div className="containerBiaN_f_col width30percent textAlignRight">
             <label>
-              Sender Bank Account{" "}
-              <span className="mantdat">*</span>
+              Sender Bank Account <span className="mantdat">*</span>
             </label>
           </div>
           <div className="containerBiaN_f_col width70percent">
@@ -189,13 +203,14 @@ const IntraBankTransfer = () => {
             </div>
           </div>
         </div>
-        
 
-        <div className="containerBiaN_f_row" style={{ justifyContent: "center" }}>
+        <div
+          className="containerBiaN_f_row"
+          style={{ justifyContent: "center" }}
+        >
           <div className="containerBiaN_f_col width30percent textAlignRight">
             <label>
-              Receiver Bank Account Number{" "}
-              <span className="mantdat">*</span>
+              Receiver Bank Account Number <span className="mantdat">*</span>
             </label>
           </div>
           <div className="containerBiaN_f_col width70percent">
@@ -208,11 +223,13 @@ const IntraBankTransfer = () => {
           </div>
         </div>
 
-        <div className="containerBiaN_f_row" style={{ justifyContent: "center" }}>
+        <div
+          className="containerBiaN_f_row"
+          style={{ justifyContent: "center" }}
+        >
           <div className="containerBiaN_f_col width30percent textAlignRight">
             <label>
-              Receiver Bank Key{" "}
-              <span className="mantdat">*</span>
+              Receiver Bank Key <span className="mantdat">*</span>
             </label>
           </div>
           <div className="containerBiaN_f_col width70percent">
@@ -225,11 +242,13 @@ const IntraBankTransfer = () => {
           </div>
         </div>
 
-        <div className="containerBiaN_f_row" style={{ justifyContent: "center" }}>
+        <div
+          className="containerBiaN_f_row"
+          style={{ justifyContent: "center" }}
+        >
           <div className="containerBiaN_f_col width30percent textAlignRight">
             <label>
-              Currency{" "}
-              <span className="mantdat">*</span>
+              Currency <span className="mantdat">*</span>
             </label>
           </div>
           <div className="containerBiaN_f_col width70percent">
@@ -247,11 +266,13 @@ const IntraBankTransfer = () => {
           </div>
         </div>
 
-        <div className="containerBiaN_f_row" style={{ justifyContent: "center" }}>
+        <div
+          className="containerBiaN_f_row"
+          style={{ justifyContent: "center" }}
+        >
           <div className="containerBiaN_f_col width30percent textAlignRight">
             <label>
-              Amount{" "}
-              <span className="mantdat">*</span>
+              Amount <span className="mantdat">*</span>
             </label>
           </div>
           <div className="containerBiaN_f_col width70percent">
@@ -264,11 +285,13 @@ const IntraBankTransfer = () => {
           </div>
         </div>
 
-        <div className="containerBiaN_f_row" style={{ justifyContent: "center" }}>
+        <div
+          className="containerBiaN_f_row"
+          style={{ justifyContent: "center" }}
+        >
           <div className="containerBiaN_f_col width30percent textAlignRight">
             <label>
-              Reason{" "}
-              <span className="mantdat">*</span>
+              Reason <span className="mantdat">*</span>
             </label>
           </div>
           <div className="containerBiaN_f_col width70percent">
@@ -281,53 +304,58 @@ const IntraBankTransfer = () => {
           </div>
         </div>
       </div>
-    )
-  }
+    );
+  };
 
   const transactionDetails = () => {
     return (
       <>
         <div className="containerBiaN_form" style={{ width: "100%" }}>
-          <div className="containerBiaN_f_row" style={{ justifyContent: "center" }}>
+          <div
+            className="containerBiaN_f_row"
+            style={{ justifyContent: "center" }}
+          >
             <div className="containerBiaN_f_col width40percent textAlignRight"></div>
             <div className="containerBiaN_f_col width60percent">
               <h2>Transaction Detail</h2>
             </div>
           </div>
-          <div className="containerBiaN_f_row" style={{ justifyContent: "center" }}>
+          <div
+            className="containerBiaN_f_row"
+            style={{ justifyContent: "center" }}
+          >
             <div className="containerBiaN_f_col width30percent"></div>
             <div className="containerBiaN_f_col width70percent">
               <div style={{ display: "flex" }}>
                 <p style={{ marginRight: "16px", color: "gray" }}>
                   Sender Bank Account
                 </p>
-                <p style={{ fontWeight: "bold" }}>XXXX-XXXX-XXXXXXXXX-XXX-XXX</p>
+                <p style={{ fontWeight: "bold" }}>
+                  XXXX-XXXX-XXXXXXXXX-XXX-XXX
+                </p>
               </div>
               <div style={{ display: "flex" }}>
                 <p style={{ marginRight: "16px", color: "gray" }}>
                   Receiver Wallet ID
                 </p>
-                <p style={{ fontWeight: "bold" }}>XXXXXXX
-                </p>
+                <p style={{ fontWeight: "bold" }}>XXXXXXX</p>
               </div>
               <div style={{ display: "flex" }}>
                 <p style={{ marginRight: "16px", color: "gray" }}>Amount</p>
-                <p style={{ fontWeight: "bold" }}>XXXX
-                </p>
+                <p style={{ fontWeight: "bold" }}>XXXX</p>
               </div>
               <div style={{ display: "flex" }}>
                 <p style={{ marginRight: "16px", color: "gray" }}>Fee</p>
-                <p style={{ fontWeight: "bold" }}>XX
-                </p>
+                <p style={{ fontWeight: "bold" }}>XX</p>
               </div>
               <div style={{ display: "flex" }}>
                 <p style={{ marginRight: "16px", color: "gray" }}>Total</p>
-                <p style={{ fontWeight: "bold" }}>XXXXXX
-                </p>
+                <p style={{ fontWeight: "bold" }}>XXXXXX</p>
               </div>
               <div style={{ display: "flex" }}>
                 <p style={{ marginRight: "16px", color: "gray" }}>Reason</p>
-                <p style={{ fontWeight: "bold" }}>XXXXXXXXXXXXXXXXXXXXXXXXXXXX
+                <p style={{ fontWeight: "bold" }}>
+                  XXXXXXXXXXXXXXXXXXXXXXXXXXXX
                 </p>
               </div>
             </div>
@@ -341,7 +369,10 @@ const IntraBankTransfer = () => {
     return (
       <>
         <div className="containerBiaN_form" style={{ width: "100%" }}>
-          <div className="containerBiaN_f_row" style={{ justifyContent: "center" }}>
+          <div
+            className="containerBiaN_f_row"
+            style={{ justifyContent: "center" }}
+          >
             <div className="containerBiaN_f_col textAlignRight">
               <label>
                 Enter OTP <span className="mantdat">*</span>
@@ -373,15 +404,31 @@ const IntraBankTransfer = () => {
               />
             </div>
           </div>
-          <div className="containerBiaN_f_row" style={{ justifyContent: "center" }}>
-            <div className="containerBiaN_f_col" style={{ paddingLeft: "0px", paddingRight: "0px" }}>
-
-            </div>
-            <div className="containerBiaN_f_col" style={{ paddingLeft: "0px", paddingRight: "0px" }}>
+          <div
+            className="containerBiaN_f_row"
+            style={{ justifyContent: "center" }}
+          >
+            <div
+              className="containerBiaN_f_col"
+              style={{ paddingLeft: "0px", paddingRight: "0px" }}
+            ></div>
+            <div
+              className="containerBiaN_f_col"
+              style={{ paddingLeft: "0px", paddingRight: "0px" }}
+            >
               {/* Didn't Receive OTP ? */}
             </div>
-            <div className="containerBiaN_f_col" style={{ paddingLeft: "5px", paddingRight: "0px" }}>
-              <button style={{ border: "none", backgroundColor: "transparent", textDecoration: "underline" }}>
+            <div
+              className="containerBiaN_f_col"
+              style={{ paddingLeft: "5px", paddingRight: "0px" }}
+            >
+              <button
+                style={{
+                  border: "none",
+                  backgroundColor: "transparent",
+                  textDecoration: "underline",
+                }}
+              >
                 Resend OTP
               </button>
             </div>
@@ -450,7 +497,7 @@ const IntraBankTransfer = () => {
     } else if (step === 4) {
       setStep(0);
     }
-  }
+  };
 
   const prevStep = () => {
     if (step === 1) {
@@ -460,7 +507,7 @@ const IntraBankTransfer = () => {
     } else if (step === 3) {
       setStep(2);
     }
-  }
+  };
 
   const resendAgentOtp = () => {
     // setOtpTimer(resendTime);
@@ -498,58 +545,33 @@ const IntraBankTransfer = () => {
                   </div>
                   <div className="chartCardMiddle" style={{ padding: "24px" }}>
                     <>
-                      {
-                        step === 0 && (
-                          walletVerificationForm()
-                        )
-                      }
-                      {
-                        step === 1 && (
-                          IntraBankTransferForm()
-                        )
-                      }
-                      {
-                        step === 2 && (
-                          transactionDetails()
-                        )
-                      }
-                      {
-                        step === 3 && (
-                          customerOTP()
-                        )
-                      }
-                      {
-                        step === 4 && (
-                          transactionSuccess()
-                        )
-                      }
-
+                      {step === 0 && walletVerificationForm()}
+                      {step === 1 && IntraBankTransferForm()}
+                      {step === 2 && transactionDetails()}
+                      {step === 3 && customerOTP()}
+                      {step === 4 && transactionSuccess()}
                     </>
                   </div>
                   <hr />
                   <div style={{ width: "100%", float: "left" }}>
                     <div className="confirm_p_w mTB00 button-container rspacing">
-                      {
-                        step > 0 && step < 4 ? (
-                          <>
-                            <Button
-                              className="blackbtn aryousureBTN confirmBtnR"
-                              onClick={() => prevStep()}
-                            >
-                              Back
-                            </Button>
-                          </>
-                        ) : (
-                          <></>
-                        )
-                      }
+                      {step > 0 && step < 4 ? (
+                        <>
+                          <Button
+                            className="blackbtn aryousureBTN confirmBtnR"
+                            onClick={() => prevStep()}
+                          >
+                            Back
+                          </Button>
+                        </>
+                      ) : (
+                        <></>
+                      )}
                       <Button
                         className="aryousureBTN confirmBtnR"
                         onClick={() => stepChange()}
                       >
-                        {
-                          step === 4 ? "Done" : "Next"
-                        }
+                        {step === 4 ? "Done" : "Next"}
                       </Button>
                     </div>
                   </div>

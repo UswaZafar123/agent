@@ -7,7 +7,7 @@ import validator from "validator";
 
 import OtpInput from "react-otp-input";
 import { useSelector, useDispatch } from "react-redux";
-import actionType from "../../services/agent/actionType.js";
+import actionType from "../../services/agent/actionType";
 import Grid from "@material-ui/core/Grid";
 import moment from "moment";
 import { Select, DatePicker, Upload, Modal } from "antd";
@@ -139,9 +139,9 @@ const WalletAccountOpening = () => {
   const loadLocaleData = (locale) => {
     switch (locale) {
       case "fr":
-        return import("../i18n/messages/fr.js");
+        return import("../i18n/messages/fr");
       default:
-        return import("../i18n/messages/en.js");
+        return import("../i18n/messages/en");
     }
   };
 
@@ -242,20 +242,20 @@ const WalletAccountOpening = () => {
       formState.customerType === "EXISTING_BANK_CUSTOMER"
       ? formState.bankCustomerId
       : true &&
-      formState.firstName &&
-      formState.lastName &&
-      formState.email &&
-      formState.countryCode &&
-      formState.phoneNumber &&
-      formState.dateOfBirth &&
-      formState.idDocumentType &&
-      formState.idDocumentNumber &&
-      formState.idDocumentExpiryDate &&
-      formState.city &&
-      formState.address &&
-      formState.selfiePhoto &&
-      formState.IdDocumentsFiles &&
-      !walletAccountOpeningLoading;
+          formState.firstName &&
+          formState.lastName &&
+          formState.email &&
+          formState.countryCode &&
+          formState.phoneNumber &&
+          formState.dateOfBirth &&
+          formState.idDocumentType &&
+          formState.idDocumentNumber &&
+          formState.idDocumentExpiryDate &&
+          formState.city &&
+          formState.address &&
+          formState.selfiePhoto &&
+          formState.IdDocumentsFiles &&
+          !walletAccountOpeningLoading;
   };
 
   const stepTwoValidated = () => {
@@ -457,14 +457,13 @@ const WalletAccountOpening = () => {
 
   const walletAccountOpeningForm = () => {
     return (
-      <IntlProvider
-        messages={messages.default}
-        locale={language}
-      >
+      <IntlProvider messages={messages.default} locale={language}>
         <>
           <Grid container spacing={3}>
             <Grid item xs={12} sm={6}>
-              <label className="non-afb-label"><FormattedMessage id="agent.CustomerType" /></label>
+              <label className="non-afb-label">
+                <FormattedMessage id="agent.CustomerType" />
+              </label>
               <div className="inputFlash">
                 <div className="categorySelect">
                   <Select
@@ -490,10 +489,13 @@ const WalletAccountOpening = () => {
             </Grid>
             {formState.customerType === "EXISTING_BANK_CUSTOMER" && (
               <Grid item xs={12} sm={6}>
-                <label className="non-afb-label"> <FormattedMessage id="agent.BankCustomerID" /> </label>
+                <label className="non-afb-label">
+                  {" "}
+                  <FormattedMessage id="agent.BankCustomerID" />{" "}
+                </label>
                 <div className="inputFlash">
                   <FormattedMessage id="agent.BankCustomerID">
-                    {placeholder =>
+                    {(placeholder) => (
                       <input
                         type="number"
                         placeholder={placeholder}
@@ -505,17 +507,21 @@ const WalletAccountOpening = () => {
                             bankCustomerId: e.target.value,
                           });
                         }}
-                      />}
+                      />
+                    )}
                   </FormattedMessage>
                 </div>
               </Grid>
             )}
 
             <Grid item xs={12} sm={6}>
-              <label className="non-afb-label"> <FormattedMessage id="agent.FirstName" /> </label>
+              <label className="non-afb-label">
+                {" "}
+                <FormattedMessage id="agent.FirstName" />{" "}
+              </label>
               <div className="inputFlash">
                 <FormattedMessage id="agent.FirstName">
-                  {placeholder =>
+                  {(placeholder) => (
                     <input
                       type="text"
                       placeholder={placeholder}
@@ -527,15 +533,19 @@ const WalletAccountOpening = () => {
                           firstName: e.target.value,
                         });
                       }}
-                    />}
+                    />
+                  )}
                 </FormattedMessage>
               </div>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <label className="non-afb-label"> <FormattedMessage id="agent.LastName" /> </label>
+              <label className="non-afb-label">
+                {" "}
+                <FormattedMessage id="agent.LastName" />{" "}
+              </label>
               <div className="inputFlash">
                 <FormattedMessage id="agent.LastName">
-                  {placeholder =>
+                  {(placeholder) => (
                     <input
                       type="text"
                       placeholder={placeholder}
@@ -548,16 +558,19 @@ const WalletAccountOpening = () => {
                           lastName: e.target.value,
                         });
                       }}
-                    />}
+                    />
+                  )}
                 </FormattedMessage>
               </div>
             </Grid>
 
             <Grid item xs={12} sm={6}>
-              <label className="non-afb-label"><FormattedMessage id="agent.EmailId" /> </label>
+              <label className="non-afb-label">
+                <FormattedMessage id="agent.EmailId" />{" "}
+              </label>
               <div className="inputFlash">
                 <FormattedMessage id="agent.Email">
-                  {placeholder =>
+                  {(placeholder) => (
                     <input
                       type="email"
                       placeholder={placeholder}
@@ -570,12 +583,15 @@ const WalletAccountOpening = () => {
                           email: e.target.value,
                         });
                       }}
-                    />}
+                    />
+                  )}
                 </FormattedMessage>
               </div>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <label className="non-afb-label"><FormattedMessage id="agent.CountryCode" /></label>
+              <label className="non-afb-label">
+                <FormattedMessage id="agent.CountryCode" />
+              </label>
               <div className="inputFlash">
                 <div className="categorySelect">
                   <Select
@@ -612,10 +628,12 @@ const WalletAccountOpening = () => {
               </div>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <label className="non-afb-label"><FormattedMessage id="agent.MobileNumber" /> </label>
+              <label className="non-afb-label">
+                <FormattedMessage id="agent.MobileNumber" />{" "}
+              </label>
               <div className="inputFlash">
                 <FormattedMessage id="agent.MobileNumber">
-                  {placeholder =>
+                  {(placeholder) => (
                     <input
                       type="number"
                       placeholder={placeholder}
@@ -627,12 +645,16 @@ const WalletAccountOpening = () => {
                           phoneNumber: e.target.value,
                         });
                       }}
-                    />}
+                    />
+                  )}
                 </FormattedMessage>
               </div>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <label className="non-afb-label"> <FormattedMessage id="agent.dob" /> </label>
+              <label className="non-afb-label">
+                {" "}
+                <FormattedMessage id="agent.dob" />{" "}
+              </label>
               <div className="inputFlash">
                 <DatePicker
                   format="YYYY-MM-DD"
@@ -648,7 +670,9 @@ const WalletAccountOpening = () => {
               </div>
             </Grid>
             <Grid item xs={12} sm={6} style={{ marginBottom: "50px" }}>
-              <label className="non-afb-label"><FormattedMessage id="agent.Picture(Selfie)" /></label>
+              <label className="non-afb-label">
+                <FormattedMessage id="agent.Picture(Selfie)" />
+              </label>
               <div className="inputFlash">
                 <Upload
                   listType="picture-card"
@@ -676,7 +700,9 @@ const WalletAccountOpening = () => {
               </div>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <label className="non-afb-label"><FormattedMessage id="agent.DocumentType" /></label>
+              <label className="non-afb-label">
+                <FormattedMessage id="agent.DocumentType" />
+              </label>
               <div className="inputFlash">
                 <div className="categorySelect">
                   <Select
@@ -690,17 +716,23 @@ const WalletAccountOpening = () => {
                       });
                     }}
                   >
-                    <Option value="ID_CARD"><FormattedMessage id="agent.IDCard" /></Option>
-                    <Option value="PASSPORT"><FormattedMessage id="agent.Passport" /></Option>
+                    <Option value="ID_CARD">
+                      <FormattedMessage id="agent.IDCard" />
+                    </Option>
+                    <Option value="PASSPORT">
+                      <FormattedMessage id="agent.Passport" />
+                    </Option>
                   </Select>
                 </div>
               </div>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <label className="non-afb-label"><FormattedMessage id="agent.DocumentNumber" /></label>
+              <label className="non-afb-label">
+                <FormattedMessage id="agent.DocumentNumber" />
+              </label>
               <div className="inputFlash">
                 <FormattedMessage id="agent.Number">
-                  {placeholder =>
+                  {(placeholder) => (
                     <input
                       type="text"
                       placeholder={placeholder}
@@ -712,17 +744,22 @@ const WalletAccountOpening = () => {
                           idDocumentNumber: e.target.value,
                         });
                       }}
-                    />}
+                    />
+                  )}
                 </FormattedMessage>
               </div>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <label className="non-afb-label"><FormattedMessage id="agent.DocumentExpiryDate" /></label>
+              <label className="non-afb-label">
+                <FormattedMessage id="agent.DocumentExpiryDate" />
+              </label>
               <div className="inputFlash">
                 <DatePicker
                   disabledDate={(current) => {
                     let customDate = moment().format("YYYY-MM-DD");
-                    return current && current < moment(customDate, "YYYY-MM-DD");
+                    return (
+                      current && current < moment(customDate, "YYYY-MM-DD")
+                    );
                   }}
                   value={moment(formState.idDocumentExpiryDate)}
                   style={{ width: "100%", background: "#f3f3f3" }}
@@ -767,10 +804,12 @@ const WalletAccountOpening = () => {
               </div>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <label className="non-afb-label"><FormattedMessage id="agent.City" /> </label>
+              <label className="non-afb-label">
+                <FormattedMessage id="agent.City" />{" "}
+              </label>
               <div className="inputFlash">
                 <FormattedMessage id="agent.City">
-                  {placeholder =>
+                  {(placeholder) => (
                     <input
                       type="text"
                       placeholder={placeholder}
@@ -782,15 +821,18 @@ const WalletAccountOpening = () => {
                           city: e.target.value,
                         });
                       }}
-                    />}
+                    />
+                  )}
                 </FormattedMessage>
               </div>
             </Grid>
             <Grid item xs={12} sm={6}>
-              <label className="non-afb-label"><FormattedMessage id="agent.Address" /> </label>
+              <label className="non-afb-label">
+                <FormattedMessage id="agent.Address" />{" "}
+              </label>
               <div className="inputFlash">
                 <FormattedMessage id="agent.Address">
-                  {placeholder =>
+                  {(placeholder) => (
                     <input
                       type="text"
                       placeholder={placeholder}
@@ -802,7 +844,8 @@ const WalletAccountOpening = () => {
                           address: e.target.value,
                         });
                       }}
-                    />}
+                    />
+                  )}
                 </FormattedMessage>
               </div>
             </Grid>
@@ -990,7 +1033,13 @@ const WalletAccountOpening = () => {
                         disabled={isFormValidated() ? false : true}
                         onClick={() => formSubmitAction()}
                       >
-                        {step === 3 ? "Submit" : step === 4 ? "Done" : <FormattedMessage id="agent.Next" />}
+                        {step === 3 ? (
+                          "Submit"
+                        ) : step === 4 ? (
+                          "Done"
+                        ) : (
+                          <FormattedMessage id="agent.Next" />
+                        )}
                       </button>
                     </div>
                   </div>

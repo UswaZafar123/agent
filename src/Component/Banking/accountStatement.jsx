@@ -14,7 +14,7 @@ import { Button, Select, DatePicker } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { Card } from "react-bootstrap";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import actionType from "../../services/agent/actionType.js";
+import actionType from "../../services/agent/actionType";
 import moment from "moment";
 import { FormattedMessage, IntlProvider } from "react-intl";
 
@@ -23,7 +23,7 @@ import {
   fetchCustomerBankAccounts,
   sendOtpToCustomer,
   bankStatementInquiryAction,
-} from "../../services/agent/action.js";
+} from "../../services/agent/action";
 
 const { Option } = Select;
 const resendTime = 30;
@@ -121,9 +121,9 @@ const BankAccountStatement = () => {
   const loadLocaleData = (locale) => {
     switch (locale) {
       case "fr":
-        return import("../i18n/messages/fr.js");
+        return import("../i18n/messages/fr");
       default:
-        return import("../i18n/messages/en.js");
+        return import("../i18n/messages/en");
     }
   };
 

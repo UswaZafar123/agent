@@ -1,6 +1,11 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
-import { FormattedMessage, IntlProvider, useIntl, injectIntl } from "react-intl";
+import {
+  FormattedMessage,
+  IntlProvider,
+  useIntl,
+  injectIntl,
+} from "react-intl";
 import Image2 from "../../../Assets/images/Group.png";
 import Image3 from "../../../Assets/images/Group (1).png";
 import PhoneInput from "react-phone-input-2";
@@ -440,22 +445,20 @@ class Register extends Component {
   };
 
   async translationHelperFunction() {
-
     const messages = await this.loadLocaleData(localStorage.getItem("lang"));
     this.setState({
       messages: messages,
-      language: localStorage.getItem("lang")
+      language: localStorage.getItem("lang"),
     });
     // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
-
   }
 
   loadLocaleData = (locale) => {
     switch (locale) {
       case "fr":
-        return import("../../i18n/messages/fr.js");
+        return import("../../i18n/messages/fr");
       default:
-        return import("../../i18n/messages/en.js");
+        return import("../../i18n/messages/en");
     }
   };
 
@@ -482,7 +485,7 @@ class Register extends Component {
 
       this.setState({
         messages: messages,
-        language: nextprops.language
+        language: nextprops.language,
       });
     }
   }
@@ -534,396 +537,207 @@ class Register extends Component {
 
     return (
       <IntlProvider
-      messages={this.state.messages.default}
-      locale={this.state.language}
-    >
-      <Fragment>
-        <section className="loginWrapper accountWrapper">
-          <NavBar />
-          <div className="col-sm-12 indAccountRegContainer">
-            <div className="loginInner" style={{ width: "50%" }}>
-              <div className="row" style={{ display: "none" }}>
-                <h1 className="title">Welcome to Afriland Bank!</h1>
+        messages={this.state.messages.default}
+        locale={this.state.language}
+      >
+        <Fragment>
+          <section className="loginWrapper accountWrapper">
+            <NavBar />
+            <div className="col-sm-12 indAccountRegContainer">
+              <div className="loginInner" style={{ width: "50%" }}>
+                <div className="row" style={{ display: "none" }}>
+                  <h1 className="title">Welcome to Afriland Bank!</h1>
 
-                <h1 className="sub-title">
-                  Please select the Account type you want to Open
-                </h1>
+                  <h1 className="sub-title">
+                    Please select the Account type you want to Open
+                  </h1>
 
-                <ul className="account-type-options">
-                  <li>
-                    <img
-                      src={Image2}
-                      style={{ width: "40%", height: "50%", marginTop: "22%" }}
-                    />
-                    <input
-                      type="radio"
-                      id="agent"
-                      name="account_type_login"
-                      value="agent"
-                      className="mr-3"
-                      onChange={this.selectAccountType}
-                    />
-                    <label
-                      for="agent"
-                      style={{
-                        position: "absolute",
-                        fontSize: "18px",
-                        marginTop: "24%",
-                      }}
-                    >
-                      <b> AFB Customer</b>
-                    </label>
-                  </li>
-                  <li>
-                    <img
-                      src={Image3}
-                      style={{ width: "50%", height: "50%", marginTop: "22%" }}
-                    />
-                    <input
-                      type="radio"
-                      id="merchant"
-                      name="account_type_login"
-                      value="merchant"
-                      className="mr-3"
-                      onChange={this.selectAccountType}
-                    />
-                    <label
-                      for="merchant"
-                      style={{
-                        position: "absolute",
-                        fontSize: "18px",
-                        marginTop: "24%",
-                      }}
-                    >
-                      <b> Non-AFB Customer</b>
-                    </label>
-                  </li>
-                </ul>
-
-                <div className="col-sm-12">
-                  <div
-                    className="col-sm-12 text-center"
-                    style={{
-                      justifyContent: "center",
-                      display: "flex",
-                      marginTop: "12%",
-                    }}
-                  >
-                    <button
-                      className="btn btn-default text-white"
-                      onClick={() => {
-                        alert(this.state.accountType);
-                      }}
-                    >
-                      Next
-                    </button>
-                  </div>
-                </div>
-
-                <div className="row">
-                  <div
-                    className="col-sm-12 text-center"
-                    style={{
-                      justifyContent: "center",
-                      display: "flex",
-                      marginTop: "5%",
-                    }}
-                  >
-                    <p>
-                      Already have an account? <a>Login</a>
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="row" style={{ display: "block" }}>
-                <h1 className="sub-title">
-                  {sessionStorage.getItem("accountType")} Account
-                </h1>
-                <div className="col-sm-12 float-left" style={{ float: "left" }}>
-                  <div
-                    className="form-group"
-                    style={{ marginTop: "5%", marginBottom: "5%" }}
-                  >
-                    <label><FormattedMessage id="agent.FirstName" /></label>
-                    <div style={{ position: "relative", display: "flex" }}>
-                      <FormattedMessage id="agent.enterFirstName">
-                        {placeholder => 
-                      <input
-                        className="form-control"
-                        type="text"
-                        name="firstName"
-                        value={this.state.firstName}
-                        placeholder={placeholder}
-                        onChange={this.handleChange}
-                      />}
-                      </FormattedMessage>
-                    </div>
-                  </div>
-
-                  <div
-                    className="form-group"
-                    style={{ marginTop: "5%", marginBottom: "5%" }}
-                  >
-                    <label><FormattedMessage id="agent.LastName" /></label>
-                    <div style={{ position: "relative", display: "flex" }}>
-                    <FormattedMessage id="agent.enterLastName">
-                      {placeholder =>
-                      <input
-                        className="form-control"
-                        type="text"
-                        name="lastName"
-                        value={this.state.lastName}
-                        placeholder={placeholder}
-                        onChange={this.handleChange}
-                      />}
-                    </FormattedMessage>
-                    </div>
-                  </div>
-
-                  <div
-                    className="form-group"
-                    style={{ marginTop: "5%", marginBottom: "5%" }}
-                  >
-                    <label><FormattedMessage id="agent.email" /></label>
-                    <div style={{ position: "relative", display: "flex" }}>
-                    <FormattedMessage id="agent.EnterEmailAddress">
-                      {placeholder =>
-                      <input
-                        className="form-control"
-                        type="email"
-                        name="email"
-                        value={this.state.email}
-                        placeholder={placeholder}
-                        onChange={this.handleChange}
-                      />}
-                    </FormattedMessage>
-                    </div>
-                  </div>
-
-                  <div className="form-group">
-                    <label><FormattedMessage id="phoneNum" /></label>
-                    <div style={{ position: "relative", display: "flex" }}>
-                      <PhoneInput
-                        country="cm"
-                        enableSearch={true}
-                        countryCodeEditable={false}
-                        enableLongNumbers={false}
-                        searchPlaceholder="Search for countries.."
-                        inputStyle={{ width: "100%" }}
-                        value={this.state.mobileNumber}
-                        onChange={this.handleChangeMobile}
+                  <ul className="account-type-options">
+                    <li>
+                      <img
+                        src={Image2}
+                        style={{
+                          width: "40%",
+                          height: "50%",
+                          marginTop: "22%",
+                        }}
                       />
-                    </div>
-                  </div>
-
-                  <div
-                    className="form-group"
-                    style={{ marginTop: "5%", marginBottom: "5%" }}
-                  >
-                    <label><FormattedMessage id="agent.dob" /></label>
-                    <div style={{ position: "relative", display: "flex" }}>
-                      <DatePicker
-                        selected={this.state.dob}
-                        placeholderText="Date Of Birth"
-                        dateFormat="dd-MM-yyyy"
-                        isClearable
-                        onChange={(date) => this.dateofbirth(date)}
+                      <input
+                        type="radio"
+                        id="agent"
+                        name="account_type_login"
+                        value="agent"
+                        className="mr-3"
+                        onChange={this.selectAccountType}
                       />
-                    </div>
-                  </div>
-
-                  <div
-                    className="form-group"
-                    style={{ marginTop: "5%", marginBottom: "5%" }}
-                  >
-                    <label><FormattedMessage id="agent.Gender" /></label>
-                    <div style={{ position: "relative", display: "flex" }}>
-                      <select
-                        className="FrmSelect"
-                        name="gender"
-                        onChange={this.handleChange}
-                      >
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div
-                    className="form-group"
-                    style={{ marginTop: "5%", marginBottom: "5%" }}
-                  >
-                    <label><FormattedMessage id="agent.idType" /></label>
-                    <div style={{ position: "relative", display: "flex" }}>
-                      <select
-                        className="FrmSelect"
-                        onChange={(e) => {
-                          this.selectIDDocument(e);
+                      <label
+                        for="agent"
+                        style={{
+                          position: "absolute",
+                          fontSize: "18px",
+                          marginTop: "24%",
                         }}
                       >
-                        <option value="ID Card">ID Card</option>
-                        <option value="Passport">Passport</option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div
-                    className="form-group"
-                    style={{ marginTop: "5%", marginBottom: "5%" }}
-                  >
-                    <label>
-                      {this.state.documentType === "ID_DOCUMENT"
-                        ? "ID Card Number"
-                        : "Passport Number"}
-                    </label>
-                    <div style={{ position: "relative", display: "flex" }}>
-                      <input
-                        className="form-control"
-                        type="text"
-                        name="idDocumentIdNumber"
-                        value={this.state.idDocumentIdNumber}
-                        placeholder="xxxxxxxxx"
-                        onChange={this.handleChange}
+                        <b> AFB Customer</b>
+                      </label>
+                    </li>
+                    <li>
+                      <img
+                        src={Image3}
+                        style={{
+                          width: "50%",
+                          height: "50%",
+                          marginTop: "22%",
+                        }}
                       />
+                      <input
+                        type="radio"
+                        id="merchant"
+                        name="account_type_login"
+                        value="merchant"
+                        className="mr-3"
+                        onChange={this.selectAccountType}
+                      />
+                      <label
+                        for="merchant"
+                        style={{
+                          position: "absolute",
+                          fontSize: "18px",
+                          marginTop: "24%",
+                        }}
+                      >
+                        <b> Non-AFB Customer</b>
+                      </label>
+                    </li>
+                  </ul>
+
+                  <div className="col-sm-12">
+                    <div
+                      className="col-sm-12 text-center"
+                      style={{
+                        justifyContent: "center",
+                        display: "flex",
+                        marginTop: "12%",
+                      }}
+                    >
+                      <button
+                        className="btn btn-default text-white"
+                        onClick={() => {
+                          alert(this.state.accountType);
+                        }}
+                      >
+                        Next
+                      </button>
                     </div>
                   </div>
 
-                  {sessionStorage.getItem("accountType") !== "Individual" && (
-                    <>
-                      <div
-                        className="form-group"
-                        style={{ marginTop: "5%", marginBottom: "5%" }}
-                      >
-                        <label>Business address</label>
-                        <div style={{ position: "relative", display: "flex" }}>
-                          <input
-                            className="form-control"
-                            type="text"
-                            name="agentBusinessAddress"
-                            value={this.state.agentBusinessAddress}
-                            placeholder="Enter Address"
-                            onChange={this.handleChange}
-                          />
-                        </div>
-                      </div>
+                  <div className="row">
+                    <div
+                      className="col-sm-12 text-center"
+                      style={{
+                        justifyContent: "center",
+                        display: "flex",
+                        marginTop: "5%",
+                      }}
+                    >
+                      <p>
+                        Already have an account? <a>Login</a>
+                      </p>
+                    </div>
+                  </div>
+                </div>
 
-                      <div
-                        className="form-group"
-                        style={{ marginTop: "5%", marginBottom: "5%" }}
-                      >
-                        <label>Business City</label>
-                        <div style={{ position: "relative", display: "flex" }}>
-                          <FormattedMessage id="agent.EnterCity">
-                            {placeholder =>
-                          <input
-                            className="form-control"
-                            type="text"
-                            name="agentBusinessCity"
-                            value={this.state.agentBusinessCity}
-                            placeholder={placeholder}
-                            onChange={this.handleChange}
-                          />}
-                          </FormattedMessage>
-                        </div>
-                      </div>
-                    </>
-                  )}
-
+                <div className="row" style={{ display: "block" }}>
+                  <h1 className="sub-title">
+                    {sessionStorage.getItem("accountType")} Account
+                  </h1>
                   <div
-                    className="col-sm-12"
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-around",
-                      marginTop: "70px",
-                      marginBottom: "70px",
-                    }}
+                    className="col-sm-12 float-left"
+                    style={{ float: "left" }}
                   >
-                    <div
-                      className="col-sm-6 float-left"
-                      style={{ float: "left", marginRight: "5px" }}
-                    >
-                      <div style={{ textAlign: "center" }}>
-                        <Upload
-                          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                          listType="picture-card"
-                          customRequest={this.dummyRequest}
-                          idFrontImageFile={idFrontImageFile}
-                          maxCount={1}
-                          onPreview={this.handlePreviewFrontImage}
-                          onChange={(file) => {
-                            this.handleFrontPictureChange(file);
-                          }}
-                        >
-                          {uploadButton}
-                        </Upload>
-                        <Modal
-                          visible={previewFrontVisible}
-                          title={previewFrontTitle}
-                          footer={null}
-                          onCancel={this.handleCancelFrontImage}
-                        >
-                          <img
-                            style={{ width: "100%" }}
-                            src={previewFrontImage}
-                          />
-                        </Modal>
-                        <p style={{ color: "darkgray" }}>
-                          <FormattedMessage id="agent.UploadFrontImageof" /> <br></br>
-                          <FormattedMessage id="agent.IDCard/OtherIdentityCard" />
-                        </p>
-                      </div>
-                    </div>
-                    <div
-                      className="col-sm-6 float-right"
-                      style={{ float: "right", marginLeft: "5px" }}
-                    >
-                      <div style={{ textAlign: "center" }}>
-                        <Upload
-                          action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                          listType="picture-card"
-                          idFrontImageFile={idBackImageFile}
-                          customRequest={this.dummyRequest}
-                          maxCount={1}
-                          onPreview={this.handlePreviewBackImage}
-                          onChange={(file) => {
-                            this.handleBackPictureChange(file);
-                          }}
-                        >
-                          {uploadButton}
-                        </Upload>
-                        <Modal
-                          visible={previewBackVisible}
-                          title={previewBackTitle}
-                          footer={null}
-                          onCancel={this.handleCancelBackImage}
-                        >
-                          <img
-                            style={{ width: "100%" }}
-                            src={previewBackImage}
-                          />
-                        </Modal>
-                        <p style={{ color: "darkgray" }}>
-                          Upload Back Image of <br></br>
-                          ID Card / Other Identity Card
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="row" style={{ display: "block" }}>
                     <div
                       className="form-group"
                       style={{ marginTop: "5%", marginBottom: "5%" }}
                     >
-                      <label><FormattedMessage id="expirationDate" /></label>
+                      <label>
+                        <FormattedMessage id="agent.FirstName" />
+                      </label>
                       <div style={{ position: "relative", display: "flex" }}>
-                        <DatePicker
-                          selected={this.state.setExpirationDate}
-                          placeholderText="Expiration Date"
-                          dateFormat="dd-MM-yyyy"
-                          isClearable
-                          onChange={(date) => this.setExpirationDate(date)}
+                        <FormattedMessage id="agent.enterFirstName">
+                          {(placeholder) => (
+                            <input
+                              className="form-control"
+                              type="text"
+                              name="firstName"
+                              value={this.state.firstName}
+                              placeholder={placeholder}
+                              onChange={this.handleChange}
+                            />
+                          )}
+                        </FormattedMessage>
+                      </div>
+                    </div>
+
+                    <div
+                      className="form-group"
+                      style={{ marginTop: "5%", marginBottom: "5%" }}
+                    >
+                      <label>
+                        <FormattedMessage id="agent.LastName" />
+                      </label>
+                      <div style={{ position: "relative", display: "flex" }}>
+                        <FormattedMessage id="agent.enterLastName">
+                          {(placeholder) => (
+                            <input
+                              className="form-control"
+                              type="text"
+                              name="lastName"
+                              value={this.state.lastName}
+                              placeholder={placeholder}
+                              onChange={this.handleChange}
+                            />
+                          )}
+                        </FormattedMessage>
+                      </div>
+                    </div>
+
+                    <div
+                      className="form-group"
+                      style={{ marginTop: "5%", marginBottom: "5%" }}
+                    >
+                      <label>
+                        <FormattedMessage id="agent.email" />
+                      </label>
+                      <div style={{ position: "relative", display: "flex" }}>
+                        <FormattedMessage id="agent.EnterEmailAddress">
+                          {(placeholder) => (
+                            <input
+                              className="form-control"
+                              type="email"
+                              name="email"
+                              value={this.state.email}
+                              placeholder={placeholder}
+                              onChange={this.handleChange}
+                            />
+                          )}
+                        </FormattedMessage>
+                      </div>
+                    </div>
+
+                    <div className="form-group">
+                      <label>
+                        <FormattedMessage id="phoneNum" />
+                      </label>
+                      <div style={{ position: "relative", display: "flex" }}>
+                        <PhoneInput
+                          country="cm"
+                          enableSearch={true}
+                          countryCodeEditable={false}
+                          enableLongNumbers={false}
+                          searchPlaceholder="Search for countries.."
+                          inputStyle={{ width: "100%" }}
+                          value={this.state.mobileNumber}
+                          onChange={this.handleChangeMobile}
                         />
                       </div>
                     </div>
@@ -932,19 +746,17 @@ class Register extends Component {
                       className="form-group"
                       style={{ marginTop: "5%", marginBottom: "5%" }}
                     >
-                      <label><FormattedMessage id="agent.City" /></label>
+                      <label>
+                        <FormattedMessage id="agent.dob" />
+                      </label>
                       <div style={{ position: "relative", display: "flex" }}>
-                      <FormattedMessage id="agent.EnterCity">
-                        {placeholder =>
-                        <input
-                          className="form-control"
-                          type="text"
-                          name="city"
-                          value={this.state.city}
-                          placeholder={placeholder}
-                          onChange={this.handleChange}
-                        />}
-                      </FormattedMessage>
+                        <DatePicker
+                          selected={this.state.dob}
+                          placeholderText="Date Of Birth"
+                          dateFormat="dd-MM-yyyy"
+                          isClearable
+                          onChange={(date) => this.dateofbirth(date)}
+                        />
                       </div>
                     </div>
 
@@ -952,44 +764,78 @@ class Register extends Component {
                       className="form-group"
                       style={{ marginTop: "5%", marginBottom: "5%" }}
                     >
-                      <label><FormattedMessage id="agent.Address" /></label>
+                      <label>
+                        <FormattedMessage id="agent.Gender" />
+                      </label>
                       <div style={{ position: "relative", display: "flex" }}>
-                        <FormattedMessage id="agent.EnterAddress">
-                          {placeholder =>
+                        <select
+                          className="FrmSelect"
+                          name="gender"
+                          onChange={this.handleChange}
+                        >
+                          <option value="Male">Male</option>
+                          <option value="Female">Female</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div
+                      className="form-group"
+                      style={{ marginTop: "5%", marginBottom: "5%" }}
+                    >
+                      <label>
+                        <FormattedMessage id="agent.idType" />
+                      </label>
+                      <div style={{ position: "relative", display: "flex" }}>
+                        <select
+                          className="FrmSelect"
+                          onChange={(e) => {
+                            this.selectIDDocument(e);
+                          }}
+                        >
+                          <option value="ID Card">ID Card</option>
+                          <option value="Passport">Passport</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div
+                      className="form-group"
+                      style={{ marginTop: "5%", marginBottom: "5%" }}
+                    >
+                      <label>
+                        {this.state.documentType === "ID_DOCUMENT"
+                          ? "ID Card Number"
+                          : "Passport Number"}
+                      </label>
+                      <div style={{ position: "relative", display: "flex" }}>
                         <input
                           className="form-control"
                           type="text"
-                          name="address1"
-                          value={this.state.address1}
-                          placeholder={placeholder}
+                          name="idDocumentIdNumber"
+                          value={this.state.idDocumentIdNumber}
+                          placeholder="xxxxxxxxx"
                           onChange={this.handleChange}
-                        />}
-                        </FormattedMessage>
+                        />
                       </div>
                     </div>
 
                     {sessionStorage.getItem("accountType") !== "Individual" && (
                       <>
-                        <h1
-                          className="h1ForBusinessDetails"
-                        >
-                          Business Details
-                        </h1>
-
                         <div
                           className="form-group"
-                          style={{ marginTop: "7%", marginBottom: "5%" }}
+                          style={{ marginTop: "5%", marginBottom: "5%" }}
                         >
-                          <label>Name of Organization</label>
+                          <label>Business address</label>
                           <div
                             style={{ position: "relative", display: "flex" }}
                           >
                             <input
                               className="form-control"
                               type="text"
-                              name="Organization"
-                              value={this.state.Organization}
-                              placeholder="Enter Name of Organization"
+                              name="agentBusinessAddress"
+                              value={this.state.agentBusinessAddress}
+                              placeholder="Enter Address"
                               onChange={this.handleChange}
                             />
                           </div>
@@ -999,73 +845,22 @@ class Register extends Component {
                           className="form-group"
                           style={{ marginTop: "5%", marginBottom: "5%" }}
                         >
-                          <label>Registered Date</label>
+                          <label>Business City</label>
                           <div
                             style={{ position: "relative", display: "flex" }}
                           >
-                            <DatePicker
-                              selected={this.state.registeredDate}
-                              dateFormat="dd-MM-yyyy"
-                              isClearable
-                              onChange={(date) => this.registeredDate(date)}
-                            />
-                          </div>
-                        </div>
-
-                        <div
-                          className="form-group"
-                          style={{ marginTop: "5%", marginBottom: "5%" }}
-                        >
-                          <label>Website Link</label>
-                          <div
-                            style={{ position: "relative", display: "flex" }}
-                          >
-                            <input
-                              className="form-control"
-                              type="text"
-                              name="website"
-                              value={this.state.website}
-                              placeholder="Enter  Website Link"
-                              onChange={this.handleChange}
-                            />
-                          </div>
-                        </div>
-
-                        <div
-                          className="form-group"
-                          style={{ marginTop: "5%", marginBottom: "5%" }}
-                        >
-                          <label>Trade Register Number</label>
-                          <div
-                            style={{ position: "relative", display: "flex" }}
-                          >
-                            <input
-                              className="form-control"
-                              type="text"
-                              name="tradeRegister"
-                              value={this.state.tradeRegister}
-                              placeholder="Enter Trade Register Number"
-                              onChange={this.handleChange}
-                            />
-                          </div>
-                        </div>
-
-                        <div
-                          className="form-group"
-                          style={{ marginTop: "5%", marginBottom: "5%" }}
-                        >
-                          <label>Taxpayer Number</label>
-                          <div
-                            style={{ position: "relative", display: "flex" }}
-                          >
-                            <input
-                              className="form-control"
-                              type="text"
-                              name="taxPayer"
-                              value={this.state.taxPayer}
-                              placeholder="Enter Taxpayer Number"
-                              onChange={this.handleChange}
-                            />
+                            <FormattedMessage id="agent.EnterCity">
+                              {(placeholder) => (
+                                <input
+                                  className="form-control"
+                                  type="text"
+                                  name="agentBusinessCity"
+                                  value={this.state.agentBusinessCity}
+                                  placeholder={placeholder}
+                                  onChange={this.handleChange}
+                                />
+                              )}
+                            </FormattedMessage>
                           </div>
                         </div>
                       </>
@@ -1081,7 +876,7 @@ class Register extends Component {
                       }}
                     >
                       <div
-                        className="col-md-6 float-left"
+                        className="col-sm-6 float-left"
                         style={{ float: "left", marginRight: "5px" }}
                       >
                         <div style={{ textAlign: "center" }}>
@@ -1089,154 +884,426 @@ class Register extends Component {
                             action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
                             listType="picture-card"
                             customRequest={this.dummyRequest}
-                            idFrontImageFile={idFrontBusinessImageFile}
+                            idFrontImageFile={idFrontImageFile}
                             maxCount={1}
-                            onPreview={this.handlePreviewFrontBusinessImage}
+                            onPreview={this.handlePreviewFrontImage}
                             onChange={(file) => {
-                              this.handleFrontBusinessPictureChange(file);
+                              this.handleFrontPictureChange(file);
                             }}
                           >
                             {uploadButton}
                           </Upload>
                           <Modal
-                            visible={previewFrontBusinessVisible}
-                            title={previewFrontBusinessTitle}
+                            visible={previewFrontVisible}
+                            title={previewFrontTitle}
                             footer={null}
-                            onCancel={this.handleCancelBusinessFrontImage}
+                            onCancel={this.handleCancelFrontImage}
                           >
                             <img
                               style={{ width: "100%" }}
-                              src={previewFrontBusinessImage}
+                              src={previewFrontImage}
                             />
                           </Modal>
                           <p style={{ color: "darkgray" }}>
-                            Upload Front Image of <br></br>
-                            ID Card / Other Identity Card
+                            <FormattedMessage id="agent.UploadFrontImageof" />{" "}
+                            <br></br>
+                            <FormattedMessage id="agent.IDCard/OtherIdentityCard" />
                           </p>
                         </div>
                       </div>
                       <div
-                        className="col-md-6 float-right"
+                        className="col-sm-6 float-right"
                         style={{ float: "right", marginLeft: "5px" }}
                       >
                         <div style={{ textAlign: "center" }}>
                           <Upload
                             action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
                             listType="picture-card"
-                            idFrontImageFile={idAddressFile}
+                            idFrontImageFile={idBackImageFile}
                             customRequest={this.dummyRequest}
                             maxCount={1}
-                            onPreview={this.handlePreviewAddressImage}
+                            onPreview={this.handlePreviewBackImage}
                             onChange={(file) => {
-                              this.handleAddressChange(file);
+                              this.handleBackPictureChange(file);
                             }}
                           >
                             {uploadButton}
                           </Upload>
                           <Modal
-                            visible={previewAddressVisible}
-                            title={previewAddressTitle}
+                            visible={previewBackVisible}
+                            title={previewBackTitle}
                             footer={null}
-                            onCancel={this.handleCancelAddressImage}
+                            onCancel={this.handleCancelBackImage}
                           >
                             <img
                               style={{ width: "100%" }}
-                              src={previewAddressImage}
+                              src={previewBackImage}
                             />
                           </Modal>
                           <p style={{ color: "darkgray" }}>
-                            Upload Proof of Address
+                            Upload Back Image of <br></br>
+                            ID Card / Other Identity Card
                           </p>
                         </div>
                       </div>
                     </div>
 
-                    <div className="row">
+                    <div className="row" style={{ display: "block" }}>
                       <div
-                        className="col-md-12 text-center"
-                        style={{ justifyContent: "center", display: "flex" }}
+                        className="form-group"
+                        style={{ marginTop: "5%", marginBottom: "5%" }}
                       >
-                        <label className="privacy_policy">
-                          <Checkbox value={this.state.isPrivacyPolicyAgree} onChange={(e) => {
-                            this.setState({
-                              isPrivacyPolicyAgree: e.target.checked
-                            });
-                          }} />
-                          i agree to the <a style={{ fontWeight: "bold" }}>terms & conditions </a>and{" "}
-                          <a style={{ fontWeight: "bold" }}>privacy policy of sara banking</a>
+                        <label>
+                          <FormattedMessage id="expirationDate" />
                         </label>
+                        <div style={{ position: "relative", display: "flex" }}>
+                          <DatePicker
+                            selected={this.state.setExpirationDate}
+                            placeholderText="Expiration Date"
+                            dateFormat="dd-MM-yyyy"
+                            isClearable
+                            onChange={(date) => this.setExpirationDate(date)}
+                          />
+                        </div>
                       </div>
-                    </div>
-                    <Modal
-                      visible={this.state.viewSummaryVisible}
-                      footer={null}
-                      onCancel={this.handleSummaryCancel}
-                      width="80%"
-                      style={{
-                        top: "30px",
-                      }}
-                    >
-                      <div>
-                        <h1
-                          className="h1ForSummaryModal"
-                        >
-                          <FormattedMessage id="agent.RegistrationSummary" />
-                        </h1>
 
-                        <div style={{ "overflow-x": "auto" }}>
-                          <table className="table" style={{ width: "100%" }}>
-                            <tr>
-                              <th></th>
-                              <th></th>
-                              <th></th>
-                              <th></th>
-                            </tr>
-                            <tr className="summaryRow">
-                              <td className="summaryLabel"><FormattedMessage id="agent.FirstName" /> : </td>
-                              <td className="summaryValue">
-                                {this.state.firstName}
-                              </td>
-                              <td className="summaryLabel"><FormattedMessage id="agent.LastName" /> : </td>
-                              <td className="summaryValue">
-                                {this.state.lastName}
-                              </td>
-                            </tr>
-                            <tr className="summaryRow">
-                              <td className="summaryLabel"><FormattedMessage id="agent.Email" /> : </td>
-                              <td className="summaryValue">{this.state.email}</td>
-                              <td className="summaryLabel"><FormattedMessage id="phoneNum" /> : </td>
-                              <td className="summaryValue">
-                                {this.state.mobileNumber}
-                              </td>
-                            </tr>
-                            <tr className="summaryRow">
-                              <td className="summaryLabel"><FormattedMessage id="agent.dob" /> : </td>
-                              <td className="summaryValue">
-                                {moment(new Date(this.state.dob)).format(
-                                  "YYYY-MM-DD"
-                                )}
-                              </td>
-                              <td className="summaryLabel"><FormattedMessage id="agent.Gender" /> : </td>
-                              <td className="summaryValue">
-                                {this.state.gender}
-                              </td>
-                            </tr>
-                            <tr className="summaryRow">
-                              <td className="summaryLabel"><FormattedMessage id="agent.idType" /> : </td>
-                              <td className="summaryValue">
-                                {this.state.documentName}
-                              </td>
-                              <td className="summaryLabel">
-                                {this.state.documentType === "ID_DOCUMENT"
-                                  ? "ID Card Number"
-                                  : "Passport Number"}
-                              </td>
-                              <td className="summaryValue">
-                                {this.state.idDocumentIdNumber}
-                              </td>
-                            </tr>
-                            {sessionStorage.getItem("accountType") !==
-                              "Individual" && (
+                      <div
+                        className="form-group"
+                        style={{ marginTop: "5%", marginBottom: "5%" }}
+                      >
+                        <label>
+                          <FormattedMessage id="agent.City" />
+                        </label>
+                        <div style={{ position: "relative", display: "flex" }}>
+                          <FormattedMessage id="agent.EnterCity">
+                            {(placeholder) => (
+                              <input
+                                className="form-control"
+                                type="text"
+                                name="city"
+                                value={this.state.city}
+                                placeholder={placeholder}
+                                onChange={this.handleChange}
+                              />
+                            )}
+                          </FormattedMessage>
+                        </div>
+                      </div>
+
+                      <div
+                        className="form-group"
+                        style={{ marginTop: "5%", marginBottom: "5%" }}
+                      >
+                        <label>
+                          <FormattedMessage id="agent.Address" />
+                        </label>
+                        <div style={{ position: "relative", display: "flex" }}>
+                          <FormattedMessage id="agent.EnterAddress">
+                            {(placeholder) => (
+                              <input
+                                className="form-control"
+                                type="text"
+                                name="address1"
+                                value={this.state.address1}
+                                placeholder={placeholder}
+                                onChange={this.handleChange}
+                              />
+                            )}
+                          </FormattedMessage>
+                        </div>
+                      </div>
+
+                      {sessionStorage.getItem("accountType") !==
+                        "Individual" && (
+                        <>
+                          <h1 className="h1ForBusinessDetails">
+                            Business Details
+                          </h1>
+
+                          <div
+                            className="form-group"
+                            style={{ marginTop: "7%", marginBottom: "5%" }}
+                          >
+                            <label>Name of Organization</label>
+                            <div
+                              style={{ position: "relative", display: "flex" }}
+                            >
+                              <input
+                                className="form-control"
+                                type="text"
+                                name="Organization"
+                                value={this.state.Organization}
+                                placeholder="Enter Name of Organization"
+                                onChange={this.handleChange}
+                              />
+                            </div>
+                          </div>
+
+                          <div
+                            className="form-group"
+                            style={{ marginTop: "5%", marginBottom: "5%" }}
+                          >
+                            <label>Registered Date</label>
+                            <div
+                              style={{ position: "relative", display: "flex" }}
+                            >
+                              <DatePicker
+                                selected={this.state.registeredDate}
+                                dateFormat="dd-MM-yyyy"
+                                isClearable
+                                onChange={(date) => this.registeredDate(date)}
+                              />
+                            </div>
+                          </div>
+
+                          <div
+                            className="form-group"
+                            style={{ marginTop: "5%", marginBottom: "5%" }}
+                          >
+                            <label>Website Link</label>
+                            <div
+                              style={{ position: "relative", display: "flex" }}
+                            >
+                              <input
+                                className="form-control"
+                                type="text"
+                                name="website"
+                                value={this.state.website}
+                                placeholder="Enter  Website Link"
+                                onChange={this.handleChange}
+                              />
+                            </div>
+                          </div>
+
+                          <div
+                            className="form-group"
+                            style={{ marginTop: "5%", marginBottom: "5%" }}
+                          >
+                            <label>Trade Register Number</label>
+                            <div
+                              style={{ position: "relative", display: "flex" }}
+                            >
+                              <input
+                                className="form-control"
+                                type="text"
+                                name="tradeRegister"
+                                value={this.state.tradeRegister}
+                                placeholder="Enter Trade Register Number"
+                                onChange={this.handleChange}
+                              />
+                            </div>
+                          </div>
+
+                          <div
+                            className="form-group"
+                            style={{ marginTop: "5%", marginBottom: "5%" }}
+                          >
+                            <label>Taxpayer Number</label>
+                            <div
+                              style={{ position: "relative", display: "flex" }}
+                            >
+                              <input
+                                className="form-control"
+                                type="text"
+                                name="taxPayer"
+                                value={this.state.taxPayer}
+                                placeholder="Enter Taxpayer Number"
+                                onChange={this.handleChange}
+                              />
+                            </div>
+                          </div>
+                        </>
+                      )}
+
+                      <div
+                        className="col-sm-12"
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-around",
+                          marginTop: "70px",
+                          marginBottom: "70px",
+                        }}
+                      >
+                        <div
+                          className="col-md-6 float-left"
+                          style={{ float: "left", marginRight: "5px" }}
+                        >
+                          <div style={{ textAlign: "center" }}>
+                            <Upload
+                              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                              listType="picture-card"
+                              customRequest={this.dummyRequest}
+                              idFrontImageFile={idFrontBusinessImageFile}
+                              maxCount={1}
+                              onPreview={this.handlePreviewFrontBusinessImage}
+                              onChange={(file) => {
+                                this.handleFrontBusinessPictureChange(file);
+                              }}
+                            >
+                              {uploadButton}
+                            </Upload>
+                            <Modal
+                              visible={previewFrontBusinessVisible}
+                              title={previewFrontBusinessTitle}
+                              footer={null}
+                              onCancel={this.handleCancelBusinessFrontImage}
+                            >
+                              <img
+                                style={{ width: "100%" }}
+                                src={previewFrontBusinessImage}
+                              />
+                            </Modal>
+                            <p style={{ color: "darkgray" }}>
+                              Upload Front Image of <br></br>
+                              ID Card / Other Identity Card
+                            </p>
+                          </div>
+                        </div>
+                        <div
+                          className="col-md-6 float-right"
+                          style={{ float: "right", marginLeft: "5px" }}
+                        >
+                          <div style={{ textAlign: "center" }}>
+                            <Upload
+                              action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                              listType="picture-card"
+                              idFrontImageFile={idAddressFile}
+                              customRequest={this.dummyRequest}
+                              maxCount={1}
+                              onPreview={this.handlePreviewAddressImage}
+                              onChange={(file) => {
+                                this.handleAddressChange(file);
+                              }}
+                            >
+                              {uploadButton}
+                            </Upload>
+                            <Modal
+                              visible={previewAddressVisible}
+                              title={previewAddressTitle}
+                              footer={null}
+                              onCancel={this.handleCancelAddressImage}
+                            >
+                              <img
+                                style={{ width: "100%" }}
+                                src={previewAddressImage}
+                              />
+                            </Modal>
+                            <p style={{ color: "darkgray" }}>
+                              Upload Proof of Address
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="row">
+                        <div
+                          className="col-md-12 text-center"
+                          style={{ justifyContent: "center", display: "flex" }}
+                        >
+                          <label className="privacy_policy">
+                            <Checkbox
+                              value={this.state.isPrivacyPolicyAgree}
+                              onChange={(e) => {
+                                this.setState({
+                                  isPrivacyPolicyAgree: e.target.checked,
+                                });
+                              }}
+                            />
+                            i agree to the{" "}
+                            <a style={{ fontWeight: "bold" }}>
+                              terms & conditions{" "}
+                            </a>
+                            and{" "}
+                            <a style={{ fontWeight: "bold" }}>
+                              privacy policy of sara banking
+                            </a>
+                          </label>
+                        </div>
+                      </div>
+                      <Modal
+                        visible={this.state.viewSummaryVisible}
+                        footer={null}
+                        onCancel={this.handleSummaryCancel}
+                        width="80%"
+                        style={{
+                          top: "30px",
+                        }}
+                      >
+                        <div>
+                          <h1 className="h1ForSummaryModal">
+                            <FormattedMessage id="agent.RegistrationSummary" />
+                          </h1>
+
+                          <div style={{ "overflow-x": "auto" }}>
+                            <table className="table" style={{ width: "100%" }}>
+                              <tr>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                              </tr>
+                              <tr className="summaryRow">
+                                <td className="summaryLabel">
+                                  <FormattedMessage id="agent.FirstName" /> :{" "}
+                                </td>
+                                <td className="summaryValue">
+                                  {this.state.firstName}
+                                </td>
+                                <td className="summaryLabel">
+                                  <FormattedMessage id="agent.LastName" /> :{" "}
+                                </td>
+                                <td className="summaryValue">
+                                  {this.state.lastName}
+                                </td>
+                              </tr>
+                              <tr className="summaryRow">
+                                <td className="summaryLabel">
+                                  <FormattedMessage id="agent.Email" /> :{" "}
+                                </td>
+                                <td className="summaryValue">
+                                  {this.state.email}
+                                </td>
+                                <td className="summaryLabel">
+                                  <FormattedMessage id="phoneNum" /> :{" "}
+                                </td>
+                                <td className="summaryValue">
+                                  {this.state.mobileNumber}
+                                </td>
+                              </tr>
+                              <tr className="summaryRow">
+                                <td className="summaryLabel">
+                                  <FormattedMessage id="agent.dob" /> :{" "}
+                                </td>
+                                <td className="summaryValue">
+                                  {moment(new Date(this.state.dob)).format(
+                                    "YYYY-MM-DD"
+                                  )}
+                                </td>
+                                <td className="summaryLabel">
+                                  <FormattedMessage id="agent.Gender" /> :{" "}
+                                </td>
+                                <td className="summaryValue">
+                                  {this.state.gender}
+                                </td>
+                              </tr>
+                              <tr className="summaryRow">
+                                <td className="summaryLabel">
+                                  <FormattedMessage id="agent.idType" /> :{" "}
+                                </td>
+                                <td className="summaryValue">
+                                  {this.state.documentName}
+                                </td>
+                                <td className="summaryLabel">
+                                  {this.state.documentType === "ID_DOCUMENT"
+                                    ? "ID Card Number"
+                                    : "Passport Number"}
+                                </td>
+                                <td className="summaryValue">
+                                  {this.state.idDocumentIdNumber}
+                                </td>
+                              </tr>
+                              {sessionStorage.getItem("accountType") !==
+                                "Individual" && (
                                 <>
                                   <tr className="summaryRow">
                                     <td className="summaryLabel">
@@ -1255,46 +1322,54 @@ class Register extends Component {
                                 </>
                               )}
 
-                            <tr className="summaryRow">
-                              <td className="summaryLabel">
-                                ID Card Front Image :{" "}
-                              </td>
-                              <td className="summaryValue">
-                                <img
-                                  className="imgThumbnailStyle"
-                                  src={this.state.idFrontImageFile.thumbUrl}
-                                />
-                              </td>
-                              <td className="summaryLabel">
-                                ID Card Back Image :
-                              </td>
-                              <td className="summaryValue">
-                                <img
-                                  className="imgThumbnailStyle"
-                                  src={this.state.idBackImageFile.thumbUrl}
-                                />
-                              </td>
-                            </tr>
-                            <tr className="summaryRow">
-                              <td className="summaryLabel"><FormattedMessage id="expirationDate" /> :</td>
-                              <td className="summaryValue">
-                                {moment(
-                                  new Date(this.state.setExpirationDate)
-                                ).format("YYYY-MM-DD")}
-                              </td>
-                              <td className="summaryLabel"><FormattedMessage id="agent.City" /> : </td>
-                              <td className="summaryValue">{this.state.city}</td>
-                            </tr>
-                            <tr className="summaryRow">
-                              <td className="summaryLabel"><FormattedMessage id="agent.Address" /> : </td>
-                              <td className="summaryValue">
-                                {this.state.address1}
-                              </td>
-                              <td className="summaryLabel"></td>
-                              <td className="summaryValue"></td>
-                            </tr>
-                            {sessionStorage.getItem("accountType") ==
-                              "Individual" && (
+                              <tr className="summaryRow">
+                                <td className="summaryLabel">
+                                  ID Card Front Image :{" "}
+                                </td>
+                                <td className="summaryValue">
+                                  <img
+                                    className="imgThumbnailStyle"
+                                    src={this.state.idFrontImageFile.thumbUrl}
+                                  />
+                                </td>
+                                <td className="summaryLabel">
+                                  ID Card Back Image :
+                                </td>
+                                <td className="summaryValue">
+                                  <img
+                                    className="imgThumbnailStyle"
+                                    src={this.state.idBackImageFile.thumbUrl}
+                                  />
+                                </td>
+                              </tr>
+                              <tr className="summaryRow">
+                                <td className="summaryLabel">
+                                  <FormattedMessage id="expirationDate" /> :
+                                </td>
+                                <td className="summaryValue">
+                                  {moment(
+                                    new Date(this.state.setExpirationDate)
+                                  ).format("YYYY-MM-DD")}
+                                </td>
+                                <td className="summaryLabel">
+                                  <FormattedMessage id="agent.City" /> :{" "}
+                                </td>
+                                <td className="summaryValue">
+                                  {this.state.city}
+                                </td>
+                              </tr>
+                              <tr className="summaryRow">
+                                <td className="summaryLabel">
+                                  <FormattedMessage id="agent.Address" /> :{" "}
+                                </td>
+                                <td className="summaryValue">
+                                  {this.state.address1}
+                                </td>
+                                <td className="summaryLabel"></td>
+                                <td className="summaryValue"></td>
+                              </tr>
+                              {sessionStorage.getItem("accountType") ==
+                                "Individual" && (
                                 <>
                                   <tr className="summaryRow">
                                     <td className="summaryLabel">
@@ -1321,11 +1396,11 @@ class Register extends Component {
                                   </tr>
                                 </>
                               )}
-                          </table>
-                        </div>
+                            </table>
+                          </div>
 
-                        {sessionStorage.getItem("accountType") !==
-                          "Individual" && (
+                          {sessionStorage.getItem("accountType") !==
+                            "Individual" && (
                             <>
                               <hr
                                 style={{
@@ -1347,7 +1422,10 @@ class Register extends Component {
                                 Business Details
                               </h1>
                               <div style={{ "overflow-x": "auto" }}>
-                                <table className="table" style={{ width: "100%" }}>
+                                <table
+                                  className="table"
+                                  style={{ width: "100%" }}
+                                >
                                   <tr>
                                     <th></th>
                                     <th></th>
@@ -1408,7 +1486,8 @@ class Register extends Component {
                                       />
                                     </td>
                                     <td className="summaryLabel">
-                                      <FormattedMessage id="agent.ProofOfAddress" /> :
+                                      <FormattedMessage id="agent.ProofOfAddress" />{" "}
+                                      :
                                     </td>
                                     <td className="summaryValue">
                                       <img
@@ -1422,6 +1501,25 @@ class Register extends Component {
                             </>
                           )}
 
+                          <div
+                            className="col-sm-12 text-center"
+                            style={{
+                              justifyContent: "center",
+                              display: "flex",
+                              marginTop: "5%",
+                            }}
+                          >
+                            <button
+                              className="btn btn-default text-white"
+                              style={{ padding: "0px" }}
+                              onClick={() => this.submitForm()}
+                            >
+                              <FormattedMessage id="agent.Register" />
+                            </button>
+                          </div>
+                        </div>
+                      </Modal>
+                      <div className="row">
                         <div
                           className="col-sm-12 text-center"
                           style={{
@@ -1432,178 +1530,161 @@ class Register extends Component {
                         >
                           <button
                             className="btn btn-default text-white"
-                            style={{ padding: "0px" }}
-                            onClick={() => this.submitForm()}
+                            onClick={() => this.viewSummaryModal()}
                           >
-                            <FormattedMessage id="agent.Register" />
+                            <FormattedMessage id="agent.Next" />
                           </button>
                         </div>
                       </div>
-                    </Modal>
-                    <div className="row">
-                      <div
-                        className="col-sm-12 text-center"
-                        style={{
-                          justifyContent: "center",
-                          display: "flex",
-                          marginTop: "5%",
-                        }}
-                      >
-                        <button
-                          className="btn btn-default text-white"
-                          onClick={() => this.viewSummaryModal()}
-                        >
-                          <FormattedMessage id="agent.Next" />
-                        </button>
-                      </div>
-                    </div>
 
-                    <div className="row">
-                      <div
-                        className="col-md-12 text-center"
-                        style={{
-                          justifyContent: "center",
-                          display: "flex",
-                          marginTop: "5%",
-                        }}
-                      >
-                        <p>
-                          <FormattedMessage id="alreadyhave" />{" "}
-                          <a style={{ color: "rgb(0, 81, 255)" }}><FormattedMessage id="login.button" /></a>
-                        </p>
+                      <div className="row">
+                        <div
+                          className="col-md-12 text-center"
+                          style={{
+                            justifyContent: "center",
+                            display: "flex",
+                            marginTop: "5%",
+                          }}
+                        >
+                          <p>
+                            <FormattedMessage id="alreadyhave" />{" "}
+                            <a style={{ color: "rgb(0, 81, 255)" }}>
+                              <FormattedMessage id="login.button" />
+                            </a>
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="row" style={{ display: "none" }}>
-                <div class="col-md-12">
-                  <p
-                    style={{
-                      fontSize: "33px",
-                      lineHeight: "39.6px",
-                      fontWeight: "500",
-                    }}
-                  >
-                    <FormattedMessage id="mobile.verification" /> <br /> +
-                    {this.state.phone}
-                  </p>
-
-                  <div
-                    class="row input-otp"
-                    style={{
-                      justifyContent: "space-between",
-                      width: "100%",
-                      height: "90px",
-                      display: "flex",
-                    }}
-                  >
-                    <input
-                      autoFocus
-                      type="text"
-                      name="otp1"
-                      className="form-control mt-2 input-mobile"
-                      maxLength="1"
-                      onChange={(e) => {
-                        this.onInputchange(e);
-                        this.nextComponent.focus();
+                <div className="row" style={{ display: "none" }}>
+                  <div class="col-md-12">
+                    <p
+                      style={{
+                        fontSize: "33px",
+                        lineHeight: "39.6px",
+                        fontWeight: "500",
                       }}
-                    />
-                    <input
-                      type="text"
-                      name="otp2"
-                      className="form-control mt-2 input-mobile"
-                      maxLength="1"
-                      onChange={(e) => {
-                        this.onInputchange(e);
-                        this.nextComponent2.focus();
-                      }}
-                      ref={(c) => (this.nextComponent = c)}
-                    />
-                    <input
-                      type="text"
-                      name="otp3"
-                      className="form-control mt-2 input-mobile"
-                      maxLength="1"
-                      onChange={(e) => {
-                        this.onInputchange(e);
-                        this.nextComponent3.focus();
-                      }}
-                      ref={(d) => (this.nextComponent2 = d)}
-                    />
-                    <input
-                      type="text"
-                      name="otp4"
-                      className="form-control mt-2 input-mobile"
-                      maxLength="1"
-                      onChange={(e) => {
-                        this.onInputchange(e);
-                        this.nextComponent4.focus();
-                      }}
-                      ref={(a) => (this.nextComponent3 = a)}
-                    />
-                    <input
-                      type="text"
-                      name="otp5"
-                      className="form-control mt-2 input-mobile"
-                      maxLength="1"
-                      onChange={(e) => {
-                        this.onInputchange(e);
-                        this.nextComponent5.focus();
-                      }}
-                      ref={(b) => (this.nextComponent4 = b)}
-                    />
-                    <input
-                      type="text"
-                      name="otp6"
-                      className="form-control mt-2 input-mobile"
-                      maxLength="1"
-                      onChange={this.onInputchange}
-                      ref={(c) => (this.nextComponent5 = c)}
-                    />
-                  </div>
-                  <div className="row">
-                    {this.state.showError && (
-                      <p style={{ color: "red" }}>Invalid OTP</p>
-                    )}
-                  </div>
-                  <div className="row mt-4">
-                    <p style={{ color: "#066FD0", fontSize: "28px" }}>
-                      <FormattedMessage id="register.privateAccount.resendCode" />
+                    >
+                      <FormattedMessage id="mobile.verification" /> <br /> +
+                      {this.state.phone}
                     </p>
-                  </div>
-                  <div
-                    class="row mt-3"
-                    style={{ display: "flex", justifyContent: "center" }}
-                  >
-                    <FormattedMessage id="register.verify">
-                      {(value) => (
-                        <input
-                          type="button"
-                          disabled={
-                            this.state.otp1 &&
+
+                    <div
+                      class="row input-otp"
+                      style={{
+                        justifyContent: "space-between",
+                        width: "100%",
+                        height: "90px",
+                        display: "flex",
+                      }}
+                    >
+                      <input
+                        autoFocus
+                        type="text"
+                        name="otp1"
+                        className="form-control mt-2 input-mobile"
+                        maxLength="1"
+                        onChange={(e) => {
+                          this.onInputchange(e);
+                          this.nextComponent.focus();
+                        }}
+                      />
+                      <input
+                        type="text"
+                        name="otp2"
+                        className="form-control mt-2 input-mobile"
+                        maxLength="1"
+                        onChange={(e) => {
+                          this.onInputchange(e);
+                          this.nextComponent2.focus();
+                        }}
+                        ref={(c) => (this.nextComponent = c)}
+                      />
+                      <input
+                        type="text"
+                        name="otp3"
+                        className="form-control mt-2 input-mobile"
+                        maxLength="1"
+                        onChange={(e) => {
+                          this.onInputchange(e);
+                          this.nextComponent3.focus();
+                        }}
+                        ref={(d) => (this.nextComponent2 = d)}
+                      />
+                      <input
+                        type="text"
+                        name="otp4"
+                        className="form-control mt-2 input-mobile"
+                        maxLength="1"
+                        onChange={(e) => {
+                          this.onInputchange(e);
+                          this.nextComponent4.focus();
+                        }}
+                        ref={(a) => (this.nextComponent3 = a)}
+                      />
+                      <input
+                        type="text"
+                        name="otp5"
+                        className="form-control mt-2 input-mobile"
+                        maxLength="1"
+                        onChange={(e) => {
+                          this.onInputchange(e);
+                          this.nextComponent5.focus();
+                        }}
+                        ref={(b) => (this.nextComponent4 = b)}
+                      />
+                      <input
+                        type="text"
+                        name="otp6"
+                        className="form-control mt-2 input-mobile"
+                        maxLength="1"
+                        onChange={this.onInputchange}
+                        ref={(c) => (this.nextComponent5 = c)}
+                      />
+                    </div>
+                    <div className="row">
+                      {this.state.showError && (
+                        <p style={{ color: "red" }}>Invalid OTP</p>
+                      )}
+                    </div>
+                    <div className="row mt-4">
+                      <p style={{ color: "#066FD0", fontSize: "28px" }}>
+                        <FormattedMessage id="register.privateAccount.resendCode" />
+                      </p>
+                    </div>
+                    <div
+                      class="row mt-3"
+                      style={{ display: "flex", justifyContent: "center" }}
+                    >
+                      <FormattedMessage id="register.verify">
+                        {(value) => (
+                          <input
+                            type="button"
+                            disabled={
+                              this.state.otp1 &&
                               this.state.otp2 &&
                               this.state.otp3 &&
                               this.state.otp4 &&
                               this.state.otp5 &&
                               this.state.otp6
-                              ? false
-                              : true
-                          }
-                          className="btn text-white btn-default"
-                          value={value}
-                          onClick={this.verifyOTP}
-                        />
-                      )}
-                    </FormattedMessage>
+                                ? false
+                                : true
+                            }
+                            className="btn text-white btn-default"
+                            value={value}
+                            onClick={this.verifyOTP}
+                          />
+                        )}
+                      </FormattedMessage>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        </section>
-      </Fragment>
+          </section>
+        </Fragment>
       </IntlProvider>
     );
   }

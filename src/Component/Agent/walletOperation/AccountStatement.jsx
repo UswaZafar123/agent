@@ -12,13 +12,13 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import OtpInput from "react-otp-input";
 import { Button, Select, DatePicker } from "antd";
 import { useSelector, useDispatch } from "react-redux";
-import actionType from "../../../services/agent/actionType.js";
+import actionType from "../../../services/agent/actionType";
 import {
   fetchAgentProfile,
   verifyCustomer,
   sendOtpToCustomer,
   walletStatementInquiryAction,
-} from "../../../services/agent/action.js";
+} from "../../../services/agent/action";
 import moment from "moment";
 import { FormattedMessage, IntlProvider } from "react-intl";
 
@@ -122,9 +122,9 @@ const WalletAccountStatement = () => {
   const loadLocaleData = (locale) => {
     switch (locale) {
       case "fr":
-        return import("../../i18n/messages/fr.js");
+        return import("../../i18n/messages/fr");
       default:
-        return import("../../i18n/messages/en.js");
+        return import("../../i18n/messages/en");
     }
   };
 

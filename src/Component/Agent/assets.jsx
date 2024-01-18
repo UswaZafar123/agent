@@ -10,8 +10,13 @@ import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import { connect } from "react-redux";
 import { Select, Dropdown } from "antd";
 import { FormattedMessage, IntlProvider } from "react-intl";
-import DeleteModal from '../page/Settings/General/DeleteModal';
-import { addAsset, deleteAsset, getAllAssets, updateAsset } from "../../services/agent/action";
+import DeleteModal from "../page/Settings/General/DeleteModal";
+import {
+  addAsset,
+  deleteAsset,
+  getAllAssets,
+  updateAsset,
+} from "../../services/agent/action";
 const { Option } = Select;
 
 class Ticket extends Component {
@@ -62,7 +67,7 @@ class Ticket extends Component {
       assetID: "",
       messages: "",
       language: "",
-      idAsset: "", 
+      idAsset: "",
     };
   }
   save = () => {
@@ -103,12 +108,11 @@ class Ticket extends Component {
       editAssetView: false,
       assetID: "",
       assetName: "",
-      assetStatus: false
-    })
-  }
+      assetStatus: false,
+    });
+  };
 
   editAsset = (e, data) => {
-
     // console.log(data.status,"active")
 
     this.setState({
@@ -127,25 +131,24 @@ class Ticket extends Component {
 
   handleDeleteModal = (id) => {
     this.setState({
-        deletePopup: true,
-        idAsset: id
-    })
-}
+      deletePopup: true,
+      idAsset: id,
+    });
+  };
 
-handleDeleteModalRow = () => {
+  handleDeleteModalRow = () => {
     this.setState({
-        deletePopup: false
-    })
+      deletePopup: false,
+    });
 
     this.props.deleteAsset(this.state.idAsset);
-}
+  };
 
-
-handleCloseModal = () => {
+  handleCloseModal = () => {
     this.setState({
-        deletePopup: false
-    })
-}
+      deletePopup: false,
+    });
+  };
 
   // deleteAsset = (e, data) => {
 
@@ -163,12 +166,10 @@ handleCloseModal = () => {
     params.api.paginationGoToPage(10);
     document.getElementById("lbCurrentPage").innerHTML =
       this.state.gridApi.paginationGetCurrentPage() + 1;
-    document.getElementById(
-      "totalPageSize"
-    ).innerHTML = this.state.assetData.length;
-    document.getElementById("bTo").innerHTML = params.api.paginationGetPageSize(
-      10
-    );
+    document.getElementById("totalPageSize").innerHTML =
+      this.state.assetData.length;
+    document.getElementById("bTo").innerHTML =
+      params.api.paginationGetPageSize(10);
     const changedV =
       params.api.paginationGetPageSize(10) *
       (this.state.gridApi.paginationGetCurrentPage() + 1);
@@ -177,16 +178,16 @@ handleCloseModal = () => {
         params.api.paginationGetPageSize(10) *
         (this.state.gridApi.paginationGetCurrentPage() + 1);
     } else {
-      document.getElementById("afterTo").innerHTML = this.state.assetData.length;
+      document.getElementById("afterTo").innerHTML =
+        this.state.assetData.length;
     }
     // console.log("get",params.api.getDisplayedRowCount())
   };
   handleChange = (value) => {
     this.state.gridApi.paginationSetPageSize(Number(value));
     // document.getElementById('totalPageSize').innerHTML=this.state.gridApi.paginationGetPageSize()
-    document.getElementById(
-      "bTo"
-    ).innerHTML = this.state.gridApi.paginationGetPageSize();
+    document.getElementById("bTo").innerHTML =
+      this.state.gridApi.paginationGetPageSize();
   };
 
   showModal = () => {
@@ -219,7 +220,7 @@ handleCloseModal = () => {
         this.state.gridApi.paginationGetCurrentPage() + 1;
       document.getElementById("bTo").innerHTML =
         this.state.gridApi.paginationGetPageSize() *
-        this.state.gridApi.paginationGetCurrentPage() +
+          this.state.gridApi.paginationGetCurrentPage() +
         1;
 
       const changedV =
@@ -230,30 +231,27 @@ handleCloseModal = () => {
           this.state.gridApi.paginationGetPageSize(10) *
           (this.state.gridApi.paginationGetCurrentPage() + 1);
       } else {
-        document.getElementById(
-          "afterTo"
-        ).innerHTML = this.state.assetData.length;
+        document.getElementById("afterTo").innerHTML =
+          this.state.assetData.length;
       }
     }
   };
 
   async translationHelperFunction() {
-
     const messages = await this.loadLocaleData(localStorage.getItem("lang"));
     this.setState({
       messages: messages,
-      language: localStorage.getItem("lang")
+      language: localStorage.getItem("lang"),
     });
     // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
-
   }
 
   loadLocaleData = (locale) => {
     switch (locale) {
       case "fr":
-        return import("../i18n/messages/fr.js");
+        return import("../i18n/messages/fr");
       default:
-        return import("../i18n/messages/en.js");
+        return import("../i18n/messages/en");
     }
   };
 
@@ -263,13 +261,12 @@ handleCloseModal = () => {
     this.translationHelperFunction();
   }
 
- async componentWillReceiveProps(nextProps) {
-
+  async componentWillReceiveProps(nextProps) {
     if (nextProps.assetDetails) {
       console.log("hello next", nextProps.assetDetails._embedded.assetDtoList);
       this.setState({
-        assetData: nextProps.assetDetails._embedded.assetDtoList
-      })
+        assetData: nextProps.assetDetails._embedded.assetDtoList,
+      });
     }
 
     if (nextProps.addAssetStatus && nextProps.addAssetData) {
@@ -285,11 +282,11 @@ handleCloseModal = () => {
 
       this.setState({
         messages: messages,
-        language: nextProps.language
+        language: nextProps.language,
       });
     }
 
-    if(nextProps.language=="fr"){
+    if (nextProps.language == "fr") {
       this.setState({
         columnDefs: [
           { headerName: "Nom", field: "name", width: 250 },
@@ -314,8 +311,7 @@ handleCloseModal = () => {
           },
         ],
       });
-    }
-    else{
+    } else {
       this.setState({
         columnDefs: [
           { headerName: "Name", field: "name", width: 250 },
@@ -341,7 +337,6 @@ handleCloseModal = () => {
         ],
       });
     }
-
   }
 
   onFilterTextBoxChanged = () => {
@@ -366,45 +361,42 @@ handleCloseModal = () => {
   };
 
   onAddAsset = () => {
-    console.log(this.state.assetName, "ASSET NAME")
-    console.log(this.state.assetStatus, "ASSET STATUS")
+    console.log(this.state.assetName, "ASSET NAME");
+    console.log(this.state.assetStatus, "ASSET STATUS");
 
     const data = {
       name: this.state.assetName,
-      active: this.state.assetStatus
-    }
+      active: this.state.assetStatus,
+    };
 
     this.props.addAsset(data);
-
-  }
+  };
 
   onEditAsset = () => {
     // console.log(this.state.assetName, "ASSET NAME")
     // console.log(this.state.assetStatus, "ASSET STATUS")
 
     let data = {
-      "assetId": this.state.assetID,
-      "name": this.state.assetName,
-      "active": this.state.assetStatus
-    }
+      assetId: this.state.assetID,
+      name: this.state.assetName,
+      active: this.state.assetStatus,
+    };
 
     // console.log(data, "EDIT DATA");
 
     this.props.updateAsset(this.state.assetID, data);
-
-  }
+  };
 
   render() {
     console.log("show summary", this.state.summary);
     // console.log("jai",this.state.paginationGetCurrentPage)
     return (
       <IntlProvider
-      messages={this.state.messages.default}
-      locale={this.state.language}
-    >
-      <>
-        {
-          this.state.mainAssetView && (
+        messages={this.state.messages.default}
+        locale={this.state.language}
+      >
+        <>
+          {this.state.mainAssetView && (
             <>
               <div className="main_contain responsive_p_a">
                 <div className="merch_m_list_w">
@@ -415,7 +407,7 @@ handleCloseModal = () => {
                           <div className="chartCardTop">
                             <div className="kyccustomformheading">
                               <h1 className="list_top_heading textAlignCenter text-center">
-                              <FormattedMessage id="agent.Assets" />
+                                <FormattedMessage id="agent.Assets" />
                               </h1>
                               <button
                                 className="addposbtn c_first_pending_BTN btnMaxWidth"
@@ -431,7 +423,9 @@ handleCloseModal = () => {
                           >
                             <div className="tableTop_wrapper">
                               <div className="disFl">
-                                <h5 className="show_pp margin_right8"><FormattedMessage id="agent.Show" /></h5>
+                                <h5 className="show_pp margin_right8">
+                                  <FormattedMessage id="agent.Show" />
+                                </h5>
                                 <div className="tableShowRecordPerPage">
                                   <Select
                                     defaultValue="10"
@@ -446,14 +440,21 @@ handleCloseModal = () => {
                                   </Select>
                                 </div>
 
-                                <h5 className="show_pp margin_left8"><FormattedMessage id="agent.Entries" /></h5>
+                                <h5 className="show_pp margin_left8">
+                                  <FormattedMessage id="agent.Entries" />
+                                </h5>
                                 <div
                                   className="margin-left-auto"
-                                  style={{ display: "flex", alignItems: "center" }}
+                                  style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                  }}
                                 >
                                   <div className="shortCustom">
                                     <span className="icon-Asset-55"></span>
-                                    <h6><FormattedMessage id="agent.Sort" /></h6>
+                                    <h6>
+                                      <FormattedMessage id="agent.Sort" />
+                                    </h6>
                                   </div>
                                   <div className="shortCustom">
                                     <Dropdown
@@ -461,7 +462,8 @@ handleCloseModal = () => {
                                         <ul class="filterDrd">
                                           <li>
                                             <a href="#">
-                                              <span class="icon-logout"></span><FormattedMessage id="agent.All" />
+                                              <span class="icon-logout"></span>
+                                              <FormattedMessage id="agent.All" />
                                             </a>
                                           </li>
                                           <li>
@@ -483,7 +485,9 @@ handleCloseModal = () => {
                                     >
                                       <div className="shortCustom01">
                                         <span className="icon-Asset-54"></span>
-                                        <h6><FormattedMessage id="agent.Filter" /></h6>
+                                        <h6>
+                                          <FormattedMessage id="agent.Filter" />
+                                        </h6>
                                       </div>
                                     </Dropdown>
                                   </div>
@@ -517,11 +521,11 @@ handleCloseModal = () => {
                                 onFirstDataRendered={this.onFirstDataRendered}
                                 columnDefs={this.state.columnDefs}
                                 rowData={this.state.assetData.map((data) => {
-                                  return ({
+                                  return {
                                     id: data.assetId,
                                     name: data.name,
-                                    status: data.active ? "Active" : "Inactive"
-                                  });
+                                    status: data.active ? "Active" : "Inactive",
+                                  };
                                 })}
                                 pagination={true}
                                 onGridReady={this.onGridReady}
@@ -532,13 +536,21 @@ handleCloseModal = () => {
                             </div>
                             <div className="customAgFooter">
                               <div className="showingFooter">
-                                <span><FormattedMessage id="agent.Showing" /></span>
+                                <span>
+                                  <FormattedMessage id="agent.Showing" />
+                                </span>
                                 <span id="bTo"> </span>
-                                <span><FormattedMessage id="agent.To" /></span>
+                                <span>
+                                  <FormattedMessage id="agent.To" />
+                                </span>
                                 <span id="afterTo"></span>
-                                <span><FormattedMessage id="agent.Of" /></span>
+                                <span>
+                                  <FormattedMessage id="agent.Of" />
+                                </span>
                                 <span id="totalPageSize"></span>
-                                <span><FormattedMessage id="agent.Entries" /></span>
+                                <span>
+                                  <FormattedMessage id="agent.Entries" />
+                                </span>
                               </div>
                               <div className="NextPrevW">
                                 <button
@@ -555,7 +567,7 @@ handleCloseModal = () => {
                                   className="NextPrev"
                                   onClick={() => this.onBtNext()}
                                 >
-                                   <FormattedMessage id="agent.Next" />
+                                  <FormattedMessage id="agent.Next" />
                                 </button>
                               </div>
                             </div>
@@ -565,79 +577,107 @@ handleCloseModal = () => {
                     </div>
                   </div>
                 </div>
-                {this.state.deletePopup &&
-                    <DeleteModal 
-                        handleCloseModal={this.handleCloseModal}
-                        handleDeleteModalRow={this.handleDeleteModalRow}
-                        deleteMessage={"Are you sure to delete this asset?"}
-                    />
-               }
+                {this.state.deletePopup && (
+                  <DeleteModal
+                    handleCloseModal={this.handleCloseModal}
+                    handleDeleteModalRow={this.handleDeleteModalRow}
+                    deleteMessage={"Are you sure to delete this asset?"}
+                  />
+                )}
               </div>
             </>
-          )
-        }
+          )}
 
-        {this.state.addAssetView && (
-          <>
-            <div className="main_contain agentformCenter">
-              <div className="merch_m_list_w">
-                <div className="merch_list_card" id="merch_list_card">
-                  <div className="section_custom">
-                    <div className="sectionInn">
-                      <div className="chartCard_w">
-                        <div className="chartCardTop">
-                          <div className="kyccustomformheading">
-                            <h1 className="list_top_heading textAlignCenter text-center">
-                            <FormattedMessage id="agent.AddNewAsset" />
-                            </h1>
-                          </div>
-                        </div>
-                        <div className="chartCardMiddle" style={{ padding: "24px" }}>
-
-                          <div className="containerBiaN_form">
-                            <div className="containerBiaN_f_row">
-                              <div className="containerBiaN_f_col width30percent textAlignRight">
-                                <label><FormattedMessage id="agent.Name" /><span className="mantdat">*</span></label>
-                              </div>
-                              <div className="containerBiaN_f_col width70percent">
-                              <FormattedMessage id="agent.EnterAssetName">
-                                {placeholder =>
-                                <input type="text" value={this.state.assetName} placeholder={placeholder} onChange={(e) => {
-                                  this.setState({
-                                    assetName: e.target.value
-                                  });
-                                }} />}
-                              </FormattedMessage>
-                              </div>
+          {this.state.addAssetView && (
+            <>
+              <div className="main_contain agentformCenter">
+                <div className="merch_m_list_w">
+                  <div className="merch_list_card" id="merch_list_card">
+                    <div className="section_custom">
+                      <div className="sectionInn">
+                        <div className="chartCard_w">
+                          <div className="chartCardTop">
+                            <div className="kyccustomformheading">
+                              <h1 className="list_top_heading textAlignCenter text-center">
+                                <FormattedMessage id="agent.AddNewAsset" />
+                              </h1>
                             </div>
-                            <div className="containerBiaN_f_row">
-                              <div className="containerBiaN_f_col width30percent textAlignRight">
-                                <label><FormattedMessage id="agent.Status" /> <span className="mantdat">*</span></label>
+                          </div>
+                          <div
+                            className="chartCardMiddle"
+                            style={{ padding: "24px" }}
+                          >
+                            <div className="containerBiaN_form">
+                              <div className="containerBiaN_f_row">
+                                <div className="containerBiaN_f_col width30percent textAlignRight">
+                                  <label>
+                                    <FormattedMessage id="agent.Name" />
+                                    <span className="mantdat">*</span>
+                                  </label>
+                                </div>
+                                <div className="containerBiaN_f_col width70percent">
+                                  <FormattedMessage id="agent.EnterAssetName">
+                                    {(placeholder) => (
+                                      <input
+                                        type="text"
+                                        value={this.state.assetName}
+                                        placeholder={placeholder}
+                                        onChange={(e) => {
+                                          this.setState({
+                                            assetName: e.target.value,
+                                          });
+                                        }}
+                                      />
+                                    )}
+                                  </FormattedMessage>
+                                </div>
                               </div>
-                              <div className="containerBiaN_f_col width70percent">
-                                <div className="categorySelect">
-                                  <Select
-                                    defaultValue={this.state.assetStatus}
-                                    style={{ width: 100 + "%", height: 52 }}
-                                    onChange={(e) => {
-                                      this.setState({
-                                        assetStatus: e
-                                      });
-                                    }}
-                                    id={'page-size'}
-                                  >
-                                    <Option value={true}><FormattedMessage id="agent.Active" /></Option>
-                                    <Option value={false}><FormattedMessage id="agent.Inactive" /></Option>
-                                  </Select>
+                              <div className="containerBiaN_f_row">
+                                <div className="containerBiaN_f_col width30percent textAlignRight">
+                                  <label>
+                                    <FormattedMessage id="agent.Status" />{" "}
+                                    <span className="mantdat">*</span>
+                                  </label>
+                                </div>
+                                <div className="containerBiaN_f_col width70percent">
+                                  <div className="categorySelect">
+                                    <Select
+                                      defaultValue={this.state.assetStatus}
+                                      style={{ width: 100 + "%", height: 52 }}
+                                      onChange={(e) => {
+                                        this.setState({
+                                          assetStatus: e,
+                                        });
+                                      }}
+                                      id={"page-size"}
+                                    >
+                                      <Option value={true}>
+                                        <FormattedMessage id="agent.Active" />
+                                      </Option>
+                                      <Option value={false}>
+                                        <FormattedMessage id="agent.Inactive" />
+                                      </Option>
+                                    </Select>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
 
-                          <div style={{ width: "100%", float: "left" }}>
-                            <div className="confirm_p_w mTB00 button-container rspacing">
-                              <button className="blackbtn aryousureBTN confirmBtnR" onClick={this.goToMainAssetPage}><FormattedMessage id="cancel" /></button>
-                              <button className="aryousureBTN confirmBtnR" onClick={this.onAddAsset}><FormattedMessage id="submit" /></button>
+                            <div style={{ width: "100%", float: "left" }}>
+                              <div className="confirm_p_w mTB00 button-container rspacing">
+                                <button
+                                  className="blackbtn aryousureBTN confirmBtnR"
+                                  onClick={this.goToMainAssetPage}
+                                >
+                                  <FormattedMessage id="cancel" />
+                                </button>
+                                <button
+                                  className="aryousureBTN confirmBtnR"
+                                  onClick={this.onAddAsset}
+                                >
+                                  <FormattedMessage id="submit" />
+                                </button>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -646,71 +686,99 @@ handleCloseModal = () => {
                   </div>
                 </div>
               </div>
-            </div>
-          </>
-        )}
+            </>
+          )}
 
-        {this.state.editAssetView && (
-          <>
-            <div className="main_contain agentformCenter">
-              <div className="merch_m_list_w">
-                <div className="merch_list_card" id="merch_list_card">
-                  <div className="section_custom">
-                    <div className="sectionInn">
-                      <div className="chartCard_w">
-                        <div className="chartCardTop">
-                          <div className="kyccustomformheading">
-                            <h1 className="list_top_heading textAlignCenter text-center">
-                            <FormattedMessage id="agent.UpdateAsset" />
-                            </h1>
-                          </div>
-                        </div>
-                        <div className="chartCardMiddle" style={{ padding: "24px" }}>
-
-                          <div className="containerBiaN_form">
-                            <div className="containerBiaN_f_row">
-                              <div className="containerBiaN_f_col width30percent textAlignRight">
-                                <label><FormattedMessage id="agent.Name" /><span className="mantdat">*</span></label>
-                              </div>
-                              <div className="containerBiaN_f_col width70percent">
-                              <FormattedMessage id="agent.EnterAssetName">
-                                  {placeholder =>
-                                <input type="text" value={this.state.assetName} placeholder={placeholder} onChange={(e) => {
-                                  this.setState({
-                                    assetName: e.target.value
-                                  });
-                                }} />}
-                              </FormattedMessage>
-                              </div>
+          {this.state.editAssetView && (
+            <>
+              <div className="main_contain agentformCenter">
+                <div className="merch_m_list_w">
+                  <div className="merch_list_card" id="merch_list_card">
+                    <div className="section_custom">
+                      <div className="sectionInn">
+                        <div className="chartCard_w">
+                          <div className="chartCardTop">
+                            <div className="kyccustomformheading">
+                              <h1 className="list_top_heading textAlignCenter text-center">
+                                <FormattedMessage id="agent.UpdateAsset" />
+                              </h1>
                             </div>
-                            <div className="containerBiaN_f_row">
-                              <div className="containerBiaN_f_col width30percent textAlignRight">
-                                <label><FormattedMessage id="agent.Status" /> <span className="mantdat">*</span></label>
+                          </div>
+                          <div
+                            className="chartCardMiddle"
+                            style={{ padding: "24px" }}
+                          >
+                            <div className="containerBiaN_form">
+                              <div className="containerBiaN_f_row">
+                                <div className="containerBiaN_f_col width30percent textAlignRight">
+                                  <label>
+                                    <FormattedMessage id="agent.Name" />
+                                    <span className="mantdat">*</span>
+                                  </label>
+                                </div>
+                                <div className="containerBiaN_f_col width70percent">
+                                  <FormattedMessage id="agent.EnterAssetName">
+                                    {(placeholder) => (
+                                      <input
+                                        type="text"
+                                        value={this.state.assetName}
+                                        placeholder={placeholder}
+                                        onChange={(e) => {
+                                          this.setState({
+                                            assetName: e.target.value,
+                                          });
+                                        }}
+                                      />
+                                    )}
+                                  </FormattedMessage>
+                                </div>
                               </div>
-                              <div className="containerBiaN_f_col width70percent">
-                                <div className="categorySelect">
-                                  <Select
-                                    defaultValue={this.state.assetStatus}
-                                    style={{ width: 100 + "%", height: 52 }}
-                                    onChange={(e) => {
-                                      this.setState({
-                                        assetStatus: e
-                                      });
-                                    }}
-                                    id={'page-size'}
-                                  >
-                                    <Option value={true}><FormattedMessage id="agent.Active" /></Option>
-                                    <Option value={false}><FormattedMessage id="agent.Inactive" /></Option>
-                                  </Select>
+                              <div className="containerBiaN_f_row">
+                                <div className="containerBiaN_f_col width30percent textAlignRight">
+                                  <label>
+                                    <FormattedMessage id="agent.Status" />{" "}
+                                    <span className="mantdat">*</span>
+                                  </label>
+                                </div>
+                                <div className="containerBiaN_f_col width70percent">
+                                  <div className="categorySelect">
+                                    <Select
+                                      defaultValue={this.state.assetStatus}
+                                      style={{ width: 100 + "%", height: 52 }}
+                                      onChange={(e) => {
+                                        this.setState({
+                                          assetStatus: e,
+                                        });
+                                      }}
+                                      id={"page-size"}
+                                    >
+                                      <Option value={true}>
+                                        <FormattedMessage id="agent.Active" />
+                                      </Option>
+                                      <Option value={false}>
+                                        <FormattedMessage id="agent.Inactive" />
+                                      </Option>
+                                    </Select>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
 
-                          <div style={{ width: "100%", float: "left" }}>
-                            <div className="confirm_p_w mTB00 button-container rspacing">
-                              <button className="blackbtn aryousureBTN confirmBtnR" onClick={this.goToMainAssetPage}><FormattedMessage id="cancel" /></button>
-                              <button className="aryousureBTN confirmBtnR" onClick={this.onEditAsset}>Update</button>
+                            <div style={{ width: "100%", float: "left" }}>
+                              <div className="confirm_p_w mTB00 button-container rspacing">
+                                <button
+                                  className="blackbtn aryousureBTN confirmBtnR"
+                                  onClick={this.goToMainAssetPage}
+                                >
+                                  <FormattedMessage id="cancel" />
+                                </button>
+                                <button
+                                  className="aryousureBTN confirmBtnR"
+                                  onClick={this.onEditAsset}
+                                >
+                                  Update
+                                </button>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -719,18 +787,14 @@ handleCloseModal = () => {
                   </div>
                 </div>
               </div>
-            </div>
-          </>
-        )
-
-        }
-      </>
+            </>
+          )}
+        </>
       </IntlProvider>
     );
   }
 }
 const mapStateToProps = ({ agentReducer, commonReducer }) => {
-
   return {
     addAssetStatus: agentReducer.addAssetStatus,
     addAssetData: agentReducer.addAssetData,
@@ -738,15 +802,14 @@ const mapStateToProps = ({ agentReducer, commonReducer }) => {
     editAssetStatus: agentReducer.editAssetStatus,
     editAssetData: agentReducer.editAssetData,
     language: commonReducer.language,
-  }
-
+  };
 };
 
 const mapDispatchToProps = (dispatch) => ({
   getAllAssets: () => dispatch(getAllAssets()),
   addAsset: (payload) => dispatch(addAsset(payload)),
   deleteAsset: (id) => dispatch(deleteAsset(id)),
-  updateAsset: (id, payload) => dispatch(updateAsset(id, payload))
+  updateAsset: (id, payload) => dispatch(updateAsset(id, payload)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Ticket);
