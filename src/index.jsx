@@ -1,15 +1,15 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom/client";
 import "./index.css";
 import "./mediaQuery.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { I18nProvider, LOCALES } from "./Component/i18n";
+import { I18nProvider } from "./Component/i18n";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
 import rootReducer from "./store/rootReducer";
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 
 import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
@@ -17,7 +17,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import ReduxToastr from "react-redux-toastr";
 import "react-redux-toastr/lib/css/react-redux-toastr.min.css";
 
-import Loader from "./Component/common/loader"
+import Loader from "./Component/common/loader";
 
 // import ReduxToastr from 'react-redux-toastr';
 import "react-redux-toastr/lib/css/react-redux-toastr.min.css";
@@ -34,19 +34,25 @@ const store = composeEnhancers(applyMiddleware(thunk))(createStore)(
 
 const persistor = persistStore(store);
 
-//const lang= localStorage.setItem('lang', 'en-US')
+//const lang= localStorage.setItem('lang', 'en')
 //console.log(localStorage.getItem("lang"));
 /* if(localStorage.getItem("lang")) {
   console.log(localStorage.getItem("lang"));
 }
 else {
-  const locale= localStorage.setItem('lang', 'en-US')
+  const locale= localStorage.setItem('lang', 'en')
 } */
 
-// const locale = localStorage.getItem("lang") ? localStorage.getItem("lang") : localStorage.setItem('lang', 'en-US')
+// const locale = localStorage.getItem("lang") ? localStorage.getItem("lang") : localStorage.setItem('lang', 'en')
 
-ReactDOM.render(
-  <I18nProvider locale={localStorage.getItem("lang")}>
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <I18nProvider
+    locale={
+      localStorage.getItem("lang")?.length > 0
+        ? localStorage.getItem("lang")
+        : "en"
+    }
+  >
     <Provider store={store}>
       {/* <Loader /> */}
       <PersistGate persistor={persistor}>
@@ -68,8 +74,7 @@ ReactDOM.render(
         </BrowserRouter>
       </PersistGate>
     </Provider>
-  </I18nProvider>,
-  document.getElementById("root")
+  </I18nProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

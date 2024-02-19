@@ -1,57 +1,25 @@
-import React, { Component } from "react";
+import React from "react";
 import "../../css/transfer.css";
 import "../../css/banking_operattion.css";
 
 import "antd/dist/antd.css";
-import { AgGridColumn, AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 
-import Highcharts from "highcharts";
-import variablePie from "highcharts/modules/variable-pie";
-import HighchartsReact from "highcharts-react-official";
-
-import ReactHighcharts from "react-highcharts";
-import HighchartsMore from "highcharts/highcharts-more";
-import highcharts3d from "highcharts/highcharts-3d";
-import ProgressBar from "@ramonak/react-progress-bar";
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import Paper from "@material-ui/core/Paper";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
-import InboxIcon from "@material-ui/icons/Inbox";
-import DraftsIcon from "@material-ui/icons/Drafts";
 import Button from "@material-ui/core/Button";
 
-import { Select, DatePicker } from "antd";
-import moment from "moment";
-import Sidebar from "../Agent/sidebar/Sidebar";
-import Logo from "../../Assets/images/logo.svg";
-import { Side_bar_data } from "../Agent/sidebar/Sidebar_data";
-import { NavLink } from "react-router-dom";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
-import success from "../../Assets/images/confirm.svg";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";
 import Typography from "@material-ui/core/Typography";
 import { Card } from "reactstrap";
-
-const dateFormat = "YYYY/MM/DD";
-// const customFormat = value => `custom format: ${value.format(dateFormat)}`;
-const { Option } = Select;
-
-function onChange(date, dateString) {
-  console.log(date, dateString);
-}
-
-function handleChange(value) {
-  console.log(`selected ${value}`);
-}
+import IMAGES from "../../Assets/images";
 
 function ListItemLink(props) {
   return <ListItem button component="a" {...props} />;
@@ -461,7 +429,7 @@ export default function Transfer() {
                     >
                       <div className="kyccustomformheading">
                         <div className="success_pic">
-                          <img src={success} alt="success" />
+                          <img src={IMAGES.success} alt="success" />
                         </div>
                       </div>
                       {/*<h1*/}

@@ -3,15 +3,10 @@ import "../../../css/ag-grid-customization01.css";
 import "antd/dist/antd.css";
 import "../Settings/General/formfromold.css";
 // import "../Agent/antDcustom.css";
-import { AgGridColumn, AgGridReact } from "ag-grid-react";
+import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
-import {
-  FormattedMessage,
-  useIntl,
-  injectIntl,
-  IntlProvider,
-} from "react-intl";
+import { FormattedMessage, IntlProvider } from "react-intl";
 import {
   getAllAgentMemberLists,
   registerAgentMember,
@@ -19,38 +14,14 @@ import {
 } from "../../../services/agent/action";
 // import libphonenumber from 'google-libphonenumber';
 
-// import activeUser from '../../Assets/images/confirm.svg'
-
-import ReactFlagsSelect from "react-flags-select";
-import { getStates } from "country-state-picker";
-
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 
 import "../Settings/General/settingcss.css";
 
-import {
-  Select,
-  DatePicker,
-  Modal,
-  Switch,
-  Upload,
-  message,
-  Dropdown,
-  Checkbox,
-  Tabs,
-} from "antd";
+import { Select, DatePicker, Modal, Upload, message, Dropdown } from "antd";
 import { connect } from "react-redux";
-import { Radio } from "antd";
-import moment from "moment";
-
-const dateFormat = "YYYY-MM-DD";
 const { Option } = Select;
-const { TabPane } = Tabs;
-
-function onChange(e) {
-  console.log(`checked = ${e.target.checked}`);
-}
 
 const dummyRequest = ({ file, onSuccess }) => {
   setTimeout(() => {
@@ -487,7 +458,7 @@ class AgentMember extends Component {
     return (
       <IntlProvider
         messages={this.state.messages.default}
-        locale={this.state.language}
+        locale={this.state.language?.length > 0 ? this.state.language : "en"}
       >
         <>
           {!this.state.addNewMember && !this.state.editNewMember && (

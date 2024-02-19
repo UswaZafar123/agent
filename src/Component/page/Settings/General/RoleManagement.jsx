@@ -7,8 +7,6 @@ import { AgGridColumn, AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 
-// import activeUser from '../../Assets/images/confirm.svg'
-
 import "./settingcss.css";
 
 import {
@@ -641,7 +639,7 @@ class RoleManagement extends Component {
     return (
       <IntlProvider
         messages={this.state.messages.default}
-        locale={this.state.language}
+        locale={this.state.language?.length > 0 ? this.state.language : "en"}
       >
         <>
           {!this.state.addNewRole &&

@@ -3,36 +3,18 @@ import "../../../css/ag-grid-customization01.css";
 import "antd/dist/antd.css";
 import "../Settings/General/formfromold.css";
 // import "../Agent/antDcustom.css";
-import { AgGridColumn, AgGridReact } from "ag-grid-react";
+import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import { FormattedMessage, IntlProvider } from "react-intl";
 
-// import activeUser from '../../Assets/images/confirm.svg'
 import DeleteModal from "./General/DeleteModal";
 
-import ReactFlagsSelect from "react-flags-select";
-import { getStates } from "country-state-picker";
-
-import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 
 import "../Settings/General/settingcss.css";
 
-import {
-  Select,
-  DatePicker,
-  Modal,
-  Switch,
-  Upload,
-  message,
-  Dropdown,
-  Checkbox,
-  Tabs,
-} from "antd";
-
-import { Radio } from "antd";
-import moment from "moment";
+import { Select } from "antd";
 import { connect } from "react-redux";
 import {
   createCommission,
@@ -45,17 +27,8 @@ import {
 } from "../../../services/agent/action";
 import { Input } from "reactstrap";
 
-const dateFormat = "YYYY-MM-DD";
 const { Option } = Select;
-const { TabPane } = Tabs;
 
-function onChange(e) {
-  console.log(`checked = ${e.target.checked}`);
-}
-
-function callback(key) {
-  console.log(key);
-}
 class CommissionsManagement extends Component {
   constructor(props) {
     super(props);
@@ -505,7 +478,7 @@ class CommissionsManagement extends Component {
     return (
       <IntlProvider
         messages={this.state.messages.default}
-        locale={this.state.language}
+        locale={this.state.language?.length > 0 ? this.state.language : "en"}
       >
         <>
           {!this.state.addNewCommissions && !this.state.editNewCommissions && (

@@ -1,13 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
-import {
-  FormattedMessage,
-  IntlProvider,
-  useIntl,
-  injectIntl,
-} from "react-intl";
-import Image2 from "../../../Assets/images/Group.png";
-import Image3 from "../../../Assets/images/Group (1).png";
+import { FormattedMessage, IntlProvider } from "react-intl";
 import PhoneInput from "react-phone-input-2";
 import DatePicker from "react-datepicker";
 import NavBar from "./NavBar";
@@ -19,6 +12,7 @@ import { RegisterService } from "../../../services/agent/action";
 import { Upload, Modal } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { Checkbox } from "@material-ui/core";
+import IMAGES from "../../../Assets/images";
 
 class Register extends Component {
   constructor() {
@@ -538,7 +532,7 @@ class Register extends Component {
     return (
       <IntlProvider
         messages={this.state.messages.default}
-        locale={this.state.language}
+        locale={this.state.language?.length > 0 ? this.state.language : "en"}
       >
         <Fragment>
           <section className="loginWrapper accountWrapper">
@@ -555,7 +549,7 @@ class Register extends Component {
                   <ul className="account-type-options">
                     <li>
                       <img
-                        src={Image2}
+                        src={IMAGES.AgentImage}
                         style={{
                           width: "40%",
                           height: "50%",
@@ -571,7 +565,7 @@ class Register extends Component {
                         onChange={this.selectAccountType}
                       />
                       <label
-                        for="agent"
+                        htmlFor="agent"
                         style={{
                           position: "absolute",
                           fontSize: "18px",
@@ -583,7 +577,7 @@ class Register extends Component {
                     </li>
                     <li>
                       <img
-                        src={Image3}
+                        src={IMAGES.Image3}
                         style={{
                           width: "50%",
                           height: "50%",
@@ -599,7 +593,7 @@ class Register extends Component {
                         onChange={this.selectAccountType}
                       />
                       <label
-                        for="merchant"
+                        htmlFor="merchant"
                         style={{
                           position: "absolute",
                           fontSize: "18px",
@@ -1215,7 +1209,7 @@ class Register extends Component {
                             </a>
                             and{" "}
                             <a style={{ fontWeight: "bold" }}>
-                              privacy policy of sara banking
+                              privacy policy of BIA DigiBank banking
                             </a>
                           </label>
                         </div>

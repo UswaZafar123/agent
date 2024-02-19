@@ -8,7 +8,6 @@ import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import { FormattedMessage, IntlProvider } from "react-intl";
 
-// import activeUser from '../../Assets/images/confirm.svg'
 import DeleteModal from "./DeleteModal";
 
 import "./settingcss.css";
@@ -522,7 +521,7 @@ class Users extends Component {
     return (
       <IntlProvider
         messages={this.state.messages.default}
-        locale={this.state.language}
+        locale={this.state.language?.length > 0 ? this.state.language : "en"}
       >
         <>
           {!this.state.showAddNewUser && !this.state.showEditUser && (

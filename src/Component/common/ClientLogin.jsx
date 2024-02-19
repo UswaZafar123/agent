@@ -1,10 +1,8 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
-import validate from "./../resources/validation";
 import axios from "axios";
-import { FormattedMessage, useIntl, injectIntl } from "react-intl";
-import Logo from "./../../Assets/images/logo.png";
+import { FormattedMessage } from "react-intl";
 
 import { toastr } from "react-redux-toastr";
 import NavBar from "./register/NavBar";
@@ -188,15 +186,8 @@ class Login extends Component {
   // submit function for login - for hitting Login API in redux actions //
   handleSubmit = (e) => {
     e.preventDefault();
-    let {
-      email,
-      loginPassword,
-      twoFactorblock,
-      ipAddress,
-      browser,
-      os,
-      code,
-    } = this.state;
+    let { email, loginPassword, twoFactorblock, ipAddress, browser, os, code } =
+      this.state;
 
     browser = os + "-" + browser;
     let accessPayload = {

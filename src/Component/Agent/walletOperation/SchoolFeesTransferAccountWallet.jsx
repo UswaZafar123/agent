@@ -5,7 +5,6 @@ import variablePie from "highcharts/modules/variable-pie";
 import HighchartsReact from "highcharts-react-official";
 
 import ReactHighcharts from "react-highcharts";
-import HighchartsMore from "highcharts/highcharts-more";
 
 import highcharts3d from "highcharts/highcharts-3d";
 import ProgressBar from "@ramonak/react-progress-bar";
@@ -22,7 +21,6 @@ function onChange(date, dateString) {
 
 variablePie(Highcharts);
 highcharts3d(Highcharts);
-HighchartsMore(ReactHighcharts.Highcharts);
 
 function handleChange(value) {
   console.log(`selected ${value}`);
@@ -564,7 +562,7 @@ class SchoolFeesTransferAccountWallet extends Component {
         series: [
           {
             name: "Earned",
-            color: "#DA4139",
+            color: "#00479a",
             marker: {
               enabled: false,
               radius: 4,

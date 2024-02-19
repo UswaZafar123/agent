@@ -139,7 +139,7 @@ export const bankAccountOpeningAction = (payload) => (dispatch) => {
     url: URL.agent.BANK_ACCOUNT_OPENING,
     data: payload,
     headers: {
-      "Content-Type": "application/json",
+      // "Content-Type": "application/json",
       "Content-Type": "multipart/form-data",
       Authorization: "Bearer " + sessionStorage.getItem("token"),
     },

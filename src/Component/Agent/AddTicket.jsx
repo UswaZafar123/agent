@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Select } from "antd";
-import activeUser from "../../Assets/images/confirm.svg";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { withRouter } from "react-router-dom";
@@ -288,7 +287,7 @@ class AddTicket extends Component {
     return (
       <IntlProvider
         messages={this.state.messages.default}
-        locale={this.state.language}
+        locale={this.state.language?.length > 0 ? this.state.language : "en"}
       >
         <div className="main_contain responsive_p addRicketP">
           <div className="merch_m_list_w">

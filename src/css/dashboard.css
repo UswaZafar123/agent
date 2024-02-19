@@ -746,7 +746,7 @@ margin-bottom: 5px;
     font-weight: 600;
     font-size: 20px;
     line-height: 24px;
-color: #DA4139;
+color: #00479a;
 text-align: center;
 }
 .customdashboardwholerow{
@@ -816,7 +816,7 @@ margin-bottom: 42px;
     width: 50%;
 }
 .line-separator{
-    background: linear-gradient(90deg, rgba(255, 227, 245, 0) -13.65%, #DA4139 47.93%, rgba(255, 227, 245, 0) 114.86%);
+    background: linear-gradient(90deg, rgba(255, 227, 245, 0) -13.65%, #00479a 47.93%, rgba(255, 227, 245, 0) 114.86%);
     border-radius: 24px;
     height: 1.03px;
     width: 100%;
@@ -828,8 +828,8 @@ margin-bottom: 42px;
     padding: 12px;
 }
 .location-btn button{
-    background: #DA4139;
-border: 0.5px solid #DA4139;
+    background: #00479a;
+border: 0.5px solid #00479a;
 border-radius: 4px;
 width: 113px;
 height: 28px;
@@ -966,7 +966,7 @@ height: 26px;
     justify-content: center !important;
 }
 .color_DA4139{
-    color: #DA4139 !important;
+    color: #00479a !important;
 }
 .mercDash .cardrightVal h2{
     font-style: normal;
@@ -1070,7 +1070,7 @@ height: 26px;
 .m_i_d_r{
     padding: 8px;
     border-bottom:1px solid;
-    border-image: linear-gradient(to right, #FFE3F5, #DA4139, #FFE3F5 ) 1;
+    border-image: linear-gradient(to right, #FFE3F5, #00479a, #FFE3F5 ) 1;
     display: flex;
     flex-direction: row;
 }
@@ -1096,7 +1096,7 @@ height: 26px;
 .f_det button{
     width: 113px;
     height: 28px;
-    background: #DA4139;
+    background: #00479a;
     padding: 6px;
     box-sizing: border-box;
     color: #fff;
@@ -1219,7 +1219,7 @@ table.dashTable.dashTable_shopfor td:nth-child(2) span{
 .stylingTA0{
     width: 20px;
     height: 20px;
-    background: #DA4139;
+    background: #00479a;
     border-radius: 2px;
     display: flex !important;
     align-items: center;

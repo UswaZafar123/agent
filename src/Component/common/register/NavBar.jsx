@@ -1,61 +1,62 @@
 import React, { Component, Fragment } from "react";
-import Logo from "../../../Assets/images/logo.png";
-import ReactFlagsSelect from 'react-flags-select';
-import { AlternateEmailTwoTone } from "@material-ui/icons";
-import { LOCALES } from '../../i18n/locales';
 import { connect } from "react-redux";
 import { SetLanguage } from "../../../services/common/action";
-import { isThisSecond } from "date-fns";
+import IMAGES from "../../../Assets/images";
 class NavBar extends Component {
   constructor() {
     super();
     this.state = {
       selected: "",
-      langue: 'fr',
-      language: ""
+      langue: "fr",
+      language: "",
     };
   }
 
   componentDidMount = () => {
     this.setState({
-      language: localStorage.getItem("lang")
-    })
-  }
+      language: localStorage.getItem("lang"),
+    });
+  };
 
   setSelected = (code) => {
-    this.setState({ selected: code })
-  }
+    this.setState({ selected: code });
+  };
 
   handleLanguage(e) {
-    localStorage.setItem("lang", e.target.value)
+    localStorage.setItem("lang", e.target.value);
     this.setState({
-      language: e.target.value
+      language: e.target.value,
     });
     // this.props.language(e.target.value)
-    this.props.SetLanguage(e.target.value)
+    this.props.SetLanguage(e.target.value);
   }
 
   render() {
-
     return (
-
       <div className="nav nav-default" style={{ position: "fixed !important" }}>
         <div className="navDefaultLogoHeader">
-          <img alt="logo" src={Logo} className="navDefaultLogo" />
+          <img alt="logo" src={IMAGES.LOGO} className="navDefaultLogo" />
         </div>
 
         {/* <ReactFlagsSelect
           selected={this.state.selected} className="langOption navCountrySelect"
           onSelect={code => this.setSelected(code)}
         /> */}
-        <select value={this.state.language} className="langOption langOptionLogin" name='langue' onChange={(e) => this.handleLanguage(e)}
+        <select
+          value={this.state.language}
+          className="langOption langOptionLogin"
+          name="langue"
+          onChange={(e) => this.handleLanguage(e)}
         >
-          <option value='' disabled={true}> {this.state.language == "en-US" ? "Choose A Language" : "Choisir la langue"}</option>
-          <option value='en-US'>English</option>
-          <option value='fr'>French</option>
+          <option value="" disabled={true}>
+            {" "}
+            {this.state.language == "en"
+              ? "Choose A Language"
+              : "Choisir la langue"}
+          </option>
+          <option value="en">English</option>
+          <option value="fr">French</option>
         </select>
-
-
       </div>
     );
   }
@@ -63,15 +64,11 @@ class NavBar extends Component {
 
 // // function for mapping redux state values with props //
 const mapStateToProps = ({ commonReducer }) => {
-  return {
-
-  };
+  return {};
 };
 
 const mapDispatchToProps = (dispatch) => ({
-
-  SetLanguage: (lang) => dispatch(SetLanguage(lang))
-
+  SetLanguage: (lang) => dispatch(SetLanguage(lang)),
 });
 
 //connect method is used for connecting react and redux //

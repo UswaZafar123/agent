@@ -1,10 +1,8 @@
-import React, { Component, Fragment } from "react";
+import { Component, Fragment } from "react";
 import { connect } from "react-redux";
-import { NavLink, Redirect } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import validate from "./resources/validation";
-import axios from "axios";
-import { FormattedMessage, IntlProvider, injectIntl } from "react-intl";
-import Logo from "./../../Assets/images/logo.png";
+import { FormattedMessage, IntlProvider } from "react-intl";
 import NavBar from "./../common/register/NavBar";
 import {
   addAccessInfo,
@@ -283,18 +281,27 @@ class Login extends Component {
 
     // const { loginFailed } = this.props.loginStatus;
 
-    console.log(4586, this.props.merchantLoginStatus);
+    console.log(
+      4586,
+      this.state.language,
+      this.state.language?.length > 0 ? this.state.language : "en"
+    );
 
     return (
       //By using Fragment as parent div will not create an extra dom element //
       <IntlProvider
         messages={this.state.messages.default}
-        locale={this.state.language}
+        locale={this.state.language?.length > 0 ? this.state.language : "en"}
       >
         <Fragment>
           <section className="loginWrapper accountWrapper">
             <NavBar language={this.language} />
-            <IntlProvider messages={this.state.messages.default}>
+            <IntlProvider
+              locale={
+                this.state.language?.length > 0 ? this.state.language : "en"
+              }
+              messages={this.state.messages.default}
+            >
               <div className="col-sm-12 loginContainer">
                 <div className="loginInner">
                   <div className="loginInform">

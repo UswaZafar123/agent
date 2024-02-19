@@ -168,14 +168,14 @@ export const Side_bar_data = [
   },
   {
     title: "Non-SARA Customer",
-    path: "/agent/non-sara/fund-transfer",
+    path: "/agent/non-digi-bank/fund-transfer",
     iconClass: "icon-Asset-27",
     id: 3,
     subMenu: [
 
       {
         title: "Fund Transfer",
-        path: "/agent/non-sara/fund-transfer",
+        path: "/agent/non-digi-bank/fund-transfer",
       },
 
     ],

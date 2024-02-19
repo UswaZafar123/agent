@@ -105,7 +105,7 @@ class ChangePassword extends Component {
       <>
         <IntlProvider
           messages={this.state.messages.default}
-          locale={this.state.language}
+          locale={this.state.language?.length > 0 ? this.state.language : "en"}
         >
           <div className="main_contain">
             <div className="merch_m_list_w">

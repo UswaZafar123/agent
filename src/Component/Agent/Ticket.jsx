@@ -4,11 +4,10 @@ import "../../css/merchant_management.css";
 import "../../css/ag-grid-customization01.css";
 import "antd/dist/antd.css";
 import "./antDcustom.css";
-import { AgGridColumn, AgGridReact } from "ag-grid-react";
+import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import EditTicket from "./EditTicket";
-import activeUser from "../../Assets/images/confirm.svg";
 import {
   ticketsPriorities,
   getTickets,
@@ -18,11 +17,7 @@ import {
 import { connect } from "react-redux";
 import { FormattedMessage, IntlProvider } from "react-intl";
 import { Select, Menu, Dropdown, Modal } from "antd";
-import { DownOutlined } from "@ant-design/icons";
-import Approved from "../Alerts/Approved";
-import Reject from "../Alerts/Reject";
 // import Dashboard from "../Dashboard/Dashboard";
-import { data } from "jquery";
 const { Option } = Select;
 
 class Ticket extends Component {
@@ -348,7 +343,7 @@ class Ticket extends Component {
     return (
       <IntlProvider
         messages={this.state.messages.default}
-        locale={this.state.language}
+        locale={this.state.language?.length > 0 ? this.state.language : "en"}
       >
         <>
           {!this.state.editStatus && (

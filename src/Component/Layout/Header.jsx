@@ -1,15 +1,12 @@
-import React, { Component, useState } from "react";
+import { Component } from "react";
 import "../../css/header.css";
-import prifilePics from "../../Assets/images/p01.jpg";
-import mobileLogo from "../../Assets/images/biapay_logo_mobile.png";
+import IMAGES from "../../Assets/images";
 import { Logout, SetLanguage } from "../../services/common/action";
-import { Select, Menu, Dropdown } from "antd";
+import { Dropdown } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
 import { connect } from "react-redux";
 import { getRefreshToken, getProfile } from "../../services/agent/action";
-import {withRouter}from "react-router-dom";
-import compose from "redux"
-const { Option } = Select;
+import { withRouter } from "react-router-dom";
 
 class Header extends Component {
   constructor() {
@@ -18,16 +15,15 @@ class Header extends Component {
     this.state = {
       profileImage: null,
       language: localStorage.getItem("lang"),
-      marginLeft:window.innerWidth,
-      mediaWidth:1023
+      marginLeft: window.innerWidth,
+      mediaWidth: 1023,
     };
   }
 
   componentDidMount() {
-
     this.setState({
-      language: localStorage.getItem("lang")
-    })
+      language: localStorage.getItem("lang"),
+    });
 
     let data = {
       client_id: "PUBLIC_CLIENT",
@@ -46,8 +42,6 @@ class Header extends Component {
     clearInterval(this.interval);
   }
 
-
-
   // blobToBase64 = (blob) => {
   //   const reader = new FileReader();
   //   reader.readAsDataURL(blob);
@@ -60,51 +54,45 @@ class Header extends Component {
 
   async componentWillReceiveProps(nextProps) {
     if (nextProps.profileImageStatus) {
+      var blob = new Blob([nextProps.profileImage], {
+        type: "application/octet-stream",
+      });
 
-      var blob = new Blob([nextProps.profileImage], { type: "application/octet-stream" });
-
-      const value = URL.createObjectURL(blob)
+      const value = URL.createObjectURL(blob);
       this.setState({
-        profileImage: value
-      })
+        profileImage: value,
+      });
     }
-
   }
 
   handleLanguage(e) {
-    localStorage.setItem("lang", e.target.value)
+    localStorage.setItem("lang", e.target.value);
     this.setState({
-      language: e.target.value
+      language: e.target.value,
     });
     // this.props.language(e.target.value)
-    this.props.SetLanguage(e.target.value)
+    this.props.SetLanguage(e.target.value);
   }
-
 
   toggleHandler01(VarVal) {
     this.props.toggleHandler01(VarVal);
   }
 
-
-
-  updateDimensions=()=> {
-    this.setState({ marginLeft: window.innerWidth});
+  updateDimensions = () => {
+    this.setState({ marginLeft: window.innerWidth });
     // console.log("marginTest",this.state.marginLeft)
-
   };
   componentDidMount() {
-    window.addEventListener('resize', this.updateDimensions);
+    window.addEventListener("resize", this.updateDimensions);
   }
   componentWillUnmount() {
-    window.removeEventListener('resize', this.updateDimensions);
+    window.removeEventListener("resize", this.updateDimensions);
   }
 
-
-
   render() {
-    const merginLeft = this.state.marginLeft - (313+150+180+20)
-    const mediaWidth = this.state.mediaWidth
-    const windowWidth = window.innerWidth
+    const merginLeft = this.state.marginLeft - (313 + 150 + 180 + 20);
+    const mediaWidth = this.state.mediaWidth;
+    const windowWidth = window.innerWidth;
 
     // console.log("media width",windowWidth,mediaWidth)
     return (
@@ -120,12 +108,26 @@ class Header extends Component {
             <input type="search" placeholder="Search" />
           </div>
           <div className="lnp lnpAgent">
-          <div class="arrow-down"></div>
+            <div class="arrow-down"></div>
             {/* <h2 className="langue">English</h2> */}
-            <select value={this.state.language} onChange={(e) => this.handleLanguage(e)} className="langOption" name='langue' style={windowWidth>mediaWidth ? { left: `${merginLeft}px`} : {left: "auto",right:"155px"}}>
-              <option value='' disabled={true}>{this.state.language == "en-US" ? "Choose A Language" : "Choisir la langue"}</option>
-              <option value='en-US'>English</option>
-              <option value='fr'>French</option>
+            <select
+              value={this.state.language}
+              onChange={(e) => this.handleLanguage(e)}
+              className="langOption"
+              name="langue"
+              style={
+                windowWidth > mediaWidth
+                  ? { left: `${merginLeft}px` }
+                  : { left: "auto", right: "155px" }
+              }
+            >
+              <option value="" disabled={true}>
+                {this.state.language == "en"
+                  ? "Choose A Language"
+                  : "Choisir la langue"}
+              </option>
+              <option value="en">English</option>
+              <option value="fr">French</option>
             </select>
             {/* <div className="hBell dFlexAllCenter">
               <span className="icon-Asset-41 fSize20"></span>
@@ -142,7 +144,6 @@ class Header extends Component {
                     <ul class="pDropDown_W">
                       <li
                         onClick={() => {
-
                           sessionStorage.removeItem("refresh_token");
                           sessionStorage.removeItem("token_expiretime");
                           sessionStorage.removeItem("refresh_token_expiretime");
@@ -162,9 +163,11 @@ class Header extends Component {
                   placement="topLeft"
                   trigger={["click"]}
                 >
-
-
-                  {this.state.profileImage ? <img src={this.state.profileImage} alt="profile pic" /> : <img src={prifilePics} alt="profile pic" />}
+                  {this.state.profileImage ? (
+                    <img src={this.state.profileImage} alt="profile pic" />
+                  ) : (
+                    <img src={IMAGES.IMAGEPO1} alt="profile pic" />
+                  )}
                 </Dropdown>
               </div>
             </div>
@@ -176,13 +179,12 @@ class Header extends Component {
 }
 
 const mapStateToProps = ({ agentReducer }) => {
-  const { profileImage, profileImageStatus,agentLoginStatus } = agentReducer;
-
+  const { profileImage, profileImageStatus, agentLoginStatus } = agentReducer;
 
   return {
     profileImage,
     profileImageStatus,
-    agentLoginStatus
+    agentLoginStatus,
   };
 };
 
@@ -190,8 +192,7 @@ const mapDispatchToProps = (dispatch) => ({
   getRefreshToken: (data) => dispatch(getRefreshToken(data)),
   Logout: () => dispatch(Logout()),
   getProfile: () => dispatch(getProfile()),
-  SetLanguage: (lang) => dispatch(SetLanguage(lang))
-
+  SetLanguage: (lang) => dispatch(SetLanguage(lang)),
 });
 
- export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));

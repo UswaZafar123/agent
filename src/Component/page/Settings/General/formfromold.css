@@ -548,7 +548,7 @@ color: #4C4D4E;
     line-height: 72px;
     letter-spacing: 0em;
     text-align: center;
-    color: #DA4139;
+    color: #00479a;
     
   }
   .m_t_24{
@@ -1115,7 +1115,7 @@ color: #FFFFFF;
     margin-bottom: 60px;
 }
 .dcbtn{
-    background: #DA4139;
+    background: #00479a;
 border: 0.5px solid #B9130A;;
 border-radius: 6px;
 text-align: center;
@@ -1258,8 +1258,8 @@ margin-bottom: 0;
     align-items: center;
 }
 .pricingcardbuy-button{
-    color: #DA4139;
-    border: 1px solid #DA4139;
+    color: #00479a;
+    border: 1px solid #00479a;
     border-radius: 50px;
 }
 .pricingcardview-button{
@@ -1290,7 +1290,7 @@ text-align: center;
 color: #fff;
 }
 .activepricingcardbuy-button{
-    background: #DA4139 !important;
+    background: #00479a !important;
     color: #fff;
 }
 .activepricingcardview-button{
@@ -1359,7 +1359,7 @@ margin-right: 0;
     border-radius: 4px;
 }
 .pos-buy-btn{
-    background: linear-gradient(180deg, #FF756D 0%, #DA4139 100%);
+    background: linear-gradient(180deg, #FF756D 0%, #00479a 100%);
     border: 1px solid #E64C43;
     border-radius: 4px;
 }
@@ -1411,7 +1411,7 @@ margin-bottom: 0;
 color: #343A40;   
 }
 .paymentmethodtext{
-    color: #DA4139;
+    color: #00479a;
     font-size: 18px;
 line-height: 20px;
 letter-spacing: 0.1px;

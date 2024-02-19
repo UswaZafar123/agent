@@ -101,14 +101,28 @@ const WalletCashDeposit = () => {
     };
   }, []);
 
-  useEffect(async () => {
+  const loadLocalDatass = async () => {
     const messages = await loadLocaleData(localStorage.getItem("lang"));
     setMessages(messages);
 
     setLanguage(localStorage.getItem("lang"));
+  };
+  const loadLocalDatas2 = async () => {
+    const messages = await loadLocaleData(lan);
+    setMessages(messages);
 
-    // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
+    setLanguage(lan);
+  };
+
+  useEffect(() => {
+    dispatch({
+      type: actionType.SUPER_AGENT_DETAIL_RESET,
+    });
+    loadLocalDatass();
   }, []);
+  useEffect(() => {
+    loadLocalDatas2();
+  }, [lan]);
 
   const loadLocaleData = (locale) => {
     switch (locale) {
@@ -118,13 +132,6 @@ const WalletCashDeposit = () => {
         return import("../../i18n/messages/en");
     }
   };
-
-  useEffect(async () => {
-    const messages = await loadLocaleData(lan);
-    setMessages(messages);
-
-    setLanguage(lan);
-  }, [lan]);
 
   useEffect(() => {
     if (!agentProfile) {

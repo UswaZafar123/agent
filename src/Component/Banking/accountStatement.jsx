@@ -109,15 +109,12 @@ const BankAccountStatement = () => {
     };
   }, []);
 
-  useEffect(async () => {
-    const messages = await loadLocaleData(localStorage.getItem("lang"));
+  const loadLocalDatas2 = async () => {
+    const messages = await loadLocaleData(lan);
     setMessages(messages);
 
-    setLanguage(localStorage.getItem("lang"));
-
-    // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
-  }, []);
-
+    setLanguage(lan);
+  };
   const loadLocaleData = (locale) => {
     switch (locale) {
       case "fr":
@@ -126,12 +123,11 @@ const BankAccountStatement = () => {
         return import("../i18n/messages/en");
     }
   };
-
-  useEffect(async () => {
-    const messages = await loadLocaleData(lan);
-    setMessages(messages);
-
-    setLanguage(lan);
+  useEffect(() => {
+    loadLocalDatass();
+  }, []);
+  useEffect(() => {
+    loadLocalDatas2();
   }, [lan]);
 
   useEffect(() => {

@@ -13,7 +13,7 @@ import variablePie from "highcharts/modules/variable-pie";
 import HighchartsReact from "highcharts-react-official";
 
 import ReactHighcharts from "react-highcharts";
-import HighchartsMore from "highcharts/highcharts-more";
+
 import highcharts3d from "highcharts/highcharts-3d";
 import ProgressBar from "@ramonak/react-progress-bar";
 import { makeStyles } from "@material-ui/core/styles";
@@ -23,11 +23,8 @@ import Paper from "@material-ui/core/Paper";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Divider from "@material-ui/core/Divider";
-import InboxIcon from "@material-ui/icons/Inbox";
-import DraftsIcon from "@material-ui/icons/Drafts";
 import Button from "@material-ui/core/Button";
 
-import success from "../../../Assets/images/confirm.svg";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
 import MenuItem from "@material-ui/core/MenuItem";

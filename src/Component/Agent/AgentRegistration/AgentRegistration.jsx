@@ -11,21 +11,26 @@ function AgentRegistration(props) {
   const [language, setLanguage] = useState("");
 
   const lan = useSelector((state) => state.commonReducer.language);
-
-  useEffect(async () => {
+  const loadLocalDataas = async () => {
     const messages = await loadLocaleData(localStorage.getItem("lang"));
     setMessages(messages);
 
     setLanguage(localStorage.getItem("lang"));
-
-    // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
-  }, []);
-
-  useEffect(async () => {
+  };
+  const loadLocaleDatas = async () => {
     const messages = await loadLocaleData(lan);
     setMessages(messages);
 
     setLanguage(lan);
+  };
+  useEffect(() => {
+    loadLocalDataas();
+
+    // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
+  }, []);
+
+  useEffect(() => {
+    loadLocaleDatas();
   }, [lan]);
 
   const loadLocaleData = (locale) => {
@@ -54,7 +59,7 @@ function AgentRegistration(props) {
                   setSelectedAccount("IND");
                 }}
                 style={{
-                  background: selectedAccount === "IND" ? "#DA4139" : "",
+                  background: selectedAccount === "IND" ? "#00479a" : "",
                   color: selectedAccount === "IND" ? "white" : "",
                 }}
               >
@@ -66,7 +71,7 @@ function AgentRegistration(props) {
                   setSelectedAccount("ETS");
                 }}
                 style={{
-                  background: selectedAccount === "ETS" ? "#DA4139" : "",
+                  background: selectedAccount === "ETS" ? "#00479a" : "",
                   color: selectedAccount === "ETS" ? "white" : "",
                 }}
               >
@@ -78,7 +83,7 @@ function AgentRegistration(props) {
                   setSelectedAccount("SA");
                 }}
                 style={{
-                  background: selectedAccount === "SA" ? "#DA4139" : "",
+                  background: selectedAccount === "SA" ? "#00479a" : "",
                   color: selectedAccount === "SA" ? "white" : "",
                 }}
               >
@@ -90,7 +95,7 @@ function AgentRegistration(props) {
                   setSelectedAccount("SARL");
                 }}
                 style={{
-                  background: selectedAccount === "SARL" ? "#DA4139" : "",
+                  background: selectedAccount === "SARL" ? "#00479a" : "",
                   color: selectedAccount === "SARL" ? "white" : "",
                 }}
               >
@@ -102,7 +107,7 @@ function AgentRegistration(props) {
                   setSelectedAccount("SAS");
                 }}
                 style={{
-                  background: selectedAccount === "SAS" ? "#DA4139" : "",
+                  background: selectedAccount === "SAS" ? "#00479a" : "",
                   color: selectedAccount === "SAS" ? "white" : "",
                 }}
               >
@@ -161,8 +166,8 @@ const InnerWrapper = styled.div`
         border: 1px solid transparent;
 
         &:hover {
-          border: 1px solid #da4139;
-          background: #da4139;
+          border: 1px solid #00479a;
+          background: #00479a;
           color: white;
         }
         a {

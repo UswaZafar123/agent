@@ -5,49 +5,16 @@ import "./formfromold.css";
 
 // AG-GRID START
 
-import { AgGridColumn, AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
-import { Grid } from "ag-grid-enterprise";
+
 import { connect } from "react-redux";
 
 // AG-GRID ENDS
 import "jspdf-autotable";
-import jsPDF from "jspdf";
-
-import {
-  Select,
-  DatePicker,
-  Modal,
-  Switch,
-  Upload,
-  message,
-  Dropdown,
-} from "antd";
-import moment from "moment";
-import myImage from "../../../Assets/images/p01.jpg";
-import myLogo from "../../../Assets/images/logo.svg";
 import { getProfile } from "../../../services/agent/action";
 import { FormattedMessage, IntlProvider } from "react-intl";
-
-const dateFormat = "YYYY/MM/DD";
-// const customFormat = value => `custom format: ${value.format(dateFormat)}`;
-const { Option } = Select;
-
-function onChange(date, dateString) {
-  console.log(date, dateString);
-}
-
-function setNormal(api) {
-  const eGridDiv = document.querySelector("#myGrid");
-  eGridDiv.style.width = "100%";
-  eGridDiv.style.height = 400;
-  api.setDomLayout(null);
-}
-
-function handleChange(value) {
-  console.log(`selected ${value}`);
-}
+import IMAGES from "../../../Assets/images";
 
 class Profile extends Component {
   constructor(props) {
@@ -134,7 +101,7 @@ class Profile extends Component {
       <>
         <IntlProvider
           messages={this.state.messages.default}
-          locale={this.state.language}
+          locale={this.state.language?.length > 0 ? this.state.language : "en"}
         >
           <div>
             <div className="main_contain">
@@ -172,7 +139,7 @@ class Profile extends Component {
                                   <FormattedMessage id="agent.UploadLogo" />
                                 </h2>
                                 <div className="profileImg">
-                                  <img src={myLogo} />
+                                  <img src={IMAGES.LOGO} />
                                 </div>
                                 <div className="uploadPText">
                                   <input type="file" />

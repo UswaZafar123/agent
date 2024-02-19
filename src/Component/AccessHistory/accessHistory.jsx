@@ -3,14 +3,11 @@ import "../../css/ag-grid-customization01.css";
 import "../Agent/antDcustom.css";
 import "antd/dist/antd.css";
 
-import { AgGridColumn, AgGridReact } from "ag-grid-react";
+import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 
-import activeUser from "../../Assets/images/confirm.svg";
-
-import { Select, Menu, Dropdown, Modal } from "antd";
-import { DownOutlined } from "@ant-design/icons";
+import { Select, Dropdown, Modal } from "antd";
 import Approved from "../Alerts/Approved";
 import Reject from "../Alerts/Reject";
 import { connect } from "react-redux";
@@ -260,7 +257,7 @@ class AccessHistoryAdmin extends Component {
     return (
       <IntlProvider
         messages={this.state.messages.default}
-        locale={this.state.language}
+        locale={this.state.language?.length > 0 ? this.state.language : "en"}
       >
         <div className="main_contain">
           <div className="merch_m_list_w">

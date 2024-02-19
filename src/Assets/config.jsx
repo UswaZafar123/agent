@@ -1,10 +1,10 @@
-const keyClock = process.env.REACT_APP_KEY_CLOACK;
-const userManagementHost = process.env.REACT_APP_KEY_USER_MANAGEMENT;
-const adminAPI = process.env.REACT_APP_ADMIN_API;
-const API = process.env.REACT_APP_API;
-const MerchantAPI = process.env.REACT_APP_MERCHANT_API;
-const AgentApi = process.env.REACT_APP_AGENT_BANKING_HOST;
-const MainAPI = process.env.REACT_APP_MAIN;
+const keyClock = import.meta.env.VITE_REACT_APP_KEY_CLOACK;
+const userManagementHost = import.meta.env.VITE_REACT_APP_KEY_USER_MANAGEMENT;
+const adminAPI = import.meta.env.VITE_REACT_APP_ADMIN_API;
+const API = import.meta.env.VITE_REACT_APP_API;
+const MerchantAPI = import.meta.env.VITE_REACT_APP_MERCHANT_API;
+const AgentApi = import.meta.env.VITE_REACT_APP_AGENT_BANKING_HOST;
+const MainAPI = import.meta.env.VITE_REACT_APP_MAIN;
 const GATEWAY_API = "http://gateway.biapay.net:9001/";
 
 const configUrl = {
@@ -21,7 +21,7 @@ const configUrl = {
     FIREBASE_REGISTRATION_TOKEN: `${API}dashboard/merchant/firebase-token`,
     SEND_SMS: `${API}sms`,
     RECEOVER_SMS: `${API}auth/recovery/otp`,
-    LOCAL_BANKS : `${MainAPI}bank/common/localBanks`
+    LOCAL_BANKS: `${MainAPI}bank/common/localBanks`,
   },
 
   client: {
@@ -110,7 +110,7 @@ const configUrl = {
     VIEW_PROFILE_PICTURE: `${API}merchant/profile/image`,
     PROFILE_INFO: `${API}merchant/profile/profileInfo`,
     SEND_OTP: `${API}public/merchant/mfa/send`,
-    VERIFY_OTP: `${API}public/merchant/mfa/validate`
+    VERIFY_OTP: `${API}public/merchant/mfa/validate`,
   },
 
   payment: {
@@ -156,7 +156,7 @@ const configUrl = {
     GET_LINECHART_DATA: `${adminAPI}admin/dashboard/lineChartData`,
     GET_ALL_PERMISSIONS: `${adminAPI}admin/roles/1`,
     GET_USER_PENDING_FIRST_APPROVAL_LIST: `${API}admin/customers/pendingFirstApproval`,
-    GET_USER_PENDING_SECOND_APPROVAL_LIST: `${API}admin/customers/pendingSecondApproval`,
+    // GET_USER_PENDING_SECOND_APPROVAL_LIST: `${API}admin/customers/pendingSecondApproval`,
     SEND_USER_KYC_APPROVE: `${API}admin/userKyc`,
     GET_USER_PENDING_SECOND_APPROVAL_LIST: `${API}admin/customers/pendingSecondApproval`,
     //LOGIN: `${API}common/adminLogin`,
@@ -338,7 +338,7 @@ const configUrl = {
     GET_BANKACCOUNT_CUSTOMER: `${MainAPI}bank/common/customer`,
     GET_ACCESS_INFO: `${AgentApi}api-internal/accessInformations`,
 
-    BANK_CASH_WITHDRAW : `${AgentApi}api/agencyBanking/cashWithdrawal`,
+    BANK_CASH_WITHDRAW: `${AgentApi}api/agencyBanking/cashWithdrawal`,
   },
 };
 

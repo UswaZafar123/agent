@@ -8,7 +8,6 @@ import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import { connect } from "react-redux";
 import { FormattedMessage, IntlProvider } from "react-intl";
-// import activeUser from '../../Assets/images/confirm.svg'
 import { getAllAgentMemberPackages } from "../../../../services/agent/action";
 import "./settingcss.css";
 
@@ -456,7 +455,7 @@ class Packages extends Component {
     return (
       <IntlProvider
         messages={this.state.messages.default}
-        locale={this.state.language}
+        locale={this.state.language?.length > 0 ? this.state.language : "en"}
       >
         <>
           <div className="main_contain settings-container">

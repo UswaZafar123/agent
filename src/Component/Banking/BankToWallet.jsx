@@ -54,14 +54,34 @@ const BankToWallet = () => {
 
   const dispatch = useDispatch();
 
-  useEffect(async () => {
+  const loadLocalDatass = async () => {
     const messages = await loadLocaleData(localStorage.getItem("lang"));
     setMessages(messages);
 
     setLanguage(localStorage.getItem("lang"));
+  };
+  const loadLocalDatas2 = async () => {
+    const messages = await loadLocaleData(lan);
+    setMessages(messages);
 
-    dispatch(getProfile());
+    setLanguage(lan);
+  };
+
+  useEffect(() => {
+    loadLocalDatass();
   }, []);
+  useEffect(() => {
+    loadLocalDatas2();
+  }, [lan]);
+
+  const loadLocaleData = (locale) => {
+    switch (locale) {
+      case "fr":
+        return import("../i18n/messages/fr");
+      default:
+        return import("../i18n/messages/en");
+    }
+  };
 
   const [bankAccounts, setBankAccounts] = useState([]);
 
@@ -80,22 +100,6 @@ const BankToWallet = () => {
       setBankAccounts(agentBankAccounts);
     }
   }, [agentBankAccounts]);
-
-  const loadLocaleData = (locale) => {
-    switch (locale) {
-      case "fr":
-        return import("../i18n/messages/fr");
-      default:
-        return import("../i18n/messages/en");
-    }
-  };
-
-  useEffect(async () => {
-    const messages = await loadLocaleData(lan);
-    setMessages(messages);
-
-    setLanguage(lan);
-  }, [lan]);
 
   const walletVerificationForm = () => {
     return (

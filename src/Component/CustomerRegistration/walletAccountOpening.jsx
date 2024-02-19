@@ -20,8 +20,9 @@ import {
   walletAccountOpeningSetPasswordAction,
 } from "../../../src/services/agent/action";
 import { FormattedMessage, IntlProvider } from "react-intl";
+import { AFRICAN_COUNTRIES } from "../../Assets/data/AfricanCoutries";
 
-var africanCountries = require("../../Assets/data/african_countries.json");
+const africanCountries = AFRICAN_COUNTRIES;
 const { Option } = Select;
 const resendTime = 30;
 
@@ -127,15 +128,12 @@ const WalletAccountOpening = () => {
     };
   }, []);
 
-  useEffect(async () => {
-    const messages = await loadLocaleData(localStorage.getItem("lang"));
+  const loadLocalDatas2 = async () => {
+    const messages = await loadLocaleData(lan);
     setMessages(messages);
 
-    setLanguage(localStorage.getItem("lang"));
-
-    // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
-  }, []);
-
+    setLanguage(lan);
+  };
   const loadLocaleData = (locale) => {
     switch (locale) {
       case "fr":
@@ -144,12 +142,11 @@ const WalletAccountOpening = () => {
         return import("../i18n/messages/en");
     }
   };
-
-  useEffect(async () => {
-    const messages = await loadLocaleData(lan);
-    setMessages(messages);
-
-    setLanguage(lan);
+  useEffect(() => {
+    loadLocalDatass();
+  }, []);
+  useEffect(() => {
+    loadLocalDatas2();
   }, [lan]);
 
   useEffect(() => {

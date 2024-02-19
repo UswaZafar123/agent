@@ -14,6 +14,7 @@ import {
 } from "../../../services/agent/action";
 import actionType from "../../../services/agent/actionType";
 import { FormattedMessage, IntlProvider } from "react-intl";
+import { useEffect } from "react";
 
 const ValidateSuperAgentId = (props) => {
   const [step, setStep] = useState(1);
@@ -40,24 +41,27 @@ const ValidateSuperAgentId = (props) => {
     (state) => state.agentReducer.sendLinkingRequest.success
   );
 
-  React.useEffect(async () => {
-    dispatch({
-      type: actionType.SUPER_AGENT_DETAIL_RESET,
-    });
-
+  const loadLocalDatass = async () => {
     const messages = await loadLocaleData(localStorage.getItem("lang"));
     setMessages(messages);
 
     setLanguage(localStorage.getItem("lang"));
-
-    // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
-  }, []);
-
-  React.useEffect(async () => {
+  };
+  const loadLocalDatas2 = async () => {
     const messages = await loadLocaleData(lan);
     setMessages(messages);
 
     setLanguage(lan);
+  };
+
+  useEffect(() => {
+    dispatch({
+      type: actionType.SUPER_AGENT_DETAIL_RESET,
+    });
+    loadLocalDatass();
+  }, []);
+  useEffect(() => {
+    loadLocalDatas2();
   }, [lan]);
 
   const loadLocaleData = (locale) => {

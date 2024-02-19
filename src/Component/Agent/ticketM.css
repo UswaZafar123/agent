@@ -13,7 +13,7 @@
 .filterBTN{
     min-width: 137px;
     height: 42px;
-    background: #DA4139;
+    background: #00479a;
     border: 0.5px solid #B61108;
     box-sizing: border-box;
     border-radius: 6px;
@@ -139,7 +139,7 @@
     color: #FF9A3E !important;
 }
 .closedColor{
-    color: #DA4139 !important;
+    color: #00479a !important;
 }
 
 .formColLabel.formCladdT{

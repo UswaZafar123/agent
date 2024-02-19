@@ -4,22 +4,18 @@ import styled from "styled-components";
 import { LeftOutlined } from "@ant-design/icons";
 import OtpInput from "react-otp-input";
 import { Button } from "antd";
-import successImage from "../../../Assets/images/RegistrationSuccessImage.JPG";
 import { useSelector, useDispatch } from "react-redux";
 import {
   sendAgentOTP,
   checkOTPValid,
-  setAgentPassword,
   setAgentPasswordMember,
 } from "../../../services/agent/action";
-import { Input, Space } from 'antd';
-import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons';
+import { Input } from "antd";
+import { EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
 
 function AgentOTP(props) {
   const [otp, setOtp] = useState("");
-  const [firstname, setFirstName] = useState(
-    sessionStorage.getItem("Firstname")
-  );
+
   const [OTP_PHONENUMBER, setOTP_PHONENUMBER] = useState(
     props.location.state.phoneNumber
   );
@@ -91,156 +87,175 @@ function AgentOTP(props) {
     }
   });
 
-  
-
   return (
     <Fragment>
-       <div className="main_contain agentformCenter">
-                <div className="merch_m_list_w">
-                    <div className="merch_list_card" id="merch_list_card">
-                        <div className="section_custom">
-                            <div className="sectionInn">
-                                <div className="chartCard_w">
-                                    <div className="chartCardTop">
-                                        <div className="kyccustomformheading">
-                                            <h1 className="list_top_heading textAlignCenter text-center">
-                                                Add New Member
-                                            </h1>
-                                        </div>
-                                    </div>
-                                    <div className="chartCardMiddle" style={{ padding: "24px" }}></div>
-      {loadingComponent === "OTP" && (
-        <InnerWrapper className="agent-registration-container">
-          <div className="agent-cat-box">
-            <div style={{ textAlign: "left" }}>
-              <LeftOutlined
-                style={{ fontSize: "25px" }}
-                onClick={() => {
-                  window.history.back();
-                }}
-              />
-            </div>
-            <div className="agent-cat-inner-box display-linebreak">
-              <h2>
-                Please enter the verification code you received on{" "}
-                {"\n " + OTP_PHONENUMBER}
-              </h2>
+      <div className="main_contain agentformCenter">
+        <div className="merch_m_list_w">
+          <div className="merch_list_card" id="merch_list_card">
+            <div className="section_custom">
+              <div className="sectionInn">
+                <div className="chartCard_w">
+                  <div className="chartCardTop">
+                    <div className="kyccustomformheading">
+                      <h1 className="list_top_heading textAlignCenter text-center">
+                        Add New Member
+                      </h1>
+                    </div>
+                  </div>
+                  <div
+                    className="chartCardMiddle"
+                    style={{ padding: "24px" }}
+                  ></div>
+                  {loadingComponent === "OTP" && (
+                    <InnerWrapper className="agent-registration-container">
+                      <div className="agent-cat-box">
+                        <div style={{ textAlign: "left" }}>
+                          <LeftOutlined
+                            style={{ fontSize: "25px" }}
+                            onClick={() => {
+                              window.history.back();
+                            }}
+                          />
+                        </div>
+                        <div className="agent-cat-inner-box display-linebreak">
+                          <h2>
+                            Please enter the verification code you received on{" "}
+                            {"\n " + OTP_PHONENUMBER}
+                          </h2>
 
-              <OtpInput
-                value={otp}
-                shouldAutoFocus={true}
-                onChange={(e) => setOtp(e)}
-                numInputs={6}
-                seperator={<span></span>}
-                isInputNum={true}
-                inputStyle={{
-                  width: "50px",
-                  padding: "0px",
-                  marginRight: "10px",
-                  marginLeft: "10px",
-                  fontWeight: "600",
-                  fontSize: "16px",
-                  lineHeight: "20px",
-                  padding: "15px 20px",
-                  borderRadius: "5px",
-                  border: "1px solid transparent",
-                  color: "#DA4139",
-                  background: "#F2F2F2",
-                  display: "inline-block",
-                  boxShadow: "0px 8px 8px rgba(37, 51, 66, 0.15)",
-                }}
-              />
+                          <OtpInput
+                            value={otp}
+                            shouldAutoFocus={true}
+                            onChange={(e) => setOtp(e)}
+                            numInputs={6}
+                            seperator={<span></span>}
+                            isInputNum={true}
+                            inputStyle={{
+                              width: "50px",
+                              padding: "0px",
+                              marginRight: "10px",
+                              marginLeft: "10px",
+                              fontWeight: "600",
+                              fontSize: "16px",
+                              lineHeight: "20px",
+                              padding: "15px 20px",
+                              borderRadius: "5px",
+                              border: "1px solid transparent",
+                              color: "#00479a",
+                              background: "#F2F2F2",
+                              display: "inline-block",
+                              boxShadow: "0px 8px 8px rgba(37, 51, 66, 0.15)",
+                            }}
+                          />
 
-              <div style={{ textAlign: "left", marginTop: "10px" }}>
-                <Button
-                  type="link"
-                  disabled={isResendOTPDisabled}
-                  style={{
-                    color: isResendOTPDisabled ? "darkgray" : "#066FD0",
-                    paddingLeft: "0px",
-                    fontWeight: "550",
-                  }}
-                  onClick={() => resendOtp()}
-                >
-                  Resend Code {seconds > 0 ? "(" + seconds + ")" : ""}
-                </Button>
-              </div>
-              <button
-                disabled={otp.length < 6 ? true : false}
-                onClick={() => {
-                  checkOTPValidity();
-                }}
-                className="btn-default btn"
-              >
-                Next
-              </button>
-            </div>
-          </div>
-        </InnerWrapper>
-      )}
+                          <div style={{ textAlign: "left", marginTop: "10px" }}>
+                            <Button
+                              type="link"
+                              disabled={isResendOTPDisabled}
+                              style={{
+                                color: isResendOTPDisabled
+                                  ? "darkgray"
+                                  : "#066FD0",
+                                paddingLeft: "0px",
+                                fontWeight: "550",
+                              }}
+                              onClick={() => resendOtp()}
+                            >
+                              Resend Code{" "}
+                              {seconds > 0 ? "(" + seconds + ")" : ""}
+                            </Button>
+                          </div>
+                          <button
+                            disabled={otp.length < 6 ? true : false}
+                            onClick={() => {
+                              checkOTPValidity();
+                            }}
+                            className="btn-default btn"
+                          >
+                            Next
+                          </button>
+                        </div>
+                      </div>
+                    </InnerWrapper>
+                  )}
 
-      {loadingComponent === "SET_PASSWORD" && (
+                  {loadingComponent === "SET_PASSWORD" && (
+                    <InnerWrapper className="agent-registration-container">
+                      <br></br>
+                      <br></br>
+                      <div className="agent-cat-box">
+                        <div className="display-linebreak">
+                          <h2
+                            style={{
+                              fontSize: "20px",
+                              fontWeight: "bold",
+                              marginTop: "10px",
+                            }}
+                          >
+                            Set a Password for your Account !
+                          </h2>
 
-        <InnerWrapper className="agent-registration-container">
-            <br></br><br></br>
-          <div className="agent-cat-box">
-            <div className="display-linebreak">
-              <h2
-                style={{
-                  fontSize: "20px",
-                  fontWeight: "bold",
-                  marginTop: "10px",
-                }}
-              >
-                Set a Password for your Account !
-              </h2>
-
-              <div
-                className="row"
-                style={{
-                  display: "block",
-                  paddingLeft: "15px",
-                  paddingRight: "15px",
-                }}
-              >
-
-                    
-                    <div
-                  className="form-group"
-                  style={{ marginTop: "5%", float: "left" }}
-                >
-                  <label>Password</label>
-                </div>
-                <br /> <br />
-                <div className="form-group" style={{ marginBottom: "5%" }}>
-                  <div>
-                    <Input.Password
-                    placeholder="input password"
-                    onChange={(e) => setPassword(e.target.value)}
-                    iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
-                    />
-                    </div></div>
-
-                    <div
-                  className="form-group"
-                  style={{ marginTop: "5%", float: "left" }}
-                >
-                  <label>Confirm Password</label>
-                </div>
-                <br /> <br />
-                <div className="form-group" style={{ marginBottom: "5%" }}>
-                  <div>
-                    <Input.Password
-                    placeholder="cinfirm password"
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}
-                    />
-                    </div></div>
-                    
-                    
-                  
-                 
-                {/* <div
+                          <div
+                            className="row"
+                            style={{
+                              display: "block",
+                              paddingLeft: "15px",
+                              paddingRight: "15px",
+                            }}
+                          >
+                            <div
+                              className="form-group"
+                              style={{ marginTop: "5%", float: "left" }}
+                            >
+                              <label>Password</label>
+                            </div>
+                            <br /> <br />
+                            <div
+                              className="form-group"
+                              style={{ marginBottom: "5%" }}
+                            >
+                              <div>
+                                <Input.Password
+                                  placeholder="input password"
+                                  onChange={(e) => setPassword(e.target.value)}
+                                  iconRender={(visible) =>
+                                    visible ? (
+                                      <EyeTwoTone />
+                                    ) : (
+                                      <EyeInvisibleOutlined />
+                                    )
+                                  }
+                                />
+                              </div>
+                            </div>
+                            <div
+                              className="form-group"
+                              style={{ marginTop: "5%", float: "left" }}
+                            >
+                              <label>Confirm Password</label>
+                            </div>
+                            <br /> <br />
+                            <div
+                              className="form-group"
+                              style={{ marginBottom: "5%" }}
+                            >
+                              <div>
+                                <Input.Password
+                                  placeholder="cinfirm password"
+                                  onChange={(e) =>
+                                    setConfirmPassword(e.target.value)
+                                  }
+                                  iconRender={(visible) =>
+                                    visible ? (
+                                      <EyeTwoTone />
+                                    ) : (
+                                      <EyeInvisibleOutlined />
+                                    )
+                                  }
+                                />
+                              </div>
+                            </div>
+                            {/* <div
                   className="form-group"
                   style={{ marginTop: "5%", float: "left" }}
                 >
@@ -268,7 +283,7 @@ function AgentOTP(props) {
                 <br /> <br />
                 <div className="form-group" style={{ marginBottom: "10%" }}>
                   <div> */}
-                    {/* <input
+                            {/* <input
                       className="form-control"
                       type="password"
                       name="confirmpassword"
@@ -276,40 +291,44 @@ function AgentOTP(props) {
                       placeholder="Confirm Password"
                       onChange={(e) => setConfirmPassword(e.target.value)}
                     /> */}
-
-                    
-                  {/* </div>
+                            {/* </div>
                 </div> */}
+                          </div>
+
+                          <button
+                            disabled={!isPasswordsMatching}
+                            style={{
+                              background: isPasswordsMatching
+                                ? "#00479a"
+                                : "darkgrey",
+                              borderColor: isPasswordsMatching
+                                ? "#00479a"
+                                : "darkgrey",
+                            }}
+                            className="btn-default okayBtn"
+                            onClick={() => {
+                              const data = {
+                                phoneNumber: OTP_PHONENUMBER,
+                                password: password,
+                                confirmPassword: confirmPassword,
+                              };
+
+                              dispatch(
+                                setAgentPasswordMember(data, props.history)
+                              );
+                            }}
+                          >
+                            Set Password
+                          </button>
+                        </div>
+                      </div>
+                    </InnerWrapper>
+                  )}
+                </div>
               </div>
-
-              <button
-                disabled={!isPasswordsMatching}
-                style={{
-                  background: isPasswordsMatching ? "#DA4139" : "darkgrey",
-                  borderColor: isPasswordsMatching ? "#DA4139" : "darkgrey",
-                }}
-                className="btn-default okayBtn"
-                onClick={() => {
-                  const data = {
-                    phoneNumber: OTP_PHONENUMBER,
-                    password: password,
-                    confirmPassword: confirmPassword,
-                  };
-
-                  dispatch(setAgentPasswordMember(data,props.history));
-                }}
-              >
-                Set Password
-              </button>
             </div>
           </div>
-        </InnerWrapper>
-      )}
-      </div>
-      </div>
-      </div>
-      </div>
-      </div>
+        </div>
       </div>
     </Fragment>
   );

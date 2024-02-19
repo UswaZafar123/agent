@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { LeftOutlined } from "@ant-design/icons";
 import OtpInput from "react-otp-input";
 import { Button } from "antd";
-import successImage from "../../../Assets/images/RegistrationSuccessImage.JPG";
 import { useSelector, useDispatch } from "react-redux";
 import {
   sendAgentOTP,
@@ -133,7 +132,7 @@ function AgentOTP(props) {
                   padding: "15px 20px",
                   borderRadius: "5px",
                   border: "1px solid transparent",
-                  color: "#DA4139",
+                  color: "#00479a",
                   background: "#F2F2F2",
                   display: "inline-block",
                   boxShadow: "0px 8px 8px rgba(37, 51, 66, 0.15)",
@@ -233,8 +232,8 @@ function AgentOTP(props) {
               <button
                 disabled={!isPasswordsMatching}
                 style={{
-                  background: isPasswordsMatching ? "#DA4139" : "darkgrey",
-                  borderColor: isPasswordsMatching ? "#DA4139" : "darkgrey",
+                  background: isPasswordsMatching ? "#00479a" : "darkgrey",
+                  borderColor: isPasswordsMatching ? "#00479a" : "darkgrey",
                 }}
                 className="btn-default okayBtn"
                 onClick={() => {

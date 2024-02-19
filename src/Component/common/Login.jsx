@@ -4,12 +4,10 @@ import { NavLink } from "react-router-dom";
 import validate from "./../resources/validation";
 import axios from "axios";
 import { FormattedMessage, useIntl, injectIntl } from "react-intl";
-import Logo from "./../../Assets/images/logo.png";
 import NavBar from "./register/NavBar";
 import { AdminLogin } from "../../services/admin/action";
-import {Logout} from "../../services/common/action"
+import { Logout } from "../../services/common/action";
 import { withRouter } from "react-router-dom";
-
 
 class Login extends Component {
   constructor() {
@@ -39,7 +37,7 @@ class Login extends Component {
   }
 
   componentDidMount() {
-    this.props.Logout()
+    this.props.Logout();
     /**
      * JavaScript Client Detection
      * (C) viazenetti GmbH (Christian Ludwig)
@@ -190,14 +188,13 @@ class Login extends Component {
   };
 
   setLogin = () => {
-   
-    sessionStorage.setItem("user_type","admin");
+    sessionStorage.setItem("user_type", "admin");
 
-    var payload= {
-      username:this.state.email,
+    var payload = {
+      username: this.state.email,
       password: this.state.loginPassword,
       client_id: "PUBLIC_CLIENT",
-      grant_type:"password"
+      grant_type: "password",
     };
 
     this.props.AdminLogin(payload);
@@ -250,9 +247,8 @@ class Login extends Component {
   };
 
   componentWillReceiveProps = (nextProps) => {
-    console.log(nextProps,'adminLoginStatus')
+    console.log(nextProps, "adminLoginStatus");
 
-    
     let userType;
 
     if (nextProps.merchantLoginStatus) {
@@ -306,10 +302,8 @@ class Login extends Component {
       this.setState({ loginFailed: "Incorrect email address or password" });
     }
 
-    if(nextProps.adminLoginStatus)
-    {
-
-      this.props.history.push("/admin")
+    if (nextProps.adminLoginStatus) {
+      this.props.history.push("/admin");
     }
   };
 
@@ -474,19 +468,17 @@ class Login extends Component {
   }
 }
 
-
 const mapStateToProps = ({ commonReducer }) => {
-
-  const { adminLoginStatus } = commonReducer
+  const { adminLoginStatus } = commonReducer;
 
   return {
-    adminLoginStatus:adminLoginStatus
+    adminLoginStatus: adminLoginStatus,
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
- AdminLogin:(payload)=>dispatch(AdminLogin(payload)),
- Logout:()=>dispatch(Logout())
+  AdminLogin: (payload) => dispatch(AdminLogin(payload)),
+  Logout: () => dispatch(Logout()),
 });
 
 //connect method is used for connecting react and redux //

@@ -17,8 +17,9 @@ import { connect } from "react-redux";
 import { bankAccountOpeningAction } from "../../../src/services/agent/action";
 import actionType from "../../services/agent/actionType";
 import { FormattedMessage, IntlProvider } from "react-intl";
+import { AFRICAN_COUNTRIES } from "../../Assets/data/AfricanCoutries";
 
-var africanCountries = require("../../Assets/data/african_countries.json");
+const africanCountries = AFRICAN_COUNTRIES;
 const { Option } = Select;
 
 class BankingAccountOpening extends Component {
@@ -244,7 +245,7 @@ class BankingAccountOpening extends Component {
     return (
       <IntlProvider
         messages={this.state.messages.default}
-        locale={this.state.language}
+        locale={this.state.language?.length > 0 ? this.state.language : "en"}
       >
         <div className="main_contain">
           <div className="merch_m_list_w">

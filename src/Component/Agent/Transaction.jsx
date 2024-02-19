@@ -8,7 +8,6 @@ import { AgGridColumn, AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import DatePicker from "react-datepicker";
-import activeUser from "../../Assets/images/confirm.svg";
 
 import { Select, Menu, Dropdown, Modal } from "antd";
 
@@ -359,7 +358,7 @@ class Transaction extends Component {
     return (
       <IntlProvider
         messages={this.state.messages.default}
-        locale={this.state.language}
+        locale={this.state.language?.length > 0 ? this.state.language : "en"}
       >
         <div className="main_contain">
           <div className="merch_m_list_w">

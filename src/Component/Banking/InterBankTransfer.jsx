@@ -5,13 +5,11 @@ import "../page/Settings/General/formfromold.css";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import { Button, Select } from "antd";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { FormattedMessage, IntlProvider } from "react-intl";
-import { toastr } from "react-redux-toastr";
 import OtpInput from "react-otp-input";
 
 const { Option } = Select;
-const resendTime = 30;
 
 const InterBankTransfer = () => {
   const [messages, setMessages] = useState("");
@@ -35,21 +33,31 @@ const InterBankTransfer = () => {
   const [idDocumentNumber, setIdDocumentNumber] = useState("");
 
   const [bank, setBank] = useState("");
-  const [walletID, setwalletID] = useState("");
   const [amount, setAmount] = useState("");
   const [reason, setReason] = useState("");
   const [step, setStep] = useState(0);
 
   const lan = useSelector((state) => state.commonReducer.language);
 
-  const dispatch = useDispatch();
-
-  useEffect(async () => {
+  const loadLocalDatass = async () => {
     const messages = await loadLocaleData(localStorage.getItem("lang"));
     setMessages(messages);
 
     setLanguage(localStorage.getItem("lang"));
+  };
+  const loadLocalDatas2 = async () => {
+    const messages = await loadLocaleData(lan);
+    setMessages(messages);
+
+    setLanguage(lan);
+  };
+
+  useEffect(() => {
+    loadLocalDatass();
   }, []);
+  useEffect(() => {
+    loadLocalDatas2();
+  }, [lan]);
 
   const loadLocaleData = (locale) => {
     switch (locale) {
@@ -59,13 +67,6 @@ const InterBankTransfer = () => {
         return import("../i18n/messages/en");
     }
   };
-
-  useEffect(async () => {
-    const messages = await loadLocaleData(lan);
-    setMessages(messages);
-
-    setLanguage(lan);
-  }, [lan]);
 
   const walletVerificationForm = () => {
     return (

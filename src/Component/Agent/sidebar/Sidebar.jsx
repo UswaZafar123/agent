@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import "../../../css/sidebar.css";
-import Logo from "../../../Assets/images/logo.svg";
 import { Side_bar_data } from "./Sidebar_data";
 import { NavLink } from "react-router-dom";
 import { connect } from "react-redux";
@@ -20,6 +19,7 @@ import {
   fetchAgentWallet,
   fetchAgentBankAccounts,
 } from "../../../../src/services/agent/action";
+import IMAGES from "../../../Assets/images";
 
 function Transition(props) {
   return <Slide direction="up" {...props} />;
@@ -320,13 +320,13 @@ class Sidebar extends Component {
     return (
       <IntlProvider
         messages={this.state.messages.default}
-        locale={this.state.language}
+        locale={this.state.language?.length > 0 ? this.state.language : "en"}
       >
         <div className="sideBar SidebarScroll">
           <div className="sidebar_Inner">
             <div className="sideTop">
               <div className="sideTopLogo">
-                <img src={Logo} alt="" />
+                <img src={IMAGES.LOGO} alt="" />
               </div>
             </div>
             <div className="navigation">
@@ -379,7 +379,7 @@ class Sidebar extends Component {
     return (
       <IntlProvider
         messages={this.state.messages.default}
-        locale={this.state.language}
+        locale={this.state.language?.length > 0 ? this.state.language : "en"}
       >
         <>
           <div className="sideBar SidebarScroll">
@@ -394,7 +394,7 @@ class Sidebar extends Component {
                   </div>
                 )}
                 <div className="sideTopLogo">
-                  <img src={Logo} alt="" />
+                  <img src={IMAGES.LOGO} alt="" />
                 </div>
               </div>
               <div className="navigation">
@@ -439,10 +439,10 @@ class Sidebar extends Component {
                           </NavLink>
                           {item.subMenu && this.state.submenu === item.id ? (
                             <ul>
-                              {item.subMenu.map((submenuList) => {
+                              {item.subMenu.map((submenuList, id) => {
                                 // console.log("checking sub path", submenuList.path)
                                 return (
-                                  <li>
+                                  <li key={id}>
                                     {submenuList.path ===
                                     "/Settings/General" ? (
                                       <NavLink
@@ -502,9 +502,9 @@ class Sidebar extends Component {
                                             <FormattedMessage id="agent.General" />
                                           </h2>
                                         </li>
-                                        {submenuList.subMenu.map((sub) => {
+                                        {submenuList.subMenu.map((sub, id1) => {
                                           return (
-                                            <li>
+                                            <li key={id1}>
                                               <NavLink exact to={sub.path}>
                                                 {" "}
                                                 <span
@@ -547,7 +547,7 @@ class Sidebar extends Component {
     return (
       <IntlProvider
         messages={this.state.messages.default}
-        locale={this.state.language}
+        locale={this.state.language?.length > 0 ? this.state.language : "en"}
       >
         <>
           {this.props.profile.loading
@@ -572,7 +572,7 @@ class Sidebar extends Component {
             <DialogActions>
               <Button
                 onClick={this.toggleLinkingDialog}
-                style={{ color: "#DA4139" }}
+                style={{ color: "#00479a" }}
               >
                 <FormattedMessage id="agent.Iunderstand" />
               </Button>

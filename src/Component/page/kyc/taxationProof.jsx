@@ -56,12 +56,10 @@ class KYC extends Component {
       addresstwo: "",
       city: "",
       state: "",
-      country: "",
       zipcode: "",
       longitude: "",
       latitude: "",
       nameoforganization: "",
-      registereddate: "",
       categories: "",
       websitelink: "",
       traderegisternumber: "",
@@ -74,8 +72,6 @@ class KYC extends Component {
       endofvaliditydate: "",
       showuploadproof: "",
       showaddressproof: "",
-      uploadproof: "",
-      addressproof: "",
       addressproofName: "",
       uploadproofName: "",
       docType: "proof",
@@ -947,7 +943,7 @@ class KYC extends Component {
     return (
       <IntlProvider
         messages={this.state.messages.default}
-        locale={this.state.language}
+        locale={this.state.language?.length > 0 ? this.state.language : "en"}
       >
         <div className="main_contain kyc_parent_m">
           <div className="merch_m_list_w">
@@ -1616,7 +1612,7 @@ class KYC extends Component {
                                 padding: "15px 20px",
                                 borderRadius: "5px",
                                 border: "1px solid transparent",
-                                color: "#DA4139",
+                                color: "#00479a",
                                 background: "#F2F2F2",
                                 display: "inline-block",
                                 boxShadow: "0px 8px 8px rgba(37, 51, 66, 0.15)",

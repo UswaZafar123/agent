@@ -3,7 +3,6 @@ import "./Assets/icomoon/style.css";
 import "antd/dist/antd.css";
 import Sidebar from "./Component/Agent/sidebar/Sidebar";
 import Header from "./Component/Layout/Header";
-import logoBg from "./Assets/images/bgLogowater.svg";
 
 import { Route, Switch, Redirect } from "react-router-dom";
 import Dashboard from "./Component/Agent/dashboard";
@@ -81,7 +80,7 @@ import editPackages from "./Component/page/Settings/General/editPackages";
 import RoleManagement from "./Component/page/Settings/General/RoleManagement";
 import AgentMember from "./Component/page/Settings/AgentMember";
 import CommissionsManagement from "./Component/page/Settings/CommissionsManagement";
-
+import "./Assets/css/style.css";
 // Profile Component Import
 import Profile from "./Component/page/Profile/Profile";
 import Accounts from "./Component/page/Profile/Accounts";
@@ -112,6 +111,7 @@ import WalletToBank from "./Component/Banking/WalletToBank";
 import BankCustomer from "./Component/page/CustomerActivation/BankCustomer";
 import NonBankCustomer from "./Component/page/CustomerActivation/NonBankCustomer";
 import FundTransfer from "./Component/Non-SARA/FundTransfer";
+import IMAGES from "./Assets/images";
 
 export const App = (props) => {
   const [toggleMenuVar, setToggleMenuVar] = useState(false);
@@ -138,6 +138,7 @@ export const App = (props) => {
   useEffect(() => {
     if (!agentLoginStatus) {
       setShow(false);
+      // setShow(true);
       history.push("/agent/login");
     } else {
       setShow(true);
@@ -183,7 +184,7 @@ export const App = (props) => {
               <div
                 className="main_wr_in"
                 style={{
-                  backgroundImage: `url(${logoBg})`,
+                  backgroundImage: `url(${IMAGES.LOGOWhite})`,
                   backgroundSize: `calc(94vw - 500px)`,
                   backgroundPosition: `center 250px`,
                   minHeight: `100vh`,
@@ -221,7 +222,7 @@ export const App = (props) => {
                   />
                   <PrivateRoute
                     exact
-                    path="/agent/non-sara/fund-transfer"
+                    path="/agent/non-digi-bank/fund-transfer"
                     component={FundTransfer}
                   />
                   <PrivateRoute
