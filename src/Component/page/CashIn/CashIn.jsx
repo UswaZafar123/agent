@@ -120,7 +120,7 @@ const CashIn = () => {
       dispatch(
         fetchAgentBankAccounts(
           sessionStorage.getItem("token"),
-          agentProfile.bankCustomerId
+          agentProfile?.bankCustomerId ?? ""
         )
       );
     } else {
@@ -238,7 +238,7 @@ const CashIn = () => {
 
   const calculateFees = () => {
     let subscriptionID = feeConstants.getAgentSubscriptionId(
-      agentProfile.status
+      agentProfile?.status
     );
     console.log(subscriptionID, "SUBSCRIPTION ID");
 
@@ -286,7 +286,7 @@ const CashIn = () => {
 
   const sendCashInRequest = () => {
     var requestObj = {
-      bankCustomerId: agentProfile.bankCustomerId,
+      bankCustomerId: agentProfile?.bankCustomerId,
       debtorBankAccountNumber: selectedBankAccount.accNo,
       amount: parseFloat(amount),
       reason: "Wallet Cash In",
@@ -394,7 +394,7 @@ const CashIn = () => {
                 <p style={{ marginRight: "16px", color: "gray" }}>
                   Receiver Account
                 </p>
-                <p style={{ fontWeight: "bold" }}>{agentProfile.phoneNo}</p>
+                <p style={{ fontWeight: "bold" }}>{agentProfile?.phoneNo}</p>
               </div>
               <div style={{ display: "flex" }}>
                 <p style={{ marginRight: "16px", color: "gray" }}>Fee</p>
@@ -539,7 +539,7 @@ const CashIn = () => {
                 <p style={{ marginRight: "16px", color: "gray" }}>
                   Receiver Account
                 </p>
-                <p style={{ fontWeight: "bold" }}>{agentProfile.phoneNo}</p>
+                <p style={{ fontWeight: "bold" }}>{agentProfile?.phoneNo}</p>
               </div>
               <div style={{ display: "flex" }}>
                 <p style={{ marginRight: "16px", color: "gray" }}>Amount</p>
@@ -584,7 +584,7 @@ const CashIn = () => {
                           >
                             {agentProfile !== null &&
                               agentProfile !== undefined &&
-                              agentProfile.registrationType ===
+                              agentProfile?.registrationType ===
                                 "EXISTING_BANK_CUSTOMER" && (
                                 <Tab label="Credit/Debit Card" />
                               )}
@@ -609,7 +609,7 @@ const CashIn = () => {
 
                       {agentProfile !== null &&
                         agentProfile !== undefined &&
-                        agentProfile.registrationType ===
+                        agentProfile?.registrationType ===
                           "EXISTING_BANK_CUSTOMER" &&
                         selectedTab === 1 && (
                           <div style={{ margin: "16px 0px" }}>

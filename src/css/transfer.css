@@ -85,12 +85,12 @@
 }
 
 .navigation::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 2px #FF4F4F;
+    box-shadow: inset 0 0 2px #354799;
 }
 
 .navigation::-webkit-scrollbar-thumb {
-    background-color: #FF4F4F;
-    outline: 1px solid #FF4F4F;
+    background-color: #354799;
+    outline: 1px solid #354799;
 
 } */
 .nav_inner2 ul{
@@ -152,18 +152,18 @@
 }
 
 .nav_inner ul li ul li a{
-    color: #fff;
+    color: #354799;
     padding: 16px 16px 16px 64px;
     margin: 0;
     align-items: flex-start;
 }
 .nav_inner ul li ul li a:hover{
-    color: #FF4F4F;
+    color: #354799;
     background: transparent;
 
 }
 .nav_inner ul li ul li a.active{
-    color: #FF4F4F;
+    color: #354799;
     background: transparent;
 
 }
@@ -216,14 +216,14 @@
 
 /* Handle */
 /* ::-webkit-scrollbar-thumb {
-    background: #FF4F4F;
+    background: #354799;
     border-radius: 10px;
 
 } */
 
 /* Handle on hover */
 /* ::-webkit-scrollbar-thumb:hover {
-    background: #FF4F4F;
+    background: #354799;
 } */
 
 .subNav li {
