@@ -1,23 +1,26 @@
-# pull official base image
-FROM node:18-alpine
+# Use an official Node.js runtime as the base image
+FROM node:16-alpine as build
 
-# set working directory
+# Set the working directory in the container
 WORKDIR /app
 
-# add `/app/node_modules/.bin` to $PATH
-ENV PATH ./node_modules/.bin:$PATH
+# Copy package.json and package-lock.json to the working directory
+COPY package*.json ./
 
-# install app dependencies
-COPY package.json ./
-#COPY package-lock.json ./
+RUN npm install -g npm@9.8.0
 
-RUN npm install --silent
+# Install project dependencies
+RUN npm install --force  --legacy-peer-deps
+
+# Copy the entire project to the working directory
+COPY . .
+
+# Build the React app
 RUN npm run build
 
-# add app
-COPY . ./
-
-EXPOSE 3001
-
-# start app
-CMD [ "npm", "run", "preview" ]
+################
+# Run in NGINX #
+################
+FROM nginx:alpine
+COPY --from=build /dist /usr/share/nginx/html
+RUN chmod -R 775 /usr/share/nginx/html/
