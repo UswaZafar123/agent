@@ -1,23 +1,15 @@
-# pull official base image
 FROM node:18-alpine
 
-# set working directory
 WORKDIR /app
 
-# add `/app/node_modules/.bin` to $PATH
-ENV PATH ./node_modules/.bin:$PATH
+COPY package.json .
 
-# install app dependencies
-COPY package.json ./
-#COPY package-lock.json ./
+RUN npm install
 
-RUN npm install --silent
+COPY . .
+
 RUN npm run build
 
-# add app
-COPY . ./
+EXPOSE 8080
 
-EXPOSE 3001
-
-# start app
 CMD [ "npm", "run", "preview" ]
