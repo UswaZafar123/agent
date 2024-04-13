@@ -3,7 +3,7 @@ FROM node:18-alpine as vite-app
 WORKDIR /app/client
 COPY ./client .
 
-RUN ["npm", "i"]
+RUN ["npm", "i", "--force"]
 RUN ["npm", "run", "build"]
 
 FROM nginx:alpine
