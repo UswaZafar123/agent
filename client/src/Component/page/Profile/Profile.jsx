@@ -11,7 +11,7 @@ import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 import { connect } from "react-redux";
 
 // AG-GRID ENDS
-import "jspdf-autotable";
+// import "jspdf-autotable";
 import { getProfile } from "../../../services/agent/action";
 import { FormattedMessage, IntlProvider } from "react-intl";
 import IMAGES from "../../../Assets/images";

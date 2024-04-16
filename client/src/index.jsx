@@ -1,9 +1,8 @@
 import React from "react";
-import ReactDOM from "react-dom/client";
+import ReactDOM from "react-dom";
 import "./index.css";
 import "./mediaQuery.css";
 import App from "./App";
-import reportWebVitals from "./reportWebVitals";
 import { I18nProvider } from "./Component/i18n";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware, compose } from "redux";
@@ -33,17 +32,6 @@ const store = composeEnhancers(applyMiddleware(thunk))(createStore)(
 //import {LOCALES} from './locales';
 
 const persistor = persistStore(store);
-
-//const lang= localStorage.setItem('lang', 'en')
-//console.log(localStorage.getItem("lang"));
-/* if(localStorage.getItem("lang")) {
-  console.log(localStorage.getItem("lang"));
-}
-else {
-  const locale= localStorage.setItem('lang', 'en')
-} */
-
-// const locale = localStorage.getItem("lang") ? localStorage.getItem("lang") : localStorage.setItem('lang', 'en')
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <I18nProvider
@@ -80,4 +68,3 @@ ReactDOM.createRoot(document.getElementById("root")).render(
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
