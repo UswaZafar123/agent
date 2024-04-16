@@ -33,7 +33,7 @@ const store = composeEnhancers(applyMiddleware(thunk))(createStore)(
 
 const persistor = persistStore(store);
 
-ReactDOM.createRoot(document.getElementById("root")).render(
+ReactDOM.render(
   <I18nProvider
     locale={
       localStorage.getItem("lang")?.length > 0
@@ -62,7 +62,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         </BrowserRouter>
       </PersistGate>
     </Provider>
-  </I18nProvider>
+  </I18nProvider>,
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function
