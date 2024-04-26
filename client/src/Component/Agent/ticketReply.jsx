@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "../../css/dashboard.css";
 import "../../css/merchant_management.css";
 // import './antDcustom.css';
-import "antd/dist/antd.css";
+
 import "./ticketM.css";
 import moment from "moment";
 import { withRouter } from "react-router-dom";

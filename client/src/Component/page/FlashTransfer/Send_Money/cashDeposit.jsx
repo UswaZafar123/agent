@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "antd/dist/antd.css";
+
 import { AgGridColumn, AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
@@ -41,9 +41,8 @@ class CashDeposit extends Component {
   handleChange = (value) => {
     this.state.gridApi.paginationSetPageSize(Number(value));
     // document.getElementById('totalPageSize').innerHTML=this.state.gridApi.paginationGetPageSize()
-    document.getElementById(
-      "bTo"
-    ).innerHTML = this.state.gridApi.paginationGetPageSize();
+    document.getElementById("bTo").innerHTML =
+      this.state.gridApi.paginationGetPageSize();
   };
 
   showModal = () => {

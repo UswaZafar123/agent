@@ -1,12 +1,7 @@
 import React, { Component } from "react";
-import "antd/dist/antd.css";
-import AfbCustomer2 from "../CustomerRegistration/AfbCustomer2";
-
 //import "./src/Component/Agent/antDcustom.css";
-import { AgGridColumn, AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
-import OtpInput from "react-otp-input";
 
 import {
   Card,
@@ -25,10 +20,6 @@ import {
   ModalHeader,
 } from "reactstrap";
 // import { opacity } from 'html2canvas/dist/types/css/property-descriptors/opacity';
-import Select from "react-select";
-
-import { Cancel } from "@material-ui/icons";
-import NonAfbCustomer from "./nonAfbCustomer";
 import Grid from "@material-ui/core/Grid";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";

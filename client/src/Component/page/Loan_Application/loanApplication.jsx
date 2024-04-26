@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import "antd/dist/antd.css";
 
 import Grid from "@material-ui/core/Grid";
 import "ag-grid-community/dist/styles/ag-grid.css";

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../../../css/ag-grid-customization01.css";
-import "antd/dist/antd.css";
+
 import "../Settings/General/formfromold.css";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";
@@ -16,7 +16,6 @@ import { Card } from "react-bootstrap";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import actionType from "../../../services/agent/actionType";
 
-import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
@@ -39,10 +38,6 @@ function TabContainer(props) {
     </Typography>
   );
 }
-
-TabContainer.propTypes = {
-  children: PropTypes.node.isRequired,
-};
 
 const { Option } = Select;
 const resendTime = 30;

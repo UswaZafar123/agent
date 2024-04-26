@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../../css/ag-grid-customization01.css";
-import "antd/dist/antd.css";
+
 import "../page/Settings/General/formfromold.css";
 import "ag-grid-community/dist/styles/ag-grid.css";
 import "ag-grid-community/dist/styles/ag-theme-alpine.css";

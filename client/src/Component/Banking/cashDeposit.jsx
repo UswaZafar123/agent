@@ -1,22 +1,7 @@
 import React, { Component } from "react";
 import "../../css/transfer.css";
-import Highcharts from "highcharts";
-import variablePie from "highcharts/modules/variable-pie";
-import HighchartsReact from "highcharts-react-official";
-
-import ReactHighcharts from "react-highcharts";
-
-import highcharts3d from "highcharts/highcharts-3d";
-import ProgressBar from "@ramonak/react-progress-bar";
 import { makeStyles } from "@material-ui/core/styles";
-import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
-import Paper from "@material-ui/core/Paper";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import Divider from "@material-ui/core/Divider";
-import InboxIcon from "@material-ui/icons/Inbox";
-import DraftsIcon from "@material-ui/icons/Drafts";
 
 import { Select } from "antd";
 import Grid from "@material-ui/core/Grid";

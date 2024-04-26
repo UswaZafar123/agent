@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "../../css/dashboard.css";
 import "../../css/merchant_management.css";
 import "../../css/ag-grid-customization01.css";
-import "antd/dist/antd.css";
+
 import "./antDcustom.css";
 import { AgGridColumn, AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";

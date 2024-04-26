@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "../../../../css/ag-grid-customization01.css";
-import "antd/dist/antd.css";
+
 import "./formfromold.css";
 // import "../Agent/antDcustom.css";
 import { AgGridColumn, AgGridReact } from "ag-grid-react";

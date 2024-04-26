@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import "../../../css/ag-grid-customization01.css";
 import "../../Agent/antDcustom.css";
-import "antd/dist/antd.css";
 
 import { AgGridReact } from "ag-grid-react";
 import "ag-grid-community/dist/styles/ag-grid.css";

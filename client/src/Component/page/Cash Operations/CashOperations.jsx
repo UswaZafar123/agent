@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "../../../css/ag-grid-customization01.css";
-import "antd/dist/antd.css";
+
 import "../Settings/General/formfromold.css";
 import "./cashoperations.css";
 // import "../Agent/antDcustom.css";

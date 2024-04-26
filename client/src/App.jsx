@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./Assets/icomoon/style.css";
-import "antd/dist/antd.css";
+
 import Sidebar from "./Component/Agent/sidebar/Sidebar";
 import Header from "./Component/Layout/Header";
 
