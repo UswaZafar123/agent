@@ -57,7 +57,7 @@
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.3.0",
     "styled-components": "^6.1.8",
-    "validator": "^13.11.0"
+    "validator": "13.11.0"
   },
   "devDependencies": {
     "@types/react": "^17.0.33",

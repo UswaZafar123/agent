@@ -635,7 +635,8 @@ class Register extends Component {
                       }}
                     >
                       <p>
-                        Already have an account? <a>Login</a>
+                        Already have an account?{" "}
+                        <NavLink to="/agent/login"> Login</NavLink>
                       </p>
                     </div>
                   </div>
@@ -1148,8 +1149,7 @@ class Register extends Component {
                               />
                             </Modal>
                             <p style={{ color: "darkgray" }}>
-                              Upload Front Image of <br></br>
-                              ID Card / Other Identity Card
+                              Upload Proof of activity
                             </p>
                           </div>
                         </div>
