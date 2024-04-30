@@ -60,25 +60,6 @@ class SetPassword extends Component {
   handleSubmit = (e) => {
     e.preventDefault();
 
-    // const data = {
-    //   countryCode:"SG",
-    //   phoneNumber:"+6591383795",
-    //  idDocumentType:"ID_CARD",
-    //   idDocumentFile:this.state.uploadyourimage,
-    //   idDocumentNumber:"6596565V",
-    //   idDocumentExpiryDate:"2021-01-01",
-    //   emailAddress:"that.saravanan94@gmail.com",
-    //   uin:"12345665",
-    //   tcAccepted:true,
-    //   locale:"en",
-    //   currencyCode:"SGD",
-    //   agentBankerPhoneNumber:"76586586",
-    //   firstName:"BIA DigiBank",
-    //   lastName:"BIA DigiBank",
-    //   registrationType:"NON_EXISTING_BANK_CUSTOMER"
-
-    // }
-
     let formData = new FormData();
 
     formData.append("countryCode", "SG");

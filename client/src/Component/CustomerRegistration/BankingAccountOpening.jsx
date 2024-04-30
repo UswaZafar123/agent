@@ -606,7 +606,7 @@ class BankingAccountOpening extends Component {
                               value="yes"
                             />
                           }
-                          label="I AGREE TO I AGREE TO THE TERMs & CONDITIONS AND PRIVACY POLICY OF SARA BANKING  "
+                          label="I AGREE TO I AGREE TO THE TERMs & CONDITIONS AND PRIVACY POLICY OF B.I.A DigiBank BANKING  "
                         ></FormControlLabel>
                       </Grid> */}
                       </Grid>

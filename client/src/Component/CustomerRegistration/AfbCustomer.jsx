@@ -275,7 +275,7 @@ class AfbCustomer extends Component {
                                     value="yes"
                                   />
                                 }
-                                label="I AGREE TO THE TERMs & CONDITIONS AND PRIVACY POLICY OF SARA BANKING"
+                                label="I AGREE TO THE TERMs & CONDITIONS AND PRIVACY POLICY OF B.I.A DigiBank BANKING"
                               ></FormControlLabel>
                             </Grid>
 

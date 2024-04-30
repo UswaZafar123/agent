@@ -177,9 +177,9 @@ class VerifyAccount extends Component {
                         style={{ marginTop: "5%", marginBottom: "5%" }}
                       >
                         <label style={{ textAlign: "center", width: "100%" }}>
-                          you have successfully subscribed to SARA, to activate
-                          your subscription, please enter the PIN Code sent to
-                          you via SMS and Email
+                          you have successfully subscribed to B.I.A DigiBank, to
+                          activate your subscription, please enter the PIN Code
+                          sent to you via SMS and Email
                         </label>
                         <div
                           style={{

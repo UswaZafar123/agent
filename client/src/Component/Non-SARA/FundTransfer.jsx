@@ -452,7 +452,7 @@ const FundTransfer = () => {
                         Fund Transfer
                         <br />
                         <span style={{ fontSize: "15px" }}>
-                          {"(Non-SARA Customer)"}
+                          {"(Non-DigiBank Customer)"}
                         </span>
                       </h1>
                     </div>

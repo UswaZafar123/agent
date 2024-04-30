@@ -437,7 +437,7 @@ class nonAfbCustomer extends Component {
                               value="yes"
                             />
                           }
-                          label="I AGREE TO THE TERMs & CONDITIONS AND PRIVACY POLICY OF SARA BANKING "
+                          label="I AGREE TO THE TERMs & CONDITIONS AND PRIVACY POLICY OF B.I.A DigiBank BANKING "
                         />
                       </Grid>
                       <Grid item xs={12} sm={6}>

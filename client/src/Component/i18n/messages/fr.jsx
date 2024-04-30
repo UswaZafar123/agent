@@ -685,7 +685,7 @@ const fr = {
   "agent.EnterAgentId(Phonewithoutcountrycode)":
     "Entrez l'identifiant de l'agent (téléphone sans code de pays)",
   "agent.IAGREETOTHETERMs&CONDITIONSANDPRIVACYPOLICYOFSARABANKING":
-    "J'ACCEPTE LES TERMES ET CONDITIONS ET LA POLITIQUE DE CONFIDENTIALITÉ DE SARA BANKING",
+    "J'ACCEPTE LES TERMES ET CONDITIONS ET LA POLITIQUE DE CONFIDENTIALITÉ DE B.I.A DigiBank BANKING",
   "agent.IdentificationDocument": "Document d'identification",
   "agent.Select": "Sélectionner",
   "agent.Pleaseselectyouraccount": "Veuillez sélectionner votre compte",

@@ -119,7 +119,7 @@ export const Side_bar_data = [
       {
         title: "Inter Bank Transfer",
         path: "/admin/banking/inter_bank_transfer",
-      }
+      },
       // {
       //   title: "Cash Deposit In Bank",
       //   path: "/admin/banking/cash_deposit_bank",
@@ -167,17 +167,15 @@ export const Side_bar_data = [
     ],
   },
   {
-    title: "Non-SARA Customer",
+    title: "Non-DigiBank Customer",
     path: "/agent/non-digi-bank/fund-transfer",
     iconClass: "icon-Asset-27",
     id: 3,
     subMenu: [
-
       {
         title: "Fund Transfer",
         path: "/agent/non-digi-bank/fund-transfer",
       },
-
     ],
   },
   {
@@ -186,11 +184,10 @@ export const Side_bar_data = [
     iconClass: "icon-Asset-29",
     id: 888,
     subMenu: [
-
       {
         title: "Commission management",
         path: "/agent/revenue_management/commission",
-      }
+      },
     ],
   },
   {
@@ -199,7 +196,6 @@ export const Side_bar_data = [
     iconClass: "icon-Asset-28",
     id: 999,
     subMenu: [
-
       {
         title: "Bank Customer",
         path: "/agent/customer/bank_customer",
@@ -208,7 +204,6 @@ export const Side_bar_data = [
         title: "Non Bank Customer",
         path: "/agent/customer/non_bank_customer",
       },
-
     ],
   },
   // {
