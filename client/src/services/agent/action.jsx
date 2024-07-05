@@ -7,6 +7,7 @@ import qs from "qs";
 import { ShowLoading, HideLoading } from "../common/action";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { sendOtpToCustomer } from "./customer_otp_actions";
+import { sendOtpToAgent } from "./agent_otp_actions";
 
 export * from "./customer_verification_actions";
 export * from "./profile_actions";
@@ -1878,7 +1879,11 @@ export const getAllAgentMemberLists = () => (dispatch) => {
     })
     .catch((err) => {
       dispatch(HideLoading());
-      toastr.error("Error Retrieving Linked List.");
+      
+      if(err.response.status!==404)
+        toastr.error("Error Retrieving Linked List.");
+      else toastr.warning(err.response.data.detail);
+
       dispatch({
         type: actionType.GET_AGENT_MEMBER_LIST_FAILURE,
       });
@@ -2007,7 +2012,7 @@ export const doesBankAccountExist = (bankAccountNumber) => (dispatch) => {
   dispatch(ShowLoading());
   const config = {
     method: "GET",
-    url: URL.agent.BANK_ACCOUNT_EXISTS + `/exists/${bankAccountNumber}`,
+    url: URL.agent.BANK_ACCOUNT_EXISTS + `/${bankAccountNumber}`,
   };
   axios(config)
     .then((res) => {
@@ -2047,13 +2052,13 @@ export const getBankAccountDetails = (bankAccountNumber) => (dispatch) => {
   dispatch(ShowLoading());
   const config = {
     method: "GET",
-    url: URL.agent.BANK_ACCOUNT_EXISTS + `/${bankAccountNumber}`,
+    url: URL.agent.BANK_ACCOUNT_DETAILS + `/${bankAccountNumber}`,
   };
   axios(config)
     .then((res) => {
       dispatch(HideLoading());
       if (res.status === 200) {
-        // toastr.success("Bank Account Details Fetched Successfully.")
+        toastr.success("Bank Account Details Fetched Successfully.")
         dispatch({
           type: actionType.BANK_ACCOUNT_DETAILS_FETCH_SUCCESSFUL,
           payload: res.data,
@@ -2071,11 +2076,11 @@ export const getBankAccountDetails = (bankAccountNumber) => (dispatch) => {
 };
 
 export const getBankAccountCustomerAndSendOTP =
-  (bankCustomerID) => (dispatch) => {
+  (bankAccountNumber) => (dispatch) => {
     dispatch(ShowLoading());
     const config = {
       method: "GET",
-      url: URL.agent.GET_BANKACCOUNT_CUSTOMER + `/${bankCustomerID}`,
+      url: URL.agent.GET_BANKACCOUNT_CUSTOMER + `/${bankAccountNumber}`,
     };
     axios(config)
       .then((res) => {
@@ -2086,6 +2091,13 @@ export const getBankAccountCustomerAndSendOTP =
             type: actionType.BANK_ACCOUNT_CUSTOMER_FETCH_SUCCESSFUL,
             payload: res.data,
           });
+
+          dispatch(sendOtpToAgent(sessionStorage.getItem("token"), 
+          {
+            customerType: "AGENT",
+            mfaChannel: "BOTH",
+          }));
+
         }
       })
       .catch((err) => {

@@ -34,3 +34,11 @@ export const sendOtpToAgent = (token, payload) => (dispatch) => {
       });
     });
 };
+
+export const generateAndSendMFA = (channel) => (dispatch) => {
+  dispatch(sendOtpToAgent(sessionStorage.getItem("token"),
+    {
+      customerType: "AGENT",
+      mfaChannel: channel,
+    }));
+};
