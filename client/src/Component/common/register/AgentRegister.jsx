@@ -12,6 +12,7 @@ import { RegisterService } from "../../../services/agent/action";
 import { Upload, Modal } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { Checkbox } from "@material-ui/core";
+import { NavLink } from "react-router-dom";
 import IMAGES from "../../../Assets/images";
 
 class Register extends Component {
@@ -1543,7 +1544,10 @@ class Register extends Component {
                           <p>
                             <FormattedMessage id="alreadyhave" />{" "}
                             <a style={{ color: "rgb(0, 81, 255)" }}>
-                              <FormattedMessage id="login.button" />
+                            <NavLink to="/agent/login">
+                            <FormattedMessage id="login.button" />
+                            
+                            </NavLink>
                             </a>
                           </p>
                         </div>
