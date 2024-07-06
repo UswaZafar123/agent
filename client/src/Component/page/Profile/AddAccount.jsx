@@ -41,6 +41,7 @@ class AddAccount extends Component {
           iban: "",
           swift: "",
           mfa: "",
+          otp: "",
           currency: {
             id: null,
           },
@@ -70,6 +71,7 @@ class AddAccount extends Component {
   };
 
   componentWillReceiveProps = (nextprops) => {
+
     if (nextprops.bankCustomerOTPStatus) {
       this.setState({
         accountDetailsModalShow: false,
@@ -119,6 +121,9 @@ class AddAccount extends Component {
         accountDetailsModalShow: false,
       });
     }
+
+    console.log("nextprops : ",nextprops);
+    console.log("state : ",this.state);
   };
 
   handleAddAnotherRow = () => {
@@ -184,17 +189,27 @@ class AddAccount extends Component {
   };
 
   sendOTP = () => {
-    let data = {
-      customerId: this.state.currentCustomerID.trim(),
-      customerType: "BANK",
-      mfaChannel: "BOTH",
+    // let data = {
+    //   customerId: this.state.currentCustomerID.trim(),
+    //   customerType: "BANK",
+    //   mfaChannel: "BOTH",
+    // };
+    // this.props.sendOtpToCustomer(sessionStorage.getItem("token"), data);
+
+    let payload = {
+      phoneNumber:
+        this.state.bankCustomerData.phoneNumber,
+      mfaCode: this.state.otp,
     };
-    this.props.sendOtpToCustomer(sessionStorage.getItem("token"), data);
+    this.props.verifyBankCustomerOTP(payload);
+
   };
 
   render() {
     return (
       <div className="main_contain">
+        {/* <ModalOTPVerification  startVerfication={true} /> */}
+
         <div className="merch_m_list_w">
           <div className="merch_list_card">
             <div className="section_custom">
@@ -504,6 +519,7 @@ class AddAccount extends Component {
           </div>
           {this.state.accountDetailsModalShow &&
             this.state.bankCustomerData && (
+    
               <Modal
                 visible={this.state.accountDetailsModalShow}
                 onCancel={() =>
@@ -568,8 +584,8 @@ class AddAccount extends Component {
                                   </td>
                                   <td align="right">
                                     {
-                                      this.state.currentAccountDetails.branch
-                                        .name
+                                      this.state.currentAccountDetails.branch!=null?  this.state.currentAccountDetails.branch
+                                      .name : ''
                                     }
                                   </td>
                                 </tr>
@@ -582,8 +598,8 @@ class AddAccount extends Component {
                                   </td>
                                   <td align="right">
                                     {
-                                      this.state.currentAccountDetails.branch
-                                        .branchCode
+                                      this.state.currentAccountDetails.branch != null ? this.state.currentAccountDetails.branch
+                                        .branchCode : ''
                                     }
                                   </td>
                                 </tr>
@@ -596,8 +612,8 @@ class AddAccount extends Component {
                                   </td>
                                   <td align="right">
                                     {
-                                      this.state.currentAccountDetails.branch
-                                        .town
+                                      this.state.currentAccountDetails.branch!=null? this.state.currentAccountDetails.branch
+                                        .town : ''
                                     }
                                   </td>
                                 </tr>
@@ -610,27 +626,27 @@ class AddAccount extends Component {
                                   </td>
                                   <td align="right">
                                     {
-                                      this.state.currentAccountDetails.branch.adr.split(
+                                      this.state.currentAccountDetails.branch!=null?this.state.currentAccountDetails.branch.adr.split(
                                         ","
-                                      )[0]
+                                      )[0]:''
                                     }{" "}
                                     <br />
                                     {
-                                      this.state.currentAccountDetails.branch.adr.split(
+                                      this.state.currentAccountDetails.branch!=null?this.state.currentAccountDetails.branch.adr.split(
                                         ","
-                                      )[1]
+                                      )[1]:''
                                     }{" "}
                                     <br />
                                     {
-                                      this.state.currentAccountDetails.branch.adr.split(
+                                      this.state.currentAccountDetails.branch!=null?this.state.currentAccountDetails.branch.adr.split(
                                         ","
-                                      )[2]
+                                      )[2]:''
                                     }{" "}
                                     <br />
                                     {
-                                      this.state.currentAccountDetails.branch.adr.split(
-                                        ","
-                                      )[3]
+                                     this.state.currentAccountDetails.branch!=null?this.state.currentAccountDetails.branch.adr.split(
+                                      ","
+                                    )[3]:''
                                     }{" "}
                                     <br />
                                   </td>
@@ -645,6 +661,7 @@ class AddAccount extends Component {
                 </>
 
                 {this.state.bankCustomerData && (
+                  
                   <>
                     <h2 style={{ marginBottom: "20px", marginTop: "20px" }}>
                       Customer Details
@@ -746,6 +763,9 @@ class AddAccount extends Component {
                               };
                               this.props.verifyBankCustomerOTP(payload);
                             }
+                            this.setState({
+                              otp:  e.target.value
+                            })
                           }}
                           style={{
                             width: "100%",
@@ -760,9 +780,10 @@ class AddAccount extends Component {
                       <button
                         style={{ marginLeft: "60%", marginTop: "30px" }}
                         className="submitBTNBN"
+                        disabled={this.state.otp && this.state.otp.toString().length<5}
                         onClick={() => this.sendOTP()}
                       >
-                        Send OTP
+                        Verify OTP
                       </button>
                     </tr>
                   </table>

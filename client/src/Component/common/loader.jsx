@@ -13,13 +13,13 @@ class PageLoader extends Component {
     return (
       <div className={loading ? "parentDisable" : ""} width="100%">
         <div className="overlay-box">
-        <Loader
-        type="TailSpin"
-        color="#00BFFF"
-        height={100}
-        width={100}
-        timeout={3000} 
-      />
+          <Loader
+            type="TailSpin"
+            color="#00BFFF"
+            height={100}
+            width={100}
+            // timeout={3000}
+          />
         </div>
       </div>
     );

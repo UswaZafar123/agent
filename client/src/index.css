@@ -4151,3 +4151,73 @@ input[type="file"],
 }
 
 
+
+/*  OTP SECTION   */
+
+.otp-container{
+  min-width: 700px;
+}
+
+.no-bank-choice{
+  width: 100%;
+  border: 10px dotted #F3F3F3;
+  box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
+  background-color: #F3F3F3;
+  border-radius: 20px;
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-left: 30px;
+  cursor: pointer;
+}
+
+.no-bank-choice-selected{
+  width: 100%;
+  box-shadow: 0px 16px 24px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.04), 0px 0px 1px rgba(0, 0, 0, 0.04);
+  border-radius: 20px;
+  padding: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-left: 30px;
+  cursor: pointer;
+  border: 10px dotted #000042;
+  background-color: #000042;
+  color: #ffffff;
+}
+
+.no-bank-choice:hover{
+  border: 10px dotted #354798;
+  background-color: #354798;
+  color: #ffffff;
+}
+
+.no-bank-choice .header{
+  font-size: medium;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+.no-bank-choice .description{
+
+}
+
+.no-bank-choice-btn{
+  background: #354798 ;
+  border-radius: 40px;
+  min-width:152px !important ;
+  height: 50px;
+  cursor: pointer;
+  color: #ffffff;
+  font-size: medium;
+  font-weight: bold;
+}
+
+.no-bank-choice-btn:hover {
+  background: #3b3daa;
+}
+
+.btn-raduis-5{
+  border-radius: 50px;
+  width: 100px;
+  height: 50px;
+}
