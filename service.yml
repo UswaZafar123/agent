@@ -8,7 +8,7 @@ spec:
   ports: 
     - 
       name: http
-      port: 3000
+      port: 80
       protocol: TCP
       targetPort: 7003
   selector: 
