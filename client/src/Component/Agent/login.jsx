@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 import validate from "./resources/validation";
 import { FormattedMessage, IntlProvider } from "react-intl";
 import NavBar from "./../common/register/NavBar";
-import "../../assets/css/login.css";
+import "../../Assets/css/login.css";
 import {
   addAccessInfo,
   loginAgent,
