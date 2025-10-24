@@ -11,27 +11,6 @@ function AgentRegistration(props) {
   const [language, setLanguage] = useState("");
 
   const lan = useSelector((state) => state.commonReducer.language);
-  const loadLocalDataas = async () => {
-    const messages = await loadLocaleData(localStorage.getItem("lang"));
-    setMessages(messages);
-
-    setLanguage(localStorage.getItem("lang"));
-  };
-  const loadLocaleDatas = async () => {
-    const messages = await loadLocaleData(lan);
-    setMessages(messages);
-
-    setLanguage(lan);
-  };
-  useEffect(() => {
-    loadLocalDataas();
-
-    // console.log(messages.default, "MESSAGES", localStorage.getItem("lang"), "LANGUAGE");
-  }, []);
-
-  useEffect(() => {
-    loadLocaleDatas();
-  }, [lan]);
 
   const loadLocaleData = (locale) => {
     switch (locale) {
@@ -42,6 +21,41 @@ function AgentRegistration(props) {
     }
   };
 
+  const loadLocalDataas = async () => {
+    const messages = await loadLocaleData(localStorage.getItem("lang"));
+    setMessages(messages);
+    setLanguage(localStorage.getItem("lang"));
+  };
+
+  const loadLocaleDatas = async () => {
+    const messages = await loadLocaleData(lan);
+    setMessages(messages);
+    setLanguage(lan);
+  };
+
+  useEffect(() => {
+    loadLocalDataas();
+
+    // Restore selection if already saved in sessionStorage
+    const savedAccount = sessionStorage.getItem("accountType");
+    if (savedAccount) {
+      setSelectedAccount(savedAccount);
+    }
+  }, []);
+
+  useEffect(() => {
+    loadLocaleDatas();
+  }, [lan]);
+
+  // List of account types
+  const accountTypes = [
+    { key: "IND", label: "Individual" },
+    { key: "ETS", label: "ETS" },
+    { key: "SA", label: "SA" },
+    { key: "SARL", label: "SARL" },
+    { key: "SAS", label: "SAS" },
+  ];
+
   return (
     <Fragment>
       <NavBar />
@@ -51,69 +65,22 @@ function AgentRegistration(props) {
             <h2>
               <FormattedMessage id="agent.selectTypeAccount" />
             </h2>
-            {/* <h2>Please select the type of Account you want to Open </h2> */}
+
             <ul>
-              <li
-                onClick={() => {
-                  sessionStorage.setItem("accountType", "Individual");
-                  setSelectedAccount("IND");
-                }}
-                style={{
-                  background: selectedAccount === "IND" ? "#00479a" : "",
-                  color: selectedAccount === "IND" ? "white" : "",
-                }}
-              >
-                Individual
-              </li>
-              <li
-                onClick={() => {
-                  sessionStorage.setItem("accountType", "ETS");
-                  setSelectedAccount("ETS");
-                }}
-                style={{
-                  background: selectedAccount === "ETS" ? "#00479a" : "",
-                  color: selectedAccount === "ETS" ? "white" : "",
-                }}
-              >
-                ETS
-              </li>
-              <li
-                onClick={() => {
-                  sessionStorage.setItem("accountType", "SA");
-                  setSelectedAccount("SA");
-                }}
-                style={{
-                  background: selectedAccount === "SA" ? "#00479a" : "",
-                  color: selectedAccount === "SA" ? "white" : "",
-                }}
-              >
-                SA
-              </li>
-              <li
-                onClick={() => {
-                  sessionStorage.setItem("accountType", "SARL");
-                  setSelectedAccount("SARL");
-                }}
-                style={{
-                  background: selectedAccount === "SARL" ? "#00479a" : "",
-                  color: selectedAccount === "SARL" ? "white" : "",
-                }}
-              >
-                SARL
-              </li>
-              <li
-                onClick={() => {
-                  sessionStorage.setItem("accountType", "SAS");
-                  setSelectedAccount("SAS");
-                }}
-                style={{
-                  background: selectedAccount === "SAS" ? "#00479a" : "",
-                  color: selectedAccount === "SAS" ? "white" : "",
-                }}
-              >
-                SAS
-              </li>
+              {accountTypes.map((item) => (
+                <li
+                  key={item.key}
+                  onClick={() => {
+                    sessionStorage.setItem("accountType", item.key);
+                    setSelectedAccount(item.key);
+                  }}
+                  className={selectedAccount === item.key ? "selected" : ""}
+                >
+                  {item.label}
+                </li>
+              ))}
             </ul>
+
             <NavLink to="/agent/register">
               <button type="submit" className="btn-default btn">
                 Next
@@ -149,32 +116,42 @@ const InnerWrapper = styled.div`
       color: #343a40;
       margin-bottom: 20px;
     }
-    ul {
-      text-align: center;
-      li {
-        font-weight: 600;
-        font-size: 16px;
-        line-height: 20px;
-        letter-spacing: 0.1px;
-        color: #343a40;
-        background: #f2f2f2;
-        padding: 10px 20px;
-        display: inline-block;
-        border-radius: 5px;
-        margin: 4px;
-        cursor: pointer;
-        border: 1px solid transparent;
+   ul {
+  text-align: center;
 
-        &:hover {
-          border: 1px solid #00479a;
-          background: #00479a;
-          color: white;
-        }
-        a {
-          color: #343a40;
-        }
-      }
+  li {
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: 0.1px;
+    color: #343a40;
+    background: #f2f2f2;
+    padding: 10px 20px;
+    display: inline-block;
+    border-radius: 5px;
+    margin: 4px;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: 0.3s ease;
+
+    &:hover {
+      border: 1px solid goldenrod;
+      background: goldenrod;
+      color: white;
     }
+
+    &.selected {
+      border: 1px solid goldenrod;
+      background: goldenrod;
+      color: white;
+    }
+
+    a {
+      color: goldenrod;
+    }
+  }
+}
+
     .btn {
       font-weight: 600;
       font-size: 16px;

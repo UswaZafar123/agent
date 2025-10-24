@@ -4,6 +4,7 @@ import { NavLink } from "react-router-dom";
 import validate from "./resources/validation";
 import { FormattedMessage, IntlProvider } from "react-intl";
 import NavBar from "./../common/register/NavBar";
+import "../../assets/css/login.css";
 import {
   addAccessInfo,
   loginAgent,
@@ -126,14 +127,13 @@ class Login extends Component {
     });
   };
 
-  showHide = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    this.setState({
-      type: this.state.type === "input" ? "password" : "input",
-    });
-  };
-
+ showHide = (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+  this.setState({
+    type: this.state.type === "password" ? "text" : "password",
+  });
+};
   // submit function for login - for hitting Login API in redux actions //
   handleSubmit = (e) => {
     e.preventDefault();
@@ -303,12 +303,12 @@ class Login extends Component {
               messages={this.state.messages.default}
             >
               <div className="col-sm-12 loginContainer">
-                <div className="loginInner">
+                <div className="loginInner" style={{ width: "440px", padding: "2rem" }}>
+
                   <div className="loginInform">
-                    <h4 aria-label="vinod is working">
+                    <h4 aria-label="Agent Login" className="login-heading">
                       <FormattedMessage id="agent.agentlogin" />
                     </h4>
-
                     <div style={{ color: "red" }}>{this.props.login}</div>
                     <div style={{ color: "red" }}></div>
 
@@ -346,58 +346,30 @@ class Login extends Component {
                           </div>
                           {/* <div style={{ color: "red" }}>{emailError}</div> */}
 
-                          <div
-                            className="form-group"
-                            style={{ marginTop: "5%", marginBottom: "5%" }}
-                          >
-                            <label>
-                              <FormattedMessage id="login.password" />{" "}
-                            </label>
-                            <div
-                              style={{ position: "relative", display: "flex" }}
-                            >
-                              <input
-                                className="form-control"
-                                type={this.state.type}
-                                name="loginPassword"
-                                value={loginPassword}
-                                placeholder="Password"
-                                onChange={this.handleChange}
-                              />
-                              <div
-                                class="input-group-append"
-                                onClick={this.showHide}
-                              >
-                                {this.state.type === "input" &&
-                                  loginPassword != "" && (
-                                    <div style={{ cursor: "pointer" }}>
-                                      <i
-                                        style={{
-                                          position: "absolute",
-                                          top: "32%",
-                                          right: "2%",
-                                        }}
-                                        className="fa fa-eye"
-                                      ></i>
-                                    </div>
-                                  )}
-
-                                {this.state.type === "password" &&
-                                  loginPassword != "" && (
-                                    <div style={{ cursor: "pointer" }}>
-                                      <i
-                                        style={{
-                                          position: "absolute",
-                                          top: "32%",
-                                          right: "2%",
-                                        }}
-                                        className="fa fa-eye-slash"
-                                      ></i>
-                                    </div>
-                                  )}
-                              </div>
-                            </div>
-                          </div>
+                      <div className="form-group" style={{ marginTop: "5%", marginBottom: "5%" }}>
+  <label>
+    <FormattedMessage id="login.password" />
+  </label>
+  <div style={{ position: "relative", display: "flex" }}>
+    <input
+      className="form-control"
+      type={this.state.type}
+      name="loginPassword"
+      value={loginPassword}
+      placeholder="Password"
+      onChange={this.handleChange}
+    />
+    <div className="input-group-append" onClick={this.showHide}>
+      {this.state.type === "password" && loginPassword !== "" && (
+        <i className="fa fa-eye-slash"></i>
+      )}
+      {this.state.type === "text" && loginPassword !== "" && (
+        <i className="fa fa-eye"></i>
+      )}
+    </div>
+  </div>
+</div>
+                          
                         </>
                       )}
                       {this.state.showLoginError && (
@@ -405,22 +377,16 @@ class Login extends Component {
                           {this.props.loginError}
                         </div>
                       )}
-
-                      <div className="form-group">
-                        <span>
-                          <input type="checkbox" />
-                          <label>
+                      <div className="form-group remember-forgot">
+                        <div className="left">
+                          <input type="checkbox" id="remember" />
+                          <label htmlFor="remember">
                             <FormattedMessage id="agent.rememberme" />
                           </label>
-                        </span>
-                        <span>
-                          <NavLink
-                            to="/agent/forgotPassword"
-                            className="forgetPass"
-                          >
-                            <FormattedMessage id="login.forogtpassword" />
-                          </NavLink>
-                        </span>
+                        </div>
+                        <NavLink to="/agent/forgotPassword" className="forgetPass">
+                          <FormattedMessage id="login.forogtpassword" />
+                        </NavLink>
                       </div>
                       <div
                         className="form-group"
@@ -433,11 +399,8 @@ class Login extends Component {
                       >
                         <button
                           type="submit"
-                          className="btn-default btn"
-                          style={{ width: "50%" }}
-                          onClick={() => {
-                            this.setLogin();
-                          }}
+                          className="btn btn-login-custom"
+                          onClick={() => this.setLogin()}
                         >
                           <FormattedMessage id="login.button" />
                         </button>

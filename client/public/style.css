@@ -3351,7 +3351,7 @@ input:checked + .slider:before {
     right: 3%;
     top: 50%;
     background: #dfdfdf;
-    border: 1px solid rgba(189, 189, 189, 0.2);
+    border: goldenrod !important;
     box-sizing: border-box;
     border-radius: 50px;
     width: 130px;
@@ -3400,11 +3400,11 @@ input:checked + .slider:before {
   }
 
   .btn-default {
-    background: #00479a !important;
+    background: #5e5e5e !important;
     border-radius: 10px;
     padding: 2%;
     min-width: 200px !important ;
-    border: 1px solid #00479a;
+    border: 1px solid #5e5e5e;
     height: 40px;
     cursor: pointer;
   }

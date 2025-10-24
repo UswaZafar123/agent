@@ -178,7 +178,7 @@ class ForgotPassword extends Component {
                 <div className="loginInner" style={{ marginTop: "5%" }}>
                   <div className="loginInform">
                     <>
-                      <h4>Enter Registered Mobile Number</h4>
+                      <h4 style={{ color: "black", fontWeight: "600" }}>Enter Registered Mobile Number</h4>
                       <br></br>
                       <input
                         type="text"

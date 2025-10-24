@@ -47,7 +47,7 @@ body {
   width: 100%;
   min-height: calc(100vh - 100px);
   /* height: 1%; */
-  background-image: url(../images/admin-bg.png) !important;
+  background-image: url(../images/admin-bg.jpeg) !important;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -60,7 +60,7 @@ body {
   width: 100%;
   min-height: calc(100vh - 100px);
   /* height: 100%; */
-  background-image: url(../images/admin-bg.png) !important;
+  background-image: url(../images/admin-bg.jpeg) !important;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -74,7 +74,7 @@ body {
   width: 100%;
   min-height: calc(100vh - 100px);
   /* height: 100%; */
-  background-image: url(../images/admin-bg.png) !important;
+  background-image: url(../images/admin-bg.jpeg) !important;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -85,7 +85,7 @@ body {
 }
 
 .agent-bg {
-  background-image: url(../images/admin-bg.png) !important;
+  background-image: url(../images/admin-bg.jpeg) !important;
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -182,7 +182,7 @@ body {
 
 .forgetPass {
   float: right;
-  color: #00479a;
+  color:rgb(68, 68, 68) !important;
 }
 
 .forgetPass:hover {
@@ -2487,13 +2487,16 @@ input:checked + .slider:before {
 }
 
 .btn-default {
-  background: #00479a!important;
-  border-radius: 10px;
-  padding: 2%;
-  min-width: 282px !important ;
-  border: 1px solid #00479a;
-  height: 60px;
+ background-color: #4a4a4a !important;  
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 50px !important;      
+  font-weight: 600;
+ width: 200px;
+  padding: 12px 0;
   cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.25);
 }
 
 .back-icon {
@@ -3254,7 +3257,7 @@ input:checked + .slider:before {
     width: 100%;
     min-height: calc(100vh - 100px);
     /* height: 100%; */
-    background-image: url(../images/admin-bg.png) !important;
+    background-image: url(../images/admin-bg.jpeg) !important;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -3400,11 +3403,11 @@ input:checked + .slider:before {
   }
 
   .btn-default {
-    background: #00479a!important;
+    background:#5e5e5e!important;
     border-radius: 10px;
     padding: 2%;
     min-width: 200px !important ;
-    border: 1px solid #00479a;
+    border: 1px solid #5e5e5e;
     height: 40px;
     cursor: pointer;
   }
@@ -3416,4 +3419,41 @@ input:checked + .slider:before {
 }
 .card{
   border: none !important;
+}
+/* ===== Gold Highlight Fix (No Blue Background) ===== */
+select option {
+  background-color: white !important; /* default white background */
+  color: black !important;
+}
+
+/* Hover or selected option turns goldenrod */
+select option:hover,
+select option:checked {
+  background-color: goldenrod !important;
+  color: white !important;
+}
+
+/* Removes default blue highlight on Windows browsers */
+select:focus option:checked {
+  background-color: goldenrod !important;
+  color: white !important;
+}
+
+/* Gold border for dropdown box */
+select.langOption,
+select.langOptionLogin {
+  border: 1px solid goldenrod !important;
+  border-radius: 8px !important;
+  padding: 6px 10px !important;
+  background-color: #fff !important;
+  color: #000 !important;
+  font-weight: 600 !important;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+}
+
+select.langOption:hover,
+select.langOptionLogin:hover {
+  border-color: #c69500 !important;
+  box-shadow: 0 0 5px rgba(218,165,32,0.5);
 }
