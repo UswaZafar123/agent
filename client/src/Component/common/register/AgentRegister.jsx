@@ -16,6 +16,7 @@ import { NavLink } from "react-router-dom";
 import IMAGES from "../../../Assets/images";
 
 class Register extends Component {
+
   constructor() {
     super();
     this.state = {
@@ -282,15 +283,15 @@ class Register extends Component {
     this.setState({ frontBackSide: file[0] });
   }
 
+
+  
   submitForm() {
+
     var formData = new FormData();
 
     if (sessionStorage.getItem("accountType") == "Individual") {
       formData.append("firstName", this.state.firstName);
       formData.append("lastName", this.state.lastName);
-      formData.append("registrationChannel", "AGENCY_BANKING_APP");
-      formData.append("registrationSubChannel", "AGENCY_BANKING_APP");
-      formData.append("busincessType", this.state.businessType);
 
       var phoneNumberSplit = this.state.mobileNumber.split(" ");
 
@@ -299,6 +300,7 @@ class Register extends Component {
         "phoneNumberCountryCode",
         "00" + phoneNumberSplit[0].replace("+", "")
       );
+
 
       phoneNumberSplit.shift();
 

@@ -36,6 +36,7 @@ class NavBar extends Component {
     const options = [
       { value: "en", label: "English" },
       { value: "fr", label: "French" },
+      { value: "ar", label: "Arabic", isDisabled: true },
     ];
 
     // Custom React-Select styles (only selected = goldenrod)
@@ -57,13 +58,21 @@ class NavBar extends Component {
         borderRadius: 8,
         overflow: "hidden",
         boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+        zIndex: 9999,
+      }),
+      menuPortal: (base) => ({
+        ...base,
+        zIndex: 9999,
       }),
       option: (base, state) => ({
         ...base,
         backgroundColor: state.isSelected ? "goldenrod" : "#fff",
-        color: state.isSelected ? "#fff" : "#000",
+        color: state.isSelected ? "#fff" : state.isDisabled ? "#999" : "#000",
         fontWeight: state.isSelected ? "600" : "500",
-        cursor: "pointer",
+        cursor: state.isDisabled ? "not-allowed" : "pointer",
+        opacity: state.isDisabled ? 0.5 : 1,
+        filter: state.isDisabled ? "blur(0.5px)" : "none",
+        pointerEvents: state.isDisabled ? "none" : "auto",
       }),
       singleValue: (base) => ({
         ...base,
@@ -86,35 +95,14 @@ class NavBar extends Component {
     );
 
     return (
-      <div
-        className="nav nav-default"
-        style={{
-          position: "fixed !important",
-          top: 0,
-          left: 0,
-          width: "100%",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          padding: "10px 30px",
-          backgroundColor: "#fff",
-          zIndex: 1000,
-        }}
-      >
+      <div className="nav nav-default">
         {/* Left Side: Logo */}
         <div className="navDefaultLogoHeader">
           <img alt="logo" src={IMAGES.LOGO} className="navDefaultLogo" />
         </div>
 
         {/* Right Side: Language Dropdown */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "flex-end",
-            alignItems: "center",
-            marginRight: "20px",
-          }}
-        >
+        <div className="navbar-language-selector">
           <Select
             options={options}
             styles={customStyles}
@@ -124,10 +112,15 @@ class NavBar extends Component {
                 : "Choose A Language"
             }
             value={selectedOption}
-            onChange={(option) =>
-              this.handleLanguage({ target: { value: option.value } })
-            }
+            onChange={(option) => {
+              if (option && !option.isDisabled) {
+                this.handleLanguage({ target: { value: option.value } });
+              }
+            }}
             isSearchable={false}
+            menuPortalTarget={document.body}
+            menuPosition="fixed"
+            isOptionDisabled={(option) => option.isDisabled === true}
           />
         </div>
       </div>

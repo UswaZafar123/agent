@@ -27,6 +27,7 @@ export const RegisterService = (payload) => (dispatch) => {
     data: payload,
     headers: {
       "Content-Type": "mulitpart/form-data",
+      Authorization: "Bearer " + sessionStorage.getItem("token"),
     },
   };
   dispatch(ShowLoading());

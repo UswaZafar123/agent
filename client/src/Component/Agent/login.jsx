@@ -294,133 +294,155 @@ class Login extends Component {
         locale={this.state.language?.length > 0 ? this.state.language : "en"}
       >
         <Fragment>
-          <section className="loginWrapper accountWrapper">
-            <NavBar language={this.language} />
-            <IntlProvider
-              locale={
-                this.state.language?.length > 0 ? this.state.language : "en"
-              }
-              messages={this.state.messages.default}
-            >
-              <div className="col-sm-12 loginContainer">
-                <div className="loginInner" style={{ width: "440px", padding: "2rem" }}>
-
-                  <div className="loginInform">
-                    <h4 aria-label="Agent Login" className="login-heading">
-                      <FormattedMessage id="agent.agentlogin" />
-                    </h4>
-                    <div style={{ color: "red" }}>{this.props.login}</div>
-                    <div style={{ color: "red" }}></div>
-
-                    <form onSubmit={this.handleSubmit}>
-                      {twoFactorblock && (
-                        <div className="form-group">
-                          <label>Two Factor Authentication Code </label>
-                          <input
-                            type="text"
-                            name="code"
-                            value={code}
-                            maxLength="4"
-                            onChange={this.handleChange}
-                            className="form-control"
-                            placeholder="Two Factor Code"
-                          />
-                        </div>
-                      )}
-                      {!twoFactorblock && (
-                        <>
-                          <div className="form-group">
-                            <label>
-                              {/* <FormattedMessage id="login.username" />{" "} */}
-                              <FormattedMessage id="agent.phonenumber" />
-                            </label>
-                            <input
-                              type="text"
-                              name="email"
-                              autoComplete="off"
-                              value={email}
-                              onChange={this.handleChange}
-                              className="form-control"
-                              placeholder="Username"
-                            />
-                          </div>
-                          {/* <div style={{ color: "red" }}>{emailError}</div> */}
-
-                      <div className="form-group" style={{ marginTop: "5%", marginBottom: "5%" }}>
-  <label>
-    <FormattedMessage id="login.password" />
-  </label>
-  <div style={{ position: "relative", display: "flex" }}>
-    <input
-      className="form-control"
-      type={this.state.type}
-      name="loginPassword"
-      value={loginPassword}
-      placeholder="Password"
-      onChange={this.handleChange}
-    />
-    <div className="input-group-append" onClick={this.showHide}>
-      {this.state.type === "password" && loginPassword !== "" && (
-        <i className="fa fa-eye-slash"></i>
-      )}
-      {this.state.type === "text" && loginPassword !== "" && (
-        <i className="fa fa-eye"></i>
-      )}
+<section className="loginWrapper">
+  {/* LEFT SIDE - Login Panel */}
+  <div className="loginLeft">
+    {/* Navbar inside left side */}
+    <div className="loginNav">
+      <NavBar language={this.language} />
     </div>
-  </div>
-</div>
-                          
-                        </>
-                      )}
-                      {this.state.showLoginError && (
-                        <div style={{ color: "red" }}>
-                          {this.props.loginError}
-                        </div>
-                      )}
-                      <div className="form-group remember-forgot">
-                        <div className="left">
-                          <input type="checkbox" id="remember" />
-                          <label htmlFor="remember">
-                            <FormattedMessage id="agent.rememberme" />
-                          </label>
-                        </div>
-                        <NavLink to="/agent/forgotPassword" className="forgetPass">
-                          <FormattedMessage id="login.forogtpassword" />
-                        </NavLink>
-                      </div>
-                      <div
-                        className="form-group"
-                        style={{
-                          marginTop: "8%",
-                          marginBottom: "8%",
-                          display: "flex",
-                          justifyContent: "center",
-                        }}
-                      >
-                        <button
-                          type="submit"
-                          className="btn btn-login-custom"
-                          onClick={() => this.setLogin()}
-                        >
-                          <FormattedMessage id="login.button" />
-                        </button>
-                      </div>
-                    </form>
 
-                    {/* <GoogleRecaptcha rechaptchaEnable={this.rechaptchaEnable} /> */}
-                    <p>
-                      <FormattedMessage id="login.donthaveanaccount" />
-                      <NavLink to="/agent/registration">
-                        {" "}
-                        <FormattedMessage id="register" />
-                      </NavLink>
-                      {/* <NavLink to="/agent/register"> <FormattedMessage id="register" /></NavLink> */}
-                    </p>
-                  </div>
+    {/* Login Form Section */}
+    <div className="loginInner">
+      <h2 className="loginTitle">
+        Commercial Bank <span className="highlight">Agent</span>
+      </h2>
+      <p className="loginSubtitle">Login with your email and password</p>
+
+      {/* Login Form */}
+      <form onSubmit={this.handleSubmit}>
+        {twoFactorblock && (
+          <div className="form-group">
+            <label>Two Factor Authentication Code</label>
+            <input
+              type="text"
+              name="code"
+              value={code}
+              maxLength="4"
+              onChange={this.handleChange}
+              className="form-control"
+              placeholder="Two Factor Code"
+            />
+          </div>
+        )}
+
+        {!twoFactorblock && (
+          <>
+            {/* Email / Username Field */}
+            <div className="form-group">
+              <label>
+                <FormattedMessage id="agent.phonenumber" />
+              </label>
+              <div className="input-wrapper input-wrapper-with-icon">
+                <svg className="input-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#666" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                <input
+                  type="text"
+                  name="email"
+                  autoComplete="off"
+                  value={email}
+                  onChange={this.handleChange}
+                  className="form-control"
+                  placeholder="Enter username"
+                />
+              </div>
+            </div>
+
+            {/* Password Field */}
+            <div className="form-group">
+              <label>
+                <FormattedMessage id="login.password" />
+              </label>
+              <div className="input-wrapper input-wrapper-with-icon">
+                <svg className="input-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#666" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+                <input
+                  className="form-control"
+                  type={this.state.type}
+                  name="loginPassword"
+                  value={loginPassword}
+                  placeholder="Enter your password"
+                  onChange={this.handleChange}
+                />
+                <div className="input-group-append" onClick={this.showHide}>
+                  {this.state.type === "password" && (
+                    <svg className="eye-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#666" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                      <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                  )}
+                  {this.state.type === "text" && (
+                    <svg className="eye-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#666" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                      <line x1="1" y1="1" x2="23" y2="23"></line>
+                    </svg>
+                  )}
                 </div>
               </div>
-            </IntlProvider>
-          </section>
+            </div>
+          </>
+        )}
+
+        {/* Login Error */}
+        {this.state.showLoginError && (
+          <div style={{ color: "red" }}>{this.props.loginError}</div>
+        )}
+
+        {/* Remember Me + Forgot Password */}
+        <div className="form-group remember-forgot">
+          <div className="left">
+            <input type="checkbox" id="remember" />
+            <label htmlFor="remember">
+              <FormattedMessage id="agent.rememberme" />
+            </label>
+          </div>
+          <NavLink to="/agent/forgotPassword" className="forgetPass">
+            <FormattedMessage id="login.forogtpassword" />
+          </NavLink>
+        </div>
+
+        {/* Submit Button */}
+        <div className="form-group">
+          <button
+            type="submit"
+            className="btn btn-login-custom"
+            onClick={() => this.setLogin()}
+          >
+            Login now
+          </button>
+        </div>
+      </form>
+
+      {/* Register Link */}
+      <p className="registerText">
+        <FormattedMessage id="login.donthaveanaccount" />{" "}
+        <NavLink to="/agent/registration">
+          <FormattedMessage id="register" />
+        </NavLink>
+      </p>
+    </div>
+    
+    <div className="loginFooter">
+      <span className="footer-icon">⚙</span> Processed by <span>Speedoh</span>
+    </div>
+  </div>
+
+  
+
+
+  {/* RIGHT SIDE - Static Mockup */}
+  <div className="loginRight">
+    <div className="loginRightText">
+      
+    </div>
+  </div>
+</section>
+
+
         </Fragment>
       </IntlProvider>
     );
